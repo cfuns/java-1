@@ -39,7 +39,6 @@ public class ConfluenceIntegrationTest extends TestCaseOsgi {
 	}
 
 	public void testGetExtHttpService() {
-
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());

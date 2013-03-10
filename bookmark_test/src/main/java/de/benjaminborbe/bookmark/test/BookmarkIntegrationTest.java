@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.felix.http.api.ExtHttpService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -27,7 +26,6 @@ public class BookmarkIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
@@ -56,7 +54,6 @@ public class BookmarkIntegrationTest extends TestCaseOsgi {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	@Test
 	public void testBookmarkService() {
 		final Object serviceObject = getServiceObject(BookmarkService.class.getName(), null);
 		final BookmarkService service = (BookmarkService) serviceObject;
@@ -64,7 +61,6 @@ public class BookmarkIntegrationTest extends TestCaseOsgi {
 		assertEquals("de.benjaminborbe.bookmark.service.BookmarkServiceImpl", service.getClass().getName());
 	}
 
-	@Test
 	public void testSearchServiceComponent() {
 		final Object[] serviceObjects = getServiceObjects(SearchServiceComponent.class.getName(), null);
 		final List<String> list = Arrays.asList("de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponent",
@@ -83,7 +79,6 @@ public class BookmarkIntegrationTest extends TestCaseOsgi {
 		}
 	}
 
-	@Test
 	public void testDashboardContentWidget() {
 		final Object serviceObject = getServiceObject(DashboardContentWidget.class.getName(), null);
 		final DashboardContentWidget service = (DashboardContentWidget) serviceObject;

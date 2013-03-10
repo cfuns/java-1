@@ -2,7 +2,6 @@ package de.benjaminborbe.dhl.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -22,9 +21,7 @@ public class DhlIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
-
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
@@ -60,7 +57,6 @@ public class DhlIntegrationTest extends TestCaseOsgi {
 	// }
 	// }
 
-	@Test
 	public void testDhlService() {
 		final Object serviceObject = getServiceObject(DhlService.class.getName(), null);
 		final DhlService service = (DhlService) serviceObject;

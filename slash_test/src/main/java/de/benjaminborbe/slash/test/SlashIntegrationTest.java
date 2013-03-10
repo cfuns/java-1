@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.felix.http.api.ExtHttpService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -24,7 +23,6 @@ public class SlashIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
@@ -51,7 +49,6 @@ public class SlashIntegrationTest extends TestCaseOsgi {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	@Test
 	public void testServletSlash() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);

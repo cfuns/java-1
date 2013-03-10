@@ -1,7 +1,6 @@
 package de.benjaminborbe.authorization.test;
 
 import org.apache.felix.http.api.ExtHttpService;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -21,7 +20,6 @@ public class AuthorizationIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
 
 		final BundleContext bundleContext = getContext();

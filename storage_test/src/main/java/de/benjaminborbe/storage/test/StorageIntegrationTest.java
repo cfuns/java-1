@@ -2,7 +2,6 @@ package de.benjaminborbe.storage.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -22,9 +21,7 @@ public class StorageIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
-
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
@@ -57,7 +54,6 @@ public class StorageIntegrationTest extends TestCaseOsgi {
 		return storageService;
 	}
 
-	@Test
 	public void testGetStorageService() {
 		final StorageService storageService = getStorageService();
 		assertNotNull(storageService);

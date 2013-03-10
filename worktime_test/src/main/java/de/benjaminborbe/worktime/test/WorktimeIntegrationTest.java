@@ -2,7 +2,6 @@ package de.benjaminborbe.worktime.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -21,7 +20,6 @@ public class WorktimeIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);

@@ -2,7 +2,6 @@ package de.benjaminborbe.sample.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -22,9 +21,7 @@ public class SampleIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
-
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
@@ -60,7 +57,6 @@ public class SampleIntegrationTest extends TestCaseOsgi {
 	// }
 	// }
 
-	@Test
 	public void testSampleService() {
 		final Object serviceObject = getServiceObject(SampleService.class.getName(), null);
 		final SampleService service = (SampleService) serviceObject;

@@ -2,7 +2,6 @@ package de.benjaminborbe.scala.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -22,9 +21,7 @@ public class ScalaIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
-
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
@@ -60,7 +57,6 @@ public class ScalaIntegrationTest extends TestCaseOsgi {
 	// }
 	// }
 
-	@Test
 	public void testScalaService() {
 		final Object serviceObject = getServiceObject(ScalaService.class.getName(), null);
 		final ScalaService service = (ScalaService) serviceObject;
@@ -68,7 +64,6 @@ public class ScalaIntegrationTest extends TestCaseOsgi {
 		assertEquals("de.benjaminborbe.scala.service.ScalaServiceImpl", service.getClass().getName());
 	}
 
-	@Test
 	public void testHello() {
 		final Object serviceObject = getServiceObject(ScalaService.class.getName(), null);
 		final ScalaService service = (ScalaService) serviceObject;

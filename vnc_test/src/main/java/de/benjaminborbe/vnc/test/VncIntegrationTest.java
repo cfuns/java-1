@@ -2,7 +2,6 @@ package de.benjaminborbe.vnc.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -24,9 +23,7 @@ public class VncIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
-
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
@@ -62,7 +59,6 @@ public class VncIntegrationTest extends TestCaseOsgi {
 	// }
 	// }
 
-	@Test
 	public void testVncService() {
 		final Object serviceObject = getServiceObject(VncService.class.getName(), null);
 		final VncService service = (VncService) serviceObject;
@@ -70,7 +66,6 @@ public class VncIntegrationTest extends TestCaseOsgi {
 		assertEquals("de.benjaminborbe.vnc.service.VncServiceImpl", service.getClass().getName());
 	}
 
-	@Test
 	public void testConnectFirstException() throws Exception {
 		final Object serviceObject = getServiceObject(VncService.class.getName(), null);
 		final VncService service = (VncService) serviceObject;
@@ -85,7 +80,6 @@ public class VncIntegrationTest extends TestCaseOsgi {
 
 	}
 
-	@Test
 	public void testHeadless() throws Exception {
 		final Object serviceObject = getServiceObject(VncService.class.getName(), null);
 		final VncService service = (VncService) serviceObject;

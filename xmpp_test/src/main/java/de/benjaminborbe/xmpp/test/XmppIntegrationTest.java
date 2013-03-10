@@ -2,7 +2,6 @@ package de.benjaminborbe.xmpp.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -22,9 +21,7 @@ public class XmppIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
-
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
 		final ExtHttpServiceMock extHttpService = new ExtHttpServiceMock(new UrlUtilImpl());
@@ -60,7 +57,6 @@ public class XmppIntegrationTest extends TestCaseOsgi {
 	// }
 	// }
 
-	@Test
 	public void testXmppService() {
 		final Object serviceObject = getServiceObject(XmppService.class.getName(), null);
 		final XmppService service = (XmppService) serviceObject;

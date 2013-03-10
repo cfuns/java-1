@@ -2,7 +2,6 @@ package de.benjaminborbe.lucene.index.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import org.junit.Test;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -21,7 +20,6 @@ public class LuceneIndexIntegrationTest extends TestCaseOsgi {
 		super.tearDown();
 	}
 
-	@Test
 	public void testGetExtHttpService() {
 		final BundleContext bundleContext = getContext();
 		assertNotNull(bundleContext);
@@ -46,7 +44,6 @@ public class LuceneIndexIntegrationTest extends TestCaseOsgi {
 		assertTrue("no servlets unregistered", extHttpService.getUnregisterServletCallCounter() > 0);
 		assertEquals(extHttpService.getRegisterServletCallCounter(), extHttpService.getRegisterServletCallCounter());
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
-
 	}
 
 }
