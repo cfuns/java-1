@@ -30,7 +30,9 @@ public class XmlrpcServiceImpl implements XmlrpcService {
 			logger.trace("execute");
 			final XmlRpcClient client = getClient(url);
 
-			System.setProperty("javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
+			// System.setProperty("javax.xml.parsers.SAXParserFactory",
+			// "org.apache.xerces.jaxp.SAXParserFactoryImpl");
+
 			return client.execute(pMethodName, pParams);
 		}
 		catch (final XmlRpcException | MalformedURLException e) {
