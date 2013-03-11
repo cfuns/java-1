@@ -20,6 +20,22 @@ import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 @Singleton
 public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
 
+	public static final String MODIFIED = "modified";
+
+	public static final String CREATED = "created";
+
+	public static final String START_TIME = "startTime";
+
+	public static final String LOCK_TIME = "lockTime";
+
+	public static final String LOCK_NAME = "lockName";
+
+	public static final String RETRY_COUNTER = "retryCounter";
+
+	public static final String CONTENT = "content";
+
+	public static final String ID = "id";
+
 	public static final String TYPE = "type";
 
 	@Inject
@@ -35,16 +51,16 @@ public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
 	private static Collection<StringObjectMapper<MessageBean>> buildMappings(final MapperMessageIdentifier mapperMessageIdentifier, final MapperString mapperString,
 			final MapperCalendar mapperCalendar, final MapperLong mapperLong) {
 		final List<StringObjectMapper<MessageBean>> result = new ArrayList<StringObjectMapper<MessageBean>>();
-		result.add(new StringObjectMapperAdapter<MessageBean, MessageIdentifier>("id", mapperMessageIdentifier));
-		result.add(new StringObjectMapperAdapter<MessageBean, String>("content", mapperString));
+		result.add(new StringObjectMapperAdapter<MessageBean, MessageIdentifier>(ID, mapperMessageIdentifier));
+		result.add(new StringObjectMapperAdapter<MessageBean, String>(CONTENT, mapperString));
 		result.add(new StringObjectMapperAdapter<MessageBean, String>(TYPE, mapperString));
-		result.add(new StringObjectMapperAdapter<MessageBean, Long>("retryCounter", mapperLong));
+		result.add(new StringObjectMapperAdapter<MessageBean, Long>(RETRY_COUNTER, mapperLong));
 		result.add(new StringObjectMapperAdapter<MessageBean, Long>("maxRetryCounter", mapperLong));
-		result.add(new StringObjectMapperAdapter<MessageBean, String>("lockName", mapperString));
-		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>("lockTime", mapperCalendar));
-		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>("startTime", mapperCalendar));
-		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<MessageBean, String>(LOCK_NAME, mapperString));
+		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>(LOCK_TIME, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>(START_TIME, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>(CREATED, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<MessageBean, Calendar>(MODIFIED, mapperCalendar));
 		return result;
 	}
 }

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.message.dao.MessageBean;
+import de.benjaminborbe.message.dao.MessageBeanMapper;
 import de.benjaminborbe.message.dao.MessageDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -34,7 +35,7 @@ public class MessageUnlock {
 							bean.setLockName(null);
 							bean.setLockTime(null);
 							logger.info("unlock message - type: " + bean.getType() + " id: " + bean.getId());
-							messageDao.save(bean, new StorageValueList(getEncoding()).add("lockName").add("lockTime"));
+							messageDao.save(bean, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_NAME).add(MessageBeanMapper.LOCK_TIME));
 							logger.debug("expired => unlock");
 						}
 						else {

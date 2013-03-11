@@ -15,6 +15,7 @@ import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.message.config.MessageConfig;
 import de.benjaminborbe.message.dao.MessageBean;
+import de.benjaminborbe.message.dao.MessageBeanMapper;
 import de.benjaminborbe.message.dao.MessageDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
@@ -182,7 +183,10 @@ public class MessageConsumerExchanger {
 			message.setLockName(null);
 			message.setLockTime(null);
 			logger.info("unlock and increaseRetry for failed message - type: " + message.getType() + " id: " + message.getId());
-			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime").add("lockName").add("retryCounter").add("startTime"));
+			messageDao.save(
+					message,
+					new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME).add(MessageBeanMapper.LOCK_NAME).add(MessageBeanMapper.RETRY_COUNTER)
+							.add(MessageBeanMapper.START_TIME));
 			track(analyticsReportIdentifierRetry);
 		}
 		logger.trace("process message done");
@@ -209,7 +213,7 @@ public class MessageConsumerExchanger {
 			message.setLockName(lockName);
 			message.setLockTime(now);
 			logger.trace("lock message - type: " + message.getType() + " id: " + message.getId());
-			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime").add("lockName"));
+			messageDao.save(message, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME).add(MessageBeanMapper.LOCK_NAME));
 
 			try {
 				Thread.sleep(randomUtil.getRandomized(10000, 50));
@@ -217,7 +221,7 @@ public class MessageConsumerExchanger {
 			catch (final InterruptedException e) {
 			}
 
-			messageDao.load(message, new StorageValueList(getEncoding()).add("lockName"));
+			messageDao.load(message, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME));
 
 			if (lockName.equals(message.getLockName())) {
 				logger.trace("lock message success - id: " + message.getId());
@@ -233,7 +237,7 @@ public class MessageConsumerExchanger {
 			logger.debug("update message lock - id: " + message.getId() + " lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockTime(now);
 			logger.info("extend message lockTime - type: " + message.getType() + " id: " + message.getId());
-			messageDao.save(message, new StorageValueList(getEncoding()).add("lockTime"));
+			messageDao.save(message, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME).add(MessageBeanMapper.LOCK_NAME));
 			return false;
 		}
 		else {
