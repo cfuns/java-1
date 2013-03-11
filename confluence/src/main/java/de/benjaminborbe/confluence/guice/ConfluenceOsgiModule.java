@@ -13,11 +13,13 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.xmlrpc.api.XmlrpcService;
 
 public class ConfluenceOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(XmlrpcService.class).toProvider(service(XmlrpcService.class).single());
 		bind(AnalyticsService.class).toProvider(service(AnalyticsService.class).single());
 		bind(ConfigurationService.class).toProvider(service(ConfigurationService.class).single());
 		bind(IndexService.class).toProvider(service(IndexService.class).single());

@@ -1,15 +1,17 @@
 package de.benjaminborbe.confluence.connector;
 
-import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.client.XmlRpcClient;
+import java.net.URL;
+
 import org.slf4j.Logger;
+
+import com.google.inject.Inject;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.xmlrpc.api.XmlrpcService;
+import de.benjaminborbe.xmlrpc.api.XmlrpcServiceException;
 
 public class ConfluenceXmlRpcClient {
-
-	private final XmlRpcClient client;
 
 	private final AnalyticsService analyticsService;
 
@@ -17,18 +19,21 @@ public class ConfluenceXmlRpcClient {
 
 	private final Logger logger;
 
-	public ConfluenceXmlRpcClient(final Logger logger, final AnalyticsService analyticsService, final XmlRpcClient client) {
+	private final XmlrpcService xmlrpcService;
+
+	@Inject
+	public ConfluenceXmlRpcClient(final Logger logger, final AnalyticsService analyticsService, final XmlrpcService xmlrpcService) {
 		this.logger = logger;
 		this.analyticsService = analyticsService;
-		this.client = client;
+		this.xmlrpcService = xmlrpcService;
 	}
 
-	public Object execute(final String pMethodName, final Object[] pParams) throws ConfluenceXmlRpcClientException {
+	public Object execute(final URL url, final String pMethodName, final Object[] pParams) throws ConfluenceXmlRpcClientException {
 		try {
 			track();
-			return client.execute(pMethodName, pParams);
+			return xmlrpcService.execute(url, pMethodName, pParams);
 		}
-		catch (final XmlRpcException e) {
+		catch (final XmlrpcServiceException e) {
 			throw new ConfluenceXmlRpcClientException(e);
 		}
 	}
