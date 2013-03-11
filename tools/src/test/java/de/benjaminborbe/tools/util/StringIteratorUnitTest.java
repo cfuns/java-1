@@ -1,8 +1,7 @@
 package de.benjaminborbe.tools.util;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class StringIteratorUnitTest {
@@ -54,5 +53,21 @@ public class StringIteratorUnitTest {
 		assertThat(si.hasCurrentCharacter(), is(false));
 		assertThat(si.hasNextCharacter(), is(false));
 		assertThat(si.getCurrentPosition(), is(4));
+	}
+
+	@Test
+	public void testSubstringFrom() throws Exception {
+		final StringIterator si = new StringIterator("abcd");
+		assertThat(si.substring(0), is("abcd"));
+	}
+
+	@Test
+	public void testSubstringFromTo() throws Exception {
+		final StringIterator si = new StringIterator("abcd");
+		assertThat(si.substring(0, 0), is(""));
+		assertThat(si.substring(0, 1), is("a"));
+		assertThat(si.substring(0, 2), is("ab"));
+		assertThat(si.substring(0, 3), is("abc"));
+		assertThat(si.substring(0, 4), is("abcd"));
 	}
 }

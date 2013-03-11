@@ -160,5 +160,20 @@ public class HtmlTokenIteratorUnitTest {
 			assertThat(i.hasNext(), is(false));
 			assertThat(i.hasNext(), is(false));
 		}
+		{
+			final HtmlTokenIterator i = new HtmlTokenIterator("<script type=\"syntaxhighlighter\"><![CDATA[hello world]]></script>");
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.next(), is("<script type=\"syntaxhighlighter\">"));
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.next(), is("<![CDATA[hello world]]>"));
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.next(), is("</script>"));
+			assertThat(i.hasNext(), is(false));
+			assertThat(i.hasNext(), is(false));
+		}
+
 	}
 }

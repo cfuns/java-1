@@ -3,13 +3,18 @@ package de.benjaminborbe.tools.html;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 public class HtmlContentIteratorUnitTest {
 
 	@Test
 	public void testEmptyText() throws Exception {
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		{
 			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, null);
 			assertThat(i.hasNext(), is(false));
@@ -39,7 +44,10 @@ public class HtmlContentIteratorUnitTest {
 
 	@Test
 	public void testPlainText() throws Exception {
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		{
 			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, "bla");
 			assertThat(i.hasNext(), is(true));
@@ -90,7 +98,10 @@ public class HtmlContentIteratorUnitTest {
 
 	@Test
 	public void testSimpleHtmlTag() throws Exception {
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		{
 			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, "<br>");
 			assertThat(i.hasNext(), is(false));
@@ -111,7 +122,10 @@ public class HtmlContentIteratorUnitTest {
 
 	@Test
 	public void testScriptTag() throws Exception {
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		{
 			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, "<script>hello world</script>");
 			assertThat(i.hasNext(), is(false));
@@ -132,7 +146,10 @@ public class HtmlContentIteratorUnitTest {
 
 	@Test
 	public void testScriptTagSingle() throws Exception {
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		{
 			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, "<script/>");
 			assertThat(i.hasNext(), is(false));
@@ -153,7 +170,10 @@ public class HtmlContentIteratorUnitTest {
 
 	@Test
 	public void testStyleTag() throws Exception {
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		{
 			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, "<style>hello world</style>");
 			assertThat(i.hasNext(), is(false));
@@ -174,7 +194,10 @@ public class HtmlContentIteratorUnitTest {
 
 	@Test
 	public void testScriptTagTypeJavascript() throws Exception {
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		{
 			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, "<script type=\"text/javascript\">hello world</script>");
 			assertThat(i.hasNext(), is(false));
@@ -195,7 +218,10 @@ public class HtmlContentIteratorUnitTest {
 
 	@Test
 	public void testScriptTagSyntaxhighlighter() throws Exception {
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		{
 			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, "<script type=\"syntaxhighlighter\">hello world</script>");
 			assertThat(i.hasNext(), is(true));
@@ -204,6 +230,14 @@ public class HtmlContentIteratorUnitTest {
 			assertThat(i.hasNext(), is(true));
 			assertThat(i.hasNext(), is(true));
 			assertThat(i.next(), is("world"));
+			assertThat(i.hasNext(), is(false));
+			assertThat(i.hasNext(), is(false));
+		}
+		{
+			final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, "<script type=\"syntaxhighlighter\"><![CDATA[hello world]]></script>");
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.hasNext(), is(true));
+			assertThat(i.next(), is("hello world"));
 			assertThat(i.hasNext(), is(false));
 			assertThat(i.hasNext(), is(false));
 		}

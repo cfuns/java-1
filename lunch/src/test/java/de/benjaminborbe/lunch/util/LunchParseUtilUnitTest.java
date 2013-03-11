@@ -40,7 +40,7 @@ public class LunchParseUtilUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final LunchParseUtil lunchParseUtil = new LunchParseUtil(logger, htmlUtil, parseUtil);

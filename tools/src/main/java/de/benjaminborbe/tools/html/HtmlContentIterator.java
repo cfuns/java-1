@@ -30,7 +30,10 @@ public class HtmlContentIterator implements IteratorWithException<String, ParseE
 		boolean style = false;
 		while (nextContent == null && tokens.hasNext()) {
 			final String token = tokens.next();
-			if (isTag(token)) {
+			if (isCDATA(token)) {
+				nextContent = token.substring(9, token.length() - 3);
+			}
+			else if (isTag(token)) {
 				final HtmlTag htmlTag = htmlTagParser.parse(token);
 				if (!script && htmlTag.isOpening() && !htmlTag.isClosing() && "script".equals(htmlTag.getName())) {
 					final String type = htmlTag.getAttribute("type");
@@ -53,6 +56,10 @@ public class HtmlContentIterator implements IteratorWithException<String, ParseE
 			}
 		}
 		return nextContent != null;
+	}
+
+	private boolean isCDATA(final String token) {
+		return token.startsWith("<![CDATA[") && token.endsWith("]]>");
 	}
 
 	private boolean isTag(final String token) {

@@ -30,7 +30,7 @@ public class GoogleSearchServiceComponentUnitTest {
 		EasyMock.replay(logger);
 		final JSONParser jsonParser = new JSONParserSimple();
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, null, htmlUtil, urlUtil, jsonParser);
@@ -80,7 +80,7 @@ public class GoogleSearchServiceComponentUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, null, htmlUtil, urlUtil, null);

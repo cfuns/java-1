@@ -47,21 +47,17 @@ public class MessageIntegrationTest extends TestCaseOsgi {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	// @Test public void testServices() throws Exception {
-	// final BundleContext bundleContext = getContext();
-	// assertNotNull(bundleContext);
-	// for (final ServiceReference a : bundleContext.getAllServiceReferences(null, null)) {
-	// // final Bundle bundle = a.getBundle();
-	// final Object service = bundleContext.getService(a);
-	// System.err.println(service);
-	// }
-	// }
-
 	public void testMessageserviceService() {
-		final Object serviceObject = getServiceObject(MessageService.class.getName(), null);
-		final MessageService service = (MessageService) serviceObject;
+		final MessageService service = getService(MessageService.class);
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.message.service.MessageServiceImpl", service.getClass().getName());
 	}
 
+	public void testCreate() throws Exception {
+		final MessageService messageService = getService(MessageService.class);
+		assertNotNull(messageService.createMessageIdentifier("1337"));
+		assertNotNull(messageService.createMessageIdentifier("1337").getId());
+		assertEquals("1337", messageService.createMessageIdentifier("1337").getId());
+		assertNull(messageService.createMessageIdentifier(null));
+	}
 }

@@ -326,7 +326,7 @@ public class MicroblogConnectorImplUnitTest {
 		EasyMock.expect(parseUtil.parseLong("14")).andReturn(14l);
 		EasyMock.replay(parseUtil);
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final StreamUtil streamUtil = new StreamUtil();
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);

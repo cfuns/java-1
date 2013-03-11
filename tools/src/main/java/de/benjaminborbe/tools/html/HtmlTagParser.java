@@ -1,5 +1,9 @@
 package de.benjaminborbe.tools.html;
 
+import org.slf4j.Logger;
+
+import com.google.inject.Inject;
+
 import de.benjaminborbe.tools.util.StringIterator;
 
 public class HtmlTagParser {
@@ -8,8 +12,17 @@ public class HtmlTagParser {
 
 	private static final char TAG_CLOSE = '>';
 
+	private final Logger logger;
+
+	@Inject
+	public HtmlTagParser(final Logger logger) {
+		this.logger = logger;
+	}
+
 	public HtmlTag parse(final String content) {
 		if (content != null && !content.isEmpty() && content.charAt(0) == TAG_OPEN && content.charAt(content.length() - 1) == TAG_CLOSE) {
+			if (logger.isTraceEnabled())
+				logger.trace("parse content: " + content);
 			final StringIterator i = new StringIterator(content);
 			i.next();
 			final boolean open = content.charAt(1) != '/';

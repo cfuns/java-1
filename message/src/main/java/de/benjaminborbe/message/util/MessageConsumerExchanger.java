@@ -49,19 +49,14 @@ public class MessageConsumerExchanger {
 						return;
 					}
 
-					final MessageConsumer messageConsumer = messageConsumerRegistry.get(message.getType());
-					if (messageConsumer != null) {
-						exchange(messageConsumer, message);
-					}
-					else {
-						logger.warn("no messageConsumer found for type: " + message.getType());
-					}
+					exchange(message);
 				}
 			}
 			catch (final StorageException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}
+
 	}
 
 	private static final long DELAY_PER_RETRY = 1 * 60 * 1000;
@@ -130,7 +125,7 @@ public class MessageConsumerExchanger {
 		return false;
 	}
 
-	private void exchange(final MessageConsumer messageConsumer, final MessageBean message) throws StorageException {
+	private void exchange(final MessageBean message, final MessageConsumer messageConsumer) throws StorageException {
 		{
 			final Calendar startTime = message.getStartTime();
 			if (startTime != null) {
@@ -248,5 +243,15 @@ public class MessageConsumerExchanger {
 
 	private String getEncoding() {
 		return messageDao.getEncoding();
+	}
+
+	private void exchange(final MessageBean message) throws StorageException {
+		final MessageConsumer messageConsumer = messageConsumerRegistry.get(message.getType());
+		if (messageConsumer != null) {
+			exchange(message, messageConsumer);
+		}
+		else {
+			logger.warn("no messageConsumer found for type: " + message.getType());
+		}
 	}
 }

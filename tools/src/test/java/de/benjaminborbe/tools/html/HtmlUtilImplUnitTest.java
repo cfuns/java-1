@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.easymock.EasyMock;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -19,7 +18,7 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertEquals("&amp;", htmlUtil.escapeHtml("&"));
 	}
@@ -29,7 +28,7 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertEquals("&", htmlUtil.unescapeHtml("&amp;"));
 	}
@@ -39,7 +38,7 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertEquals(0, htmlUtil.parseLinks(null).size());
 		assertEquals(0, htmlUtil.parseLinks("").size());
@@ -58,7 +57,7 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertNull(htmlUtil.filterHtmlTages(null));
 		assertEquals("", htmlUtil.filterHtmlTages(""));
@@ -76,13 +75,12 @@ public class HtmlUtilImplUnitTest {
 		assertEquals("hello", htmlUtil.filterHtmlTages("<script foo>bla</script><a>\nhello\n</a>"));
 	}
 
-	@Ignore
 	@Test
 	public void testScript() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertEquals(
 				"bin/nodetool -host 192.168.0.103 drain",
@@ -96,7 +94,7 @@ public class HtmlUtilImplUnitTest {
 		EasyMock.replay(logger);
 		final StreamUtil streamUtil = new StreamUtil();
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final String htmlContent = resourceUtil.getResourceContentAsString("sample.html");
 		assertEquals("Home", htmlUtil.filterHtmlTages(htmlContent));
@@ -107,7 +105,7 @@ public class HtmlUtilImplUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 
 		// http

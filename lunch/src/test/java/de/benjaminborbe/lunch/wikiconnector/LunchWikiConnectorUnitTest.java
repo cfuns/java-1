@@ -31,7 +31,7 @@ public class LunchWikiConnectorUnitTest {
 		final LunchParseUtil lunchParseUtil = EasyMock.createNiceMock(LunchParseUtil.class);
 		EasyMock.replay(lunchParseUtil);
 
-		final HtmlTagParser htmlTagParser = new HtmlTagParser();
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final CurrentTime currentTime = null;
