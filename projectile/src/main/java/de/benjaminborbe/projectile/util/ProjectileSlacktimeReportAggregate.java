@@ -1,5 +1,6 @@
 package de.benjaminborbe.projectile.util;
 
+import java.util.Calendar;
 import java.util.List;
 
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
@@ -174,6 +175,39 @@ public class ProjectileSlacktimeReportAggregate implements ProjectileSlacktimeRe
 			result += value;
 		}
 		return result;
+	}
+
+	@Override
+	public Calendar getMonthUpdateDate() {
+		for (final ProjectileSlacktimeReport report : reports) {
+			final Calendar value = report.getMonthUpdateDate();
+			if (value == null) {
+				return null;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Calendar getWeekUpdateDate() {
+		for (final ProjectileSlacktimeReport report : reports) {
+			final Calendar value = report.getWeekUpdateDate();
+			if (value == null) {
+				return null;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Calendar getYearUpdateDate() {
+		for (final ProjectileSlacktimeReport report : reports) {
+			final Calendar value = report.getYearUpdateDate();
+			if (value == null) {
+				return null;
+			}
+		}
+		return null;
 	}
 
 }

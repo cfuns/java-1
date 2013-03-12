@@ -1,6 +1,10 @@
 package de.benjaminborbe.projectile.util;
 
+import java.util.Calendar;
+
 public class ProjectileCsvReportToDto {
+
+	private Calendar updateDate;
 
 	private String username;
 
@@ -50,5 +54,13 @@ public class ProjectileCsvReportToDto {
 
 	public void setTarget(final Double target) {
 		this.target = target;
+	}
+
+	public Calendar getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(final Calendar updateDate) {
+		this.updateDate = updateDate;
 	}
 }

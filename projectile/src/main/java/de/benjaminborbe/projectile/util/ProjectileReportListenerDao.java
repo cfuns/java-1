@@ -30,18 +30,21 @@ public class ProjectileReportListenerDao implements ProjectileReportListener {
 				bean.setWeekIntern(dto.getIntern());
 				bean.setWeekBillable(dto.getBillable());
 				bean.setWeekTarget(dto.getTarget());
+				bean.setWeekUpdateDate(dto.getUpdateDate());
 			}
 			if (ProjectileSlacktimeReportInterval.MONTH.equals(interval)) {
 				bean.setMonthExtern(dto.getExtern());
 				bean.setMonthIntern(dto.getIntern());
 				bean.setMonthBillable(dto.getBillable());
 				bean.setMonthTarget(dto.getTarget());
+				bean.setMonthUpdateDate(dto.getUpdateDate());
 			}
 			if (ProjectileSlacktimeReportInterval.YEAR.equals(interval)) {
 				bean.setYearExtern(dto.getExtern());
 				bean.setYearIntern(dto.getIntern());
 				bean.setYearBillable(dto.getBillable());
 				bean.setYearTarget(dto.getTarget());
+				bean.setYearUpdateDate(dto.getUpdateDate());
 			}
 			projectileReportDao.save(bean);
 		}

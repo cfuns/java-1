@@ -41,6 +41,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
@@ -74,9 +75,12 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 	private final ProjectileTeamUserManyToManyRelation projectileTeamUserManyToManyRelation;
 
+	private CalendarUtil calendarUtil;
+
 	@Inject
 	public ProjectileServiceImpl(
 			final Logger logger,
+			final CalendarUtil calendarUtil,
 			final ProjectileTeamUserManyToManyRelation projectileTeamUserManyToManyRelation,
 			final ValidationExecutor validationExecutor,
 			final DurationUtil durationUtil,
@@ -261,7 +265,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
-			projectileCsvReportImporter.importCsvReport(content, interval);
+			projectileCsvReportImporter.importCsvReport(calendarUtil.now(), content, interval);
 		}
 		catch (final StorageException e) {
 			throw new ProjectileServiceException(e);

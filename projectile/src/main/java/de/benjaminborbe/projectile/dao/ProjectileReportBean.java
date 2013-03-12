@@ -43,6 +43,12 @@ public class ProjectileReportBean extends EntityBase<ProjectileReportIdentifier>
 
 	private Double yearBillable;
 
+	private Calendar yearUpdateDate;
+
+	private Calendar monthUpdateDate;
+
+	private Calendar weekUpdateDate;
+
 	@Override
 	public Calendar getCreated() {
 		return created;
@@ -192,6 +198,33 @@ public class ProjectileReportBean extends EntityBase<ProjectileReportIdentifier>
 
 	public void setYearBillable(final Double yearBillable) {
 		this.yearBillable = yearBillable;
+	}
+
+	@Override
+	public Calendar getYearUpdateDate() {
+		return yearUpdateDate;
+	}
+
+	public void setYearUpdateDate(final Calendar yearUpdateDate) {
+		this.yearUpdateDate = yearUpdateDate;
+	}
+
+	@Override
+	public Calendar getMonthUpdateDate() {
+		return monthUpdateDate;
+	}
+
+	public void setMonthUpdateDate(final Calendar monthUpdateDate) {
+		this.monthUpdateDate = monthUpdateDate;
+	}
+
+	@Override
+	public Calendar getWeekUpdateDate() {
+		return weekUpdateDate;
+	}
+
+	public void setWeekUpdateDate(final Calendar weekUpdateDate) {
+		this.weekUpdateDate = weekUpdateDate;
 	}
 
 }

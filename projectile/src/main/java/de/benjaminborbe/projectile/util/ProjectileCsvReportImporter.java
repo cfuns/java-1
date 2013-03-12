@@ -1,5 +1,6 @@
 package de.benjaminborbe.projectile.util;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -28,9 +29,9 @@ public class ProjectileCsvReportImporter {
 		this.projectileCsvReportToBeanConverter = projectileCsvReportToBeanConverter;
 	}
 
-	public void importCsvReport(final String csvString, final ProjectileSlacktimeReportInterval interval) throws StorageException, ParseException {
+	public void importCsvReport(final Calendar date, final String csvString, final ProjectileSlacktimeReportInterval interval) throws StorageException, ParseException {
 		logger.debug("importCsvReport");
-		final List<ProjectileCsvReportToDto> dtos = projectileCsvReportToBeanConverter.convert(csvString);
+		final List<ProjectileCsvReportToDto> dtos = projectileCsvReportToBeanConverter.convert(date, csvString);
 		logger.debug("extracted " + dtos.size() + " report");
 		for (final ProjectileReportListener listener : projectileReportListenerRegistry.getAll()) {
 			for (final ProjectileCsvReportToDto dto : dtos) {

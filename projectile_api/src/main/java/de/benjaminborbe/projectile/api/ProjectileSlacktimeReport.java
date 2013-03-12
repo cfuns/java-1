@@ -1,31 +1,39 @@
 package de.benjaminborbe.projectile.api;
 
+import java.util.Calendar;
+
 public interface ProjectileSlacktimeReport {
-
-	String getName();
-
-	Double getWeekIntern();
-
-	Double getWeekExtern();
-
-	Double getMonthIntern();
-
-	Double getMonthExtern();
-
-	Double getYearIntern();
-
-	Double getYearExtern();
-
-	Double getWeekTarget();
-
-	Double getWeekBillable();
-
-	Double getMonthTarget();
 
 	Double getMonthBillable();
 
-	Double getYearTarget();
+	Double getMonthExtern();
+
+	Double getMonthIntern();
+
+	Double getMonthTarget();
+
+	Calendar getMonthUpdateDate();
+
+	String getName();
+
+	Double getWeekBillable();
+
+	Double getWeekExtern();
+
+	Double getWeekIntern();
+
+	Double getWeekTarget();
+
+	Calendar getWeekUpdateDate();
 
 	Double getYearBillable();
+
+	Double getYearExtern();
+
+	Double getYearIntern();
+
+	Double getYearTarget();
+
+	Calendar getYearUpdateDate();
 
 }

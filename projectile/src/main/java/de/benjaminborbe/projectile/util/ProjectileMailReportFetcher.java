@@ -3,6 +3,7 @@ package de.benjaminborbe.projectile.util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,9 +26,12 @@ import com.google.inject.Inject;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
+import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.StreamUtil;
 
 public class ProjectileMailReportFetcher {
@@ -78,16 +82,17 @@ public class ProjectileMailReportFetcher {
 							final BodyPart b = mp.getBodyPart(j);
 							final Object attachmentContent = b.getContent();
 							if (attachmentContent instanceof InputStream) {
-
+								logger.debug("Filename: " + b.getFileName());
 								logger.debug("ContentType: " + b.getContentType());
 
 								final InputStream inputStream = (InputStream) attachmentContent;
 								final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 								streamUtil.copy(inputStream, outputStream);
 
+								final Calendar date = filenameToCalendar(b.getFileName());
 								final String csvContent = outputStream.toString("ISO-8859-1");
 								final ProjectileSlacktimeReportInterval interval = buildInterval(subject);
-								projectileCsvReportImporter.importCsvReport(csvContent, interval);
+								projectileCsvReportImporter.importCsvReport(date, csvContent, interval);
 							}
 						}
 					}
@@ -142,6 +147,7 @@ public class ProjectileMailReportFetcher {
 				}
 			}
 		}
+
 	}
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
@@ -156,15 +162,27 @@ public class ProjectileMailReportFetcher {
 
 	private final DateUtil dateUtil;
 
+	private final ParseUtil parseUtil;
+
+	private final CalendarUtil calendarUtil;
+
+	private final TimeZoneUtil timeZoneUtil;
+
 	@Inject
 	public ProjectileMailReportFetcher(
 			final Logger logger,
+			final CalendarUtil calendarUtil,
+			final TimeZoneUtil timeZoneUtil,
+			final ParseUtil parseUtil,
 			final DateUtil dateUtil,
 			final ProjectileConfig projectileConfig,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final StreamUtil streamUtil,
 			final ProjectileCsvReportImporter projectileCsvReportImporter) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
+		this.timeZoneUtil = timeZoneUtil;
+		this.parseUtil = parseUtil;
 		this.dateUtil = dateUtil;
 		this.projectileConfig = projectileConfig;
 		this.runOnlyOnceATime = runOnlyOnceATime;
@@ -196,5 +214,18 @@ public class ProjectileMailReportFetcher {
 			return ProjectileSlacktimeReportInterval.WEEK;
 		}
 		throw new IllegalArgumentException("illegal subject");
+	}
+
+	protected Calendar filenameToCalendar(final String fileName) throws ParseException {
+		try {
+			final int pos = fileName.indexOf('_');
+			final int year = parseUtil.parseInt(fileName.substring(pos + 1, pos + 5));
+			final int month = parseUtil.parseInt(fileName.substring(pos + 5, pos + 7)) - 1;
+			final int date = parseUtil.parseInt(fileName.substring(pos + 7, pos + 9));
+			return calendarUtil.getCalendar(timeZoneUtil.getUTCTimeZone(), year, month, date);
+		}
+		catch (final Exception e) {
+			throw new ParseException(e);
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package de.benjaminborbe.projectile.util;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ public class ProjectileCsvReportToDtoConverter {
 		this.projectileNameMapper = projectileNameMapper;
 	}
 
-	public List<ProjectileCsvReportToDto> convert(final String csvString) throws ParseException {
+	public List<ProjectileCsvReportToDto> convert(final Calendar date, final String csvString) throws ParseException {
 		logger.debug("convert");
 		final List<ProjectileCsvReportToDto> result = new ArrayList<ProjectileCsvReportToDto>();
 		if (csvString == null) {
@@ -46,7 +47,7 @@ public class ProjectileCsvReportToDtoConverter {
 					final String intern = parts[3];
 					final String billable = parts[4];
 					if (username != null && username.trim().length() > 0) {
-						result.add(buildBean(username, target, extern, intern, billable));
+						result.add(buildBean(username, target, extern, intern, billable, date));
 					}
 				}
 			}
@@ -56,13 +57,15 @@ public class ProjectileCsvReportToDtoConverter {
 		return result;
 	}
 
-	private ProjectileCsvReportToDto buildBean(final String username, final String target, final String extern, final String intern, final String billable) throws ParseException {
+	private ProjectileCsvReportToDto buildBean(final String username, final String target, final String extern, final String intern, final String billable, final Calendar updateDate)
+			throws ParseException {
 		final ProjectileCsvReportToDto projectileReport = new ProjectileCsvReportToDto();
 		projectileReport.setUsername(projectileNameMapper.fullnameToLogin(username));
 		projectileReport.setExtern(parseDouble(extern));
 		projectileReport.setIntern(parseDouble(intern));
 		projectileReport.setBillable(parseDouble(billable));
 		projectileReport.setTarget(parseDouble(target));
+		projectileReport.setUpdateDate(updateDate);
 		return projectileReport;
 	}
 

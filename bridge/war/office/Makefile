@@ -1,7 +1,7 @@
 all:
 	mvn install
 installwotest:
-	mvn -Dmaven.test.skip=true install
+	mvn -Dmaven.test.skip=true clean install
 deploy:
 	cp target/bridge.war $(TOMCAT_HOME)/webapps/bb.war
 deployforce:
