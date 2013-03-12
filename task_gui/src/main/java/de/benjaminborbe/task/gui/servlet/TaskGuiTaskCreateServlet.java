@@ -125,10 +125,11 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 			final String repeatDueString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_REPEAT_DUE);
 			final String repeatStartString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_REPEAT_START);
 			final String url = request.getParameter(TaskGuiConstants.PARAMETER_TASK_URL);
+			final String focus = request.getParameter(TaskGuiConstants.PARAMETER_TASK_FOCUS);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(parentId);
-			if (name != null && description != null && contextId != null && parentId != null) {
+			if (name != null && description != null && contextId != null && parentId != null && focus != null) {
 				try {
 					final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 
@@ -140,7 +141,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(contextId);
 
 					final TaskIdentifier taskIdentifier = createTask(sessionIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due, repeatStart,
-							repeatDue, taskContextIdentifier);
+							repeatDue, taskContextIdentifier, focus);
 					logger.trace("task created " + taskIdentifier);
 
 					if (referer != null) {
@@ -166,20 +167,30 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_REPEAT_START).addLabel("RepeatStart").addPlaceholder("repeat..."));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_REPEAT_DUE).addLabel("RepeatDue").addPlaceholder("repeat..."));
 			formWidget.addFormInputWidget(new FormInputTextareaWidget(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION).addLabel("Description").addPlaceholder("description..."));
-			final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
-			final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier));
-			Collections.sort(taskContexts, new TaskContextComparator());
-			contextSelectBox.addOption("", "none");
-			for (final TaskContext taskContext : taskContexts) {
-				contextSelectBox.addOption(String.valueOf(taskContext.getId()), taskContext.getName());
+			{
+				final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
+				final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier));
+				Collections.sort(taskContexts, new TaskContextComparator());
+				contextSelectBox.addOption("", "none");
+				for (final TaskContext taskContext : taskContexts) {
+					contextSelectBox.addOption(String.valueOf(taskContext.getId()), taskContext.getName());
+				}
+				// set context to parent if exists
+				if (taskParentIdentifier != null) {
+					final Task parentTask = taskService.getTask(sessionIdentifier, taskParentIdentifier);
+					contextSelectBox.addDefaultValue(parentTask.getContext());
+				}
+				formWidget.addFormInputWidget(contextSelectBox);
 			}
-			// set context to parent if exists
-			if (taskParentIdentifier != null) {
-				final Task parentTask = taskService.getTask(sessionIdentifier, taskParentIdentifier);
-				contextSelectBox.addDefaultValue(parentTask.getContext());
+			{
+				final FormSelectboxWidget selectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASK_FOCUS).addLabel("Focus");
+				for (final TaskFocus taskFocus : TaskFocus.values()) {
+					selectBox.addOption(String.valueOf(taskFocus.name()), taskFocus.name().toLowerCase());
+				}
+				selectBox.addDefaultValue(TaskFocus.INBOX.name());
+				formWidget.addFormInputWidget(selectBox);
 			}
 
-			formWidget.addFormInputWidget(contextSelectBox);
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 
@@ -224,8 +235,8 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 	}
 
 	private TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context)
-			throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context,
+			final String focusString) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
 
 		final TaskDto taskDto = new TaskDto();
 		taskDto.setName(name);
@@ -237,7 +248,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 		taskDto.setRepeatStart(repeatStart);
 		taskDto.setRepeatDue(repeatDue);
 		taskDto.setContext(context);
-		taskDto.setFocus(TaskFocus.INBOX);
+		taskDto.setFocus(parseUtil.parseEnum(TaskFocus.class, focusString, TaskFocus.INBOX));
 
 		return taskService.createTask(sessionIdentifier, taskDto);
 	}

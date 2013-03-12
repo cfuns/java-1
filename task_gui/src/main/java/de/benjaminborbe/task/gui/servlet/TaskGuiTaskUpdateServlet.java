@@ -126,13 +126,14 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 			final String repeatDueString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_REPEAT_DUE);
 			final String repeatStartString = request.getParameter(TaskGuiConstants.PARAMETER_TASK_REPEAT_START);
 			final String url = request.getParameter(TaskGuiConstants.PARAMETER_TASK_URL);
+			final String focus = request.getParameter(TaskGuiConstants.PARAMETER_TASK_FOCUS);
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(id);
 			final TaskIdentifier taskParentIdentifier = taskService.createTaskIdentifier(parentId);
 			final Task task = taskService.getTask(sessionIdentifier, taskIdentifier);
 
-			if (name != null && description != null && contextId != null && parentId != null) {
+			if (name != null && description != null && contextId != null && parentId != null && focus != null) {
 				try {
 					final TimeZone timeZone = authenticationService.getTimeZone(sessionIdentifier);
 
@@ -144,7 +145,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(contextId);
 
 					updateTask(sessionIdentifier, taskIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due, repeatStart, repeatDue,
-							taskContextIdentifier, task.getFocus());
+							taskContextIdentifier, focus);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -172,18 +173,28 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 					.addDefaultValue(toValue(task.getRepeatStart())));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_REPEAT_DUE).addLabel("RepeatDue").addPlaceholder("repeat...")
 					.addDefaultValue(toValue(task.getRepeatDue())));
-
 			formWidget.addFormInputWidget(new FormInputTextareaWidget(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION).addLabel("Description").addPlaceholder("description...")
 					.addDefaultValue(task.getDescription()));
-			final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
-			final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier));
-			Collections.sort(taskContexts, new TaskContextComparator());
-			contextSelectBox.addOption("", "none");
-			for (final TaskContext taskContext : taskContexts) {
-				contextSelectBox.addOption(String.valueOf(taskContext.getId()), taskContext.getName());
+			{
+				final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
+				final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier));
+				Collections.sort(taskContexts, new TaskContextComparator());
+				contextSelectBox.addOption("", "none");
+				for (final TaskContext taskContext : taskContexts) {
+					contextSelectBox.addOption(String.valueOf(taskContext.getId()), taskContext.getName());
+				}
+				contextSelectBox.addDefaultValue(task.getContext());
+				formWidget.addFormInputWidget(contextSelectBox);
 			}
-			contextSelectBox.addDefaultValue(task.getContext());
-			formWidget.addFormInputWidget(contextSelectBox);
+			{
+				final FormSelectboxWidget selectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASK_FOCUS).addLabel("Focus");
+				for (final TaskFocus taskFocus : TaskFocus.values()) {
+					selectBox.addOption(String.valueOf(taskFocus.name()), taskFocus.name().toLowerCase());
+				}
+				selectBox.addDefaultValue(task.getFocus().name());
+				formWidget.addFormInputWidget(selectBox);
+			}
+
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 
@@ -213,7 +224,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 
 	private void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
 			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context,
-			final TaskFocus focus) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+			final String focusString) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
 
 		final TaskDto taskDto = new TaskDto();
 		taskDto.setId(taskIdentifier);
@@ -226,7 +237,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 		taskDto.setRepeatStart(repeatStart);
 		taskDto.setRepeatDue(repeatDue);
 		taskDto.setContext(context);
-		taskDto.setFocus(focus);
+		taskDto.setFocus(parseUtil.parseEnum(TaskFocus.class, focusString, TaskFocus.INBOX));
 
 		taskService.updateTask(sessionIdentifier, taskDto);
 	}
