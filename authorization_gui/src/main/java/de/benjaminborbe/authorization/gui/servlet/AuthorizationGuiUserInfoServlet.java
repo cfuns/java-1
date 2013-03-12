@@ -1,6 +1,7 @@
 package de.benjaminborbe.authorization.gui.servlet;
 
 import java.io.IOException;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
@@ -37,6 +39,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 
 @Singleton
 public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
@@ -52,6 +55,8 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 	private final AuthenticationService authenticationService;
 
 	private final AuthorizationGuiLinkFactory authorizationGuiLinkFactory;
+
+	private final CalendarUtil calendarUtil;
 
 	@Inject
 	public AuthorizationGuiUserInfoServlet(
@@ -73,6 +78,7 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 		this.authorizationSerivce = authorizationSerivce;
 		this.authenticationService = authenticationService;
 		this.authorizationGuiLinkFactory = authorizationGuiLinkFactory;
+		this.calendarUtil = calendarUtil;
 	}
 
 	@Override
@@ -83,14 +89,31 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 			PermissionDeniedException, LoginRequiredException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-		final UlWidget ul = new UlWidget();
 		try {
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String username = request.getParameter(AuthorizationGuiConstants.PARAMETER_USER_ID);
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle() + " for " + username));
+			final UlWidget ul = new UlWidget();
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
+
+			final User user = authenticationService.getUser(sessionIdentifier, userIdentifier);
+			widgets.add("email: " + user.getEmail());
+			widgets.add(new BrWidget());
+			widgets.add("fullname: " + user.getFullname());
+			widgets.add(new BrWidget());
+			widgets.add("emailVerified: " + asString(user.getEmailVerified()));
+			widgets.add(new BrWidget());
+			widgets.add("loginCounter: " + user.getLoginCounter());
+			widgets.add(new BrWidget());
+			widgets.add("loginDate: " + calendarUtil.toDateTimeString(user.getLoginDate()));
+			widgets.add(new BrWidget());
+			widgets.add("superAdmin: " + asString(user.getSuperAdmin()));
+			widgets.add(new BrWidget());
+			widgets.add("timeZone: " + asString(user.getTimeZone()));
+			widgets.add(new BrWidget());
+
 			widgets.add(new H2Widget("Roles"));
 			for (final RoleIdentifier roleIdentifier : authorizationSerivce.getRoles(sessionIdentifier, userIdentifier)) {
 				final ListWidget row = new ListWidget();
@@ -107,5 +130,16 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}
+	}
+
+	private String asString(final Boolean b) {
+		return String.valueOf(Boolean.TRUE.equals(b));
+	}
+
+	private String asString(final TimeZone timeZone) {
+		if (timeZone == null) {
+			return "-";
+		}
+		return timeZone.getID();
 	}
 }

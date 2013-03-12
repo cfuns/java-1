@@ -1,5 +1,6 @@
 package de.benjaminborbe.authentication.api;
 
+import java.util.Calendar;
 import java.util.TimeZone;
 
 public class UserDto implements User {
@@ -15,6 +16,10 @@ public class UserDto implements User {
 	private Boolean superAdmin;
 
 	private TimeZone timeZone;
+
+	private Long loginCounter;
+
+	private Calendar loginDate;
 
 	@Override
 	public UserIdentifier getId() {
@@ -68,6 +73,24 @@ public class UserDto implements User {
 
 	public void setTimeZone(final TimeZone timeZone) {
 		this.timeZone = timeZone;
+	}
+
+	@Override
+	public Long getLoginCounter() {
+		return loginCounter;
+	}
+
+	public void setLoginCounter(final Long loginCounter) {
+		this.loginCounter = loginCounter;
+	}
+
+	@Override
+	public Calendar getLoginDate() {
+		return loginDate;
+	}
+
+	public void setLoginDate(final Calendar loginDate) {
+		this.loginDate = loginDate;
 	}
 
 }

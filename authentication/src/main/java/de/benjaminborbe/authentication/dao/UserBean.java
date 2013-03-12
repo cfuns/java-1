@@ -37,6 +37,8 @@ public class UserBean extends EntityBase<UserIdentifier> implements User, HasCre
 
 	private Long loginCounter;
 
+	private Calendar loginDate;
+
 	public byte[] getPassword() {
 		return password;
 	}
@@ -151,6 +153,14 @@ public class UserBean extends EntityBase<UserIdentifier> implements User, HasCre
 	@Override
 	public void setId(final UserIdentifier id) {
 		this.id = id;
+	}
+
+	public Calendar getLoginDate() {
+		return loginDate;
+	}
+
+	public void setLoginDate(Calendar loginDate) {
+		this.loginDate = loginDate;
 	}
 
 }

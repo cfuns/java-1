@@ -25,6 +25,32 @@ import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 @Singleton
 public class UserBeanMapper extends MapObjectMapperAdapter<UserBean> {
 
+	public static final String MODIFIED = "modified";
+
+	public static final String CREATED = "created";
+
+	public static final String LOGIN_COUNTER = "loginCounter";
+
+	public static final String EMAIL_VERIFIED = "emailVerified";
+
+	public static final String EMAIL_VERIFY_TOKEN = "emailVerifyToken";
+
+	public static final String EMAIL = "email";
+
+	public static final String TIME_ZONE = "timeZone";
+
+	public static final String SUPER_ADMIN = "superAdmin";
+
+	public static final String FULLNAME = "fullname";
+
+	public static final String PASSWORD_SALT = "passwordSalt";
+
+	public static final String PASSWORD = "password";
+
+	public static final String ID = "id";
+
+	public static final String LOGIN_DATE = "loginDate";
+
 	@Inject
 	public UserBeanMapper(
 			final Provider<UserBean> provider,
@@ -41,18 +67,19 @@ public class UserBeanMapper extends MapObjectMapperAdapter<UserBean> {
 	private static Collection<StringObjectMapper<UserBean>> buildMappings(final MapperUserIdentifier mapperUserIdentifier, final MapperTimeZone mapperTimeZone,
 			final MapperByteArray mapperByteArray, final MapperBoolean mapperBoolean, final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperLong mapperLong) {
 		final List<StringObjectMapper<UserBean>> result = new ArrayList<StringObjectMapper<UserBean>>();
-		result.add(new StringObjectMapperAdapter<UserBean, UserIdentifier>("id", mapperUserIdentifier));
-		result.add(new StringObjectMapperAdapter<UserBean, byte[]>("password", mapperByteArray));
-		result.add(new StringObjectMapperAdapter<UserBean, byte[]>("passwordSalt", mapperByteArray));
-		result.add(new StringObjectMapperAdapter<UserBean, String>("fullname", mapperString));
-		result.add(new StringObjectMapperAdapter<UserBean, Boolean>("superAdmin", mapperBoolean));
-		result.add(new StringObjectMapperAdapter<UserBean, TimeZone>("timeZone", mapperTimeZone));
-		result.add(new StringObjectMapperAdapter<UserBean, String>("email", mapperString));
-		result.add(new StringObjectMapperAdapter<UserBean, String>("emailVerifyToken", mapperString));
-		result.add(new StringObjectMapperAdapter<UserBean, Boolean>("emailVerified", mapperBoolean));
-		result.add(new StringObjectMapperAdapter<UserBean, Long>("loginCounter", mapperLong));
-		result.add(new StringObjectMapperAdapter<UserBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperAdapter<UserBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<UserBean, UserIdentifier>(ID, mapperUserIdentifier));
+		result.add(new StringObjectMapperAdapter<UserBean, byte[]>(PASSWORD, mapperByteArray));
+		result.add(new StringObjectMapperAdapter<UserBean, byte[]>(PASSWORD_SALT, mapperByteArray));
+		result.add(new StringObjectMapperAdapter<UserBean, String>(FULLNAME, mapperString));
+		result.add(new StringObjectMapperAdapter<UserBean, Boolean>(SUPER_ADMIN, mapperBoolean));
+		result.add(new StringObjectMapperAdapter<UserBean, TimeZone>(TIME_ZONE, mapperTimeZone));
+		result.add(new StringObjectMapperAdapter<UserBean, String>(EMAIL, mapperString));
+		result.add(new StringObjectMapperAdapter<UserBean, String>(EMAIL_VERIFY_TOKEN, mapperString));
+		result.add(new StringObjectMapperAdapter<UserBean, Boolean>(EMAIL_VERIFIED, mapperBoolean));
+		result.add(new StringObjectMapperAdapter<UserBean, Long>(LOGIN_COUNTER, mapperLong));
+		result.add(new StringObjectMapperAdapter<UserBean, Calendar>(CREATED, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<UserBean, Calendar>(MODIFIED, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<UserBean, Calendar>(LOGIN_DATE, mapperCalendar));
 		return result;
 	}
 }

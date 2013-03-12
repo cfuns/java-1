@@ -1,5 +1,6 @@
 package de.benjaminborbe.authentication.api;
 
+import java.util.Calendar;
 import java.util.TimeZone;
 
 public interface User {
@@ -16,4 +17,7 @@ public interface User {
 
 	TimeZone getTimeZone();
 
+	Calendar getLoginDate();
+
+	Long getLoginCounter();
 }

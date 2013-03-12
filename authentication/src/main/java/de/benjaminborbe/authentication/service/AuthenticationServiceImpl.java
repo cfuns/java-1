@@ -32,6 +32,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.dao.SessionBean;
 import de.benjaminborbe.authentication.dao.SessionDao;
 import de.benjaminborbe.authentication.dao.UserBean;
+import de.benjaminborbe.authentication.dao.UserBeanMapper;
 import de.benjaminborbe.authentication.dao.UserDao;
 import de.benjaminborbe.authentication.util.AuthenticationGeneratePasswordFailedException;
 import de.benjaminborbe.authentication.util.AuthenticationPasswordEncryptionService;
@@ -46,6 +47,8 @@ import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
+import de.benjaminborbe.storage.tools.StorageValueList;
+import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
@@ -83,9 +86,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final AuthenticationPasswordUtil authenticationPasswordUtil;
 
+	private final CalendarUtil calendarUtil;
+
 	@Inject
 	public AuthenticationServiceImpl(
 			final Logger logger,
+			final CalendarUtil calendarUtil,
 			final AuthenticationPasswordUtil authenticationPasswordUtil,
 			final ParseUtil parseUtil,
 			final MailService mailService,
@@ -98,6 +104,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final DurationUtil durationUtil,
 			final AuthenticationVerifyCredential authenticationVerifyCredential) {
 		this.logger = logger;
+		this.calendarUtil = calendarUtil;
 		this.authenticationPasswordUtil = authenticationPasswordUtil;
 		this.parseUtil = parseUtil;
 		this.mailService = mailService;
@@ -144,11 +151,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				final UserBean user = userDao.load(userIdentifier);
 				if (user != null) {
 					user.increaseLoginCounter();
-					userDao.save(user);
+					user.setLoginDate(calendarUtil.now());
+					userDao.save(user, new StorageValueList(userDao.getEncoding()).add(UserBeanMapper.LOGIN_COUNTER).add(UserBeanMapper.LOGIN_DATE));
+					logger.info("local user " + userIdentifier + " logged in successful");
+					return true;
 				}
-
-				logger.info("user " + userIdentifier + " logged in successful");
-				return true;
+				else {
+					logger.info("remote user " + userIdentifier + " logged in successful");
+					return true;
+				}
 			}
 			else {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("login failed")));
