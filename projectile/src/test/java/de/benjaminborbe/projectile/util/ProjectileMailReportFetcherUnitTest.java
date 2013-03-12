@@ -33,11 +33,15 @@ public class ProjectileMailReportFetcherUnitTest {
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
 		final ProjectileMailReportFetcher projectileMailReportFetcher = new ProjectileMailReportFetcher(logger, calendarUtil, timeZoneUtil, parseUtil, null, null, null, null, null);
-		final String filename = "SlackReport_201303120910451.csv";
+		final String filename = "SlackReport_201303120109541.csv";
+
 		final Calendar date = projectileMailReportFetcher.filenameToCalendar(filename);
 		assertThat(date, is(not(nullValue())));
 		assertThat(date.get(Calendar.YEAR), is(2013));
 		assertThat(date.get(Calendar.MONTH), is(Calendar.MARCH));
 		assertThat(date.get(Calendar.DAY_OF_MONTH), is(12));
+		assertThat(date.get(Calendar.HOUR_OF_DAY), is(1));
+		assertThat(date.get(Calendar.MINUTE), is(9));
+		assertThat(date.get(Calendar.SECOND), is(54));
 	}
 }

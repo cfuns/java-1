@@ -222,7 +222,12 @@ public class ProjectileMailReportFetcher {
 			final int year = parseUtil.parseInt(fileName.substring(pos + 1, pos + 5));
 			final int month = parseUtil.parseInt(fileName.substring(pos + 5, pos + 7)) - 1;
 			final int date = parseUtil.parseInt(fileName.substring(pos + 7, pos + 9));
-			return calendarUtil.getCalendar(timeZoneUtil.getUTCTimeZone(), year, month, date);
+
+			final int hour = parseUtil.parseInt(fileName.substring(pos + 9, pos + 11));
+			final int min = parseUtil.parseInt(fileName.substring(pos + 11, pos + 13));
+			final int sec = parseUtil.parseInt(fileName.substring(pos + 13, pos + 15));
+
+			return calendarUtil.getCalendar(timeZoneUtil.getUTCTimeZone(), year, month, date, hour, min, sec);
 		}
 		catch (final Exception e) {
 			throw new ParseException(e);
