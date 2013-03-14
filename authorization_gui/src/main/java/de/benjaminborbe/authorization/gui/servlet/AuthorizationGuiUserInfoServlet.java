@@ -99,21 +99,22 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 
 			final User user = authenticationService.getUser(sessionIdentifier, userIdentifier);
-			widgets.add("email: " + user.getEmail());
-			widgets.add(new BrWidget());
-			widgets.add("fullname: " + user.getFullname());
-			widgets.add(new BrWidget());
-			widgets.add("emailVerified: " + asString(user.getEmailVerified()));
-			widgets.add(new BrWidget());
-			widgets.add("loginCounter: " + user.getLoginCounter());
-			widgets.add(new BrWidget());
-			widgets.add("loginDate: " + calendarUtil.toDateTimeString(user.getLoginDate()));
-			widgets.add(new BrWidget());
-			widgets.add("superAdmin: " + asString(user.getSuperAdmin()));
-			widgets.add(new BrWidget());
-			widgets.add("timeZone: " + asString(user.getTimeZone()));
-			widgets.add(new BrWidget());
-
+			if (user != null) {
+				widgets.add("email: " + user.getEmail());
+				widgets.add(new BrWidget());
+				widgets.add("fullname: " + user.getFullname());
+				widgets.add(new BrWidget());
+				widgets.add("emailVerified: " + asString(user.getEmailVerified()));
+				widgets.add(new BrWidget());
+				widgets.add("loginCounter: " + user.getLoginCounter());
+				widgets.add(new BrWidget());
+				widgets.add("loginDate: " + calendarUtil.toDateTimeString(user.getLoginDate()));
+				widgets.add(new BrWidget());
+				widgets.add("superAdmin: " + asString(user.getSuperAdmin()));
+				widgets.add(new BrWidget());
+				widgets.add("timeZone: " + asString(user.getTimeZone()));
+				widgets.add(new BrWidget());
+			}
 			widgets.add(new H2Widget("Roles"));
 			for (final RoleIdentifier roleIdentifier : authorizationSerivce.getRoles(sessionIdentifier, userIdentifier)) {
 				final ListWidget row = new ListWidget();

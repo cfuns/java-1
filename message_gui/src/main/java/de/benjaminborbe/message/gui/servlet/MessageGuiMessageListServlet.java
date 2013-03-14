@@ -106,7 +106,7 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 				final TableWidget table = new TableWidget();
 				table.addClass("sortable");
 				final TableHeadWidget head = new TableHeadWidget();
-				head.addCell("Type").addCell("Id").addCell("LockName").addCell("LockTime").addCell("RetryCounter").addCell("MaxRetryCounter").addCell("");
+				head.addCell("Type").addCell("Id").addCell("LockName").addCell("LockTime").addCell("Created").addCell("RetryCounter").addCell("MaxRetryCounter").addCell("");
 				table.setHead(head);
 				for (final Message message : messages) {
 					final TableRowWidget row = new TableRowWidget();
@@ -114,6 +114,7 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 					row.addCell(asString(message.getId()));
 					row.addCell(asString(message.getLockName()));
 					row.addCell(asString(calendarUtil.toDateTimeString(message.getLockTime())));
+					row.addCell(asString(calendarUtil.toDateTimeString(message.getCreated())));
 					row.addCell(asString(message.getRetryCounter()));
 					row.addCell(asString(message.getMaxRetryCounter()));
 					row.addCell(messageGuiLinkFactory.deleteMessage(request, message.getId()));

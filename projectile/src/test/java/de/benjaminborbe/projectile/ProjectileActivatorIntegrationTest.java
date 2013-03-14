@@ -15,6 +15,7 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.guice.ProjectileModulesMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
@@ -76,6 +77,7 @@ public class ProjectileActivatorIntegrationTest {
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());
+		names.add(MonitoringCheck.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

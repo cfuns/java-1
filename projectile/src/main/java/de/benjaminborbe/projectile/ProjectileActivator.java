@@ -10,15 +10,20 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.projectile.guice.ProjectileModules;
 import de.benjaminborbe.projectile.service.ProjectileMailReportFetcherCronJob;
+import de.benjaminborbe.projectile.service.ProjectileReportCheck;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 
 public class ProjectileActivator extends BaseBundleActivator {
+
+	@Inject
+	private ProjectileReportCheck projectileReportCheck;
 
 	@Inject
 	private ProjectileService projectileService;
@@ -42,6 +47,7 @@ public class ProjectileActivator extends BaseBundleActivator {
 		for (final ConfigurationDescription configuration : projectileConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
 		}
+		result.add(new ServiceInfo(MonitoringCheck.class, projectileReportCheck, projectileReportCheck.getClass().getName()));
 		return result;
 	}
 

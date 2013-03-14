@@ -19,4 +19,8 @@ public interface Message {
 	Long getMaxRetryCounter();
 
 	Calendar getStartTime();
+
+	Calendar getCreated();
+
+	Calendar getModified();
 }

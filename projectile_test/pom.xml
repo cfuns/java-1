@@ -92,7 +92,7 @@
 		</plugins>
 	</reporting>
 	<dependencies>
-<dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.test.osgi</artifactId>
 			<version>${project.version}</version>
@@ -207,6 +207,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.analytics.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.monitoring.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
