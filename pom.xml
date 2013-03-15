@@ -131,6 +131,7 @@
 				<module>xmpp_test</module>
 				<module>shortener_test</module>
 				<module>xmlrpc_test</module>
+				<module>notification_test</module>
 			</modules>
 		</profile>
 		<profile>
@@ -332,6 +333,9 @@
 				<module>xmlrpc</module>
 				<module>xmlrpc_api</module>
 				<module>xmlrpc_gui</module>
+				<module>notification</module>
+				<module>notification_api</module>
+				<module>notification_gui</module>
 			</modules>
 		</profile>
 	</profiles>

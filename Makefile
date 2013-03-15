@@ -337,3 +337,8 @@ buildxmlrpc:
 	cd xmlrpc && make all
 	cd xmlrpc_gui && make all
 	cd xmlrpc_test && make all
+buildnotification:
+	cd notification_api && make all
+	cd notification && make all
+	cd notification_gui && make all
+	cd notification_test && make all

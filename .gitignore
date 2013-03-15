@@ -257,3 +257,7 @@ xmlrpc/target
 xmlrpc_api/target
 xmlrpc_gui/target
 xmlrpc_test/target
+notification/target
+notification_api/target
+notification_gui/target
+notification_test/target
