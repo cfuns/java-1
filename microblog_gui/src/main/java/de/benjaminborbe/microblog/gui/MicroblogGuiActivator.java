@@ -17,8 +17,9 @@ import de.benjaminborbe.microblog.gui.service.MicroblogGuiNavigationEntry;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiConversationSendServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationActivateJsonServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationDeactivateJsonServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationDeleteServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationListJsonServlet;
-import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationListServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiPostRefreshServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiPostSendServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiPostUpdateServlet;
@@ -32,6 +33,9 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class MicroblogGuiActivator extends HttpBundleActivator {
 
 	@Inject
+	private MicroblogGuiNotificationDeleteServlet microblogGuiNotificationDeleteServlet;
+
+	@Inject
 	private MicroblogGuiNotificationActivateJsonServlet microblogGuiNotificationActivateJsonServlet;
 
 	@Inject
@@ -41,7 +45,7 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 	private MicroblogGuiNotificationListJsonServlet microblogGuiNotificationListJsonServlet;
 
 	@Inject
-	private MicroblogGuiNotificationServlet microblogGuiNotificationServlet;
+	private MicroblogGuiNotificationListServlet microblogGuiNotificationServlet;
 
 	@Inject
 	private MicroblogGuiConfig microblogGuiConfig;
@@ -89,6 +93,7 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(microblogGuiNotificationDeactivateJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE));
 		result.add(new ServletInfo(microblogGuiNotificationListJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_LIST));
 		result.add(new ServletInfo(microblogGuiNotificationServlet, MicroblogGuiConstants.URL_NOTIFICATION));
+		result.add(new ServletInfo(microblogGuiNotificationDeleteServlet, MicroblogGuiConstants.URL_NOTIFICATION_DELETE));
 
 		return result;
 	}

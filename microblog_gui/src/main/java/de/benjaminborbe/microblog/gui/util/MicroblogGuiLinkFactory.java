@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.gui.MicroblogGuiConstants;
@@ -44,4 +45,9 @@ public class MicroblogGuiLinkFactory {
 		return new LinkRelativWidget(request, "/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_POST_UPDATE, "update");
 	}
 
+	public Widget deleteNotification(final HttpServletRequest request, final UserIdentifier userIdentifier, final String keyword) throws MalformedURLException,
+			UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_DELETE, new MapParameter().add(
+				MicroblogGuiConstants.PARAEMTER_NOTIFICATION_KEYWORD, keyword).add(MicroblogGuiConstants.PARAEMTER_NOTIFICATION_LOGIN, String.valueOf(userIdentifier)), "delete");
+	}
 }

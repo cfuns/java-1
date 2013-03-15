@@ -30,4 +30,6 @@ public interface MicroblogGuiConstants {
 
 	String URL_SLASH = "/";
 
+	String URL_NOTIFICATION_DELETE = "/notification/delete";
+
 }

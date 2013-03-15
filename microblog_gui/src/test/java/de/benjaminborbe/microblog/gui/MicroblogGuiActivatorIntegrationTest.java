@@ -55,6 +55,7 @@ public class MicroblogGuiActivatorIntegrationTest {
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_SLASH);
 
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_DELETE);
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_ACTIVATE);
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE);
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_LIST);
