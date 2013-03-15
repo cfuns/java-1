@@ -19,7 +19,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 @Singleton
 public class MicroblogGuiConfigImpl extends ConfigurationBase implements MicroblogGuiConfig {
 
-	private final ConfigurationDescriptionString authToken = new ConfigurationDescriptionString(null, MicroblogGuiConstants.PARAEMTER_NOTIFICATION_TOKEN, "Microblog Auth Token");
+	private final ConfigurationDescriptionString authToken = new ConfigurationDescriptionString(null, MicroblogGuiConstants.CONFIG_AUTH_TOKEN, "Microblog Auth Token");
 
 	@Inject
 	public MicroblogGuiConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {

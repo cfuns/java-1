@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -25,6 +24,8 @@ import de.benjaminborbe.microblog.gui.MicroblogGuiConstants;
 import de.benjaminborbe.microblog.gui.config.MicroblogGuiConfig;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONArraySimple;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -57,7 +58,6 @@ public class MicroblogGuiNotificationListJsonServlet extends WebsiteJsonServlet 
 		this.microblogService = microblogService;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
@@ -75,8 +75,7 @@ public class MicroblogGuiNotificationListJsonServlet extends WebsiteJsonServlet 
 			}
 
 			final Collection<String> keywords = microblogService.listNotifications(new UserIdentifier(login));
-
-			final JSONArray ws = new JSONArray();
+			final JSONArray ws = new JSONArraySimple();
 			ws.addAll(keywords);
 
 			logger.debug("list notification-setting for user: " + login);

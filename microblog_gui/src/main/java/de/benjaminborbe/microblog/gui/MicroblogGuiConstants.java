@@ -16,13 +16,13 @@ public interface MicroblogGuiConstants {
 
 	String URL_NOTIFICATION_ACTIVATE = "/notification/activate";
 
-	String URL_NOTIFICATION_DEACTIVATE = "/notification/deactivate";
-
-	String URL_NOTIFICATION_LIST = "/notification/list";
-
 	String URL_NOTIFICATION_ACTIVATE_JSON = "/notification/activate/json";
 
+	String URL_NOTIFICATION_DEACTIVATE = "/notification/deactivate";
+
 	String URL_NOTIFICATION_DEACTIVATE_JSON = "/notification/deactivate/json";
+
+	String URL_NOTIFICATION_LIST = "/notification/list";
 
 	String URL_NOTIFICATION_LIST_JSON = "/notification/list/json";
 
@@ -33,5 +33,7 @@ public interface MicroblogGuiConstants {
 	String URL_POST_UPDATE = "/update";
 
 	String URL_SLASH = "/";
+
+	String CONFIG_AUTH_TOKEN = "MicroblogAuthToken";
 
 }

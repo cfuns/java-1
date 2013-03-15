@@ -2,7 +2,19 @@ package de.benjaminborbe.lunch.gui;
 
 public interface LunchGuiConstants {
 
+	String ACTION_ACTIVATE = "activate";
+
+	String ACTION_DEACTIVATE = "deactivate";
+
+	String CONFIG_AUTH_TOKEN = "LunchAuthToken";
+
 	String NAME = "lunch";
+
+	String PARAEMTER_NOTIFICATION_LOGIN = "login";
+
+	String PARAEMTER_NOTIFICATION_TOKEN = "token";
+
+	String PARAMETER_ACTION = "action";
 
 	String PARAMETER_BOOKED_DATE = "booked_date";
 
@@ -26,24 +38,12 @@ public interface LunchGuiConstants {
 
 	String URL_JS_SCRIPT = "/js/script.js";
 
+	String URL_NOTIFICATION = "/notification";
+
 	String URL_NOTIFICATION_ACTIVATE = "/notification/activate";
 
 	String URL_NOTIFICATION_DEACTIVATE = "/notification/deactivate";
 
 	String URL_NOTIFICATION_ISACTIVATED = "/notification/isactivated";
-
-	String PARAEMTER_NOTIFICATION_TOKEN = "token";
-
-	String PARAEMTER_NOTIFICATION_LOGIN = "login";
-
-	String CONFIG_AUTH_TOKEN = "LunchAuthToken";
-
-	String PARAMETER_ACTION = "action";
-
-	String ACTION_ACTIVATE = "activate";
-
-	String ACTION_DEACTIVATE = "deactivate";
-
-	String URL_NOTIFICATION = "/notification";
 
 }
