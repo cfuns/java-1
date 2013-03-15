@@ -54,11 +54,11 @@ public class MicroblogGuiActivatorIntegrationTest {
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_POST_UPDATE);
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_SLASH);
 
-		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION);
-		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_DELETE);
-		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_ACTIVATE);
-		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE);
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_LIST);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_ACTIVATE_JSON);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE_JSON);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_LIST_JSON);
 
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {

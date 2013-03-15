@@ -89,6 +89,8 @@ public class MicroblogGuiServlet extends WebsiteHtmlServlet {
 			widgets.add(new BrWidget());
 			widgets.add(microblogGuiLinkFactory.updatePost(request));
 			widgets.add(new BrWidget());
+			widgets.add(microblogGuiLinkFactory.notificationList(request));
+			widgets.add(new BrWidget());
 			return widgets;
 		}
 		catch (final MicroblogServiceException e) {

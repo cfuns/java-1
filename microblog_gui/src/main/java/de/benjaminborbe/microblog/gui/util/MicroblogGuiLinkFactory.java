@@ -47,7 +47,11 @@ public class MicroblogGuiLinkFactory {
 
 	public Widget deleteNotification(final HttpServletRequest request, final UserIdentifier userIdentifier, final String keyword) throws MalformedURLException,
 			UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_DELETE, new MapParameter().add(
+		return new LinkRelativWidget(urlUtil, request, "/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE, new MapParameter().add(
 				MicroblogGuiConstants.PARAEMTER_NOTIFICATION_KEYWORD, keyword).add(MicroblogGuiConstants.PARAEMTER_NOTIFICATION_LOGIN, String.valueOf(userIdentifier)), "delete");
+	}
+
+	public Widget notificationList(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_LIST, "notifications");
 	}
 }

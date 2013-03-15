@@ -89,11 +89,11 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(microblogGuiSendPostServlet, MicroblogGuiConstants.URL_POST_SEND));
 		result.add(new ServletInfo(microblogGuiSendConversationServlet, MicroblogGuiConstants.URL_CONVERSATION_SEND));
 
-		result.add(new ServletInfo(microblogGuiNotificationActivateJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_ACTIVATE));
-		result.add(new ServletInfo(microblogGuiNotificationDeactivateJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE));
-		result.add(new ServletInfo(microblogGuiNotificationListJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_LIST));
-		result.add(new ServletInfo(microblogGuiNotificationServlet, MicroblogGuiConstants.URL_NOTIFICATION));
-		result.add(new ServletInfo(microblogGuiNotificationDeleteServlet, MicroblogGuiConstants.URL_NOTIFICATION_DELETE));
+		result.add(new ServletInfo(microblogGuiNotificationActivateJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_ACTIVATE_JSON));
+		result.add(new ServletInfo(microblogGuiNotificationDeactivateJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE_JSON));
+		result.add(new ServletInfo(microblogGuiNotificationListJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_LIST_JSON));
+		result.add(new ServletInfo(microblogGuiNotificationServlet, MicroblogGuiConstants.URL_NOTIFICATION_LIST));
+		result.add(new ServletInfo(microblogGuiNotificationDeleteServlet, MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE));
 
 		return result;
 	}
