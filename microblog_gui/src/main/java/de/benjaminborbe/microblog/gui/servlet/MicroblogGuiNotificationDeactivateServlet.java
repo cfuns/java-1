@@ -31,7 +31,7 @@ import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
 
 @Singleton
-public class MicroblogGuiNotificationDeleteServlet extends WebsiteServlet {
+public class MicroblogGuiNotificationDeactivateServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = -7862318070826148848L;
 
@@ -42,7 +42,7 @@ public class MicroblogGuiNotificationDeleteServlet extends WebsiteServlet {
 	private final Logger logger;
 
 	@Inject
-	public MicroblogGuiNotificationDeleteServlet(
+	public MicroblogGuiNotificationDeactivateServlet(
 			final Logger logger,
 			final UrlUtil urlUtil,
 			final AuthenticationService authenticationService,

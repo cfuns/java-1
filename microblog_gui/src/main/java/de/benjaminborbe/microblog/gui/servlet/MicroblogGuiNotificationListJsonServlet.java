@@ -1,11 +1,13 @@
 package de.benjaminborbe.microblog.gui.servlet;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -55,6 +57,7 @@ public class MicroblogGuiNotificationListJsonServlet extends WebsiteJsonServlet 
 		this.microblogService = microblogService;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
@@ -71,10 +74,15 @@ public class MicroblogGuiNotificationListJsonServlet extends WebsiteJsonServlet 
 				return;
 			}
 
-			logger.debug("check notification-setting for user: " + login);
+			final Collection<String> keywords = microblogService.listNotifications(new UserIdentifier(login));
+
+			final JSONArray ws = new JSONArray();
+			ws.addAll(keywords);
+
+			logger.debug("list notification-setting for user: " + login);
 			final JSONObject jsonObject = new JSONObjectSimple();
 			jsonObject.put("result", "success");
-			jsonObject.put("active", String.valueOf(microblogService.listNotifications(new UserIdentifier(login))));
+			jsonObject.put("keywords", ws);
 			printJson(response, jsonObject);
 		}
 		catch (final MicroblogServiceException e) {

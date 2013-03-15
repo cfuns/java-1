@@ -17,7 +17,7 @@ import de.benjaminborbe.microblog.gui.service.MicroblogGuiNavigationEntry;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiConversationSendServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationActivateJsonServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationDeactivateJsonServlet;
-import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationDeleteServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationDeactivateServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationListJsonServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationListServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiPostRefreshServlet;
@@ -33,7 +33,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class MicroblogGuiActivator extends HttpBundleActivator {
 
 	@Inject
-	private MicroblogGuiNotificationDeleteServlet microblogGuiNotificationDeleteServlet;
+	private MicroblogGuiNotificationDeactivateServlet microblogGuiNotificationDeleteServlet;
 
 	@Inject
 	private MicroblogGuiNotificationActivateJsonServlet microblogGuiNotificationActivateJsonServlet;
