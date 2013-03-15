@@ -1,5 +1,9 @@
 package de.benjaminborbe.microblog.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -7,6 +11,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -204,6 +209,23 @@ public class MicroblogServiceImpl implements MicroblogService {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
+	}
+
+	private final List<String> keywords = new ArrayList<String>();
+
+	@Override
+	public Collection<String> listNotifications(final UserIdentifier userIdentifier) throws MicroblogServiceException {
+		return keywords;
+	}
+
+	@Override
+	public void activateNotification(final UserIdentifier userIdentifier, final String keyword) throws MicroblogServiceException {
+		keywords.add(keyword);
+	}
+
+	@Override
+	public void deactivateNotification(final UserIdentifier userIdentifier, final String keyword) throws MicroblogServiceException {
+		keywords.remove(keyword);
 	}
 
 }

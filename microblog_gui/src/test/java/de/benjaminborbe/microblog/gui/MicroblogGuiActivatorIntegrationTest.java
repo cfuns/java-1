@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.microblog.gui.guice.MicroblogGuiModulesMock;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -52,6 +53,12 @@ public class MicroblogGuiActivatorIntegrationTest {
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_POST_REFRESH);
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_POST_UPDATE);
 		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_SLASH);
+
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_ACTIVATE);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE);
+		paths.add("/" + MicroblogGuiConstants.NAME + MicroblogGuiConstants.URL_NOTIFICATION_LIST);
+
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
@@ -124,6 +131,7 @@ public class MicroblogGuiActivatorIntegrationTest {
 		final List<String> names = new ArrayList<String>();
 		names.add(DashboardContentWidget.class.getName());
 		names.add(NavigationEntry.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

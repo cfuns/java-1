@@ -8,11 +8,17 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.microblog.gui.config.MicroblogGuiConfig;
 import de.benjaminborbe.microblog.gui.guice.MicroblogGuiModules;
 import de.benjaminborbe.microblog.gui.service.MicroblogGuiDashboardWidget;
 import de.benjaminborbe.microblog.gui.service.MicroblogGuiNavigationEntry;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiConversationSendServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationActivateJsonServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationDeactivateJsonServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationListJsonServlet;
+import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiNotificationServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiPostRefreshServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiPostSendServlet;
 import de.benjaminborbe.microblog.gui.servlet.MicroblogGuiPostUpdateServlet;
@@ -24,6 +30,21 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class MicroblogGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private MicroblogGuiNotificationActivateJsonServlet microblogGuiNotificationActivateJsonServlet;
+
+	@Inject
+	private MicroblogGuiNotificationDeactivateJsonServlet microblogGuiNotificationDeactivateJsonServlet;
+
+	@Inject
+	private MicroblogGuiNotificationListJsonServlet microblogGuiNotificationListJsonServlet;
+
+	@Inject
+	private MicroblogGuiNotificationServlet microblogGuiNotificationServlet;
+
+	@Inject
+	private MicroblogGuiConfig microblogGuiConfig;
 
 	@Inject
 	private MicroblogGuiNavigationEntry microblogGuiNavigationEntry;
@@ -63,6 +84,12 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(microblogServlet, MicroblogGuiConstants.URL_SLASH));
 		result.add(new ServletInfo(microblogGuiSendPostServlet, MicroblogGuiConstants.URL_POST_SEND));
 		result.add(new ServletInfo(microblogGuiSendConversationServlet, MicroblogGuiConstants.URL_CONVERSATION_SEND));
+
+		result.add(new ServletInfo(microblogGuiNotificationActivateJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_ACTIVATE));
+		result.add(new ServletInfo(microblogGuiNotificationDeactivateJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_DEACTIVATE));
+		result.add(new ServletInfo(microblogGuiNotificationListJsonServlet, MicroblogGuiConstants.URL_NOTIFICATION_LIST));
+		result.add(new ServletInfo(microblogGuiNotificationServlet, MicroblogGuiConstants.URL_NOTIFICATION));
+
 		return result;
 	}
 
@@ -71,6 +98,9 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, microblogDashboardWidget, microblogDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(NavigationEntry.class, microblogGuiNavigationEntry));
+		for (final ConfigurationDescription configuration : microblogGuiConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 

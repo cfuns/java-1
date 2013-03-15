@@ -1,7 +1,10 @@
 package de.benjaminborbe.microblog.mock;
 
+import java.util.Collection;
+
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
@@ -45,6 +48,19 @@ public class MicroblogServiceMock implements MicroblogService {
 	@Override
 	public void updatePost(final SessionIdentifier sessionIdentifier, final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException,
 			PermissionDeniedException, LoginRequiredException {
+	}
+
+	@Override
+	public Collection<String> listNotifications(UserIdentifier userIdentifier) throws MicroblogServiceException {
+		return null;
+	}
+
+	@Override
+	public void activateNotification(UserIdentifier userIdentifier, String keyword) throws MicroblogServiceException {
+	}
+
+	@Override
+	public void deactivateNotification(UserIdentifier userIdentifier, String keyword) throws MicroblogServiceException {
 	}
 
 }
