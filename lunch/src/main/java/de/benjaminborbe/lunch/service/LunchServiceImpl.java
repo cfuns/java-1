@@ -38,9 +38,8 @@ import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.dao.LunchUserSettingsBean;
 import de.benjaminborbe.lunch.dao.LunchUserSettingsDao;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
-import de.benjaminborbe.mail.api.MailDto;
-import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.mail.api.MailServiceException;
+import de.benjaminborbe.notification.api.NotificationService;
+import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
@@ -96,8 +95,6 @@ public class LunchServiceImpl implements LunchService {
 
 	private final AuthorizationService authorizationService;
 
-	private final MailService mailService;
-
 	private final KioskService kioskService;
 
 	private final LunchUserSettingsDao lunchUserSettingsDao;
@@ -106,9 +103,12 @@ public class LunchServiceImpl implements LunchService {
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
 
+	private final NotificationService notificationService;
+
 	@Inject
 	public LunchServiceImpl(
 			final Logger logger,
+			final NotificationService notificationService,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final KioskService kioskService,
 			final LunchWikiConnector wikiConnector,
@@ -117,10 +117,10 @@ public class LunchServiceImpl implements LunchService {
 			final AuthorizationService authorizationService,
 			final DurationUtil durationUtil,
 			final CalendarUtil calendarUtil,
-			final MailService mailService,
 			final LunchUserSettingsDao lunchUserSettingsDao,
 			final ValidationExecutor validationExecutor) {
 		this.logger = logger;
+		this.notificationService = notificationService;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.kioskService = kioskService;
 		this.wikiConnector = wikiConnector;
@@ -129,7 +129,6 @@ public class LunchServiceImpl implements LunchService {
 		this.authorizationService = authorizationService;
 		this.durationUtil = durationUtil;
 		this.calendarUtil = calendarUtil;
-		this.mailService = mailService;
 		this.lunchUserSettingsDao = lunchUserSettingsDao;
 		this.validationExecutor = validationExecutor;
 	}
@@ -290,8 +289,6 @@ public class LunchServiceImpl implements LunchService {
 
 	private void sendBookMail(final Calendar day, final Collection<Long> users) {
 		try {
-			final String from = "bborbe@seibert-media.net";
-			final String to = "bborbe@seibert-media.net";
 			final String subject = "Mittag - Book";
 			final StringBuilder sb = new StringBuilder();
 			sb.append("day: ");
@@ -304,11 +301,11 @@ public class LunchServiceImpl implements LunchService {
 				sb.append(String.valueOf(user));
 				sb.append("\n");
 			}
-			final String contentType = "text/plain";
-			final MailDto mail = new MailDto(from, to, subject, sb.toString(), contentType);
-			mailService.send(mail);
+			final String message = sb.toString();
+			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier("bborbe");
+			notificationService.notify(userIdentifier, notificationService.createNotificationTypeIdentifier("lunchBooking"), subject, message);
 		}
-		catch (final MailServiceException e) {
+		catch (final NotificationServiceException | ValidationException | AuthenticationServiceException e) {
 			logger.warn("send book mail failed", e);
 		}
 	}

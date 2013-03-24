@@ -2,19 +2,19 @@ package de.benjaminborbe.notification.gui.service;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.notification.gui.NotificationGuiConstants;
 
 public class NotificationGuiNavigationEntry implements NavigationEntry {
 
-	private final AuthorizationService authorizationService;
+	private final AuthenticationService authenticationService;
 
 	@Inject
-	public NotificationGuiNavigationEntry(final AuthorizationService authorizationService) {
-		this.authorizationService = authorizationService;
+	public NotificationGuiNavigationEntry(final AuthenticationService authenticationService) {
+		this.authenticationService = authenticationService;
 	}
 
 	@Override
@@ -30,9 +30,9 @@ public class NotificationGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authorizationService.hasAdminRole(sessionIdentifier);
+			return authenticationService.isLoggedIn(sessionIdentifier);
 		}
-		catch (final AuthorizationServiceException e) {
+		catch (final AuthenticationServiceException e) {
 			return false;
 		}
 	}
