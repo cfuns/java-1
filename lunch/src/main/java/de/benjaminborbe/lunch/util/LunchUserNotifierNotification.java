@@ -8,8 +8,11 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
+import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
 
 public class LunchUserNotifierNotification implements LunchUserNotifier {
+
+	private static final NotificationTypeIdentifier TYPE = new NotificationTypeIdentifier("lunch");
 
 	private final Logger logger;
 
@@ -31,7 +34,7 @@ public class LunchUserNotifierNotification implements LunchUserNotifier {
 			sb.append("Microblog-Nachricht:\n");
 			sb.append(message);
 
-			notificationService.notify(userIdentifier, subject, sb.toString());
+			notificationService.notify(userIdentifier, TYPE, subject, sb.toString());
 		}
 		catch (NotificationServiceException | ValidationException e) {
 			throw new LunchUserNotifierException(e);

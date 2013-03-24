@@ -11,6 +11,8 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
+import de.benjaminborbe.checklist.util.MapperListIdentifier;
+import de.benjaminborbe.checklist.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;

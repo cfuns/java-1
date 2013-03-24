@@ -352,3 +352,15 @@ create column family note with
   column_metadata = [
     {column_name: owner, validation_class: UTF8Type, index_type: KEYS}
   ];
+
+drop column family notification_type;
+create column family notification_type with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+
+drop column family notification_media;
+create column family notification_media with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;

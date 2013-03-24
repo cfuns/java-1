@@ -32,17 +32,12 @@ public class MicroblogPostNotifierImpl implements MicroblogPostNotifier {
 
 	@Override
 	public void mailPost(final MicroblogPost rev) throws MicroblogPostNotifierException {
-		logger.trace("send rev = " + rev);
 		try {
+			logger.trace("send rev = " + rev);
 			final MailDto mail = buildMail(rev);
 			mailService.send(mail);
 		}
-		catch (final MicroblogConnectorException e) {
-			logger.error("MicroblogConnectorException", e);
-			throw new MicroblogPostNotifierException("MicroblogConnectorException", e);
-		}
-		catch (final MailServiceException e) {
-			logger.error("MailSendException", e);
+		catch (final MailServiceException | MicroblogConnectorException e) {
 			throw new MicroblogPostNotifierException("MailSendException", e);
 		}
 	}

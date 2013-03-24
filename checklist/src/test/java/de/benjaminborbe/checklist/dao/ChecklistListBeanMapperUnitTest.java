@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
+import de.benjaminborbe.checklist.util.MapperListIdentifier;
+import de.benjaminborbe.checklist.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;

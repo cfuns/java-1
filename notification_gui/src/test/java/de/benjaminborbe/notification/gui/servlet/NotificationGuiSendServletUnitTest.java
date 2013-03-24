@@ -29,7 +29,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.gui.NotificationGuiConstants;
-import de.benjaminborbe.notification.gui.servlet.NotificationGuiServlet;
+import de.benjaminborbe.notification.gui.servlet.NotificationGuiSendServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
@@ -38,7 +38,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 
-public class NotificationGuiServletUnitTest {
+public class NotificationGuiSendServletUnitTest {
 
 	@Test
 	public void testService() throws Exception {
@@ -70,6 +70,7 @@ public class NotificationGuiServletUnitTest {
 		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_MESSAGE)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_SUBJECT)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_USERNAME)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_TYPE)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -137,7 +138,7 @@ public class NotificationGuiServletUnitTest {
 		final NotificationService notificationService = EasyMock.createMock(NotificationService.class);
 		EasyMock.replay(notificationService);
 
-		final NotificationGuiServlet notificationServlet = new NotificationGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
+		final NotificationGuiSendServlet notificationServlet = new NotificationGuiSendServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
 				httpContextProvider, redirectUtil, urlUtil, authorizationService, cacheService, notificationService);
 
 		notificationServlet.service(request, response);

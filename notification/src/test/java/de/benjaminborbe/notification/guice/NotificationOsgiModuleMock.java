@@ -14,6 +14,8 @@ import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.mock.MailServiceMock;
+import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 import de.benjaminborbe.xmpp.api.XmppService;
@@ -23,6 +25,7 @@ public class NotificationOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(MailService.class).to(MailServiceMock.class).in(Singleton.class);

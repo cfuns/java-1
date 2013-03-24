@@ -12,10 +12,13 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
+import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
 public class DhlStatusNotifierImpl implements DhlStatusNotifier {
+
+	private static final NotificationTypeIdentifier TYPE = new NotificationTypeIdentifier("dhl");
 
 	private final Logger logger;
 
@@ -40,7 +43,7 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 				throw new NullPointerException("parameter DhlStatus is null");
 			}
 			logger.info("new status " + status);
-			notificationService.notify(userIdentifier, buildSubject(status), buildContent(status));
+			notificationService.notify(userIdentifier, TYPE, buildSubject(status), buildContent(status));
 		}
 		catch (NotificationServiceException | ValidationException e) {
 			throw new DhlStatusNotifierException(e);

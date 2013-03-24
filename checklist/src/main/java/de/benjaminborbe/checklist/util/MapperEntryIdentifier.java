@@ -1,4 +1,4 @@
-package de.benjaminborbe.checklist.dao;
+package de.benjaminborbe.checklist.util;
 
 import de.benjaminborbe.checklist.api.ChecklistEntryIdentifier;
 import de.benjaminborbe.tools.mapper.Mapper;

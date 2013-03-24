@@ -403,11 +403,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public UserIdentifier createUserIdentifier(final String username) throws AuthenticationServiceException {
-		if (username != null) {
-			return new UserIdentifier(username);
+		if (username == null || username.trim().isEmpty()) {
+			return null;
 		}
 		else {
-			return null;
+			return new UserIdentifier(username);
 		}
 	}
 

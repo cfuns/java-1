@@ -47,7 +47,11 @@ public class NotificationGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/" + NotificationGuiConstants.NAME);
+		final List<String> paths = new ArrayList<>();
+		paths.add("/" + NotificationGuiConstants.NAME + NotificationGuiConstants.URL_LIST);
+		paths.add("/" + NotificationGuiConstants.NAME + NotificationGuiConstants.URL_SEND);
+		paths.add("/" + NotificationGuiConstants.NAME + NotificationGuiConstants.URL_ADD);
+		paths.add("/" + NotificationGuiConstants.NAME + NotificationGuiConstants.URL_REMOVE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

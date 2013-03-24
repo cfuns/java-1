@@ -11,9 +11,12 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
+import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
 import de.benjaminborbe.notification.config.NotificationConfig;
 
 public class NotifcationNotifierMail implements NotifcationNotifier {
+
+	private static final NotificationMediaIdentifier TYPE = new NotificationMediaIdentifier("mail");
 
 	private final Logger logger;
 
@@ -39,11 +42,34 @@ public class NotifcationNotifierMail implements NotifcationNotifier {
 			final String from = notificationConfig.getEmailFrom();
 			final String to = user.getEmail();
 			final String contentType = "text/plain";
-			final MailDto mail = new MailDto(from, to, subject, message, contentType);
+			final MailDto mail = new MailDto(from, to, buildSubject(subject, message), buildMessage(subject, message), contentType);
 			mailService.send(mail);
 		}
 		catch (final MailServiceException | AuthenticationServiceException e) {
 			throw new NotifcationNotifierException(e);
 		}
+	}
+
+	private String buildSubject(final String subject, final String message) {
+		if (subject != null && !subject.trim().isEmpty()) {
+			return subject;
+		}
+		else {
+			return message;
+		}
+	}
+
+	private String buildMessage(final String subject, final String message) {
+		if (message != null && !message.trim().isEmpty()) {
+			return message;
+		}
+		else {
+			return subject;
+		}
+	}
+
+	@Override
+	public NotificationMediaIdentifier getNotificationMediaIdentifier() {
+		return TYPE;
 	}
 }

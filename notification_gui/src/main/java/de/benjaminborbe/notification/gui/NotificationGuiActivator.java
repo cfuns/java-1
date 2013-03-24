@@ -11,7 +11,10 @@ import com.google.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.notification.gui.guice.NotificationGuiModules;
 import de.benjaminborbe.notification.gui.service.NotificationGuiNavigationEntry;
-import de.benjaminborbe.notification.gui.servlet.NotificationGuiServlet;
+import de.benjaminborbe.notification.gui.servlet.NotificationGuiAddServlet;
+import de.benjaminborbe.notification.gui.servlet.NotificationGuiListServlet;
+import de.benjaminborbe.notification.gui.servlet.NotificationGuiRemoveServlet;
+import de.benjaminborbe.notification.gui.servlet.NotificationGuiSendServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -20,10 +23,19 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 public class NotificationGuiActivator extends HttpBundleActivator {
 
 	@Inject
+	private NotificationGuiAddServlet notificationGuiAddServlet;
+
+	@Inject
+	private NotificationGuiRemoveServlet notificationGuiRemoveServlet;
+
+	@Inject
 	private NotificationGuiNavigationEntry notificationGuiNavigationEntry;
 
 	@Inject
-	private NotificationGuiServlet notificationGuiServlet;
+	private NotificationGuiSendServlet notificationGuiSendServlet;
+
+	@Inject
+	private NotificationGuiListServlet notificationGuiListServlet;
 
 	public NotificationGuiActivator() {
 		super(NotificationGuiConstants.NAME);
@@ -37,7 +49,10 @@ public class NotificationGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(notificationGuiServlet, NotificationGuiConstants.URL_HOME));
+		result.add(new ServletInfo(notificationGuiListServlet, NotificationGuiConstants.URL_LIST));
+		result.add(new ServletInfo(notificationGuiSendServlet, NotificationGuiConstants.URL_SEND));
+		result.add(new ServletInfo(notificationGuiAddServlet, NotificationGuiConstants.URL_ADD));
+		result.add(new ServletInfo(notificationGuiRemoveServlet, NotificationGuiConstants.URL_REMOVE));
 		return result;
 	}
 

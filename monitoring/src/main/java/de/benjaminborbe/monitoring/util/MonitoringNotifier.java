@@ -25,6 +25,7 @@ import de.benjaminborbe.monitoring.tools.MonitoringNodeComparator;
 import de.benjaminborbe.monitoring.tools.MonitoringNodeTree;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
+import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -47,6 +48,8 @@ public class MonitoringNotifier {
 	private static final int FAILURE_COUNTER_LIMIT = 3;
 
 	private final AuthorizationService authorizationService;
+
+	private static final NotificationTypeIdentifier TYPE = new NotificationTypeIdentifier("monitoring");
 
 	private final class Action implements Runnable {
 
@@ -74,7 +77,7 @@ public class MonitoringNotifier {
 						final String subject = "BB - Monitoring";
 						final String message = buildContent(results);
 						try {
-							notificationService.notify(userIdentifier, subject, message);
+							notificationService.notify(userIdentifier, TYPE, subject, message);
 						}
 						catch (NotificationServiceException | ValidationException e) {
 							logger.warn("notify user failed", e);
