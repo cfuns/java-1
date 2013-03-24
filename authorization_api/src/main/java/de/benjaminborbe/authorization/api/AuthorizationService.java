@@ -37,7 +37,7 @@ public interface AuthorizationService {
 
 	void expectUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException;
 
-	Collection<UserIdentifier> getUsersWithRole(SessionIdentifier sessionIdentifier, RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
+	Collection<UserIdentifier> getUsersWithRole(RoleIdentifier roleIdentifier) throws AuthorizationServiceException;
 
 	boolean hasAdminRole(SessionIdentifier sessionIdentifier) throws AuthorizationServiceException;
 

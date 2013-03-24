@@ -10,21 +10,21 @@ import de.benjaminborbe.microblog.api.MicroblogPostListener;
 import de.benjaminborbe.microblog.config.MicroblogConfig;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationFinder;
-import de.benjaminborbe.microblog.conversation.MicroblogConversationMailer;
-import de.benjaminborbe.microblog.conversation.MicroblogConversationMailerException;
-import de.benjaminborbe.microblog.post.MicroblogPostMailer;
-import de.benjaminborbe.microblog.post.MicroblogPostMailerException;
+import de.benjaminborbe.microblog.conversation.MicroblogConversationNotifier;
+import de.benjaminborbe.microblog.conversation.MicroblogConversationNotifierException;
+import de.benjaminborbe.microblog.post.MicroblogPostNotifier;
+import de.benjaminborbe.microblog.post.MicroblogPostNotifierException;
 import de.benjaminborbe.tools.util.ParseException;
 
 public class MicroblogPostListenerMailer implements MicroblogPostListener {
 
 	private final Logger logger;
 
-	private final MicroblogPostMailer microblogPostMailer;
+	private final MicroblogPostNotifier microblogPostMailer;
 
 	private final MicroblogConversationFinder microblogConversationFinder;
 
-	private final MicroblogConversationMailer microblogConversationMailer;
+	private final MicroblogConversationNotifier microblogConversationMailer;
 
 	private final MicroblogConfig microblogConfig;
 
@@ -32,9 +32,9 @@ public class MicroblogPostListenerMailer implements MicroblogPostListener {
 	public MicroblogPostListenerMailer(
 			final Logger logger,
 			final MicroblogConfig microblogConfig,
-			final MicroblogPostMailer microblogPostMailer,
+			final MicroblogPostNotifier microblogPostMailer,
 			final MicroblogConversationFinder microblogConversationFinder,
-			final MicroblogConversationMailer microblogConversationMailer) {
+			final MicroblogConversationNotifier microblogConversationMailer) {
 		this.logger = logger;
 		this.microblogConfig = microblogConfig;
 		this.microblogPostMailer = microblogPostMailer;
@@ -58,13 +58,13 @@ public class MicroblogPostListenerMailer implements MicroblogPostListener {
 				}
 			}
 		}
-		catch (final MicroblogPostMailerException e) {
+		catch (final MicroblogPostNotifierException e) {
 			logger.trace(e.getClass().getName(), e);
 		}
 		catch (final ParseException e) {
 			logger.trace(e.getClass().getName(), e);
 		}
-		catch (final MicroblogConversationMailerException e) {
+		catch (final MicroblogConversationNotifierException e) {
 			logger.trace(e.getClass().getName(), e);
 		}
 		catch (final MicroblogConnectorException e) {

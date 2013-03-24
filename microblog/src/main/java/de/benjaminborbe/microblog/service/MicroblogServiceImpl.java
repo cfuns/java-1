@@ -20,10 +20,10 @@ import de.benjaminborbe.microblog.api.MicroblogServiceException;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.conversation.MicroblogConversationFinder;
-import de.benjaminborbe.microblog.conversation.MicroblogConversationMailer;
-import de.benjaminborbe.microblog.conversation.MicroblogConversationMailerException;
-import de.benjaminborbe.microblog.post.MicroblogPostMailer;
-import de.benjaminborbe.microblog.post.MicroblogPostMailerException;
+import de.benjaminborbe.microblog.conversation.MicroblogConversationNotifier;
+import de.benjaminborbe.microblog.conversation.MicroblogConversationNotifierException;
+import de.benjaminborbe.microblog.post.MicroblogPostNotifier;
+import de.benjaminborbe.microblog.post.MicroblogPostNotifierException;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorageException;
 import de.benjaminborbe.microblog.util.MicroblogNotification;
@@ -42,9 +42,9 @@ public class MicroblogServiceImpl implements MicroblogService {
 
 	private final MicroblogRevisionStorage microblogRevisionStorage;
 
-	private final MicroblogPostMailer microblogPostMailer;
+	private final MicroblogPostNotifier microblogPostMailer;
 
-	private final MicroblogConversationMailer microblogConversationMailer;
+	private final MicroblogConversationNotifier microblogConversationMailer;
 
 	private final MicroblogConversationFinder microblogConversationFinder;
 
@@ -69,9 +69,9 @@ public class MicroblogServiceImpl implements MicroblogService {
 			final MicroblogPostUpdater microblogPostUpdater,
 			final MicroblogPostRefresher microblogRefresher,
 			final MicroblogRevisionStorage microblogRevisionStorage,
-			final MicroblogPostMailer microblogPostMailer,
+			final MicroblogPostNotifier microblogPostMailer,
 			final MicroblogConversationFinder microblogConversationFinder,
-			final MicroblogConversationMailer microblogConversationMailer,
+			final MicroblogConversationNotifier microblogConversationMailer,
 			final MicroblogNotification microblogNotification) {
 		this.logger = logger;
 		this.durationUtil = durationUtil;
@@ -108,7 +108,7 @@ public class MicroblogServiceImpl implements MicroblogService {
 			final MicroblogPost microblogPost = microblogConnector.getPost(microblogPostIdentifier);
 			microblogPostMailer.mailPost(microblogPost);
 		}
-		catch (final MicroblogPostMailerException e) {
+		catch (final MicroblogPostNotifierException e) {
 			throw new MicroblogServiceException(e);
 		}
 		catch (final MicroblogConnectorException e) {
@@ -126,7 +126,7 @@ public class MicroblogServiceImpl implements MicroblogService {
 		try {
 			microblogConversationMailer.mailConversation(microblogConversationIdentifier);
 		}
-		catch (final MicroblogConversationMailerException e) {
+		catch (final MicroblogConversationNotifierException e) {
 			throw new MicroblogServiceException(e);
 		}
 		finally {

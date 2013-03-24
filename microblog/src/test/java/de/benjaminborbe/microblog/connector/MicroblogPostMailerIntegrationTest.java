@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.microblog.guice.MicroblogModulesMock;
-import de.benjaminborbe.microblog.post.MicroblogPostMailer;
+import de.benjaminborbe.microblog.post.MicroblogPostNotifier;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class MicroblogPostMailerIntegrationTest {
@@ -15,8 +15,8 @@ public class MicroblogPostMailerIntegrationTest {
 	@Test
 	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MicroblogModulesMock());
-		final MicroblogPostMailer a = injector.getInstance(MicroblogPostMailer.class);
-		final MicroblogPostMailer b = injector.getInstance(MicroblogPostMailer.class);
+		final MicroblogPostNotifier a = injector.getInstance(MicroblogPostNotifier.class);
+		final MicroblogPostNotifier b = injector.getInstance(MicroblogPostNotifier.class);
 		assertEquals(a, b);
 		assertEquals(a.hashCode(), b.hashCode());
 	}

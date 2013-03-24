@@ -251,7 +251,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
-	public Collection<UserIdentifier> getUsersWithRole(final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+	public Collection<UserIdentifier> getUsersWithRole(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		try {
 			final StorageIterator a = userRoleManyToManyRelation.getB(roleIdentifier);
 			final List<UserIdentifier> result = new ArrayList<UserIdentifier>();

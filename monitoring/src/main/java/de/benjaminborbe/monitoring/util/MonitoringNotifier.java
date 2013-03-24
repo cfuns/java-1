@@ -1,6 +1,7 @@
 package de.benjaminborbe.monitoring.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,9 +9,12 @@ import org.slf4j.Logger;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.mail.api.MailDto;
-import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.mail.api.MailServiceException;
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.monitoring.MonitoringConstants;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
@@ -19,12 +23,14 @@ import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
 import de.benjaminborbe.monitoring.tools.MonitoringNodeComparator;
 import de.benjaminborbe.monitoring.tools.MonitoringNodeTree;
+import de.benjaminborbe.notification.api.NotificationService;
+import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 
-public class MonitoringMailer {
+public class MonitoringNotifier {
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
 
@@ -34,18 +40,19 @@ public class MonitoringMailer {
 
 	private final MonitoringCheckRegistry monitoringCheckRegistry;
 
-	private final MailService mailService;
+	private final NotificationService notificationService;
 
 	private final MonitoringNodeBuilder monitoringNodeBuilder;
 
 	private static final int FAILURE_COUNTER_LIMIT = 3;
+
+	private final AuthorizationService authorizationService;
 
 	private final class Action implements Runnable {
 
 		@Override
 		public void run() {
 			try {
-
 				final List<MonitoringNode> nodes = new ArrayList<MonitoringNode>();
 
 				final EntityIterator<MonitoringNodeBean> i = monitoringNodeDao.getEntityIterator();
@@ -61,18 +68,22 @@ public class MonitoringMailer {
 					logger.debug("no errors found => skip mail");
 				}
 				else {
-					final MailDto mail = buildMail(results);
-					mailService.send(mail);
+					final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(MonitoringConstants.ROLE_MONITORING);
+					final Collection<UserIdentifier> userIdentifiers = authorizationService.getUsersWithRole(roleIdentifier);
+					for (final UserIdentifier userIdentifier : userIdentifiers) {
+						final String subject = "BB - Monitoring";
+						final String message = buildContent(results);
+						try {
+							notificationService.notify(userIdentifier, subject, message);
+						}
+						catch (NotificationServiceException | ValidationException e) {
+							logger.warn("notify user failed", e);
+						}
+					}
 				}
 			}
-			catch (final EntityIteratorException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final StorageException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final MailServiceException e) {
-				logger.warn(e.getClass().getName(), e);
+			catch (final EntityIteratorException | AuthorizationServiceException | StorageException e) {
+				logger.warn("notify failed", e);
 			}
 		}
 
@@ -109,16 +120,18 @@ public class MonitoringMailer {
 	}
 
 	@Inject
-	public MonitoringMailer(
+	public MonitoringNotifier(
 			final Logger logger,
+			final AuthorizationService authorizationService,
 			final MonitoringNodeBuilder monitoringNodeBuilder,
-			final MailService mailService,
+			final NotificationService notificationService,
 			final RunOnlyOnceATime runOnlyOnceATime,
 			final MonitoringNodeDao monitoringNodeDao,
 			final MonitoringCheckRegistry monitoringCheckRegistry) {
 		this.logger = logger;
+		this.authorizationService = authorizationService;
 		this.monitoringNodeBuilder = monitoringNodeBuilder;
-		this.mailService = mailService;
+		this.notificationService = notificationService;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.monitoringNodeDao = monitoringNodeDao;
 		this.monitoringCheckRegistry = monitoringCheckRegistry;
@@ -136,14 +149,7 @@ public class MonitoringMailer {
 		}
 	}
 
-	private MailDto buildMail(final List<MonitoringNode> results) {
-		final String from = "bborbe@seibert-media.net";
-		final String to = "bborbe@seibert-media.net";
-		final String subject = "BB - Monitoring";
-		return new MailDto(from, to, subject, buildMailContent(results), "text/plain");
-	}
-
-	private String buildMailContent(final List<MonitoringNode> results) {
+	private String buildContent(final List<MonitoringNode> results) {
 		final StringBuffer content = new StringBuffer();
 		content.append("Checks failed: " + results.size());
 		content.append("\n");

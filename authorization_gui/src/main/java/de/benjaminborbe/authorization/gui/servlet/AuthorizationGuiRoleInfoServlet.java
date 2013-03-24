@@ -12,9 +12,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
@@ -50,8 +48,6 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
-	private final AuthenticationService authenticationService;
-
 	private final AuthorizationGuiLinkFactory authorizationGuiLinkFactory;
 
 	@Inject
@@ -72,7 +68,6 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authorizationSerivce = authorizationSerivce;
-		this.authenticationService = authenticationService;
 		this.authorizationGuiLinkFactory = authorizationGuiLinkFactory;
 	}
 
@@ -89,14 +84,13 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 			final RoleIdentifier roleIdentifier = authorizationSerivce.createRoleIdentifier(request.getParameter(AuthorizationGuiConstants.PARAMETER_ROLE_ID));
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle() + " " + roleIdentifier));
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 			// users
 			{
 				widgets.add(new H2Widget("Users:"));
 				final UlWidget ul = new UlWidget();
 
-				for (final UserIdentifier userIdentifier : authorizationSerivce.getUsersWithRole(sessionIdentifier, roleIdentifier)) {
+				for (final UserIdentifier userIdentifier : authorizationSerivce.getUsersWithRole(roleIdentifier)) {
 					final ListWidget row = new ListWidget();
 					row.add(authorizationGuiLinkFactory.userInfo(request, userIdentifier));
 					row.add(" ");
@@ -126,11 +120,6 @@ public class AuthorizationGuiRoleInfoServlet extends WebsiteHtmlServlet {
 			links.add(authorizationGuiLinkFactory.roleAddPermission(request, roleIdentifier));
 			widgets.add(links);
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			return exceptionWidget;
 		}
 		catch (final AuthorizationServiceException e) {
 			logger.debug(e.getClass().getName(), e);

@@ -107,7 +107,7 @@ public class NotificationGuiServlet extends WebsiteHtmlServlet {
 
 			final FormWidget form = new FormWidget();
 			form.addFormInputWidget(new FormInputTextWidget(NotificationGuiConstants.PARAMETER_USERNAME).addLabel("Username:").addPlaceholder("name..."));
-			form.addFormInputWidget(new FormInputTextareaWidget(NotificationGuiConstants.PARAMETER_SUBJECT).addLabel("Subject:"));
+			form.addFormInputWidget(new FormInputTextWidget(NotificationGuiConstants.PARAMETER_SUBJECT).addLabel("Subject:"));
 			form.addFormInputWidget(new FormInputTextareaWidget(NotificationGuiConstants.PARAMETER_MESSAGE).addLabel("Message:"));
 			form.addFormInputWidget(new FormInputSubmitWidget("send"));
 			widgets.add(form);

@@ -6,4 +6,6 @@ public interface MonitoringConstants {
 
 	String CONFIG_AUTH_TOKEN = "MonitoringAuthToken";
 
+	String ROLE_MONITORING = "Monitoring";
+
 }

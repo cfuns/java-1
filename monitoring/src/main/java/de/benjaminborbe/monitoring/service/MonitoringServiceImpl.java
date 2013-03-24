@@ -31,7 +31,7 @@ import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBeanMapper;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
 import de.benjaminborbe.monitoring.util.MonitoringChecker;
-import de.benjaminborbe.monitoring.util.MonitoringMailer;
+import de.benjaminborbe.monitoring.util.MonitoringNotifier;
 import de.benjaminborbe.monitoring.util.MonitoringNodeBuilder;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -60,7 +60,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	private final MonitoringCheckRegistry monitoringCheckRegistry;
 
-	private final MonitoringMailer monitoringMailer;
+	private final MonitoringNotifier monitoringMailer;
 
 	private final MonitoringChecker monitoringChecker;
 
@@ -78,7 +78,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			final AuthorizationService authorizationService,
 			final DurationUtil durationUtil,
 			final MonitoringNodeDao monitoringNodeDao,
-			final MonitoringMailer monitoringMailer,
+			final MonitoringNotifier monitoringMailer,
 			final MonitoringChecker monitoringChecker,
 			final MonitoringConfig monitoringConfig) {
 		this.logger = logger;

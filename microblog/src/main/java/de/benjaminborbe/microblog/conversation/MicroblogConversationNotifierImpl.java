@@ -17,7 +17,7 @@ import de.benjaminborbe.microblog.post.MicroblogPostResult;
 import de.benjaminborbe.tools.util.StringUtil;
 
 @Singleton
-public class MicroblogConversationMailerImpl implements MicroblogConversationMailer {
+public class MicroblogConversationNotifierImpl implements MicroblogConversationNotifier {
 
 	private static final int SUBJECT_MAX_LENGTH = 80;
 
@@ -30,7 +30,7 @@ public class MicroblogConversationMailerImpl implements MicroblogConversationMai
 	private final StringUtil stringUtil;
 
 	@Inject
-	public MicroblogConversationMailerImpl(final Logger logger, final MicroblogConnector microblogConnector, final MailService mailService, final StringUtil stringUtil) {
+	public MicroblogConversationNotifierImpl(final Logger logger, final MicroblogConnector microblogConnector, final MailService mailService, final StringUtil stringUtil) {
 		this.logger = logger;
 		this.microblogConnector = microblogConnector;
 		this.mailService = mailService;
@@ -38,7 +38,7 @@ public class MicroblogConversationMailerImpl implements MicroblogConversationMai
 	}
 
 	@Override
-	public void mailConversation(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConversationMailerException {
+	public void mailConversation(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConversationNotifierException {
 		logger.trace("mailConversation with rev " + microblogConversationIdentifier);
 		try {
 			final MailDto mail = buildMail(microblogConversationIdentifier);
@@ -46,11 +46,11 @@ public class MicroblogConversationMailerImpl implements MicroblogConversationMai
 		}
 		catch (final MicroblogConnectorException e) {
 			logger.error("MicroblogConnectorException", e);
-			throw new MicroblogConversationMailerException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConversationNotifierException(e.getClass().getSimpleName(), e);
 		}
 		catch (final MailServiceException e) {
 			logger.error("MailSendException", e);
-			throw new MicroblogConversationMailerException(e.getClass().getSimpleName(), e);
+			throw new MicroblogConversationNotifierException(e.getClass().getSimpleName(), e);
 		}
 	}
 

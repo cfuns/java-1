@@ -14,8 +14,8 @@ public class MicroblogConversationMailerIntegrationTest {
 	@Test
 	public void testSingleton() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new MicroblogModulesMock());
-		final MicroblogConversationMailer a = injector.getInstance(MicroblogConversationMailer.class);
-		final MicroblogConversationMailer b = injector.getInstance(MicroblogConversationMailer.class);
+		final MicroblogConversationNotifier a = injector.getInstance(MicroblogConversationNotifier.class);
+		final MicroblogConversationNotifier b = injector.getInstance(MicroblogConversationNotifier.class);
 		assertEquals(a, b);
 		assertEquals(a.hashCode(), b.hashCode());
 	}

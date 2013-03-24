@@ -13,7 +13,7 @@ import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.tools.util.StringUtil;
 
 @Singleton
-public class MicroblogPostMailerImpl implements MicroblogPostMailer {
+public class MicroblogPostNotifierImpl implements MicroblogPostNotifier {
 
 	private static final int SUBJECT_MAX_LENGTH = 80;
 
@@ -24,14 +24,14 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 	private final StringUtil stringUtil;
 
 	@Inject
-	public MicroblogPostMailerImpl(final Logger logger, final MailService mailService, final StringUtil stringUtil) {
+	public MicroblogPostNotifierImpl(final Logger logger, final MailService mailService, final StringUtil stringUtil) {
 		this.logger = logger;
 		this.mailService = mailService;
 		this.stringUtil = stringUtil;
 	}
 
 	@Override
-	public void mailPost(final MicroblogPost rev) throws MicroblogPostMailerException {
+	public void mailPost(final MicroblogPost rev) throws MicroblogPostNotifierException {
 		logger.trace("send rev = " + rev);
 		try {
 			final MailDto mail = buildMail(rev);
@@ -39,11 +39,11 @@ public class MicroblogPostMailerImpl implements MicroblogPostMailer {
 		}
 		catch (final MicroblogConnectorException e) {
 			logger.error("MicroblogConnectorException", e);
-			throw new MicroblogPostMailerException("MicroblogConnectorException", e);
+			throw new MicroblogPostNotifierException("MicroblogConnectorException", e);
 		}
 		catch (final MailServiceException e) {
 			logger.error("MailSendException", e);
-			throw new MicroblogPostMailerException("MailSendException", e);
+			throw new MicroblogPostNotifierException("MailSendException", e);
 		}
 	}
 
