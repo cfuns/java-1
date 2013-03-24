@@ -1,8 +1,8 @@
 package de.benjaminborbe.dhl.util;
 
-import de.benjaminborbe.mail.api.MailServiceException;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 
 public interface DhlStatusNotifier {
 
-	void mailUpdate(DhlStatus status) throws MailServiceException;
+	void notify(UserIdentifier userIdentifier, DhlStatus status) throws DhlStatusNotifierException;
 }

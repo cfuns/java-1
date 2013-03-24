@@ -22,7 +22,7 @@ public class LunchUserNotifierMail implements LunchUserNotifier {
 	}
 
 	@Override
-	public void notify(final UserIdentifier userIdentifier, final String message) {
+	public void notify(final UserIdentifier userIdentifier, final String message) throws LunchUserNotifierException {
 		try {
 			logger.debug("notify user: " + userIdentifier);
 			final String from = "noreply@seibert-media.net";
@@ -36,7 +36,7 @@ public class LunchUserNotifierMail implements LunchUserNotifier {
 			mailService.send(mail);
 		}
 		catch (final MailServiceException e) {
-			logger.warn(e.getClass().getName(), e);
+			throw new LunchUserNotifierException(e);
 		}
 	}
 }

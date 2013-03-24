@@ -1,9 +1,6 @@
 package de.benjaminborbe.microblog.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -29,6 +26,7 @@ import de.benjaminborbe.microblog.post.MicroblogPostMailer;
 import de.benjaminborbe.microblog.post.MicroblogPostMailerException;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorageException;
+import de.benjaminborbe.microblog.util.MicroblogNotification;
 import de.benjaminborbe.microblog.util.MicroblogPostRefresher;
 import de.benjaminborbe.microblog.util.MicroblogPostUpdater;
 import de.benjaminborbe.tools.util.Duration;
@@ -60,6 +58,8 @@ public class MicroblogServiceImpl implements MicroblogService {
 
 	private final DurationUtil durationUtil;
 
+	private final MicroblogNotification microblogNotification;
+
 	@Inject
 	public MicroblogServiceImpl(
 			final Logger logger,
@@ -71,7 +71,8 @@ public class MicroblogServiceImpl implements MicroblogService {
 			final MicroblogRevisionStorage microblogRevisionStorage,
 			final MicroblogPostMailer microblogPostMailer,
 			final MicroblogConversationFinder microblogConversationFinder,
-			final MicroblogConversationMailer microblogConversationMailer) {
+			final MicroblogConversationMailer microblogConversationMailer,
+			final MicroblogNotification microblogNotification) {
 		this.logger = logger;
 		this.durationUtil = durationUtil;
 		this.microblogConnector = microblogConnector;
@@ -82,6 +83,7 @@ public class MicroblogServiceImpl implements MicroblogService {
 		this.microblogPostMailer = microblogPostMailer;
 		this.microblogConversationFinder = microblogConversationFinder;
 		this.microblogConversationMailer = microblogConversationMailer;
+		this.microblogNotification = microblogNotification;
 	}
 
 	@Override
@@ -211,21 +213,19 @@ public class MicroblogServiceImpl implements MicroblogService {
 		}
 	}
 
-	private final List<String> keywords = new ArrayList<String>();
-
 	@Override
 	public Collection<String> listNotifications(final UserIdentifier userIdentifier) throws MicroblogServiceException {
-		return keywords;
+		return microblogNotification.listNotifications(userIdentifier);
 	}
 
 	@Override
 	public void activateNotification(final UserIdentifier userIdentifier, final String keyword) throws MicroblogServiceException {
-		keywords.add(keyword);
+		microblogNotification.activateNotification(userIdentifier, keyword);
 	}
 
 	@Override
 	public void deactivateNotification(final UserIdentifier userIdentifier, final String keyword) throws MicroblogServiceException {
-		keywords.remove(keyword);
+		microblogNotification.deactivateNotification(userIdentifier, keyword);
 	}
 
 }

@@ -8,9 +8,10 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.mail.api.MailDto;
-import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.mail.api.MailServiceException;
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.notification.api.NotificationService;
+import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 
 @Singleton
@@ -18,62 +19,67 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 
 	private final Logger logger;
 
-	private final MailService mailService;
-
 	private final CalendarUtil calendarUtil;
 
 	private final DhlUrlBuilder dhlUrlBuilder;
 
+	private final NotificationService notificationService;
+
 	@Inject
-	public DhlStatusNotifierImpl(final Logger logger, final MailService mailService, final CalendarUtil calendarUtil, final DhlUrlBuilder dhlUrlBuilder) {
+	public DhlStatusNotifierImpl(final Logger logger, final CalendarUtil calendarUtil, final DhlUrlBuilder dhlUrlBuilder, final NotificationService notificationService) {
 		this.logger = logger;
-		this.mailService = mailService;
 		this.calendarUtil = calendarUtil;
 		this.dhlUrlBuilder = dhlUrlBuilder;
+		this.notificationService = notificationService;
 	}
 
 	@Override
-	public void mailUpdate(final DhlStatus status) throws MailServiceException {
-		if (status == null) {
-			throw new NullPointerException("parameter DhlStatus is null");
+	public void notify(final UserIdentifier userIdentifier, final DhlStatus status) throws DhlStatusNotifierException {
+		try {
+			if (status == null) {
+				throw new NullPointerException("parameter DhlStatus is null");
+			}
+			logger.info("new status " + status);
+			notificationService.notify(userIdentifier, buildSubject(status), buildContent(status));
 		}
-		logger.info("new status " + status);
-
-		final MailDto mail = buildMail(status);
-		mailService.send(mail);
+		catch (NotificationServiceException | ValidationException e) {
+			throw new DhlStatusNotifierException(e);
+		}
 	}
 
-	protected MailDto buildMail(final DhlStatus status) {
-		final StringBuffer mailContent = new StringBuffer();
+	protected String buildSubject(final DhlStatus status) {
+		final String subject = "DHL-Status: " + status.getDhl().getTrackingNumber();
+		return subject;
+	}
+
+	protected String buildContent(final DhlStatus status) {
+		final StringBuffer content = new StringBuffer();
 		{
-			mailContent.append("Date: ");
-			mailContent.append(calendarUtil.toDateTimeString(status.getCalendar()));
-			mailContent.append("\n");
+			content.append("Date: ");
+			content.append(calendarUtil.toDateTimeString(status.getCalendar()));
+			content.append("\n");
 		}
 		{
-			mailContent.append("Place: ");
-			mailContent.append(status.getPlace());
-			mailContent.append("\n");
+			content.append("Place: ");
+			content.append(status.getPlace());
+			content.append("\n");
 		}
 		{
-			mailContent.append("Message: ");
-			mailContent.append(status.getMessage());
-			mailContent.append("\n");
+			content.append("Message: ");
+			content.append(status.getMessage());
+			content.append("\n");
 		}
 		{
 			try {
 				final URL url = dhlUrlBuilder.buildUrl(status.getDhl());
-				mailContent.append("Link: ");
-				mailContent.append(url);
-				mailContent.append("\n");
+				content.append("Link: ");
+				content.append(url);
+				content.append("\n");
 			}
 			catch (final MalformedURLException e) {
 				logger.debug("build dhl-link failed!", e);
 			}
 		}
-		final String from = "bborbe@seibert-media.net";
-		final String to = "bborbe@seibert-media.net";
-		final String subject = "DHL-Status: " + status.getDhl().getTrackingNumber();
-		return new MailDto(from, to, subject, mailContent.toString(), "text/plain");
+		return content.toString();
 	}
 }

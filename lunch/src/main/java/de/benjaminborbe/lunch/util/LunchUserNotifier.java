@@ -4,5 +4,5 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 
 public interface LunchUserNotifier {
 
-	void notify(UserIdentifier userIdentifier, String content);
+	void notify(UserIdentifier userIdentifier, String content) throws LunchUserNotifierException;
 }

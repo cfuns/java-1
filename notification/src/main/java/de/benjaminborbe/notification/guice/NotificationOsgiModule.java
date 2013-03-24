@@ -7,10 +7,21 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.xmpp.api.XmppService;
+
 public class NotificationOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
+		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());
+		bind(MailService.class).toProvider(service(MailService.class).single());
+		bind(XmppService.class).toProvider(service(XmppService.class).single());
+		bind(ConfigurationService.class).toProvider(service(ConfigurationService.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());
 		bind(ExtHttpService.class).toProvider(service(ExtHttpService.class).single());
 	}

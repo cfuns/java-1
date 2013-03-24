@@ -87,7 +87,7 @@ public class AuthenticationGuiUserListServlet extends WebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			for (final UserIdentifier userIdentifier : userList) {
 				final ListWidget row = new ListWidget();
-				final User user = authenticationService.getUser(sessionIdentifier, userIdentifier);
+				final User user = authenticationService.getUser(userIdentifier);
 				row.add(authenticationGuiLinkFactory.userView(request, user.getId()));
 				row.add(" ");
 				row.add(authenticationGuiLinkFactory.userSwitch(request, userIdentifier));

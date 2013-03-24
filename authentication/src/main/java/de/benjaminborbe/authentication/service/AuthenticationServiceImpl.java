@@ -494,10 +494,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public User getUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException {
+	public User getUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectLoggedIn(sessionIdentifier);
 			return userDao.load(userIdentifier);
 		}
 		catch (final StorageException e) {

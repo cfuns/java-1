@@ -7,8 +7,11 @@ import de.benjaminborbe.tools.registry.RegistryBase;
 public class LunchUserNotifierRegistry extends RegistryBase<LunchUserNotifier> {
 
 	@Inject
-	public LunchUserNotifierRegistry(final LunchUserNotifierMail lunchUserNotifierMail, final LunchUserNotifierXmpp lunchUserNotifierXmpp) {
-		super(lunchUserNotifierMail, lunchUserNotifierXmpp);
+	public LunchUserNotifierRegistry(
+			final LunchUserNotifierMail lunchUserNotifierMail,
+			final LunchUserNotifierXmpp lunchUserNotifierXmpp,
+			final LunchUserNotifierNotification lunchUserNotifierNotification) {
+		super(lunchUserNotifierNotification);
 	}
 
 }

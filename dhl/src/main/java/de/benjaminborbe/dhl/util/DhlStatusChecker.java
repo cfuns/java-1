@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 
 import de.benjaminborbe.dhl.dao.DhlBean;
 import de.benjaminborbe.dhl.dao.DhlDao;
-import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -53,7 +52,7 @@ public class DhlStatusChecker {
 								dhlDao.save(dhl, new StorageValueList(dhlDao.getEncoding()).add("status"));
 
 								logger.debug("status changed from: " + oldStatusMessage + " to: " + newStatus.getMessage() + " send email");
-								dhlStatusNotifier.mailUpdate(newStatus);
+								dhlStatusNotifier.notify(dhl.getOwner(), newStatus);
 							}
 							else {
 								logger.debug("status not change, skip mail");
@@ -64,10 +63,7 @@ public class DhlStatusChecker {
 						}
 					}
 				}
-				catch (final DhlStatusFetcherException e) {
-					logger.error(e.getClass().getSimpleName(), e);
-				}
-				catch (final MailServiceException e) {
+				catch (final DhlStatusFetcherException | DhlStatusNotifierException e) {
 					logger.error(e.getClass().getSimpleName(), e);
 				}
 			}

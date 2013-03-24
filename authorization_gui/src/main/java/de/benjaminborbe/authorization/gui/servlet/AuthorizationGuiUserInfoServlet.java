@@ -98,7 +98,7 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
 
-			final User user = authenticationService.getUser(sessionIdentifier, userIdentifier);
+			final User user = authenticationService.getUser(userIdentifier);
 			if (user != null) {
 				widgets.add("email: " + user.getEmail());
 				widgets.add(new BrWidget());

@@ -8,13 +8,19 @@ import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
 
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.notification.gui.guice.NotificationGuiModules;
+import de.benjaminborbe.notification.gui.service.NotificationGuiNavigationEntry;
 import de.benjaminborbe.notification.gui.servlet.NotificationGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
 public class NotificationGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private NotificationGuiNavigationEntry notificationGuiNavigationEntry;
 
 	@Inject
 	private NotificationGuiServlet notificationGuiServlet;
@@ -32,6 +38,13 @@ public class NotificationGuiActivator extends HttpBundleActivator {
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(notificationGuiServlet, NotificationGuiConstants.URL_HOME));
+		return result;
+	}
+
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		result.add(new ServiceInfo(NavigationEntry.class, notificationGuiNavigationEntry));
 		return result;
 	}
 

@@ -38,12 +38,12 @@ public class XmppServiceImpl implements XmppService {
 	}
 
 	@Override
-	public void send(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifer, final String message) throws XmppServiceException, LoginRequiredException,
+	public void send(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String message) throws XmppServiceException, LoginRequiredException,
 			PermissionDeniedException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.trace("send " + message);
-			send(userIdentifer, message);
+			send(userIdentifier, message);
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new XmppServiceException(e);
@@ -51,13 +51,12 @@ public class XmppServiceImpl implements XmppService {
 	}
 
 	@Override
-	public void send(final UserIdentifier userIdentifer, final String message) throws XmppServiceException {
-		final XmppUser user = new XmppUser(userIdentifer.getId() + "@" + xmppConfig.getServerHost());
+	public void send(final UserIdentifier userIdentifier, final String message) throws XmppServiceException {
+		final XmppUser user = new XmppUser(userIdentifier.getId() + "@" + xmppConfig.getServerHost());
 		try {
 			if (!xmppConnector.isConnected()) {
 				xmppConnector.connect();
 			}
-
 			xmppConnector.sendMessage(user, message);
 		}
 		catch (final XmppConnectorException e) {

@@ -34,4 +34,8 @@ public class MapList<K, V> {
 	public Collection<List<V>> values() {
 		return data.values();
 	}
+
+	public void remove(final K key, final V value) {
+		get(key).remove(value);
+	}
 }

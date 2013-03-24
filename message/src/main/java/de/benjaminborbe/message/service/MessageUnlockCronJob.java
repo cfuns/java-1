@@ -35,7 +35,7 @@ public class MessageUnlockCronJob implements CronJob {
 
 	@Override
 	public boolean disallowConcurrentExecution() {
-		return true;
+		return false;
 	}
 
 }

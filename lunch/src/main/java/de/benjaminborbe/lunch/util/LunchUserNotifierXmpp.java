@@ -21,13 +21,13 @@ public class LunchUserNotifierXmpp implements LunchUserNotifier {
 	}
 
 	@Override
-	public void notify(final UserIdentifier userIdentifier, final String message) {
+	public void notify(final UserIdentifier userIdentifier, final String message) throws LunchUserNotifierException {
 		try {
 			logger.debug("notify user: " + userIdentifier);
 			xmppService.send(userIdentifier, message);
 		}
 		catch (final XmppServiceException e) {
-			logger.warn(e.getClass().getName(), e);
+			throw new LunchUserNotifierException(e);
 		}
 	}
 }

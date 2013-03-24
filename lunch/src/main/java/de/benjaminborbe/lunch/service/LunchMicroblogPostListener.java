@@ -10,6 +10,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.dao.LunchUserSettingsDao;
 import de.benjaminborbe.lunch.util.LunchUserNotifier;
+import de.benjaminborbe.lunch.util.LunchUserNotifierException;
 import de.benjaminborbe.lunch.util.LunchUserNotifierRegistry;
 import de.benjaminborbe.microblog.api.MicroblogPost;
 import de.benjaminborbe.microblog.api.MicroblogPostListener;
@@ -54,7 +55,12 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 						logger.debug("notify user " + userIdentifer);
 						for (final LunchUserNotifier lunchUserNotifier : lunchUserNotifierRegistry.getAll()) {
 							logger.debug("notify user " + userIdentifer + " via " + lunchUserNotifier.getClass().getSimpleName());
-							lunchUserNotifier.notify(userIdentifer, content);
+							try {
+								lunchUserNotifier.notify(userIdentifer, content);
+							}
+							catch (final LunchUserNotifierException e) {
+								logger.warn("notify failed", e);
+							}
 						}
 					}
 				}

@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.notification.gui.NotificationGuiActivator;
 import de.benjaminborbe.notification.gui.NotificationGuiConstants;
 import de.benjaminborbe.notification.gui.guice.NotificationGuiModulesMock;
@@ -111,6 +112,7 @@ public class NotificationGuiActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
+		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

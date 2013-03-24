@@ -92,7 +92,7 @@ public class AuthenticationGuiUserProfileServlet extends WebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final User user = authenticationService.getUser(sessionIdentifier, userIdentifier);
+			final User user = authenticationService.getUser(userIdentifier);
 
 			if (email != null && fullname != null && timezone != null) {
 				try {

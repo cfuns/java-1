@@ -7,7 +7,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface XmppService {
 
-	void send(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifer, String message) throws XmppServiceException, LoginRequiredException, PermissionDeniedException;
+	void send(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String message) throws XmppServiceException, LoginRequiredException, PermissionDeniedException;
 
-	void send(UserIdentifier userIdentifer, String message) throws XmppServiceException;
+	void send(UserIdentifier userIdentifier, String message) throws XmppServiceException;
 }

@@ -43,8 +43,6 @@ public interface AuthenticationService {
 
 	boolean existsSession(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
-	User getUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException;
-
 	void switchUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
 
 	boolean isSuperAdmin(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
@@ -70,5 +68,7 @@ public interface AuthenticationService {
 
 	void setNewPassword(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String token, String newPassword, String newPasswordRepeat)
 			throws AuthenticationServiceException, ValidationException;
+
+	User getUser(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
 }

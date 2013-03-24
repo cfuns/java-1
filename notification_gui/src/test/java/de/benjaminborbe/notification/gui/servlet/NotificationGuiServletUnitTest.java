@@ -27,6 +27,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.notification.api.NotificationService;
+import de.benjaminborbe.notification.gui.NotificationGuiConstants;
 import de.benjaminborbe.notification.gui.servlet.NotificationGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -65,6 +67,9 @@ public class NotificationGuiServletUnitTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
+		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_MESSAGE)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_SUBJECT)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_USERNAME)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -129,8 +134,11 @@ public class NotificationGuiServletUnitTest {
 		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
 		EasyMock.replay(cacheService);
 
-		final NotificationGuiServlet notificationServlet = new NotificationGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService, cacheService);
+		final NotificationService notificationService = EasyMock.createMock(NotificationService.class);
+		EasyMock.replay(notificationService);
+
+		final NotificationGuiServlet notificationServlet = new NotificationGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
+				httpContextProvider, redirectUtil, urlUtil, authorizationService, cacheService, notificationService);
 
 		notificationServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

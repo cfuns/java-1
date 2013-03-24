@@ -112,11 +112,6 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public User getUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
-		return null;
-	}
-
-	@Override
 	public void switchUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException {
 	}
 
@@ -178,6 +173,11 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	@Override
 	public void setNewPassword(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String token, final String newPassword,
 			final String newPasswordRepeat) throws AuthenticationServiceException, ValidationException {
+	}
+
+	@Override
+	public User getUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		return null;
 	}
 
 }

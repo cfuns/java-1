@@ -11,12 +11,14 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.mail.api.MailService;
+import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.storage.api.StorageService;
 
 public class MicroblogOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(NotificationService.class).toProvider(service(NotificationService.class).single());
 		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
 		bind(ConfigurationService.class).toProvider(service(ConfigurationService.class).single());
 		bind(IndexService.class).toProvider(service(IndexService.class).single());

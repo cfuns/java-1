@@ -6,4 +6,10 @@ public interface NotificationGuiConstants {
 
 	String NAME = "notification";
 
+	String PARAMETER_USERNAME = "username";
+
+	String PARAMETER_MESSAGE = "message";
+
+	String PARAMETER_SUBJECT = "subject";
+
 }

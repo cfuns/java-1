@@ -32,8 +32,8 @@ import de.benjaminborbe.dhl.util.DhlStatusChecker;
 import de.benjaminborbe.dhl.util.DhlStatusFetcher;
 import de.benjaminborbe.dhl.util.DhlStatusFetcherException;
 import de.benjaminborbe.dhl.util.DhlStatusNotifier;
+import de.benjaminborbe.dhl.util.DhlStatusNotifierException;
 import de.benjaminborbe.dhl.util.DhlUrlBuilder;
-import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -99,11 +99,11 @@ public class DhlServiceImpl implements DhlService {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
 			logger.trace("mailStatus - dhlIdentifier: " + dhlIdentifier);
-			final Dhl dhl = dhlDao.load(dhlIdentifier);
+			final DhlBean dhl = dhlDao.load(dhlIdentifier);
 			final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhl);
-			dhlStatusNotifier.mailUpdate(newStatus);
+			dhlStatusNotifier.notify(dhl.getOwner(), newStatus);
 		}
-		catch (final DhlStatusFetcherException | MailServiceException | StorageException | AuthorizationServiceException e) {
+		catch (final DhlStatusFetcherException | StorageException | AuthorizationServiceException | DhlStatusNotifierException e) {
 			throw new DhlServiceException(e);
 		}
 	}
