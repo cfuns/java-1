@@ -31,7 +31,7 @@
 		<slf4j.version>1.5.6</slf4j.version>
 		<log4j.version>1.2.14</log4j.version>
 		<slf4j.impl>slf4j-log4j12</slf4j.impl>
-		<gwt.version>2.5.1</gwt.version>
+		<gwt.version>2.5.0</gwt.version>
 		<gwt-log.version>3.1.6</gwt-log.version>
 		<easymock.version>3.1</easymock.version>
 		<commons-logging.version>1.1.1</commons-logging.version>
