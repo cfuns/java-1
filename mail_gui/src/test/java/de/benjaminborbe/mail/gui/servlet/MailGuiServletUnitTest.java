@@ -68,7 +68,7 @@ public class MailGuiServletUnitTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
-		EasyMock.expect(request.getParameter(MailGuiConstants.PARAMETER_SEND_TESTMAIL)).andReturn(null);
+		EasyMock.expect(request.getParameter(MailGuiConstants.PARAMETER_TESTMAIL)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -143,7 +143,7 @@ public class MailGuiServletUnitTest {
 		EasyMock.replay(cacheService);
 
 		final MailGuiServlet mailServlet = new MailGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, mailService, authorizationService, mailLinkFactory, netUtil, cacheService);
+				redirectUtil, urlUtil, mailService, authorizationService, netUtil, cacheService);
 
 		mailServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

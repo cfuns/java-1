@@ -24,13 +24,15 @@ import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.mail.gui.MailGuiConstants;
-import de.benjaminborbe.mail.gui.util.MailLinkFactory;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.NetUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -50,8 +52,6 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
-	private final MailLinkFactory mailLinkFactory;
-
 	private final NetUtil netUtil;
 
 	private final CalendarUtil calendarUtil;
@@ -69,14 +69,12 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 			final UrlUtil urlUtil,
 			final MailService mailService,
 			final AuthorizationService authorizationService,
-			final MailLinkFactory mailLinkFactory,
 			final NetUtil netUtil,
 			final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.calendarUtil = calendarUtil;
 		this.mailService = mailService;
 		this.logger = logger;
-		this.mailLinkFactory = mailLinkFactory;
 		this.netUtil = netUtil;
 	}
 
@@ -93,16 +91,18 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String sendTestMail = request.getParameter(MailGuiConstants.PARAMETER_SEND_TESTMAIL);
+			final String email = request.getParameter(MailGuiConstants.PARAMETER_TESTMAIL);
 
-			if (sendTestMail != null) {
-				final MailDto mail = buildMail();
+			if (email != null && !email.trim().isEmpty()) {
+				final MailDto mail = buildMail(email);
 				mailService.send(mail);
 				widgets.add("testmail sent");
 				widgets.add(new BrWidget());
 			}
-			widgets.add(mailLinkFactory.sendTestMail(request));
-
+			final FormWidget form = new FormWidget();
+			form.addFormInputWidget(new FormInputTextWidget(MailGuiConstants.PARAMETER_TESTMAIL).addLabel("Email:"));
+			form.addFormInputWidget(new FormInputSubmitWidget("send testmail"));
+			widgets.add(form);
 			return widgets;
 		}
 		catch (final MailServiceException e) {
@@ -110,9 +110,9 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	protected MailDto buildMail() {
-		final String from = "bborbe@seibert-media.net";
-		final String to = "bborbe@seibert-media.net";
+	protected MailDto buildMail(final String email) {
+		final String from = email;
+		final String to = email;
 		final String subject = "TestMail";
 		final StringBuilder sb = new StringBuilder();
 		sb.append("TestMailContent\n");

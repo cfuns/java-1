@@ -4,7 +4,7 @@ public interface MailGuiConstants {
 
 	String NAME = "mail";
 
-	String PARAMETER_SEND_TESTMAIL = "send_testmail";
+	String PARAMETER_TESTMAIL = "send_testmail";
 
 	String URL_HOME = "/";
 }

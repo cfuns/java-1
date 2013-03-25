@@ -24,6 +24,6 @@ public class MailLinkFactory {
 
 	public Widget sendTestMail(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + MailGuiConstants.NAME + MailGuiConstants.URL_HOME,
-				new MapParameter().add(MailGuiConstants.PARAMETER_SEND_TESTMAIL, "true"), "send testmail");
+				new MapParameter().add(MailGuiConstants.PARAMETER_TESTMAIL, "true"), "send testmail");
 	}
 }
