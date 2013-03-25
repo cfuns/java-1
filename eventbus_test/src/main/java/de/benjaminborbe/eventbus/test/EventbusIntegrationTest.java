@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.felix.http.api.ExtHttpService;
-import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.eventbus.api.EventbusInitializedEvent;
 import de.benjaminborbe.eventbus.api.EventbusInitializedEventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 

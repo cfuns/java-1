@@ -88,7 +88,7 @@ public class PokerGuiActionCallJsonServlet extends PokerGuiPlayerJsonServlet {
 	}
 
 	@Override
-	protected void doAction(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PokerServiceException, ValidationException, ServletException,
-			IOException, PermissionDeniedException, LoginRequiredException {
+	protected void doAction(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PokerServiceException, ValidationException,
+			ServletException, IOException, PermissionDeniedException, LoginRequiredException {
 	}
 }

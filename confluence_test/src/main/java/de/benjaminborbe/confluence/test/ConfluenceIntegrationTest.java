@@ -3,11 +3,6 @@ package de.benjaminborbe.confluence.test;
 import java.util.Collection;
 
 import org.apache.felix.http.api.ExtHttpService;
-
-import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import de.benjaminborbe.test.osgi.TestUtil;
-
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
@@ -17,6 +12,9 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceInstance;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceService;
+import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
+import de.benjaminborbe.test.osgi.TestUtil;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 

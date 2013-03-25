@@ -3,11 +3,11 @@ package de.benjaminborbe.distributed.search.test;
 import java.net.URL;
 
 import org.apache.felix.http.api.ExtHttpService;
-import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.distributed.search.api.DistributedSearchService;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 

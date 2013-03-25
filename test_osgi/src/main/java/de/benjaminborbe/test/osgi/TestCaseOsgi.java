@@ -2,8 +2,6 @@ package de.benjaminborbe.test.osgi;
 
 import org.apache.felix.ipojo.junit4osgi.OSGiTestCase;
 
-import de.benjaminborbe.test.osgi.TestCaseOsgi;
-
 public class TestCaseOsgi extends OSGiTestCase {
 
 	@SuppressWarnings("unchecked")

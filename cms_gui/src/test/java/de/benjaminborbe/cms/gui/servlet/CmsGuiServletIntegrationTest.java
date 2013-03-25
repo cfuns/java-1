@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.cms.gui.guice.CmsGuiModulesMock;
-import de.benjaminborbe.cms.gui.servlet.CmsGuiServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class CmsGuiServletIntegrationTest {

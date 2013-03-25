@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import com.google.inject.Module;
 
-import de.benjaminborbe.poker.table.server.guice.PokerTableServerModule;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModuleMock;
 import de.benjaminborbe.tools.osgi.mock.PeaberryModuleMock;

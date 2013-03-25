@@ -11,7 +11,6 @@ import com.google.inject.Inject;
 import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
 import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModules;
 import de.benjaminborbe.authentication.gui.service.AuthenticationGuiNavigationEntry;
-import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserPasswordChangeServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLogoutServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiRegisterServlet;
@@ -22,6 +21,7 @@ import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUnregisterSe
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserCreateServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserDeleteServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserListServlet;
+import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserPasswordChangeServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserPasswordLostEmailServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserPasswordLostResetServlet;
 import de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiUserProfileServlet;

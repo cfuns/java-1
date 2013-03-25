@@ -16,9 +16,9 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.search.guice.SearchModulesMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
 public class SearchActivatorIntegrationTest {
 

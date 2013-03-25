@@ -1,6 +1,7 @@
 package de.benjaminborbe.authentication.verifycredential;
 
 import java.util.Collection;
+
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;

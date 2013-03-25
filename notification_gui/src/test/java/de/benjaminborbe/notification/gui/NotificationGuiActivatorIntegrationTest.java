@@ -16,14 +16,12 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.notification.gui.NotificationGuiActivator;
-import de.benjaminborbe.notification.gui.NotificationGuiConstants;
 import de.benjaminborbe.notification.gui.guice.NotificationGuiModulesMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
 public class NotificationGuiActivatorIntegrationTest {
 
@@ -93,7 +91,7 @@ public class NotificationGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList();
+		final List<String> paths = new ArrayList<String>();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));

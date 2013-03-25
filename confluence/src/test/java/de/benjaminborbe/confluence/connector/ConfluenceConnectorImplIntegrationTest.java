@@ -1,6 +1,7 @@
 package de.benjaminborbe.confluence.connector;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import com.google.inject.Injector;

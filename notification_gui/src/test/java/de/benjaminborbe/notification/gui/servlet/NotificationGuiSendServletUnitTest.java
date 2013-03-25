@@ -29,7 +29,6 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.gui.NotificationGuiConstants;
-import de.benjaminborbe.notification.gui.servlet.NotificationGuiSendServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;

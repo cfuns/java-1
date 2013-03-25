@@ -3,14 +3,13 @@ package de.benjaminborbe.xmlrpc.test;
 import java.net.URL;
 
 import org.apache.felix.http.api.ExtHttpService;
-import de.benjaminborbe.test.osgi.TestCaseOsgi;
-
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import de.benjaminborbe.xmlrpc.api.XmlrpcService;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import de.benjaminborbe.xmlrpc.api.XmlrpcService;
 
 public class XmlrpcIntegrationTest extends TestCaseOsgi {
 

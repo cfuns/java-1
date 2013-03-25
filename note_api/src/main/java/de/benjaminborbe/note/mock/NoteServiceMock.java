@@ -23,17 +23,19 @@ public class NoteServiceMock implements NoteService {
 	}
 
 	@Override
-	public NoteIdentifier createNote(final SessionIdentifier sessionIdentifier, final NoteDto noteDto) throws PermissionDeniedException, LoginRequiredException, NoteServiceException,
-			ValidationException {
+	public NoteIdentifier createNote(final SessionIdentifier sessionIdentifier, final NoteDto noteDto) throws PermissionDeniedException, LoginRequiredException,
+			NoteServiceException, ValidationException {
 		return null;
 	}
 
 	@Override
-	public void updateNote(final SessionIdentifier sessionIdentifier, final NoteDto noteDto) throws PermissionDeniedException, LoginRequiredException, NoteServiceException, ValidationException {
+	public void updateNote(final SessionIdentifier sessionIdentifier, final NoteDto noteDto) throws PermissionDeniedException, LoginRequiredException, NoteServiceException,
+			ValidationException {
 	}
 
 	@Override
-	public void deleteNote(final SessionIdentifier sessionIdentifier, final NoteIdentifier noteIdentifier) throws PermissionDeniedException, LoginRequiredException, NoteServiceException {
+	public void deleteNote(final SessionIdentifier sessionIdentifier, final NoteIdentifier noteIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			NoteServiceException {
 	}
 
 	@Override

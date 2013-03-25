@@ -27,7 +27,6 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.note.gui.servlet.NoteGuiServlet;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;

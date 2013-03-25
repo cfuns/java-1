@@ -1,12 +1,12 @@
 package de.benjaminborbe.streamcache.test;
 
 import org.apache.felix.http.api.ExtHttpService;
-import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.streamcache.api.StreamcacheService;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 

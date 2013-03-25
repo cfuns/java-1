@@ -12,10 +12,10 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
-import de.benjaminborbe.xmlrpc.api.XmlrpcService;
-import de.benjaminborbe.xmlrpc.mock.XmlrpcServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
+import de.benjaminborbe.xmlrpc.api.XmlrpcService;
+import de.benjaminborbe.xmlrpc.mock.XmlrpcServiceMock;
 
 public class XmlrpcGuiOsgiModuleMock extends AbstractModule {
 

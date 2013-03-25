@@ -15,6 +15,7 @@ import de.benjaminborbe.configuration.gui.util.ConfigurationGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
+import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 
@@ -53,4 +54,10 @@ public class ConfigurationGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
+	@Override
+	protected Collection<ResourceInfo> getResouceInfos() {
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		result.add(new ResourceInfo("/css", "css"));
+		return result;
+	}
 }

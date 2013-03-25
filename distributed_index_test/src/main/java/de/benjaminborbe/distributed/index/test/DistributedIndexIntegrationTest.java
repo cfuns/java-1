@@ -3,13 +3,13 @@ package de.benjaminborbe.distributed.index.test;
 import java.util.Arrays;
 
 import org.apache.felix.http.api.ExtHttpService;
-import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;

@@ -9,11 +9,11 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
-import de.benjaminborbe.xmlrpc.api.XmlrpcService;
-import de.benjaminborbe.xmlrpc.guice.XmlrpcModules;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import de.benjaminborbe.xmlrpc.api.XmlrpcService;
+import de.benjaminborbe.xmlrpc.guice.XmlrpcModules;
 
 public class XmlrpcActivator extends BaseBundleActivator {
 

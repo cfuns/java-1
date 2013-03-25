@@ -1,6 +1,7 @@
 package de.benjaminborbe.microblog.util;
 
 import java.util.Collection;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.notification.gui.guice.NotificationGuiModulesMock;
-import de.benjaminborbe.notification.gui.servlet.NotificationGuiSendServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class NotificationGuiSendServletIntegrationTest {

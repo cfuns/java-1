@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.note.gui.guice.NoteGuiModulesMock;
-import de.benjaminborbe.note.gui.servlet.NoteGuiServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class NoteGuiServletIntegrationTest {

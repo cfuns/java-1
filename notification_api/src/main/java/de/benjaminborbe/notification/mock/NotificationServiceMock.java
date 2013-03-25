@@ -63,8 +63,8 @@ public class NotificationServiceMock implements NotificationService {
 	}
 
 	@Override
-	public void notify(final SessionIdentifier sessionIdentifier, final Notification notification) throws NotificationServiceException, ValidationException, PermissionDeniedException,
-			LoginRequiredException {
+	public void notify(final SessionIdentifier sessionIdentifier, final Notification notification) throws NotificationServiceException, ValidationException,
+			PermissionDeniedException, LoginRequiredException {
 	}
 
 }

@@ -9,7 +9,6 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModuleMock;
 import de.benjaminborbe.tools.osgi.mock.PeaberryModuleMock;
 import de.benjaminborbe.tools.osgi.mock.ServletModuleMock;
-import de.benjaminborbe.xmlrpc.guice.XmlrpcModule;
 
 public class XmlrpcModulesMock implements Modules {
 

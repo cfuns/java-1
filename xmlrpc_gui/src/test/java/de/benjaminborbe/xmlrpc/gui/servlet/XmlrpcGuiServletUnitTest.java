@@ -34,7 +34,6 @@ import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
-import de.benjaminborbe.xmlrpc.gui.servlet.XmlrpcGuiServlet;
 
 public class XmlrpcGuiServletUnitTest {
 

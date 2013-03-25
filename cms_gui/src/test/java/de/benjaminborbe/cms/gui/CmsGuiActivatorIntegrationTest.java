@@ -15,14 +15,12 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.cms.gui.CmsGuiActivator;
-import de.benjaminborbe.cms.gui.CmsGuiConstants;
 import de.benjaminborbe.cms.gui.guice.CmsGuiModulesMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
 public class CmsGuiActivatorIntegrationTest {
 
@@ -88,7 +86,7 @@ public class CmsGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList();
+		final List<String> paths = new ArrayList<String>();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));

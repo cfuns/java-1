@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.Calendar;
+
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;

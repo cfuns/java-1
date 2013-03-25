@@ -6,9 +6,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
-import de.benjaminborbe.xmlrpc.gui.guice.XmlrpcGuiModulesMock;
-import de.benjaminborbe.xmlrpc.gui.servlet.XmlrpcGuiServlet;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.xmlrpc.gui.guice.XmlrpcGuiModulesMock;
 
 public class XmlrpcGuiServletIntegrationTest {
 
