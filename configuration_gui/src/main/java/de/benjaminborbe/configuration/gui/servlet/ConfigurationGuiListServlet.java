@@ -2,6 +2,7 @@ package de.benjaminborbe.configuration.gui.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.configuration.gui.ConfigurationGuiConstants;
+import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -33,6 +35,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.HtmlListWidget;
@@ -89,7 +92,7 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final HtmlListWidget widgets = new HtmlListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			widgets.add("<table>");
+			widgets.add("<table class=\"configurationList\">");
 			widgets.add("<tr>");
 			widgets.add("<th>Name</th>");
 			widgets.add("<th>Description</th>");
@@ -139,5 +142,12 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 		final List<ConfigurationDescription> list = new ArrayList<ConfigurationDescription>(configurationService.listConfigurations());
 		Collections.sort(list, new ComparatorImplementation());
 		return list;
+	}
+
+	@Override
+	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {
+		final Collection<CssResource> result = super.getCssResources(request, response);
+		result.add(new CssResourceImpl(request.getContextPath() + "/" + ConfigurationGuiConstants.NAME + "/css/style.css"));
+		return result;
 	}
 }

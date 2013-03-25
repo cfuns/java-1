@@ -1,0 +1,11 @@
+.configurationList tr td {
+	border-bottom-color: transparent;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+}
+
+.configurationList tr:hover td {
+	border-bottom-color: #AAAAAA;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+}

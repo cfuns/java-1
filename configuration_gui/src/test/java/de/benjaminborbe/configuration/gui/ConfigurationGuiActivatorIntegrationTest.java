@@ -46,7 +46,7 @@ public class ConfigurationGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
-		paths.add("/" + ConfigurationGuiConstants.NAME);
+		paths.add("/" + ConfigurationGuiConstants.NAME + ConfigurationGuiConstants.URL_LIST);
 		paths.add("/" + ConfigurationGuiConstants.NAME + ConfigurationGuiConstants.URL_UPDATE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
@@ -94,6 +94,7 @@ public class ConfigurationGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<String>();
+		paths.add("/" + ConfigurationGuiConstants.NAME + "/css");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
