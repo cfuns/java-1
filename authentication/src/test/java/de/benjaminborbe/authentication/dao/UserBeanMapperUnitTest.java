@@ -51,19 +51,20 @@ public class UserBeanMapperUnitTest {
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
 		final List<Object[]> result = new ArrayList<Object[]>();
-		result.add(new Object[] { "id", "1337" });
-		result.add(new Object[] { "created", "123456" });
-		result.add(new Object[] { "modified", "123456" });
-		result.add(new Object[] { "password", "0123456789abcdef" });
-		result.add(new Object[] { "passwordSalt", "0123456789abcdef" });
-		result.add(new Object[] { "email", "foo@example.com" });
-		result.add(new Object[] { "emailVerified", "false" });
-		result.add(new Object[] { "emailVerifyToken", "dsgasb" });
-		result.add(new Object[] { "fullname", "foo bar" });
-		result.add(new Object[] { "superAdmin", "true" });
-		result.add(new Object[] { "timeZone", "Europe/Berlin" });
-		result.add(new Object[] { "loginCounter", "1337" });
-		result.add(new Object[] { "loginDate", "123456" });
+		result.add(new Object[] { UserBeanMapper.ID, "1337" });
+		result.add(new Object[] { UserBeanMapper.CREATED, "123456" });
+		result.add(new Object[] { UserBeanMapper.MODIFIED, "123456" });
+		result.add(new Object[] { UserBeanMapper.PASSWORD, "0123456789abcdef" });
+		result.add(new Object[] { UserBeanMapper.PASSWORD_SALT, "0123456789abcdef" });
+		result.add(new Object[] { UserBeanMapper.EMAIL, "foo@example.com" });
+		result.add(new Object[] { UserBeanMapper.EMAIL_NEW, "foo@example.com" });
+		result.add(new Object[] { UserBeanMapper.EMAIL_VERIFIED, "false" });
+		result.add(new Object[] { UserBeanMapper.EMAIL_VERIFY_TOKEN, "dsgasb" });
+		result.add(new Object[] { UserBeanMapper.FULLNAME, "foo bar" });
+		result.add(new Object[] { UserBeanMapper.SUPER_ADMIN, "true" });
+		result.add(new Object[] { UserBeanMapper.TIME_ZONE, "Europe/Berlin" });
+		result.add(new Object[] { UserBeanMapper.LOGIN_COUNTER, "1337" });
+		result.add(new Object[] { UserBeanMapper.LOGIN_DATE, "123456" });
 		return result;
 	}
 

@@ -6,6 +6,8 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
 public interface AuthenticationConfig {
 
+	String getEmailFrom();
+
 	String getProviderUrl();
 
 	String getDomain();

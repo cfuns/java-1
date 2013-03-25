@@ -21,6 +21,8 @@ public class UserBean extends EntityBase<UserIdentifier> implements User, HasCre
 
 	private String email;
 
+	private String emailNew;
+
 	private Boolean emailVerified;
 
 	private String emailVerifyToken;
@@ -137,6 +139,7 @@ public class UserBean extends EntityBase<UserIdentifier> implements User, HasCre
 		}
 	}
 
+	@Override
 	public Long getLoginCounter() {
 		return loginCounter;
 	}
@@ -155,12 +158,21 @@ public class UserBean extends EntityBase<UserIdentifier> implements User, HasCre
 		this.id = id;
 	}
 
+	@Override
 	public Calendar getLoginDate() {
 		return loginDate;
 	}
 
-	public void setLoginDate(Calendar loginDate) {
+	public void setLoginDate(final Calendar loginDate) {
 		this.loginDate = loginDate;
+	}
+
+	public String getEmailNew() {
+		return emailNew;
+	}
+
+	public void setEmailNew(String emailNew) {
+		this.emailNew = emailNew;
 	}
 
 }

@@ -1,9 +1,7 @@
 package de.benjaminborbe.authentication.service;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-
+import static org.junit.Assert.*;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +14,9 @@ import com.google.inject.Injector;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authentication.dao.UserBean;
+import de.benjaminborbe.authentication.dao.UserDao;
 import de.benjaminborbe.authentication.guice.AuthenticationModulesMock;
 import de.benjaminborbe.mail.mock.MailServiceMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -47,6 +48,7 @@ public class AuthenticationServiceImplIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new AuthenticationModulesMock());
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final MailServiceMock mailService = injector.getInstance(MailServiceMock.class);
+		final UserDao userDao = injector.getInstance(UserDao.class);
 		final String sessionId = "sid123";
 
 		final HttpSession session = EasyMock.createMock(HttpSession.class);
@@ -64,7 +66,26 @@ public class AuthenticationServiceImplIntegrationTest {
 		final String fullname = null;
 		final TimeZone timeZone = null;
 		assertThat(mailService.getMails().size(), is(0));
-		authenticationService.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, timeZone);
+		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, timeZone);
+		assertNotNull(userIdentifier);
+		assertEquals(username, userIdentifier.getId());
 		assertThat(mailService.getMails().size(), is(1));
+		assertEquals(email, mailService.getMails().get(0).getTo());
+
+		final UserBean userWithoutVerifiedEmail = userDao.load(userIdentifier);
+		assertNotNull(userWithoutVerifiedEmail);
+		assertNull(userWithoutVerifiedEmail.getEmail());
+		assertEquals(email, userWithoutVerifiedEmail.getEmailNew());
+		assertEquals(false, userWithoutVerifiedEmail.getEmailVerified());
+		assertNotNull(userWithoutVerifiedEmail.getEmailVerifyToken());
+
+		authenticationService.verifyEmailToken(userIdentifier, userWithoutVerifiedEmail.getEmailVerifyToken());
+
+		final UserBean userWithVerifiedEmail = userDao.load(userIdentifier);
+		assertNotNull(userWithVerifiedEmail);
+		assertEquals(email, userWithVerifiedEmail.getEmail());
+		assertNull(userWithVerifiedEmail.getEmailNew());
+		assertEquals(true, userWithVerifiedEmail.getEmailVerified());
+		assertNull(userWithVerifiedEmail.getEmailVerifyToken());
 	}
 }

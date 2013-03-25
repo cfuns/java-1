@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.AuthenticationConstants;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
@@ -34,6 +35,9 @@ public class AuthenticationConfigImpl extends ConfigurationBase implements Authe
 
 	private final ConfigurationDescriptionBoolean ldapEnabled = new ConfigurationDescriptionBoolean(false, "AuthenticationLdapEnabled", "Authentication Ldap Enabled");
 
+	private final ConfigurationDescriptionString emailFrom = new ConfigurationDescriptionString("noreply@example.com", AuthenticationConstants.CONFIG_EMAIL_FROM,
+			"Authentication Email From");
+
 	@Inject
 	public AuthenticationConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
 		super(logger, configurationService, parseUtil);
@@ -47,6 +51,7 @@ public class AuthenticationConfigImpl extends ConfigurationBase implements Authe
 		result.add(credentials);
 		result.add(ssl);
 		result.add(ldapEnabled);
+		result.add(emailFrom);
 		return result;
 	}
 
@@ -73,5 +78,10 @@ public class AuthenticationConfigImpl extends ConfigurationBase implements Authe
 	@Override
 	public boolean isLdapEnabled() {
 		return getValueBoolean(ldapEnabled);
+	}
+
+	@Override
+	public String getEmailFrom() {
+		return getValueString(emailFrom);
 	}
 }

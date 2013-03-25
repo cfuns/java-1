@@ -29,6 +29,7 @@ import de.benjaminborbe.authentication.api.SuperAdminRequiredException;
 import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserDto;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authentication.config.AuthenticationConfig;
 import de.benjaminborbe.authentication.dao.SessionBean;
 import de.benjaminborbe.authentication.dao.SessionDao;
 import de.benjaminborbe.authentication.dao.UserBean;
@@ -88,9 +89,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private final CalendarUtil calendarUtil;
 
+	private final AuthenticationConfig authenticationConfig;
+
 	@Inject
 	public AuthenticationServiceImpl(
 			final Logger logger,
+			final AuthenticationConfig authenticationConfig,
 			final CalendarUtil calendarUtil,
 			final AuthenticationPasswordUtil authenticationPasswordUtil,
 			final ParseUtil parseUtil,
@@ -104,6 +108,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final DurationUtil durationUtil,
 			final AuthenticationVerifyCredential authenticationVerifyCredential) {
 		this.logger = logger;
+		this.authenticationConfig = authenticationConfig;
 		this.calendarUtil = calendarUtil;
 		this.authenticationPasswordUtil = authenticationPasswordUtil;
 		this.parseUtil = parseUtil;
@@ -286,7 +291,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private void setNewEmail(final UserBean user, final String email) {
 		if (email != null && !email.equals(user.getEmail())) {
-			user.setEmail(email);
+			user.setEmailNew(email);
 			user.setEmailVerified(false);
 			user.setEmailVerifyToken(String.valueOf(UUID.randomUUID()));
 		}
@@ -299,8 +304,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 		else {
 			logger.debug("email not verified, sending mail");
-			final String from = "bborbe@seibert-media.net";
-			final String to = user.getEmail();
+			final String from = authenticationConfig.getEmailFrom();
+			final String to = user.getEmailNew();
 			final String subject = "Validate Email";
 			final StringBuilder content = new StringBuilder();
 			logger.debug("verifyUrl: " + verifyUrl);
@@ -669,7 +674,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final UserBean user = userDao.load(userIdentifier);
 			if (user != null && token != null && token.equals(user.getEmailVerifyToken())) {
 				user.setEmailVerified(true);
-				userDao.save(user);
+				user.setEmail(user.getEmailNew());
+				user.setEmailNew(null);
+				user.setEmailVerifyToken(null);
+				userDao.save(user, new StorageValueList(userDao.getEncoding()).add("emailVerified").add("email").add("emailNew").add("emailVerifyToken"));
 				return true;
 			}
 			else {
@@ -759,7 +767,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	private void sendPasswordLostEmail(final UserBean user, final String shortenUrl, final String resetUrl) throws MailServiceException, ShortenerServiceException, ParseException,
 			ValidationException {
-		final String from = "bborbe@seibert-media.net";
+		final String from = authenticationConfig.getEmailFrom();
 		final String to = user.getEmail();
 		final String subject = "Password Reset";
 		final StringBuilder content = new StringBuilder();

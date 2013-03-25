@@ -37,6 +37,8 @@ public class UserBeanMapper extends MapObjectMapperAdapter<UserBean> {
 
 	public static final String EMAIL = "email";
 
+	public static final String EMAIL_NEW = "emailNew";
+
 	public static final String TIME_ZONE = "timeZone";
 
 	public static final String SUPER_ADMIN = "superAdmin";
@@ -74,6 +76,7 @@ public class UserBeanMapper extends MapObjectMapperAdapter<UserBean> {
 		result.add(new StringObjectMapperAdapter<UserBean, Boolean>(SUPER_ADMIN, mapperBoolean));
 		result.add(new StringObjectMapperAdapter<UserBean, TimeZone>(TIME_ZONE, mapperTimeZone));
 		result.add(new StringObjectMapperAdapter<UserBean, String>(EMAIL, mapperString));
+		result.add(new StringObjectMapperAdapter<UserBean, String>(EMAIL_NEW, mapperString));
 		result.add(new StringObjectMapperAdapter<UserBean, String>(EMAIL_VERIFY_TOKEN, mapperString));
 		result.add(new StringObjectMapperAdapter<UserBean, Boolean>(EMAIL_VERIFIED, mapperBoolean));
 		result.add(new StringObjectMapperAdapter<UserBean, Long>(LOGIN_COUNTER, mapperLong));

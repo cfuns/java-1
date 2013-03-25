@@ -19,7 +19,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 @Singleton
 public class NotificationConfigImpl extends ConfigurationBase implements NotificationConfig {
 
-	private final ConfigurationDescriptionString emailFrom = new ConfigurationDescriptionString("noreploy@example.com", NotificationConstants.CONFIG_EMAIL_FROM,
+	private final ConfigurationDescriptionString emailFrom = new ConfigurationDescriptionString("noreply@example.com", NotificationConstants.CONFIG_EMAIL_FROM,
 			"Notification Email From");
 
 	@Inject

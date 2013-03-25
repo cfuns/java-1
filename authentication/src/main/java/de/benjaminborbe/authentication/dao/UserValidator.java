@@ -18,7 +18,10 @@ import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintAnd;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintOr;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringEmail;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
@@ -82,19 +85,51 @@ public class UserValidator extends ValidatorBase<UserBean> {
 			});
 		}
 
-		// email
+		// email+emailNew
 		{
 			final String field = "email";
 			result.put(field, new ValidatorRule<UserBean>() {
 
 				@Override
 				public Collection<ValidationError> validate(final UserBean bean) {
-					final String value = bean.getEmail();
+					final String emailValue = bean.getEmail();
+					final List<ValidationConstraint<String>> emailConstraints = new ArrayList<ValidationConstraint<String>>();
+					emailConstraints.add(new ValidationConstraintNotNull<String>());
+					emailConstraints.add(new ValidationConstraintStringMinLength(1));
+					emailConstraints.add(new ValidationConstraintStringMaxLength(255));
+					emailConstraints.add(new ValidationConstraintStringEmail());
+					final Collection<ValidationError> emailResult = validationConstraintValidator.validate(field, emailValue, emailConstraints);
+
+					final String emailNewValue = bean.getEmailNew();
+					final List<ValidationConstraint<String>> emailNewConstraints = new ArrayList<ValidationConstraint<String>>();
+					emailNewConstraints.add(new ValidationConstraintNotNull<String>());
+					emailNewConstraints.add(new ValidationConstraintStringMinLength(1));
+					emailNewConstraints.add(new ValidationConstraintStringMaxLength(255));
+					emailNewConstraints.add(new ValidationConstraintStringEmail());
+					final Collection<ValidationError> emailNewResult = validationConstraintValidator.validate(field, emailNewValue, emailNewConstraints);
+
+					if (emailNewResult.isEmpty()) {
+						return emailNewResult;
+					}
+					else {
+						return emailResult;
+					}
+				}
+			});
+		}
+
+		// emailNew
+		{
+			final String field = "emailNew";
+			result.put(field, new ValidatorRule<UserBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final UserBean bean) {
+					final String value = bean.getEmailNew();
 					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
-					constraints.add(new ValidationConstraintNotNull<String>());
-					constraints.add(new ValidationConstraintStringMinLength(1));
-					constraints.add(new ValidationConstraintStringMaxLength(255));
-					constraints.add(new ValidationConstraintStringEmail());
+					constraints.add(new ValidationConstraintOr<String>().add(new ValidationConstraintNull<String>()).add(
+							new ValidationConstraintAnd<String>().add(new ValidationConstraintStringMinLength(1)).add(new ValidationConstraintStringMaxLength(255))
+									.add(new ValidationConstraintStringEmail())));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});
