@@ -33,7 +33,7 @@ public class MailServiceImpl implements MailService {
 	@Override
 	public void send(final Mail mail) throws MailServiceException {
 		try {
-			logger.debug("send mail to: " + mail.getTo() + " subject: " + mail.getSubject());
+			logger.debug("send mail from: " + mail.getFrom() + " to: " + mail.getTo() + " subject: " + mail.getSubject());
 			messageService.sendMessage(MailConstants.MAIL_SEND_TYPE, mailJsonMapper.map(mail));
 		}
 		catch (final MessageServiceException e) {

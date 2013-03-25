@@ -14,7 +14,6 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
-import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskMatch;
@@ -34,8 +33,8 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException {
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final Task task) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException {
 		return null;
 	}
 
@@ -122,7 +121,7 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
+	public void updateTask(final SessionIdentifier sessionIdentifier, final Task task) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
 			ValidationException {
 	}
 

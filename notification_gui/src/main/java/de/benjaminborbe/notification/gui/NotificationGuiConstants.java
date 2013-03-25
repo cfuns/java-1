@@ -6,7 +6,7 @@ public interface NotificationGuiConstants {
 
 	String NAME = "notification";
 
-	String PARAMETER_USERNAME = "username";
+	String PARAMETER_TO = "to";
 
 	String PARAMETER_MESSAGE = "message";
 
@@ -21,5 +21,7 @@ public interface NotificationGuiConstants {
 	String URL_REMOVE = "/remove";
 
 	String PARAMETER_MEDIA = "media";
+
+	String PARAMETER_FROM = "from";
 
 }

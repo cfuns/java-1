@@ -19,16 +19,17 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.notification.api.Notification;
 import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
 import de.benjaminborbe.notification.dao.NotificationMediaDao;
 import de.benjaminborbe.notification.dao.NotificationTypeDao;
-import de.benjaminborbe.notification.util.NotifcationNotifier;
-import de.benjaminborbe.notification.util.NotifcationNotifierDeterminer;
-import de.benjaminborbe.notification.util.NotifcationNotifierException;
-import de.benjaminborbe.notification.util.NotifcationNotifierRegistry;
+import de.benjaminborbe.notification.util.NotificationNotifier;
+import de.benjaminborbe.notification.util.NotificationNotifierDeterminer;
+import de.benjaminborbe.notification.util.NotificationNotifierException;
+import de.benjaminborbe.notification.util.NotificationNotifierRegistry;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
@@ -41,11 +42,11 @@ public class NotificationServiceImpl implements NotificationService {
 
 	private final AuthorizationService authorizationService;
 
-	private final NotifcationNotifierDeterminer notifcationNotifierDeterminer;
+	private final NotificationNotifierDeterminer notifcationNotifierDeterminer;
 
 	private final NotificationTypeDao notificationTypeDao;
 
-	private final NotifcationNotifierRegistry notifcationNotifierRegistry;
+	private final NotificationNotifierRegistry notifcationNotifierRegistry;
 
 	private final AuthenticationService authenticationService;
 
@@ -56,8 +57,8 @@ public class NotificationServiceImpl implements NotificationService {
 			final Logger logger,
 			final AuthenticationService authenticationService,
 			final AuthorizationService authorizationService,
-			final NotifcationNotifierRegistry notifcationNotifierRegistry,
-			final NotifcationNotifierDeterminer notifcationNotifierDeterminer,
+			final NotificationNotifierRegistry notifcationNotifierRegistry,
+			final NotificationNotifierDeterminer notifcationNotifierDeterminer,
 			final NotificationMediaDao notificationMediaDao,
 			final NotificationTypeDao notificationTypeDao) {
 		this.logger = logger;
@@ -70,46 +71,46 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public void notify(final UserIdentifier userIdentifier, final NotificationTypeIdentifier type, final String subject, final String message) throws NotificationServiceException,
-			ValidationException {
+	public void notify(final Notification notification) throws NotificationServiceException, ValidationException {
 		try {
-			logger.debug("notifiy - user: " + userIdentifier + " message: " + message);
 
-			if (userIdentifier == null) {
+			logger.debug("notifiy - user: " + notification.getTo() + " message: " + notification.getMessage());
+
+			if (notification.getTo() == null) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("username missing")));
 			}
-			if (type == null) {
+			if (notification.getType() == null) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("type missing")));
 			}
-			if (!(subject != null && !subject.trim().isEmpty() || message != null && !message.trim().isEmpty())) {
+			if (!(notification.getSubject() != null && !notification.getSubject().trim().isEmpty() || notification.getMessage() != null && !notification.getMessage().trim().isEmpty())) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("subject and message missing")));
 			}
 
-			notificationTypeDao.findOrCreate(type);
+			notificationTypeDao.findOrCreate(notification.getType());
 
-			final Collection<NotifcationNotifier> notifiers = notifcationNotifierDeterminer.getNotifcationNotifiers(userIdentifier, type);
+			final Collection<NotificationNotifier> notifiers = notifcationNotifierDeterminer.getNotifcationNotifiers(notification.getTo(), notification.getType());
 			logger.debug("found " + notifiers.size() + " notifiers");
-			for (final NotifcationNotifier notifier : notifiers) {
+			for (final NotificationNotifier notifier : notifiers) {
 				try {
 					logger.debug("notify via " + notifier.getNotificationMediaIdentifier());
-					notifier.notify(userIdentifier, subject, message);
+					notifier.notify(notification);
 				}
-				catch (final NotifcationNotifierException e) {
+				catch (final NotificationNotifierException e) {
 					logger.warn("send notification  via " + notifier.getNotificationMediaIdentifier() + " failed", e);
 				}
 			}
 		}
-		catch (final StorageException | NotifcationNotifierException e1) {
+		catch (final StorageException | NotificationNotifierException e1) {
 			throw new NotificationServiceException(e1);
 		}
 	}
 
 	@Override
-	public void notify(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final NotificationTypeIdentifier type, final String subject,
-			final String message) throws NotificationServiceException, ValidationException, PermissionDeniedException, LoginRequiredException {
+	public void notify(final SessionIdentifier sessionIdentifier, final Notification notification) throws NotificationServiceException, ValidationException,
+			PermissionDeniedException, LoginRequiredException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
-			notify(userIdentifier, type, subject, message);
+			notify(notification);
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new NotificationServiceException(e);

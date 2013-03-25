@@ -6,6 +6,8 @@ import org.osgi.service.log.LogService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.configuration.api.ConfigurationService;
@@ -25,6 +27,7 @@ public class MicroblogOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(NotificationService.class).to(NotificationServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);

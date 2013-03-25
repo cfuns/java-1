@@ -14,7 +14,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
-import de.benjaminborbe.notification.util.NotifcationNotifierRegistry;
+import de.benjaminborbe.notification.util.NotificationNotifierRegistry;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
@@ -22,18 +22,22 @@ import de.benjaminborbe.storage.api.StorageValue;
 @Singleton
 public class NotificationMediaDaoStorage implements NotificationMediaDao {
 
+	private static final boolean DEFAULT = true;
+
 	private static final String TRUE = Boolean.TRUE.toString();
+
+	private static final String FALSE = Boolean.FALSE.toString();
 
 	private static final String COLUMN_FAMILY = "notification_media";
 
 	private final StorageService storageService;
 
-	private final NotifcationNotifierRegistry notifcationNotifierRegistry;
+	private final NotificationNotifierRegistry notifcationNotifierRegistry;
 
 	private final Logger logger;
 
 	@Inject
-	public NotificationMediaDaoStorage(final Logger logger, final StorageService storageService, final NotifcationNotifierRegistry notifcationNotifierRegistry) {
+	public NotificationMediaDaoStorage(final Logger logger, final StorageService storageService, final NotificationNotifierRegistry notifcationNotifierRegistry) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.notifcationNotifierRegistry = notifcationNotifierRegistry;
@@ -48,7 +52,7 @@ public class NotificationMediaDaoStorage implements NotificationMediaDao {
 	@Override
 	public void remove(final UserIdentifier userIdentifier, final NotificationTypeIdentifier type, final NotificationMediaIdentifier notificationMediaIdentifier)
 			throws StorageException {
-		storageService.delete(COLUMN_FAMILY, getKey(userIdentifier, type), getValue(notificationMediaIdentifier.getId()));
+		storageService.set(COLUMN_FAMILY, getKey(userIdentifier, type), getValue(notificationMediaIdentifier.getId()), getValue(FALSE));
 	}
 
 	@Override
@@ -59,7 +63,7 @@ public class NotificationMediaDaoStorage implements NotificationMediaDao {
 			final Map<StorageValue, StorageValue> data = storageService.get(COLUMN_FAMILY, getKey(userIdentifier, type));
 			for (final NotificationMediaIdentifier notificationMediaIdentifier : notifcationNotifierRegistry.getMedias()) {
 				final StorageValue v = data.get(getValue(notificationMediaIdentifier.getId()));
-				if (v != null && TRUE.equals(v.getString())) {
+				if (has(v)) {
 					result.add(notificationMediaIdentifier);
 				}
 			}
@@ -82,11 +86,22 @@ public class NotificationMediaDaoStorage implements NotificationMediaDao {
 	public boolean has(final UserIdentifier userIdentifier, final NotificationTypeIdentifier notificationTypeIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier)
 			throws StorageException {
 		try {
-			final StorageValue v = storageService.get(COLUMN_FAMILY, getKey(userIdentifier, notificationTypeIdentifier), getValue(notificationMediaIdentifier.getId()));
-			return TRUE.equals(v.getString());
+			return has(storageService.get(COLUMN_FAMILY, getKey(userIdentifier, notificationTypeIdentifier), getValue(notificationMediaIdentifier.getId())));
 		}
 		catch (final UnsupportedEncodingException e) {
 			throw new StorageException(e);
+		}
+	}
+
+	private boolean has(final StorageValue v) throws UnsupportedEncodingException {
+		if (v != null && TRUE.equals(v.getString())) {
+			return true;
+		}
+		else if (v != null && FALSE.equals(v.getString())) {
+			return false;
+		}
+		else {
+			return DEFAULT;
 		}
 	}
 

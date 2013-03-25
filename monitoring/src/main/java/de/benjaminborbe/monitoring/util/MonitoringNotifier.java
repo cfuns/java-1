@@ -23,6 +23,7 @@ import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeDao;
 import de.benjaminborbe.monitoring.tools.MonitoringNodeComparator;
 import de.benjaminborbe.monitoring.tools.MonitoringNodeTree;
+import de.benjaminborbe.notification.api.NotificationDto;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
@@ -71,13 +72,18 @@ public class MonitoringNotifier {
 					logger.debug("no errors found => skip mail");
 				}
 				else {
-					final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(MonitoringConstants.ROLE_MONITORING);
+					final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(MonitoringConstants.ROLE_MONITORING_SUPERVISOR);
 					final Collection<UserIdentifier> userIdentifiers = authorizationService.getUsersWithRole(roleIdentifier);
 					for (final UserIdentifier userIdentifier : userIdentifiers) {
 						final String subject = "BB - Monitoring";
 						final String message = buildContent(results);
 						try {
-							notificationService.notify(userIdentifier, TYPE, subject, message);
+							final NotificationDto notification = new NotificationDto();
+							notification.setTo(userIdentifier);
+							notification.setType(TYPE);
+							notification.setSubject(subject);
+							notification.setMessage(message);
+							notificationService.notify(notification);
 						}
 						catch (NotificationServiceException | ValidationException e) {
 							logger.warn("notify user failed", e);

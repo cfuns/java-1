@@ -9,27 +9,27 @@ import com.google.inject.Inject;
 import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
 import de.benjaminborbe.tools.registry.RegistryBase;
 
-public class NotifcationNotifierRegistry extends RegistryBase<NotifcationNotifier> {
+public class NotificationNotifierRegistry extends RegistryBase<NotificationNotifier> {
 
-	private final Map<NotificationMediaIdentifier, NotifcationNotifier> data = new HashMap<NotificationMediaIdentifier, NotifcationNotifier>();
+	private final Map<NotificationMediaIdentifier, NotificationNotifier> data = new HashMap<NotificationMediaIdentifier, NotificationNotifier>();
 
 	@Inject
-	public NotifcationNotifierRegistry(final NotifcationNotifierMail notifcationNotifierMail, final NotifcationNotifierXmpp notifcationNotifierXmpp) {
+	public NotificationNotifierRegistry(final NotificationNotifierMail notifcationNotifierMail, final NotificationNotifierXmpp notifcationNotifierXmpp) {
 		add(notifcationNotifierXmpp);
 		add(notifcationNotifierMail);
 	}
 
 	@Override
-	protected void onElementAdded(final NotifcationNotifier object) {
+	protected void onElementAdded(final NotificationNotifier object) {
 		data.put(object.getNotificationMediaIdentifier(), object);
 	}
 
 	@Override
-	protected void onElementRemoved(final NotifcationNotifier object) {
+	protected void onElementRemoved(final NotificationNotifier object) {
 		data.remove(object.getNotificationMediaIdentifier());
 	}
 
-	public NotifcationNotifier get(final NotificationMediaIdentifier notificationMediaIdentifier) {
+	public NotificationNotifier get(final NotificationMediaIdentifier notificationMediaIdentifier) {
 		return data.get(notificationMediaIdentifier);
 	}
 

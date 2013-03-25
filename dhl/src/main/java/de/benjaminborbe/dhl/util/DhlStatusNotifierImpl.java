@@ -10,6 +10,7 @@ import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.notification.api.NotificationDto;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
@@ -43,7 +44,13 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 				throw new NullPointerException("parameter DhlStatus is null");
 			}
 			logger.info("new status " + status);
-			notificationService.notify(userIdentifier, TYPE, buildSubject(status), buildContent(status));
+
+			final NotificationDto notification = new NotificationDto();
+			notification.setTo(userIdentifier);
+			notification.setType(TYPE);
+			notification.setSubject(buildSubject(status));
+			notification.setMessage(buildContent(status));
+			notificationService.notify(notification);
 		}
 		catch (NotificationServiceException | ValidationException e) {
 			throw new DhlStatusNotifierException(e);

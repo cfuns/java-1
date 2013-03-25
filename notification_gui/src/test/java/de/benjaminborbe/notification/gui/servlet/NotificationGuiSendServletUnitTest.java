@@ -69,7 +69,8 @@ public class NotificationGuiSendServletUnitTest {
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
 		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_MESSAGE)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_SUBJECT)).andReturn(null).anyTimes();
-		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_USERNAME)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_TO)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_FROM)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameter(NotificationGuiConstants.PARAMETER_TYPE)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 

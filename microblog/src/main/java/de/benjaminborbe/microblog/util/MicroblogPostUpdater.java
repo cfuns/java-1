@@ -34,7 +34,7 @@ public class MicroblogPostUpdater {
 		logger.trace("notify " + listeners.size() + " listners");
 		for (final MicroblogPostListener listener : listeners) {
 			try {
-				logger.trace("onNewPost: " + listener.getClass().getName());
+				logger.debug("onNewPost: " + listener.getClass().getName());
 				listener.onNewPost(microblogPost);
 			}
 			catch (final Exception e) {

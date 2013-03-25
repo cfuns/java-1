@@ -23,6 +23,7 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.notification.api.NotificationDto;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
@@ -93,14 +94,22 @@ public class NotificationGuiSendServlet extends WebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-			final String username = request.getParameter(NotificationGuiConstants.PARAMETER_USERNAME);
+			final String from = request.getParameter(NotificationGuiConstants.PARAMETER_FROM);
+			final String to = request.getParameter(NotificationGuiConstants.PARAMETER_TO);
 			final String type = request.getParameter(NotificationGuiConstants.PARAMETER_TYPE);
 			final String subject = request.getParameter(NotificationGuiConstants.PARAMETER_SUBJECT);
 			final String message = request.getParameter(NotificationGuiConstants.PARAMETER_MESSAGE);
-			if (username != null && message != null && subject != null && type != null) {
-				final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(username);
+			if (from != null && to != null && message != null && subject != null && type != null) {
+				final UserIdentifier fromUserIdentifier = authenticationService.createUserIdentifier(from);
+				final UserIdentifier toUserIdentifier = authenticationService.createUserIdentifier(to);
 				try {
-					notificationService.notify(sessionIdentifier, userIdentifier, new NotificationTypeIdentifier(type), subject, message);
+					final NotificationDto notification = new NotificationDto();
+					notification.setFrom(fromUserIdentifier);
+					notification.setTo(toUserIdentifier);
+					notification.setType(new NotificationTypeIdentifier(type));
+					notification.setSubject(subject);
+					notification.setMessage(message);
+					notificationService.notify(sessionIdentifier, notification);
 					widgets.add("send notification successful");
 				}
 				catch (final ValidationException e) {
@@ -110,10 +119,11 @@ public class NotificationGuiSendServlet extends WebsiteHtmlServlet {
 			}
 
 			final FormWidget form = new FormWidget();
-			form.addFormInputWidget(new FormInputTextWidget(NotificationGuiConstants.PARAMETER_USERNAME).addLabel("Username:").addPlaceholder("name..."));
+			form.addFormInputWidget(new FormInputTextWidget(NotificationGuiConstants.PARAMETER_FROM).addLabel("From:").addPlaceholder("username..."));
+			form.addFormInputWidget(new FormInputTextWidget(NotificationGuiConstants.PARAMETER_TO).addLabel("To:").addPlaceholder("username..."));
 			form.addFormInputWidget(new FormInputTextWidget(NotificationGuiConstants.PARAMETER_TYPE).addLabel("TYPE:").addDefaultValue(TYPE));
-			form.addFormInputWidget(new FormInputTextWidget(NotificationGuiConstants.PARAMETER_SUBJECT).addLabel("Subject:"));
-			form.addFormInputWidget(new FormInputTextareaWidget(NotificationGuiConstants.PARAMETER_MESSAGE).addLabel("Message:"));
+			form.addFormInputWidget(new FormInputTextWidget(NotificationGuiConstants.PARAMETER_SUBJECT).addLabel("Subject:").addPlaceholder("subject..."));
+			form.addFormInputWidget(new FormInputTextareaWidget(NotificationGuiConstants.PARAMETER_MESSAGE).addLabel("Message:").addPlaceholder("message..."));
 			form.addFormInputWidget(new FormInputSubmitWidget("send"));
 			widgets.add(form);
 

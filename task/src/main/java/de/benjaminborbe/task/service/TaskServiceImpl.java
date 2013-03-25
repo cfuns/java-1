@@ -237,8 +237,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException {
+	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final Task taskDto) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+			ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);
@@ -869,7 +869,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
+	public void updateTask(final SessionIdentifier sessionIdentifier, final Task taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
 			ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {

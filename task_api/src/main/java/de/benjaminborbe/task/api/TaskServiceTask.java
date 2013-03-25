@@ -16,8 +16,7 @@ public interface TaskServiceTask {
 	void completeTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
 			ValidationException;
 
-	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, TaskDto taskDto) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException;
+	TaskIdentifier createTask(SessionIdentifier sessionIdentifier, Task task) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	TaskIdentifier createTaskIdentifier(String id) throws TaskServiceException;
 
@@ -53,7 +52,7 @@ public interface TaskServiceTask {
 
 	void uncompleteTask(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
-	void updateTask(SessionIdentifier sessionIdentifier, TaskDto taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException;
+	void updateTask(SessionIdentifier sessionIdentifier, Task task) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException;
 
 	void updateTaskFocus(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, TaskFocus taskFocus) throws PermissionDeniedException, LoginRequiredException,
 			TaskServiceException, ValidationException;

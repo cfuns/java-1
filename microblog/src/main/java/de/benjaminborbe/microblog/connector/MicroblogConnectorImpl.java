@@ -295,7 +295,8 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	}
 
 	protected MicroblogPostResult buildPost(final String conversationUrl, final String itemContent) throws ParseException {
-		logger.debug("itemContent: " + itemContent);
+		if (logger.isTraceEnabled())
+			logger.trace("itemContent: " + itemContent);
 		final int titleIndexOpen = itemContent.indexOf("<title>");
 		final int titleIndexClose = itemContent.indexOf("</title>");
 

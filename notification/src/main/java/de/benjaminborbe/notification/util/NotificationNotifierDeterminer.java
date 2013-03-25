@@ -12,23 +12,23 @@ import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
 import de.benjaminborbe.notification.dao.NotificationMediaDao;
 import de.benjaminborbe.storage.api.StorageException;
 
-public class NotifcationNotifierDeterminer {
+public class NotificationNotifierDeterminer {
 
-	private final NotifcationNotifierRegistry notifcationNotifierRegistry;
+	private final NotificationNotifierRegistry notifcationNotifierRegistry;
 
 	private final NotificationMediaDao notificationMediaDao;
 
 	@Inject
-	public NotifcationNotifierDeterminer(final NotifcationNotifierRegistry notifcationNotifierRegistry, final NotificationMediaDao notificationMediaDao) {
+	public NotificationNotifierDeterminer(final NotificationNotifierRegistry notifcationNotifierRegistry, final NotificationMediaDao notificationMediaDao) {
 		this.notifcationNotifierRegistry = notifcationNotifierRegistry;
 		this.notificationMediaDao = notificationMediaDao;
 	}
 
-	public Collection<NotifcationNotifier> getNotifcationNotifiers(final UserIdentifier userIdentifier, final NotificationTypeIdentifier type) throws NotifcationNotifierException {
+	public Collection<NotificationNotifier> getNotifcationNotifiers(final UserIdentifier userIdentifier, final NotificationTypeIdentifier type) throws NotificationNotifierException {
 		try {
-			final List<NotifcationNotifier> result = new ArrayList<NotifcationNotifier>();
+			final List<NotificationNotifier> result = new ArrayList<NotificationNotifier>();
 			for (final NotificationMediaIdentifier notificationMediaIdentifier : notificationMediaDao.get(userIdentifier, type)) {
-				final NotifcationNotifier n = notifcationNotifierRegistry.get(notificationMediaIdentifier);
+				final NotificationNotifier n = notifcationNotifierRegistry.get(notificationMediaIdentifier);
 				if (n != null) {
 					result.add(n);
 				}
@@ -36,7 +36,7 @@ public class NotifcationNotifierDeterminer {
 			return result;
 		}
 		catch (final StorageException e) {
-			throw new NotifcationNotifierException(e);
+			throw new NotificationNotifierException(e);
 		}
 	}
 

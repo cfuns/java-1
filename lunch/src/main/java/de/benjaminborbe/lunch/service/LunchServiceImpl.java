@@ -38,6 +38,7 @@ import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.dao.LunchUserSettingsBean;
 import de.benjaminborbe.lunch.dao.LunchUserSettingsDao;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
+import de.benjaminborbe.notification.api.NotificationDto;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.storage.api.StorageException;
@@ -303,7 +304,13 @@ public class LunchServiceImpl implements LunchService {
 			}
 			final String message = sb.toString();
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier("bborbe");
-			notificationService.notify(userIdentifier, notificationService.createNotificationTypeIdentifier("lunchBooking"), subject, message);
+
+			final NotificationDto notification = new NotificationDto();
+			notification.setTo(userIdentifier);
+			notification.setType(notificationService.createNotificationTypeIdentifier("lunchBooking"));
+			notification.setSubject(subject);
+			notification.setMessage(message);
+			notificationService.notify(notification);
 		}
 		catch (final NotificationServiceException | ValidationException | AuthenticationServiceException e) {
 			logger.warn("send book mail failed", e);

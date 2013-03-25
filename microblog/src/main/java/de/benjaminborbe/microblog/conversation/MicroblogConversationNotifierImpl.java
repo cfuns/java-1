@@ -7,13 +7,16 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.mail.api.MailDto;
-import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.mail.api.MailServiceException;
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.post.MicroblogPostResult;
+import de.benjaminborbe.notification.api.NotificationDto;
+import de.benjaminborbe.notification.api.NotificationService;
+import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.tools.util.StringUtil;
 
 @Singleton
@@ -23,38 +26,43 @@ public class MicroblogConversationNotifierImpl implements MicroblogConversationN
 
 	private final Logger logger;
 
-	private final MailService mailService;
+	private final NotificationService notificationService;
 
 	private final MicroblogConnector microblogConnector;
 
 	private final StringUtil stringUtil;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public MicroblogConversationNotifierImpl(final Logger logger, final MicroblogConnector microblogConnector, final MailService mailService, final StringUtil stringUtil) {
+	public MicroblogConversationNotifierImpl(
+			final Logger logger,
+			final AuthenticationService authenticationService,
+			final MicroblogConnector microblogConnector,
+			final NotificationService notificationService,
+			final StringUtil stringUtil) {
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 		this.microblogConnector = microblogConnector;
-		this.mailService = mailService;
+		this.notificationService = notificationService;
 		this.stringUtil = stringUtil;
 	}
 
 	@Override
 	public void mailConversation(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConversationNotifierException {
-		logger.trace("mailConversation with rev " + microblogConversationIdentifier);
 		try {
-			final MailDto mail = buildMail(microblogConversationIdentifier);
-			mailService.send(mail);
+			logger.debug("mailConversation with rev " + microblogConversationIdentifier);
+			final NotificationDto notification = buildNotificationDto(microblogConversationIdentifier);
+			notificationService.notify(notification);
 		}
-		catch (final MicroblogConnectorException e) {
+		catch (final MicroblogConnectorException | NotificationServiceException | ValidationException | AuthenticationServiceException e) {
 			logger.error("MicroblogConnectorException", e);
-			throw new MicroblogConversationNotifierException(e.getClass().getSimpleName(), e);
-		}
-		catch (final MailServiceException e) {
-			logger.error("MailSendException", e);
 			throw new MicroblogConversationNotifierException(e.getClass().getSimpleName(), e);
 		}
 	}
 
-	private MailDto buildMail(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConnectorException {
+	private NotificationDto buildNotificationDto(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConnectorException,
+			AuthenticationServiceException {
 		final MicroblogConversationResult microblogConversationResult = microblogConnector.getConversation(microblogConversationIdentifier);
 
 		final List<MicroblogPostResult> posts = microblogConversationResult.getPosts();
@@ -69,10 +77,16 @@ public class MicroblogConversationNotifierImpl implements MicroblogConversationN
 			mailContent.append("\n\n");
 		}
 		mailContent.append(microblogConversationResult.getConversationUrl());
-		final String from = lastPost.getAuthor() + "@seibert-media.net";
-		final String to = "bborbe@seibert-media.net";
+		final String from = lastPost.getAuthor();
+		final String to = "bborbe";
 		final String subject = "Micro: " + stringUtil.shorten(firstPost.getContent(), SUBJECT_MAX_LENGTH);
-		return new MailDto(from, to, subject, mailContent.toString(), "text/plain");
-	}
 
+		final NotificationDto notification = new NotificationDto();
+		notification.setTo(authenticationService.createUserIdentifier(to));
+		notification.setFrom(authenticationService.createUserIdentifier(from));
+		notification.setSubject(subject);
+		notification.setMessage(mailContent.toString());
+		notification.setType(notificationService.createNotificationTypeIdentifier("microblog"));
+		return notification;
+	}
 }

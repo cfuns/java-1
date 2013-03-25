@@ -6,6 +6,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.User;
+import de.benjaminborbe.authentication.api.UserDto;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.config.AuthenticationConfig;
 import de.benjaminborbe.authentication.ldap.LdapConnector;
@@ -64,6 +66,22 @@ public class AuthenticationVerifyCredentialLdap implements AuthenticationVerifyC
 	@Override
 	public boolean isActive() {
 		return authenticationConfig.isLdapEnabled();
+	}
+
+	@Override
+	public User getUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		if (existsUser(userIdentifier)) {
+			final UserDto user = new UserDto();
+			user.setId(userIdentifier);
+			user.setEmail(userIdentifier.getId() + "@seibert-media.net");
+			return user;
+		}
+		return null;
+	}
+
+	@Override
+	public long getPriority() {
+		return 1;
 	}
 
 }

@@ -9,6 +9,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.dao.UserBean;
 import de.benjaminborbe.authentication.dao.UserDao;
@@ -105,4 +106,18 @@ public class AuthenticationVerifyCredentialStorage implements AuthenticationVeri
 		return true;
 	}
 
+	@Override
+	public User getUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		try {
+			return userDao.load(userIdentifier);
+		}
+		catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		}
+	}
+
+	@Override
+	public long getPriority() {
+		return 2;
+	}
 }

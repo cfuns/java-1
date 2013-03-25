@@ -5,11 +5,14 @@ import org.slf4j.Logger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import de.benjaminborbe.mail.api.MailDto;
-import de.benjaminborbe.mail.api.MailService;
-import de.benjaminborbe.mail.api.MailServiceException;
+import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.microblog.api.MicroblogPost;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
+import de.benjaminborbe.notification.api.NotificationDto;
+import de.benjaminborbe.notification.api.NotificationService;
+import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.tools.util.StringUtil;
 
 @Singleton
@@ -19,38 +22,52 @@ public class MicroblogPostNotifierImpl implements MicroblogPostNotifier {
 
 	private final Logger logger;
 
-	private final MailService mailService;
+	private final NotificationService notificationService;
 
 	private final StringUtil stringUtil;
 
+	private final AuthenticationService authenticationService;
+
 	@Inject
-	public MicroblogPostNotifierImpl(final Logger logger, final MailService mailService, final StringUtil stringUtil) {
+	public MicroblogPostNotifierImpl(
+			final Logger logger,
+			final AuthenticationService authenticationService,
+			final NotificationService notificationService,
+			final StringUtil stringUtil) {
 		this.logger = logger;
-		this.mailService = mailService;
+		this.authenticationService = authenticationService;
+		this.notificationService = notificationService;
 		this.stringUtil = stringUtil;
 	}
 
 	@Override
 	public void mailPost(final MicroblogPost rev) throws MicroblogPostNotifierException {
 		try {
-			logger.trace("send rev = " + rev);
-			final MailDto mail = buildMail(rev);
-			mailService.send(mail);
+			logger.debug("mailConversation with rev " + rev);
+			final NotificationDto notificationDto = buildNotificationDto(rev);
+			notificationService.notify(notificationDto);
 		}
-		catch (final MailServiceException | MicroblogConnectorException e) {
+		catch (final NotificationServiceException | MicroblogConnectorException | ValidationException | AuthenticationServiceException e) {
 			throw new MicroblogPostNotifierException("MailSendException", e);
 		}
 	}
 
-	protected MailDto buildMail(final MicroblogPost post) throws MicroblogConnectorException {
+	protected NotificationDto buildNotificationDto(final MicroblogPost post) throws MicroblogConnectorException, AuthenticationServiceException {
 		final StringBuffer mailContent = new StringBuffer();
 		mailContent.append(post.getContent());
 		mailContent.append("\n\n");
 		mailContent.append(post.getConversationUrl() != null ? post.getConversationUrl() : post.getPostUrl());
-		final String from = post.getAuthor() + "@seibert-media.net";
-		final String to = "bborbe@seibert-media.net";
+		final String from = post.getAuthor();
+		final String to = "bborbe";
 		final String subject = "Micro: " + stringUtil.shorten(post.getContent(), SUBJECT_MAX_LENGTH);
-		return new MailDto(from, to, subject, mailContent.toString(), "text/plain");
+
+		final NotificationDto notification = new NotificationDto();
+		notification.setTo(authenticationService.createUserIdentifier(to));
+		notification.setFrom(authenticationService.createUserIdentifier(from));
+		notification.setSubject(subject);
+		notification.setMessage(mailContent.toString());
+		notification.setType(notificationService.createNotificationTypeIdentifier("microblog"));
+		return notification;
 	}
 
 }

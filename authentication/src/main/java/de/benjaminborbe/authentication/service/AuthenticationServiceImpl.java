@@ -497,10 +497,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public User getUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			return userDao.load(userIdentifier);
-		}
-		catch (final StorageException e) {
-			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+			return authenticationVerifyCredential.getUser(userIdentifier);
 		}
 		finally {
 			if (duration.getTime() > DURATION_WARN)
