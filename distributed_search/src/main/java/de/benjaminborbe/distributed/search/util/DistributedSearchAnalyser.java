@@ -9,20 +9,24 @@ import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.search.SearchUtil;
+import org.slf4j.Logger;
 
 public class DistributedSearchAnalyser {
 
+	private final Logger logger;
 	private final SearchUtil searchUtil;
 
 	private final StopWords stopWords;
 
 	@Inject
-	public DistributedSearchAnalyser(final SearchUtil searchUtil, final StopWords stopWords) {
+	public DistributedSearchAnalyser(Logger logger, final SearchUtil searchUtil, final StopWords stopWords) {
+		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.stopWords = stopWords;
 	}
 
 	public Collection<String> parseSearchTerm(final String content) {
+		logger.debug("parseSearchTerm: " + content);
 		return filter(searchUtil.buildSearchParts(content));
 	}
 
@@ -32,7 +36,7 @@ public class DistributedSearchAnalyser {
 	}
 
 	public Map<String, Integer> parseWordRating(final String... contents) {
-		final Map<String, Integer> result = new HashMap<String, Integer>();
+		final Map<String, Integer> result = new HashMap<>();
 		for (final String content : contents) {
 			parseWordRating(content, 1, result);
 		}
@@ -44,8 +48,7 @@ public class DistributedSearchAnalyser {
 			final Integer m = result.get(word);
 			if (m != null) {
 				result.put(word, m + rating);
-			}
-			else {
+			} else {
 				result.put(word, rating);
 			}
 		}

@@ -44,7 +44,7 @@ public class DistributedSearchAnalyserUnitTest {
 		EasyMock.replay(logger);
 
 		final StopWords stopWords = new StopWordsImpl(logger);
-		return new DistributedSearchAnalyser(searchUtil, stopWords);
+		return new DistributedSearchAnalyser(logger, searchUtil, stopWords);
 	}
 
 	@Test

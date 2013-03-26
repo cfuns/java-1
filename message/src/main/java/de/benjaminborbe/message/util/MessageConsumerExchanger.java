@@ -128,11 +128,11 @@ public class MessageConsumerExchanger {
 			if (startTime != null) {
 				final Calendar now = calendarUtil.now();
 				if (startTime.getTimeInMillis() > now.getTimeInMillis()) {
-					logger.trace("startTime not reached " + startTime.getTimeInMillis() + " > " + now.getTimeInMillis() + " => skip");
+					logger.debug("startTime not reached " + startTime.getTimeInMillis() + " > " + now.getTimeInMillis() + " => skip");
 					return;
 				}
 				else {
-					logger.trace("startTime reached " + startTime.getTimeInMillis() + " <= " + now.getTimeInMillis());
+					logger.debug("startTime reached " + startTime.getTimeInMillis() + " <= " + now.getTimeInMillis());
 				}
 			}
 			else {
@@ -143,10 +143,10 @@ public class MessageConsumerExchanger {
 		boolean result;
 		try {
 			if (lock(message)) {
-				logger.trace("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
+				logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
 				result = messageConsumer.process(message);
 			} else {
-				logger.trace("lock message failed => skip");
+				logger.debug("lock message failed => skip");
 				return;
 			}
 		}
@@ -157,9 +157,9 @@ public class MessageConsumerExchanger {
 		final long counter = message.getRetryCounter() != null ? message.getRetryCounter() : 0;
 		final long maxRetry = message.getMaxRetryCounter() != null ? message.getMaxRetryCounter() : MessageConstants.MAX_RETRY;
 		if (result) {
-			logger.trace("delete success processed message - type: " + message.getType() + " id: " + message.getId());
+			logger.debug("delete success processed message - type: " + message.getType() + " id: " + message.getId());
 			messageDao.delete(message);
-			logger.trace("result success => delete message");
+			logger.debug("result success => delete message");
 			track(analyticsReportIdentifierSuccess);
 		}
 		else if (counter >= maxRetry) {
@@ -182,7 +182,7 @@ public class MessageConsumerExchanger {
 							.add(MessageBeanMapper.START_TIME));
 			track(analyticsReportIdentifierRetry);
 		}
-		logger.trace("process message done");
+		logger.debug("process message done");
 	}
 
 	private Calendar calcStartTime(final long retryCounter) {
@@ -202,10 +202,10 @@ public class MessageConsumerExchanger {
 	private boolean lock(final MessageBean message) throws StorageException {
 		if (message.getLockTime() == null) {
 			final Calendar now = calendarUtil.now();
-			logger.trace("try lock message - lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
+			logger.debug("try lock message - lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockName(lockName);
 			message.setLockTime(now);
-			logger.trace("lock message - type: " + message.getType() + " id: " + message.getId());
+			logger.debug("lock message - type: " + message.getType() + " id: " + message.getId());
 			messageDao.save(message, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME).add(MessageBeanMapper.LOCK_NAME));
 
 			try {
@@ -218,7 +218,7 @@ public class MessageConsumerExchanger {
 			messageDao.load(message, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME));
 
 			if (lockName.equals(message.getLockName())) {
-				logger.trace("lock message success - id: " + message.getId());
+				logger.debug("lock message success - id: " + message.getId());
 				return true;
 			}
 			else {
@@ -230,12 +230,12 @@ public class MessageConsumerExchanger {
 			final Calendar now = calendarUtil.now();
 			logger.debug("update message lock - id: " + message.getId() + " lockName: " + lockName + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockTime(now);
-			logger.info("extend message lockTime - type: " + message.getType() + " id: " + message.getId());
+			logger.debug("extend message lockTime - type: " + message.getType() + " id: " + message.getId());
 			messageDao.save(message, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME).add(MessageBeanMapper.LOCK_NAME));
 			return false;
 		}
 		else {
-			logger.trace("lock message failed - id: " + message.getId());
+			logger.debug("lock message failed - id: " + message.getId());
 			return false;
 		}
 	}

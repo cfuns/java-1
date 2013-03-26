@@ -43,6 +43,18 @@ public class SearchUtilUnitTest {
 	}
 
 	@Test
+	public void testParseMultibleWords() {
+		final SearchUtil searchUtil = new SearchUtil();
+
+		String term = "Cool Portal Bla";
+
+		assertThat(searchUtil.buildSearchParts(term).size(), is(3));
+		assertThat(searchUtil.buildSearchParts(term), is(hasItem("cool")));
+		assertThat(searchUtil.buildSearchParts(term), is(hasItem("portal")));
+		assertThat(searchUtil.buildSearchParts(term), is(hasItem("bla")));
+	}
+
+	@Test
 	public void testParseCamelCase() throws Exception {
 		final SearchUtil searchUtil = new SearchUtil();
 
