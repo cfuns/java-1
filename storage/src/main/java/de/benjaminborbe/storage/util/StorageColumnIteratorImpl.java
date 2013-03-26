@@ -43,7 +43,7 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 
 	private final int count = 100;
 
-	private int pos = 0;
+	private int columnPos = 0;
 
 	public StorageColumnIteratorImpl(
 			final StorageConnectionPool storageConnectionPool,
@@ -70,20 +70,19 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 	public boolean hasNext() throws StorageException {
 		StorageConnection connection = null;
 		try {
-			if (columns == null || columns.size() == pos) {
+			if (columns == null || columns.size() == columnPos && columnPos > 0) {
 				connection = storageConnectionPool.getConnection();
 				final Iface client = connection.getClient(keySpace);
-
 				if (columns != null) {
 					slice_range.setStart(columns.get(columns.size() - 1).getColumn().getName());
-					pos = 1;
+					columnPos = 1;
 				}
 				else {
-					pos = 0;
+					columnPos = 0;
 				}
 				columns = client.get_slice(key, columnParent, predicate, consistency_level);
 			}
-			return columns != null && columns.size() > pos;
+			return columns != null && columns.size() > columnPos;
 		}
 		catch (final StorageConnectionPoolException e) {
 			throw new StorageException(e);
@@ -109,9 +108,9 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 	@Override
 	public StorageColumn next() throws StorageException {
 		if (hasNext()) {
-			final ColumnOrSuperColumn column = columns.get(pos);
+			final ColumnOrSuperColumn column = columns.get(columnPos);
 			final StorageColumn result = new StorageColumnImpl(new StorageValue(column.getColumn().getName(), encoding), new StorageValue(column.getColumn().getValue(), encoding));
-			pos++;
+			columnPos++;
 			return result;
 		}
 		else {
