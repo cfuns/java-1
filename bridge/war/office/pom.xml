@@ -28,7 +28,8 @@
 			de.benjaminborbe.monitoring, de.benjaminborbe.monitoring.gui, de.benjaminborbe.kiosk.api, de.benjaminborbe.kiosk, de.benjaminborbe.kiosk.gui, de.benjaminborbe.lunch.api, de.benjaminborbe.lunch,
 			de.benjaminborbe.lunch.gui, de.benjaminborbe.performance.api, de.benjaminborbe.performance, de.benjaminborbe.performance.gui, de.benjaminborbe.systemstatus.api, de.benjaminborbe.systemstatus,
 			de.benjaminborbe.systemstatus.gui, de.benjaminborbe.projectile.api, de.benjaminborbe.projectile, de.benjaminborbe.projectile.gui, de.benjaminborbe.translate.api, de.benjaminborbe.translate,
-			de.benjaminborbe.translate.gui, de.benjaminborbe.wiki.api, de.benjaminborbe.wiki, de.benjaminborbe.wiki.gui, de.benjaminborbe.poker.api, de.benjaminborbe.poker, de.benjaminborbe.poker.gui 
+			de.benjaminborbe.translate.gui, de.benjaminborbe.wiki.api, de.benjaminborbe.wiki, de.benjaminborbe.wiki.gui, de.benjaminborbe.poker.api, de.benjaminborbe.poker, de.benjaminborbe.poker.gui,
+			de.benjaminborbe.notification.api, de.benjaminborbe.notification, de.benjaminborbe.notification.gui 
 		</includeArtifactIds>
 	</properties>
 	<build>
@@ -632,6 +633,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.xmlrpc.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.notification.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.notification</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.notification.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

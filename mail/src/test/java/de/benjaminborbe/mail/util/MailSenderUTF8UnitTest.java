@@ -17,8 +17,8 @@ public class MailSenderUTF8UnitTest {
 		final MailSessionFactory mailSessionFactory = new MailSessionFactoryMock();
 		final MailSender mailService = new MailSenderUTF8(logger, mailSessionFactory);
 
-		final String from = "bborbe@seibert-media.net";
-		final String to = "bborbe@seibert-media.net";
+		final String from = "foo@example.com";
+		final String to = "foo@example.com";
 		final String subject = "Hällööö Wörld";
 		final String content = "Toller UTF8-Contäääänt";
 		final String contentType = "text/plain";

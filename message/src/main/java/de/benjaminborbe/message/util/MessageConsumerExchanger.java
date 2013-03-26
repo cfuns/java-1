@@ -13,7 +13,6 @@ import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.message.MessageConstants;
 import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.message.api.MessageIdentifier;
-import de.benjaminborbe.message.config.MessageConfig;
 import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.message.dao.MessageBeanMapper;
 import de.benjaminborbe.message.dao.MessageDao;
@@ -25,7 +24,6 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATimeByType;
 import de.benjaminborbe.tools.util.RandomUtil;
-import de.benjaminborbe.tools.util.ThreadPoolExecuterBuilder;
 
 @Singleton
 public class MessageConsumerExchanger {
@@ -88,8 +86,6 @@ public class MessageConsumerExchanger {
 	@Inject
 	public MessageConsumerExchanger(
 			final Logger logger,
-			final MessageConfig messageConfig,
-			final ThreadPoolExecuterBuilder threadPoolExecuterBuilder,
 			final RunOnlyOnceATimeByType runOnlyOnceATimeByType,
 			final AnalyticsService analyticsService,
 			final RandomUtil randomUtil,
@@ -110,13 +106,14 @@ public class MessageConsumerExchanger {
 
 	public boolean exchange() {
 		try {
-			logger.trace("exchange message - started");
+			logger.debug("exchange message - started");
 			final IdentifierIterator<MessageIdentifier> i = messageDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				final MessageIdentifier messageIdentifier = i.next();
+				logger.debug("exchange message - id: " + messageIdentifier);
 				runOnlyOnceATimeByType.run(String.valueOf(messageIdentifier), new ExchangeMessage(messageIdentifier));
 			}
-			logger.trace("exchange message - finished");
+			logger.debug("exchange message - finished");
 			return true;
 		}
 		catch (final StorageException | IdentifierIteratorException e) {
@@ -143,14 +140,15 @@ public class MessageConsumerExchanger {
 			}
 		}
 
-		boolean result = false;
+		boolean result;
 		try {
-			if (!lock(message)) {
+			if (lock(message)) {
+				logger.trace("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
+				result = messageConsumer.process(message);
+			} else {
 				logger.trace("lock message failed => skip");
 				return;
 			}
-			logger.trace("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
-			result = messageConsumer.process(message);
 		}
 		catch (final Exception e) {
 			logger.warn("process message failed", e);
@@ -172,7 +170,7 @@ public class MessageConsumerExchanger {
 		}
 		else {
 			final long increasedCounter = counter + 1;
-			logger.debug("process message failed, increase retrycounter to " + increasedCounter);
+			logger.debug("process message failed, increase retryCounter to " + increasedCounter);
 			message.setRetryCounter(increasedCounter);
 			message.setStartTime(calcStartTime(increasedCounter));
 			message.setLockName(null);
@@ -214,6 +212,7 @@ public class MessageConsumerExchanger {
 				Thread.sleep(randomUtil.getRandomized(10000, 50));
 			}
 			catch (final InterruptedException e) {
+				// nop
 			}
 
 			messageDao.load(message, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME));
@@ -248,6 +247,7 @@ public class MessageConsumerExchanger {
 	private void exchange(final MessageBean message) throws StorageException {
 		final MessageConsumer messageConsumer = messageConsumerRegistry.get(message.getType());
 		if (messageConsumer != null) {
+			logger.debug("messageConsumer found for type: " + message.getType());
 			exchange(message, messageConsumer);
 		}
 		else {
