@@ -43,8 +43,8 @@
 							<goal>test</goal>
 						</goals>
 						<configuration>
-							<deployProjectArtifact>true</deployProjectArtifact>
 							<configuration>
+								<deployProjectArtifact>true</deployProjectArtifact>
 								<org.osgi.framework.system.packages.extra>${felix_plugin_junit},org.bouncycastle.cms,org.bouncycastle.jce.provider</org.osgi.framework.system.packages.extra>
 							</configuration>
 						</configuration>

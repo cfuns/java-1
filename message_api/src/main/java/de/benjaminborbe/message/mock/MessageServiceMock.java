@@ -31,6 +31,11 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	@Override
+	public String getLockName(SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
 	public void sendMessage(final String type, final String id, final String content) throws MessageServiceException {
 	}
 

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
 import com.google.common.collect.Lists;
@@ -63,19 +64,19 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public MessageGuiMessageListServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService,
-			final MessageService messageService,
-			final MessageGuiLinkFactory messageGuiLinkFactory) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final RedirectUtil redirectUtil,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService,
+		final MessageService messageService,
+		final MessageGuiLinkFactory messageGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.messageService = messageService;
 		this.authenticationService = authenticationService;
@@ -91,17 +92,20 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<Message> messages = Lists.newArrayList(messageService.getMessages(sessionIdentifier));
 
+			widgets.add("LockName: ");
+			widgets.add(messageService.getLockName(sessionIdentifier));
+			widgets.add(new BrWidget());
+
 			if (messages.isEmpty()) {
 				widgets.add("no message found");
-			}
-			else {
+			} else {
 
 				final TableWidget table = new TableWidget();
 				table.addClass("sortable");
@@ -124,13 +128,11 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 
 			}
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final MessageServiceException e) {
+		} catch (final MessageServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

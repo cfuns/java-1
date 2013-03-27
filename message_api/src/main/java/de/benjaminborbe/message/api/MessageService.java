@@ -27,4 +27,6 @@ public interface MessageService {
 
 	boolean unlockExpiredMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException;
 
+	String getLockName(SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException;
+
 }

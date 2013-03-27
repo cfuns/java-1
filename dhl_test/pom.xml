@@ -44,8 +44,8 @@
 							<goal>test</goal>
 						</goals>
 						<configuration>
-							<deployProjectArtifact>true</deployProjectArtifact>
 							<configuration>
+								<deployProjectArtifact>true</deployProjectArtifact>
 								<org.osgi.framework.system.packages.extra>${felix_plugin_junit},org.bouncycastle.cms,org.bouncycastle.jce.provider</org.osgi.framework.system.packages.extra>
 							</configuration>
 						</configuration>
@@ -183,12 +183,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.authorization.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

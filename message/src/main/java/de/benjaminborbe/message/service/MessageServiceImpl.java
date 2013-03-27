@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import de.benjaminborbe.message.util.MessageLock;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -59,11 +60,13 @@ public class MessageServiceImpl implements MessageService {
 
 	private final ValidationExecutor validationExecutor;
 
+	private final MessageLock messageLock;
 	private final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider;
 
 	@Inject
 	public MessageServiceImpl(
 			final Logger logger,
+			MessageLock messageLock,
 			final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider,
 			final ValidationExecutor validationExecutor,
 			final AnalyticsService analyticsService,
@@ -73,6 +76,7 @@ public class MessageServiceImpl implements MessageService {
 			final AuthorizationService authorizationService,
 			final CalendarUtil calendarUtil) {
 		this.logger = logger;
+		this.messageLock = messageLock;
 		this.messageConsumerExchangerProvider = messageConsumerExchangerProvider;
 		this.validationExecutor = validationExecutor;
 		this.analyticsService = analyticsService;
@@ -144,6 +148,17 @@ public class MessageServiceImpl implements MessageService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			return messageUnlock.execute();
+		}
+		catch (final AuthorizationServiceException e) {
+			throw new MessageServiceException(e);
+		}
+	}
+
+	@Override
+	public String getLockName(SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException {
+		try {
+			authorizationService.expectAdminRole(sessionIdentifier);
+			return messageLock.getLockName();
 		}
 		catch (final AuthorizationServiceException e) {
 			throw new MessageServiceException(e);

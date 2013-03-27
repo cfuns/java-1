@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
-		<artifactId>de.benjaminborbe.parent</artifactId>
+		<artifactId>de.benjaminborbe.lib</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.tools</artifactId>
-	<name>Benjamin Borbe - Tools</name>
-	<description>Benjamin Borbe - Tools</description>
+	<name>Benjamin Borbe - Lib - Tools</name>
+	<description>Benjamin Borbe - Lib - Tools</description>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>

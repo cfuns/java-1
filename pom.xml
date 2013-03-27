@@ -68,6 +68,12 @@
 			</modules>
 		</profile>
 		<profile>
+			<id>lib</id>
+			<modules>
+				<module>lib</module>
+			</modules>
+		</profile>
+		<profile>
 			<id>test</id>
 			<modules>
 				<module>authentication_test</module>
@@ -293,9 +299,6 @@
 				<module>timetracker</module>
 				<module>timetracker_api</module>
 				<module>timetracker_gui</module>
-				<module>tools</module>
-				<module>tools_osgi</module>
-				<module>test_osgi</module>
 				<module>translate</module>
 				<module>translate_api</module>
 				<module>translate_gui</module>
