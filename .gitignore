@@ -358,8 +358,8 @@ projectile_gui/de.benjaminborbe.projectile.gui.iml
 projectile_gui/target
 projectile_test/de.benjaminborbe.projectile.test.iml
 projectile_test/target
-sample/de.benjaminborbe.sample.iml
-sample/target
+sample_core/de.benjaminborbe.sample.iml
+sample_core/target
 sample_api/de.benjaminborbe.sample.api.iml
 sample_api/target
 sample_gui/de.benjaminborbe.sample.gui.iml

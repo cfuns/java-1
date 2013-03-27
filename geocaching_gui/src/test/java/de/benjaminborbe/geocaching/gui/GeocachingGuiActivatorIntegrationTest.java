@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.gui;
+package de.benjaminborbe.geocaching.gui;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -16,7 +16,7 @@ import org.junit.Test;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.geocaching.gui.GeocachingGuiActivator;
-import de.benjaminborbe.sample.gui.guice.GeocachingGuiModulesMock;
+import de.benjaminborbe.geocaching.gui.guice.GeocachingGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;

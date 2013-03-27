@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.gui.guice;
+package de.benjaminborbe.geocaching.gui.guice;
 
 import java.util.Arrays;
 import java.util.Collection;

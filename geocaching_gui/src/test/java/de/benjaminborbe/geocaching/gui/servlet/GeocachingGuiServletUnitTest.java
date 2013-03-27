@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.gui.servlet;
+package de.benjaminborbe.geocaching.gui.servlet;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

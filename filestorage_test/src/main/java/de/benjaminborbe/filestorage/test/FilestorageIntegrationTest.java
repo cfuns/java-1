@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.test;
+package de.benjaminborbe.filestorage.test;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;

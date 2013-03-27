@@ -3,7 +3,7 @@
 	<artifactId>de.benjaminborbe.poker.client</artifactId>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
-		<artifactId>de.benjaminborbe.parent</artifactId>
+		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<name>Benjamin Borbe - Poker-Client</name>

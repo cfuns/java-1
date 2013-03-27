@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
-		<artifactId>de.benjaminborbe.parent</artifactId>
+		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.sample.test</artifactId>
@@ -140,7 +140,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.sample</artifactId>
+			<artifactId>de.benjaminborbe.sample.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

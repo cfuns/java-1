@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.gui.guice;
+package de.benjaminborbe.geocaching.gui.guice;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;

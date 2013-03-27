@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.test;
+package de.benjaminborbe.filestorage.test;
 
 import junit.framework.Test;
 

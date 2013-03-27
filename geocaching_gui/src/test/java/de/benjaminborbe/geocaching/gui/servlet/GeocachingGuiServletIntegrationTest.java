@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.gui.servlet;
+package de.benjaminborbe.geocaching.gui.servlet;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import com.google.inject.Injector;
 
+import de.benjaminborbe.geocaching.gui.guice.GeocachingGuiModulesMock;
 import de.benjaminborbe.geocaching.gui.servlet.GeocachingGuiServlet;
-import de.benjaminborbe.sample.gui.guice.GeocachingGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class GeocachingGuiServletIntegrationTest {
