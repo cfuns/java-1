@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.portfolio.test</artifactId>
-	<name>Benjamin Borbe - Portfolio-Test</name>
-	<description>Benjamin Borbe - Portfolio-Test</description>
+	<name>Benjamin Borbe - Portfolio - Test</name>
+	<description>Benjamin Borbe - Portfolio - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

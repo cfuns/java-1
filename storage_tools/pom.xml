@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.storage.tools</artifactId>
-	<name>Benjamin Borbe - StorageTools</name>
-	<description>Benjamin Borbe - StorageTools</description>
+	<name>Benjamin Borbe - Storage - Tools</name>
+	<description>Benjamin Borbe - Storage - Tools</description>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>

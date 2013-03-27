@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.kiosk.test</artifactId>
-	<name>Benjamin Borbe - Kiosk-Test</name>
-	<description>Benjamin Borbe - Kiosk-Test</description>
+	<name>Benjamin Borbe - Kiosk - Test</name>
+	<description>Benjamin Borbe - Kiosk - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

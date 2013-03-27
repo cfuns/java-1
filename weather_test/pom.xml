@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.weather.test</artifactId>
-	<name>Benjamin Borbe - Weather-Test</name>
-	<description>Benjamin Borbe - Weather-Test</description>
+	<name>Benjamin Borbe - Weather - Test</name>
+	<description>Benjamin Borbe - Weather - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

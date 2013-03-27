@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.streamcache.test</artifactId>
-	<name>Benjamin Borbe - Streamcache-Test</name>
-	<description>Benjamin Borbe - Streamcache-Test</description>
+	<name>Benjamin Borbe - Streamcache - Test</name>
+	<description>Benjamin Borbe - Streamcache - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

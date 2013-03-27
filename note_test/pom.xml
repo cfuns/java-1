@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.note.test</artifactId>
-	<name>Benjamin Borbe - Note-Test</name>
-	<description>Benjamin Borbe - Note-Test</description>
+	<name>Benjamin Borbe - Note - Test</name>
+	<description>Benjamin Borbe - Note - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

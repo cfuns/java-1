@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.util.test</artifactId>
-	<name>Benjamin Borbe - Util-Test</name>
-	<description>Benjamin Borbe - Util-Test</description>
+	<name>Benjamin Borbe - Util - Test</name>
+	<description>Benjamin Borbe - Util - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

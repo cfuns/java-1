@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.vaadin.test</artifactId>
-	<name>Benjamin Borbe - Vaadin-Test</name>
-	<description>Benjamin Borbe - Vaadin-Test</description>
+	<name>Benjamin Borbe - Vaadin - Test</name>
+	<description>Benjamin Borbe - Vaadin - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

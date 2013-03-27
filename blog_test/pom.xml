@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.blog.test</artifactId>
-	<name>Benjamin Borbe - Blog-Test</name>
-	<description>Benjamin Borbe - Blog-Test</description>
+	<name>Benjamin Borbe - Blog - Test</name>
+	<description>Benjamin Borbe - Blog - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

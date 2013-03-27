@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.html.test</artifactId>
-	<name>Benjamin Borbe - Html-Test</name>
-	<description>Benjamin Borbe - Html-Test</description>
+	<name>Benjamin Borbe - Html - Test</name>
+	<description>Benjamin Borbe - Html - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

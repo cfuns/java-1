@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.message.gui</artifactId>
-	<name>Benjamin Borbe - Message-Gui</name>
-	<description>Benjamin Borbe - Message-Gui</description>
+	<name>Benjamin Borbe - Message - Gui</name>
+	<description>Benjamin Borbe - Message - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

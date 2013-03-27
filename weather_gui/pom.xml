@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.weather.gui</artifactId>
-	<name>Benjamin Borbe - Weather-Gui</name>
-	<description>Benjamin Borbe - Weather-Gui</description>
+	<name>Benjamin Borbe - Weather - Gui</name>
+	<description>Benjamin Borbe - Weather - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.distributed.search.test</artifactId>
-	<name>Benjamin Borbe - DistributedSearch-Test</name>
-	<description>Benjamin Borbe - DistributedSearch-Test</description>
+	<name>Benjamin Borbe - DistributedSearch - Test</name>
+	<description>Benjamin Borbe - DistributedSearch - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

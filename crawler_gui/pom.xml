@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.crawler.gui</artifactId>
-	<name>Benjamin Borbe - Crawler-Gui</name>
-	<description>Benjamin Borbe - Crawler-Gui</description>
+	<name>Benjamin Borbe - Crawler - Gui</name>
+	<description>Benjamin Borbe - Crawler - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

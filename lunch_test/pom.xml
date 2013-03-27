@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.lunch.test</artifactId>
-	<name>Benjamin Borbe - Lunch-Test</name>
-	<description>Benjamin Borbe - Lunch-Test</description>
+	<name>Benjamin Borbe - Lunch - Test</name>
+	<description>Benjamin Borbe - Lunch - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

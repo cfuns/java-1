@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.monitoring.tools</artifactId>
-	<name>Benjamin Borbe - MonitoringTools</name>
-	<description>Benjamin Borbe - MonitoringTools</description>
+	<name>Benjamin Borbe - Monitoring - Tools</name>
+	<description>Benjamin Borbe - Monitoring - Tools</description>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>

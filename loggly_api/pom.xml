@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.loggly.api</artifactId>
-	<name>Benjamin Borbe - Loggly-Api</name>
-	<description>Benjamin Borbe - Loggly-Api</description>
+	<name>Benjamin Borbe - Loggly - Api</name>
+	<description>Benjamin Borbe - Loggly - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

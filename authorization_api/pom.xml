@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.authorization.api</artifactId>
-	<name>Benjamin Borbe - Authorization-Api</name>
-	<description>Benjamin Borbe - Authorization-Api</description>
+	<name>Benjamin Borbe - Authorization - Api</name>
+	<description>Benjamin Borbe - Authorization - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

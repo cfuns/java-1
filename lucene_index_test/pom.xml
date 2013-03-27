@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.lucene.index.test</artifactId>
-	<name>Benjamin Borbe - LuceneIndex-Test</name>
-	<description>Benjamin Borbe - LuceneIndex-Test</description>
+	<name>Benjamin Borbe - LuceneIndex - Test</name>
+	<description>Benjamin Borbe - LuceneIndex - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

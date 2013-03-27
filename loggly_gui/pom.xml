@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.loggly.gui</artifactId>
-	<name>Benjamin Borbe - Loggly-Gui</name>
-	<description>Benjamin Borbe - Loggly-Gui</description>
+	<name>Benjamin Borbe - Loggly - Gui</name>
+	<description>Benjamin Borbe - Loggly - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.cron.test</artifactId>
-	<name>Benjamin Borbe - Cron-Test</name>
-	<description>Benjamin Borbe - Cron-Test</description>
+	<name>Benjamin Borbe - Cron - Test</name>
+	<description>Benjamin Borbe - Cron - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.worktime.test</artifactId>
-	<name>Benjamin Borbe - Worktime-Test</name>
-	<description>Benjamin Borbe - Worktime-Test</description>
+	<name>Benjamin Borbe - Worktime - Test</name>
+	<description>Benjamin Borbe - Worktime - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.projectile.test</artifactId>
-	<name>Benjamin Borbe - Projectile-Test</name>
-	<description>Benjamin Borbe - Projectile-Test</description>
+	<name>Benjamin Borbe - Projectile - Test</name>
+	<description>Benjamin Borbe - Projectile - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

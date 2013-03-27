@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.poker.table</artifactId>
-	<name>Benjamin Borbe - Poker-Table</name>
-	<description>Benjamin Borbe - Poker-Table</description>
+	<name>Benjamin Borbe - Poker - Table</name>
+	<description>Benjamin Borbe - Poker - Table</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

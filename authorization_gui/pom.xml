@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.authorization.gui</artifactId>
-	<name>Benjamin Borbe - Authorization-Gui</name>
-	<description>Benjamin Borbe - Authorization-Gui</description>
+	<name>Benjamin Borbe - Authorization - Gui</name>
+	<description>Benjamin Borbe - Authorization - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

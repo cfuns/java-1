@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.confluence.test</artifactId>
-	<name>Benjamin Borbe - Confluence-Test</name>
-	<description>Benjamin Borbe - Confluence-Test</description>
+	<name>Benjamin Borbe - Confluence - Test</name>
+	<description>Benjamin Borbe - Confluence - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

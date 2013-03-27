@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.search.api</artifactId>
-	<name>Benjamin Borbe - Search-Api</name>
-	<description>Benjamin Borbe - Search-Api</description>
+	<name>Benjamin Borbe - Search - Api</name>
+	<description>Benjamin Borbe - Search - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

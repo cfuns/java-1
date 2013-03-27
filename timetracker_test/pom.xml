@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.timetracker.test</artifactId>
-	<name>Benjamin Borbe - Timetracker-Test</name>
-	<description>Benjamin Borbe - Timetracker-Test</description>
+	<name>Benjamin Borbe - Timetracker - Test</name>
+	<description>Benjamin Borbe - Timetracker - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

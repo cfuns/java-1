@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.websearch.test</artifactId>
-	<name>Benjamin Borbe - Websearch-Test</name>
-	<description>Benjamin Borbe - Websearch-Test</description>
+	<name>Benjamin Borbe - Websearch - Test</name>
+	<description>Benjamin Borbe - Websearch - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

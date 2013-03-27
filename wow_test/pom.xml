@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.wow.test</artifactId>
-	<name>Benjamin Borbe - Wow-Test</name>
-	<description>Benjamin Borbe - Wow-Test</description>
+	<name>Benjamin Borbe - Wow - Test</name>
+	<description>Benjamin Borbe - Wow - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

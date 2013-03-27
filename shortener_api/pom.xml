@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.shortener.api</artifactId>
-	<name>Benjamin Borbe - Shortener-Api</name>
-	<description>Benjamin Borbe - Shortener-Api</description>
+	<name>Benjamin Borbe - Shortener - Api</name>
+	<description>Benjamin Borbe - Shortener - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

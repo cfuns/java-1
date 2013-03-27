@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.cache.gui</artifactId>
-	<name>Benjamin Borbe - Cache-Gui</name>
-	<description>Benjamin Borbe - Cache-Gui</description>
+	<name>Benjamin Borbe - Cache - Gui</name>
+	<description>Benjamin Borbe - Cache - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.calendar.gui</artifactId>
-	<name>Benjamin Borbe - Calendar-Gui</name>
-	<description>Benjamin Borbe - Calendar-Gui</description>
+	<name>Benjamin Borbe - Calendar - Gui</name>
+	<description>Benjamin Borbe - Calendar - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

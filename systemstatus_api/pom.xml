@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.systemstatus.api</artifactId>
-	<name>Benjamin Borbe - Systemstatus-Api</name>
-	<description>Benjamin Borbe - Systemstatus-Api</description>
+	<name>Benjamin Borbe - Systemstatus - Api</name>
+	<description>Benjamin Borbe - Systemstatus - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

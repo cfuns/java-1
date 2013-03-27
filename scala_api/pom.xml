@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.scala.api</artifactId>
-	<name>Benjamin Borbe - Scala-Api</name>
-	<description>Benjamin Borbe - Scala-Api</description>
+	<name>Benjamin Borbe - Scala - Api</name>
+	<description>Benjamin Borbe - Scala - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

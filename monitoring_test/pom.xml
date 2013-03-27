@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.monitoring.test</artifactId>
-	<name>Benjamin Borbe - Monitoring-Test</name>
-	<description>Benjamin Borbe - Monitoring-Test</description>
+	<name>Benjamin Borbe - Monitoring - Test</name>
+	<description>Benjamin Borbe - Monitoring - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

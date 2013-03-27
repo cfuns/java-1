@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.bookmark.api</artifactId>
-	<name>Benjamin Borbe - Bookmark-Api</name>
-	<description>Benjamin Borbe - Bookmark-Api</description>
+	<name>Benjamin Borbe - Bookmark - Api</name>
+	<description>Benjamin Borbe - Bookmark - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.poker.test</artifactId>
-	<name>Benjamin Borbe - Poker-Test</name>
-	<description>Benjamin Borbe - Poker-Test</description>
+	<name>Benjamin Borbe - Poker - Test</name>
+	<description>Benjamin Borbe - Poker - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

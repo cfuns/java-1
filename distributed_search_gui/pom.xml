@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.distributed.search.gui</artifactId>
-	<name>Benjamin Borbe - DistributedSearch-Gui</name>
-	<description>Benjamin Borbe - DistributedSearch-Gui</description>
+	<name>Benjamin Borbe - DistributedSearch - Gui</name>
+	<description>Benjamin Borbe - DistributedSearch - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

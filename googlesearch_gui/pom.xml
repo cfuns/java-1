@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.googlesearch.gui</artifactId>
-	<name>Benjamin Borbe - Googlesearch-Gui</name>
-	<description>Benjamin Borbe - Googlesearch-Gui</description>
+	<name>Benjamin Borbe - Googlesearch - Gui</name>
+	<description>Benjamin Borbe - Googlesearch - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

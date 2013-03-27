@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.note.api</artifactId>
-	<name>Benjamin Borbe - Note-Api</name>
-	<description>Benjamin Borbe - Note-Api</description>
+	<name>Benjamin Borbe - Note - Api</name>
+	<description>Benjamin Borbe - Note - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

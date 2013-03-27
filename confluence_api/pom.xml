@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.confluence.api</artifactId>
-	<name>Benjamin Borbe - Confluence-Api</name>
-	<description>Benjamin Borbe - Confluence-Api</description>
+	<name>Benjamin Borbe - Confluence - Api</name>
+	<description>Benjamin Borbe - Confluence - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

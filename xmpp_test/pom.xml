@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.xmpp.test</artifactId>
-	<name>Benjamin Borbe - Xmpp-Test</name>
-	<description>Benjamin Borbe - Xmpp-Test</description>
+	<name>Benjamin Borbe - Xmpp - Test</name>
+	<description>Benjamin Borbe - Xmpp - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

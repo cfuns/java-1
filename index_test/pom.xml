@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.index.test</artifactId>
-	<name>Benjamin Borbe - Index-Test</name>
-	<description>Benjamin Borbe - Index-Test</description>
+	<name>Benjamin Borbe - Index - Test</name>
+	<description>Benjamin Borbe - Index - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

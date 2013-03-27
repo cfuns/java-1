@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.forum.test</artifactId>
-	<name>Benjamin Borbe - Forum-Test</name>
-	<description>Benjamin Borbe - Forum-Test</description>
+	<name>Benjamin Borbe - Forum - Test</name>
+	<description>Benjamin Borbe - Forum - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

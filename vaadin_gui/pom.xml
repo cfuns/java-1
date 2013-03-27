@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.vaadin.gui</artifactId>
-	<name>Benjamin Borbe - Vaadin-Gui</name>
-	<description>Benjamin Borbe - Vaadin-Gui</description>
+	<name>Benjamin Borbe - Vaadin - Gui</name>
+	<description>Benjamin Borbe - Vaadin - Gui</description>
 	<packaging>bundle</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

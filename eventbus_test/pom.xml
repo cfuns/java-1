@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.eventbus.test</artifactId>
-	<name>Benjamin Borbe - Eventbus-Test</name>
-	<description>Benjamin Borbe - Eventbus-Test</description>
+	<name>Benjamin Borbe - Eventbus - Test</name>
+	<description>Benjamin Borbe - Eventbus - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

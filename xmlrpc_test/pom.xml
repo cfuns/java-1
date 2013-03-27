@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.xmlrpc.test</artifactId>
-	<name>Benjamin Borbe - Xmlrpc-Test</name>
-	<description>Benjamin Borbe - Xmlrpc-Test</description>
+	<name>Benjamin Borbe - Xmlrpc - Test</name>
+	<description>Benjamin Borbe - Xmlrpc - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.websearch.api</artifactId>
-	<name>Benjamin Borbe - Websearch-Api</name>
-	<description>Benjamin Borbe - Websearch-Api</description>
+	<name>Benjamin Borbe - Websearch - Api</name>
+	<description>Benjamin Borbe - Websearch - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

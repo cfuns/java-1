@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.filestorage.gui</artifactId>
-	<name>Benjamin Borbe - Filestorage-Gui</name>
-	<description>Benjamin Borbe - Filestorage-Gui</description>
+	<name>Benjamin Borbe - Filestorage - Gui</name>
+	<description>Benjamin Borbe - Filestorage - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

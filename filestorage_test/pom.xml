@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.filestorage.test</artifactId>
-	<name>Benjamin Borbe - Filestorage-Test</name>
-	<description>Benjamin Borbe - Filestorage-Test</description>
+	<name>Benjamin Borbe - Filestorage - Test</name>
+	<description>Benjamin Borbe - Filestorage - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

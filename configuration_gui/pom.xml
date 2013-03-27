@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.configuration.gui</artifactId>
-	<name>Benjamin Borbe - Configuration-Gui</name>
-	<description>Benjamin Borbe - Configuration-Gui</description>
+	<name>Benjamin Borbe - Configuration - Gui</name>
+	<description>Benjamin Borbe - Configuration - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

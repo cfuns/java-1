@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.cms.test</artifactId>
-	<name>Benjamin Borbe - Cms-Test</name>
-	<description>Benjamin Borbe - Cms-Test</description>
+	<name>Benjamin Borbe - Cms - Test</name>
+	<description>Benjamin Borbe - Cms - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.loggly.test</artifactId>
-	<name>Benjamin Borbe - Loggly-Test</name>
-	<description>Benjamin Borbe - Loggly-Test</description>
+	<name>Benjamin Borbe - Loggly - Test</name>
+	<description>Benjamin Borbe - Loggly - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

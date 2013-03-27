@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.gwt.api</artifactId>
-	<name>Benjamin Borbe - Gwt-Api</name>
-	<description>Benjamin Borbe - Gwt-Api</description>
+	<name>Benjamin Borbe - Gwt - Api</name>
+	<description>Benjamin Borbe - Gwt - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

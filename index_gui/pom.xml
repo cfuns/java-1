@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.index.gui</artifactId>
-	<name>Benjamin Borbe - Index-Gui</name>
-	<description>Benjamin Borbe - Index-Gui</description>
+	<name>Benjamin Borbe - Index - Gui</name>
+	<description>Benjamin Borbe - Index - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

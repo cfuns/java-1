@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.authorization.test</artifactId>
-	<name>Benjamin Borbe - Authorization-Test</name>
-	<description>Benjamin Borbe - Authorization-Test</description>
+	<name>Benjamin Borbe - Authorization - Test</name>
+	<description>Benjamin Borbe - Authorization - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

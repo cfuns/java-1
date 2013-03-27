@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.gwt.test</artifactId>
-	<name>Benjamin Borbe - Gwt-Test</name>
-	<description>Benjamin Borbe - Gwt-Test</description>
+	<name>Benjamin Borbe - Gwt - Test</name>
+	<description>Benjamin Borbe - Gwt - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.wow.gui</artifactId>
-	<name>Benjamin Borbe - Wow-Gui</name>
-	<description>Benjamin Borbe - Wow-Gui</description>
+	<name>Benjamin Borbe - Wow - Gui</name>
+	<description>Benjamin Borbe - Wow - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

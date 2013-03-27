@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.slash.test</artifactId>
-	<name>Benjamin Borbe - Slash-Test</name>
-	<description>Benjamin Borbe - Slash-Test</description>
+	<name>Benjamin Borbe - Slash - Test</name>
+	<description>Benjamin Borbe - Slash - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

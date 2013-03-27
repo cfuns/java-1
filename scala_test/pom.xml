@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.scala.test</artifactId>
-	<name>Benjamin Borbe - Scala-Test</name>
-	<description>Benjamin Borbe - Scala-Test</description>
+	<name>Benjamin Borbe - Scala - Test</name>
+	<description>Benjamin Borbe - Scala - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

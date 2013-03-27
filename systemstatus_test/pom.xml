@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.systemstatus.test</artifactId>
-	<name>Benjamin Borbe - Systemstatus-Test</name>
-	<description>Benjamin Borbe - Systemstatus-Test</description>
+	<name>Benjamin Borbe - Systemstatus - Test</name>
+	<description>Benjamin Borbe - Systemstatus - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.dashboard.gui</artifactId>
-	<name>Benjamin Borbe - Dashboard-Gui</name>
-	<description>Benjamin Borbe - Dashboard-Gui</description>
+	<name>Benjamin Borbe - Dashboard - Gui</name>
+	<description>Benjamin Borbe - Dashboard - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

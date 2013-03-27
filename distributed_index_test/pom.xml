@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.distributed.index.test</artifactId>
-	<name>Benjamin Borbe - DistributedIndex-Test</name>
-	<description>Benjamin Borbe - DistributedIndex-Test</description>
+	<name>Benjamin Borbe - DistributedIndex - Test</name>
+	<description>Benjamin Borbe - DistributedIndex - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

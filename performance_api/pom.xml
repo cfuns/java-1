@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.performance.api</artifactId>
-	<name>Benjamin Borbe - Performance-Api</name>
-	<description>Benjamin Borbe - Performance-Api</description>
+	<name>Benjamin Borbe - Performance - Api</name>
+	<description>Benjamin Borbe - Performance - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

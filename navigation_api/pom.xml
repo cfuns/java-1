@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.navigation.api</artifactId>
-	<name>Benjamin Borbe - Navigation-Api</name>
-	<description>Benjamin Borbe - Navigation-Api</description>
+	<name>Benjamin Borbe - Navigation - Api</name>
+	<description>Benjamin Borbe - Navigation - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

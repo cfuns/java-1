@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.checklist.gui</artifactId>
-	<name>Benjamin Borbe - Checklist-Gui</name>
-	<description>Benjamin Borbe - Checklist-Gui</description>
+	<name>Benjamin Borbe - Checklist - Gui</name>
+	<description>Benjamin Borbe - Checklist - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

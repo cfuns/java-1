@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.gallery.test</artifactId>
-	<name>Benjamin Borbe - Gallery-Test</name>
-	<description>Benjamin Borbe - Gallery-Test</description>
+	<name>Benjamin Borbe - Gallery - Test</name>
+	<description>Benjamin Borbe - Gallery - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

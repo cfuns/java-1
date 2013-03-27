@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.geocaching.test</artifactId>
-	<name>Benjamin Borbe - Geocaching-Test</name>
-	<description>Benjamin Borbe - Geocaching-Test</description>
+	<name>Benjamin Borbe - Geocaching - Test</name>
+	<description>Benjamin Borbe - Geocaching - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

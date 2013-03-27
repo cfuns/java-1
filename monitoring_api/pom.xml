@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.monitoring.api</artifactId>
-	<name>Benjamin Borbe - Monitoring-Api</name>
-	<description>Benjamin Borbe - Monitoring-Api</description>
+	<name>Benjamin Borbe - Monitoring - Api</name>
+	<description>Benjamin Borbe - Monitoring - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

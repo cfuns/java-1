@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.googlesearch.test</artifactId>
-	<name>Benjamin Borbe - Googlesearch-Test</name>
-	<description>Benjamin Borbe - Googlesearch-Test</description>
+	<name>Benjamin Borbe - Googlesearch - Test</name>
+	<description>Benjamin Borbe - Googlesearch - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>

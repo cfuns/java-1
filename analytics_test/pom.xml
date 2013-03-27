@@ -6,8 +6,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.analytics.test</artifactId>
-	<name>Benjamin Borbe - Analytics-Test</name>
-	<description>Benjamin Borbe - Analytics-Test</description>
+	<name>Benjamin Borbe - Analytics - Test</name>
+	<description>Benjamin Borbe - Analytics - Test</description>
 	<packaging>bundle</packaging>
 	<properties></properties>
 	<build>
