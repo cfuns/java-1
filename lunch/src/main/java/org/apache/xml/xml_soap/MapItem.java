@@ -73,7 +73,7 @@ public class MapItem implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.key == null && other.getKey() == null) || (this.key != null && this.key.equals(other.getKey())))
 				&& ((this.value == null && other.getValue() == null) || (this.value != null && this.value.equals(other.getValue())));
 		__equalsCalc = null;
@@ -100,7 +100,7 @@ public class MapItem implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(MapItem.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(MapItem.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://xml.apache.org/xml-soap", "mapItem"));

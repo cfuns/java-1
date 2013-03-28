@@ -9,7 +9,7 @@ public class IteratorByListReverse<T, E extends Exception> implements IteratorWi
 
 	private int pos;
 
-	private List<T> values;
+	private final List<T> values;
 
 	@SafeVarargs
 	public IteratorByListReverse(final T... values) {

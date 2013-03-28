@@ -18,7 +18,7 @@ public class LuceneIndexImplIntegrationTest {
 
 	private static final String INDEXNAME = "test";
 
-	private static int SEARCH_LIMIT = 10;
+	private static final int SEARCH_LIMIT = 10;
 
 	@Test
 	public void testInjections() {

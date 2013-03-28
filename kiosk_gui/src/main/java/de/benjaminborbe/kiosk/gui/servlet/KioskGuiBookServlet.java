@@ -61,7 +61,7 @@ public class KioskGuiBookServlet extends WebsiteJsonServlet {
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
 			PermissionDeniedException, LoginRequiredException {
 		try {
-			long ean;
+			final long ean;
 			try {
 				ean = parseUtil.parseLong(request.getParameter(KioskGuiConstants.PARAMETER_EAN_NUMBER));
 			}
@@ -69,7 +69,7 @@ public class KioskGuiBookServlet extends WebsiteJsonServlet {
 				printError(response, "parameter " + KioskGuiConstants.PARAMETER_EAN_NUMBER + " missing or invalid number");
 				return;
 			}
-			long customer;
+			final long customer;
 			try {
 				customer = parseUtil.parseLong(request.getParameter(KioskGuiConstants.PARAMETER_CUSTOMER_NUMBER));
 			}

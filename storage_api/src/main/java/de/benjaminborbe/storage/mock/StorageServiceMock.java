@@ -220,7 +220,7 @@ public class StorageServiceMock implements StorageService {
 	@Override
 	public StorageIterator keyIterator(final String columnFamily) {
 		final HashMap<StorageValue, HashMap<StorageValue, StorageValue>> cfData = storageData.get(columnFamily);
-		List<StorageValue> result;
+		final List<StorageValue> result;
 		if (cfData == null) {
 			result = new ArrayList<StorageValue>();
 		}

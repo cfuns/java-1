@@ -7,6 +7,8 @@ import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.easymock.EasyMock;
+
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -21,6 +23,16 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 
 @Singleton
 public class AuthenticationServiceMock implements AuthenticationService {
+
+	public static final String SESSION_ID = "sid";
+
+	public static final String ADMIN_USERNAME = "testAdmin";
+
+	public static final String ADMIN_PASSWORD = "Test123!";
+
+	public static final String USER_USERNAME = "testUser";
+
+	public static final String USER_PASSWORD = "Test123!";
 
 	private final Map<UserIdentifier, String> userPassword = new HashMap<UserIdentifier, String>();
 
@@ -98,6 +110,7 @@ public class AuthenticationServiceMock implements AuthenticationService {
 			final String password, final String fullname, final TimeZone timeZone) throws AuthenticationServiceException {
 		final UserIdentifier userIdentifier = createUserIdentifier(username);
 		userPassword.put(userIdentifier, password);
+		login(sessionIdentifier, userIdentifier, password);
 		return userIdentifier;
 	}
 
@@ -180,4 +193,20 @@ public class AuthenticationServiceMock implements AuthenticationService {
 		return null;
 	}
 
+	public SessionIdentifier mockSessionIdentifier() throws AuthenticationServiceException {
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.replay(request);
+		return createSessionIdentifier(request);
+	}
+
+	public UserIdentifier mockLoginUser(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException {
+		final String username = USER_USERNAME;
+		final String password = USER_PASSWORD;
+		final String shortenUrl = null;
+		final String validateEmailBaseUrl = null;
+		final String email = null;
+		final String fullname = null;
+		final TimeZone timeZone = null;
+		return register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, timeZone);
+	}
 }

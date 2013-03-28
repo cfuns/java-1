@@ -110,7 +110,7 @@ public class ConfluencePageBean extends EntityBase<ConfluencePageIdentifier> imp
 		return lastModified;
 	}
 
-	public void setLastModified(Calendar lastModified) {
+	public void setLastModified(final Calendar lastModified) {
 		this.lastModified = lastModified;
 	}
 

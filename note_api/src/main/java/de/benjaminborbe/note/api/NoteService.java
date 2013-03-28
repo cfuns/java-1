@@ -21,4 +21,6 @@ public interface NoteService {
 	Collection<Note> getNodes(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, NoteServiceException;
 
 	NoteIdentifier createNoteIdentifier(String id) throws NoteServiceException;
+
+	Note getNote(SessionIdentifier sessionIdentifier, NoteIdentifier noteIdentifier) throws PermissionDeniedException, LoginRequiredException, NoteServiceException;
 }

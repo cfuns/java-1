@@ -69,6 +69,22 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
+	public Note getNote(final SessionIdentifier sessionIdentifier, final NoteIdentifier noteIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			NoteServiceException {
+		try {
+			authorizationService.existsPermission(authorizationService.createPermissionIdentifier(PERMISSION));
+			logger.debug("getNote - id: " + noteIdentifier);
+
+			final NoteBean note = noteDao.load(noteIdentifier);
+			authorizationService.expectUser(sessionIdentifier, note.getOwner());
+			return note;
+		}
+		catch (final AuthorizationServiceException | StorageException e) {
+			throw new NoteServiceException(e);
+		}
+	}
+
+	@Override
 	public NoteIdentifier createNote(final SessionIdentifier sessionIdentifier, final NoteDto noteDto) throws PermissionDeniedException, LoginRequiredException,
 			NoteServiceException, ValidationException {
 		try {

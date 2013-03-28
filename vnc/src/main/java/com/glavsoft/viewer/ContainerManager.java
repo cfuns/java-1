@@ -147,7 +147,7 @@ public class ContainerManager {
 		lpane.add(surface, JLayeredPane.DEFAULT_LAYER, 0);
 		outerPanel.add(lpane);
 
-		JFrame frame;
+		final JFrame frame;
 		scroller = new JScrollPane(outerPanel);
 		if (isSeparateFrame) {
 			frame = new JFrame();

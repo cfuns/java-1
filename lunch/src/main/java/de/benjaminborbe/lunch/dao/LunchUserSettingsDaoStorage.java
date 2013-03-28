@@ -23,7 +23,7 @@ public class LunchUserSettingsDaoStorage extends DaoStorage<LunchUserSettingsBea
 
 		private final IdentifierIterator<LunchUserSettingsIdentifier> i;
 
-		private UserIterator(IdentifierIterator<LunchUserSettingsIdentifier> i) {
+		private UserIterator(final IdentifierIterator<LunchUserSettingsIdentifier> i) {
 			this.i = i;
 		}
 

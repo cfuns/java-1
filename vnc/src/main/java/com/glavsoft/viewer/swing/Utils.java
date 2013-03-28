@@ -63,12 +63,12 @@ public class Utils {
 		return icons;
 	}
 
-	public static ImageIcon getButtonIcon(String name) {
-		URL resource = Utils.class.getResource("/com/glavsoft/viewer/images/button-" + name + ".png");
+	public static ImageIcon getButtonIcon(final String name) {
+		final URL resource = Utils.class.getResource("/com/glavsoft/viewer/images/button-" + name + ".png");
 		return resource != null ? new ImageIcon(resource) : null;
 	}
 
-	public static void decorateDialog(JDialog dialog) {
+	public static void decorateDialog(final JDialog dialog) {
 		try {
 			dialog.setAlwaysOnTop(true);
 		}
@@ -81,16 +81,16 @@ public class Utils {
 		Utils.setApplicationIconsForWindow(dialog);
 	}
 
-	public static void setApplicationIconsForWindow(Window window) {
-		List<Image> icons = getApplicationIcons();
+	public static void setApplicationIconsForWindow(final Window window) {
+		final List<Image> icons = getApplicationIcons();
 		if (icons.size() != 0) {
 			window.setIconImages(icons);
 		}
 	}
 
-	public static void centerWindow(Window window) {
-		Point locationPoint = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
-		Rectangle bounds = window.getBounds();
+	public static void centerWindow(final Window window) {
+		final Point locationPoint = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+		final Rectangle bounds = window.getBounds();
 		locationPoint.setLocation(locationPoint.x - bounds.width / 2, locationPoint.y - bounds.height / 2);
 		window.setLocation(locationPoint);
 	}

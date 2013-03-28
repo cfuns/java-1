@@ -73,7 +73,7 @@ public class RemotePermission implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.lockType == null && other.getLockType() == null) || (this.lockType != null && this.lockType.equals(other.getLockType())))
 				&& ((this.lockedBy == null && other.getLockedBy() == null) || (this.lockedBy != null && this.lockedBy.equals(other.getLockedBy())));
 		__equalsCalc = null;
@@ -100,7 +100,7 @@ public class RemotePermission implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemotePermission.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemotePermission.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePermission"));

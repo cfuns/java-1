@@ -87,7 +87,7 @@ public class Hex {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Constructor getProtectedConstructor(final Class klass, final Class... paramTypes) {
-		Constructor c;
+		final Constructor c;
 		try {
 			c = klass.getDeclaredConstructor(paramTypes);
 			c.setAccessible(true);

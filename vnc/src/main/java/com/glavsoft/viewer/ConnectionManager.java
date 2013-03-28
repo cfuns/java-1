@@ -79,7 +79,7 @@ public class ConnectionManager {
 				}
 				connectionDialog.setVisible(true);
 			}
-			String host;
+			final String host;
 			{
 				host = connectionParams.hostName;
 				port = connectionParams.getPortNumber();

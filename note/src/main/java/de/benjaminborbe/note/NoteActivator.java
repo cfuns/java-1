@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
@@ -32,11 +31,4 @@ public class NoteActivator extends BaseBundleActivator {
 		return result;
 	}
 
-	@Override
-	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new NoteServiceTracker(noteRegistry, context,
-		// NoteService.class));
-		return serviceTrackers;
-	}
 }

@@ -31,16 +31,16 @@ import com.glavsoft.transport.Reader;
 public class RREDecoder extends Decoder {
 
 	@Override
-	public void decode(Reader reader, Renderer renderer, FramebufferUpdateRectangle rect) throws TransportException {
-		int numOfSubrectangles = reader.readInt32();
+	public void decode(final Reader reader, final Renderer renderer, final FramebufferUpdateRectangle rect) throws TransportException {
+		final int numOfSubrectangles = reader.readInt32();
 		int color = renderer.readPixelColor(reader);
 		renderer.fillRect(color, rect);
 		for (int i = 0; i < numOfSubrectangles; ++i) {
 			color = renderer.readPixelColor(reader);
-			int x = reader.readUInt16();
-			int y = reader.readUInt16();
-			int width = reader.readUInt16();
-			int height = reader.readUInt16();
+			final int x = reader.readUInt16();
+			final int y = reader.readUInt16();
+			final int width = reader.readUInt16();
+			final int height = reader.readUInt16();
 			renderer.fillRect(color, rect.x + x, rect.y + y, width, height);
 		}
 

@@ -83,7 +83,7 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 	@Override
 	public MonitoringCheckResult check(final Map<String, String> parameter) {
 		logger.debug("check");
-		java.net.URL url;
+		final java.net.URL url;
 		try {
 			url = parseUtil.parseURL(parameter.get(URL));
 		}

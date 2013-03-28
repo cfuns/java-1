@@ -27,7 +27,7 @@ package com.glavsoft.exceptions;
 @SuppressWarnings("serial")
 public class UnsupportedSecurityTypeException extends ProtocolException {
 
-	public UnsupportedSecurityTypeException(String message) {
+	public UnsupportedSecurityTypeException(final String message) {
 		super(message);
 	}
 

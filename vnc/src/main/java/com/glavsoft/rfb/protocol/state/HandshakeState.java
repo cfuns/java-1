@@ -51,7 +51,7 @@ public class HandshakeState extends ProtocolState {
 
 	private static final int MAX_SUPPORTED_VERSION_MINOR = 8;
 
-	public HandshakeState(ProtocolContext context) {
+	public HandshakeState(final ProtocolContext context) {
 		super(context);
 	}
 
@@ -62,9 +62,9 @@ public class HandshakeState extends ProtocolState {
 	}
 
 	private void handshake() throws TransportException, UnsupportedProtocolVersionException {
-		String protocolString = reader.readString(PROTOCOL_STRING_LENGTH);
+		final String protocolString = reader.readString(PROTOCOL_STRING_LENGTH);
 		logger.info("Server sent protocol string: " + protocolString.substring(0, protocolString.length() - 1));
-		Pattern pattern = Pattern.compile(PROTOCOL_STRING_REGEXP);
+		final Pattern pattern = Pattern.compile(PROTOCOL_STRING_REGEXP);
 		final Matcher matcher = pattern.matcher(protocolString);
 		if (!matcher.matches())
 			throw new UnsupportedProtocolVersionException("Unsupported protocol version: " + protocolString);

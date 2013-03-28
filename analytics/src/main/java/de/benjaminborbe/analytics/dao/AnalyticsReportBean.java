@@ -66,7 +66,7 @@ public class AnalyticsReportBean extends EntityBase<AnalyticsReportIdentifier> i
 		return aggregation;
 	}
 
-	public void setAggregation(AnalyticsReportAggregation aggregation) {
+	public void setAggregation(final AnalyticsReportAggregation aggregation) {
 		this.aggregation = aggregation;
 	}
 

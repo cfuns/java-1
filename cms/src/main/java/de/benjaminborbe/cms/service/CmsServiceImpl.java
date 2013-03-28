@@ -27,11 +27,11 @@ public class CmsServiceImpl implements CmsService {
 	}
 
 	@Override
-	public void updatePage(CmsPageDto cmsPageDto) {
+	public void updatePage(final CmsPageDto cmsPageDto) {
 	}
 
 	@Override
-	public CmsPage getPage(CmsPageIdentifier cmsPageIdentifier) {
+	public CmsPage getPage(final CmsPageIdentifier cmsPageIdentifier) {
 		return null;
 	}
 

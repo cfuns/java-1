@@ -53,19 +53,19 @@ public class FramebufferUpdateRectangle {
 		// nop
 	}
 
-	public FramebufferUpdateRectangle(int x, int y, int w, int h) {
+	public FramebufferUpdateRectangle(final int x, final int y, final int w, final int h) {
 		this.x = x;
 		this.y = y;
 		width = w;
 		height = h;
 	}
 
-	public void fill(Reader reader) throws TransportException {
+	public void fill(final Reader reader) throws TransportException {
 		x = reader.readUInt16();
 		y = reader.readUInt16();
 		width = reader.readUInt16();
 		height = reader.readUInt16();
-		int encoding = reader.readInt32();
+		final int encoding = reader.readInt32();
 		encodingType = EncodingType.byId(encoding);
 	}
 

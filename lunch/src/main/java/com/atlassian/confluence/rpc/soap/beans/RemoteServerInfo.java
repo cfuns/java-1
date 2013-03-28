@@ -163,7 +163,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.baseUrl == null && other.getBaseUrl() == null) || (this.baseUrl != null && this.baseUrl.equals(other.getBaseUrl())))
 				&& ((this.buildId == null && other.getBuildId() == null) || (this.buildId != null && this.buildId.equals(other.getBuildId())))
 				&& this.developmentBuild == other.isDevelopmentBuild() && this.majorVersion == other.getMajorVersion() && this.minorVersion == other.getMinorVersion()
@@ -196,7 +196,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteServerInfo.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteServerInfo.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteServerInfo"));

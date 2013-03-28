@@ -30,7 +30,7 @@ package com.glavsoft.rfb.encoding.decoder;
  */
 public class ByteBuffer {
 
-	private static ByteBuffer instance = new ByteBuffer();
+	private static final ByteBuffer instance = new ByteBuffer();
 
 	private byte[] buffer = new byte[0];
 
@@ -46,7 +46,7 @@ public class ByteBuffer {
 	 * 
 	 * @param length
 	 */
-	public void correctBufferCapacity(int length) {
+	public void correctBufferCapacity(final int length) {
 		// procondition: buffer != null
 		assert (buffer != null);
 		if (buffer.length < length) {
@@ -54,7 +54,7 @@ public class ByteBuffer {
 		}
 	}
 
-	public byte[] getBuffer(int length) {
+	public byte[] getBuffer(final int length) {
 		correctBufferCapacity(length);
 		return buffer;
 	}

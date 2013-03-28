@@ -11,16 +11,16 @@ import de.benjaminborbe.dashboard.api.DashboardServiceException;
 public class DashboardServiceMock implements DashboardService {
 
 	@Override
-	public Collection<DashboardIdentifier> getSelectedDashboards(SessionIdentifier sessionIdentifier) throws DashboardServiceException, LoginRequiredException {
+	public Collection<DashboardIdentifier> getSelectedDashboards(final SessionIdentifier sessionIdentifier) throws DashboardServiceException, LoginRequiredException {
 		return null;
 	}
 
 	@Override
-	public void selectDashboard(SessionIdentifier sessionIdentifier, DashboardIdentifier dashboardIdentifier) throws DashboardServiceException, LoginRequiredException {
+	public void selectDashboard(final SessionIdentifier sessionIdentifier, final DashboardIdentifier dashboardIdentifier) throws DashboardServiceException, LoginRequiredException {
 	}
 
 	@Override
-	public void deselectDashboard(SessionIdentifier sessionIdentifier, DashboardIdentifier dashboardIdentifier) throws DashboardServiceException, LoginRequiredException {
+	public void deselectDashboard(final SessionIdentifier sessionIdentifier, final DashboardIdentifier dashboardIdentifier) throws DashboardServiceException, LoginRequiredException {
 	}
 
 }

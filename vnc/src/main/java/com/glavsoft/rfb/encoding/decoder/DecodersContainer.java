@@ -37,7 +37,7 @@ import com.glavsoft.rfb.encoding.EncodingType;
  */
 public class DecodersContainer {
 
-	private static Map<EncodingType, Class<? extends Decoder>> knownDecoders = new HashMap<EncodingType, Class<? extends Decoder>>();
+	private static final Map<EncodingType, Class<? extends Decoder>> knownDecoders = new HashMap<EncodingType, Class<? extends Decoder>>();
 	static {
 		knownDecoders.put(EncodingType.TIGHT, TightDecoder.class);
 		knownDecoders.put(EncodingType.HEXTILE, HextileDecoder.class);

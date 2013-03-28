@@ -251,7 +251,7 @@ public class RemoteAttachment implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.comment == null && other.getComment() == null) || (this.comment != null && this.comment.equals(other.getComment())))
 				&& ((this.contentType == null && other.getContentType() == null) || (this.contentType != null && this.contentType.equals(other.getContentType())))
 				&& ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
@@ -302,7 +302,7 @@ public class RemoteAttachment implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteAttachment.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteAttachment.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteAttachment"));

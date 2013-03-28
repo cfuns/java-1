@@ -32,11 +32,11 @@ public class AuthenticationFailedException extends ProtocolException {
 
 	private String reason;
 
-	public AuthenticationFailedException(String message) {
+	public AuthenticationFailedException(final String message) {
 		super(message);
 	}
 
-	public AuthenticationFailedException(String message, String reason) {
+	public AuthenticationFailedException(final String message, final String reason) {
 		super(message);
 		this.reason = reason;
 	}

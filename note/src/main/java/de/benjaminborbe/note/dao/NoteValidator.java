@@ -17,6 +17,8 @@ import de.benjaminborbe.tools.validation.ValidatorRule;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIdentifier;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
+import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
 public class NoteValidator extends ValidatorBase<NoteBean> {
 
@@ -63,6 +65,38 @@ public class NoteValidator extends ValidatorBase<NoteBean> {
 					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<ValidationConstraint<UserIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<UserIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<UserIdentifier>());
+					return validationConstraintValidator.validate(field, value, constraints);
+				}
+			});
+		}
+
+		// title
+		{
+			final String field = "title";
+			result.put(field, new ValidatorRule<NoteBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final NoteBean bean) {
+					final String value = bean.getTitle();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+					constraints.add(new ValidationConstraintNotNull<String>());
+					constraints.add(new ValidationConstraintStringMinLength(1));
+					constraints.add(new ValidationConstraintStringMaxLength(255));
+					return validationConstraintValidator.validate(field, value, constraints);
+				}
+			});
+		}
+
+		// content
+		{
+			final String field = "content";
+			result.put(field, new ValidatorRule<NoteBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final NoteBean bean) {
+					final String value = bean.getContent();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+					constraints.add(new ValidationConstraintNotNull<String>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});

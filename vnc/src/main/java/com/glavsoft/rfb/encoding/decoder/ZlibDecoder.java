@@ -37,18 +37,18 @@ public class ZlibDecoder extends Decoder {
 	private Inflater decoder;
 
 	@Override
-	public void decode(Reader reader, Renderer renderer, FramebufferUpdateRectangle rect) throws TransportException {
-		int zippedLength = (int) reader.readUInt32();
+	public void decode(final Reader reader, final Renderer renderer, final FramebufferUpdateRectangle rect) throws TransportException {
+		final int zippedLength = (int) reader.readUInt32();
 		if (0 == zippedLength)
 			return;
-		int length = rect.width * rect.height * renderer.getBytesPerPixel();
-		byte[] bytes = unzip(reader, zippedLength, length);
-		Reader unzippedReader = new Reader(new ByteArrayInputStream(bytes, zippedLength, length));
+		final int length = rect.width * rect.height * renderer.getBytesPerPixel();
+		final byte[] bytes = unzip(reader, zippedLength, length);
+		final Reader unzippedReader = new Reader(new ByteArrayInputStream(bytes, zippedLength, length));
 		RawDecoder.getInstance().decode(unzippedReader, renderer, rect);
 	}
 
-	protected byte[] unzip(Reader reader, int zippedLength, int length) throws TransportException {
-		byte[] bytes = ByteBuffer.getInstance().getBuffer(zippedLength + length);
+	protected byte[] unzip(final Reader reader, final int zippedLength, final int length) throws TransportException {
+		final byte[] bytes = ByteBuffer.getInstance().getBuffer(zippedLength + length);
 		reader.readBytes(bytes, 0, zippedLength);
 		if (null == decoder) {
 			decoder = new Inflater();

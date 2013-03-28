@@ -32,12 +32,12 @@ public class SetPixelFormatMessage implements ClientToServerMessage {
 
 	private final PixelFormat pixelFormat;
 
-	public SetPixelFormatMessage(PixelFormat pixelFormat) {
+	public SetPixelFormatMessage(final PixelFormat pixelFormat) {
 		this.pixelFormat = pixelFormat;
 	}
 
 	@Override
-	public void send(Writer writer) throws TransportException {
+	public void send(final Writer writer) throws TransportException {
 		writer.writeByte(SET_PIXEL_FORMAT);
 		writer.writeInt16(0);
 		writer.writeByte(0);

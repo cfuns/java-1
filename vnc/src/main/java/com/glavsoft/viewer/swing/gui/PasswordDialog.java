@@ -53,40 +53,40 @@ public class PasswordDialog extends JDialog {
 
 	private final JLabel messageLabel;
 
-	public PasswordDialog(Frame owner, final WindowListener onClose) {
+	public PasswordDialog(final Frame owner, final WindowListener onClose) {
 		super(owner, "VNC Authentication", true);
 		addWindowListener(onClose);
-		JPanel pane = new JPanel(new GridLayout(0, 1, PADDING, PADDING));
+		final JPanel pane = new JPanel(new GridLayout(0, 1, PADDING, PADDING));
 		add(pane);
 		pane.setBorder(new EmptyBorder(PADDING, PADDING, PADDING, PADDING));
 
 		messageLabel = new JLabel("Server requires VNC authentication");
 		pane.add(messageLabel);
 
-		JPanel passwordPanel = new JPanel();
+		final JPanel passwordPanel = new JPanel();
 		passwordPanel.add(new JLabel("Password:"));
 		final JPasswordField passwordField = new JPasswordField("", 20);
 		passwordPanel.add(passwordField);
 		pane.add(passwordPanel);
 
-		JPanel buttonPanel = new JPanel();
-		JButton loginButton = new JButton("Login");
+		final JPanel buttonPanel = new JPanel();
+		final JButton loginButton = new JButton("Login");
 		buttonPanel.add(loginButton);
 		loginButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				password = new String(passwordField.getPassword());
 				setVisible(false);
 			}
 		});
 
-		JButton closeButton = new JButton("Cancel");
+		final JButton closeButton = new JButton("Cancel");
 		buttonPanel.add(closeButton);
 		closeButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				password = null;
 				setVisible(false);
 				onClose.windowClosing(null);
@@ -101,13 +101,13 @@ public class PasswordDialog extends JDialog {
 		addWindowFocusListener(new WindowAdapter() {
 
 			@Override
-			public void windowGainedFocus(WindowEvent e) {
+			public void windowGainedFocus(final WindowEvent e) {
 				passwordField.requestFocusInWindow();
 			}
 		});
 	}
 
-	public void setServerHostName(String serverHostName) {
+	public void setServerHostName(final String serverHostName) {
 		messageLabel.setText("Server '" + serverHostName + "' requires VNC authentication");
 		pack();
 	}

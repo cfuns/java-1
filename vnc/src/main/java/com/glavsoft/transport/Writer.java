@@ -34,7 +34,7 @@ public class Writer {
 
 	private final DataOutputStream os;
 
-	public Writer(OutputStream os) {
+	public Writer(final OutputStream os) {
 		this.os = new DataOutputStream(os);
 	}
 
@@ -47,11 +47,11 @@ public class Writer {
 		}
 	}
 
-	public void writeByte(int b) throws TransportException {
+	public void writeByte(final int b) throws TransportException {
 		write((byte) (b & 0xff));
 	}
 
-	public void write(byte b) throws TransportException {
+	public void write(final byte b) throws TransportException {
 		try {
 			os.writeByte(b);
 		}
@@ -60,11 +60,11 @@ public class Writer {
 		}
 	}
 
-	public void writeInt16(int sh) throws TransportException {
+	public void writeInt16(final int sh) throws TransportException {
 		write((short) (sh & 0xffff));
 	}
 
-	public void write(short sh) throws TransportException {
+	public void write(final short sh) throws TransportException {
 		try {
 			os.writeShort(sh);
 		}
@@ -73,11 +73,11 @@ public class Writer {
 		}
 	}
 
-	public void writeInt32(int i) throws TransportException {
+	public void writeInt32(final int i) throws TransportException {
 		write(i);
 	}
 
-	public void writeInt64(long i) throws TransportException {
+	public void writeInt64(final long i) throws TransportException {
 		try {
 			os.writeLong(i);
 		}
@@ -86,7 +86,7 @@ public class Writer {
 		}
 	}
 
-	public void write(int i) throws TransportException {
+	public void write(final int i) throws TransportException {
 		try {
 			os.writeInt(i);
 		}
@@ -95,15 +95,15 @@ public class Writer {
 		}
 	}
 
-	public void write(byte[] b) throws TransportException {
+	public void write(final byte[] b) throws TransportException {
 		write(b, 0, b.length);
 	}
 
-	public void write(byte[] b, int length) throws TransportException {
+	public void write(final byte[] b, final int length) throws TransportException {
 		write(b, 0, length);
 	}
 
-	public void write(byte[] b, int offset, int length) throws TransportException {
+	public void write(final byte[] b, final int offset, final int length) throws TransportException {
 		try {
 			os.write(b, offset, length <= b.length ? length : b.length);
 		}

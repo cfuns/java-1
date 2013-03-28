@@ -18,5 +18,7 @@ public class NoteModule extends AbstractModule {
 		bind(NoteDao.class).to(NoteDaoStorage.class).in(Singleton.class);
 		bind(NoteService.class).to(NoteServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
+
+		requestStaticInjection(NoteValidatorLinker.class);
 	}
 }

@@ -222,7 +222,10 @@ public abstract class Renderer {
 	 *          destination rectangle
 	 */
 	public synchronized void copyRect(final int srcX, final int srcY, final FramebufferUpdateRectangle dstRect) {
-		int startSrcY, endSrcY, dstY, deltaY;
+		final int startSrcY;
+		final int endSrcY;
+		int dstY;
+		final int deltaY;
 		if (srcY > dstRect.y) {
 			startSrcY = srcY;
 			endSrcY = srcY + dstRect.height;

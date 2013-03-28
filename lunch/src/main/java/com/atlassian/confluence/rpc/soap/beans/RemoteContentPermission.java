@@ -94,7 +94,7 @@ public class RemoteContentPermission implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.groupName == null && other.getGroupName() == null) || (this.groupName != null && this.groupName.equals(other.getGroupName())))
 				&& ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())))
 				&& ((this.userName == null && other.getUserName() == null) || (this.userName != null && this.userName.equals(other.getUserName())));
@@ -125,7 +125,7 @@ public class RemoteContentPermission implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteContentPermission.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteContentPermission.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteContentPermission"));

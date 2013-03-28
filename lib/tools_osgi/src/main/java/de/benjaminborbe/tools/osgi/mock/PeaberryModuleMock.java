@@ -6,7 +6,7 @@ import com.google.inject.Module;
 public class PeaberryModuleMock implements Module {
 
 	@Override
-	public void configure(Binder arg0) {
+	public void configure(final Binder arg0) {
 
 	}
 

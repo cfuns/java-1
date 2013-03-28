@@ -185,7 +185,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.description == null && other.getDescription() == null) || (this.description != null && this.description.equals(other.getDescription())))
 				&& this.memberCount == other.getMemberCount()
 				&& ((this.members == null && other.getMembers() == null) || (this.members != null && java.util.Arrays.equals(this.members, other.getMembers())))
@@ -232,7 +232,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteClusterInformation.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteClusterInformation.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteClusterInformation"));

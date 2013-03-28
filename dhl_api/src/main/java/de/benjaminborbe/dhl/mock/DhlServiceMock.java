@@ -54,7 +54,7 @@ public class DhlServiceMock implements DhlService {
 	}
 
 	@Override
-	public Collection<Dhl> getEntries(SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
+	public Collection<Dhl> getEntries(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
 		return null;
 	}
 

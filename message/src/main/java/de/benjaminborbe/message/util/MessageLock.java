@@ -1,8 +1,8 @@
 package de.benjaminborbe.message.util;
 
-import com.google.inject.Singleton;
-
 import java.util.UUID;
+
+import com.google.inject.Singleton;
 
 @Singleton
 public class MessageLock {

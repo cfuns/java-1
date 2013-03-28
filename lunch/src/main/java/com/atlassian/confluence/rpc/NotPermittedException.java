@@ -28,7 +28,7 @@ public class NotPermittedException extends com.atlassian.confluence.rpc.RemoteEx
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = super.equals(obj);
 		__equalsCalc = null;
 		return _equals;
@@ -48,7 +48,7 @@ public class NotPermittedException extends com.atlassian.confluence.rpc.RemoteEx
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(NotPermittedException.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(NotPermittedException.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"));

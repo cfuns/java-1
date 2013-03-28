@@ -171,7 +171,7 @@ public class UserBean extends EntityBase<UserIdentifier> implements User, HasCre
 		return emailNew;
 	}
 
-	public void setEmailNew(String emailNew) {
+	public void setEmailNew(final String emailNew) {
 		this.emailNew = emailNew;
 	}
 

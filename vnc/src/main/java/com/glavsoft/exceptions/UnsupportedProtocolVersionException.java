@@ -27,7 +27,7 @@ package com.glavsoft.exceptions;
 @SuppressWarnings("serial")
 public class UnsupportedProtocolVersionException extends ProtocolException {
 
-	public UnsupportedProtocolVersionException(String message) {
+	public UnsupportedProtocolVersionException(final String message) {
 		super(message);
 	}
 

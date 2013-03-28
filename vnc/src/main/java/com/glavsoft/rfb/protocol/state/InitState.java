@@ -58,7 +58,7 @@ import com.glavsoft.rfb.protocol.ProtocolSettings;
  */
 public class InitState extends ProtocolState {
 
-	public InitState(ProtocolContext context) {
+	public InitState(final ProtocolContext context) {
 		super(context);
 	}
 
@@ -69,13 +69,13 @@ public class InitState extends ProtocolState {
 	}
 
 	protected void clientAndServerInit() throws TransportException {
-		ServerInitMessage serverInitMessage = getServerInitMessage();
-		ProtocolSettings settings = context.getSettings();
+		final ServerInitMessage serverInitMessage = getServerInitMessage();
+		final ProtocolSettings settings = context.getSettings();
 		settings.enableAllEncodingCaps();
 		completeContextData(serverInitMessage);
 	}
 
-	protected void completeContextData(ServerInitMessage serverInitMessage) {
+	protected void completeContextData(final ServerInitMessage serverInitMessage) {
 		context.setPixelFormat(serverInitMessage.getPixelFormat());
 		context.setFbWidth(serverInitMessage.getFrameBufferWidth());
 		context.setFbHeight(serverInitMessage.getFrameBufferHeight());
@@ -85,7 +85,7 @@ public class InitState extends ProtocolState {
 
 	protected ServerInitMessage getServerInitMessage() throws TransportException {
 		writer.write(context.getSettings().getSharedFlag());
-		ServerInitMessage serverInitMessage = new ServerInitMessage(reader);
+		final ServerInitMessage serverInitMessage = new ServerInitMessage(reader);
 		return serverInitMessage;
 	}
 

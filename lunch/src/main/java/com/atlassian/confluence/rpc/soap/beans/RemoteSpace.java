@@ -102,7 +102,7 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = super.equals(obj) && ((this.description == null && other.getDescription() == null) || (this.description != null && this.description.equals(other.getDescription())))
 				&& this.homePage == other.getHomePage()
 				&& ((this.spaceGroup == null && other.getSpaceGroup() == null) || (this.spaceGroup != null && this.spaceGroup.equals(other.getSpaceGroup())));
@@ -131,7 +131,7 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteSpace.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteSpace.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"));

@@ -27,7 +27,7 @@ import com.glavsoft.viewer.swing.ConnectionParams;
  */
 public class ConnectionsHistory implements IChangeSettingsListener {
 
-	private static int MAX_ITEMS = 32;
+	private static final int MAX_ITEMS = 32;
 
 	public static final String CONNECTIONS_HISTORY_ROOT_NODE = "com/glavsoft/viewer/connectionsHistory";
 

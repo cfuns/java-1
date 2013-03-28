@@ -35,7 +35,7 @@ import com.glavsoft.utils.Strings;
 
 public class SecurityTypeState extends ProtocolState {
 
-	public SecurityTypeState(ProtocolContext context) {
+	public SecurityTypeState(final ProtocolContext context) {
 		super(context);
 	}
 
@@ -46,13 +46,13 @@ public class SecurityTypeState extends ProtocolState {
 	}
 
 	protected void negotiateAboutSecurityType() throws TransportException, UnsupportedSecurityTypeException {
-		int secTypesNum = reader.readUInt8();
+		final int secTypesNum = reader.readUInt8();
 		if (0 == secTypesNum)
 			// throw exception with reason
 			throw new UnsupportedSecurityTypeException(reader.readString());
-		byte[] secTypes = reader.readBytes(secTypesNum);
+		final byte[] secTypes = reader.readBytes(secTypesNum);
 		logger.info("Security Types received (" + secTypesNum + "): " + Strings.toString(secTypes));
-		AuthHandler typeSelected = selectAuthHandler(secTypes, context.getSettings().authCapabilities);
+		final AuthHandler typeSelected = selectAuthHandler(secTypes, context.getSettings().authCapabilities);
 		setUseSecurityResult(typeSelected);
 		writer.writeByte(typeSelected.getId());
 		logger.info("Security Type accepted: " + typeSelected.getName());
@@ -70,17 +70,17 @@ public class SecurityTypeState extends ProtocolState {
 	 * @throws UnsupportedSecurityTypeException
 	 *           when no security types server sent we support
 	 */
-	public static AuthHandler selectAuthHandler(byte[] secTypes, CapabilityContainer authCapabilities) throws UnsupportedSecurityTypeException {
+	public static AuthHandler selectAuthHandler(final byte[] secTypes, final CapabilityContainer authCapabilities) throws UnsupportedSecurityTypeException {
 		AuthHandler typeSelected = null;
 		// Tigh Authentication first
-		for (byte type : secTypes) {
+		for (final byte type : secTypes) {
 			if (SecurityType.TIGHT_AUTHENTICATION.getId() == (0xff & type)) {
 				typeSelected = SecurityType.implementedSecurityTypes.get(SecurityType.TIGHT_AUTHENTICATION.getId());
 				if (typeSelected != null)
 					return typeSelected;
 			}
 		}
-		for (byte type : secTypes) {
+		for (final byte type : secTypes) {
 			typeSelected = SecurityType.implementedSecurityTypes.get(0xff & type);
 			if (typeSelected != null && authCapabilities.isSupported(typeSelected.getId()))
 				return typeSelected;
@@ -91,7 +91,7 @@ public class SecurityTypeState extends ProtocolState {
 	/**
 	 * @param typeSelected
 	 */
-	protected void setUseSecurityResult(AuthHandler typeSelected) {
+	protected void setUseSecurityResult(final AuthHandler typeSelected) {
 		// nop for Protocol version 3.8 and above
 	}
 

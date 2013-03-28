@@ -51,16 +51,16 @@ public class MicroblogServiceMock implements MicroblogService {
 	}
 
 	@Override
-	public Collection<String> listNotifications(UserIdentifier userIdentifier) throws MicroblogServiceException {
+	public Collection<String> listNotifications(final UserIdentifier userIdentifier) throws MicroblogServiceException {
 		return null;
 	}
 
 	@Override
-	public void activateNotification(UserIdentifier userIdentifier, String keyword) throws MicroblogServiceException {
+	public void activateNotification(final UserIdentifier userIdentifier, final String keyword) throws MicroblogServiceException {
 	}
 
 	@Override
-	public void deactivateNotification(UserIdentifier userIdentifier, String keyword) throws MicroblogServiceException {
+	public void deactivateNotification(final UserIdentifier userIdentifier, final String keyword) throws MicroblogServiceException {
 	}
 
 }

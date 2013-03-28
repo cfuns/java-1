@@ -150,7 +150,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		final String startPattern = "<abbr class=\"published\"";
 		final String endPattern = "</abbr>";
 		final String abbrContent = extract(pageContent, startPattern, endPattern);
-		Calendar result;
+		final Calendar result;
 		if (abbrContent != null && abbrContent.length() > 0) {
 			final String startPatternTitle = "title=\"";
 			final String endPatternTitle = "\"";

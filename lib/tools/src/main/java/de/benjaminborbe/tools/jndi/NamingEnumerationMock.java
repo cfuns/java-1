@@ -10,7 +10,7 @@ public class NamingEnumerationMock<T> implements NamingEnumeration<T> {
 
 	private final Iterator<T> it;
 
-	public NamingEnumerationMock(Iterator<T> it) {
+	public NamingEnumerationMock(final Iterator<T> it) {
 		super();
 		this.it = it;
 	}

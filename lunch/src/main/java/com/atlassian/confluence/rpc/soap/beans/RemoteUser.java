@@ -115,7 +115,7 @@ public class RemoteUser implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.email == null && other.getEmail() == null) || (this.email != null && this.email.equals(other.getEmail())))
 				&& ((this.fullname == null && other.getFullname() == null) || (this.fullname != null && this.fullname.equals(other.getFullname())))
 				&& ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName())))
@@ -150,7 +150,7 @@ public class RemoteUser implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteUser.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteUser.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteUser"));

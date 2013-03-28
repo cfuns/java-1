@@ -31,19 +31,19 @@ import com.glavsoft.rfb.protocol.auth.AuthHandler;
 
 public class SecurityType33State extends SecurityType37State {
 
-	public SecurityType33State(ProtocolContext context) {
+	public SecurityType33State(final ProtocolContext context) {
 		super(context);
 	}
 
 	@Override
 	protected void negotiateAboutSecurityType() throws TransportException, UnsupportedSecurityTypeException {
 		logger.info("Get Security Type");
-		int type = reader.readInt32();
+		final int type = reader.readInt32();
 		logger.info("Type received: " + type);
 		if (0 == type)
 			// throw exception with reason
 			throw new UnsupportedSecurityTypeException(reader.readString());
-		AuthHandler typeSelected = selectAuthHandler(new byte[] { (byte) (0xff & type) }, context.getSettings().authCapabilities);
+		final AuthHandler typeSelected = selectAuthHandler(new byte[] { (byte) (0xff & type) }, context.getSettings().authCapabilities);
 		if (typeSelected != null) {
 			setUseSecurityResult(typeSelected);
 			logger.info("Type accepted: " + typeSelected.getName());

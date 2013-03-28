@@ -33,27 +33,27 @@ public class ZRLEDecoder extends ZlibDecoder {
 	private static final int DEFAULT_TILE_SIZE = 64;
 
 	@Override
-	public void decode(Reader reader, Renderer renderer, FramebufferUpdateRectangle rect) throws TransportException {
-		int zippedLength = (int) reader.readUInt32();
+	public void decode(final Reader reader, final Renderer renderer, final FramebufferUpdateRectangle rect) throws TransportException {
+		final int zippedLength = (int) reader.readUInt32();
 		if (0 == zippedLength)
 			return;
-		int length = rect.width * rect.height * renderer.getBytesPerPixel();
-		byte[] bytes = unzip(reader, zippedLength, length);
+		final int length = rect.width * rect.height * renderer.getBytesPerPixel();
+		final byte[] bytes = unzip(reader, zippedLength, length);
 		int offset = zippedLength;
-		int maxX = rect.x + rect.width;
-		int maxY = rect.y + rect.height;
-		int[] palette = new int[128];
+		final int maxX = rect.x + rect.width;
+		final int maxY = rect.y + rect.height;
+		final int[] palette = new int[128];
 		for (int tileY = rect.y; tileY < maxY; tileY += DEFAULT_TILE_SIZE) {
-			int tileHeight = Math.min(maxY - tileY, DEFAULT_TILE_SIZE);
+			final int tileHeight = Math.min(maxY - tileY, DEFAULT_TILE_SIZE);
 
 			for (int tileX = rect.x; tileX < maxX; tileX += DEFAULT_TILE_SIZE) {
-				int tileWidth = Math.min(maxX - tileX, DEFAULT_TILE_SIZE);
-				int subencoding = bytes[offset++] & 0x0ff;
+				final int tileWidth = Math.min(maxX - tileX, DEFAULT_TILE_SIZE);
+				final int subencoding = bytes[offset++] & 0x0ff;
 				// 128 -plain RLE, 130-255 - Palette RLE
-				boolean isRle = (subencoding & 128) != 0;
+				final boolean isRle = (subencoding & 128) != 0;
 				// 2 to 16 for raw packed palette data, 130 to 255 for Palette RLE (subencoding -
 				// 128)
-				int paletteSize = subencoding & 127;
+				final int paletteSize = subencoding & 127;
 				offset += readPalette(bytes, offset, renderer, palette, paletteSize);
 				if (1 == subencoding) { // A solid tile consisting of a single colour
 					renderer.fillRect(palette[0], tileX, tileY, tileWidth, tileHeight);
@@ -81,14 +81,14 @@ public class ZRLEDecoder extends ZlibDecoder {
 
 	}
 
-	private int decodePlainRle(byte[] bytes, int offset, Renderer renderer, int tileX, int tileY, int tileWidth, int tileHeight) {
-		int bytesPerCPixel = renderer.getBytesPerPixelSignificant();
-		int[] decodedBitmap = new int[tileWidth * tileHeight];
+	private int decodePlainRle(final byte[] bytes, final int offset, final Renderer renderer, final int tileX, final int tileY, final int tileWidth, final int tileHeight) {
+		final int bytesPerCPixel = renderer.getBytesPerPixelSignificant();
+		final int[] decodedBitmap = new int[tileWidth * tileHeight];
 		int decodedOffset = 0;
-		int decodedEnd = tileWidth * tileHeight;
+		final int decodedEnd = tileWidth * tileHeight;
 		int index = offset;
 		while (decodedOffset < decodedEnd) {
-			int color = renderer.getCompactPixelColor(bytes, index);
+			final int color = renderer.getCompactPixelColor(bytes, index);
 			index += bytesPerCPixel;
 			int rlength = 1;
 			do {
@@ -102,14 +102,15 @@ public class ZRLEDecoder extends ZlibDecoder {
 		return index - offset;
 	}
 
-	private int decodePaletteRle(byte[] bytes, int offset, Renderer renderer, int[] palette, int tileX, int tileY, int tileWidth, int tileHeight, int paletteSize) {
-		int[] decodedBitmap = new int[tileWidth * tileHeight];
+	private int decodePaletteRle(final byte[] bytes, final int offset, final Renderer renderer, final int[] palette, final int tileX, final int tileY, final int tileWidth,
+			final int tileHeight, final int paletteSize) {
+		final int[] decodedBitmap = new int[tileWidth * tileHeight];
 		int decodedOffset = 0;
-		int decodedEnd = tileWidth * tileHeight;
+		final int decodedEnd = tileWidth * tileHeight;
 		int index = offset;
 		while (decodedOffset < decodedEnd) {
-			int colorIndex = bytes[index++];
-			int color = palette[colorIndex & 127];
+			final int colorIndex = bytes[index++];
+			final int color = palette[colorIndex & 127];
 			int rlength = 1;
 			if ((colorIndex & 128) != 0) {
 				do {
@@ -124,13 +125,14 @@ public class ZRLEDecoder extends ZlibDecoder {
 		return index - offset;
 	}
 
-	private int decodePacked(byte[] bytes, int offset, Renderer renderer, int[] palette, int paletteSize, int tileX, int tileY, int tileWidth, int tileHeight) {
-		int[] decodedBytes = new int[tileWidth * tileHeight];
-		int bitsPerPalletedPixel = paletteSize > 16 ? 8 : paletteSize > 4 ? 4 : paletteSize > 2 ? 2 : 1;
+	private int decodePacked(final byte[] bytes, final int offset, final Renderer renderer, final int[] palette, final int paletteSize, final int tileX, final int tileY,
+			final int tileWidth, final int tileHeight) {
+		final int[] decodedBytes = new int[tileWidth * tileHeight];
+		final int bitsPerPalletedPixel = paletteSize > 16 ? 8 : paletteSize > 4 ? 4 : paletteSize > 2 ? 2 : 1;
 		int packedOffset = offset;
 		int decodedOffset = 0;
 		for (int i = 0; i < tileHeight; ++i) {
-			int decodedRowEnd = decodedOffset + tileWidth;
+			final int decodedRowEnd = decodedOffset + tileWidth;
 			int byteProcessed = 0;
 			int bitsRemain = 0;
 
@@ -140,8 +142,8 @@ public class ZRLEDecoder extends ZlibDecoder {
 					bitsRemain = 8;
 				}
 				bitsRemain -= bitsPerPalletedPixel;
-				int index = byteProcessed >> bitsRemain & (1 << bitsPerPalletedPixel) - 1 & 127;
-				int color = palette[index];
+				final int index = byteProcessed >> bitsRemain & (1 << bitsPerPalletedPixel) - 1 & 127;
+				final int color = palette[index];
 				renderer.fillColorBitmapWithColor(decodedBytes, decodedOffset, 1, color);
 				++decodedOffset;
 			}
@@ -150,11 +152,12 @@ public class ZRLEDecoder extends ZlibDecoder {
 		return packedOffset - offset;
 	}
 
-	private int decodeRaw(byte[] bytes, int offset, Renderer renderer, int tileX, int tileY, int tileWidth, int tileHeight) throws TransportException {
+	private int decodeRaw(final byte[] bytes, final int offset, final Renderer renderer, final int tileX, final int tileY, final int tileWidth, final int tileHeight)
+			throws TransportException {
 		return renderer.drawCompactBytes(bytes, offset, tileX, tileY, tileWidth, tileHeight);
 	}
 
-	private int readPalette(byte[] bytes, int offset, Renderer renderer, int[] palette, int paletteSize) {
+	private int readPalette(final byte[] bytes, final int offset, final Renderer renderer, final int[] palette, final int paletteSize) {
 		for (int i = 0; i < paletteSize; ++i) {
 			palette[i] = renderer.getCompactPixelColor(bytes, offset + i * renderer.getBytesPerPixelSignificant());
 		}

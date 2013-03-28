@@ -136,7 +136,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.excerpt == null && other.getExcerpt() == null) || (this.excerpt != null && this.excerpt.equals(other.getExcerpt()))) && this.id == other.getId()
 				&& ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
 				&& ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())))
@@ -172,7 +172,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteSearchResult.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteSearchResult.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSearchResult"));

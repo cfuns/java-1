@@ -241,7 +241,7 @@ public class CalendarUtilImplUnitTest {
 		EasyMock.expect(timeZoneUtil.getUTCTimeZone()).andReturn(TimeZone.getTimeZone("UTF8"));
 		EasyMock.replay(timeZoneUtil);
 		final CalendarUtil u = new CalendarUtilImpl(logger, currentTime, null, timeZoneUtil);
-		long time;
+		final long time;
 		{
 			final Calendar calendar = u.getCalendar(TimeZone.getTimeZone("UTF8"), 2011, 11, 24, 20, 15, 13);
 			assertNotNull(calendar);

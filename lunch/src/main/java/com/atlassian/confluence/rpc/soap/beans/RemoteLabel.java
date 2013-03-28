@@ -115,7 +115,7 @@ public class RemoteLabel implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && this.id == other.getId() && ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName())))
 				&& ((this.namespace == null && other.getNamespace() == null) || (this.namespace != null && this.namespace.equals(other.getNamespace())))
 				&& ((this.owner == null && other.getOwner() == null) || (this.owner != null && this.owner.equals(other.getOwner())));
@@ -147,7 +147,7 @@ public class RemoteLabel implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteLabel.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteLabel.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteLabel"));

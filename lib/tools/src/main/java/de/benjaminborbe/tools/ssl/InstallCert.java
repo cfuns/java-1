@@ -29,9 +29,9 @@ public class InstallCert {
 	public static void main(final String[] a) throws Exception {
 		final String[] args = { "www.google.de:443" };
 
-		String host;
-		int port;
-		char[] passphrase;
+		final String host;
+		final int port;
+		final char[] passphrase;
 		if ((args.length == 1) || (args.length == 2)) {
 			final String[] c = args[0].split(":");
 			host = c[0];
@@ -111,7 +111,7 @@ public class InstallCert {
 		if (line != null) {
 			line = line.trim();
 		}
-		int k;
+		final int k;
 		try {
 			k = (line.length() == 0) ? 0 : Integer.parseInt(line) - 1;
 		}

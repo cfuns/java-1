@@ -42,7 +42,7 @@ public abstract class SoftCursor {
 
 	public int oldWidth, oldHeight;
 
-	public SoftCursor(int hotX, int hotY, int width, int height) {
+	public SoftCursor(final int hotX, final int hotY, final int width, final int height) {
 		this.hotX = hotX;
 		this.hotY = hotY;
 		oldWidth = this.width = width;
@@ -57,7 +57,7 @@ public abstract class SoftCursor {
 	 * @param newX
 	 * @param newY
 	 */
-	public void updatePosition(int newX, int newY) {
+	public void updatePosition(final int newX, final int newY) {
 		oldRX = rX;
 		oldRY = rY;
 		oldWidth = width;
@@ -76,7 +76,7 @@ public abstract class SoftCursor {
 	 * @param width
 	 * @param height
 	 */
-	public void setNewDimensions(int hotX, int hotY, int width, int height) {
+	public void setNewDimensions(final int hotX, final int hotY, final int width, final int height) {
 		this.hotX = hotX;
 		this.hotY = hotY;
 		oldWidth = this.width;
@@ -89,7 +89,7 @@ public abstract class SoftCursor {
 		this.height = height;
 	}
 
-	public void createCursor(int[] cursorPixels, int hotX, int hotY, int width, int height) {
+	public void createCursor(final int[] cursorPixels, final int hotX, final int hotY, final int width, final int height) {
 		createNewCursorImage(cursorPixels, hotX, hotY, width, height);
 		setNewDimensions(hotX, hotY, width, height);
 	}

@@ -115,7 +115,7 @@ public class RemoteNodeStatus implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.JVMstats == null && other.getJVMstats() == null) || (this.JVMstats != null && this.JVMstats.equals(other.getJVMstats())))
 				&& ((this.buildStats == null && other.getBuildStats() == null) || (this.buildStats != null && this.buildStats.equals(other.getBuildStats())))
 				&& this.nodeId == other.getNodeId() && ((this.props == null && other.getProps() == null) || (this.props != null && this.props.equals(other.getProps())));
@@ -147,7 +147,7 @@ public class RemoteNodeStatus implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteNodeStatus.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteNodeStatus.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteNodeStatus"));

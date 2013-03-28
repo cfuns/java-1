@@ -125,7 +125,7 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 		return owners;
 	}
 
-	public void setOwners(Collection<UserIdentifier> owners) {
+	public void setOwners(final Collection<UserIdentifier> owners) {
 		this.owners = owners;
 	}
 

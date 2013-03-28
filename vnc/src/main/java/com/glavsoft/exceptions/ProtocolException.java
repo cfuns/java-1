@@ -27,7 +27,7 @@ package com.glavsoft.exceptions;
 @SuppressWarnings("serial")
 public class ProtocolException extends CommonException {
 
-	public ProtocolException(String message) {
+	public ProtocolException(final String message) {
 		super(message);
 	}
 }

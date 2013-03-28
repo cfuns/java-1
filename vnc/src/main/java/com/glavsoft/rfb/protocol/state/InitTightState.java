@@ -43,7 +43,7 @@ import com.glavsoft.rfb.protocol.ProtocolSettings;
  */
 public class InitTightState extends InitState {
 
-	public InitTightState(ProtocolContext context) {
+	public InitTightState(final ProtocolContext context) {
 		super(context);
 	}
 
@@ -60,12 +60,12 @@ public class InitTightState extends InitState {
 	 */
 	@Override
 	protected void clientAndServerInit() throws TransportException {
-		ServerInitMessage serverInitMessage = getServerInitMessage();
-		int nServerMessageTypes = reader.readUInt16();
-		int nClientMessageTypes = reader.readUInt16();
-		int nEncodingTypes = reader.readUInt16();
+		final ServerInitMessage serverInitMessage = getServerInitMessage();
+		final int nServerMessageTypes = reader.readUInt16();
+		final int nClientMessageTypes = reader.readUInt16();
+		final int nEncodingTypes = reader.readUInt16();
 		reader.readUInt16(); // padding
-		ProtocolSettings settings = context.getSettings();
+		final ProtocolSettings settings = context.getSettings();
 		settings.serverMessagesCapabilities.read(reader, nServerMessageTypes);
 		settings.clientMessagesCapabilities.read(reader, nClientMessageTypes);
 		settings.encodingTypesCapabilities.read(reader, nEncodingTypes);

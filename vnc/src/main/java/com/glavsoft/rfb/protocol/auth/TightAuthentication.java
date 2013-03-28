@@ -83,7 +83,7 @@ public class TightAuthentication extends AuthHandler {
 	 * 
 	 */
 	private void initTunnelling(final Reader reader, final Writer writer) throws TransportException {
-		long tunnelsCount;
+		final long tunnelsCount;
 		tunnelsCount = reader.readUInt32();
 		if (tunnelsCount > 0) {
 			// for (int i = 0; i < tunnelsCount; ++i) {
@@ -121,7 +121,7 @@ public class TightAuthentication extends AuthHandler {
 	 */
 	private void initAuthorization(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever)
 			throws UnsupportedSecurityTypeException, TransportException, FatalException {
-		int authCount;
+		final int authCount;
 		authCount = reader.readInt32();
 		final byte[] cap = new byte[authCount];
 		for (int i = 0; i < authCount; ++i) {

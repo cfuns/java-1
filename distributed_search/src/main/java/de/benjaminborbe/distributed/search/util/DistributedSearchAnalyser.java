@@ -4,22 +4,24 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 
 import de.benjaminborbe.tools.search.SearchUtil;
-import org.slf4j.Logger;
 
 public class DistributedSearchAnalyser {
 
 	private final Logger logger;
+
 	private final SearchUtil searchUtil;
 
 	private final StopWords stopWords;
 
 	@Inject
-	public DistributedSearchAnalyser(Logger logger, final SearchUtil searchUtil, final StopWords stopWords) {
+	public DistributedSearchAnalyser(final Logger logger, final SearchUtil searchUtil, final StopWords stopWords) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.stopWords = stopWords;
@@ -48,7 +50,8 @@ public class DistributedSearchAnalyser {
 			final Integer m = result.get(word);
 			if (m != null) {
 				result.put(word, m + rating);
-			} else {
+			}
+			else {
 				result.put(word, rating);
 			}
 		}

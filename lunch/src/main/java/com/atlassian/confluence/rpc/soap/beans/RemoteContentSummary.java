@@ -229,7 +229,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
 				&& ((this.creator == null && other.getCreator() == null) || (this.creator != null && this.creator.equals(other.getCreator()))) && this.id == other.getId()
 				&& ((this.modified == null && other.getModified() == null) || (this.modified != null && this.modified.equals(other.getModified())))
@@ -281,7 +281,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteContentSummary.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteContentSummary.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteContentSummary"));

@@ -117,7 +117,7 @@ public class TightDecoder extends Decoder {
 		}
 		final int bytesPerCPixel = renderer.getBytesPerPixelSignificant();
 		final int lengthCurrentbpp = bytesPerCPixel * rect.width * rect.height;
-		byte[] buffer;
+		final byte[] buffer;
 		switch (filterId) {
 		case BASIC_FILTER:
 			buffer = readTightData(lengthCurrentbpp, reader);

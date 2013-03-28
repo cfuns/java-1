@@ -64,7 +64,7 @@ public class PixelFormat {
 
 	public byte blueShift;
 
-	public void fill(Reader reader) throws TransportException {
+	public void fill(final Reader reader) throws TransportException {
 		bitsPerPixel = reader.readByte();
 		depth = reader.readByte();
 		bigEndianFlag = reader.readByte();
@@ -78,7 +78,7 @@ public class PixelFormat {
 		reader.readBytes(3); // skip padding bytes
 	}
 
-	public void send(Writer writer) throws TransportException {
+	public void send(final Writer writer) throws TransportException {
 		writer.write(bitsPerPixel);
 		writer.write(depth);
 		writer.write(bigEndianFlag);
@@ -93,7 +93,7 @@ public class PixelFormat {
 		writer.writeByte(0); // padding bytes
 	}
 
-	public static PixelFormat create32bppPixelFormat(int bigEndianFlag) {
+	public static PixelFormat create32bppPixelFormat(final int bigEndianFlag) {
 		final PixelFormat pixelFormat = new PixelFormat();
 		pixelFormat.bigEndianFlag = (byte) bigEndianFlag;
 		pixelFormat.bitsPerPixel = 32;
@@ -111,7 +111,7 @@ public class PixelFormat {
 	/**
 	 * specifies 65536 colors, 5bit per Red, 6bit per Green, 5bit per Blue
 	 */
-	public static PixelFormat create16bppPixelFormat(int bigEndianFlag) {
+	public static PixelFormat create16bppPixelFormat(final int bigEndianFlag) {
 		final PixelFormat pixelFormat = new PixelFormat();
 		pixelFormat.bigEndianFlag = (byte) bigEndianFlag;
 		pixelFormat.bitsPerPixel = 16;
@@ -129,7 +129,7 @@ public class PixelFormat {
 	/**
 	 * specifies 256 colors, 2bit per Blue, 3bit per Green & Red
 	 */
-	public static PixelFormat create8bppBGRPixelFormat(int bigEndianFlag) {
+	public static PixelFormat create8bppBGRPixelFormat(final int bigEndianFlag) {
 		final PixelFormat pixelFormat = new PixelFormat();
 		pixelFormat.bigEndianFlag = (byte) bigEndianFlag;
 		pixelFormat.bitsPerPixel = 8;
@@ -147,7 +147,7 @@ public class PixelFormat {
 	/**
 	 * specifies 64 colors, 2bit per Red, Green & Blue
 	 */
-	public static PixelFormat create6bppPixelFormat(int bigEndianFlag) {
+	public static PixelFormat create6bppPixelFormat(final int bigEndianFlag) {
 		final PixelFormat pixelFormat = new PixelFormat();
 		pixelFormat.bigEndianFlag = (byte) bigEndianFlag;
 		pixelFormat.bitsPerPixel = 8;
@@ -165,7 +165,7 @@ public class PixelFormat {
 	/**
 	 * specifies 8 colors, 1bit per Red, Green & Blue
 	 */
-	public static PixelFormat create3bppPixelFormat(int bigEndianFlag) {
+	public static PixelFormat create3bppPixelFormat(final int bigEndianFlag) {
 		final PixelFormat pixelFormat = new PixelFormat();
 		pixelFormat.bigEndianFlag = (byte) bigEndianFlag;
 		pixelFormat.bitsPerPixel = 8;

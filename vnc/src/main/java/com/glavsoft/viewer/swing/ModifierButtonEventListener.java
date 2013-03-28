@@ -34,12 +34,12 @@ public class ModifierButtonEventListener {
 
 	Map<Integer, JToggleButton> buttons = new HashMap<Integer, JToggleButton>();
 
-	public void addButton(int keyCode, JToggleButton button) {
+	public void addButton(final int keyCode, final JToggleButton button) {
 		buttons.put(keyCode, button);
 	}
 
-	public void fireEvent(KeyEvent e) {
-		int code = e.getKeyCode();
+	public void fireEvent(final KeyEvent e) {
+		final int code = e.getKeyCode();
 		if (buttons.containsKey(code)) {
 			buttons.get(code).setSelected(e.getID() == KeyEvent.KEY_PRESSED);
 		}

@@ -27,15 +27,15 @@ package com.glavsoft.exceptions;
 @SuppressWarnings("serial")
 public class CommonException extends Exception {
 
-	public CommonException(Throwable exception) {
+	public CommonException(final Throwable exception) {
 		super(exception);
 	}
 
-	public CommonException(String message, Throwable exception) {
+	public CommonException(final String message, final Throwable exception) {
 		super(message, exception);
 	}
 
-	public CommonException(String message) {
+	public CommonException(final String message) {
 		super(message);
 	}
 

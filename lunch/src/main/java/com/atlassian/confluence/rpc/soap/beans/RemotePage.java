@@ -215,7 +215,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = super.equals(obj) && ((this.content == null && other.getContent() == null) || (this.content != null && this.content.equals(other.getContent())))
 				&& ((this.contentStatus == null && other.getContentStatus() == null) || (this.contentStatus != null && this.contentStatus.equals(other.getContentStatus())))
 				&& ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
@@ -260,7 +260,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemotePage.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemotePage.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePage"));

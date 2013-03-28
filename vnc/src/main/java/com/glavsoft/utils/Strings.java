@@ -26,10 +26,10 @@ package com.glavsoft.utils;
 
 public class Strings {
 
-	public static String toString(byte[] byteArray) {
-		StringBuilder sb = new StringBuilder("[");
+	public static String toString(final byte[] byteArray) {
+		final StringBuilder sb = new StringBuilder("[");
 		boolean notFirst = false;
-		for (byte b : byteArray) {
+		for (final byte b : byteArray) {
 			if (notFirst) {
 				sb.append(", ");
 			}
@@ -41,7 +41,7 @@ public class Strings {
 		return sb.append("]").toString();
 	}
 
-	public static boolean isTrimmedEmpty(String s) {
+	public static boolean isTrimmedEmpty(final String s) {
 		return null == s || (s.trim().length() == 0);
 	}
 

@@ -41,7 +41,7 @@ public class AuthenticationState extends ProtocolState {
 	// private static final int AUTH_RESULT_TOO_MANY = 2;
 	private final AuthHandler authHandler;
 
-	public AuthenticationState(ProtocolContext context, AuthHandler authHandler) {
+	public AuthenticationState(final ProtocolContext context, final AuthHandler authHandler) {
 		super(context);
 		this.authHandler = authHandler;
 	}
@@ -53,7 +53,7 @@ public class AuthenticationState extends ProtocolState {
 	}
 
 	private void authenticate() throws TransportException, AuthenticationFailedException, FatalException, UnsupportedSecurityTypeException {
-		boolean isTight = authHandler.authenticate(reader, writer, context.getSettings().authCapabilities, context.getPasswordRetriever());
+		final boolean isTight = authHandler.authenticate(reader, writer, context.getSettings().authCapabilities, context.getPasswordRetriever());
 		// skip when protocol < 3.8 and NONE_AUTH
 		if (authHandler.useSecurityResult()) {
 			checkSecurityResult();
@@ -74,7 +74,7 @@ public class AuthenticationState extends ProtocolState {
 	protected void checkSecurityResult() throws TransportException, AuthenticationFailedException {
 		if (reader.readInt32() != AUTH_RESULT_OK) {
 			try {
-				String reason = reader.readString();
+				final String reason = reader.readString();
 				throw new AuthenticationFailedException(reason);
 			}
 			catch (ClosedConnectionException e) {

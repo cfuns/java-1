@@ -73,7 +73,7 @@ public class RemotePageUpdateOptions implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && this.minorEdit == other.isMinorEdit()
 				&& ((this.versionComment == null && other.getVersionComment() == null) || (this.versionComment != null && this.versionComment.equals(other.getVersionComment())));
 		__equalsCalc = null;
@@ -98,7 +98,7 @@ public class RemotePageUpdateOptions implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemotePageUpdateOptions.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemotePageUpdateOptions.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePageUpdateOptions"));

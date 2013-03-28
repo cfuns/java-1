@@ -207,7 +207,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true
 				&& ((this.content == null && other.getContent() == null) || (this.content != null && this.content.equals(other.getContent())))
 				&& ((this.creationDate == null && other.getCreationDate() == null) || (this.creationDate != null && this.creationDate.equals(other.getCreationDate())))
@@ -255,7 +255,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteUserInformation.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteUserInformation.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteUserInformation"));

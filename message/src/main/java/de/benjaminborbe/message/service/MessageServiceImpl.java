@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
-import de.benjaminborbe.message.util.MessageLock;
 import org.slf4j.Logger;
 
 import com.google.inject.Inject;
@@ -29,6 +28,7 @@ import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.message.dao.MessageDao;
 import de.benjaminborbe.message.util.MessageConsumerExchanger;
+import de.benjaminborbe.message.util.MessageLock;
 import de.benjaminborbe.message.util.MessageUnlock;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -61,12 +61,13 @@ public class MessageServiceImpl implements MessageService {
 	private final ValidationExecutor validationExecutor;
 
 	private final MessageLock messageLock;
+
 	private final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider;
 
 	@Inject
 	public MessageServiceImpl(
 			final Logger logger,
-			MessageLock messageLock,
+			final MessageLock messageLock,
 			final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider,
 			final ValidationExecutor validationExecutor,
 			final AnalyticsService analyticsService,
@@ -155,7 +156,7 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public String getLockName(SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException {
+	public String getLockName(final SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			return messageLock.getLockName();

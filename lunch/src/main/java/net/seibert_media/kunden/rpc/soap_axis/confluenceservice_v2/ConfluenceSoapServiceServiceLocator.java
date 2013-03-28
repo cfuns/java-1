@@ -43,7 +43,7 @@ public class ConfluenceSoapServiceServiceLocator extends org.apache.axis.client.
 
 	@Override
 	public net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapService getConfluenceserviceV2() throws javax.xml.rpc.ServiceException {
-		java.net.URL endpoint;
+		final java.net.URL endpoint;
 		try {
 			endpoint = new java.net.URL(ConfluenceserviceV2_address);
 		}

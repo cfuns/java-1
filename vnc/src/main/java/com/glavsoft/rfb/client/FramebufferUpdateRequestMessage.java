@@ -39,7 +39,7 @@ public class FramebufferUpdateRequestMessage implements ClientToServerMessage {
 
 	private final int x;
 
-	public FramebufferUpdateRequestMessage(int x, int y, int width, int height, boolean incremental) {
+	public FramebufferUpdateRequestMessage(final int x, final int y, final int width, final int height, final boolean incremental) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -48,7 +48,7 @@ public class FramebufferUpdateRequestMessage implements ClientToServerMessage {
 	}
 
 	@Override
-	public void send(Writer writer) throws TransportException {
+	public void send(final Writer writer) throws TransportException {
 		writer.writeByte(FRAMEBUFFER_UPDATE_REQUEST);
 		writer.writeByte(incremental ? 1 : 0);
 		writer.writeInt16(x);

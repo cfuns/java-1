@@ -31,7 +31,7 @@ public class SettingsChangedEvent {
 
 	private final Object source;
 
-	public SettingsChangedEvent(Object source) {
+	public SettingsChangedEvent(final Object source) {
 		this.source = source;
 	}
 

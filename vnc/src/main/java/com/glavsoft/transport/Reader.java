@@ -42,13 +42,13 @@ public class Reader {
 
 	private final DataInputStream is;
 
-	public Reader(InputStream is) {
+	public Reader(final InputStream is) {
 		this.is = new DataInputStream(new BufferedInputStream(is));
 	}
 
 	public byte readByte() throws TransportException {
 		try {
-			byte readByte = is.readByte();
+			final byte readByte = is.readByte();
 			return readByte;
 		}
 		catch (EOFException e) {
@@ -70,7 +70,7 @@ public class Reader {
 
 	public short readInt16() throws TransportException {
 		try {
-			short readShort = is.readShort();
+			final short readShort = is.readShort();
 			return readShort;
 		}
 		catch (EOFException e) {
@@ -87,7 +87,7 @@ public class Reader {
 
 	public int readInt32() throws TransportException {
 		try {
-			int readInt = is.readInt();
+			final int readInt = is.readInt();
 			return readInt;
 		}
 		catch (EOFException e) {
@@ -117,7 +117,7 @@ public class Reader {
 	 * 
 	 * @return String read
 	 */
-	public String readString(int length) throws TransportException {
+	public String readString(final int length) throws TransportException {
 		return new String(readBytes(length));
 	}
 
@@ -135,7 +135,7 @@ public class Reader {
 		// unset most significant (sign) bit 'cause InputStream#readFully reads
 		// [int] length bytes from stream. Change when really need read string more
 		// than 2147483647 bytes length
-		int length = readInt32() & Integer.MAX_VALUE;
+		final int length = readInt32() & Integer.MAX_VALUE;
 		return readString(length);
 	}
 
@@ -150,16 +150,16 @@ public class Reader {
 		// unset most significant (sign) bit 'cause InputStream#readFully reads
 		// [int] length bytes from stream. Change when really need read string more
 		// than 2147483647 bytes length
-		int length = readInt32() & Integer.MAX_VALUE;
+		final int length = readInt32() & Integer.MAX_VALUE;
 		return new String(readBytes(length), UTF8);
 	}
 
-	public byte[] readBytes(int length) throws TransportException {
-		byte b[] = new byte[length];
+	public byte[] readBytes(final int length) throws TransportException {
+		final byte[] b = new byte[length];
 		return readBytes(b, 0, length);
 	}
 
-	public byte[] readBytes(byte[] b, int offset, int length) throws TransportException {
+	public byte[] readBytes(final byte[] b, final int offset, final int length) throws TransportException {
 		try {
 			is.readFully(b, offset, length);
 			return b;
@@ -172,7 +172,7 @@ public class Reader {
 		}
 	}
 
-	public void skip(int length) throws TransportException {
+	public void skip(final int length) throws TransportException {
 		try {
 			is.skipBytes(length);
 		}

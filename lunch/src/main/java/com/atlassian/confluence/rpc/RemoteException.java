@@ -28,7 +28,7 @@ public class RemoteException extends org.apache.axis.AxisFault implements java.i
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true;
 		__equalsCalc = null;
 		return _equals;
@@ -48,7 +48,7 @@ public class RemoteException extends org.apache.axis.AxisFault implements java.i
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteException.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteException.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"));

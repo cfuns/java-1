@@ -97,7 +97,7 @@ public enum EncodingType {
 	JPEG_QUALITY_LEVEL_8(0xFFFFFFE0 + 8, "JpegQualityLevel8"),
 	JPEG_QUALITY_LEVEL_9(0xFFFFFFE0 + 9, "JpegQualityLevel9");
 
-	private int id;
+	private final int id;
 
 	private final String name;
 

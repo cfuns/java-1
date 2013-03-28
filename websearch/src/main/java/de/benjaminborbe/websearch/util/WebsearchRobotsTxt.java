@@ -36,7 +36,7 @@ public class WebsearchRobotsTxt {
 	}
 
 	public void add(final String useragent, final String uri) {
-		Set<String> uris;
+		final Set<String> uris;
 		if (useragentUriList.containsKey(useragent)) {
 			uris = useragentUriList.get(useragent);
 		}

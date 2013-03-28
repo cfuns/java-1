@@ -15,7 +15,7 @@ public class ComparatorUtil {
 	}
 
 	public <T> List<T> sort(final Collection<T> collection, final Comparator<T> comparator) {
-		List<T> list;
+		final List<T> list;
 		if (collection instanceof List) {
 			list = (List<T>) collection;
 		}

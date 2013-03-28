@@ -46,7 +46,7 @@ public class SearchUtilUnitTest {
 	public void testParseMultibleWords() {
 		final SearchUtil searchUtil = new SearchUtil();
 
-		String term = "Cool Portal Bla";
+		final String term = "Cool Portal Bla";
 
 		assertThat(searchUtil.buildSearchParts(term).size(), is(3));
 		assertThat(searchUtil.buildSearchParts(term), is(hasItem("cool")));

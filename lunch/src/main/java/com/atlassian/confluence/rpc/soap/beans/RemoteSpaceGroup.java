@@ -115,7 +115,7 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = true && ((this.creatorName == null && other.getCreatorName() == null) || (this.creatorName != null && this.creatorName.equals(other.getCreatorName())))
 				&& ((this.key == null && other.getKey() == null) || (this.key != null && this.key.equals(other.getKey())))
 				&& ((this.licenseKey == null && other.getLicenseKey() == null) || (this.licenseKey != null && this.licenseKey.equals(other.getLicenseKey())))
@@ -150,7 +150,7 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteSpaceGroup.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteSpaceGroup.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpaceGroup"));

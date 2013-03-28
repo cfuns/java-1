@@ -120,9 +120,9 @@ public class KeyboardConvertor {
 		}
 	}
 
-	public int convert(int keyChar, KeyEvent ev) {
-		int keyCode = ev.getKeyCode();
-		boolean isShiftDown = ev.isShiftDown();
+	public int convert(final int keyChar, final KeyEvent ev) {
+		final int keyCode = ev.getKeyCode();
+		final boolean isShiftDown = ev.isShiftDown();
 		CodePair codePair = keyMap.get(keyCode);
 		if (null == codePair)
 			return keyChar;
@@ -130,7 +130,7 @@ public class KeyboardConvertor {
 			final Matcher matcher = patternForScancode.matcher(ev.paramString());
 			if (matcher.matches()) {
 				try {
-					int scancode = Integer.parseInt(matcher.group(1));
+					final int scancode = Integer.parseInt(matcher.group(1));
 					if (90 == keyCode && 21 == scancode) { // deutsch z->y
 						codePair = keyMap.get(89); // y
 					}
@@ -160,7 +160,7 @@ public class KeyboardConvertor {
 
 		public int code, codeShifted;
 
-		public CodePair(int code, int codeShifted) {
+		public CodePair(final int code, final int codeShifted) {
 			this.code = code;
 			this.codeShifted = codeShifted;
 		}

@@ -58,7 +58,7 @@ public class UiSettings {
 		changedSettingsMask = 0;
 	}
 
-	private UiSettings(UiSettings uiSettings) {
+	private UiSettings(final UiSettings uiSettings) {
 		this.scalePercent = uiSettings.scalePercent;
 		this.changedSettingsMask = uiSettings.changedSettingsMask;
 	}
@@ -67,25 +67,25 @@ public class UiSettings {
 		return scalePercent / 100.;
 	}
 
-	public void setScalePercent(double scalePercent) {
+	public void setScalePercent(final double scalePercent) {
 		this.scalePercent = scalePercent;
 		changedSettingsMask |= CHANGED_SCALE_FACTOR;
 	}
 
-	public void addListener(IChangeSettingsListener listener) {
+	public void addListener(final IChangeSettingsListener listener) {
 		listeners.add(listener);
 	}
 
 	public void fireListeners() {
 		final SettingsChangedEvent event = new SettingsChangedEvent(new UiSettings(this));
 		changedSettingsMask = 0;
-		for (IChangeSettingsListener listener : listeners) {
+		for (final IChangeSettingsListener listener : listeners) {
 			listener.settingsChanged(event);
 		}
 	}
 
 	public void zoomOut() {
-		double oldScaleFactor = scalePercent;
+		final double oldScaleFactor = scalePercent;
 		double scaleFactor = (int) (this.scalePercent / SCALE_PERCENT_ZOOMING_STEP) * SCALE_PERCENT_ZOOMING_STEP;
 		if (scaleFactor == oldScaleFactor) {
 			scaleFactor -= SCALE_PERCENT_ZOOMING_STEP;
@@ -111,7 +111,7 @@ public class UiSettings {
 		fireListeners();
 	}
 
-	public void zoomToFit(int containerWidth, int containerHeight, int fbWidth, int fbHeight) {
+	public void zoomToFit(final int containerWidth, final int containerHeight, final int fbWidth, final int fbHeight) {
 		int scalePromille = Math.min(1000 * containerWidth / fbWidth, 1000 * containerHeight / fbHeight);
 		while (fbWidth * scalePromille / 1000. > containerWidth || fbHeight * scalePromille / 1000. > containerHeight) {
 			scalePromille -= 1;
@@ -128,7 +128,7 @@ public class UiSettings {
 		return (changedSettingsMask & CHANGED_SYSTEM_CURSOR) == CHANGED_SYSTEM_CURSOR;
 	}
 
-	public static boolean isUiSettingsChangedFired(SettingsChangedEvent event) {
+	public static boolean isUiSettingsChangedFired(final SettingsChangedEvent event) {
 		return event.getSource() instanceof UiSettings;
 	}
 
@@ -137,7 +137,7 @@ public class UiSettings {
 	}
 
 	public String getScalePercentFormatted() {
-		NumberFormat numberFormat = new DecimalFormat("###.#");
+		final NumberFormat numberFormat = new DecimalFormat("###.#");
 		return numberFormat.format(scalePercent);
 	}
 }

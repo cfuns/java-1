@@ -83,7 +83,7 @@ public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.Rem
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = super.equals(obj) && ((this.content == null && other.getContent() == null) || (this.content != null && this.content.equals(other.getContent())))
 				&& this.version == other.getVersion();
 		__equalsCalc = null;
@@ -108,7 +108,7 @@ public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.Rem
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteBlogEntry.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemoteBlogEntry.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteBlogEntry"));

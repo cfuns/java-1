@@ -45,7 +45,7 @@ public class ServerInitMessage {
 
 	protected String name;
 
-	public ServerInitMessage(Reader reader) throws TransportException {
+	public ServerInitMessage(final Reader reader) throws TransportException {
 		frameBufferWidth = reader.readUInt16();
 		frameBufferHeight = reader.readUInt16();
 		pixelFormat = new PixelFormat();

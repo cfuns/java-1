@@ -75,29 +75,29 @@ public class RfbCapabilityInfo {
 
 	public static final String ENCODING_DESKTOP_SIZE = "NEWFBSIZ";
 
-	private int code;
+	private final int code;
 
-	private String vendorSignature;
+	private final String vendorSignature;
 
-	private String nameSignature;
+	private final String nameSignature;
 
 	private boolean enable;
 
-	public RfbCapabilityInfo(int code, String vendorSignature, String nameSignature) {
+	public RfbCapabilityInfo(final int code, final String vendorSignature, final String nameSignature) {
 		this.code = code;
 		this.vendorSignature = vendorSignature;
 		this.nameSignature = nameSignature;
 		enable = true;
 	}
 
-	public RfbCapabilityInfo(Reader reader) throws TransportException {
+	public RfbCapabilityInfo(final Reader reader) throws TransportException {
 		code = reader.readInt32();
 		vendorSignature = reader.readString(4);
 		nameSignature = reader.readString(8);
 	}
 
 	@Override
-	public boolean equals(Object otherObj) {
+	public boolean equals(final Object otherObj) {
 		if (this == otherObj) {
 			return true;
 		}
@@ -107,11 +107,11 @@ public class RfbCapabilityInfo {
 		if (getClass() != otherObj.getClass()) {
 			return false;
 		}
-		RfbCapabilityInfo other = (RfbCapabilityInfo) otherObj;
+		final RfbCapabilityInfo other = (RfbCapabilityInfo) otherObj;
 		return code == other.code && vendorSignature.equals(other.vendorSignature) && nameSignature.equals(other.nameSignature);
 	}
 
-	public void setEnable(boolean enable) {
+	public void setEnable(final boolean enable) {
 		this.enable = enable;
 	}
 

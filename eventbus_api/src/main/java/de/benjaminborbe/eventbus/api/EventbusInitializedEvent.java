@@ -9,7 +9,7 @@ public class EventbusInitializedEvent extends Event<EventbusInitializedEventHand
 	}
 
 	@Override
-	public void dispatch(EventbusInitializedEventHandler handler) {
+	public void dispatch(final EventbusInitializedEventHandler handler) {
 		handler.onInitialize(this);
 	}
 

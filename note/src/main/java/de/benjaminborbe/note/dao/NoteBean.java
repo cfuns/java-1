@@ -77,7 +77,7 @@ public class NoteBean extends EntityBase<NoteIdentifier> implements Note, HasCre
 		return owner;
 	}
 
-	public void setOwner(UserIdentifier owner) {
+	public void setOwner(final UserIdentifier owner) {
 		this.owner = owner;
 	}
 

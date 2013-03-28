@@ -47,4 +47,10 @@ public class NoteServiceMock implements NoteService {
 	public NoteIdentifier createNoteIdentifier(final String id) throws NoteServiceException {
 		return null;
 	}
+
+	@Override
+	public Note getNote(final SessionIdentifier sessionIdentifier, final NoteIdentifier noteIdentifier) throws PermissionDeniedException, LoginRequiredException,
+			NoteServiceException {
+		return null;
+	}
 }

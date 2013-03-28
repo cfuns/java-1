@@ -15,7 +15,7 @@ public class ProviderMock<T> implements Provider<T> {
 	@Override
 	public T get() {
 		try {
-			Constructor<T> c;
+			final Constructor<T> c;
 			c = clazz.getDeclaredConstructor();
 			return c.newInstance();
 		}

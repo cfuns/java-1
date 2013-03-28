@@ -34,7 +34,7 @@ public class SoftCursorImpl extends SoftCursor {
 
 	private Image cursorImage;
 
-	public SoftCursorImpl(int hotX, int hotY, int width, int height) {
+	public SoftCursorImpl(final int hotX, final int hotY, final int width, final int height) {
 		super(hotX, hotY, width, height);
 	}
 
@@ -43,7 +43,7 @@ public class SoftCursorImpl extends SoftCursor {
 	}
 
 	@Override
-	protected void createNewCursorImage(int[] cursorPixels, int hotX, int hotY, int width, int height) {
+	protected void createNewCursorImage(final int[] cursorPixels, final int hotX, final int hotY, final int width, final int height) {
 		cursorImage = Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(width, height, cursorPixels, 0, width));
 
 	}

@@ -143,7 +143,7 @@ public class MonitoringNodeDto implements MonitoringNode {
 		return exception;
 	}
 
-	public void setException(String exception) {
+	public void setException(final String exception) {
 		this.exception = exception;
 	}
 

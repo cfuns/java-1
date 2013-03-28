@@ -58,7 +58,7 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 
 	private Charset charset;
 
-	public ClipboardControllerImpl(ProtocolContext context, String charsetName) {
+	public ClipboardControllerImpl(final ProtocolContext context, final String charsetName) {
 		this.context = context;
 		try {
 			clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -84,9 +84,9 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 	}
 
 	@Override
-	public void updateSystemClipboard(byte[] bytes) {
+	public void updateSystemClipboard(final byte[] bytes) {
 		if (clipboard != null) {
-			StringSelection stringSelection = new StringSelection(new String(bytes, charset));
+			final StringSelection stringSelection = new StringSelection(new String(bytes, charset));
 			if (isEnabled) {
 				clipboard.setContents(stringSelection, null);
 			}
@@ -129,7 +129,7 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 	 */
 	@Override
 	public String getRenewedClipboardText() {
-		String old = clipboardText;
+		final String old = clipboardText;
 		updateSavedClipboardContent();
 		if (clipboardText != null && !clipboardText.equals(old))
 			return clipboardText;
@@ -137,7 +137,7 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 	}
 
 	@Override
-	public void setEnabled(boolean enable) {
+	public void setEnabled(final boolean enable) {
 		if (!enable) {
 			isRunning = false;
 		}
@@ -151,7 +151,7 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 	public void run() {
 		isRunning = true;
 		while (isRunning) {
-			String clipboardText = getRenewedClipboardText();
+			final String clipboardText = getRenewedClipboardText();
 			if (clipboardText != null) {
 				context.sendMessage(new ClientCutTextMessage(clipboardText.getBytes(charset)));
 			}
@@ -165,8 +165,8 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 	}
 
 	@Override
-	public void settingsChanged(SettingsChangedEvent e) {
-		ProtocolSettings settings = (ProtocolSettings) e.getSource();
+	public void settingsChanged(final SettingsChangedEvent e) {
+		final ProtocolSettings settings = (ProtocolSettings) e.getSource();
 		setEnabled(settings.isAllowClipboardTransfer());
 	}
 

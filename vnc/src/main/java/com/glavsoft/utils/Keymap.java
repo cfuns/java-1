@@ -170,7 +170,7 @@ public class Keymap {
 
 	public static final int K_KP_9 = 0xFFB9;
 
-	private static Map<Integer, Integer> keyMap = toMap(new int[][] {
+	private static final Map<Integer, Integer> keyMap = toMap(new int[][] {
 			// X Unicode
 			{ 0x01a1, 0x0104 }, /* Aogonek LATIN CAPITAL LETTER A WITH OGONEK */
 			{ 0x01a2, 0x02d8 }, /* breve BREVE */
@@ -959,18 +959,18 @@ public class Keymap {
 			{ 0x20ac, 0x20ac }, /* EuroSign EURO SIGN */
 	});
 
-	private static Map<Integer, Integer> toMap(int[][] keys) {
-		Map<Integer, Integer> keyMap = new HashMap<Integer, Integer>();
-		for (int[] km : keys) {
+	private static Map<Integer, Integer> toMap(final int[][] keys) {
+		final Map<Integer, Integer> keyMap = new HashMap<Integer, Integer>();
+		for (final int[] km : keys) {
 			keyMap.put(km[1], km[0]);
 		}
 		return keyMap;
 	}
 
-	public static int unicode2keysym(int ch) {
+	public static int unicode2keysym(final int ch) {
 		if (ch >= 32 && ch <= 126 || ch >= 160 && ch <= 255)
 			return ch;
-		Integer converted = keyMap.get(ch);
+		final Integer converted = keyMap.get(ch);
 		return converted != null ? converted :
 		// No variants has been found for the unicode symbol then pass as unicode
 		// with the special flag.

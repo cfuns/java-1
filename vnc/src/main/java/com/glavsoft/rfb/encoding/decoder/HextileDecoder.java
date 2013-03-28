@@ -47,25 +47,26 @@ public class HextileDecoder extends Decoder {
 	private static final int BG_COLOR_INDEX = 1;
 
 	@Override
-	public void decode(Reader reader, Renderer renderer, FramebufferUpdateRectangle rect) throws TransportException {
+	public void decode(final Reader reader, final Renderer renderer, final FramebufferUpdateRectangle rect) throws TransportException {
 		if (rect.width == 0 || rect.height == 0)
 			return;
-		int[] colors = new int[] { -1, -1 };
-		int maxX = rect.x + rect.width;
-		int maxY = rect.y + rect.height;
+		final int[] colors = new int[] { -1, -1 };
+		final int maxX = rect.x + rect.width;
+		final int maxY = rect.y + rect.height;
 		for (int tileY = rect.y; tileY < maxY; tileY += DEFAULT_TILE_SIZE) {
-			int tileHeight = Math.min(maxY - tileY, DEFAULT_TILE_SIZE);
+			final int tileHeight = Math.min(maxY - tileY, DEFAULT_TILE_SIZE);
 			for (int tileX = rect.x; tileX < maxX; tileX += DEFAULT_TILE_SIZE) {
-				int tileWidth = Math.min(maxX - tileX, DEFAULT_TILE_SIZE);
+				final int tileWidth = Math.min(maxX - tileX, DEFAULT_TILE_SIZE);
 				decodeHextileSubrectangle(reader, renderer, colors, tileX, tileY, tileWidth, tileHeight);
 			}
 		}
 
 	}
 
-	private void decodeHextileSubrectangle(Reader reader, Renderer renderer, int[] colors, int tileX, int tileY, int tileWidth, int tileHeight) throws TransportException {
+	private void decodeHextileSubrectangle(final Reader reader, final Renderer renderer, final int[] colors, final int tileX, final int tileY, final int tileWidth,
+			final int tileHeight) throws TransportException {
 
-		int subencoding = reader.readUInt8();
+		final int subencoding = reader.readUInt8();
 
 		if ((subencoding & RAW_MASK) != 0) {
 			RawDecoder.getInstance().decode(reader, renderer, tileX, tileY, tileWidth, tileHeight);
@@ -85,18 +86,18 @@ public class HextileDecoder extends Decoder {
 		if ((subencoding & ANY_SUBRECTS_MASK) == 0)
 			return;
 
-		int numberOfSubrectangles = reader.readUInt8();
-		boolean colorSpecified = (subencoding & SUBRECTS_COLOURED_MASK) != 0;
+		final int numberOfSubrectangles = reader.readUInt8();
+		final boolean colorSpecified = (subencoding & SUBRECTS_COLOURED_MASK) != 0;
 		for (int i = 0; i < numberOfSubrectangles; ++i) {
 			if (colorSpecified) {
 				colors[FG_COLOR_INDEX] = renderer.readPixelColor(reader);
 			}
 			byte dimensions = reader.readByte(); // bits 7-4 for x, bits 3-0 for y
-			int subtileX = dimensions >> 4 & 0x0f;
-			int subtileY = dimensions & 0x0f;
+			final int subtileX = dimensions >> 4 & 0x0f;
+			final int subtileY = dimensions & 0x0f;
 			dimensions = reader.readByte(); // bits 7-4 for w, bits 3-0 for h
-			int subtileWidth = 1 + (dimensions >> 4 & 0x0f);
-			int subtileHeight = 1 + (dimensions & 0x0f);
+			final int subtileWidth = 1 + (dimensions >> 4 & 0x0f);
+			final int subtileHeight = 1 + (dimensions & 0x0f);
 			assert colors[FG_COLOR_INDEX] != -1;
 			renderer.fillRect(colors[FG_COLOR_INDEX], tileX + subtileX, tileY + subtileY, subtileWidth, subtileHeight);
 		}

@@ -81,7 +81,7 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 			return (__equalsCalc == obj);
 		}
 		__equalsCalc = obj;
-		boolean _equals;
+		final boolean _equals;
 		_equals = super.equals(obj) && this.parentId == other.getParentId() && this.version == other.getVersion();
 		__equalsCalc = null;
 		return _equals;
@@ -103,7 +103,7 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 	}
 
 	// Type metadata
-	private static org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemotePageSummary.class, true);
+	private static final org.apache.axis.description.TypeDesc typeDesc = new org.apache.axis.description.TypeDesc(RemotePageSummary.class, true);
 
 	static {
 		typeDesc.setXmlType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePageSummary"));

@@ -9,7 +9,7 @@ public class IteratorByList<T, E extends Exception> implements IteratorWithExcep
 
 	private int pos = 0;
 
-	private List<T> values;
+	private final List<T> values;
 
 	@SafeVarargs
 	public IteratorByList(final T... values) {

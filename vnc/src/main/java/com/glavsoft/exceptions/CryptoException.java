@@ -30,7 +30,7 @@ package com.glavsoft.exceptions;
 @SuppressWarnings("serial")
 public class CryptoException extends FatalException {
 
-	public CryptoException(String message, Throwable exception) {
+	public CryptoException(final String message, final Throwable exception) {
 		super(message, exception);
 	}
 }
