@@ -53,7 +53,7 @@
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Import-Service></Import-Service>
 						<Export-Package></Export-Package>
-						<Export-Service></Export-Service>
+						<Export-Service>de.benjaminborbe.virt.api.VirtService</Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>

@@ -52,7 +52,7 @@
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Import-Service></Import-Service>
-						<Export-Package></Export-Package>
+						<Export-Package>de.benjaminborbe.sample.api.SampleService</Export-Package>
 						<Export-Service></Export-Service>
 					</instructions>
 				</configuration>
