@@ -59,4 +59,13 @@ public class VirtIntegrationTest extends TestCaseOsgi {
 		assertEquals(46, virtService.calc(23));
 	}
 
+	public void testCreateVirtNetworkIdentifier() throws Exception {
+		final VirtService virtService = getService(VirtService.class);
+		assertNull(virtService.createVirtNetworkIdentifier(null));
+		assertNull(virtService.createVirtNetworkIdentifier(""));
+		assertNull(virtService.createVirtNetworkIdentifier(" "));
+		assertNotNull(virtService.createVirtNetworkIdentifier("1337"));
+		assertEquals("1337", virtService.createVirtNetworkIdentifier("1337").getId());
+	}
+
 }
