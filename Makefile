@@ -97,10 +97,7 @@ buildstorage:
 	cd storage_gui && make all
 	cd storage_test && make all
 buildsample:
-	cd sample_api && make all
-	cd sample_core && make all
-	cd sample_gui && make all
-	cd sample_test && make all
+	cd sample && make all
 buildloggly:
 	cd loggly_api && make all
 	cd loggly && make all

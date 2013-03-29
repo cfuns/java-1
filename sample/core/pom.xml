@@ -2,12 +2,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
-		<artifactId>de.benjaminborbe</artifactId>
+		<artifactId>de.benjaminborbe.sample</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.sample.api</artifactId>
-	<name>Benjamin Borbe - Sample - Api</name>
-	<description>Benjamin Borbe - Sample - Api</description>
+	<artifactId>de.benjaminborbe.sample.core</artifactId>
+	<name>Benjamin Borbe - Sample - Core</name>
+	<description>Benjamin Borbe - Sample - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -33,24 +33,27 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>${maven-bundle-plugin.version}</version>				<extensions>true</extensions>
+				<version>${maven-bundle-plugin.version}</version>
+				<extensions>true</extensions>
 				<configuration>
 					<supportedProjectTypes>
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.sample.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.sample.SampleApiActivator</Bundle-Activator>
+						<Bundle-Activator>de.benjaminborbe.sample.SampleActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.sample.*</Private-Package>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Sample-Api</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Sample-Api</Bundle-Description>
+						<Bundle-Name>Benjamin Borbe - Sample</Bundle-Name>
+						<Bundle-Description>Benjamin Borbe - Sample</Bundle-Description>
 						<Include-Resource> {maven-resources}, {maven-dependencies} </Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false </Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
+						<Import-Package>${felix_plugin_imports}</Import-Package>
+						<Import-Service></Import-Service>
+						<Export-Package>de.benjaminborbe.sample.api</Export-Package>
+						<Export-Service></Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -119,13 +122,13 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.html</artifactId>
+			<artifactId>de.benjaminborbe.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.api</artifactId>
+			<artifactId>de.benjaminborbe.sample.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
