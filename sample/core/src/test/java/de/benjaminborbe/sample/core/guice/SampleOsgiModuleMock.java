@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.guice;
+package de.benjaminborbe.sample.core.guice;
 
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;

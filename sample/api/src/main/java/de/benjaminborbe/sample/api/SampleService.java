@@ -2,5 +2,5 @@ package de.benjaminborbe.sample.api;
 
 public interface SampleService {
 
-	void execute();
+	long calc(long value);
 }

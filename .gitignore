@@ -359,7 +359,7 @@ projectile_test/de.benjaminborbe.projectile.test.iml
 projectile_test/target
 sample/de.benjaminborbe.sample.iml
 sample/target
-sample/core/de.benjaminborbe.sample.iml
+sample/core/de.benjaminborbe.sample.core.iml
 sample/core/target
 sample/api/de.benjaminborbe.sample.api.iml
 sample/api/target

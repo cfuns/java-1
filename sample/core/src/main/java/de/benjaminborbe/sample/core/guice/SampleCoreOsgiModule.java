@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.guice;
+package de.benjaminborbe.sample.core.guice;
 
 import static org.ops4j.peaberry.Peaberry.service;
 
@@ -7,7 +7,7 @@ import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
 
-public class SampleOsgiModule extends AbstractModule {
+public class SampleCoreOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {

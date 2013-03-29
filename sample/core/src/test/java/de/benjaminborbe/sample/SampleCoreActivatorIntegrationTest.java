@@ -9,30 +9,31 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import de.benjaminborbe.sample.core.SampleCoreActivator;
 import org.junit.Test;
 
 import com.google.inject.Injector;
 
 import de.benjaminborbe.sample.api.SampleService;
-import de.benjaminborbe.sample.guice.SampleModulesMock;
+import de.benjaminborbe.sample.core.guice.SampleModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 
-public class SampleActivatorIntegrationTest {
+public class SampleCoreActivatorIntegrationTest {
 
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleModulesMock());
-		final SampleActivator activator = injector.getInstance(SampleActivator.class);
+		final SampleCoreActivator activator = injector.getInstance(SampleCoreActivator.class);
 		assertNotNull(activator);
 	}
 
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleModulesMock());
-		final SampleActivator activator = new SampleActivator() {
+		final SampleCoreActivator activator = new SampleCoreActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -52,7 +53,7 @@ public class SampleActivatorIntegrationTest {
 	@Test
 	public void testServices() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SampleModulesMock());
-		final SampleActivator activator = new SampleActivator() {
+		final SampleCoreActivator activator = new SampleCoreActivator() {
 
 			@Override
 			public Injector getInjector() {

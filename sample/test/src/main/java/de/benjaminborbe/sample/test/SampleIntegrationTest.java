@@ -1,13 +1,12 @@
 package de.benjaminborbe.sample.test;
 
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
-
 import de.benjaminborbe.sample.api.SampleService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 
 public class SampleIntegrationTest extends TestCaseOsgi {
 
@@ -47,21 +46,17 @@ public class SampleIntegrationTest extends TestCaseOsgi {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	// @Test public void testServices() throws Exception {
-	// final BundleContext bundleContext = getContext();
-	// assertNotNull(bundleContext);
-	// for (final ServiceReference a : bundleContext.getAllServiceReferences(null, null)) {
-	// // final Bundle bundle = a.getBundle();
-	// final Object service = bundleContext.getService(a);
-	// System.err.println(service);
-	// }
-	// }
-
 	public void testSampleService() {
 		final Object serviceObject = getServiceObject(SampleService.class.getName(), null);
 		final SampleService service = (SampleService) serviceObject;
 		assertNotNull(service);
-		assertEquals("de.benjaminborbe.sample.service.SampleServiceImpl", service.getClass().getName());
+		assertEquals("de.benjaminborbe.sample.core.service.SampleCoreServiceImpl", service.getClass().getName());
+	}
+
+
+	public void testCalc() {
+		SampleService sampleService = getService(SampleService.class);
+		assertEquals(46, sampleService.calc(23));
 	}
 
 }

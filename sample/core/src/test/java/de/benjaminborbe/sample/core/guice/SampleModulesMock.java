@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.guice;
+package de.benjaminborbe.sample.core.guice;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,6 +14,6 @@ public class SampleModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new SampleOsgiModuleMock(), new SampleModule(), new ToolModuleMock());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new SampleOsgiModuleMock(), new SampleCoreModule(), new ToolModuleMock());
 	}
 }

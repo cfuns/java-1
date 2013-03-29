@@ -1,28 +1,28 @@
-package de.benjaminborbe.sample;
+package de.benjaminborbe.sample.core;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import de.benjaminborbe.sample.core.guice.SampleCoreModules;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
 import com.google.inject.Inject;
 
 import de.benjaminborbe.sample.api.SampleService;
-import de.benjaminborbe.sample.guice.SampleModules;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 
-public class SampleActivator extends BaseBundleActivator {
+public class SampleCoreActivator extends BaseBundleActivator {
 
 	@Inject
 	private SampleService sampleService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
-		return new SampleModules(context);
+		return new SampleCoreModules(context);
 	}
 
 	@Override

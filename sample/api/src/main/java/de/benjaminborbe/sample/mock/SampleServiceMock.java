@@ -13,6 +13,7 @@ public class SampleServiceMock implements SampleService {
 	}
 
 	@Override
-	public void execute() {
+	public long calc(final long value) {
+		return 0;
 	}
 }

@@ -1,4 +1,4 @@
-package de.benjaminborbe.sample.service;
+package de.benjaminborbe.sample.core.service;
 
 import org.slf4j.Logger;
 
@@ -8,18 +8,19 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.sample.api.SampleService;
 
 @Singleton
-public class SampleServiceImpl implements SampleService {
+public class SampleCoreServiceImpl implements SampleService {
 
 	private final Logger logger;
 
 	@Inject
-	public SampleServiceImpl(final Logger logger) {
+	public SampleCoreServiceImpl(final Logger logger) {
 		this.logger = logger;
 	}
 
 	@Override
-	public void execute() {
+	public long calc(long value) {
 		logger.trace("execute");
+		return value * 2;
 	}
 
 }
