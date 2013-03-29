@@ -344,3 +344,5 @@ buildnotification:
 	cd notification && make all
 	cd notification_gui && make all
 	cd notification_test && make all
+buildvirt:
+	cd virt && make all

@@ -62,6 +62,7 @@
 			<id>default</id>
 			<modules>
 				<module>sample</module>
+				<module>virt</module>
 			</modules>
 		</profile>
 		<profile>
