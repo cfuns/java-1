@@ -46,7 +46,7 @@ public class SampleIntegrationTest extends TestCaseOsgi {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	public void testSampleService() {
+	public void testSampleService() throws Exception {
 		final Object serviceObject = getServiceObject(SampleService.class.getName(), null);
 		final SampleService service = (SampleService) serviceObject;
 		assertNotNull(service);
@@ -54,8 +54,8 @@ public class SampleIntegrationTest extends TestCaseOsgi {
 	}
 
 
-	public void testCalc() {
-		SampleService sampleService = getService(SampleService.class);
+	public void testCalc() throws Exception {
+		final SampleService sampleService = getService(SampleService.class);
 		assertEquals(46, sampleService.calc(23));
 	}
 

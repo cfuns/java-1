@@ -1,25 +1,6 @@
 package de.benjaminborbe.virt.gui.servlet;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -33,7 +14,23 @@ import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.RedirectUtil;
+import de.benjaminborbe.virt.api.VirtService;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class VirtGuiServletUnitTest {
 
@@ -89,7 +86,7 @@ public class VirtGuiServletUnitTest {
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(startTime), endTime)).andReturn(startTime);
 		EasyMock.replay(parseUtil);
 
-		final Map<String, String> data = new HashMap<String, String>();
+		final Map<String, String> data = new HashMap<>();
 
 		final HttpContext httpContext = EasyMock.createMock(HttpContext.class);
 		EasyMock.expect(httpContext.getData()).andReturn(data).anyTimes();
@@ -99,7 +96,7 @@ public class VirtGuiServletUnitTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<HttpContext>(httpContext);
+		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<>(httpContext);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
@@ -113,9 +110,6 @@ public class VirtGuiServletUnitTest {
 		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
-		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
-		EasyMock.replay(redirectUtil);
-
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
 		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
@@ -128,12 +122,15 @@ public class VirtGuiServletUnitTest {
 		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
 		EasyMock.replay(cacheService);
 
+		final VirtService virtService = EasyMock.createNiceMock(VirtService.class);
+		EasyMock.replay(virtService);
+
 		final VirtGuiServlet virtServlet = new VirtGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-				redirectUtil, urlUtil, authorizationService, cacheService);
+			urlUtil, authorizationService, cacheService, virtService);
 
 		virtServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Virt</h1>") != -1);
+		assertTrue(content.contains("<h1>Virt</h1>"));
 	}
 }

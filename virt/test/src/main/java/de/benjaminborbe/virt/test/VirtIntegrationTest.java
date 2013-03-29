@@ -1,9 +1,9 @@
 package de.benjaminborbe.virt.test;
 
-import de.benjaminborbe.virt.api.VirtService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import de.benjaminborbe.virt.api.VirtService;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -54,8 +54,8 @@ public class VirtIntegrationTest extends TestCaseOsgi {
 	}
 
 
-	public void testCalc() {
-		VirtService virtService = getService(VirtService.class);
+	public void testCalc() throws Exception {
+		final VirtService virtService = getService(VirtService.class);
 		assertEquals(46, virtService.calc(23));
 	}
 
