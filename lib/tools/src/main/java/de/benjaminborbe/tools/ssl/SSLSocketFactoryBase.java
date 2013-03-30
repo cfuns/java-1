@@ -1,21 +1,19 @@
 package de.benjaminborbe.tools.ssl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 
 public class SSLSocketFactoryBase extends SSLSocketFactory {
 
@@ -25,8 +23,8 @@ public class SSLSocketFactoryBase extends SSLSocketFactory {
 		try {
 			final SSLContext ctx = getSSLContext();
 			socketFactory = ctx.getSocketFactory();
-		}
-		catch (final Exception ex) {
+		} catch (final Exception ex) {
+			socketFactory = null;
 		}
 	}
 
@@ -82,12 +80,12 @@ public class SSLSocketFactoryBase extends SSLSocketFactory {
 	}
 
 	@Override
-	public Socket createSocket(final String string, final int i) throws IOException, UnknownHostException {
+	public Socket createSocket(final String string, final int i) throws IOException {
 		return socketFactory.createSocket(string, i);
 	}
 
 	@Override
-	public Socket createSocket(final String string, final int i, final InetAddress ia, final int i1) throws IOException, UnknownHostException {
+	public Socket createSocket(final String string, final int i, final InetAddress ia, final int i1) throws IOException {
 		return socketFactory.createSocket(string, i, ia, i1);
 	}
 

@@ -1,27 +1,26 @@
 package de.benjaminborbe.tools.jndi;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class InitialContextCache {
 
 	private InitialContext initContext;
 
-	private final Map<String, Object> cache = new HashMap<String, Object>();
+	private final Map<String, Object> cache = new HashMap<>();
 
 	@Inject
 	public InitialContextCache() {
 		try {
 			initContext = new InitialContext();
-		}
-		catch (final NamingException e) {
+		} catch (final NamingException e) {
+			initContext = null;
 		}
 	}
 

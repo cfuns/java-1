@@ -24,7 +24,14 @@
 
 package com.glavsoft.viewer.swing;
 
-import java.awt.Toolkit;
+import com.glavsoft.core.SettingsChangedEvent;
+import com.glavsoft.rfb.ClipboardController;
+import com.glavsoft.rfb.client.ClientCutTextMessage;
+import com.glavsoft.rfb.protocol.ProtocolContext;
+import com.glavsoft.rfb.protocol.ProtocolSettings;
+import com.glavsoft.utils.Strings;
+
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -32,13 +39,6 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.security.AccessControlException;
-
-import com.glavsoft.core.SettingsChangedEvent;
-import com.glavsoft.rfb.ClipboardController;
-import com.glavsoft.rfb.client.ClientCutTextMessage;
-import com.glavsoft.rfb.protocol.ProtocolContext;
-import com.glavsoft.rfb.protocol.ProtocolSettings;
-import com.glavsoft.utils.Strings;
 
 public class ClipboardControllerImpl implements ClipboardController, Runnable {
 
@@ -63,17 +63,15 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 		try {
 			clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 			updateSavedClipboardContent(); // prevent onstart clipboard content sending
-		}
-		catch (AccessControlException e) { /* nop */
+		} catch (AccessControlException e) {
+			clipboard = null;
 		}
 
 		if (Strings.isTrimmedEmpty(charsetName)) {
 			charset = Charset.defaultCharset();
-		}
-		else if ("standard".equalsIgnoreCase(charsetName)) {
+		} else if ("standard".equalsIgnoreCase(charsetName)) {
 			charset = Charset.forName(STANDARD_CHARSET);
-		}
-		else {
+		} else {
 			charset = Charset.isSupported(charsetName) ? Charset.forName(charsetName) : Charset.defaultCharset();
 		}
 		// not supported UTF-charsets as they are multibytes.
@@ -102,15 +100,10 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 		if (clipboard != null && clipboard.isDataFlavorAvailable(DataFlavor.stringFlavor)) {
 			try {
 				clipboardText = (String) clipboard.getData(DataFlavor.stringFlavor);
-			}
-			catch (UnsupportedFlavorException e) {
+			} catch (UnsupportedFlavorException | IOException e) {
 				// ignore
 			}
-			catch (IOException e) {
-				// ignore
-			}
-		}
-		else {
+		} else {
 			clipboardText = null;
 		}
 	}
@@ -122,7 +115,7 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 
 	/**
 	 * Get text clipboard contents when needed send to remote, or null vise versa
-	 * 
+	 *
 	 * @return clipboard string contents if it is changed from last method call
 	 *         or null when clipboard contains non text object or clipboard contents didn't
 	 *         changed
@@ -157,9 +150,8 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 			}
 			try {
 				Thread.sleep(CLIPBOARD_UPDATE_CHECK_INTERVAL_MILS);
-			}
-			catch (InterruptedException e) {
-				continue;
+			} catch (InterruptedException e) {
+				// nop
 			}
 		}
 	}

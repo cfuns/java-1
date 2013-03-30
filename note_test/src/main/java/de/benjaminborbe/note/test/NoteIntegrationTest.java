@@ -1,9 +1,5 @@
 package de.benjaminborbe.note.test;
 
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.note.api.NoteDto;
@@ -13,6 +9,9 @@ import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.test.osgi.TestUtil;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 
 public class NoteIntegrationTest extends TestCaseOsgi {
 
@@ -74,12 +73,12 @@ public class NoteIntegrationTest extends TestCaseOsgi {
 		final StorageService storageService = getService(StorageService.class);
 		final TestUtil testUtil = new TestUtil(authenticationService, storageService);
 		final NoteService noteService = getService(NoteService.class);
-		SessionIdentifier sessionIdentifier = testUtil.createSessionIdentifier();
+		final SessionIdentifier sessionIdentifier = testUtil.createSessionIdentifier();
 		testUtil.createUser(sessionIdentifier);
 
 		final NoteDto noteDto = new NoteDto();
 		final String title = "test";
-		String content = "";
+		final String content = "";
 		noteDto.setTitle(title);
 		noteDto.setContent(content);
 		noteService.createNote(sessionIdentifier, noteDto);
