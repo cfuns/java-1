@@ -23,7 +23,7 @@ public class VirtNetworkDaoStorage extends DaoStorage<VirtNetworkBean, VirtNetwo
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 
-	private static final String COLUMN_FAMILY = "checklist_list";
+	private static final String COLUMN_FAMILY = "virt_network";
 
 	@Override
 	protected String getColumnFamily() {
