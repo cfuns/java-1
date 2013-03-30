@@ -2,9 +2,12 @@ package de.benjaminborbe.virt.mock;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.virt.api.VirtMachineDto;
 import de.benjaminborbe.virt.api.VirtNetworkIdentifier;
 import de.benjaminborbe.virt.api.VirtService;
 import de.benjaminborbe.virt.api.VirtServiceException;
+import de.benjaminborbe.virt.api.VirtualMachineIdentifier;
 
 @Singleton
 public class VirtServiceMock implements VirtService {
@@ -25,5 +28,10 @@ public class VirtServiceMock implements VirtService {
 		} else {
 			return new VirtNetworkIdentifier(id);
 		}
+	}
+
+	@Override
+	public VirtualMachineIdentifier createVirtualMachine(final SessionIdentifier sessionIdentifier, final VirtMachineDto virtMachine) {
+		return null;
 	}
 }

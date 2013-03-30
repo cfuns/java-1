@@ -2,9 +2,12 @@ package de.benjaminborbe.virt.core.service;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.virt.api.VirtMachineDto;
 import de.benjaminborbe.virt.api.VirtNetworkIdentifier;
 import de.benjaminborbe.virt.api.VirtService;
 import de.benjaminborbe.virt.api.VirtServiceException;
+import de.benjaminborbe.virt.api.VirtualMachineIdentifier;
 import org.slf4j.Logger;
 
 @Singleton
@@ -18,7 +21,7 @@ public class VirtCoreServiceImpl implements VirtService {
 	}
 
 	@Override
-	public long calc(long value) {
+	public long calc(final long value) {
 		logger.trace("execute");
 		return value * 2;
 	}
@@ -30,6 +33,11 @@ public class VirtCoreServiceImpl implements VirtService {
 		} else {
 			return new VirtNetworkIdentifier(id);
 		}
+	}
+
+	@Override
+	public VirtualMachineIdentifier createVirtualMachine(final SessionIdentifier sessionIdentifier, final VirtMachineDto virtMachine) {
+		return new VirtualMachineIdentifier("1337");
 	}
 
 }
