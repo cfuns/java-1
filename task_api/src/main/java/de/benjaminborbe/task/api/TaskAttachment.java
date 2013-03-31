@@ -6,11 +6,5 @@ public interface TaskAttachment {
 
 	String getName();
 
-	byte[] getContent();
-
-	String getFilename();
-
-	String getContentType();
-
 	TaskIdentifier getTask();
 }

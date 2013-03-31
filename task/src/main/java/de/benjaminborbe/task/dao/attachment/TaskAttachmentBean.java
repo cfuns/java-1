@@ -21,48 +21,15 @@ public class TaskAttachmentBean extends EntityBase<TaskAttachmentIdentifier> imp
 
 	private Calendar modified;
 
-	private byte[] content;
-
-	private String filename;
-
-	private String contentType;
-
 	public void setTask(final TaskIdentifier task) {
 		this.task = task;
 	}
 
 	private TaskIdentifier task;
 
-	public void setContent(final byte[] content) {
-		this.content = content;
-	}
-
-	public void setFilename(final String filename) {
-		this.filename = filename;
-	}
-
-	public void setContentType(final String contentType) {
-		this.contentType = contentType;
-	}
-
 	@Override
 	public String getName() {
 		return name;
-	}
-
-	@Override
-	public byte[] getContent() {
-		return content;
-	}
-
-	@Override
-	public String getFilename() {
-		return filename;
-	}
-
-	@Override
-	public String getContentType() {
-		return contentType;
 	}
 
 	@Override

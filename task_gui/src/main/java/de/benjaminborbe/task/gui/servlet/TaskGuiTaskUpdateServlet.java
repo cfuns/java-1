@@ -1,21 +1,8 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -28,6 +15,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskAttachment;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskDto;
@@ -56,7 +44,19 @@ import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.TimeZone;
 
 @Singleton
 public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
@@ -79,20 +79,20 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 
 	@Inject
 	public TaskGuiTaskUpdateServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final TaskService taskService,
-			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final TaskGuiUtil taskGuiUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final RedirectUtil redirectUtil,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final TaskService taskService,
+		final TaskGuiLinkFactory taskGuiLinkFactory,
+		final TaskGuiUtil taskGuiUtil,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -109,7 +109,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 
 	@Override
 	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -145,16 +145,14 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(contextId);
 
 					updateTask(sessionIdentifier, taskIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due, repeatStart, repeatDue,
-							taskContextIdentifier, focus);
+						taskContextIdentifier, focus);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
-					}
-					else {
+					} else {
 						throw new RedirectException(taskGuiLinkFactory.taskCreateUrl(request, taskParentIdentifier));
 					}
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("add task failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -166,18 +164,18 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_URL).addLabel("Url").addPlaceholder("http://...").addDefaultValue(task.getUrl()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_PARENT_ID).addLabel("ParentId").addDefaultValue(toValue(task.getParentId())));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_START).addLabel("Start").addPlaceholder(TaskGuiConstants.EXAMPLE_SMARTDATE)
-					.addDefaultValue(toValue(task.getStart())));
+				.addDefaultValue(toValue(task.getStart())));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_DUE).addLabel("Due").addPlaceholder(TaskGuiConstants.EXAMPLE_SMARTDATE)
-					.addDefaultValue(toValue(task.getDue())));
+				.addDefaultValue(toValue(task.getDue())));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_REPEAT_START).addLabel("RepeatStart").addPlaceholder("repeat...")
-					.addDefaultValue(toValue(task.getRepeatStart())));
+				.addDefaultValue(toValue(task.getRepeatStart())));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASK_REPEAT_DUE).addLabel("RepeatDue").addPlaceholder("repeat...")
-					.addDefaultValue(toValue(task.getRepeatDue())));
+				.addDefaultValue(toValue(task.getRepeatDue())));
 			formWidget.addFormInputWidget(new FormInputTextareaWidget(TaskGuiConstants.PARAMETER_TASK_DESCRIPTION).addLabel("Description").addPlaceholder("description...")
-					.addDefaultValue(task.getDescription()));
+				.addDefaultValue(task.getDescription()));
 			{
 				final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
-				final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier));
+				final List<TaskContext> taskContexts = new ArrayList<>(taskService.getTaskContexts(sessionIdentifier));
 				Collections.sort(taskContexts, new TaskContextComparator());
 				contextSelectBox.addOption("", "none");
 				for (final TaskContext taskContext : taskContexts) {
@@ -195,6 +193,23 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 				formWidget.addFormInputWidget(selectBox);
 			}
 
+			// attachments
+			{
+				final Collection<TaskAttachment> attachments = taskService.getAttachments(sessionIdentifier, task.getId());
+				if (!attachments.isEmpty()) {
+					final UlWidget ul = new UlWidget();
+					for (final TaskAttachment attachment : attachments) {
+						final ListWidget row = new ListWidget();
+						row.add(attachment.getName());
+						row.add(" ");
+						row.add(taskGuiLinkFactory.taskAttachmentDelete(request, attachment));
+						ul.add(row);
+					}
+					widgets.add(ul);
+				}
+				widgets.add(taskGuiLinkFactory.taskAttachmentCreate(request, taskIdentifier));
+			}
+
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 
@@ -209,22 +224,14 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 			widgets.add(links);
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.trace(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
-		}
-		catch (final TaskServiceException e) {
-			logger.trace(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
+		} catch (final TaskServiceException | AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
 		}
 	}
 
 	private void updateTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final String name, final String description, final String url,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context,
-			final String focusString) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+													final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context,
+													final String focusString) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
 
 		final TaskDto taskDto = new TaskDto();
 		taskDto.setId(taskIdentifier);
@@ -249,8 +256,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 	private Calendar parseCalendar(final String dateString, final TimeZone timeZone) {
 		try {
 			return calendarUtil.parseSmart(timeZone, dateString);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return null;
 		}
 	}
@@ -266,8 +272,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 	private Long parseLong(final String value) {
 		try {
 			return parseUtil.parseLong(value);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return null;
 		}
 	}

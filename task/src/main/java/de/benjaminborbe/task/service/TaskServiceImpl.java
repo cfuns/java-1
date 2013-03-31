@@ -1082,7 +1082,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<TaskAttachmentIdentifier> getAttachments(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission();
@@ -1096,6 +1096,28 @@ public class TaskServiceImpl implements TaskService {
 
 			return result;
 		} catch (final IdentifierIteratorException | AuthorizationServiceException | StorageException e) {
+			throw new TaskServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public Collection<TaskAttachment> getAttachments(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectPermission();
+
+			final List<TaskAttachment> result = new ArrayList<>();
+
+			final EntityIterator<TaskAttachmentBean> iterator = taskAttachmentDao.getEntityIterator(taskIdentifier);
+			while (iterator.hasNext()) {
+				result.add(iterator.next());
+			}
+
+			return result;
+		} catch (final EntityIteratorException | AuthorizationServiceException | StorageException e) {
 			throw new TaskServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)

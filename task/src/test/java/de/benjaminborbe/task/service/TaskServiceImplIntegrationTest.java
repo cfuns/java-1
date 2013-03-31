@@ -861,7 +861,7 @@ public class TaskServiceImplIntegrationTest {
 		final TaskIdentifier taskIdentifier = getTask(sessionIdentifier, taskService);
 
 		{
-			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachments(sessionIdentifier, taskIdentifier);
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
 			assertThat(attachments, is(not(nullValue())));
 			assertThat(attachments.size(), is(0));
 		}
@@ -873,7 +873,7 @@ public class TaskServiceImplIntegrationTest {
 			assertThat(taskAttachmentIdentifier, is(not(nullValue())));
 		}
 		{
-			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachments(sessionIdentifier, taskIdentifier);
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
 			assertThat(attachments, is(not(nullValue())));
 			assertThat(attachments.size(), is(1));
 		}
@@ -887,7 +887,7 @@ public class TaskServiceImplIntegrationTest {
 		assertThat(secondTaskAttachmentIdentifier, is(not(nullValue())));
 
 		{
-			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachments(secondSessionIdentifier, secondTaskIdentifier);
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(secondSessionIdentifier, secondTaskIdentifier);
 			assertThat(attachments, is(not(nullValue())));
 			assertThat(attachments.size(), is(1));
 		}

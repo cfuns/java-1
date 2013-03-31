@@ -6,6 +6,7 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
+import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
@@ -41,5 +42,11 @@ public class TaskAttachmentDaoStorage extends DaoStorage<TaskAttachmentBean, Tas
 	public IdentifierIterator<TaskAttachmentIdentifier> getIdentifierIterator(final TaskIdentifier taskIdentifier) throws StorageException {
 		logger.debug("get IdentifierIterator for task: " + taskIdentifier);
 		return getIdentifierIterator(new StorageValueMap(getEncoding()).add(TaskAttachmentBeanMapper.TASK, taskIdentifier.getId()));
+	}
+
+	@Override
+	public EntityIterator<TaskAttachmentBean> getEntityIterator(final TaskIdentifier taskIdentifier) throws StorageException {
+		logger.debug("get EntityIterator for task: " + taskIdentifier);
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskAttachmentBeanMapper.TASK, taskIdentifier.getId()));
 	}
 }
