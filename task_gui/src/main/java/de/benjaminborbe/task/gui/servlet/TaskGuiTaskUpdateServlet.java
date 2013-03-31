@@ -40,7 +40,6 @@ import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormSelectboxWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
@@ -86,7 +85,6 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 		final AuthenticationService authenticationService,
 		final NavigationWidget navigationWidget,
 		final Provider<HttpContext> httpContextProvider,
-		final RedirectUtil redirectUtil,
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
 		final TaskService taskService,

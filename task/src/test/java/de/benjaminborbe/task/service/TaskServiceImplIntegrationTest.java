@@ -9,6 +9,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskAttachment;
 import de.benjaminborbe.task.api.TaskAttachmentDto;
 import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
@@ -32,6 +33,7 @@ import java.util.TimeZone;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -927,6 +929,68 @@ public class TaskServiceImplIntegrationTest {
 			final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachment);
 			assertThat(taskAttachmentIdentifier, is(not(nullValue())));
 		}
+	}
+
+	@Test
+	public void testDeleteAttachment() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final TaskService taskService = injector.getInstance(TaskService.class);
+
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
+		final TaskIdentifier taskIdentifier = getTask(sessionIdentifier, taskService);
+
+		{
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
+			assertThat(attachments, is(not(nullValue())));
+			assertThat(attachments.size(), is(0));
+		}
+
+		final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+		taskAttachment.setName("taskAttachmentName");
+		taskAttachment.setTask(taskIdentifier);
+		final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachment);
+		assertThat(taskAttachmentIdentifier, is(not(nullValue())));
+
+		{
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
+			assertThat(attachments, is(not(nullValue())));
+			assertThat(attachments.size(), is(1));
+		}
+
+		taskService.deleteAttachment(sessionIdentifier, taskAttachmentIdentifier);
+
+		{
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
+			assertThat(attachments, is(not(nullValue())));
+			assertThat(attachments.size(), is(0));
+		}
+	}
+
+	@Test
+	public void testGetAttachment() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final TaskService taskService = injector.getInstance(TaskService.class);
+
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
+		final TaskIdentifier taskIdentifier = getTask(sessionIdentifier, taskService);
+
+		final TaskAttachmentDto taskAttachmentDto = new TaskAttachmentDto();
+		final String taskAttachmentName = "taskAttachmentName";
+		taskAttachmentDto.setName(taskAttachmentName);
+		taskAttachmentDto.setTask(taskIdentifier);
+		final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachmentDto);
+		assertThat(taskAttachmentIdentifier, is(not(nullValue())));
+
+		final TaskAttachment taskAttachment = taskService.getAttachment(sessionIdentifier, taskAttachmentIdentifier);
+		assertThat(taskAttachment, is(notNullValue()));
+		assertThat(taskAttachment.getId(), is(notNullValue()));
+		assertThat(taskAttachment.getId(), is(taskAttachmentIdentifier));
+		assertThat(taskAttachment.getName(), is(notNullValue()));
+		assertThat(taskAttachment.getName(), is(taskAttachmentName));
+		assertThat(taskAttachment.getTask(), is(notNullValue()));
+		assertThat(taskAttachment.getTask(), is(taskIdentifier));
 	}
 
 }

@@ -1,15 +1,11 @@
 package de.benjaminborbe.filestorage.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import de.benjaminborbe.filestorage.api.FileDescriptor;
+import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
 import de.benjaminborbe.filestorage.api.FilestorageService;
+import de.benjaminborbe.filestorage.api.FilestorageServiceException;
+import org.slf4j.Logger;
 
 @Singleton
 public class FilestorageServiceImpl implements FilestorageService {
@@ -22,9 +18,12 @@ public class FilestorageServiceImpl implements FilestorageService {
 	}
 
 	@Override
-	public List<FileDescriptor> listFiles() {
-		logger.trace("listFiles");
-		return new ArrayList<FileDescriptor>();
+	public FilestorageEntryIdentifier createFilestorageEntry(final String id) throws FilestorageServiceException {
+		logger.debug("createFilestorageEntry");
+		if (id == null || id.trim().isEmpty()) {
+			return null;
+		} else {
+			return new FilestorageEntryIdentifier(id);
+		}
 	}
-
 }

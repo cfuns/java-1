@@ -1126,12 +1126,38 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void deleteAttachment(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public void deleteAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectPermission();
+
+			final TaskAttachmentBean bean = taskAttachmentDao.load(taskAttachmentIdentifier);
+			expectOwner(sessionIdentifier, bean.getTask());
+			taskAttachmentDao.delete(bean);
+
+		} catch (final AuthorizationServiceException | StorageException e) {
+			throw new TaskServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
-	public TaskAttachment getAttachment(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
-		return null;
+	public TaskAttachment getAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectPermission();
+
+			final TaskAttachmentBean bean = taskAttachmentDao.load(taskAttachmentIdentifier);
+			expectOwner(sessionIdentifier, bean.getTask());
+			return bean;
+		} catch (final AuthorizationServiceException | StorageException e) {
+			throw new TaskServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 }

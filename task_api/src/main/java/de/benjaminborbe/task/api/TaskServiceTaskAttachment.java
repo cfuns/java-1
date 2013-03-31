@@ -15,8 +15,8 @@ public interface TaskServiceTaskAttachment {
 
 	Collection<TaskAttachment> getAttachments(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException;
 
-	void deleteAttachment(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException;
+	void deleteAttachment(SessionIdentifier sessionIdentifier, TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException;
 
-	TaskAttachment getAttachment(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier, TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException;
+	TaskAttachment getAttachment(SessionIdentifier sessionIdentifier, TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException;
 
 }

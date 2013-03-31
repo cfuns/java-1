@@ -224,11 +224,12 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void deleteAttachment(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public void deleteAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 	}
 
 	@Override
-	public TaskAttachment getAttachment(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public TaskAttachment getAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		return null;
 	}
+
 }

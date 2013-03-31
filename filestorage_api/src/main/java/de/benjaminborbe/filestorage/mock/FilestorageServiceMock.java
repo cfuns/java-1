@@ -1,12 +1,10 @@
 package de.benjaminborbe.filestorage.mock;
 
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import de.benjaminborbe.filestorage.api.FileDescriptor;
+import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
 import de.benjaminborbe.filestorage.api.FilestorageService;
+import de.benjaminborbe.filestorage.api.FilestorageServiceException;
 
 @Singleton
 public class FilestorageServiceMock implements FilestorageService {
@@ -16,8 +14,7 @@ public class FilestorageServiceMock implements FilestorageService {
 	}
 
 	@Override
-	public List<FileDescriptor> listFiles() {
+	public FilestorageEntryIdentifier createFilestorageEntry(final String id) throws FilestorageServiceException {
 		return null;
 	}
-
 }
