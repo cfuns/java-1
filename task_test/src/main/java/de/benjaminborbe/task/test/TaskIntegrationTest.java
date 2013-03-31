@@ -1,13 +1,22 @@
 package de.benjaminborbe.task.test;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
+import de.benjaminborbe.task.api.TaskDto;
+import de.benjaminborbe.task.api.TaskFocus;
+import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.api.TaskService;
+import de.benjaminborbe.test.osgi.TestCaseOsgi;
+import de.benjaminborbe.test.osgi.TestUtil;
+import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import de.benjaminborbe.task.api.TaskService;
-import de.benjaminborbe.test.osgi.TestCaseOsgi;
-import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.url.UrlUtilImpl;
+import java.util.Collection;
 
 public class TaskIntegrationTest extends TestCaseOsgi {
 
@@ -47,21 +56,39 @@ public class TaskIntegrationTest extends TestCaseOsgi {
 		assertEquals(extHttpService.getRegisterFilterCallCounter(), extHttpService.getUnregisterFilterCallCounter());
 	}
 
-	// @Test public void testServices() throws Exception {
-	// final BundleContext bundleContext = getContext();
-	// assertNotNull(bundleContext);
-	// for (final ServiceReference a : bundleContext.getAllServiceReferences(null, null)) {
-	// // final Bundle bundle = a.getBundle();
-	// final Object service = bundleContext.getService(a);
-	// System.err.println(service);
-	// }
-	// }
-
 	public void testTaskService() {
 		final Object serviceObject = getServiceObject(TaskService.class.getName(), null);
 		final TaskService service = (TaskService) serviceObject;
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.task.service.TaskServiceImpl", service.getClass().getName());
+	}
+
+	public void testCreateTask() throws Exception {
+		final AuthenticationService authenticationService = getService(AuthenticationService.class);
+		final StorageService storageService = getService(StorageService.class);
+		final TaskService taskService = getService(TaskService.class);
+		final TestUtil testUtil = new TestUtil(authenticationService, storageService);
+		final SessionIdentifier sessionIdentifier = testUtil.createSessionIdentifier();
+		final TaskDto task = new TaskDto();
+		task.setName("TestTask");
+		task.setFocus(TaskFocus.INBOX);
+		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, task);
+		assertNotNull(taskIdentifier);
+	}
+
+	public void testGetAttachments() throws Exception {
+		final AuthenticationService authenticationService = getService(AuthenticationService.class);
+		final StorageService storageService = getService(StorageService.class);
+		final TaskService taskService = getService(TaskService.class);
+		final TestUtil testUtil = new TestUtil(authenticationService, storageService);
+		final SessionIdentifier sessionIdentifier = testUtil.createSessionIdentifier();
+		final TaskDto task = new TaskDto();
+		task.setName("TestTask");
+		task.setFocus(TaskFocus.INBOX);
+		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, task);
+		final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachments(sessionIdentifier, taskIdentifier);
+		assertNotNull(attachments);
+		assertEquals(0, attachments.size());
 	}
 
 }

@@ -370,3 +370,12 @@ create column family virt_network with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
+
+drop column family task_attachment;
+create column family task_attachment with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: task, validation_class: UTF8Type, index_type: KEYS}
+  ];
