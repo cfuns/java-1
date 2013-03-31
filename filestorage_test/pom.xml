@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
@@ -17,7 +18,8 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>${maven-bundle-plugin.version}</version>				<extensions>true</extensions>
+				<version>${maven-bundle-plugin.version}</version>
+				<extensions>true</extensions>
 				<configuration>
 					<instructions>
 						<Export-Package></Export-Package>
@@ -45,7 +47,8 @@
 						<configuration>
 							<configuration>
 								<deployProjectArtifact>true</deployProjectArtifact>
-								<org.osgi.framework.system.packages.extra>${felix_plugin_junit},org.bouncycastle.cms,org.bouncycastle.jce.provider</org.osgi.framework.system.packages.extra>
+								<org.osgi.framework.system.packages.extra>${felix_plugin_junit},org.bouncycastle.cms,org.bouncycastle.jce.provider
+								</org.osgi.framework.system.packages.extra>
 							</configuration>
 						</configuration>
 					</execution>
@@ -90,7 +93,8 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<dependencies><dependency>
+	<dependencies>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.test.osgi</artifactId>
 			<version>${project.version}</version>
@@ -181,6 +185,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.storage.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.storage</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.configuration.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

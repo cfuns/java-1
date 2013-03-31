@@ -379,3 +379,9 @@ create column family task_attachment with
   column_metadata = [
     {column_name: task, validation_class: UTF8Type, index_type: KEYS}
   ];
+
+drop column family filestorage_entry;
+create column family filestorage_entry with
+	comparator = UTF8Type and
+	key_validation_class = UTF8Type and
+	default_validation_class = UTF8Type;

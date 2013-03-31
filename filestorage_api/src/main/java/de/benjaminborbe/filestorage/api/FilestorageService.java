@@ -1,6 +1,14 @@
 package de.benjaminborbe.filestorage.api;
 
+import de.benjaminborbe.api.ValidationException;
+
 public interface FilestorageService {
 
-	FilestorageEntryIdentifier createFilestorageEntry(String id) throws FilestorageServiceException;
+	FilestorageEntryIdentifier createFilestorageEntryIdentifier(String id) throws FilestorageServiceException;
+
+	FilestorageEntryIdentifier createFilestorageEntry(FilestorageEntry filestorageEntry) throws FilestorageServiceException, ValidationException;
+
+	FilestorageEntry getFilestorageEntry(FilestorageEntryIdentifier filestorageEntryIdentifier) throws FilestorageServiceException;
+
+	void deleteFilestorageEntry(FilestorageEntryIdentifier filestorageEntryIdentifier) throws FilestorageServiceException;
 }
