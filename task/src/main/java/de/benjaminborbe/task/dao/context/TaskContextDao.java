@@ -1,11 +1,11 @@
-package de.benjaminborbe.task.dao;
-
-import java.util.Collection;
+package de.benjaminborbe.task.dao.context;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.Dao;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+
+import java.util.Collection;
 
 public interface TaskContextDao extends Dao<TaskContextBean, TaskContextIdentifier> {
 

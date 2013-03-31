@@ -1,17 +1,16 @@
 package de.benjaminborbe.task.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import de.benjaminborbe.task.dao.task.TaskBean;
 import org.junit.Test;
 
-import de.benjaminborbe.task.dao.TaskBean;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class TaskNotCompletedPredicateUnitTest {
 
 	@Test
 	public void testApply() {
-		final TaskNotCompletedPredicate<TaskBean> p = new TaskNotCompletedPredicate<TaskBean>();
+		final TaskNotCompletedPredicate<TaskBean> p = new TaskNotCompletedPredicate<>();
 		{
 			final TaskBean task = new TaskBean();
 			task.setCompleted(null);

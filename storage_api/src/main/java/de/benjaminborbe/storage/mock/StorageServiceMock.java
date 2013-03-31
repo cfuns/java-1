@@ -1,5 +1,17 @@
 package de.benjaminborbe.storage.mock;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.storage.api.StorageColumnIterator;
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageRow;
+import de.benjaminborbe.storage.api.StorageRowIterator;
+import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
+import org.apache.commons.lang.NotImplementedException;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -10,24 +22,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.lang.NotImplementedException;
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.storage.api.StorageColumnIterator;
-import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.api.StorageIterator;
-import de.benjaminborbe.storage.api.StorageRow;
-import de.benjaminborbe.storage.api.StorageRowIterator;
-import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.api.StorageValue;
-
 @Singleton
 public class StorageServiceMock implements StorageService {
 
-	private final String encoding = "UTF8";
+	public static final String ENCODING = "UTF8";
 
 	private final class StorageRowIteratorMock implements StorageRowIterator {
 
@@ -50,30 +48,24 @@ public class StorageServiceMock implements StorageService {
 
 		@Override
 		public boolean hasNext() throws StorageException {
-			try {
-				if (next != null) {
+			if (next != null) {
+				return true;
+			}
+			while (i.hasNext()) {
+				final StorageValue key = i.next();
+				final StorageRowMock row = new StorageRowMock(columnFamily, columnNames, key);
+				boolean match = true;
+				for (final Entry<StorageValue, StorageValue> e : where.entrySet()) {
+					if (!e.getValue().equals(row.getValue(e.getKey()))) {
+						match = false;
+					}
+				}
+				if (match) {
+					next = row;
 					return true;
 				}
-				while (i.hasNext()) {
-					final StorageValue key = i.next();
-					final StorageRowMock row = new StorageRowMock(columnFamily, columnNames, key);
-					boolean match = true;
-					for (final Entry<StorageValue, StorageValue> e : where.entrySet()) {
-						if (!e.getValue().equals(row.getValue(e.getKey()))) {
-							final String msg = "where " + e.getValue() + " != " + row.getValue(e.getKey());
-							logger.info(msg);
-							match = false;
-						}
-					}
-					if (match) {
-						next = row;
-						return true;
-					}
-				}
-				return false;
 			}
-			finally {
-			}
+			return false;
 		}
 
 		@Override
@@ -82,8 +74,7 @@ public class StorageServiceMock implements StorageService {
 				final StorageRow result = next;
 				next = null;
 				return result;
-			}
-			else {
+			} else {
 				throw new NoSuchElementException();
 			}
 		}
@@ -121,11 +112,11 @@ public class StorageServiceMock implements StorageService {
 
 	}
 
-	private final class StorageIteratorImpl implements StorageIterator {
+	private final class StorageIteratorMock implements StorageIterator {
 
 		private final Iterator<StorageValue> i;
 
-		private StorageIteratorImpl(final Iterator<StorageValue> i) {
+		private StorageIteratorMock(final Iterator<StorageValue> i) {
 			this.i = i;
 		}
 
@@ -140,7 +131,7 @@ public class StorageServiceMock implements StorageService {
 		}
 	}
 
-	protected final HashMap<String, HashMap<StorageValue, HashMap<StorageValue, StorageValue>>> storageData = new HashMap<String, HashMap<StorageValue, HashMap<StorageValue, StorageValue>>>();
+	private final HashMap<String, HashMap<StorageValue, HashMap<StorageValue, StorageValue>>> storageData = new HashMap<>();
 
 	private final Logger logger;
 
@@ -184,12 +175,12 @@ public class StorageServiceMock implements StorageService {
 	public void set(final String columnFamily, final StorageValue id, final StorageValue key, final StorageValue value) {
 		HashMap<StorageValue, HashMap<StorageValue, StorageValue>> cfData = storageData.get(columnFamily);
 		if (cfData == null) {
-			cfData = new HashMap<StorageValue, HashMap<StorageValue, StorageValue>>();
+			cfData = new HashMap<>();
 			storageData.put(columnFamily, cfData);
 		}
 		HashMap<StorageValue, StorageValue> idData = cfData.get(id);
 		if (idData == null) {
-			idData = new HashMap<StorageValue, StorageValue>();
+			idData = new HashMap<>();
 			cfData.put(id, idData);
 		}
 		idData.put(key, value);
@@ -199,15 +190,14 @@ public class StorageServiceMock implements StorageService {
 	public void set(final String columnFamily, final StorageValue id, final Map<StorageValue, StorageValue> data) {
 		HashMap<StorageValue, HashMap<StorageValue, StorageValue>> cfData = storageData.get(columnFamily);
 		if (cfData == null) {
-			cfData = new HashMap<StorageValue, HashMap<StorageValue, StorageValue>>();
+			cfData = new HashMap<>();
 			storageData.put(columnFamily, cfData);
 		}
 		final HashMap<StorageValue, StorageValue> idData;
 		if (cfData.containsKey(id)) {
 			idData = cfData.get(id);
-		}
-		else {
-			idData = new HashMap<StorageValue, StorageValue>();
+		} else {
+			idData = new HashMap<>();
 			cfData.put(id, idData);
 		}
 
@@ -218,22 +208,14 @@ public class StorageServiceMock implements StorageService {
 	}
 
 	@Override
-	public StorageIterator keyIterator(final String columnFamily) {
-		final HashMap<StorageValue, HashMap<StorageValue, StorageValue>> cfData = storageData.get(columnFamily);
-		final List<StorageValue> result;
-		if (cfData == null) {
-			result = new ArrayList<StorageValue>();
-		}
-		else {
-			result = new ArrayList<StorageValue>(cfData.keySet());
-		}
-		final Iterator<StorageValue> i = result.iterator();
-		return new StorageIteratorImpl(i);
+	public StorageIterator keyIterator(final String columnFamily) throws StorageException {
+		final Map<StorageValue, StorageValue> where = new HashMap<>();
+		return keyIterator(columnFamily, where);
 	}
 
 	@Override
 	public List<StorageValue> get(final String columnFamily, final StorageValue id, final List<StorageValue> keys) throws StorageException {
-		final List<StorageValue> result = new ArrayList<StorageValue>();
+		final List<StorageValue> result = new ArrayList<>();
 		for (final StorageValue key : keys) {
 			result.add(get(columnFamily, id, key));
 		}
@@ -257,7 +239,39 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public StorageIterator keyIterator(final String columnFamily, final Map<StorageValue, StorageValue> where) throws StorageException {
-		return keyIterator(columnFamily);
+		logger.debug("keyIterator for cf: " + columnFamily + " where: " + where);
+		final HashMap<StorageValue, HashMap<StorageValue, StorageValue>> cfData = storageData.get(columnFamily);
+		final List<StorageValue> values;
+		if (cfData == null) {
+			values = new ArrayList<>();
+		} else {
+			values = new ArrayList<>(cfData.keySet());
+		}
+
+		logger.debug("found " + values.size() + " in cf " + columnFamily);
+
+		final List<StorageValue> result = new ArrayList<>();
+		for (final StorageValue value : values) {
+			boolean match = true;
+
+			final HashMap<StorageValue, StorageValue> row;
+			if (cfData != null) {
+				row = cfData.get(value);
+				for (final Entry<StorageValue, StorageValue> e : where.entrySet()) {
+					final StorageValue a = e.getValue();
+					final StorageValue b = row.get(e.getKey());
+					logger.debug(a + " == " + b);
+					if (!a.equals(b)) {
+						match = false;
+					}
+				}
+				if (match) {
+					result.add(value);
+				}
+			}
+		}
+		final Iterator<StorageValue> i = result.iterator();
+		return new StorageIteratorMock(i);
 	}
 
 	@Override
@@ -270,8 +284,7 @@ public class StorageServiceMock implements StorageService {
 		final Iterator<StorageValue> i;
 		if (storageData.containsKey(columnFamily)) {
 			i = storageData.get(columnFamily).keySet().iterator();
-		}
-		else {
+		} else {
 			i = new ArrayList<StorageValue>().iterator();
 		}
 		return new StorageRowIteratorMock(i, columnNames, columnFamily, where);
@@ -283,7 +296,7 @@ public class StorageServiceMock implements StorageService {
 	}
 
 	@Override
-	public void restore(final String columnfamily, final String jsonContent) throws StorageException {
+	public void restore(final String columnFamily, final String jsonContent) throws StorageException {
 		throw new NotImplementedException();
 	}
 
@@ -330,12 +343,12 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public String getEncoding() {
-		return encoding;
+		return ENCODING;
 	}
 
 	@Override
 	public Collection<List<StorageValue>> get(final String columnFamily, final Collection<StorageValue> keys, final List<StorageValue> columnNames) throws StorageException {
-		final List<List<StorageValue>> result = new ArrayList<List<StorageValue>>();
+		final List<List<StorageValue>> result = new ArrayList<>();
 		for (final StorageValue key : keys) {
 			result.add(get(columnFamily, key, columnNames));
 		}

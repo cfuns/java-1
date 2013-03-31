@@ -1,51 +1,60 @@
 package de.benjaminborbe.task.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskAttachmentDto;
+import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
+import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.guice.TaskModulesMock;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.easymock.EasyMock;
+import org.junit.Test;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
+import java.util.TimeZone;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class TaskServiceImplIntegrationTest {
 
-	private final String username = "username";
+	private static final String USERNAME = "USERNAME";
 
-	private final String fullname = "fullname";
+	private static final String FULLNAME = "FULLNAME";
 
-	private final String password = "password";
+	private static final String PASSWORD = "PASSWORD";
 
-	private final String email = "test@example.com";
+	private static final String EMAIL = "test@example.com";
 
-	private final String validateEmailBaseUrl = "http://example.com/test";
+	private static final String VALIDATE_EMAIL_BASE_URL = "http://example.com/test";
 
-	private final String shortenUrl = "http://bb.de/s";
+	private static final String SHORTEN_URL = "http://bb.de/s";
+
+	private static final String TASK_NAME = "testName";
 
 	@Test
 	public void testInject() {
@@ -55,17 +64,17 @@ public class TaskServiceImplIntegrationTest {
 		assertEquals(TaskServiceImpl.class, taskService.getClass());
 	}
 
-	private SessionIdentifier getLoginSession(final AuthenticationService authenticationService) throws AuthenticationServiceException, ValidationException {
+	private SessionIdentifier getLoginSession(final AuthenticationService authenticationService, final String username) throws AuthenticationServiceException, ValidationException {
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.replay(request);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		// register
-		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname,
-				TimeZone.getDefault());
+		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, SHORTEN_URL, VALIDATE_EMAIL_BASE_URL, username, EMAIL, PASSWORD, FULLNAME,
+			TimeZone.getDefault());
 		assertEquals(username, userIdentifier.getId());
 		// login
-		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, password));
+		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, PASSWORD));
 		assertEquals(userIdentifier, authenticationService.getCurrentUser(sessionIdentifier));
 		return sessionIdentifier;
 	}
@@ -76,7 +85,7 @@ public class TaskServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final TaskService taskService = injector.getInstance(TaskService.class);
 
-		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
 		assertEquals(0, taskService.getTasks(sessionIdentifier, false).size());
 
@@ -103,7 +112,7 @@ public class TaskServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final TaskService taskService = injector.getInstance(TaskService.class);
 
-		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
 		assertEquals(0, taskService.getTasks(sessionIdentifier, false).size());
 
@@ -170,7 +179,7 @@ public class TaskServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final TaskService taskService = injector.getInstance(TaskService.class);
 
-		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
 		assertEquals(0, taskService.getTasks(sessionIdentifier, false).size());
 
@@ -195,8 +204,7 @@ public class TaskServiceImplIntegrationTest {
 		try {
 			taskService.completeTask(sessionIdentifier, taskIdentifierA);
 			fail("ValidationException expected");
-		}
-		catch (final ValidationException e) {
+		} catch (final ValidationException e) {
 			assertNotNull(e);
 		}
 
@@ -218,7 +226,7 @@ public class TaskServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final TaskService taskService = injector.getInstance(TaskService.class);
 		final CalendarUtil calendarUtil = injector.getInstance(CalendarUtil.class);
-		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
 		// both null
 		{
@@ -357,7 +365,7 @@ public class TaskServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final TaskService taskService = injector.getInstance(TaskService.class);
 		final CalendarUtil calendarUtil = injector.getInstance(CalendarUtil.class);
-		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
 		// both null
 		{
@@ -533,7 +541,7 @@ public class TaskServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final TaskService taskService = injector.getInstance(TaskService.class);
 		final CalendarUtil calendarUtil = injector.getInstance(CalendarUtil.class);
-		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
 		// both null
 		{
@@ -702,7 +710,7 @@ public class TaskServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final TaskService taskService = injector.getInstance(TaskService.class);
 
-		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
 		{
 			final TaskDto taskDto = new TaskDto();
@@ -734,7 +742,7 @@ public class TaskServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final TaskService taskService = injector.getInstance(TaskService.class);
 
-		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
 		final TaskDto taskDtoOrg = new TaskDto();
 		taskDtoOrg.setName("task");
@@ -781,9 +789,9 @@ public class TaskServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final TaskService taskService = injector.getInstance(TaskService.class);
 
-		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
-		final List<TaskContextIdentifier> taskContextIdentifiers = new ArrayList<TaskContextIdentifier>();
+		final List<TaskContextIdentifier> taskContextIdentifiers = new ArrayList<>();
 		assertNotNull(taskService.getTasks(sessionIdentifier, true, taskContextIdentifiers));
 	}
 
@@ -793,7 +801,7 @@ public class TaskServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final TaskService taskService = injector.getInstance(TaskService.class);
 
-		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 		final String taskContextName = "testContext";
 		final String taskName = "testName";
 
@@ -822,4 +830,103 @@ public class TaskServiceImplIntegrationTest {
 			assertNull(task.getContext());
 		}
 	}
+
+	@Test
+	public void testCreateTask() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final TaskService taskService = injector.getInstance(TaskService.class);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
+		final TaskDto task = new TaskDto();
+		task.setFocus(TaskFocus.INBOX);
+		task.setName(TASK_NAME);
+		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, task);
+		assertThat(taskIdentifier, is(not(nullValue())));
+	}
+
+	private TaskIdentifier getTask(final SessionIdentifier sessionIdentifier, final TaskService taskService) throws ValidationException, PermissionDeniedException, LoginRequiredException, TaskServiceException {
+		final TaskDto task = new TaskDto();
+		task.setFocus(TaskFocus.INBOX);
+		task.setName(TASK_NAME);
+		return taskService.createTask(sessionIdentifier, task);
+	}
+
+	@Test
+	public void testGetAttachments() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final TaskService taskService = injector.getInstance(TaskService.class);
+
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
+		final TaskIdentifier taskIdentifier = getTask(sessionIdentifier, taskService);
+
+		{
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachments(sessionIdentifier, taskIdentifier);
+			assertThat(attachments, is(not(nullValue())));
+			assertThat(attachments.size(), is(0));
+		}
+		{
+			final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+			taskAttachment.setName("taskAttachmentName");
+			taskAttachment.setTask(taskIdentifier);
+			final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachment);
+			assertThat(taskAttachmentIdentifier, is(not(nullValue())));
+		}
+		{
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachments(sessionIdentifier, taskIdentifier);
+			assertThat(attachments, is(not(nullValue())));
+			assertThat(attachments.size(), is(1));
+		}
+
+		final SessionIdentifier secondSessionIdentifier = getLoginSession(authenticationService, "secondUser");
+		final TaskIdentifier secondTaskIdentifier = getTask(secondSessionIdentifier, taskService);
+		final TaskAttachmentDto secondTaskAttachment = new TaskAttachmentDto();
+		secondTaskAttachment.setName("taskAttachmentName");
+		secondTaskAttachment.setTask(secondTaskIdentifier);
+		final TaskAttachmentIdentifier secondTaskAttachmentIdentifier = taskService.addAttachment(secondSessionIdentifier, secondTaskAttachment);
+		assertThat(secondTaskAttachmentIdentifier, is(not(nullValue())));
+
+		{
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachments(secondSessionIdentifier, secondTaskIdentifier);
+			assertThat(attachments, is(not(nullValue())));
+			assertThat(attachments.size(), is(1));
+		}
+	}
+
+	@Test
+	public void testAddAttachment() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final TaskService taskService = injector.getInstance(TaskService.class);
+		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
+		final TaskIdentifier taskIdentifier = getTask(sessionIdentifier, taskService);
+
+		{
+			try {
+				final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+				taskService.addAttachment(sessionIdentifier, taskAttachment);
+				fail("ValidationException expected");
+			} catch (ValidationException e) {
+				assertThat(e, is(not(nullValue())));
+			}
+		}
+		{
+			try {
+				final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+				taskAttachment.setName("taskAttachmentName");
+				taskService.addAttachment(sessionIdentifier, taskAttachment);
+				fail("ValidationException expected");
+			} catch (ValidationException e) {
+				assertThat(e, is(not(nullValue())));
+			}
+		}
+		{
+			final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+			taskAttachment.setName("taskAttachmentName");
+			taskAttachment.setTask(taskIdentifier);
+			final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachment);
+			assertThat(taskAttachmentIdentifier, is(not(nullValue())));
+		}
+	}
+
 }

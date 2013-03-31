@@ -1,16 +1,8 @@
-package de.benjaminborbe.task.dao;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
+package de.benjaminborbe.task.dao.context;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
@@ -21,7 +13,16 @@ import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.dao.task.TaskBean;
+import de.benjaminborbe.task.dao.task.TaskBeanMapper;
+import de.benjaminborbe.task.dao.task.TaskDao;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskContextIdentifier> implements TaskContextDao {
@@ -34,13 +35,13 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 
 	@Inject
 	public TaskContextDaoStorage(
-			final Logger logger,
-			final StorageService storageService,
-			final Provider<TaskContextBean> beanProvider,
-			final TaskContextBeanMapper mapper,
-			final TaskDao taskDao,
-			final TaskContextIdentifierBuilder identifierBuilder,
-			final CalendarUtil calendarUtil) {
+		final Logger logger,
+		final StorageService storageService,
+		final Provider<TaskContextBean> beanProvider,
+		final TaskContextBeanMapper mapper,
+		final TaskDao taskDao,
+		final TaskContextIdentifierBuilder identifierBuilder,
+		final CalendarUtil calendarUtil) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.taskDao = taskDao;
 		this.logger = logger;
@@ -54,15 +55,14 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	@Override
 	public Collection<TaskContextBean> getTaskContextsByUser(final UserIdentifier userIdentifier) throws StorageException {
 		try {
-			final List<TaskContextBean> result = new ArrayList<TaskContextBean>();
+			final List<TaskContextBean> result = new ArrayList<>();
 			final EntityIterator<TaskContextBean> i = getEntityIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)));
 			while (i.hasNext()) {
 				final TaskContextBean task = i.next();
 				result.add(task);
 			}
 			return result;
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -70,14 +70,13 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	@Override
 	public Collection<TaskContextIdentifier> getTaskContextIdentifiersByUser(final UserIdentifier userIdentifier) throws StorageException {
 		try {
-			final List<TaskContextIdentifier> result = new ArrayList<TaskContextIdentifier>();
+			final List<TaskContextIdentifier> result = new ArrayList<>();
 			final IdentifierIterator<TaskContextIdentifier> i = getIdentifierIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)));
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final IdentifierIteratorException e) {
+		} catch (final IdentifierIteratorException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -86,13 +85,12 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	public TaskContextBean findByName(final UserIdentifier userIdentifier, final String taskContextName) throws StorageException {
 		try {
 			final EntityIterator<TaskContextBean> i = getEntityIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)).add(
-					TaskContextBeanMapper.NAME, taskContextName));
-			while (i.hasNext()) {
+				TaskContextBeanMapper.NAME, taskContextName));
+			if (i.hasNext()) {
 				return i.next();
 			}
 			return null;
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -108,11 +106,7 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 				task.setContext(null);
 				taskDao.save(task, Arrays.asList(buildValue(TaskBeanMapper.CONTEXT)));
 			}
-		}
-		catch (final EntityIteratorException e) {
-			logger.debug(e.getClass().getName(), e);
-		}
-		catch (final StorageException e) {
+		} catch (final EntityIteratorException | StorageException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}

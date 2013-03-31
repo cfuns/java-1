@@ -1,6 +1,4 @@
-package de.benjaminborbe.task.dao;
-
-import java.util.Calendar;
+package de.benjaminborbe.task.dao.context;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
@@ -8,6 +6,8 @@ import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
+
+import java.util.Calendar;
 
 public class TaskContextBean extends EntityBase<TaskContextIdentifier> implements TaskContext, HasCreated, HasModified {
 

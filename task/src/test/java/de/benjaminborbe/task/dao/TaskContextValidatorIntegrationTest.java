@@ -1,15 +1,14 @@
 package de.benjaminborbe.task.dao;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
+import de.benjaminborbe.task.dao.context.TaskContextBean;
 import de.benjaminborbe.task.guice.TaskModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class TaskContextValidatorIntegrationTest {
 

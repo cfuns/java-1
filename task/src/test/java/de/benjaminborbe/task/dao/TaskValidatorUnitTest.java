@@ -1,22 +1,23 @@
 package de.benjaminborbe.task.dao;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
-
-import java.util.Calendar;
-
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.dao.task.TaskBean;
+import de.benjaminborbe.task.dao.task.TaskValidator;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.Calendar;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 public class TaskValidatorUnitTest {
 
@@ -68,8 +69,7 @@ public class TaskValidatorUnitTest {
 		final Logger logger = null;
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final ValidationConstraintValidator v = new ValidationConstraintValidator();
-		final TaskValidator taskValidator = new TaskValidator(calendarUtil, v);
-		return taskValidator;
+		return new TaskValidator(calendarUtil, v);
 	}
 
 	private TaskBean buildTask(final String name, final Integer start, final Integer due, final TaskFocus focus) {

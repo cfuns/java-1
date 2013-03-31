@@ -1,12 +1,13 @@
 package de.benjaminborbe.task.dao;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
+import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.dao.context.TaskContextBean;
+import de.benjaminborbe.task.dao.context.TaskContextValidator;
+import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import org.junit.Test;
 
-import de.benjaminborbe.task.api.TaskContextIdentifier;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class TaskContextValidatorUnitTest {
 

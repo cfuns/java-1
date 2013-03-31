@@ -1,9 +1,8 @@
 package de.benjaminborbe.task.util;
 
 import com.google.common.base.Predicate;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.task.dao.TaskContextBean;
+import de.benjaminborbe.task.dao.context.TaskContextBean;
 
 public class TaskContextOwnerPredicate implements Predicate<TaskContextBean> {
 

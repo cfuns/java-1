@@ -1,4 +1,4 @@
-package de.benjaminborbe.task.dao;
+package de.benjaminborbe.task.dao.context;
 
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.task.api.TaskContextIdentifier;

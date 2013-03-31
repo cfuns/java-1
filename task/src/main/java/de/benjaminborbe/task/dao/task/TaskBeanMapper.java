@@ -1,13 +1,7 @@
-package de.benjaminborbe.task.dao;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
+package de.benjaminborbe.task.dao.task;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskFocus;
@@ -25,6 +19,11 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
+
 public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 
 	public static final String FOCUS = "focus";
@@ -39,24 +38,24 @@ public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 
 	@Inject
 	public TaskBeanMapper(
-			final Provider<TaskBean> provider,
-			final MapperTaskIdentifier mapperTaskIdentifier,
-			final MapperTaskContextIdentifier mapperTaskContextIdentifier,
-			final MapperString mapperString,
-			final MapperUserIdentifier mapperUserIdentifier,
-			final MapperLong mapperLong,
-			final MapperBoolean mapperBoolean,
-			final MapperCalendar mapperCalendar,
-			final MapperInteger mapperInteger,
-			final MapperTaskFocus mapperTaskFocus) {
+		final Provider<TaskBean> provider,
+		final MapperTaskIdentifier mapperTaskIdentifier,
+		final MapperTaskContextIdentifier mapperTaskContextIdentifier,
+		final MapperString mapperString,
+		final MapperUserIdentifier mapperUserIdentifier,
+		final MapperLong mapperLong,
+		final MapperBoolean mapperBoolean,
+		final MapperCalendar mapperCalendar,
+		final MapperInteger mapperInteger,
+		final MapperTaskFocus mapperTaskFocus) {
 		super(provider, buildMappings(mapperTaskIdentifier, mapperString, mapperUserIdentifier, mapperLong, mapperBoolean, mapperCalendar, mapperInteger, mapperTaskFocus,
-				mapperTaskContextIdentifier));
+			mapperTaskContextIdentifier));
 	}
 
 	private static Collection<StringObjectMapper<TaskBean>> buildMappings(final MapperTaskIdentifier mapperTaskIdentifier, final MapperString mapperString,
-			final MapperUserIdentifier mapperUserIdentifier, final MapperLong mapperLong, final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar,
-			final MapperInteger mapperInteger, final MapperTaskFocus mapperTaskFocus, final MapperTaskContextIdentifier mapperTaskContextIdentifier) {
-		final List<StringObjectMapper<TaskBean>> result = new ArrayList<StringObjectMapper<TaskBean>>();
+																																				final MapperUserIdentifier mapperUserIdentifier, final MapperLong mapperLong, final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar,
+																																				final MapperInteger mapperInteger, final MapperTaskFocus mapperTaskFocus, final MapperTaskContextIdentifier mapperTaskContextIdentifier) {
+		final List<StringObjectMapper<TaskBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>("id", mapperTaskIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>(PARENT_ID, mapperTaskIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskContextIdentifier>(CONTEXT, mapperTaskContextIdentifier));
