@@ -52,7 +52,7 @@
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>
-							de.benjaminborbe.authorization.api.*,
+							de.benjaminborbe.authorization.api,
 							${felix_plugin_imports}
 						</Import-Package>
 						<Import-Service></Import-Service>
