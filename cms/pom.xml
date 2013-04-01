@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.cms</artifactId>
-	<name>Benjamin Borbe - Cms</name>
-	<description>Benjamin Borbe - Cms</description>
+	<name>Benjamin Borbe - Cms - Core</name>
+	<description>Benjamin Borbe - Cms - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

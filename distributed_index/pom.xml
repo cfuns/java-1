@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.distributed.index</artifactId>
-	<name>Benjamin Borbe - DistributedIndex</name>
-	<description>Benjamin Borbe - DistributedIndex</description>
+	<name>Benjamin Borbe - DistributedIndex - Core</name>
+	<description>Benjamin Borbe - DistributedIndex - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

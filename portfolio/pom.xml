@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.portfolio</artifactId>
-	<name>Benjamin Borbe - Portfolio</name>
-	<description>Benjamin Borbe - Portfolio</description>
+	<name>Benjamin Borbe - Portfolio - Core</name>
+	<description>Benjamin Borbe - Portfolio - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

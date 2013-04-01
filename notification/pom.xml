@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.notification</artifactId>
-	<name>Benjamin Borbe - Notification</name>
-	<description>Benjamin Borbe - Notification</description>
+	<name>Benjamin Borbe - Notification - Core</name>
+	<description>Benjamin Borbe - Notification - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

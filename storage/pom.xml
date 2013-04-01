@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.storage</artifactId>
-	<name>Benjamin Borbe - Storage</name>
-	<description>Benjamin Borbe - Storage</description>
+	<name>Benjamin Borbe - Storage - Core</name>
+	<description>Benjamin Borbe - Storage - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

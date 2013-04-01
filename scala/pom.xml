@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.scala</artifactId>
-	<name>Benjamin Borbe - Scala</name>
-	<description>Benjamin Borbe - Scala</description>
+	<name>Benjamin Borbe - Scala - Core</name>
+	<description>Benjamin Borbe - Scala - Core</description>
 	<packaging>bundle</packaging>
 	<properties>
 		<scala.version>2.9.1</scala.version>

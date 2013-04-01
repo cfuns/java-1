@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.crawler</artifactId>
-	<name>Benjamin Borbe - Crawler</name>
-	<description>Benjamin Borbe - Crawler</description>
+	<name>Benjamin Borbe - Crawler - Core</name>
+	<description>Benjamin Borbe - Crawler - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.vaadin</artifactId>
-	<name>Benjamin Borbe - Vaadin</name>
-	<description>Benjamin Borbe - Vaadin</description>
+	<name>Benjamin Borbe - Vaadin - Core</name>
+	<description>Benjamin Borbe - Vaadin - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

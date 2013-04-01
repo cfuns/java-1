@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.websearch</artifactId>
-	<name>Benjamin Borbe - Websearch</name>
-	<description>Benjamin Borbe - Websearch</description>
+	<name>Benjamin Borbe - Websearch - Core</name>
+	<description>Benjamin Borbe - Websearch - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

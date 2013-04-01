@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.timetracker</artifactId>
-	<name>Benjamin Borbe - Timetracker</name>
-	<description>Benjamin Borbe - Timetracker</description>
+	<name>Benjamin Borbe - Timetracker - Core</name>
+	<description>Benjamin Borbe - Timetracker - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.wow</artifactId>
-	<name>Benjamin Borbe - Wow</name>
-	<description>Benjamin Borbe - Wow</description>
+	<name>Benjamin Borbe - Wow - Core</name>
+	<description>Benjamin Borbe - Wow - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

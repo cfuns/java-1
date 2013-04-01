@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
@@ -10,26 +11,45 @@
 	<description>Benjamin Borbe - Bridge - War - Office</description>
 	<packaging>war</packaging>
 	<properties>
-		<includeArtifactIds>org.apache.felix.http.bridge, org.apache.felix.metatype, org.apache.felix.webconsole, org.apache.felix.prefs, org.apache.felix.scr, org.apache.felix.configadmin,
-			org.apache.felix.log, org.apache.felix.shell.remote, org.apache.felix.shell, org.apache.felix.bundlerepository, org.osgi.service.obr, de.benjaminborbe.api, de.benjaminborbe.html,
-			de.benjaminborbe.navigation.api, de.benjaminborbe.navigation, de.benjaminborbe.navigation.gui, de.benjaminborbe.storage.api, de.benjaminborbe.storage, de.benjaminborbe.storage.gui,
-			de.benjaminborbe.cache.api, de.benjaminborbe.cache, de.benjaminborbe.cache.gui, de.benjaminborbe.mail.api, de.benjaminborbe.mail, de.benjaminborbe.mail.gui, de.benjaminborbe.cron.api,
-			de.benjaminborbe.cron, de.benjaminborbe.cron.gui, de.benjaminborbe.dashboard.api, de.benjaminborbe.dashboard, de.benjaminborbe.dashboard.gui, de.benjaminborbe.analytics.api,
-			de.benjaminborbe.analytics, de.benjaminborbe.analytics.gui, de.benjaminborbe.message.api, de.benjaminborbe.message, de.benjaminborbe.message.gui, de.benjaminborbe.shortener.api,
-			de.benjaminborbe.shortener, de.benjaminborbe.shortener.gui, de.benjaminborbe.configuration.api, de.benjaminborbe.configuration, de.benjaminborbe.configuration.gui,
-			de.benjaminborbe.authentication.api, de.benjaminborbe.authentication, de.benjaminborbe.authentication.gui, de.benjaminborbe.authorization.api, de.benjaminborbe.authorization,
-			de.benjaminborbe.authorization.gui, de.benjaminborbe.xmlrpc.api, de.benjaminborbe.xmlrpc, de.benjaminborbe.xmlrpc.gui, de.benjaminborbe.index.api, de.benjaminborbe.index,
-			de.benjaminborbe.index.gui, de.benjaminborbe.lucene.index.api, de.benjaminborbe.lucene.index, de.benjaminborbe.lucene.index.gui, de.benjaminborbe.distributed.index.api,
-			de.benjaminborbe.distributed.index, de.benjaminborbe.distributed.index.gui, de.benjaminborbe.distributed.search.api, de.benjaminborbe.distributed.search, de.benjaminborbe.distributed.search.gui,
-			de.benjaminborbe.search.api, de.benjaminborbe.search, de.benjaminborbe.search.gui, de.benjaminborbe.confluence.api, de.benjaminborbe.confluence, de.benjaminborbe.confluence.gui,
-			de.benjaminborbe.websearch.api, de.benjaminborbe.websearch, de.benjaminborbe.websearch.gui, de.benjaminborbe.slash.api, de.benjaminborbe.slash, de.benjaminborbe.slash.gui,
-			de.benjaminborbe.xmpp.api, de.benjaminborbe.xmpp, de.benjaminborbe.xmpp.gui, de.benjaminborbe.crawler.api, de.benjaminborbe.crawler, de.benjaminborbe.crawler.gui, de.benjaminborbe.googlesearch.api,
-			de.benjaminborbe.googlesearch, de.benjaminborbe.googlesearch.gui, de.benjaminborbe.microblog.api, de.benjaminborbe.microblog, de.benjaminborbe.microblog.gui, de.benjaminborbe.monitoring.api,
-			de.benjaminborbe.monitoring, de.benjaminborbe.monitoring.gui, de.benjaminborbe.kiosk.api, de.benjaminborbe.kiosk, de.benjaminborbe.kiosk.gui, de.benjaminborbe.lunch.api, de.benjaminborbe.lunch,
-			de.benjaminborbe.lunch.gui, de.benjaminborbe.performance.api, de.benjaminborbe.performance, de.benjaminborbe.performance.gui, de.benjaminborbe.systemstatus.api, de.benjaminborbe.systemstatus,
-			de.benjaminborbe.systemstatus.gui, de.benjaminborbe.projectile.api, de.benjaminborbe.projectile, de.benjaminborbe.projectile.gui, de.benjaminborbe.translate.api, de.benjaminborbe.translate,
-			de.benjaminborbe.translate.gui, de.benjaminborbe.wiki.api, de.benjaminborbe.wiki, de.benjaminborbe.wiki.gui, de.benjaminborbe.poker.api, de.benjaminborbe.poker, de.benjaminborbe.poker.gui,
-			de.benjaminborbe.notification.api, de.benjaminborbe.notification, de.benjaminborbe.notification.gui 
+		<includeArtifactIds>org.apache.felix.http.bridge, org.apache.felix.metatype, org.apache.felix.webconsole, org.apache.felix.prefs, org.apache.felix.scr,
+			org.apache.felix.configadmin,
+			org.apache.felix.log, org.apache.felix.shell.remote, org.apache.felix.shell, org.apache.felix.bundlerepository, org.osgi.service.obr,
+			de.benjaminborbe.api, de.benjaminborbe.html,
+			de.benjaminborbe.navigation.api, de.benjaminborbe.navigation, de.benjaminborbe.navigation.gui, de.benjaminborbe.storage.api, de.benjaminborbe.storage,
+			de.benjaminborbe.storage.gui,
+			de.benjaminborbe.cache.api, de.benjaminborbe.cache, de.benjaminborbe.cache.gui, de.benjaminborbe.mail.api, de.benjaminborbe.mail,
+			de.benjaminborbe.mail.gui, de.benjaminborbe.cron.api,
+			de.benjaminborbe.cron, de.benjaminborbe.cron.gui, de.benjaminborbe.dashboard.api, de.benjaminborbe.dashboard, de.benjaminborbe.dashboard.gui,
+			de.benjaminborbe.analytics.api,
+			de.benjaminborbe.analytics, de.benjaminborbe.analytics.gui, de.benjaminborbe.message.api, de.benjaminborbe.message, de.benjaminborbe.message.gui,
+			de.benjaminborbe.shortener.api,
+			de.benjaminborbe.shortener, de.benjaminborbe.shortener.gui, de.benjaminborbe.configuration.api, de.benjaminborbe.configuration,
+			de.benjaminborbe.configuration.gui,
+			de.benjaminborbe.authentication.api, de.benjaminborbe.authentication, de.benjaminborbe.authentication.gui, de.benjaminborbe.authorization.api,
+			de.benjaminborbe.authorization,
+			de.benjaminborbe.authorization.gui, de.benjaminborbe.xmlrpc.api, de.benjaminborbe.xmlrpc, de.benjaminborbe.xmlrpc.gui, de.benjaminborbe.index.api,
+			de.benjaminborbe.index,
+			de.benjaminborbe.index.gui, de.benjaminborbe.lucene.index.api, de.benjaminborbe.lucene.index, de.benjaminborbe.lucene.index.gui,
+			de.benjaminborbe.distributed.index.api,
+			de.benjaminborbe.distributed.index, de.benjaminborbe.distributed.index.gui, de.benjaminborbe.distributed.search.api, de.benjaminborbe.distributed.search,
+			de.benjaminborbe.distributed.search.gui,
+			de.benjaminborbe.search.api, de.benjaminborbe.search, de.benjaminborbe.search.gui, de.benjaminborbe.confluence.api, de.benjaminborbe.confluence,
+			de.benjaminborbe.confluence.gui,
+			de.benjaminborbe.websearch.api, de.benjaminborbe.websearch, de.benjaminborbe.websearch.gui, de.benjaminborbe.slash.api, de.benjaminborbe.slash,
+			de.benjaminborbe.slash.gui,
+			de.benjaminborbe.xmpp.api, de.benjaminborbe.xmpp, de.benjaminborbe.xmpp.gui, de.benjaminborbe.crawler.api, de.benjaminborbe.crawler,
+			de.benjaminborbe.crawler.gui, de.benjaminborbe.googlesearch.api,
+			de.benjaminborbe.googlesearch, de.benjaminborbe.googlesearch.gui, de.benjaminborbe.microblog.api, de.benjaminborbe.microblog,
+			de.benjaminborbe.microblog.gui, de.benjaminborbe.monitoring.api,
+			de.benjaminborbe.monitoring, de.benjaminborbe.monitoring.gui, de.benjaminborbe.kiosk.api, de.benjaminborbe.kiosk, de.benjaminborbe.kiosk.gui,
+			de.benjaminborbe.lunch.api, de.benjaminborbe.lunch,
+			de.benjaminborbe.lunch.gui, de.benjaminborbe.performance.api, de.benjaminborbe.performance, de.benjaminborbe.performance.gui,
+			de.benjaminborbe.systemstatus.api, de.benjaminborbe.systemstatus,
+			de.benjaminborbe.systemstatus.gui, de.benjaminborbe.projectile.api, de.benjaminborbe.projectile, de.benjaminborbe.projectile.gui,
+			de.benjaminborbe.translate.api, de.benjaminborbe.translate,
+			de.benjaminborbe.translate.gui, de.benjaminborbe.wiki.api, de.benjaminborbe.wiki, de.benjaminborbe.wiki.gui, de.benjaminborbe.poker.api,
+			de.benjaminborbe.poker, de.benjaminborbe.poker.gui,
+			de.benjaminborbe.notification.api, de.benjaminborbe.notification, de.benjaminborbe.notification.gui
 		</includeArtifactIds>
 	</properties>
 	<build>
@@ -182,7 +202,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.configuration</artifactId>
+			<artifactId>de.benjaminborbe.configuration.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.vnc</artifactId>
-	<name>Benjamin Borbe - Vnc</name>
-	<description>Benjamin Borbe - Vnc</description>
+	<name>Benjamin Borbe - Vnc - Core</name>
+	<description>Benjamin Borbe - Vnc - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

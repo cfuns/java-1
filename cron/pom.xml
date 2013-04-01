@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.cron</artifactId>
-	<name>Benjamin Borbe - Cron</name>
-	<description>Benjamin Borbe - Cron</description>
+	<name>Benjamin Borbe - Cron - Core</name>
+	<description>Benjamin Borbe - Cron - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>

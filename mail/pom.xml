@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>de.benjaminborbe.mail</artifactId>
-	<name>Benjamin Borbe - Mail</name>
-	<description>Benjamin Borbe - Mail</description>
+	<name>Benjamin Borbe - Mail - Core</name>
+	<description>Benjamin Borbe - Mail - Core</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
