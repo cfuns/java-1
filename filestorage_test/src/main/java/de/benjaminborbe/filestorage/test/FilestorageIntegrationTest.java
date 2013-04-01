@@ -11,6 +11,8 @@ import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import java.util.Arrays;
+
 public class FilestorageIntegrationTest extends TestCaseOsgi {
 
 	@Override
@@ -54,6 +56,24 @@ public class FilestorageIntegrationTest extends TestCaseOsgi {
 		final FilestorageService service = (FilestorageService) serviceObject;
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.filestorage.service.FilestorageServiceImpl", service.getClass().getName());
+	}
+
+	public void testGetFilestorageEntry() throws Exception {
+		final byte[] content = "Hello World".getBytes("UTF-8");
+		final String contentType = "text/plain";
+		final String filename = "readme.txt";
+
+		final FilestorageService filestorageService = getService(FilestorageService.class);
+		final FilestorageEntryDto filestorageEntryDto = new FilestorageEntryDto();
+		filestorageEntryDto.setContent(content);
+		filestorageEntryDto.setContentType(contentType);
+		filestorageEntryDto.setFilename(filename);
+		final FilestorageEntryIdentifier filestorageEntryIdentifier = filestorageService.createFilestorageEntry(filestorageEntryDto);
+		final FilestorageEntry filestorageEntry = filestorageService.getFilestorageEntry(filestorageEntryIdentifier);
+		assertEquals(filestorageEntryIdentifier, filestorageEntry.getId());
+		assertEquals(contentType, filestorageEntry.getContentType());
+		assertEquals(filename, filestorageEntry.getFilename());
+		assertTrue(Arrays.equals(content, filestorageEntry.getContent()));
 	}
 
 	public void testDeleteFilestorageEntry() throws Exception {
