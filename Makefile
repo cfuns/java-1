@@ -340,7 +340,4 @@ buildhtml:
 buildvirt:
 	cd virt && make all
 buildfilestorage:
-	cd filestorage_api && make all
 	cd filestorage && make all
-	cd filestorage_gui && make all
-	cd filestorage_test && make all

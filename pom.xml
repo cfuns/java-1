@@ -86,6 +86,7 @@
 				<module>task</module>
 				<module>authentication</module>
 				<module>configuration</module>
+				<module>filestorage</module>
 			</modules>
 		</profile>
 		<profile>
@@ -120,7 +121,6 @@
 				<module>dashboard_test</module>
 				<module>dhl_test</module>
 				<module>eventbus_test</module>
-				<module>filestorage_test</module>
 				<module>forum_test</module>
 				<module>gallery_test</module>
 				<module>geocaching_test</module>
@@ -218,9 +218,6 @@
 				<module>eventbus</module>
 				<module>eventbus_api</module>
 				<module>eventbus_gui</module>
-				<module>filestorage</module>
-				<module>filestorage_api</module>
-				<module>filestorage_gui</module>
 				<module>forum</module>
 				<module>forum_api</module>
 				<module>forum_gui</module>
