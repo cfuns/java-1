@@ -1,22 +1,8 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -36,12 +22,22 @@ import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.websearch.gui.util.WebsearchGuiLinkFactory;
 import de.benjaminborbe.website.link.LinkWidget;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
@@ -72,19 +68,18 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public WebsearchGuiListPagesServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final WebsearchService websearchService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final WebsearchGuiLinkFactory websearchGuiLinkFactory,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final WebsearchService websearchService,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final WebsearchGuiLinkFactory websearchGuiLinkFactory,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.calendarUtil = calendarUtil;
 		this.websearchService = websearchService;
@@ -100,14 +95,14 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<WebsearchPage> pages = sortPages(websearchService.getPages(sessionIdentifier, PAGE_LIMIT));
+			final List<WebsearchPage> pages = sortPages(websearchService.getPages(sessionIdentifier));
 			if (pages.size() == PAGE_LIMIT) {
 				widgets.add("more than " + PAGE_LIMIT + " pages found, display only first " + PAGE_LIMIT);
 			}
@@ -116,13 +111,11 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 			}
 			widgets.add(ul);
 			return widgets;
-		}
-		catch (final WebsearchServiceException e) {
+		} catch (final WebsearchServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
@@ -142,8 +135,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 		widgets.add(" ");
 		if (page.getLastVisit() != null) {
 			widgets.add(calendarUtil.toDateTimeString(page.getLastVisit()));
-		}
-		else {
+		} else {
 			widgets.add("-");
 		}
 		widgets.add(" ");

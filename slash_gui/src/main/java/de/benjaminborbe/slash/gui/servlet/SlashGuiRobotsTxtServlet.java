@@ -1,16 +1,8 @@
 package de.benjaminborbe.slash.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -20,6 +12,9 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteTextServlet;
 import de.benjaminborbe.website.util.ListWidget;
+import org.slf4j.Logger;
+
+import java.io.IOException;
 
 @Singleton
 public class SlashGuiRobotsTxtServlet extends WebsiteTextServlet {
@@ -28,18 +23,18 @@ public class SlashGuiRobotsTxtServlet extends WebsiteTextServlet {
 
 	@Inject
 	public SlashGuiRobotsTxtServlet(
-			final Logger logger,
-			final AuthenticationService authenticationService,
-			final UrlUtil urlUtil,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final AuthenticationService authenticationService,
+		final UrlUtil urlUtil,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider, authorizationService);
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected Widget createContentWidget() throws IOException {
 		final ListWidget widgets = new ListWidget();
 		widgets.add("User-agent: *\n");
 		widgets.add("Disallow: /css/\n");

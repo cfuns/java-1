@@ -77,7 +77,7 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+	public Collection<Task> getTasks(final boolean completed, final Collection<TaskContextIdentifier> taskContextIdentifiers)
 		throws TaskServiceException, LoginRequiredException {
 		return null;
 	}
@@ -89,7 +89,7 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus,
+	public Collection<Task> getTasks(final boolean completed, final TaskFocus taskFocus,
 																	 final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException, LoginRequiredException {
 		return null;
 	}
@@ -127,7 +127,7 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public void updateTaskFocus(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException,
+	public void updateTaskFocus(final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException,
 		LoginRequiredException, TaskServiceException, ValidationException {
 	}
 
@@ -209,17 +209,17 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public TaskAttachmentIdentifier addAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachment taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
+	public TaskAttachmentIdentifier addAttachment(final TaskAttachment taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
 		return null;
 	}
 
 	@Override
-	public Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		return null;
 	}
 
 	@Override
-	public Collection<TaskAttachment> getAttachments(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public Collection<TaskAttachment> getAttachments(final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		return null;
 	}
 
@@ -232,4 +232,8 @@ public class TaskServiceMock implements TaskService {
 		return null;
 	}
 
+	@Override
+	public TaskAttachmentIdentifier createTaskAttachmentIdentifier(final String id) throws TaskServiceException {
+		return null;
+	}
 }

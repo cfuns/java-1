@@ -1,20 +1,8 @@
 package de.benjaminborbe.projectile.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -51,6 +39,15 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class ProjectileGuiTeamViewServlet extends WebsiteHtmlServlet {
@@ -71,18 +68,18 @@ public class ProjectileGuiTeamViewServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public ProjectileGuiTeamViewServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final ProjectileLinkFactory projectileLinkFactory,
-			final ProjectileService projectileService,
-			final UrlUtil urlUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final ProjectileLinkFactory projectileLinkFactory,
+		final ProjectileService projectileService,
+		final UrlUtil urlUtil,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.projectileLinkFactory = projectileLinkFactory;
@@ -98,7 +95,7 @@ public class ProjectileGuiTeamViewServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 
@@ -120,8 +117,7 @@ public class ProjectileGuiTeamViewServlet extends WebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			if (users.isEmpty()) {
 				widgets.add("no user found");
-			}
-			else {
+			} else {
 				for (final UserIdentifier user : users) {
 					final ListWidget row = new ListWidget();
 					row.add(user.getId());
@@ -141,13 +137,11 @@ public class ProjectileGuiTeamViewServlet extends WebsiteHtmlServlet {
 			widgets.add(formWidget);
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final ProjectileServiceException e) {
+		} catch (final ProjectileServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
@@ -155,17 +149,15 @@ public class ProjectileGuiTeamViewServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(ProjectileService.PERMISSION_ADMIN);
 			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

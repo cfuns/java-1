@@ -1,20 +1,8 @@
 package de.benjaminborbe.poker.gui.servlet;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.util.Collection;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -45,7 +33,6 @@ import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.ExceptionWidget;
@@ -56,6 +43,15 @@ import de.benjaminborbe.website.util.SingleTagWidget;
 import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.util.Collection;
 
 @Singleton
 public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
@@ -74,20 +70,19 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public PokerGuiGameViewServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService,
-			final PokerService pokerService,
-			final PokerGuiLinkFactory pokerGuiLinkFactory,
-			final PokerCardTranslater pokerCardTranslater) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService,
+		final PokerService pokerService,
+		final PokerGuiLinkFactory pokerGuiLinkFactory,
+		final PokerCardTranslater pokerCardTranslater) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
@@ -102,7 +97,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
@@ -157,13 +152,11 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 						widgets.add(form);
 						widgets.add(new BrWidget());
 					}
-				}
-				else {
+				} else {
 					widgets.add("active player = none");
 					widgets.add(new BrWidget());
 				}
-			}
-			else {
+			} else {
 				widgets.add("running = false");
 				widgets.add(new BrWidget());
 				if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
@@ -176,8 +169,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				final Collection<PokerCardIdentifier> cards = pokerService.getBoardCards(gameIdentifier);
 				if (cards.isEmpty()) {
 					widgets.add("no cards");
-				}
-				else {
+				} else {
 					final UlWidget ul = new UlWidget();
 					for (final PokerCardIdentifier card : cards) {
 						ul.add(pokerCardTranslater.translate(card));
@@ -193,8 +185,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				if (players.isEmpty()) {
 					widgets.add("no players");
 					widgets.add(new BrWidget());
-				}
-				else {
+				} else {
 					for (final PokerPlayerIdentifier playerIdentifier : players) {
 						final ListWidget list = new ListWidget();
 						final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
@@ -210,8 +201,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 						if (cards.isEmpty()) {
 							list.add("no cards");
 							list.add(new BrWidget());
-						}
-						else {
+						} else {
 							final UlWidget cardUl = new UlWidget();
 							for (final PokerCardIdentifier card : cards) {
 								cardUl.add(pokerCardTranslater.translate(card));
@@ -232,24 +222,21 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			widgets.add(pokerGuiLinkFactory.apiHelp(request));
 
 			return widgets;
-		}
-		catch (final PokerServiceException e) {
+		} catch (final PokerServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 	}
 
 	public Widget toWidget(final HttpServletRequest request, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, MalformedURLException,
-			UnsupportedEncodingException {
+		UnsupportedEncodingException {
 		final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
 		if (player != null) {
 			return pokerGuiLinkFactory.playerView(request, playerIdentifier, player.getName());
-		}
-		else {
+		} else {
 			return new StringWidget("-");
 		}
 	}
@@ -262,16 +249,14 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			pokerService.expectPokerPlayerOrAdminPermission(sessionIdentifier);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
-		}
-		catch (final PokerServiceException e) {
+		} catch (final PokerServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

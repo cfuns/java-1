@@ -1,7 +1,5 @@
 package de.benjaminborbe.test.osgi;
 
-import java.util.TimeZone;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -41,7 +39,7 @@ public class TestUtil {
 	public UserIdentifier createUser(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, ValidationException {
 		final UserIdentifier userIdentifier = new UserIdentifier(LOGIN_USER);
 
-		if (authenticationService.verifyCredential(sessionIdentifier, userIdentifier, PASSWORD)) {
+		if (authenticationService.verifyCredential(userIdentifier, PASSWORD)) {
 			authenticationService.login(sessionIdentifier, userIdentifier, PASSWORD);
 			authenticationService.unregister(sessionIdentifier);
 		}
@@ -50,14 +48,14 @@ public class TestUtil {
 			authenticationService.logout(sessionIdentifier);
 		}
 
-		authenticationService.register(sessionIdentifier, SHORTENURL, VALIDATEEMAILBASEURL, LOGIN_USER, EMAIL, PASSWORD, FULLNAME, TimeZone.getDefault());
+		authenticationService.register(sessionIdentifier, SHORTENURL, VALIDATEEMAILBASEURL, LOGIN_USER, EMAIL, PASSWORD);
 		return userIdentifier;
 	}
 
 	public UserIdentifier createSuperAdmin(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, ValidationException, StorageException {
 		final UserIdentifier userIdentifier = new UserIdentifier(LOGIN_ADMIN);
 
-		if (authenticationService.verifyCredential(sessionIdentifier, userIdentifier, PASSWORD)) {
+		if (authenticationService.verifyCredential(userIdentifier, PASSWORD)) {
 			authenticationService.login(sessionIdentifier, userIdentifier, PASSWORD);
 			authenticationService.unregister(sessionIdentifier);
 		}
@@ -66,10 +64,10 @@ public class TestUtil {
 			authenticationService.logout(sessionIdentifier);
 		}
 
-		authenticationService.register(sessionIdentifier, SHORTENURL, VALIDATEEMAILBASEURL, LOGIN_ADMIN, EMAIL, PASSWORD, FULLNAME, TimeZone.getDefault());
+		authenticationService.register(sessionIdentifier, SHORTENURL, VALIDATEEMAILBASEURL, LOGIN_ADMIN, EMAIL, PASSWORD);
 
 		storageService.set("user", new StorageValue(LOGIN_ADMIN, storageService.getEncoding()), new StorageValue("superAdmin", storageService.getEncoding()), new StorageValue("true",
-				storageService.getEncoding()));
+			storageService.getEncoding()));
 
 		return userIdentifier;
 	}

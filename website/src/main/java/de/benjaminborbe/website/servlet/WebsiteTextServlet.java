@@ -1,17 +1,8 @@
 package de.benjaminborbe.website.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -19,6 +10,12 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public abstract class WebsiteTextServlet extends WebsiteServlet {
@@ -29,13 +26,13 @@ public abstract class WebsiteTextServlet extends WebsiteServlet {
 
 	@Inject
 	public WebsiteTextServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 	}
@@ -45,9 +42,9 @@ public abstract class WebsiteTextServlet extends WebsiteServlet {
 		logger.trace("service");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/plain");
-		final Widget widget = createContentWidget(request, response, context);
+		final Widget widget = createContentWidget();
 		widget.render(request, response, context);
 	}
 
-	protected abstract Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException;
+	protected abstract Widget createContentWidget() throws IOException;
 }

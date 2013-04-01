@@ -1,16 +1,13 @@
 package de.benjaminborbe.monitoring.check;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.tools.registry.RegistryBase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class MonitoringCheckRegistry extends RegistryBase<MonitoringCheck> {
@@ -19,11 +16,10 @@ public class MonitoringCheckRegistry extends RegistryBase<MonitoringCheck> {
 
 	@Inject
 	public MonitoringCheckRegistry(
-			final Logger logger,
-			final MonitoringCheckHttp monitoringCheckHttp,
-			final MonitoringCheckNop monitoringCheckNop,
-			final MonitoringCheckTcp monitoringCheckTcp,
-			final MonitoringCheckRemote monitoringCheckRemote) {
+		final MonitoringCheckHttp monitoringCheckHttp,
+		final MonitoringCheckNop monitoringCheckNop,
+		final MonitoringCheckTcp monitoringCheckTcp,
+		final MonitoringCheckRemote monitoringCheckRemote) {
 		add(monitoringCheckHttp);
 		add(monitoringCheckNop);
 		add(monitoringCheckTcp);

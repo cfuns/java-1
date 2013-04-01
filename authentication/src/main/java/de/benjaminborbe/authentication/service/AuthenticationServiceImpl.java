@@ -1,21 +1,7 @@
 package de.benjaminborbe.authentication.service;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.TimeZone;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
@@ -57,6 +43,17 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.UUID;
 
 @Singleton
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -93,20 +90,20 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Inject
 	public AuthenticationServiceImpl(
-			final Logger logger,
-			final AuthenticationConfig authenticationConfig,
-			final CalendarUtil calendarUtil,
-			final AuthenticationPasswordUtil authenticationPasswordUtil,
-			final ParseUtil parseUtil,
-			final MailService mailService,
-			final SessionDao sessionDao,
-			final UserDao userDao,
-			final AuthenticationPasswordEncryptionService passwordEncryptionService,
-			final TimeZoneUtil timeZoneUtil,
-			final ValidationExecutor validationExecutor,
-			final ShortenerService shortenerService,
-			final DurationUtil durationUtil,
-			final AuthenticationVerifyCredential authenticationVerifyCredential) {
+		final Logger logger,
+		final AuthenticationConfig authenticationConfig,
+		final CalendarUtil calendarUtil,
+		final AuthenticationPasswordUtil authenticationPasswordUtil,
+		final ParseUtil parseUtil,
+		final MailService mailService,
+		final SessionDao sessionDao,
+		final UserDao userDao,
+		final AuthenticationPasswordEncryptionService passwordEncryptionService,
+		final TimeZoneUtil timeZoneUtil,
+		final ValidationExecutor validationExecutor,
+		final ShortenerService shortenerService,
+		final DurationUtil durationUtil,
+		final AuthenticationVerifyCredential authenticationVerifyCredential) {
 		this.logger = logger;
 		this.authenticationConfig = authenticationConfig;
 		this.calendarUtil = calendarUtil;
@@ -124,19 +121,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean verifyCredential(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
+	public boolean verifyCredential(final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			try {
 				// delay login
 				Thread.sleep(AuthenticationConstants.LOGIN_DELAY);
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 			}
 
 			return authenticationVerifyCredential.verifyCredential(userIdentifier, password);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -144,11 +139,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public boolean login(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException,
-			ValidationException {
+		ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("try login user: " + userIdentifier);
-			if (verifyCredential(sessionIdentifier, userIdentifier, password)) {
+			if (verifyCredential(userIdentifier, password)) {
 				final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
 				session.setCurrentUser(userIdentifier);
 				sessionDao.save(session);
@@ -160,20 +155,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 					userDao.save(user, new StorageValueList(userDao.getEncoding()).add(UserBeanMapper.LOGIN_COUNTER).add(UserBeanMapper.LOGIN_DATE));
 					logger.info("local user " + userIdentifier + " logged in successful");
 					return true;
-				}
-				else {
+				} else {
 					logger.info("remote user " + userIdentifier + " logged in successful");
 					return true;
 				}
-			}
-			else {
+			} else {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("login failed")));
 			}
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -185,11 +176,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		try {
 			final SessionBean session = sessionDao.load(sessionIdentifier);
 			return session != null && session.getCurrentUser() != null;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -206,11 +195,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				return true;
 			}
 			return false;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -225,11 +212,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				return session.getCurrentUser();
 			}
 			return null;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -237,7 +222,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, final String username, final String email,
-			final String password, final String fullname, final TimeZone timeZone) throws AuthenticationServiceException, ValidationException {
+																 final String password) throws AuthenticationServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			if (isLoggedIn(sessionIdentifier)) {
@@ -264,26 +249,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			logger.info("registerd user " + userIdentifier);
 			login(sessionIdentifier, userIdentifier, password);
 			return userIdentifier;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final NoSuchAlgorithmException e) {
+		} catch (final NoSuchAlgorithmException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final InvalidKeySpecException e) {
+		} catch (final InvalidKeySpecException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final MailServiceException e) {
+		} catch (final MailServiceException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final ShortenerServiceException e) {
+		} catch (final ShortenerServiceException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -298,11 +276,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	private void sendEmailVerify(final UserBean user, final String shortenUrl, final String verifyUrl) throws MailServiceException, ShortenerServiceException, ParseException,
-			ValidationException {
+		ValidationException {
 		if (Boolean.TRUE.equals(user.getEmailVerified())) {
 			logger.debug("email already verified");
-		}
-		else {
+		} else {
 			logger.debug("email not verified, sending mail");
 			final String from = authenticationConfig.getEmailFrom();
 			final String to = user.getEmailNew();
@@ -336,11 +313,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final boolean result = logout(sessionIdentifier);
 			userDao.delete(user);
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -348,7 +323,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public boolean changePassword(final SessionIdentifier sessionIdentifier, final String currentPassword, final String newPassword, final String newPasswordRepeat)
-			throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+		throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectLoggedIn(sessionIdentifier);
@@ -359,7 +334,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (userIdentifier == null) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("currentuser not found")));
 			}
-			if (!verifyCredential(sessionIdentifier, userIdentifier, currentPassword)) {
+			if (!verifyCredential(userIdentifier, currentPassword)) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("password not match currentpassword")));
 			}
 			final UserBean user = userDao.load(userIdentifier);
@@ -378,17 +353,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 			logger.info("set password => true");
 			return true;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final NoSuchAlgorithmException e) {
+		} catch (final NoSuchAlgorithmException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final InvalidKeySpecException e) {
+		} catch (final InvalidKeySpecException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -410,8 +381,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	public UserIdentifier createUserIdentifier(final String username) throws AuthenticationServiceException {
 		if (username == null || username.trim().isEmpty()) {
 			return null;
-		}
-		else {
+		} else {
 			return new UserIdentifier(username);
 		}
 	}
@@ -432,14 +402,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final IdentifierIteratorException e) {
+		} catch (final IdentifierIteratorException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -450,8 +417,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return authenticationVerifyCredential.existsUser(userIdentifier);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -462,11 +428,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return sessionDao.exists(sessionIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -479,20 +443,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (!isLoggedIn(sessionIdentifier)) {
 				throw new LoginRequiredException("user not logged in");
 			}
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
-	public String getFullname(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+	public String getFullname(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return authenticationVerifyCredential.getFullname(userIdentifier);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -503,8 +465,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return authenticationVerifyCredential.getUser(userIdentifier);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -512,18 +473,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public void switchUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+		SuperAdminRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectSuperAdmin(sessionIdentifier);
 			final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
 			session.setCurrentUser(userIdentifier);
 			sessionDao.save(session);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -537,8 +496,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (!isSuperAdmin(sessionIdentifier)) {
 				throw new SuperAdminRequiredException("no superadmin!");
 			}
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -554,8 +512,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				return false;
 			}
 			return isSuperAdmin(currentUser);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -573,11 +530,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				return false;
 			}
 			return Boolean.TRUE.equals(user.getSuperAdmin());
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -598,11 +553,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				}
 			}
 			return timeZoneUtil.getUTCTimeZone();
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -610,7 +563,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public void updateUser(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, final String email, final String fullname,
-			final String timeZoneString) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+												 final String timeZoneString) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectLoggedIn(sessionIdentifier);
@@ -618,8 +571,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			final TimeZone timeZone;
 			try {
 				timeZone = timeZoneUtil.parseTimeZone(timeZoneString);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("illegal timeZone")));
 			}
 			final UserIdentifier userIdentifier = getCurrentUser(sessionIdentifier);
@@ -636,20 +588,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 			sendEmailVerify(user, shortenUrl, validateEmailUrl);
 			userDao.save(user);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final MailServiceException e) {
+		} catch (final MailServiceException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final ShortenerServiceException e) {
+		} catch (final ShortenerServiceException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -660,8 +607,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return login(sessionIdentifier, createUserIdentifier(username), password);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -679,15 +625,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				user.setEmailVerifyToken(null);
 				userDao.save(user, new StorageValueList(userDao.getEncoding()).add("emailVerified").add("email").add("emailNew").add("emailVerifyToken"));
 				return true;
-			}
-			else {
+			} else {
 				return false;
 			}
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -695,7 +638,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public UserIdentifier createUser(final SessionIdentifier sessionIdentifier, final UserDto userDto) throws AuthenticationServiceException, LoginRequiredException,
-			ValidationException, SuperAdminRequiredException {
+		ValidationException, SuperAdminRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectSuperAdmin(sessionIdentifier);
@@ -714,11 +657,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			userDao.save(user);
 
 			return user.getId();
-		}
-		catch (final NoSuchAlgorithmException | InvalidKeySpecException | StorageException | AuthenticationGeneratePasswordFailedException e) {
+		} catch (final NoSuchAlgorithmException | InvalidKeySpecException | StorageException | AuthenticationGeneratePasswordFailedException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -726,25 +667,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public void deleteUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException,
-			SuperAdminRequiredException {
+		SuperAdminRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectSuperAdmin(sessionIdentifier);
 
 			userDao.delete(userIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
-	public void sendPasswordLostEmail(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String resetUrl, final UserIdentifier userIdentifier,
-			final String email) throws AuthenticationServiceException, ValidationException {
+	public void sendPasswordLostEmail(final String shortenUrl, final String resetUrl, final UserIdentifier userIdentifier,
+																		final String email) throws AuthenticationServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final UserBean user = userDao.load(userIdentifier);
@@ -755,18 +694,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("email missmatch")));
 			}
 			sendPasswordLostEmail(user, shortenUrl, resetUrl);
-		}
-		catch (final StorageException | MailServiceException | ShortenerServiceException | ParseException e) {
+		} catch (final StorageException | MailServiceException | ShortenerServiceException | ParseException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	private void sendPasswordLostEmail(final UserBean user, final String shortenUrl, final String resetUrl) throws MailServiceException, ShortenerServiceException, ParseException,
-			ValidationException {
+		ValidationException {
 		final String from = authenticationConfig.getEmailFrom();
 		final String to = user.getEmail();
 		final String subject = "Password Reset";
@@ -777,8 +714,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void setNewPassword(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String token, final String newPassword,
-			final String newPasswordRepeat) throws AuthenticationServiceException, ValidationException {
+	public void setNewPassword(final UserIdentifier userIdentifier, final String token, final String newPassword,
+														 final String newPasswordRepeat) throws AuthenticationServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			if (!newPassword.equals(newPasswordRepeat)) {
@@ -799,11 +736,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				throw new ValidationException(errors);
 			}
 			userDao.save(user);
-		}
-		catch (final StorageException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+		} catch (final StorageException | NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}

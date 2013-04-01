@@ -1,15 +1,13 @@
 package de.benjaminborbe.microblog.util;
 
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorageException;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
+import org.slf4j.Logger;
 
 public class MicroblogPostRefresher {
 
@@ -25,8 +23,7 @@ public class MicroblogPostRefresher {
 				if (lastestRevisionSend == null) {
 					// no revision found in storage
 					microblogRevisionStorage.setLastRevision(latestRevision);
-				}
-				else {
+				} else {
 					logger.trace("latestRevision send: " + latestRevision);
 					for (long rev = lastestRevisionSend.getId() + 1; rev <= latestRevision.getId(); ++rev) {
 						logger.trace("get post with revision: " + rev);
@@ -36,11 +33,9 @@ public class MicroblogPostRefresher {
 					}
 				}
 				logger.trace("done");
-			}
-			catch (final MicroblogConnectorException e) {
+			} catch (final MicroblogConnectorException e) {
 				logger.trace("MicroblogConnectorException", e);
-			}
-			catch (final MicroblogRevisionStorageException e) {
+			} catch (final MicroblogRevisionStorageException e) {
 				logger.trace("MicroblogRevisionStorageException", e);
 			}
 		}
@@ -58,12 +53,11 @@ public class MicroblogPostRefresher {
 
 	@Inject
 	public MicroblogPostRefresher(
-			final Logger logger,
-			final MicroblogPostUpdater microblogPostUpdater,
-			final MicroblogConnector microblogConnector,
-			final MicroblogRevisionStorage microblogRevisionStorage,
-			final MicroblogPostListenerRegistry microblogPostListenerRegistry,
-			final RunOnlyOnceATime runOnlyOnceATime) {
+		final Logger logger,
+		final MicroblogPostUpdater microblogPostUpdater,
+		final MicroblogConnector microblogConnector,
+		final MicroblogRevisionStorage microblogRevisionStorage,
+		final RunOnlyOnceATime runOnlyOnceATime) {
 		this.logger = logger;
 		this.microblogPostUpdater = microblogPostUpdater;
 		this.microblogConnector = microblogConnector;
@@ -76,8 +70,7 @@ public class MicroblogPostRefresher {
 		if (runOnlyOnceATime.run(new Action())) {
 			logger.trace("microblog-refresh - finished");
 			return true;
-		}
-		else {
+		} else {
 			logger.trace("microblog-refresh - skipped");
 			return false;
 		}

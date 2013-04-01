@@ -1,21 +1,7 @@
 package de.benjaminborbe.task.gui.widget;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -41,6 +27,17 @@ import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.Target;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.TooltipWidget;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.TimeZone;
 
 public class TaskNextWidget extends CompositeWidget {
 
@@ -62,14 +59,14 @@ public class TaskNextWidget extends CompositeWidget {
 
 	@Inject
 	public TaskNextWidget(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final AuthenticationService authenticationService,
-			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final TaskGuiWidgetFactory taskGuiWidgetFactory,
-			final TaskGuiUtil taskGuiUtil,
-			final TaskGuiSwitchWidget taskGuiSwitchWidget,
-			final Provider<TaskCache> taskCacheProvider) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final AuthenticationService authenticationService,
+		final TaskGuiLinkFactory taskGuiLinkFactory,
+		final TaskGuiWidgetFactory taskGuiWidgetFactory,
+		final TaskGuiUtil taskGuiUtil,
+		final TaskGuiSwitchWidget taskGuiSwitchWidget,
+		final Provider<TaskCache> taskCacheProvider) {
 		this.calendarUtil = calendarUtil;
 		this.authenticationService = authenticationService;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
@@ -113,8 +110,8 @@ public class TaskNextWidget extends CompositeWidget {
 		return new DivWidget(widgets).addClass("taskNext");
 	}
 
-	public Widget taskListWithoutParents(final SessionIdentifier sessionIdentifier, final List<Task> tasks, final TaskCache taskCache, final HttpServletRequest request,
-			final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	private Widget taskListWithoutParents(final SessionIdentifier sessionIdentifier, final List<Task> tasks, final TaskCache taskCache, final HttpServletRequest request,
+																				final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<Task> groupedTasks = taskGuiWidgetFactory.groupByDueState(tasks, timeZone);
 
 		final UlWidget ul = new UlWidget();
@@ -129,9 +126,9 @@ public class TaskNextWidget extends CompositeWidget {
 		return ul;
 	}
 
-	public Widget buildTaskListRow(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final List<Task> tasks, final int position, final Task task,
-			final TaskCache taskCache, final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	private Widget buildTaskListRow(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final List<Task> tasks, final int position, final Task task,
+																	final TaskCache taskCache, final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException,
+		PermissionDeniedException {
 
 		final ListWidget row = new ListWidget();
 		if (position > 0) {
@@ -139,8 +136,7 @@ public class TaskNextWidget extends CompositeWidget {
 			row.add(" ");
 			row.add(taskGuiLinkFactory.taskPrioSwap(request, taskGuiWidgetFactory.buildImage(request, "up"), task.getId(), tasks.get(position - 1).getId()));
 			row.add(" ");
-		}
-		else {
+		} else {
 			row.add(taskGuiWidgetFactory.buildImage(request, "empty"));
 			row.add(" ");
 			row.add(taskGuiWidgetFactory.buildImage(request, "empty"));
@@ -151,8 +147,7 @@ public class TaskNextWidget extends CompositeWidget {
 			row.add(" ");
 			row.add(taskGuiLinkFactory.taskPrioLast(request, taskGuiWidgetFactory.buildImage(request, "last"), task.getId()));
 			row.add(" ");
-		}
-		else {
+		} else {
 			row.add(taskGuiWidgetFactory.buildImage(request, "empty"));
 			row.add(" ");
 			row.add(taskGuiWidgetFactory.buildImage(request, "empty"));
@@ -160,12 +155,12 @@ public class TaskNextWidget extends CompositeWidget {
 		}
 		row.add(taskGuiLinkFactory.taskUpdate(request, taskGuiWidgetFactory.buildImage(request, "update"), task));
 		row.add(" ");
-		row.add(taskGuiLinkFactory.taskView(request, taskGuiWidgetFactory.buildImage(request, "view"), task));
-		row.add(" ");
+//		row.add(taskGuiLinkFactory.taskView(request, taskGuiWidgetFactory.buildImage(request, "view"), task));
+//		row.add(" ");
 		row.add(taskGuiLinkFactory.taskCreateSubTask(request, taskGuiWidgetFactory.buildImage(request, "subtask"), task.getId()));
 		row.add(" ");
-		row.add(taskGuiLinkFactory.taskDelete(request, taskGuiWidgetFactory.buildImage(request, "delete"), task));
-		row.add(" ");
+//		row.add(taskGuiLinkFactory.taskDelete(request, taskGuiWidgetFactory.buildImage(request, "delete"), task));
+//		row.add(" ");
 		row.add(taskGuiLinkFactory.taskComplete(request, taskGuiWidgetFactory.buildImage(request, "complete"), task));
 		row.add(" ");
 
@@ -181,7 +176,7 @@ public class TaskNextWidget extends CompositeWidget {
 		}
 
 		if (task.getRepeatDue() != null && task.getRepeatDue() > 0 || task.getRepeatStart() != null && task.getRepeatStart() > 0) {
-			final List<String> parts = new ArrayList<String>();
+			final List<String> parts = new ArrayList<>();
 			if (task.getRepeatDue() != null && task.getRepeatDue() > 0) {
 				parts.add("due: " + task.getRepeatDue() + " day");
 			}
@@ -215,8 +210,7 @@ public class TaskNextWidget extends CompositeWidget {
 			final TaskDueExpiredPredicate taskDueExpiredPredicate = new TaskDueExpiredPredicate(logger, calendarUtil, timeZone);
 			if (taskDueTodayPredicate.apply(task)) {
 				div.addClass("dueToday");
-			}
-			else if (taskDueExpiredPredicate.apply(task)) {
+			} else if (taskDueExpiredPredicate.apply(task)) {
 				div.addClass("dueExpired");
 			}
 		}
@@ -230,7 +224,7 @@ public class TaskNextWidget extends CompositeWidget {
 	}
 
 	private String getUrl(final SessionIdentifier sessionIdentifier, final Task task, final TaskCache taskCache) throws TaskServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		if (task.getUrl() != null && task.getUrl().length() > 0) {
 			return task.getUrl();
 		}

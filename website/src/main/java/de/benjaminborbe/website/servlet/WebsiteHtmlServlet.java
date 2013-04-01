@@ -1,22 +1,8 @@
 package de.benjaminborbe.website.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -48,6 +34,17 @@ import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.widget.ClearFloatWidget;
 import de.benjaminborbe.website.widget.HeadWidget;
 import de.benjaminborbe.website.widget.HtmlWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Singleton
 public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
@@ -70,16 +67,16 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 
 	@Inject
 	public WebsiteHtmlServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final CacheService cacheService) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -96,8 +93,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		final Set<Widget> widgets = new HashSet<Widget>();
 		try {
 			widgets.add(navigationWidget);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 		}
 		return widgets;
 	}
@@ -113,38 +109,35 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			return createHtmlWidget(request, response, context);
-		}
-		catch (final PermissionDeniedException e) {
+		} catch (final PermissionDeniedException e) {
 			logger.debug(e.getClass().getName(), e);
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			return widget;
-		}
-		catch (final RedirectException e) {
+		} catch (final RedirectException e) {
 			logger.trace(e.getClass().getName(), e);
 			return new RedirectWidget(e.getTarget());
-		}
-		catch (final LoginRequiredException e) {
+		} catch (final LoginRequiredException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new RedirectWidget(buildLoginUrl(request));
 		}
 	}
 
 	private Widget createHtmlWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, RedirectException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		final ListWidget widgets = new ListWidget();
 		logger.trace("printHtml");
-		widgets.add(createHeadWidget(request, response, context));
+		widgets.add(createHeadWidget(request, response));
 		widgets.add(createBodyWidget(request, response, context));
 		return new TagWidget("html", widgets);
 	}
 
 	private Widget createBodyWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException,
-			RedirectException, LoginRequiredException {
+		RedirectException, LoginRequiredException {
 		logger.trace("printBody");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new DivWidget(createTopWidget(request, response, context)).addAttribute("id", "header"));
 		widgets.add(new DivWidget(createContentWidget(request, response, context)).addAttribute("id", "content"));
-		widgets.add(new DivWidget(createFooterWidget(request, response, context)).addAttribute("id", "footer"));
+		widgets.add(new DivWidget(createFooterWidget()).addAttribute("id", "footer"));
 		return new TagWidget("body", widgets);
 	}
 
@@ -152,13 +145,13 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		logger.trace("printTop");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(navigationWidget);
-		widgets.add(createLoginStatusWidget(request, response, context));
+		widgets.add(createLoginStatusWidget(request));
 		widgets.add(new ClearFloatWidget());
 		return widgets;
 	}
 
-	private Widget createLoginStatusWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException {
+	private Widget createLoginStatusWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			final SessionIdentifier sessionId = authenticationService.createSessionIdentifier(request);
@@ -169,13 +162,11 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 				row.add(" ");
 				widgets.add(row);
 				widgets.add(new LinkRelativWidget(request, "/authentication/logout", "logout"));
-			}
-			else {
+			} else {
 				widgets.add(new LinkRelativWidget(request, "/authentication/login", "login"));
 			}
 			return new SpanWidget(widgets).addAttribute("id", "loginStatus");
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
@@ -183,21 +174,21 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	}
 
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 		return widgets;
 	}
 
-	private Widget createFooterWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	private Widget createFooterWidget() throws IOException {
 		logger.trace("printFooter");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new RequestDurationWidget(logger, parseUtil, calendarUtil, timeZoneUtil, new NetUtil(), cacheService));
 		return widgets;
 	}
 
-	private Widget createHeadWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	private Widget createHeadWidget(final HttpServletRequest request, final HttpServletResponse response) throws IOException, PermissionDeniedException {
 		logger.trace("printHead");
 		return new HeadWidget(getTitle(), getJavascriptResources(request, response), getCssResources(request, response));
 	}

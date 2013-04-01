@@ -1,17 +1,8 @@
 package de.benjaminborbe.projectile.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -29,6 +20,12 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class ProjectileGuiReportJsonServlet extends WebsiteJsonServlet {
@@ -45,15 +42,15 @@ public class ProjectileGuiReportJsonServlet extends WebsiteJsonServlet {
 
 	@Inject
 	public ProjectileGuiReportJsonServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final ProjectileService projectileService,
-			final ProjectileReportToJsonConverter projectileReportToJsonConverter) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final ProjectileService projectileService,
+		final ProjectileReportToJsonConverter projectileReportToJsonConverter) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.projectileService = projectileService;
 		this.logger = logger;
@@ -62,21 +59,20 @@ public class ProjectileGuiReportJsonServlet extends WebsiteJsonServlet {
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final String token = request.getParameter(ProjectileGuiConstants.PARAMETER_AUTH_TOKEN);
 			logger.debug("doCheckPermission");
 			projectileService.expectAuthToken(token);
-		}
-		catch (final ProjectileServiceException e) {
+		} catch (final ProjectileServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			logger.debug("doService");
 			final String token = request.getParameter(ProjectileGuiConstants.PARAMETER_AUTH_TOKEN);
@@ -87,19 +83,15 @@ public class ProjectileGuiReportJsonServlet extends WebsiteJsonServlet {
 				if (report != null) {
 					final JSONObject jsonObject = projectileReportToJsonConverter.convert(report);
 					printJson(response, jsonObject);
-				}
-				else {
+				} else {
 					printError(response, "no data found for user " + username);
 				}
-			}
-			else {
+			} else {
 				printError(response, "parameter required: " + ProjectileGuiConstants.PARAMETER_AUTH_TOKEN + " and " + ProjectileGuiConstants.PARAMETER_USERNAME);
 			}
-		}
-		catch (final ProjectileServiceException e) {
+		} catch (final ProjectileServiceException e) {
 			printException(response, e);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			printException(response, e);
 		}
 	}

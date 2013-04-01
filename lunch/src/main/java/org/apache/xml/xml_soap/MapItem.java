@@ -7,7 +7,9 @@
 
 package org.apache.xml.xml_soap;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+import javax.xml.namespace.QName;
+
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class MapItem implements java.io.Serializable {
 
 	private java.lang.Object key;
@@ -24,7 +26,7 @@ public class MapItem implements java.io.Serializable {
 
 	/**
 	 * Gets the key value for this MapItem.
-	 * 
+	 *
 	 * @return key
 	 */
 	public java.lang.Object getKey() {
@@ -33,7 +35,7 @@ public class MapItem implements java.io.Serializable {
 
 	/**
 	 * Sets the key value for this MapItem.
-	 * 
+	 *
 	 * @param key
 	 */
 	public void setKey(final java.lang.Object key) {
@@ -42,7 +44,7 @@ public class MapItem implements java.io.Serializable {
 
 	/**
 	 * Gets the value value for this MapItem.
-	 * 
+	 *
 	 * @return value
 	 */
 	public java.lang.Object getValue() {
@@ -51,7 +53,7 @@ public class MapItem implements java.io.Serializable {
 
 	/**
 	 * Sets the value value for this MapItem.
-	 * 
+	 *
 	 * @param value
 	 */
 	public void setValue(final java.lang.Object value) {
@@ -75,7 +77,7 @@ public class MapItem implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.key == null && other.getKey() == null) || (this.key != null && this.key.equals(other.getKey())))
-				&& ((this.value == null && other.getValue() == null) || (this.value != null && this.value.equals(other.getValue())));
+			&& ((this.value == null && other.getValue() == null) || (this.value != null && this.value.equals(other.getValue())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -128,14 +130,14 @@ public class MapItem implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

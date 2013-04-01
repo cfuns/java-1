@@ -1,19 +1,5 @@
 package de.benjaminborbe.authentication.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -27,6 +13,18 @@ import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCred
 import de.benjaminborbe.authentication.verifycredential.AuthenticationVerifyCredentialStorage;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class AuthenticationServiceImplUnitTest {
 
@@ -74,10 +72,10 @@ public class AuthenticationServiceImplUnitTest {
 		EasyMock.replay(sessionIdentifier);
 
 		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, null, null, sessionDao, userDao, null, null, null, null,
-				durationUtil, v);
-		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userWrong, "test123"));
-		assertFalse(authenticationService.verifyCredential(sessionIdentifier, userRight, "wrongPw"));
-		assertTrue(authenticationService.verifyCredential(sessionIdentifier, userRight, "test123"));
+			durationUtil, v);
+		assertFalse(authenticationService.verifyCredential(userWrong, "test123"));
+		assertFalse(authenticationService.verifyCredential(userRight, "wrongPw"));
+		assertTrue(authenticationService.verifyCredential(userRight, "test123"));
 	}
 
 	@Test
@@ -123,7 +121,7 @@ public class AuthenticationServiceImplUnitTest {
 		EasyMock.replay(verifyCredentialRegistry);
 
 		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, null, null, sessionDao, userDao, null, null, null, null,
-				durationUtil, null);
+			durationUtil, null);
 		assertEquals(username, authenticationService.getCurrentUser(sessionIdentifier).getId());
 	}
 
@@ -163,7 +161,7 @@ public class AuthenticationServiceImplUnitTest {
 		EasyMock.replay(verifyCredentialRegistry);
 
 		final AuthenticationService authenticationService = new AuthenticationServiceImpl(logger, null, null, null, null, null, sessionDao, userDao, null, null, null, null,
-				durationUtil, null);
+			durationUtil, null);
 		assertNull(authenticationService.getCurrentUser(sessionIdentifier));
 	}
 }

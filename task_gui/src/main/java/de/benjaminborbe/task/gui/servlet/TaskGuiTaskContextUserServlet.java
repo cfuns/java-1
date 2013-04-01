@@ -1,18 +1,8 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -46,6 +36,12 @@ import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class TaskGuiTaskContextUserServlet extends TaskGuiWebsiteHtmlServlet {
@@ -64,19 +60,19 @@ public class TaskGuiTaskContextUserServlet extends TaskGuiWebsiteHtmlServlet {
 
 	@Inject
 	public TaskGuiTaskContextUserServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final TaskGuiUtil taskGuiUtil,
-			final TaskService taskService,
-			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final TaskGuiUtil taskGuiUtil,
+		final TaskService taskService,
+		final TaskGuiLinkFactory taskGuiLinkFactory,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.taskService = taskService;
 		this.logger = logger;
@@ -85,8 +81,8 @@ public class TaskGuiTaskContextUserServlet extends TaskGuiWebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createTaskContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
@@ -100,8 +96,7 @@ public class TaskGuiTaskContextUserServlet extends TaskGuiWebsiteHtmlServlet {
 					final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(userId);
 					taskService.addUserToContext(sessionIdentifier, taskContextIdentifier, userIdentifier);
 					throw new RedirectException(taskGuiLinkFactory.taskContextUserUrl(request, taskContextIdentifier));
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("add user failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -127,13 +122,11 @@ public class TaskGuiTaskContextUserServlet extends TaskGuiWebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("add user"));
 			widgets.add(formWidget);
 			return widgets;
-		}
-		catch (final TaskServiceException e) {
+		} catch (final TaskServiceException e) {
 			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

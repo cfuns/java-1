@@ -1,10 +1,7 @@
 package de.benjaminborbe.projectile.mock;
 
-import java.util.Collection;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -17,6 +14,8 @@ import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.api.ProjectileTeam;
 import de.benjaminborbe.projectile.api.ProjectileTeamDto;
 import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
+
+import java.util.Collection;
 
 @Singleton
 public class ProjectileServiceMock implements ProjectileService {
@@ -36,12 +35,12 @@ public class ProjectileServiceMock implements ProjectileService {
 
 	@Override
 	public void importReport(final SessionIdentifier sessionIdentifier, final String content, final ProjectileSlacktimeReportInterval interval) throws ProjectileServiceException,
-			PermissionDeniedException, LoginRequiredException, ValidationException {
+		PermissionDeniedException, LoginRequiredException, ValidationException {
 	}
 
 	@Override
 	public ProjectileSlacktimeReport getSlacktimeReportCurrentUser(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException,
-			LoginRequiredException {
+		LoginRequiredException {
 		return null;
 	}
 
@@ -56,13 +55,13 @@ public class ProjectileServiceMock implements ProjectileService {
 
 	@Override
 	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAllUsers(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
-			LoginRequiredException {
+		LoginRequiredException {
 		return null;
 	}
 
 	@Override
 	public Collection<ProjectileSlacktimeReport> getSlacktimeReportAllTeams(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
-			LoginRequiredException {
+		LoginRequiredException {
 		return null;
 	}
 
@@ -76,7 +75,7 @@ public class ProjectileServiceMock implements ProjectileService {
 
 	@Override
 	public ProjectileTeamIdentifier createTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamDto teamDto) throws ProjectileServiceException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		return null;
 	}
 
@@ -86,41 +85,41 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public Collection<ProjectileTeam> listTeams(final SessionIdentifier sessionIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+	public Collection<ProjectileTeam> listTeams() throws ProjectileServiceException, PermissionDeniedException {
 		return null;
 	}
 
 	@Override
 	public ProjectileTeam getTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier) throws ProjectileServiceException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		return null;
 	}
 
 	@Override
 	public void addUserToTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
-			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+		throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override
 	public void removeUserFromTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
-			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+		throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override
 	public ProjectileTeamIdentifier getTeamForUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws ProjectileServiceException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		return null;
 	}
 
 	@Override
 	public Collection<UserIdentifier> getUsersForTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
-			throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
+		throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 		return null;
 	}
 
 	@Override
 	public ProjectileSlacktimeReport getSlacktimeReportCurrentTeam(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, ProjectileServiceException,
-			LoginRequiredException {
+		LoginRequiredException {
 		return null;
 	}
 

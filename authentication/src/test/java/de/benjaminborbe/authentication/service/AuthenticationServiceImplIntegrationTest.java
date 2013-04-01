@@ -1,21 +1,6 @@
 package de.benjaminborbe.authentication.service;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -24,6 +9,18 @@ import de.benjaminborbe.authentication.dao.UserDao;
 import de.benjaminborbe.authentication.guice.AuthenticationModulesMock;
 import de.benjaminborbe.mail.mock.MailServiceMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.easymock.EasyMock;
+import org.junit.Test;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.TimeZone;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 public class AuthenticationServiceImplIntegrationTest {
 
@@ -70,7 +67,7 @@ public class AuthenticationServiceImplIntegrationTest {
 		final String fullname = null;
 		final TimeZone timeZone = null;
 		assertThat(mailService.getMails().size(), is(0));
-		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, timeZone);
+		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password);
 		assertNotNull(userIdentifier);
 		assertEquals(username, userIdentifier.getId());
 		assertThat(mailService.getMails().size(), is(1));

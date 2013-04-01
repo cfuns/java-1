@@ -1,25 +1,10 @@
 package de.benjaminborbe.dashboard.gui.service;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -51,6 +36,18 @@ import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.HtmlContentWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ClearFloatWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class DashboardGuiWidgetImpl extends CompositeWidget implements DashboardWidget {
@@ -81,8 +78,7 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 		public boolean apply(final DashboardContentWidget widget) {
 			if (widget.isAdminRequired() && !hasAdmin) {
 				return false;
-			}
-			else {
+			} else {
 			}
 			return true;
 		}
@@ -103,12 +99,12 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 		private final ThreadResult<String> threadResult;
 
 		private DashboardWidgetRenderRunnable(
-				final HttpServletRequest request,
-				final HttpServletResponse response,
-				final HttpContext context,
-				final DashboardContentWidget dashboardWidget,
-				final ThreadResult<String> threadResult,
-				final CalendarUtil calendarUtil) {
+			final HttpServletRequest request,
+			final HttpServletResponse response,
+			final HttpContext context,
+			final DashboardContentWidget dashboardWidget,
+			final ThreadResult<String> threadResult,
+			final CalendarUtil calendarUtil) {
 			this.context = context;
 			this.threadResult = threadResult;
 			this.response = response;
@@ -123,13 +119,12 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 				final long startTime = calendarUtil.getTime();
 				final HttpServletResponseBuffer httpServletResponseAdapter = new HttpServletResponseBuffer(response);
 				final StringWriter stringWriter = httpServletResponseAdapter.getStringWriter();
-				final Widget widget = createDashboardWidget(request, httpServletResponseAdapter, context, dashboardWidget);
+				final Widget widget = createDashboardWidget(dashboardWidget);
 				widget.render(request, httpServletResponseAdapter, context);
 				final long endTime = calendarUtil.getTime();
 				stringWriter.append("<!-- render widget " + dashboardWidget.getClass().getSimpleName() + " in " + (endTime - startTime) + " ms -->");
 				threadResult.set(stringWriter.toString());
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				logger.error("Render widget " + dashboardWidget.getClass().getSimpleName() + " failed!", e);
 			}
 		}
@@ -153,14 +148,14 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 
 	@Inject
 	public DashboardGuiWidgetImpl(
-			final Logger logger,
-			final DashboardService dashboardService,
-			final DashboardGuiContentWidgetComparator dashboardContentWidgetComparator,
-			final DashboardGuiWidgetRegistry dashboardWidgetRegistry,
-			final ThreadRunner threadRunner,
-			final CalendarUtil calendarUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final DashboardService dashboardService,
+		final DashboardGuiContentWidgetComparator dashboardContentWidgetComparator,
+		final DashboardGuiWidgetRegistry dashboardWidgetRegistry,
+		final ThreadRunner threadRunner,
+		final CalendarUtil calendarUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService) {
 		this.logger = logger;
 		this.dashboardService = dashboardService;
 		this.dashboardContentWidgetComparator = dashboardContentWidgetComparator;
@@ -172,7 +167,7 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 	}
 
 	private Collection<DashboardContentWidget> getWidgets(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, DashboardServiceException,
-			LoginRequiredException, PermissionDeniedException {
+		LoginRequiredException, PermissionDeniedException {
 		final boolean hasAdmin = authorizationService.hasAdminRole(sessionIdentifier);
 		final List<DashboardContentWidget> dashboardWidgets = new ArrayList<DashboardContentWidget>(dashboardWidgetRegistry.getAll());
 		Collections.sort(dashboardWidgets, dashboardContentWidgetComparator);
@@ -181,8 +176,7 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 		return Collections2.filter(dashboardWidgets, Predicates.and(new HasAdminPredicate(hasAdmin), new SelectedPredicate(selected)));
 	}
 
-	protected Widget createDashboardWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context,
-			final DashboardContentWidget dashboardWidget) throws IOException, PermissionDeniedException {
+	protected Widget createDashboardWidget(final DashboardContentWidget dashboardWidget) throws IOException, PermissionDeniedException {
 		final DivWidget div = new DivWidget().addClass("dashboardWidget");
 		if (dashboardWidget.getName() != null) {
 			div.addClass(dashboardWidget.getName() + "DashboardWidget");
@@ -233,7 +227,7 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 				final ThreadResult<String> result = new ThreadResult<String>();
 				results.add(result);
 				threads.add(threadRunner.run("dashboard-widget-render " + dashboardWidget.getClass().getSimpleName(), new DashboardWidgetRenderRunnable(request, response, context,
-						dashboardWidget, result, calendarUtil)));
+					dashboardWidget, result, calendarUtil)));
 			}
 			// wait 1 second
 			final long timeout = 1000;
@@ -242,8 +236,7 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 			for (final Thread thread : threads) {
 				try {
 					thread.join(timeout);
-				}
-				catch (final InterruptedException e) {
+				} catch (final InterruptedException e) {
 				}
 			}
 
@@ -253,8 +246,7 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 					logger.warn("thread " + thread.getName() + " not finish in " + (timeout / 1000) + " seconds");
 					try {
 						thread.stop();
-					}
-					catch (final Exception e) {
+					} catch (final Exception e) {
 					}
 				}
 			}
@@ -264,24 +256,19 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 				final String content = result.get();
 				if (content != null) {
 					widgets.add(new HtmlContentWidget(content));
-				}
-				else {
+				} else {
 					logger.trace("no content found");
 				}
 			}
 			widgets.add(new ClearFloatWidget());
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			return new ExceptionWidget(e);
-		}
-		catch (final DashboardServiceException e) {
+		} catch (final DashboardServiceException e) {
 			return new ExceptionWidget(e);
-		}
-		catch (final LoginRequiredException e) {
+		} catch (final LoginRequiredException e) {
 			return new ExceptionWidget(e);
 		}
 	}

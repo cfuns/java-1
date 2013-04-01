@@ -1,16 +1,8 @@
 package de.benjaminborbe.microblog.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
@@ -25,12 +17,16 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class MicroblogGuiServlet extends WebsiteHtmlServlet {
@@ -47,19 +43,18 @@ public class MicroblogGuiServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public MicroblogGuiServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final MicroblogService microblogService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final MicroblogGuiLinkFactory microblogGuiLinkFactory,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final MicroblogService microblogService,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final MicroblogGuiLinkFactory microblogGuiLinkFactory,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.microblogService = microblogService;
 		this.logger = logger;
@@ -92,8 +87,7 @@ public class MicroblogGuiServlet extends WebsiteHtmlServlet {
 			widgets.add(microblogGuiLinkFactory.notificationList(request));
 			widgets.add(new BrWidget());
 			return widgets;
-		}
-		catch (final MicroblogServiceException e) {
+		} catch (final MicroblogServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}

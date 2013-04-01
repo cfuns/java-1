@@ -1,16 +1,8 @@
 package de.benjaminborbe.notification.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -37,12 +29,16 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormInputTextareaWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class NotificationGuiSendServlet extends WebsiteHtmlServlet {
@@ -61,18 +57,17 @@ public class NotificationGuiSendServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public NotificationGuiSendServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService,
-			final NotificationService notificationService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService,
+		final NotificationService notificationService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.notificationService = notificationService;
@@ -86,7 +81,7 @@ public class NotificationGuiSendServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -111,8 +106,7 @@ public class NotificationGuiSendServlet extends WebsiteHtmlServlet {
 					notification.setMessage(message);
 					notificationService.notify(sessionIdentifier, notification);
 					widgets.add("send notification successful");
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("send notification failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -128,8 +122,7 @@ public class NotificationGuiSendServlet extends WebsiteHtmlServlet {
 			widgets.add(form);
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException | NotificationServiceException e) {
+		} catch (final AuthenticationServiceException | NotificationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

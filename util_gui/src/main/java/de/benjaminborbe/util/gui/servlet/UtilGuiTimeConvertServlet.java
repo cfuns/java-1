@@ -1,18 +1,8 @@
 package de.benjaminborbe.util.gui.servlet;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
@@ -25,11 +15,17 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.util.gui.util.UtilGuiTimeConvert;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 @Singleton
 public class UtilGuiTimeConvertServlet extends WebsiteHtmlServlet {
@@ -50,18 +46,17 @@ public class UtilGuiTimeConvertServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public UtilGuiTimeConvertServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final UtilGuiTimeConvert utilGuiTimeConvert,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final UtilGuiTimeConvert utilGuiTimeConvert,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.utilGuiTimeConvert = utilGuiTimeConvert;
 		this.calendarUtil = calendarUtil;
@@ -86,8 +81,7 @@ public class UtilGuiTimeConvertServlet extends WebsiteHtmlServlet {
 			widgets.add("Source: " + calendarUtil.toDateTimeString(sourceCalendar) + " " + sourceTimeZone.getID());
 			widgets.add(new BrWidget());
 			widgets.add("Target: " + calendarUtil.toDateTimeString(targetCalendar) + " " + targetTimeZone.getID());
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			widgets.add("invalid input");
 		}
 

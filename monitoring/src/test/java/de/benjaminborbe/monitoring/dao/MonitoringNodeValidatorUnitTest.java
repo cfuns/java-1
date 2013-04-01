@@ -1,14 +1,5 @@
 package de.benjaminborbe.monitoring.dao;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import java.util.HashMap;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.check.MonitoringCheckHttp;
@@ -30,6 +21,14 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 import de.benjaminborbe.tools.util.StreamUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.HashMap;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class MonitoringNodeValidatorUnitTest {
 
@@ -50,8 +49,8 @@ public class MonitoringNodeValidatorUnitTest {
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final JSONParser jsonParserSimple = new JSONParserSimple();
 		final MonitoringCheckRemote monitoringCheckRemote = new MonitoringCheckRemote(logger, parseUtil, httpDownloader, httpDownloadUtil, jsonParserSimple,
-				validationConstraintValidator, urlUtil);
-		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(logger, monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp, monitoringCheckRemote);
+			validationConstraintValidator, urlUtil);
+		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp, monitoringCheckRemote);
 
 		final MonitoringNodeDao monitoringNodeDao = EasyMock.createMock(MonitoringNodeDao.class);
 		EasyMock.expect(monitoringNodeDao.exists(new MonitoringNodeIdentifier("23"))).andReturn(true);
@@ -94,8 +93,8 @@ public class MonitoringNodeValidatorUnitTest {
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final JSONParser jsonParserSimple = new JSONParserSimple();
 		final MonitoringCheckRemote monitoringCheckRemote = new MonitoringCheckRemote(logger, parseUtil, httpDownloader, httpDownloadUtil, jsonParserSimple,
-				validationConstraintValidator, urlUtil);
-		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(logger, monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp, monitoringCheckRemote);
+			validationConstraintValidator, urlUtil);
+		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp, monitoringCheckRemote);
 
 		final MonitoringNodeDao monitoringNodeDao = EasyMock.createMock(MonitoringNodeDao.class);
 		EasyMock.expect(monitoringNodeDao.exists(new MonitoringNodeIdentifier("1336"))).andReturn(true);
@@ -139,8 +138,8 @@ public class MonitoringNodeValidatorUnitTest {
 		final UrlUtil urlUtil = new UrlUtilImpl();
 		final JSONParser jsonParserSimple = new JSONParserSimple();
 		final MonitoringCheckRemote monitoringCheckRemote = new MonitoringCheckRemote(logger, parseUtil, httpDownloader, httpDownloadUtil, jsonParserSimple,
-				validationConstraintValidator, urlUtil);
-		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(logger, monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp, monitoringCheckRemote);
+			validationConstraintValidator, urlUtil);
+		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp, monitoringCheckRemote);
 
 		final MonitoringNodeDao monitoringNodeDao = EasyMock.createMock(MonitoringNodeDao.class);
 		EasyMock.expect(monitoringNodeDao.exists(new MonitoringNodeIdentifier("23"))).andReturn(false);

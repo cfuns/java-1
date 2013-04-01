@@ -1,22 +1,8 @@
 package de.benjaminborbe.monitoring.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -58,6 +44,16 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet {
@@ -82,20 +78,20 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 
 	@Inject
 	public MonitoringGuiNodeUpdateServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final MonitoringService monitoringService,
-			final UrlUtil urlUtil,
-			final MonitoringGuiLinkFactory monitoringGuiLinkFactory,
-			final StringUtil stringUtil,
-			final ComparatorUtil comparatorUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final MonitoringService monitoringService,
+		final UrlUtil urlUtil,
+		final MonitoringGuiLinkFactory monitoringGuiLinkFactory,
+		final StringUtil stringUtil,
+		final ComparatorUtil comparatorUtil,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authenticationService = authenticationService;
 		this.monitoringService = monitoringService;
@@ -112,8 +108,8 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 	}
 
 	@Override
-	protected Widget createMonitoringContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createMonitoringContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
@@ -143,12 +139,10 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 
 					if (referer != null) {
 						throw new RedirectException(referer);
-					}
-					else {
+					} else {
 						throw new RedirectException(monitoringGuiLinkFactory.nodeListUrl(request));
 					}
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("update node failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -158,9 +152,9 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(MonitoringGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(MonitoringGuiConstants.PARAMETER_NODE_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_NAME).addLabel("Name:").addPlaceholder("name ...")
-					.addDefaultValue(node.getName()));
+				.addDefaultValue(node.getName()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(MonitoringGuiConstants.PARAMETER_NODE_PARENT_ID).addLabel("Parent-Node:").addPlaceholder("parentId ...")
-					.addDefaultValue(node.getParentId()));
+				.addDefaultValue(node.getParentId()));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_ACTIVATED).addLabel("Activated:").setCheckedDefault(node.getActive()));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(MonitoringGuiConstants.PARAMETER_NODE_SILENT).addLabel("Silent:").setCheckedDefault(node.getSilent()));
 			final FormSelectboxWidget checkTypeInput = new FormSelectboxWidget(MonitoringGuiConstants.PARAMETER_NODE_CHECK_TYPE).addLabel("Type:");
@@ -183,13 +177,11 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 			widgets.add(formWidget);
 
 			return widgets;
-		}
-		catch (final MonitoringServiceException e) {
+		} catch (final MonitoringServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
@@ -200,15 +192,14 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 		final MonitoringCheck result = monitoringService.getMonitoringCheckTypeById(new MonitoringCheckIdentifier(checkType));
 		if (result != null) {
 			return result.getId();
-		}
-		else {
+		} else {
 			return node.getCheckType();
 		}
 	}
 
 	private void updateNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier,
-			final MonitoringNodeIdentifier monitoringNodeParentIdentifier, final String name, final String checkTypeString, final Map<String, String> parameter,
-			final String activeString, final String silentString) throws ValidationException, MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+													final MonitoringNodeIdentifier monitoringNodeParentIdentifier, final String name, final String checkTypeString, final Map<String, String> parameter,
+													final String activeString, final String silentString) throws ValidationException, MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		final MonitoringCheckIdentifier checkType = new MonitoringCheckIdentifier(checkTypeString);
 		final boolean active = parseUtil.parseBoolean(activeString, false);
@@ -216,8 +207,7 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
-		}
-		else {
+		} else {
 			final MonitoringNodeDto nodeDto = new MonitoringNodeDto();
 			nodeDto.setId(monitoringNodeIdentifier);
 			nodeDto.setName(name);
@@ -236,16 +226,14 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			monitoringService.expectMonitoringAdminPermission(sessionIdentifier);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
-		}
-		catch (final MonitoringServiceException e) {
+		} catch (final MonitoringServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

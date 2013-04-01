@@ -1,17 +1,8 @@
 package de.benjaminborbe.authorization.gui.servlet;
 
-import java.io.IOException;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -32,7 +23,6 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
@@ -40,6 +30,12 @@ import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.TimeZone;
 
 @Singleton
 public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
@@ -60,19 +56,18 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public AuthorizationGuiUserInfoServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationSerivce,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final AuthorizationGuiLinkFactory authorizationGuiLinkFactory,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthorizationService authorizationSerivce,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final AuthorizationGuiLinkFactory authorizationGuiLinkFactory,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authorizationSerivce = authorizationSerivce;
@@ -88,7 +83,7 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final String username = request.getParameter(AuthorizationGuiConstants.PARAMETER_USER_ID);
 			logger.trace("printContent");
@@ -126,8 +121,7 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 			widgets.add(ul);
 			widgets.add(authorizationGuiLinkFactory.userAddRole(request, userIdentifier));
 			return widgets;
-		}
-		catch (final AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
 		}

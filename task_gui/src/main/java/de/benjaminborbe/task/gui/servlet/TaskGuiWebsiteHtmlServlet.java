@@ -1,18 +1,6 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -36,6 +24,15 @@ import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 public abstract class TaskGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 
@@ -44,27 +41,27 @@ public abstract class TaskGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 	private final TaskGuiUtil taskGuiUtil;
 
 	public TaskGuiWebsiteHtmlServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final TaskGuiUtil taskGuiUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final TaskGuiUtil taskGuiUtil,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.taskGuiUtil = taskGuiUtil;
 	}
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 
 		final ListWidget widgets = new ListWidget();
-		widgets.add(createTaskContentWidget(request, response, context));
+		widgets.add(createTaskContentWidget(request));
 
 		final SpanWidget tooltip = new SpanWidget();
 		tooltip.addAttribute("id", "tooltip");
@@ -84,8 +81,8 @@ public abstract class TaskGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 		return new DivWidget(widgets).addAttribute("class", "task");
 	}
 
-	protected abstract Widget createTaskContentWidget(HttpServletRequest request, HttpServletResponse response, HttpContext context) throws IOException, PermissionDeniedException,
-			RedirectException, LoginRequiredException;
+	protected abstract Widget createTaskContentWidget(HttpServletRequest request) throws IOException, PermissionDeniedException,
+		RedirectException, LoginRequiredException;
 
 	@Override
 	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {

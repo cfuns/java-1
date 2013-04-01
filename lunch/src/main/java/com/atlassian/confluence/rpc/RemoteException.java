@@ -7,7 +7,9 @@
 
 package com.atlassian.confluence.rpc;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+import javax.xml.namespace.QName;
+
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteException extends org.apache.axis.AxisFault implements java.io.Serializable {
 
 	public RemoteException() {
@@ -64,14 +66,14 @@ public class RemoteException extends org.apache.axis.AxisFault implements java.i
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

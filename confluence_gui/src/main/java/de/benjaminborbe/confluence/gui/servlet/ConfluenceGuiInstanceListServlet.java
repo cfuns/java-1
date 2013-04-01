@@ -1,20 +1,9 @@
 package de.benjaminborbe.confluence.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -36,7 +25,6 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.table.TableHeadWidget;
 import de.benjaminborbe.website.table.TableRowWidget;
@@ -45,6 +33,14 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
@@ -65,20 +61,19 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public ConfluenceGuiInstanceListServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final ConfluenceGuiLinkFactory linkFactory,
-			final ConfluenceService confluenceService,
-			final AuthorizationService authorizationService,
-			final ConfluenceInstanceComparator confluenceInstanceComparator,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final ConfluenceGuiLinkFactory linkFactory,
+		final ConfluenceService confluenceService,
+		final AuthorizationService authorizationService,
+		final ConfluenceInstanceComparator confluenceInstanceComparator,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.linkFactory = linkFactory;
 		this.confluenceService = confluenceService;
@@ -94,7 +89,7 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
@@ -131,12 +126,10 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 			links.add(linkFactory.expireAll(request));
 			widgets.add(links);
 			return widgets;
-		}
-		catch (final ConfluenceServiceException e) {
+		} catch (final ConfluenceServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}

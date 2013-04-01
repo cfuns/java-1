@@ -1,15 +1,6 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
@@ -20,6 +11,13 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryCollectionComparator;
 import de.benjaminborbe.website.util.UlWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class BottomNaviWidget implements Widget {
 
@@ -43,11 +41,11 @@ public class BottomNaviWidget implements Widget {
 	}
 
 	protected List<GalleryCollection> getGalleries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
-		final GalleryGroupIdentifier gi = galleryService.getGroupByNameShared(sessionIdentifier, PortfolioGuiConstants.GROUP_NAME_NAVI_BOTTON);
+		final GalleryGroupIdentifier gi = galleryService.getGroupByNameShared(PortfolioGuiConstants.GROUP_NAME_NAVI_BOTTON);
 		if (gi == null) {
 			return new ArrayList<GalleryCollection>();
 		}
-		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithGroupShared(sessionIdentifier, gi));
+		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithGroupShared(gi));
 		Collections.sort(galleries, galleryComparator);
 		return galleries;
 	}

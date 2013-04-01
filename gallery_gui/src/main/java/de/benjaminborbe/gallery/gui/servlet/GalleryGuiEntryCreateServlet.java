@@ -1,26 +1,8 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
@@ -54,11 +36,24 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
@@ -79,19 +74,18 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 
 	@Inject
 	public GalleryGuiEntryCreateServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final GalleryService galleryService,
-			final AuthorizationService authorizationService,
-			final GalleryGuiLinkFactory galleryGuiLinkFactory,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final GalleryService galleryService,
+		final AuthorizationService authorizationService,
+		final GalleryGuiLinkFactory galleryGuiLinkFactory,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.galleryService = galleryService;
 		this.logger = logger;
@@ -106,8 +100,8 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 	}
 
 	@Override
-	protected Widget createGalleryContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createGalleryContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 
 		try {
 			final ListWidget widgets = new ListWidget();
@@ -133,8 +127,7 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 						if (!item.isFormField()) {
 							logger.info("found image: '" + itemName + "'");
 							files.put(itemName, item);
-						}
-						else {
+						} else {
 							logger.info("parameter " + itemName + " = " + item.getString());
 							parameter.put(itemName, item.getString());
 						}
@@ -159,20 +152,17 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 						final GalleryCollectionIdentifier galleryIdentifier = galleryService.createCollectionIdentifier(galleryId);
 						final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 						final GalleryEntryIdentifier entryIdentifier = createEntry(sessionIdentifier, galleryIdentifier, name, prio, imagePreviewName, imagePreviewContent,
-								imagePreviewContentType, imageName, imageContent, imageContentType, shared);
+							imagePreviewContentType, imageName, imageContent, imageContentType, shared);
 						widgets.add("images uploaded!");
 						logger.debug("entryIdentifier: " + entryIdentifier);
-					}
-					else {
+					} else {
 						logger.info("parameter missing");
 					}
 
-				}
-				catch (final FileUploadException e) {
+				} catch (final FileUploadException e) {
 					logger.debug(e.getClass().getName(), e);
 					widgets.add(new ExceptionWidget(e));
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("create entry => failed");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -193,12 +183,10 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 			widgets.add(navi);
 
 			return widgets;
-		}
-		catch (final GalleryServiceException e) {
+		} catch (final GalleryServiceException e) {
 			logger.warn(e.getClass().getSimpleName(), e);
 			return new ExceptionWidget(e);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getSimpleName(), e);
 			return new ExceptionWidget(e);
 		}
@@ -229,9 +217,9 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 	}
 
 	private GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier, final String name,
-			final String prioString, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
-			final byte[] imageContent, final String imageContentType, final String sharedString) throws ValidationException, GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException {
+																						 final String prioString, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
+																						 final byte[] imageContent, final String imageContentType, final String sharedString) throws ValidationException, GalleryServiceException, LoginRequiredException,
+		PermissionDeniedException {
 
 		Long prio;
 		Boolean shared;
@@ -240,12 +228,10 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 			try {
 				if (prioString == null || prioString.length() == 0) {
 					prio = null;
-				}
-				else {
+				} else {
 					prio = parseUtil.parseLong(prioString);
 				}
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				prio = null;
 				errors.add(new ValidationErrorSimple("illegal prio"));
 			}
@@ -253,8 +239,7 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 		{
 			try {
 				shared = parseUtil.parseBoolean(sharedString);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				shared = null;
 				errors.add(new ValidationErrorSimple("illegal shared"));
 			}
@@ -262,24 +247,20 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
-		}
-		else {
+		} else {
 			return galleryService.createEntry(sessionIdentifier, galleryIdentifier, name, prio, imagePreviewName, imagePreviewContent, imagePreviewContentType, imageName, imageContent,
-					imageContentType, shared);
+				imageContentType, shared);
 		}
 	}
 
 	private String extractContentType(final String contentType, final String imageName) {
 		if (contentType != null) {
 			return contentType;
-		}
-		else if (imageName.indexOf(".jpg") != -1 || imageName.indexOf(".jpeg") != -1) {
+		} else if (imageName.indexOf(".jpg") != -1 || imageName.indexOf(".jpeg") != -1) {
 			return "image/jpeg";
-		}
-		else if (imageName.indexOf(".png") != -1) {
+		} else if (imageName.indexOf(".png") != -1) {
 			return "image/png";
-		}
-		else {
+		} else {
 			return null;
 		}
 	}

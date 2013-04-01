@@ -1,20 +1,8 @@
 package de.benjaminborbe.search.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -36,6 +24,14 @@ import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.H3Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class SearchGuiHelpServlet extends SearchGuiWebsiteHtmlServlet {
@@ -50,25 +46,25 @@ public class SearchGuiHelpServlet extends SearchGuiWebsiteHtmlServlet {
 
 	@Inject
 	public SearchGuiHelpServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final SearchGuiSpecialSearchRegistry searchGuiSpecialSearchRegistry,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final SearchGuiSpecialSearchRegistry searchGuiSpecialSearchRegistry,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.urlUtil = urlUtil;
 		this.searchGuiSpecialSearchRegistry = searchGuiSpecialSearchRegistry;
 	}
 
 	@Override
-	protected Widget createSearchContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createSearchContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(TITLE));

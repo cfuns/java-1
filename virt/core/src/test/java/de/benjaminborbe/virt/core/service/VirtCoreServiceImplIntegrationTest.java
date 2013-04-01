@@ -31,7 +31,7 @@ public class VirtCoreServiceImplIntegrationTest {
 		final VirtCoreServiceImpl virtService = injector.getInstance(VirtCoreServiceImpl.class);
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier("1337");
 		final VirtMachineDto virtMachine = new VirtMachineDto();
-		assertThat(virtService.createVirtualMachine(sessionIdentifier, virtMachine), is(not(nullValue())));
+		assertThat(virtService.createVirtualMachine(), is(not(nullValue())));
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class VirtCoreServiceImplIntegrationTest {
 		{
 			final VirtNetworkDto virtNetwork = new VirtNetworkDto();
 			try {
-				virtService.createVirtNetwork(sessionIdentifier, virtNetwork);
+				virtService.createVirtNetwork(virtNetwork);
 				fail("ValidatorException expected");
 			} catch (ValidationException e) {
 				assertThat(e, is(not(nullValue())));
@@ -72,7 +72,7 @@ public class VirtCoreServiceImplIntegrationTest {
 		{
 			final VirtNetworkDto virtNetwork = new VirtNetworkDto();
 			virtNetwork.setName("myNetwork");
-			final VirtNetworkIdentifier virtNetworkIdentifier = virtService.createVirtNetwork(sessionIdentifier, virtNetwork);
+			final VirtNetworkIdentifier virtNetworkIdentifier = virtService.createVirtNetwork(virtNetwork);
 			assertThat(virtNetworkIdentifier, is(not(nullValue())));
 		}
 	}

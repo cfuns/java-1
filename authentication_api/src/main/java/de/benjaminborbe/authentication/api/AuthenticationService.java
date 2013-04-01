@@ -1,15 +1,14 @@
 package de.benjaminborbe.authentication.api;
 
+import de.benjaminborbe.api.ValidationException;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.TimeZone;
 
-import javax.servlet.http.HttpServletRequest;
-
-import de.benjaminborbe.api.ValidationException;
-
 public interface AuthenticationService {
 
-	boolean verifyCredential(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String password) throws AuthenticationServiceException;
+	boolean verifyCredential(UserIdentifier userIdentifier, String password) throws AuthenticationServiceException;
 
 	boolean login(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String password) throws AuthenticationServiceException, ValidationException;
 
@@ -23,15 +22,14 @@ public interface AuthenticationService {
 
 	UserIdentifier getCurrentUser(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
-	String getFullname(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException;
+	String getFullname(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
-	UserIdentifier register(SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, String username, String email, String password,
-			String fullname, TimeZone timeZone) throws AuthenticationServiceException, ValidationException;
+	UserIdentifier register(SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, String username, String email, String password) throws AuthenticationServiceException, ValidationException;
 
 	boolean unregister(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
 	boolean changePassword(SessionIdentifier sessionIdentifier, String currentPassword, String newPassword, String newPasswordRepeat) throws AuthenticationServiceException,
-			LoginRequiredException, ValidationException;
+		LoginRequiredException, ValidationException;
 
 	UserIdentifier createUserIdentifier(String username) throws AuthenticationServiceException;
 
@@ -50,7 +48,7 @@ public interface AuthenticationService {
 	boolean isSuperAdmin(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
 	void updateUser(SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrlString, String email, String fullname, String timeZone)
-			throws AuthenticationServiceException, LoginRequiredException, ValidationException;
+		throws AuthenticationServiceException, LoginRequiredException, ValidationException;
 
 	TimeZone getTimeZone(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
@@ -59,15 +57,15 @@ public interface AuthenticationService {
 	boolean verifyEmailToken(final UserIdentifier userIdentifier, String token) throws AuthenticationServiceException;
 
 	UserIdentifier createUser(SessionIdentifier sessionId, UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException,
-			SuperAdminRequiredException;
+		SuperAdminRequiredException;
 
 	void deleteUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
 
-	void sendPasswordLostEmail(SessionIdentifier sessionIdentifier, String shortenUrl, String resetUrl, UserIdentifier userIdentifier, String email)
-			throws AuthenticationServiceException, ValidationException;
+	void sendPasswordLostEmail(String shortenUrl, String resetUrl, UserIdentifier userIdentifier, String email)
+		throws AuthenticationServiceException, ValidationException;
 
-	void setNewPassword(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier, String token, String newPassword, String newPasswordRepeat)
-			throws AuthenticationServiceException, ValidationException;
+	void setNewPassword(UserIdentifier userIdentifier, String token, String newPassword, String newPasswordRepeat)
+		throws AuthenticationServiceException, ValidationException;
 
 	User getUser(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 

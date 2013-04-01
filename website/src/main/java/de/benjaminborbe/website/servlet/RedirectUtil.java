@@ -1,14 +1,11 @@
 package de.benjaminborbe.website.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class RedirectUtil {
@@ -20,7 +17,7 @@ public class RedirectUtil {
 		this.logger = logger;
 	}
 
-	public void sendRedirect(final HttpServletRequest request, final HttpServletResponse response, final String target) throws IOException {
+	public void sendRedirect(final HttpServletResponse response, final String target) throws IOException {
 		logger.trace("send redirect to " + target);
 		response.sendRedirect(target);
 	}

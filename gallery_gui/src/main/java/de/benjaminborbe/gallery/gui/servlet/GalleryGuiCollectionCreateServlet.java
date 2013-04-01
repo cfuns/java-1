@@ -1,18 +1,8 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
@@ -47,6 +37,12 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class GalleryGuiCollectionCreateServlet extends GalleryGuiHtmlServlet {
@@ -67,18 +63,18 @@ public class GalleryGuiCollectionCreateServlet extends GalleryGuiHtmlServlet {
 
 	@Inject
 	public GalleryGuiCollectionCreateServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final GalleryService galleryService,
-			final AuthorizationService authorizationService,
-			final GalleryGuiLinkFactory galleryGuiLinkFactory,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final GalleryService galleryService,
+		final AuthorizationService authorizationService,
+		final GalleryGuiLinkFactory galleryGuiLinkFactory,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.galleryService = galleryService;
 		this.logger = logger;
@@ -88,8 +84,8 @@ public class GalleryGuiCollectionCreateServlet extends GalleryGuiHtmlServlet {
 	}
 
 	@Override
-	protected Widget createGalleryContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createGalleryContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
@@ -107,12 +103,10 @@ public class GalleryGuiCollectionCreateServlet extends GalleryGuiHtmlServlet {
 
 					if (referer != null) {
 						throw new RedirectException(referer);
-					}
-					else {
+					} else {
 						throw new RedirectException(galleryGuiLinkFactory.entryListUrl(request, galleryCollectionIdentifier));
 					}
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("create collection => failed");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -126,19 +120,17 @@ public class GalleryGuiCollectionCreateServlet extends GalleryGuiHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;
-		}
-		catch (final GalleryServiceException e) {
+		} catch (final GalleryServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
 	}
 
 	private GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
-			final String prioString, final String sharedString) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+																											 final String prioString, final String sharedString) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 
 		Long prio;
 		Boolean shared;
@@ -147,12 +139,10 @@ public class GalleryGuiCollectionCreateServlet extends GalleryGuiHtmlServlet {
 			try {
 				if (prioString == null || prioString.length() == 0) {
 					prio = null;
-				}
-				else {
+				} else {
 					prio = parseUtil.parseLong(prioString);
 				}
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				prio = null;
 				errors.add(new ValidationErrorSimple("illegal prio"));
 			}
@@ -160,8 +150,7 @@ public class GalleryGuiCollectionCreateServlet extends GalleryGuiHtmlServlet {
 		{
 			try {
 				shared = parseUtil.parseBoolean(sharedString);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				shared = null;
 				errors.add(new ValidationErrorSimple("illegal shared"));
 			}
@@ -169,8 +158,7 @@ public class GalleryGuiCollectionCreateServlet extends GalleryGuiHtmlServlet {
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
-		}
-		else {
+		} else {
 			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollection(sessionIdentifier, galleryGroupIdentifier, name, prio, shared);
 			return galleryCollectionIdentifier;
 		}

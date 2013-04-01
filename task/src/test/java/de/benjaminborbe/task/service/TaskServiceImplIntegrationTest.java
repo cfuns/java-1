@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
-import java.util.TimeZone;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -72,8 +71,8 @@ public class TaskServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		// register
-		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, SHORTEN_URL, VALIDATE_EMAIL_BASE_URL, username, EMAIL, PASSWORD, FULLNAME,
-			TimeZone.getDefault());
+		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, SHORTEN_URL, VALIDATE_EMAIL_BASE_URL, username, EMAIL, PASSWORD
+		);
 		assertEquals(username, userIdentifier.getId());
 		// login
 		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, PASSWORD));
@@ -794,7 +793,7 @@ public class TaskServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
 		final List<TaskContextIdentifier> taskContextIdentifiers = new ArrayList<>();
-		assertNotNull(taskService.getTasks(sessionIdentifier, true, taskContextIdentifiers));
+		assertNotNull(taskService.getTasks(true, taskContextIdentifiers));
 	}
 
 	@Test
@@ -863,7 +862,7 @@ public class TaskServiceImplIntegrationTest {
 		final TaskIdentifier taskIdentifier = getTask(sessionIdentifier, taskService);
 
 		{
-			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(taskIdentifier);
 			assertThat(attachments, is(not(nullValue())));
 			assertThat(attachments.size(), is(0));
 		}
@@ -871,11 +870,11 @@ public class TaskServiceImplIntegrationTest {
 			final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
 			taskAttachment.setName("taskAttachmentName");
 			taskAttachment.setTask(taskIdentifier);
-			final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachment);
+			final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(taskAttachment);
 			assertThat(taskAttachmentIdentifier, is(not(nullValue())));
 		}
 		{
-			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(taskIdentifier);
 			assertThat(attachments, is(not(nullValue())));
 			assertThat(attachments.size(), is(1));
 		}
@@ -885,11 +884,11 @@ public class TaskServiceImplIntegrationTest {
 		final TaskAttachmentDto secondTaskAttachment = new TaskAttachmentDto();
 		secondTaskAttachment.setName("taskAttachmentName");
 		secondTaskAttachment.setTask(secondTaskIdentifier);
-		final TaskAttachmentIdentifier secondTaskAttachmentIdentifier = taskService.addAttachment(secondSessionIdentifier, secondTaskAttachment);
+		final TaskAttachmentIdentifier secondTaskAttachmentIdentifier = taskService.addAttachment(secondTaskAttachment);
 		assertThat(secondTaskAttachmentIdentifier, is(not(nullValue())));
 
 		{
-			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(secondSessionIdentifier, secondTaskIdentifier);
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(secondTaskIdentifier);
 			assertThat(attachments, is(not(nullValue())));
 			assertThat(attachments.size(), is(1));
 		}
@@ -906,7 +905,7 @@ public class TaskServiceImplIntegrationTest {
 		{
 			try {
 				final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
-				taskService.addAttachment(sessionIdentifier, taskAttachment);
+				taskService.addAttachment(taskAttachment);
 				fail("ValidationException expected");
 			} catch (ValidationException e) {
 				assertThat(e, is(not(nullValue())));
@@ -916,7 +915,7 @@ public class TaskServiceImplIntegrationTest {
 			try {
 				final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
 				taskAttachment.setName("taskAttachmentName");
-				taskService.addAttachment(sessionIdentifier, taskAttachment);
+				taskService.addAttachment(taskAttachment);
 				fail("ValidationException expected");
 			} catch (ValidationException e) {
 				assertThat(e, is(not(nullValue())));
@@ -926,7 +925,7 @@ public class TaskServiceImplIntegrationTest {
 			final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
 			taskAttachment.setName("taskAttachmentName");
 			taskAttachment.setTask(taskIdentifier);
-			final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachment);
+			final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(taskAttachment);
 			assertThat(taskAttachmentIdentifier, is(not(nullValue())));
 		}
 	}
@@ -941,7 +940,7 @@ public class TaskServiceImplIntegrationTest {
 		final TaskIdentifier taskIdentifier = getTask(sessionIdentifier, taskService);
 
 		{
-			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(taskIdentifier);
 			assertThat(attachments, is(not(nullValue())));
 			assertThat(attachments.size(), is(0));
 		}
@@ -949,11 +948,11 @@ public class TaskServiceImplIntegrationTest {
 		final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
 		taskAttachment.setName("taskAttachmentName");
 		taskAttachment.setTask(taskIdentifier);
-		final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachment);
+		final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(taskAttachment);
 		assertThat(taskAttachmentIdentifier, is(not(nullValue())));
 
 		{
-			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(taskIdentifier);
 			assertThat(attachments, is(not(nullValue())));
 			assertThat(attachments.size(), is(1));
 		}
@@ -961,7 +960,7 @@ public class TaskServiceImplIntegrationTest {
 		taskService.deleteAttachment(sessionIdentifier, taskAttachmentIdentifier);
 
 		{
-			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
+			final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(taskIdentifier);
 			assertThat(attachments, is(not(nullValue())));
 			assertThat(attachments.size(), is(0));
 		}
@@ -980,7 +979,7 @@ public class TaskServiceImplIntegrationTest {
 		final String taskAttachmentName = "taskAttachmentName";
 		taskAttachmentDto.setName(taskAttachmentName);
 		taskAttachmentDto.setTask(taskIdentifier);
-		final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachmentDto);
+		final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(taskAttachmentDto);
 		assertThat(taskAttachmentIdentifier, is(not(nullValue())));
 
 		final TaskAttachment taskAttachment = taskService.getAttachment(sessionIdentifier, taskAttachmentIdentifier);
@@ -993,4 +992,36 @@ public class TaskServiceImplIntegrationTest {
 		assertThat(taskAttachment.getTask(), is(taskIdentifier));
 	}
 
+	@Test
+	public void testCreateTaskAttachmentIdentifier() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final TaskService taskService = injector.getInstance(TaskService.class);
+		assertThat(taskService.createTaskAttachmentIdentifier(null), is(nullValue()));
+		assertThat(taskService.createTaskAttachmentIdentifier(""), is(nullValue()));
+		assertThat(taskService.createTaskAttachmentIdentifier(" "), is(nullValue()));
+		assertThat(taskService.createTaskAttachmentIdentifier("1337"), is(notNullValue()));
+		assertThat(taskService.createTaskAttachmentIdentifier("1337").getId(), is("1337"));
+	}
+
+	@Test
+	public void testCreateTaskContextIdentifier() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final TaskService taskService = injector.getInstance(TaskService.class);
+		assertThat(taskService.createTaskContextIdentifier(null), is(nullValue()));
+		assertThat(taskService.createTaskContextIdentifier(""), is(nullValue()));
+		assertThat(taskService.createTaskContextIdentifier(" "), is(nullValue()));
+		assertThat(taskService.createTaskContextIdentifier("1337"), is(notNullValue()));
+		assertThat(taskService.createTaskContextIdentifier("1337").getId(), is("1337"));
+	}
+
+	@Test
+	public void testCreateTaskIdentifier() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
+		final TaskService taskService = injector.getInstance(TaskService.class);
+		assertThat(taskService.createTaskIdentifier(null), is(nullValue()));
+		assertThat(taskService.createTaskIdentifier(""), is(nullValue()));
+		assertThat(taskService.createTaskIdentifier(" "), is(nullValue()));
+		assertThat(taskService.createTaskIdentifier("1337"), is(notNullValue()));
+		assertThat(taskService.createTaskIdentifier("1337").getId(), is("1337"));
+	}
 }

@@ -1,18 +1,7 @@
 package de.benjaminborbe.bookmark.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -39,6 +28,15 @@ import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class BookmarkServiceImpl implements BookmarkService {
@@ -115,11 +113,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 	@Inject
 	public BookmarkServiceImpl(
-			final Logger logger,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final BookmarkDao bookmarkDao,
-			final ValidationExecutor validationExecutor) {
+		final Logger logger,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final BookmarkDao bookmarkDao,
+		final ValidationExecutor validationExecutor) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
@@ -142,8 +140,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			}
 			Collections.sort(bookmarks, bookmarkComparator);
 			return bookmarks;
-		}
-		catch (final AuthorizationServiceException | StorageException | AuthenticationServiceException | EntityIteratorException e) {
+		} catch (final AuthorizationServiceException | StorageException | AuthenticationServiceException | EntityIteratorException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
@@ -163,15 +160,14 @@ public class BookmarkServiceImpl implements BookmarkService {
 			}
 			Collections.sort(bookmarks, bookmarkComparator);
 			return bookmarks;
-		}
-		catch (final AuthorizationServiceException | StorageException | AuthenticationServiceException | EntityIteratorException e) {
+		} catch (final AuthorizationServiceException | StorageException | AuthenticationServiceException | EntityIteratorException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
 
 	@Override
 	public List<BookmarkMatch> searchBookmarks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws BookmarkServiceException,
-			LoginRequiredException, PermissionDeniedException {
+		LoginRequiredException, PermissionDeniedException {
 		final List<Bookmark> bookmarks = getBookmarks(sessionIdentifier);
 		final BeanSearcher<Bookmark> beanSearch = new BookmarkSearcher();
 		final List<BeanMatch<Bookmark>> matches = beanSearch.search(bookmarks, limit, words);
@@ -183,8 +179,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 	}
 
 	@Override
-	public void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords,
-			final boolean favorite) throws BookmarkServiceException, LoginRequiredException, ValidationException {
+	public void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords) throws BookmarkServiceException, LoginRequiredException, ValidationException {
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(BookmarkService.PERMISSION);
 			authorizationService.existsPermission(permissionIdentifier);
@@ -205,8 +200,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 				throw new ValidationException(errors);
 			}
 			bookmarkDao.save(bookmark);
-		}
-		catch (final AuthorizationServiceException | StorageException | AuthenticationServiceException e) {
+		} catch (final AuthorizationServiceException | StorageException | AuthenticationServiceException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
@@ -216,15 +210,14 @@ public class BookmarkServiceImpl implements BookmarkService {
 		try {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			return new BookmarkIdentifier(userIdentifier.getId() + "-" + url);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
 
 	@Override
 	public void deleteBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(BookmarkService.PERMISSION);
 			authorizationService.existsPermission(permissionIdentifier);
@@ -236,15 +229,14 @@ public class BookmarkServiceImpl implements BookmarkService {
 			}
 			authorizationService.expectUser(sessionIdentifier, bookmark.getOwner());
 			bookmarkDao.delete(bookmark);
-		}
-		catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
 
 	@Override
 	public void updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
-			final List<String> keywords, final boolean favorite) throws BookmarkServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+														 final List<String> keywords, final boolean favorite) throws BookmarkServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(BookmarkService.PERMISSION);
 			authorizationService.existsPermission(permissionIdentifier);
@@ -255,16 +247,15 @@ public class BookmarkServiceImpl implements BookmarkService {
 			authorizationService.expectUser(sessionIdentifier, bookmark.getOwner());
 
 			deleteBookmark(sessionIdentifier, bookmarkIdentifier);
-			createBookmark(sessionIdentifier, url, name, description, keywords, favorite);
-		}
-		catch (final AuthorizationServiceException | StorageException | BookmarkDeletionException e) {
+			createBookmark(sessionIdentifier, url, name, description, keywords);
+		} catch (final AuthorizationServiceException | StorageException | BookmarkDeletionException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
 
 	@Override
 	public Bookmark getBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, PermissionDeniedException,
-			LoginRequiredException {
+		LoginRequiredException {
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(BookmarkService.PERMISSION);
 			authorizationService.existsPermission(permissionIdentifier);
@@ -273,8 +264,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
 			authorizationService.expectUser(sessionIdentifier, bookmark.getOwner());
 			return bookmark;
-		}
-		catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}

@@ -1,17 +1,8 @@
 package de.benjaminborbe.bookmark.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -38,11 +29,16 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class BookmarkGuiUpdateServlet extends BookmarkGuiWebsiteHtmlServlet {
@@ -71,19 +67,18 @@ public class BookmarkGuiUpdateServlet extends BookmarkGuiWebsiteHtmlServlet {
 
 	@Inject
 	public BookmarkGuiUpdateServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final BookmarkService bookmarkService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final BookmarkGuiKeywordUtil bookmarkGuiKeywordUtil,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final BookmarkService bookmarkService,
+		final UrlUtil urlUtil,
+		final BookmarkGuiKeywordUtil bookmarkGuiKeywordUtil,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authenticationService = authenticationService;
 		this.bookmarkService = bookmarkService;
@@ -98,7 +93,7 @@ public class BookmarkGuiUpdateServlet extends BookmarkGuiWebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -120,8 +115,7 @@ public class BookmarkGuiUpdateServlet extends BookmarkGuiWebsiteHtmlServlet {
 				try {
 					bookmarkService.updateBookmark(sessionIdentifier, bookmarkIdentifier, url, name, description, bookmarkGuiKeywordUtil.buildKeywords(keywords), false);
 					throw new RedirectException(request.getContextPath() + "/bookmark/list");
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("update bookmark failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -130,19 +124,17 @@ public class BookmarkGuiUpdateServlet extends BookmarkGuiWebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL_NEW).addLabel("Url").addPlaceholder("url...").addDefaultValue(bookmark.getUrl()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_NAME).addLabel("Name").addPlaceholder("name...").addDefaultValue(bookmark.getName()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_DESCRIPTION).addLabel("Description").addPlaceholder("description...")
-					.addDefaultValue(bookmark.getDescription()));
+				.addDefaultValue(bookmark.getDescription()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_KEYWORDS).addLabel("Keywords").addPlaceholder("keywords...")
-					.addDefaultValue(StringUtils.join(bookmark.getKeywords(), " ")));
+				.addDefaultValue(StringUtils.join(bookmark.getKeywords(), " ")));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final BookmarkServiceException e) {
+		} catch (final BookmarkServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

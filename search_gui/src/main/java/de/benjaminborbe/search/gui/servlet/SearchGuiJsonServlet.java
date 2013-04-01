@@ -1,20 +1,8 @@
 package de.benjaminborbe.search.gui.servlet;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -39,6 +27,15 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteConstants;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
 
 @Singleton
 public class SearchGuiJsonServlet extends WebsiteJsonServlet {
@@ -67,18 +64,18 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 
 	@Inject
 	public SearchGuiJsonServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final SearchService searchService,
-			final SearchGuiConfig searchGuiConfig,
-			final SearchGuiShortener searchGuiShortener,
-			final SearchUtil searchUtil,
-			final ParseUtil parseUtil) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final SearchService searchService,
+		final SearchGuiConfig searchGuiConfig,
+		final SearchGuiShortener searchGuiShortener,
+		final SearchUtil searchUtil,
+		final ParseUtil parseUtil) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -92,8 +89,8 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		final String token = request.getParameter(SearchGuiConstants.PARAMETER_AUTH_TOKEN);
 		logger.debug("doCheckPermission");
 		expectAuthToken(token);
@@ -107,7 +104,7 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			logger.debug("doService");
 			final String token = request.getParameter(SearchGuiConstants.PARAMETER_AUTH_TOKEN);
@@ -137,15 +134,12 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 				object.put("duration", String.valueOf(duration));
 
 				printJson(response, object);
-			}
-			else {
+			} else {
 				printError(response, "parameter required: " + SearchGuiConstants.PARAMETER_AUTH_TOKEN + " and " + SearchGuiConstants.PARAMETER_SEARCH);
 			}
-		}
-		catch (final SearchServiceException e) {
+		} catch (final SearchServiceException e) {
 			printException(response, e);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			printException(response, e);
 		}
 	}

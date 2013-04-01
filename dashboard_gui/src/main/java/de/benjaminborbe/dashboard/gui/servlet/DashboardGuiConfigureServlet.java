@@ -1,22 +1,8 @@
 package de.benjaminborbe.dashboard.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -48,6 +34,17 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
@@ -68,18 +65,18 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public DashboardGuiConfigureServlet(
-			final Logger logger,
-			final DashboardService dashboardService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final DashboardGuiWidgetRegistry dashboardGuiWidgetRegistry,
-			final CacheService cacheService) {
+		final Logger logger,
+		final DashboardService dashboardService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final DashboardGuiWidgetRegistry dashboardGuiWidgetRegistry,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.dashboardService = dashboardService;
 		this.dashboardGuiWidgetRegistry = dashboardGuiWidgetRegistry;
@@ -95,7 +92,7 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
@@ -106,8 +103,7 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 				for (final DashboardContentWidget w : list) {
 					if ("true".equals(request.getParameter(w.getTitle()))) {
 						dashboardService.selectDashboard(sessionIdentifier, new DashboardIdentifier(w.getTitle()));
-					}
-					else {
+					} else {
 						dashboardService.deselectDashboard(sessionIdentifier, new DashboardIdentifier(w.getTitle()));
 					}
 				}
@@ -126,13 +122,11 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 			form.addFormInputWidget(new FormInputHiddenWidget("action").addValue("update"));
 			widgets.add(form);
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final DashboardServiceException e) {
+		} catch (final DashboardServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
@@ -145,14 +139,13 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(DashboardService.PERMISSION);
 			authorizationService.expectPermission(sessionIdentifier, permissionIdentifier);
-		}
-		catch (final AuthorizationServiceException | AuthenticationServiceException e) {
+		} catch (final AuthorizationServiceException | AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

@@ -1,18 +1,8 @@
 package de.benjaminborbe.checklist.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -25,7 +15,6 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.checklist.api.ChecklistList;
 import de.benjaminborbe.checklist.api.ChecklistListDto;
 import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
-import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.api.ChecklistServiceException;
 import de.benjaminborbe.checklist.gui.ChecklistGuiConstants;
 import de.benjaminborbe.checklist.gui.util.ChecklistGuiLinkFactory;
@@ -47,6 +36,12 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtmlServlet {
@@ -63,18 +58,17 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtm
 
 	@Inject
 	public ChecklistGuiListFormServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final ChecklistService checklistService,
-			final ChecklistGuiLinkFactory checklistGuiLinkFactory,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final ChecklistGuiLinkFactory checklistGuiLinkFactory,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -89,8 +83,8 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtm
 	protected abstract String actionName();
 
 	@Override
-	protected Widget createChecklistContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createChecklistContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
@@ -105,12 +99,10 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtm
 					final String referer = request.getParameter(ChecklistGuiConstants.PARAMETER_REFERER);
 					if (referer != null) {
 						throw new RedirectException(referer);
-					}
-					else {
+					} else {
 						throw new RedirectException(checklistGuiLinkFactory.entryListUrl(request, checklistListIdentifier));
 					}
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add(actionName() + " collection => failed");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -118,12 +110,10 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtm
 
 			widgets.add(createFormWidget(request));
 			return widgets;
-		}
-		catch (final ChecklistServiceException e) {
+		} catch (final ChecklistServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
@@ -134,7 +124,7 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtm
 	}
 
 	protected abstract ChecklistListIdentifier action(SessionIdentifier sessionIdentifier, ChecklistList checklistList) throws ChecklistServiceException, PermissionDeniedException,
-			ValidationException, LoginRequiredException;
+		ValidationException, LoginRequiredException;
 
 	private ChecklistList buildList(final HttpServletRequest request) throws ValidationException {
 		final ChecklistListDto result = new ChecklistListDto();
@@ -143,14 +133,13 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtm
 		result.setName(request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_NAME));
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
-		}
-		else {
+		} else {
 			return result;
 		}
 	}
 
 	private FormWidget createFormWidget(final HttpServletRequest request) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException,
-			AuthenticationServiceException {
+		AuthenticationServiceException {
 		final ChecklistList checklistList = getChecklist(request);
 		final FormWidget formWidget = new FormWidget();
 		formWidget.addFormInputWidget(new FormInputHiddenWidget(ChecklistGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
@@ -161,6 +150,6 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtm
 	}
 
 	protected abstract ChecklistList getChecklist(final HttpServletRequest request) throws ChecklistServiceException, PermissionDeniedException, LoginRequiredException,
-			AuthenticationServiceException;
+		AuthenticationServiceException;
 
 }

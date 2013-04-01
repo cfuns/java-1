@@ -1,18 +1,8 @@
 package de.benjaminborbe.poker.gui.servlet;
 
-import java.io.IOException;
-import java.util.Collection;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -26,6 +16,13 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
 
 @Singleton
 public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
@@ -36,14 +33,14 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 
 	@Inject
 	public PokerGuiJsonServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final PokerGuiConfig pokerGuiConfig) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final PokerGuiConfig pokerGuiConfig) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.pokerGuiConfig = pokerGuiConfig;
 	}
@@ -53,16 +50,15 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 		return pokerGuiConfig.isJsonApiEnabled();
 	}
 
-	protected abstract void doAction(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PokerServiceException,
-			ValidationException, ServletException, IOException, PermissionDeniedException, LoginRequiredException;
+	protected abstract void doAction(final HttpServletRequest request, final HttpServletResponse response) throws PokerServiceException,
+		ValidationException, ServletException, IOException, PermissionDeniedException, LoginRequiredException;
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		try {
-			doAction(request, response, context);
-		}
-		catch (final ValidationException e) {
+			doAction(request, response);
+		} catch (final ValidationException e) {
 			final Collection<ValidationError> errors = e.getErrors();
 			final StringBuffer sb = new StringBuffer();
 			for (final ValidationError error : errors) {
@@ -70,8 +66,7 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 				sb.append(" ");
 			}
 			printError(response, sb.toString());
-		}
-		catch (final PokerServiceException e) {
+		} catch (final PokerServiceException e) {
 			printException(response, e);
 		}
 	}

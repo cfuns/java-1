@@ -1,11 +1,7 @@
 package de.benjaminborbe.gallery.mock;
 
-import java.util.Collection;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -21,6 +17,9 @@ import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 
+import java.util.Collection;
+import java.util.List;
+
 @Singleton
 public class GalleryServiceMock implements GalleryService {
 
@@ -34,7 +33,7 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryGroupIdentifier getGroupByNameShared(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException {
+	public GalleryGroupIdentifier getGroupByNameShared(final String groupName) throws GalleryServiceException {
 		return null;
 	}
 
@@ -44,13 +43,13 @@ public class GalleryServiceMock implements GalleryService {
 
 	@Override
 	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String groupName, final Boolean shared) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException {
+		LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
 	public void updateGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String groupName, final Boolean shared)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 	}
 
 	@Override
@@ -70,30 +69,30 @@ public class GalleryServiceMock implements GalleryService {
 
 	@Override
 	public GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException,
-			LoginRequiredException {
+		LoginRequiredException {
 		return null;
 	}
 
 	@Override
 	public GalleryCollectionIdentifier getCollectionIdentifierByName(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException,
-			LoginRequiredException {
+		LoginRequiredException {
 		return null;
 	}
 
 	@Override
-	public GalleryCollectionIdentifier getCollectionIdentifierByNameShared(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
+	public GalleryCollectionIdentifier getCollectionIdentifierByNameShared(final String name) throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
 	public Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
-			throws GalleryServiceException, LoginRequiredException {
+		throws GalleryServiceException, LoginRequiredException {
 		return null;
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollectionsWithGroupShared(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
-			throws GalleryServiceException {
+	public Collection<GalleryCollection> getCollectionsWithGroupShared(final GalleryGroupIdentifier galleryGroupIdentifier)
+		throws GalleryServiceException {
 		return null;
 	}
 
@@ -103,25 +102,25 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollectionsShared(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	public Collection<GalleryCollection> getCollectionsShared() throws GalleryServiceException {
 		return null;
 	}
 
 	@Override
 	public void deleteCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException,
-			LoginRequiredException {
+		LoginRequiredException {
 	}
 
 	@Override
 	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName,
-			final Long prio, final Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+																											final Long prio, final Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
 	public void updateCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
-			final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName, final Long prio, final Boolean shared) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException {
+															 final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName, final Long prio, final Boolean shared) throws GalleryServiceException,
+		LoginRequiredException, PermissionDeniedException, ValidationException {
 	}
 
 	@Override
@@ -136,13 +135,13 @@ public class GalleryServiceMock implements GalleryService {
 
 	@Override
 	public GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException,
-			LoginRequiredException {
+		LoginRequiredException {
 		return null;
 	}
 
 	@Override
-	public GalleryCollection getCollectionShared(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
-			throws GalleryServiceException {
+	public GalleryCollection getCollectionShared(final GalleryCollectionIdentifier galleryCollectionIdentifier)
+		throws GalleryServiceException {
 		return null;
 	}
 
@@ -153,37 +152,37 @@ public class GalleryServiceMock implements GalleryService {
 
 	@Override
 	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
-			final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
-			final byte[] imageContent, final String imageContentType, final Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException {
+																						final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
+																						final byte[] imageContent, final String imageContentType, final Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException,
+		ValidationException {
 		return null;
 	}
 
 	@Override
 	public List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
+		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
 		return null;
 	}
 
 	@Override
 	public GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		return null;
 	}
 
 	@Override
 	public void deleteEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 	}
 
 	@Override
 	public Collection<GalleryEntry> getEntries(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier id) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException {
+		LoginRequiredException, PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public Collection<GalleryEntry> getEntriesShared(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier id) throws GalleryServiceException {
+	public Collection<GalleryEntry> getEntriesShared(final GalleryCollectionIdentifier id) throws GalleryServiceException {
 		return null;
 	}
 
@@ -193,28 +192,28 @@ public class GalleryServiceMock implements GalleryService {
 	}
 
 	@Override
-	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException, LoginRequiredException {
+	public GalleryImage getImage(final GalleryImageIdentifier id) throws GalleryServiceException, LoginRequiredException {
 		return null;
 	}
 
 	@Override
 	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier,
-			final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final Boolean shared) throws GalleryServiceException,
-			ValidationException, LoginRequiredException {
+													final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final Boolean shared) throws GalleryServiceException,
+		ValidationException, LoginRequiredException {
 	}
 
 	@Override
 	public void swapEntryPrio(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifierA, final GalleryEntryIdentifier galleryEntryIdentifierB)
-			throws PermissionDeniedException, LoginRequiredException, GalleryServiceException {
+		throws PermissionDeniedException, LoginRequiredException, GalleryServiceException {
 	}
 
 	@Override
 	public void shareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			GalleryServiceException {
+		GalleryServiceException {
 	}
 
 	@Override
 	public void unshareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException,
-			LoginRequiredException, GalleryServiceException {
+		LoginRequiredException, GalleryServiceException {
 	}
 }

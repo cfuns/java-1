@@ -7,7 +7,9 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+import javax.xml.namespace.QName;
+
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteBlogEntrySummary extends com.atlassian.confluence.rpc.soap.beans.AbstractRemotePageSummary implements java.io.Serializable {
 
 	private java.lang.String author;
@@ -18,13 +20,13 @@ public class RemoteBlogEntrySummary extends com.atlassian.confluence.rpc.soap.be
 	}
 
 	public RemoteBlogEntrySummary(
-			final long id,
-			final int permissions,
-			final java.lang.String space,
-			final java.lang.String title,
-			final java.lang.String url,
-			final java.lang.String author,
-			final java.util.Calendar publishDate) {
+		final long id,
+		final int permissions,
+		final java.lang.String space,
+		final java.lang.String title,
+		final java.lang.String url,
+		final java.lang.String author,
+		final java.util.Calendar publishDate) {
 		super(id, permissions, space, title, url);
 		this.author = author;
 		this.publishDate = publishDate;
@@ -32,7 +34,7 @@ public class RemoteBlogEntrySummary extends com.atlassian.confluence.rpc.soap.be
 
 	/**
 	 * Gets the author value for this RemoteBlogEntrySummary.
-	 * 
+	 *
 	 * @return author
 	 */
 	public java.lang.String getAuthor() {
@@ -41,7 +43,7 @@ public class RemoteBlogEntrySummary extends com.atlassian.confluence.rpc.soap.be
 
 	/**
 	 * Sets the author value for this RemoteBlogEntrySummary.
-	 * 
+	 *
 	 * @param author
 	 */
 	public void setAuthor(final java.lang.String author) {
@@ -50,7 +52,7 @@ public class RemoteBlogEntrySummary extends com.atlassian.confluence.rpc.soap.be
 
 	/**
 	 * Gets the publishDate value for this RemoteBlogEntrySummary.
-	 * 
+	 *
 	 * @return publishDate
 	 */
 	public java.util.Calendar getPublishDate() {
@@ -59,7 +61,7 @@ public class RemoteBlogEntrySummary extends com.atlassian.confluence.rpc.soap.be
 
 	/**
 	 * Sets the publishDate value for this RemoteBlogEntrySummary.
-	 * 
+	 *
 	 * @param publishDate
 	 */
 	public void setPublishDate(final java.util.Calendar publishDate) {
@@ -83,7 +85,7 @@ public class RemoteBlogEntrySummary extends com.atlassian.confluence.rpc.soap.be
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = super.equals(obj) && ((this.author == null && other.getAuthor() == null) || (this.author != null && this.author.equals(other.getAuthor())))
-				&& ((this.publishDate == null && other.getPublishDate() == null) || (this.publishDate != null && this.publishDate.equals(other.getPublishDate())));
+			&& ((this.publishDate == null && other.getPublishDate() == null) || (this.publishDate != null && this.publishDate.equals(other.getPublishDate())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -136,14 +138,14 @@ public class RemoteBlogEntrySummary extends com.atlassian.confluence.rpc.soap.be
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

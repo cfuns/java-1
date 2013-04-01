@@ -1,19 +1,8 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -29,7 +18,6 @@ import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
 import de.benjaminborbe.task.gui.util.TaskGuiLinkFactory;
 import de.benjaminborbe.task.gui.util.TaskGuiUtil;
-import de.benjaminborbe.task.gui.util.TaskGuiWidgetFactory;
 import de.benjaminborbe.task.gui.widget.TaskCache;
 import de.benjaminborbe.task.gui.widget.TaskGuiSwitchWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -39,7 +27,6 @@ import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
@@ -47,6 +34,13 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
@@ -86,23 +80,21 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 
 	@Inject
 	public TaskGuiTasksCompletedServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final TaskGuiWidgetFactory taskGuiWidgetFactory,
-			final TaskGuiUtil taskGuiUtil,
-			final TaskGuiSwitchWidget taskGuiSwitchWidget,
-			final ComparatorUtil comparatorUtil,
-			final Provider<TaskCache> taskCacheProvider,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final TaskGuiLinkFactory taskGuiLinkFactory,
+		final TaskGuiUtil taskGuiUtil,
+		final TaskGuiSwitchWidget taskGuiSwitchWidget,
+		final ComparatorUtil comparatorUtil,
+		final Provider<TaskCache> taskCacheProvider,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -120,8 +112,8 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createTaskContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -170,13 +162,11 @@ public class TaskGuiTasksCompletedServlet extends TaskGuiWebsiteHtmlServlet {
 			}
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final TaskServiceException e) {
+		} catch (final TaskServiceException e) {
 			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

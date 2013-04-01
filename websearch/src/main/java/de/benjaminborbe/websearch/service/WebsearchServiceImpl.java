@@ -1,15 +1,7 @@
 package de.benjaminborbe.websearch.service;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -44,6 +36,12 @@ import de.benjaminborbe.websearch.dao.WebsearchConfigurationDao;
 import de.benjaminborbe.websearch.dao.WebsearchPageBean;
 import de.benjaminborbe.websearch.dao.WebsearchPageDao;
 import de.benjaminborbe.websearch.util.WebsearchRefresher;
+import org.slf4j.Logger;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class WebsearchServiceImpl implements WebsearchService {
@@ -72,17 +70,17 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	@Inject
 	public WebsearchServiceImpl(
-			final Logger logger,
-			final WebsearchRefresher websearchRefresher,
-			final ValidationExecutor validationExecutor,
-			final WebsearchPageDao pageDao,
-			final AuthorizationService authorizationService,
-			final AuthenticationService authenticationService,
-			final IdGeneratorUUID idGeneratorUUID,
-			final IndexService indexerService,
-			final CrawlerService crawlerService,
-			final WebsearchConfigurationDao websearchConfigurationDao,
-			final DurationUtil durationUtil) {
+		final Logger logger,
+		final WebsearchRefresher websearchRefresher,
+		final ValidationExecutor validationExecutor,
+		final WebsearchPageDao pageDao,
+		final AuthorizationService authorizationService,
+		final AuthenticationService authenticationService,
+		final IdGeneratorUUID idGeneratorUUID,
+		final IndexService indexerService,
+		final CrawlerService crawlerService,
+		final WebsearchConfigurationDao websearchConfigurationDao,
+		final DurationUtil durationUtil) {
 		this.logger = logger;
 		this.websearchRefresher = websearchRefresher;
 		this.validationExecutor = validationExecutor;
@@ -97,7 +95,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public Collection<WebsearchPage> getPages(final SessionIdentifier sessionIdentifier, final int limit) throws WebsearchServiceException, PermissionDeniedException {
+	public Collection<WebsearchPage> getPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.getPages"));
 
@@ -109,14 +107,11 @@ public class WebsearchServiceImpl implements WebsearchService {
 			}
 			logger.debug("found " + result.size() + " pages");
 			return result;
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -128,8 +123,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.refreshPages"));
 
 			websearchRefresher.refresh();
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -143,11 +137,9 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 			final WebsearchPageBean page = pageDao.load(pageIdentifier);
 			expirePage(page);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -166,11 +158,9 @@ public class WebsearchServiceImpl implements WebsearchService {
 			final String indexName = WebsearchConstants.INDEX;
 			logger.debug("clearIndex - name: " + indexName);
 			indexerService.clear(indexName);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final IndexerServiceException e) {
+		} catch (final IndexerServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -184,11 +174,9 @@ public class WebsearchServiceImpl implements WebsearchService {
 			logger.debug("trigger refresh of url " + url);
 			final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, 5000);
 			crawlerService.processCrawlerInstruction(crawlerInstruction);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final CrawlerException e) {
+		} catch (final CrawlerException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -205,28 +193,25 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	@Override
 	public WebsearchConfiguration getConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier)
-			throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException {
+		throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("getConfiguration");
 
 			return websearchConfigurationDao.load(websearchConfigurationIdentifier);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<WebsearchConfiguration> getConfigurations(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -238,24 +223,20 @@ public class WebsearchServiceImpl implements WebsearchService {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void deleteConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier)
-			throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException {
+		throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -263,21 +244,18 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 			// delete websearch
 			websearchConfigurationDao.delete(websearchConfigurationIdentifier);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes, final int expire,
-			final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+																															final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -301,25 +279,21 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 			websearchConfigurationDao.save(configuration);
 			return websearchConfigurationIdentifier;
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final URL url,
-			final List<String> excludes, final int expire, final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException {
+																	final List<String> excludes, final int expire, final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException,
+		PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -339,14 +313,11 @@ public class WebsearchServiceImpl implements WebsearchService {
 			}
 
 			websearchConfigurationDao.save(configuration);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -362,17 +333,13 @@ public class WebsearchServiceImpl implements WebsearchService {
 			while (i.hasNext()) {
 				expirePage(i.next());
 			}
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}

@@ -1,9 +1,5 @@
 package de.benjaminborbe.websearch.mock;
 
-import java.net.URL;
-import java.util.Collection;
-import java.util.List;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -14,6 +10,10 @@ import de.benjaminborbe.websearch.api.WebsearchPage;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
+
+import java.net.URL;
+import java.util.Collection;
+import java.util.List;
 
 public class WebsearchServiceMock implements WebsearchService {
 
@@ -45,23 +45,23 @@ public class WebsearchServiceMock implements WebsearchService {
 
 	@Override
 	public WebsearchConfiguration getConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier)
-			throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException {
+		throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException {
 		return null;
 	}
 
 	@Override
 	public Collection<WebsearchConfiguration> getConfigurations(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		return null;
 	}
 
 	@Override
 	public void deleteConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier)
-			throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException {
+		throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException {
 	}
 
 	@Override
-	public Collection<WebsearchPage> getPages(final SessionIdentifier sessionIdentifier, final int limit) throws WebsearchServiceException, PermissionDeniedException {
+	public Collection<WebsearchPage> getPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 		return null;
 	}
 
@@ -71,14 +71,14 @@ public class WebsearchServiceMock implements WebsearchService {
 
 	@Override
 	public WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes, final int expire,
-			final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+																															final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
 	public void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final URL url,
-			final List<String> excludes, final int expire, final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException {
+																	final List<String> excludes, final int expire, final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException,
+		PermissionDeniedException, ValidationException {
 	}
 
 }

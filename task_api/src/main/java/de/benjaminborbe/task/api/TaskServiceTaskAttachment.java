@@ -9,11 +9,13 @@ import java.util.Collection;
 
 public interface TaskServiceTaskAttachment {
 
-	TaskAttachmentIdentifier addAttachment(SessionIdentifier sessionIdentifier, TaskAttachment taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException;
+	TaskAttachmentIdentifier createTaskAttachmentIdentifier(String id) throws TaskServiceException;
 
-	Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException;
+	TaskAttachmentIdentifier addAttachment(TaskAttachment taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException;
 
-	Collection<TaskAttachment> getAttachments(SessionIdentifier sessionIdentifier, TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException;
+	Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException;
+
+	Collection<TaskAttachment> getAttachments(TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException;
 
 	void deleteAttachment(SessionIdentifier sessionIdentifier, TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException;
 

@@ -1,17 +1,8 @@
 package de.benjaminborbe.poker.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -33,6 +24,12 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class PokerGuiActionRaiseJsonServlet extends PokerGuiPlayerJsonServlet {
@@ -45,24 +42,24 @@ public class PokerGuiActionRaiseJsonServlet extends PokerGuiPlayerJsonServlet {
 
 	@Inject
 	public PokerGuiActionRaiseJsonServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final PokerService pokerService,
-			final ParseUtil parseUtil,
-			final PokerGuiConfig pokerGuiConfig) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final PokerService pokerService,
+		final ParseUtil parseUtil,
+		final PokerGuiConfig pokerGuiConfig) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService, pokerGuiConfig);
 		this.pokerService = pokerService;
 		this.parseUtil = parseUtil;
 	}
 
 	@Override
-	protected void doAction(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws PokerServiceException, ValidationException,
-			ServletException, IOException, PermissionDeniedException, LoginRequiredException {
+	protected void doAction(final HttpServletRequest request, final HttpServletResponse response) throws PokerServiceException, ValidationException,
+		ServletException, IOException, PermissionDeniedException, LoginRequiredException {
 		try {
 			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
 			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
@@ -76,8 +73,7 @@ public class PokerGuiActionRaiseJsonServlet extends PokerGuiPlayerJsonServlet {
 			final JSONObject jsonObject = new JSONObjectSimple();
 			jsonObject.put("success", "true");
 			printJson(response, jsonObject);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("parse amount failed")));
 		}
 	}

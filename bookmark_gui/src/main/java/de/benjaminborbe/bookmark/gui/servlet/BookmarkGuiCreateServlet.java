@@ -1,16 +1,8 @@
 package de.benjaminborbe.bookmark.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -36,11 +28,15 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class BookmarkGuiCreateServlet extends BookmarkGuiWebsiteHtmlServlet {
@@ -69,20 +65,19 @@ public class BookmarkGuiCreateServlet extends BookmarkGuiWebsiteHtmlServlet {
 
 	@Inject
 	public BookmarkGuiCreateServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final BookmarkService bookmarkService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final BookmarkGuiKeywordUtil bookmarkGuiKeywordUtil,
-			final AuthorizationService authorizationService,
-			final BookmarkGuiLinkFactory bookmarkGuiLinkFactory,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final BookmarkService bookmarkService,
+		final UrlUtil urlUtil,
+		final BookmarkGuiKeywordUtil bookmarkGuiKeywordUtil,
+		final AuthorizationService authorizationService,
+		final BookmarkGuiLinkFactory bookmarkGuiLinkFactory,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.bookmarkService = bookmarkService;
 		this.logger = logger;
@@ -98,7 +93,7 @@ public class BookmarkGuiCreateServlet extends BookmarkGuiWebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -111,10 +106,9 @@ public class BookmarkGuiCreateServlet extends BookmarkGuiWebsiteHtmlServlet {
 			if (url != null && name != null && description != null && keywords != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
-					bookmarkService.createBookmark(sessionIdentifier, url, name, description, bookmarkGuiKeywordUtil.buildKeywords(keywords), false);
+					bookmarkService.createBookmark(sessionIdentifier, url, name, description, bookmarkGuiKeywordUtil.buildKeywords(keywords));
 					throw new RedirectException(request.getContextPath() + "/bookmark/list");
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("add bookmark failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -130,13 +124,11 @@ public class BookmarkGuiCreateServlet extends BookmarkGuiWebsiteHtmlServlet {
 			widgets.add(bookmarkGuiLinkFactory.listBookmarks(request));
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final BookmarkServiceException e) {
+		} catch (final BookmarkServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

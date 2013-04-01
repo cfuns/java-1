@@ -1,20 +1,8 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -28,6 +16,15 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.StreamUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 
 @Singleton
 public class GalleryGuiImageServlet extends WebsiteServlet {
@@ -48,15 +45,15 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 
 	@Inject
 	public GalleryGuiImageServlet(
-			final Logger logger,
-			final GalleryService galleryService,
-			final StreamUtil streamUtil,
-			final UrlUtil urlUtil,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final AuthenticationService authenticationService,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final GalleryService galleryService,
+		final StreamUtil streamUtil,
+		final UrlUtil urlUtil,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final AuthenticationService authenticationService,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.galleryService = galleryService;
@@ -73,7 +70,7 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 			final String imageId = urlUtil.parseId(request, GalleryGuiConstants.PARAMETER_IMAGE_ID);
 			final GalleryImageIdentifier id = galleryService.createImageIdentifier(imageId);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final GalleryImage image = galleryService.getImage(sessionIdentifier, id);
+			final GalleryImage image = galleryService.getImage(id);
 			logger.info("loaded image " + image);
 
 			// set header
@@ -91,8 +88,7 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 			final ByteArrayInputStream inputStream = new ByteArrayInputStream(image.getContent());
 			final OutputStream outputStream = response.getOutputStream();
 			streamUtil.copy(inputStream, outputStream);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			response.setContentType("text/plain");
 			final PrintWriter out = response.getWriter();
 			out.println("fail");

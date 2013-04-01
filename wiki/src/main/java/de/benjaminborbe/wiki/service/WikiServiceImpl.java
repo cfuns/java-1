@@ -1,14 +1,7 @@
 package de.benjaminborbe.wiki.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
@@ -34,6 +27,11 @@ import de.benjaminborbe.wiki.dao.WikiSpaceDao;
 import de.benjaminborbe.wiki.render.WikiRenderer;
 import de.benjaminborbe.wiki.render.WikiRendererFactory;
 import de.benjaminborbe.wiki.render.WikiRendererNotFoundException;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class WikiServiceImpl implements WikiService {
@@ -50,11 +48,11 @@ public class WikiServiceImpl implements WikiService {
 
 	@Inject
 	public WikiServiceImpl(
-			final Logger logger,
-			final WikiSpaceDao wikiSpaceDao,
-			final WikiPageDao wikiPageDao,
-			final WikiRendererFactory wikiRendererFactory,
-			final ValidationExecutor validationExecutor) {
+		final Logger logger,
+		final WikiSpaceDao wikiSpaceDao,
+		final WikiPageDao wikiPageDao,
+		final WikiRendererFactory wikiRendererFactory,
+		final ValidationExecutor validationExecutor) {
 		this.logger = logger;
 		this.wikiSpaceDao = wikiSpaceDao;
 		this.wikiPageDao = wikiPageDao;
@@ -72,11 +70,9 @@ public class WikiServiceImpl implements WikiService {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WikiServiceException(e);
-		}
-		catch (final IdentifierIteratorException e) {
+		} catch (final IdentifierIteratorException e) {
 			throw new WikiServiceException(e);
 		}
 	}
@@ -94,11 +90,9 @@ public class WikiServiceImpl implements WikiService {
 				}
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WikiServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new WikiServiceException(e);
 		}
 	}
@@ -112,8 +106,7 @@ public class WikiServiceImpl implements WikiService {
 				throw new WikiPageNotFoundException("wiki page " + wikiPageIdentifier + " not found");
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WikiServiceException(e);
 		}
 	}
@@ -124,12 +117,10 @@ public class WikiServiceImpl implements WikiService {
 		try {
 			if (wikiSpaceDao.existsSpaceWithName(spaceName)) {
 				return new WikiSpaceIdentifier(spaceName);
-			}
-			else {
+			} else {
 				throw new WikiSpaceNotFoundException("space with name " + spaceName + " does not exists");
 			}
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WikiServiceException(e);
 		}
 	}
@@ -149,7 +140,7 @@ public class WikiServiceImpl implements WikiService {
 
 	@Override
 	public WikiPageIdentifier createPage(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageTitle, final String pageContent) throws ValidationException,
-			WikiServiceException {
+		WikiServiceException {
 		try {
 			logger.debug("createPage");
 
@@ -181,8 +172,7 @@ public class WikiServiceImpl implements WikiService {
 			wikiPageDao.save(wikiPage);
 
 			return wikiPageIdentifier;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WikiServiceException(e);
 		}
 	}
@@ -208,14 +198,13 @@ public class WikiServiceImpl implements WikiService {
 			}
 
 			wikiPageDao.save(wikiPage);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WikiServiceException(e);
 		}
 	}
 
 	@Override
-	public void deletePage(final WikiPageIdentifier wikiPageIdentifier) {
+	public void deletePage() {
 		logger.trace("deletePage");
 	}
 
@@ -243,8 +232,7 @@ public class WikiServiceImpl implements WikiService {
 			wikiSpaceDao.save(wikiSpace);
 
 			return id;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WikiServiceException(e);
 		}
 	}
@@ -254,8 +242,7 @@ public class WikiServiceImpl implements WikiService {
 		try {
 			logger.trace("deleteSpace");
 			wikiSpaceDao.delete(wikiSpaceIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new WikiServiceException(e);
 		}
 	}
@@ -268,8 +255,7 @@ public class WikiServiceImpl implements WikiService {
 		try {
 			final WikiRenderer renderer = wikiRendererFactory.getRenderer(contentType);
 			return renderer.render(content);
-		}
-		catch (final WikiRendererNotFoundException e) {
+		} catch (final WikiRendererNotFoundException e) {
 			throw new WikiServiceException(e);
 		}
 	}

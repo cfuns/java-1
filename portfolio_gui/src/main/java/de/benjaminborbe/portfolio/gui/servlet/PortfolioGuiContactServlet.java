@@ -1,18 +1,8 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -36,6 +26,13 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ImageWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @Singleton
 public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
@@ -50,22 +47,22 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 
 	@Inject
 	public PortfolioGuiContactServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService,
-			final PortfolioLayoutWidget portfolioWidget,
-			final GalleryService galleryService,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthenticationService authenticationService,
+		final PortfolioLayoutWidget portfolioWidget,
+		final GalleryService galleryService,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.portfolioWidget = portfolioWidget;
 		this.authenticationService = authenticationService;
 		this.galleryService = galleryService;
 	}
 
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
+	protected Widget createContentWidget() throws IOException {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget("Contact"));
 		widgets.add("Benjamin Borbe");
@@ -134,19 +131,17 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.getCollectionIdentifierByNameShared(sessionIdentifier,
-					PortfolioGuiConstants.COLLECTION_NAME_CONTACT);
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.getCollectionIdentifierByNameShared(
+				PortfolioGuiConstants.COLLECTION_NAME_CONTACT);
 			if (galleryCollectionIdentifier != null) {
-				portfolioWidget.setGalleryEntries(galleryService.getEntriesShared(sessionIdentifier, galleryCollectionIdentifier));
+				portfolioWidget.setGalleryEntries(galleryService.getEntriesShared(galleryCollectionIdentifier));
 			}
 			portfolioWidget.addTitle("Contact - Benjamin Borbe");
-			portfolioWidget.addContent(createContentWidget(request, response, context));
+			portfolioWidget.addContent(createContentWidget());
 			return portfolioWidget;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
-		}
-		catch (final GalleryServiceException e) {
+		} catch (final GalleryServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

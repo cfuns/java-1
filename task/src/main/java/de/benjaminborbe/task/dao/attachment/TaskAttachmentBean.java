@@ -1,5 +1,6 @@
 package de.benjaminborbe.task.dao.attachment;
 
+import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
@@ -21,15 +22,25 @@ public class TaskAttachmentBean extends EntityBase<TaskAttachmentIdentifier> imp
 
 	private Calendar modified;
 
-	public void setTask(final TaskIdentifier task) {
-		this.task = task;
-	}
+	private FilestorageEntryIdentifier file;
 
 	private TaskIdentifier task;
+
+	public FilestorageEntryIdentifier getFile() {
+		return file;
+	}
+
+	public void setFile(final FilestorageEntryIdentifier file) {
+		this.file = file;
+	}
 
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
 	}
 
 	@Override
@@ -37,8 +48,8 @@ public class TaskAttachmentBean extends EntityBase<TaskAttachmentIdentifier> imp
 		return task;
 	}
 
-	public void setName(final String name) {
-		this.name = name;
+	public void setTask(final TaskIdentifier task) {
+		this.task = task;
 	}
 
 	@Override

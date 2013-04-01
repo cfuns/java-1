@@ -1,16 +1,8 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -39,11 +31,14 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Singleton
 public class TaskGuiTaskContextUpdateServlet extends TaskGuiWebsiteHtmlServlet {
@@ -62,20 +57,19 @@ public class TaskGuiTaskContextUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 
 	@Inject
 	public TaskGuiTaskContextUpdateServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final TaskService taskService,
-			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final TaskGuiUtil taskGuiUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final TaskService taskService,
+		final TaskGuiLinkFactory taskGuiLinkFactory,
+		final TaskGuiUtil taskGuiUtil,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.logger = logger;
 		this.taskService = taskService;
@@ -89,8 +83,8 @@ public class TaskGuiTaskContextUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createTaskContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -105,8 +99,7 @@ public class TaskGuiTaskContextUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 				try {
 					taskService.updateTaskContext(sessionIdentifier, taskContextIdentifier, name.trim());
 					throw new RedirectException(taskGuiLinkFactory.taskContextListUrl(request));
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("update taskcontext failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -115,7 +108,7 @@ public class TaskGuiTaskContextUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addValue(taskContext.getId()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_NAME).addLabel("Name").addPlaceholder("name...")
-					.addDefaultValue(taskContext.getName()));
+				.addDefaultValue(taskContext.getName()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 
@@ -128,13 +121,11 @@ public class TaskGuiTaskContextUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 			widgets.add(links);
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final TaskServiceException e) {
+		} catch (final TaskServiceException e) {
 			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

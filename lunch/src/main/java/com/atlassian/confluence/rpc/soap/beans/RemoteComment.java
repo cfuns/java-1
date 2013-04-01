@@ -7,7 +7,9 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+import javax.xml.namespace.QName;
+
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteComment implements java.io.Serializable {
 
 	private java.lang.String content;
@@ -34,16 +36,16 @@ public class RemoteComment implements java.io.Serializable {
 	}
 
 	public RemoteComment(
-			final java.lang.String content,
-			final java.util.Calendar created,
-			final java.lang.String creator,
-			final long id,
-			final java.util.Calendar modified,
-			final java.lang.String modifier,
-			final long pageId,
-			final long parentId,
-			final java.lang.String title,
-			final java.lang.String url) {
+		final java.lang.String content,
+		final java.util.Calendar created,
+		final java.lang.String creator,
+		final long id,
+		final java.util.Calendar modified,
+		final java.lang.String modifier,
+		final long pageId,
+		final long parentId,
+		final java.lang.String title,
+		final java.lang.String url) {
 		this.content = content;
 		this.created = created;
 		this.creator = creator;
@@ -58,7 +60,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Gets the content value for this RemoteComment.
-	 * 
+	 *
 	 * @return content
 	 */
 	public java.lang.String getContent() {
@@ -67,7 +69,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Sets the content value for this RemoteComment.
-	 * 
+	 *
 	 * @param content
 	 */
 	public void setContent(final java.lang.String content) {
@@ -76,7 +78,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Gets the created value for this RemoteComment.
-	 * 
+	 *
 	 * @return created
 	 */
 	public java.util.Calendar getCreated() {
@@ -85,7 +87,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Sets the created value for this RemoteComment.
-	 * 
+	 *
 	 * @param created
 	 */
 	public void setCreated(final java.util.Calendar created) {
@@ -94,7 +96,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Gets the creator value for this RemoteComment.
-	 * 
+	 *
 	 * @return creator
 	 */
 	public java.lang.String getCreator() {
@@ -103,7 +105,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Sets the creator value for this RemoteComment.
-	 * 
+	 *
 	 * @param creator
 	 */
 	public void setCreator(final java.lang.String creator) {
@@ -112,7 +114,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this RemoteComment.
-	 * 
+	 *
 	 * @return id
 	 */
 	public long getId() {
@@ -121,7 +123,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this RemoteComment.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(final long id) {
@@ -130,7 +132,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Gets the modified value for this RemoteComment.
-	 * 
+	 *
 	 * @return modified
 	 */
 	public java.util.Calendar getModified() {
@@ -139,7 +141,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Sets the modified value for this RemoteComment.
-	 * 
+	 *
 	 * @param modified
 	 */
 	public void setModified(final java.util.Calendar modified) {
@@ -148,7 +150,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Gets the modifier value for this RemoteComment.
-	 * 
+	 *
 	 * @return modifier
 	 */
 	public java.lang.String getModifier() {
@@ -157,7 +159,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Sets the modifier value for this RemoteComment.
-	 * 
+	 *
 	 * @param modifier
 	 */
 	public void setModifier(final java.lang.String modifier) {
@@ -166,7 +168,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Gets the pageId value for this RemoteComment.
-	 * 
+	 *
 	 * @return pageId
 	 */
 	public long getPageId() {
@@ -175,7 +177,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Sets the pageId value for this RemoteComment.
-	 * 
+	 *
 	 * @param pageId
 	 */
 	public void setPageId(final long pageId) {
@@ -184,7 +186,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Gets the parentId value for this RemoteComment.
-	 * 
+	 *
 	 * @return parentId
 	 */
 	public long getParentId() {
@@ -193,7 +195,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Sets the parentId value for this RemoteComment.
-	 * 
+	 *
 	 * @param parentId
 	 */
 	public void setParentId(final long parentId) {
@@ -202,7 +204,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Gets the title value for this RemoteComment.
-	 * 
+	 *
 	 * @return title
 	 */
 	public java.lang.String getTitle() {
@@ -211,7 +213,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Sets the title value for this RemoteComment.
-	 * 
+	 *
 	 * @param title
 	 */
 	public void setTitle(final java.lang.String title) {
@@ -220,7 +222,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Gets the url value for this RemoteComment.
-	 * 
+	 *
 	 * @return url
 	 */
 	public java.lang.String getUrl() {
@@ -229,7 +231,7 @@ public class RemoteComment implements java.io.Serializable {
 
 	/**
 	 * Sets the url value for this RemoteComment.
-	 * 
+	 *
 	 * @param url
 	 */
 	public void setUrl(final java.lang.String url) {
@@ -253,12 +255,12 @@ public class RemoteComment implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.content == null && other.getContent() == null) || (this.content != null && this.content.equals(other.getContent())))
-				&& ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
-				&& ((this.creator == null && other.getCreator() == null) || (this.creator != null && this.creator.equals(other.getCreator()))) && this.id == other.getId()
-				&& ((this.modified == null && other.getModified() == null) || (this.modified != null && this.modified.equals(other.getModified())))
-				&& ((this.modifier == null && other.getModifier() == null) || (this.modifier != null && this.modifier.equals(other.getModifier()))) && this.pageId == other.getPageId()
-				&& this.parentId == other.getParentId() && ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
-				&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
+			&& ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
+			&& ((this.creator == null && other.getCreator() == null) || (this.creator != null && this.creator.equals(other.getCreator()))) && this.id == other.getId()
+			&& ((this.modified == null && other.getModified() == null) || (this.modified != null && this.modified.equals(other.getModified())))
+			&& ((this.modifier == null && other.getModifier() == null) || (this.modifier != null && this.modifier.equals(other.getModifier()))) && this.pageId == other.getPageId()
+			&& this.parentId == other.getParentId() && ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
+			&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -377,14 +379,14 @@ public class RemoteComment implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

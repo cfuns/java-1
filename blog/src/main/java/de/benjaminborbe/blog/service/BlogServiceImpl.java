@@ -1,14 +1,7 @@
 package de.benjaminborbe.blog.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -32,6 +25,11 @@ import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class BlogServiceImpl implements BlogService {
@@ -50,12 +48,12 @@ public class BlogServiceImpl implements BlogService {
 
 	@Inject
 	public BlogServiceImpl(
-			final Logger logger,
-			final AuthorizationService authorizationService,
-			final BlogPostDao blogPostDao,
-			final AuthenticationService authenticationService,
-			final ValidationExecutor validationExecutor,
-			final CalendarUtil calendarUtil) {
+		final Logger logger,
+		final AuthorizationService authorizationService,
+		final BlogPostDao blogPostDao,
+		final AuthenticationService authenticationService,
+		final ValidationExecutor validationExecutor,
+		final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.authorizationService = authorizationService;
 		this.blogPostDao = blogPostDao;
@@ -66,13 +64,13 @@ public class BlogServiceImpl implements BlogService {
 
 	@Override
 	public BlogPostIdentifier createBlogPost(final SessionIdentifier sessionIdentifier, final String title, final String content) throws BlogServiceException, ValidationException,
-			LoginRequiredException {
+		LoginRequiredException {
 		try {
-			expectPermission(sessionIdentifier);
+			expectPermission();
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 
 			final BlogPostBean blogPost = blogPostDao.create();
-			final BlogPostIdentifier id = createBlogPostIdentifier(sessionIdentifier, title);
+			final BlogPostIdentifier id = createBlogPostIdentifier(title);
 			blogPost.setId(id);
 			blogPost.setTitle(title);
 			blogPost.setContent(content);
@@ -84,23 +82,21 @@ public class BlogServiceImpl implements BlogService {
 			if (errors.hasErrors()) {
 				logger.warn("BlogPost " + errors.toString());
 				throw new ValidationException(errors);
-			}
-			else {
+			} else {
 				blogPostDao.save(blogPost);
 				logger.debug("blogPost created");
 				return id;
 			}
-		}
-		catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
 			throw new BlogServiceException(e);
 		}
 	}
 
 	@Override
 	public void updateBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier, final String title, final String content)
-			throws BlogServiceException, ValidationException, LoginRequiredException {
+		throws BlogServiceException, ValidationException, LoginRequiredException {
 		try {
-			expectPermission(sessionIdentifier);
+			expectPermission();
 
 			final BlogPostBean blogPost = blogPostDao.load(blogPostIdentifier);
 			blogPost.setTitle(title);
@@ -117,23 +113,21 @@ public class BlogServiceImpl implements BlogService {
 			if (errors.hasErrors()) {
 				logger.warn("BlogPost " + errors.toString());
 				throw new ValidationException(errors);
-			}
-			else {
+			} else {
 				logger.debug("blogPost updated");
 				blogPostDao.save(blogPost);
 			}
-		}
-		catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
 			throw new BlogServiceException(e);
 		}
 	}
 
-	private void expectPermission(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException, AuthorizationServiceException {
+	private void expectPermission() throws AuthenticationServiceException, LoginRequiredException, AuthorizationServiceException {
 		authorizationService.existsPermission(authorizationService.createPermissionIdentifier(PERMISSION));
 	}
 
 	@Override
-	public List<BlogPost> getLatestBlogPosts(final SessionIdentifier sessionIdentifier) throws BlogServiceException {
+	public List<BlogPost> getLatestBlogPosts() throws BlogServiceException {
 		try {
 			logger.debug("getLatestBlogPosts");
 			final List<BlogPost> result = new ArrayList<BlogPost>();
@@ -142,8 +136,7 @@ public class BlogServiceImpl implements BlogService {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException | EntityIteratorException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new BlogServiceException(e);
 		}
 	}
@@ -151,52 +144,48 @@ public class BlogServiceImpl implements BlogService {
 	@Override
 	public Collection<BlogPostIdentifier> getBlogPostIdentifiers(final SessionIdentifier sessionIdentifier) throws BlogServiceException, LoginRequiredException {
 		try {
-			expectPermission(sessionIdentifier);
+			expectPermission();
 			final List<BlogPostIdentifier> result = new ArrayList<BlogPostIdentifier>();
 			final IdentifierIterator<BlogPostIdentifier> i = blogPostDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException | IdentifierIteratorException e) {
+		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException | IdentifierIteratorException e) {
 			throw new BlogServiceException(e);
 		}
 	}
 
 	@Override
 	public BlogPost getBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostNotFoundException,
-			LoginRequiredException {
+		LoginRequiredException {
 		try {
-			expectPermission(sessionIdentifier);
+			expectPermission();
 
 			final BlogPostBean result = blogPostDao.load(blogPostIdentifier);
 			if (result == null) {
 				throw new BlogPostNotFoundException("no blogpost with id " + blogPostIdentifier + " found");
-			}
-			else {
+			} else {
 				return result;
 			}
-		}
-		catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
 			throw new BlogServiceException(e);
 		}
 	}
 
 	@Override
 	public void deleteBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, ValidationException,
-			LoginRequiredException {
+		LoginRequiredException {
 		try {
-			expectPermission(sessionIdentifier);
+			expectPermission();
 			blogPostDao.delete(blogPostIdentifier);
-		}
-		catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
 			throw new BlogServiceException(e);
 		}
 	}
 
 	@Override
-	public BlogPostIdentifier createBlogPostIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws BlogServiceException {
+	public BlogPostIdentifier createBlogPostIdentifier(final String id) throws BlogServiceException {
 		return new BlogPostIdentifier(id);
 	}
 

@@ -1,16 +1,8 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -38,12 +30,16 @@ import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
@@ -64,19 +60,18 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public AuthenticationGuiLoginServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final AuthenticationGuiConfig authenticationGuiConfig,
-			final CacheService cacheService,
-			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthenticationService authenticationService,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final AuthenticationGuiConfig authenticationGuiConfig,
+		final CacheService cacheService,
+		final AuthenticationGuiLinkFactory authenticationGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -92,7 +87,7 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException {
+		PermissionDeniedException, RedirectException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -108,12 +103,10 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 					request.getSession().setAttribute("login", "true");
 					if (referer != null && referer.length() > 0) {
 						throw new RedirectException(referer);
-					}
-					else {
+					} else {
 						throw new RedirectException(request.getContextPath());
 					}
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					logger.info("login failed for user " + username);
 					widgets.add("login => failed (");
 					widgets.add(authenticationGuiLinkFactory.userPasswordLost(request, userIdentifier));
@@ -131,12 +124,11 @@ public class AuthenticationGuiLoginServlet extends WebsiteHtmlServlet {
 
 			if (authenticationGuiConfig.registerEnabled()) {
 				widgets.add(new LinkRelativWidget(urlUtil, request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_REGISTER, new MapParameter().add(
-						AuthenticationGuiConstants.PARAMETER_REFERER, request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)), "no user? register here!"));
+					AuthenticationGuiConstants.PARAMETER_REFERER, request.getParameter(AuthenticationGuiConstants.PARAMETER_REFERER)), "no user? register here!"));
 			}
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

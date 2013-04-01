@@ -1,23 +1,8 @@
 package de.benjaminborbe.lunch.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -54,6 +39,18 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
@@ -80,18 +77,18 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 
 	@Inject
 	public LunchGuiKioskBookingServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final LunchGuiLinkFactory lunchGuiLinkFactory,
-			final LunchService lunchService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final LunchGuiLinkFactory lunchGuiLinkFactory,
+		final LunchService lunchService,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.lunchGuiLinkFactory = lunchGuiLinkFactory;
@@ -110,15 +107,14 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 
 			Calendar calendar;
 			try {
 				calendar = calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), request.getParameter(LunchGuiConstants.PARAMETER_BOOKING_DATE));
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				calendar = calendarUtil.today(timeZoneUtil.getUTCTimeZone());
 			}
 
@@ -145,7 +141,7 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 				widgets.add(new DivWidget(links));
 			}
 
-			final List<KioskUser> users = new ArrayList<KioskUser>(lunchService.getSubscribeUser(sessionIdentifier, calendar));
+			final List<KioskUser> users = new ArrayList<KioskUser>(lunchService.getSubscribeUser(calendar));
 			Collections.sort(users, new KioskUserComparator());
 
 			final FormWidget form = new FormWidget().addId("bookings");
@@ -155,10 +151,9 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 				counter++;
 				if (user.getCustomerNumber() != null) {
 					final FormElementWidget input = new FormCheckboxWidget(LunchGuiConstants.PARAMETER_BOOKING_USER).addLabel(counter + ". " + user.getName())
-							.addValue(user.getCustomerNumber()).setCheckedDefault(true);
+						.addValue(user.getCustomerNumber()).setCheckedDefault(true);
 					form.addFormInputWidget(input);
-				}
-				else {
+				} else {
 					form.addFormInputWidget(new FormElementWidgetDummy().addLabel(counter + ". " + user.getName()).addContent("NOT FOUND"));
 				}
 			}
@@ -175,18 +170,15 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 				widgets.add(links);
 			}
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final LunchServiceException e) {
+		} catch (final LunchServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
@@ -202,17 +194,15 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(LunchService.PERMISSION_BOOKING);
 			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

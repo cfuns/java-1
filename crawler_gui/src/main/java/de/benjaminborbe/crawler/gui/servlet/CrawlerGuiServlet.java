@@ -1,16 +1,8 @@
 package de.benjaminborbe.crawler.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -30,10 +22,14 @@ import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class CrawlerGuiServlet extends WebsiteHtmlServlet {
@@ -52,18 +48,17 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public CrawlerGuiServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final Provider<HttpContext> httpContextProvider,
-			final CrawlerService crawlerService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final Provider<HttpContext> httpContextProvider,
+		final CrawlerService crawlerService,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.crawlerService = crawlerService;
 		this.logger = logger;
@@ -76,7 +71,7 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
@@ -86,13 +81,11 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 				final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(url, TIMEOUT);
 				crawlerService.processCrawlerInstruction(crawlerInstructionBuilder);
 				widgets.add("add url successful");
-			}
-			catch (final CrawlerException e) {
+			} catch (final CrawlerException e) {
 				logger.debug(e.getClass().getName(), e);
 				widgets.add("add url failed");
 			}
-		}
-		else {
+		} else {
 			final String action = request.getContextPath() + "/crawler";
 			final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL).addPlaceholder("url...").addLabel("Url:"));

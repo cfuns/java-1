@@ -1,17 +1,7 @@
 package de.benjaminborbe.authentication.mock;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.easymock.EasyMock;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -20,6 +10,13 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserDto;
 import de.benjaminborbe.authentication.api.UserIdentifier;
+import org.easymock.EasyMock;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 @Singleton
 public class AuthenticationServiceMock implements AuthenticationService {
@@ -43,17 +40,16 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public boolean verifyCredential(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
+	public boolean verifyCredential(final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
 		return userPassword.containsKey(userIdentifier) && userPassword.get(userIdentifier).equals(password);
 	}
 
 	@Override
 	public boolean login(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException {
-		if (verifyCredential(sessionIdentifier, userIdentifier, password)) {
+		if (verifyCredential(userIdentifier, password)) {
 			sessionUser.put(sessionIdentifier, userIdentifier);
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -107,7 +103,7 @@ public class AuthenticationServiceMock implements AuthenticationService {
 
 	@Override
 	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailBaseUrl, final String username, final String email,
-			final String password, final String fullname, final TimeZone timeZone) throws AuthenticationServiceException {
+																 final String password) throws AuthenticationServiceException {
 		final UserIdentifier userIdentifier = createUserIdentifier(username);
 		userPassword.put(userIdentifier, password);
 		login(sessionIdentifier, userIdentifier, password);
@@ -115,7 +111,7 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public String getFullname(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+	public String getFullname(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		return null;
 	}
 
@@ -155,7 +151,7 @@ public class AuthenticationServiceMock implements AuthenticationService {
 
 	@Override
 	public boolean changePassword(final SessionIdentifier sessionIdentifier, final String currentPassword, final String newPassword, final String newPasswordRepeat)
-			throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+		throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 		return false;
 	}
 
@@ -166,7 +162,7 @@ public class AuthenticationServiceMock implements AuthenticationService {
 
 	@Override
 	public void updateUser(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailBaseUrl, final String email, final String fullname,
-			final String timeZone) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+												 final String timeZone) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 	}
 
 	@Override
@@ -179,13 +175,13 @@ public class AuthenticationServiceMock implements AuthenticationService {
 	}
 
 	@Override
-	public void sendPasswordLostEmail(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String resetUrl, final UserIdentifier userIdentifier,
-			final String email) throws AuthenticationServiceException, ValidationException {
+	public void sendPasswordLostEmail(final String shortenUrl, final String resetUrl, final UserIdentifier userIdentifier,
+																		final String email) throws AuthenticationServiceException, ValidationException {
 	}
 
 	@Override
-	public void setNewPassword(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String token, final String newPassword,
-			final String newPasswordRepeat) throws AuthenticationServiceException, ValidationException {
+	public void setNewPassword(final UserIdentifier userIdentifier, final String token, final String newPassword,
+														 final String newPasswordRepeat) throws AuthenticationServiceException, ValidationException {
 	}
 
 	@Override
@@ -207,6 +203,6 @@ public class AuthenticationServiceMock implements AuthenticationService {
 		final String email = null;
 		final String fullname = null;
 		final TimeZone timeZone = null;
-		return register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password, fullname, timeZone);
+		return register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password);
 	}
 }

@@ -1,14 +1,7 @@
 package de.benjaminborbe.gallery.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -44,6 +37,11 @@ import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class GalleryServiceImpl implements GalleryService {
@@ -68,15 +66,15 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Inject
 	public GalleryServiceImpl(
-			final Logger logger,
-			final AuthorizationService authorizationService,
-			final GalleryCollectionDao galleryDao,
-			final GalleryEntryDao galleryEntryDao,
-			final IdGeneratorUUID idGeneratorUUID,
-			final GalleryImageDao galleryImageDao,
-			final GalleryGroupDao galleryGroupDao,
-			final ValidationExecutor validationExecutor,
-			final DurationUtil durationUtil) {
+		final Logger logger,
+		final AuthorizationService authorizationService,
+		final GalleryCollectionDao galleryDao,
+		final GalleryEntryDao galleryEntryDao,
+		final IdGeneratorUUID idGeneratorUUID,
+		final GalleryImageDao galleryImageDao,
+		final GalleryGroupDao galleryGroupDao,
+		final ValidationExecutor validationExecutor,
+		final DurationUtil durationUtil) {
 		this.logger = logger;
 		this.authorizationService = authorizationService;
 		this.galleryCollectionDao = galleryDao;
@@ -90,7 +88,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
-			final Long priority, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
+																											final Long priority, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createGallery name: " + name);
@@ -113,14 +111,11 @@ public class GalleryServiceImpl implements GalleryService {
 
 			galleryCollectionDao.save(collection);
 			return galleryIdentifier;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -131,17 +126,16 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			logger.debug("createGalleryIdentifier");
 			return new GalleryCollectionIdentifier(id);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
-			final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
-			final byte[] imageContent, final String imageContentType, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException,
-			PermissionDeniedException {
+																						final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
+																						final byte[] imageContent, final String imageContentType, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException,
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -169,14 +163,11 @@ public class GalleryServiceImpl implements GalleryService {
 			galleryEntryDao.save(entry);
 			logger.debug("createEntry name: " + entryName);
 			return id;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -187,15 +178,14 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			logger.debug("createGalleryImageIdentifier");
 			return new GalleryEntryIdentifier(id);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String name, final Boolean shared) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException {
+		LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -215,14 +205,11 @@ public class GalleryServiceImpl implements GalleryService {
 
 			galleryGroupDao.save(group);
 			return galleryGroupIdentifier;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -233,8 +220,7 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			logger.debug("createGroupIdentifier");
 			return new GalleryGroupIdentifier(id);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -258,8 +244,7 @@ public class GalleryServiceImpl implements GalleryService {
 			galleryImageDao.save(image);
 			logger.debug("createEntry name: " + imageName);
 			return id;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -269,15 +254,14 @@ public class GalleryServiceImpl implements GalleryService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return new GalleryImageIdentifier(id);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void deleteCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException {
+		LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("deleteGallery");
@@ -292,21 +276,18 @@ public class GalleryServiceImpl implements GalleryService {
 
 			// delete gallery
 			galleryCollectionDao.delete(galleryIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void deleteEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("deleteImage - GalleryImageIdentifier " + id);
@@ -318,21 +299,18 @@ public class GalleryServiceImpl implements GalleryService {
 			deleteImage(entry.getImageIdentifier());
 
 			galleryEntryDao.delete(id);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void deleteGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -346,14 +324,11 @@ public class GalleryServiceImpl implements GalleryService {
 
 			// delete gallery
 			galleryGroupDao.delete(galleryGroupIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -364,7 +339,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 	@Override
 	public GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException {
+		LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getGallery");
@@ -372,21 +347,18 @@ public class GalleryServiceImpl implements GalleryService {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
 			return galleryCollectionDao.load(galleryIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public GalleryCollectionIdentifier getCollectionIdentifierByName(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException {
+		LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -400,23 +372,19 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return null;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
-	public GalleryCollectionIdentifier getCollectionIdentifierByNameShared(final SessionIdentifier sessionIdentifier, final String name) throws GalleryServiceException {
+	public GalleryCollectionIdentifier getCollectionIdentifierByNameShared(final String name) throws GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getCollectionIdentifierByNamePublic: " + name);
@@ -428,21 +396,18 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return null;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getGalleryIdentifiers");
@@ -455,24 +420,20 @@ public class GalleryServiceImpl implements GalleryService {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final IdentifierIteratorException e) {
+		} catch (final IdentifierIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
-	public GalleryCollection getCollectionShared(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
-			throws GalleryServiceException {
+	public GalleryCollection getCollectionShared(final GalleryCollectionIdentifier galleryCollectionIdentifier)
+		throws GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getGallery");
@@ -480,15 +441,12 @@ public class GalleryServiceImpl implements GalleryService {
 			final GalleryCollectionBean result = galleryCollectionDao.load(galleryCollectionIdentifier);
 			if (new SharedPredicate<GalleryCollectionBean>().apply(result)) {
 				return result;
-			}
-			else {
+			} else {
 				return null;
 			}
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -506,23 +464,19 @@ public class GalleryServiceImpl implements GalleryService {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollectionsShared(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	public Collection<GalleryCollection> getCollectionsShared() throws GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getCollectionsPublic");
@@ -533,21 +487,18 @@ public class GalleryServiceImpl implements GalleryService {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
+		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -562,24 +513,20 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
-	public Collection<GalleryCollection> getCollectionsWithGroupShared(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier)
-			throws GalleryServiceException {
+	public Collection<GalleryCollection> getCollectionsWithGroupShared(final GalleryGroupIdentifier galleryGroupIdentifier)
+		throws GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getCollectionsWithGroupPublic");
@@ -592,21 +539,18 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<GalleryEntry> getEntries(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
+		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -621,24 +565,20 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
-	public Collection<GalleryEntry> getEntriesShared(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier)
-			throws GalleryServiceException {
+	public Collection<GalleryEntry> getEntriesShared(final GalleryCollectionIdentifier galleryCollectionIdentifier)
+		throws GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getEntriesPublic");
@@ -651,21 +591,18 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getImage");
@@ -674,21 +611,18 @@ public class GalleryServiceImpl implements GalleryService {
 
 			final GalleryEntryBean image = galleryEntryDao.load(id);
 			return image;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
+		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier);
@@ -698,42 +632,36 @@ public class GalleryServiceImpl implements GalleryService {
 			final List<GalleryEntryIdentifier> result = new ArrayList<GalleryEntryIdentifier>(galleryEntryDao.getGalleryImageIdentifiers(galleryIdentifier));
 			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier + " => " + result.size());
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException {
+		LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("getGroup");
 			return galleryGroupDao.load(galleryGroupIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public GalleryGroupIdentifier getGroupByName(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -747,23 +675,19 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return null;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
-	public GalleryGroupIdentifier getGroupByNameShared(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException {
+	public GalleryGroupIdentifier getGroupByNameShared(final String groupName) throws GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getGroupByName: " + groupName);
@@ -775,21 +699,18 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return null;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<GalleryGroupIdentifier> getGroupIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -801,17 +722,13 @@ public class GalleryServiceImpl implements GalleryService {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final IdentifierIteratorException e) {
+		} catch (final IdentifierIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
@@ -829,39 +746,33 @@ public class GalleryServiceImpl implements GalleryService {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
-	public GalleryImage getImage(final SessionIdentifier sessionIdentifier, final GalleryImageIdentifier id) throws GalleryServiceException {
+	public GalleryImage getImage(final GalleryImageIdentifier id) throws GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return galleryImageDao.load(id);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier,
-			final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final Boolean shared) throws GalleryServiceException,
-			ValidationException, LoginRequiredException, PermissionDeniedException {
+													final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final Boolean shared) throws GalleryServiceException,
+		ValidationException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -881,21 +792,18 @@ public class GalleryServiceImpl implements GalleryService {
 			}
 
 			galleryEntryDao.save(entry);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void updateGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String groupName, final Boolean shared)
-			throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -912,22 +820,19 @@ public class GalleryServiceImpl implements GalleryService {
 			}
 
 			galleryGroupDao.save(group);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void updateCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
-			final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName, final Long prio, final Boolean shared) throws GalleryServiceException,
-			LoginRequiredException, PermissionDeniedException, ValidationException {
+															 final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName, final Long prio, final Boolean shared) throws GalleryServiceException,
+		LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -947,21 +852,18 @@ public class GalleryServiceImpl implements GalleryService {
 			}
 
 			galleryCollectionDao.save(collection);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void swapEntryPrio(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifierA, final GalleryEntryIdentifier galleryEntryIdentifierB)
-			throws PermissionDeniedException, LoginRequiredException, GalleryServiceException {
+		throws PermissionDeniedException, LoginRequiredException, GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -987,8 +889,7 @@ public class GalleryServiceImpl implements GalleryService {
 			if (p1 != null && p2 != null) {
 				if (p2 == p1) {
 					p1++;
-				}
-				else {
+				} else {
 					final Long tmp = p1;
 					p1 = p2;
 					p2 = tmp;
@@ -998,21 +899,18 @@ public class GalleryServiceImpl implements GalleryService {
 			galleryEntryB.setPriority(p2);
 			galleryEntryDao.save(galleryEntryA);
 			galleryEntryDao.save(galleryEntryB);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void shareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			GalleryServiceException {
+		GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -1023,21 +921,18 @@ public class GalleryServiceImpl implements GalleryService {
 			entry.setShared(true);
 
 			galleryEntryDao.save(entry);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void unshareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException,
-			LoginRequiredException, GalleryServiceException {
+		LoginRequiredException, GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -1048,14 +943,11 @@ public class GalleryServiceImpl implements GalleryService {
 			entry.setShared(false);
 
 			galleryEntryDao.save(entry);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
-		}
-		finally {
+		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
 	}

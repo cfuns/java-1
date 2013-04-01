@@ -4,9 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
-import de.benjaminborbe.virt.api.VirtMachine;
 import de.benjaminborbe.virt.api.VirtMachineIdentifier;
 import de.benjaminborbe.virt.api.VirtNetwork;
 import de.benjaminborbe.virt.api.VirtNetworkIdentifier;
@@ -35,12 +33,12 @@ public class VirtServiceMock implements VirtService {
 	}
 
 	@Override
-	public VirtMachineIdentifier createVirtualMachine(final SessionIdentifier sessionIdentifier, final VirtMachine virtMachine) {
+	public VirtMachineIdentifier createVirtualMachine() {
 		return null;
 	}
 
 	@Override
-	public VirtNetworkIdentifier createVirtNetwork(final SessionIdentifier sessionIdentifier, final VirtNetwork virtNetwork) throws VirtServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public VirtNetworkIdentifier createVirtNetwork(final VirtNetwork virtNetwork) throws VirtServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 

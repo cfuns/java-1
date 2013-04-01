@@ -1,5 +1,21 @@
 package de.benjaminborbe.tools.http;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.tools.util.Base64Util;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
+import de.benjaminborbe.tools.util.Encoding;
+import de.benjaminborbe.tools.util.StreamUtil;
+import org.slf4j.Logger;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,25 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.tools.util.Base64Util;
-import de.benjaminborbe.tools.util.Duration;
-import de.benjaminborbe.tools.util.DurationUtil;
-import de.benjaminborbe.tools.util.Encoding;
-import de.benjaminborbe.tools.util.StreamUtil;
 
 @Singleton
 public class HttpDownloaderImpl implements HttpDownloader {
@@ -96,7 +93,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 		return getUrl(url, timeout, username, password, new HashMap<String, String>());
 	}
 
-	protected HttpDownloadResult doDownloadUrl(final URL url, final int timeout, final String username, final String password, final Map<String, String> cookies) throws IOException {
+	protected HttpDownloadResult doDownloadUrl(final URL url, final String username, final String password, final Map<String, String> cookies) throws IOException {
 		logger.trace("downloadUrl started");
 		final Duration duration = durationUtil.getDuration();
 		InputStream inputStream = null;
@@ -124,8 +121,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding, headers);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
-		}
-		finally {
+		} finally {
 			if (inputStream != null)
 				inputStream.close();
 			if (outputStream != null)
@@ -153,7 +149,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 
 	@Override
 	public HttpDownloadResult getUrlUnsecure(final URL url, final int timeout, final String username, final String password) throws HttpDownloaderException {
-		final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManagerAllowAll() };
+		final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManagerAllowAll()};
 
 		final SSLSocketFactory orgSSLSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
 		final HostnameVerifier orgHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
@@ -165,16 +161,13 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
 			return getUrl(url, timeout, username, password);
-		}
-		catch (final NoSuchAlgorithmException e) {
+		} catch (final NoSuchAlgorithmException e) {
 			logger.error("NoSuchAlgorithmException", e);
 			throw new HttpDownloaderException("NoSuchAlgorithmException", e);
-		}
-		catch (final KeyManagementException e) {
+		} catch (final KeyManagementException e) {
 			logger.error("KeyManagementException", e);
 			throw new HttpDownloaderException("KeyManagementException", e);
-		}
-		finally {
+		} finally {
 			HttpsURLConnection.setDefaultHostnameVerifier(orgHostnameVerifier);
 			HttpsURLConnection.setDefaultSSLSocketFactory(orgSSLSocketFactory);
 		}
@@ -191,8 +184,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			for (final Entry<String, String> e : parameter.entrySet()) {
 				if (!first) {
 					data.append("&");
-				}
-				else {
+				} else {
 					first = false;
 				}
 				data.append(URLEncoder.encode(e.getKey(), "UTF-8"));
@@ -221,12 +213,10 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding, headers);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			logger.error(e.getClass().getSimpleName(), e);
 			throw new HttpDownloaderException(e.getClass().getSimpleName(), e);
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			logger.error(e.getClass().getSimpleName(), e);
 			throw new HttpDownloaderException(e.getClass().getSimpleName(), e);
 		}
@@ -247,8 +237,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 		for (final String key : keys) {
 			if (first) {
 				first = false;
-			}
-			else {
+			} else {
 				result.append("; ");
 			}
 			result.append(key);
@@ -265,11 +254,10 @@ public class HttpDownloaderImpl implements HttpDownloader {
 
 	@Override
 	public HttpDownloadResult getUrl(final URL url, final int timeout, final String username, final String password, final Map<String, String> cookies)
-			throws HttpDownloaderException {
+		throws HttpDownloaderException {
 		try {
-			return doDownloadUrl(url, timeout, username, password, cookies);
-		}
-		catch (final IOException e) {
+			return doDownloadUrl(url, username, password, cookies);
+		} catch (final IOException e) {
 			throw new HttpDownloaderException(e.getClass().getSimpleName() + " for url " + url, e);
 		}
 	}

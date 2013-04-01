@@ -1,21 +1,8 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -52,11 +39,19 @@ import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormSelectboxWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.TimeZone;
 
 @Singleton
 public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
@@ -79,20 +74,19 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 
 	@Inject
 	public TaskGuiTaskCreateServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final TaskService taskService,
-			final TaskGuiLinkFactory taskGuiLinkFactory,
-			final TaskGuiUtil taskGuiUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final TaskService taskService,
+		final TaskGuiLinkFactory taskGuiLinkFactory,
+		final TaskGuiUtil taskGuiUtil,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -108,8 +102,8 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createTaskContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -141,17 +135,15 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 					final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(contextId);
 
 					final TaskIdentifier taskIdentifier = createTask(sessionIdentifier, name.trim(), description.trim(), url.trim(), taskParentIdentifier, start, due, repeatStart,
-							repeatDue, taskContextIdentifier, focus);
+						repeatDue, taskContextIdentifier, focus);
 					logger.trace("task created " + taskIdentifier);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
-					}
-					else {
+					} else {
 						throw new RedirectException(taskGuiLinkFactory.taskCreateUrl(request, taskParentIdentifier));
 					}
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("add task failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -203,13 +195,11 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 			widgets.add(links);
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final TaskServiceException e) {
+		} catch (final TaskServiceException e) {
 			logger.trace(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
@@ -219,8 +209,7 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 	private Long parseLong(final String value) {
 		try {
 			return parseUtil.parseLong(value);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return null;
 		}
 	}
@@ -228,15 +217,14 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 	private Calendar parseCalendar(final String value, final TimeZone timeZone) {
 		try {
 			return calendarUtil.parseSmart(timeZone, value);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return null;
 		}
 	}
 
 	private TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
-			final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context,
-			final String focusString) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+																		final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context,
+																		final String focusString) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
 
 		final TaskDto taskDto = new TaskDto();
 		taskDto.setName(name);

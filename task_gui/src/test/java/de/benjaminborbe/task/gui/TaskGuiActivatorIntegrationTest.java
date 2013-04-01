@@ -1,20 +1,6 @@
 package de.benjaminborbe.task.gui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.Filter;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.search.api.SearchSpecial;
@@ -24,14 +10,24 @@ import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import org.junit.Test;
+
+import javax.servlet.Filter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class TaskGuiActivatorIntegrationTest {
 
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskGuiModulesMock());
-		final TaskGuiActivator activator = injector.getInstance(TaskGuiActivator.class);
-		assertNotNull(activator);
+		assertNotNull(injector.getInstance(TaskGuiActivator.class));
 	}
 
 	@Test
@@ -69,6 +65,8 @@ public class TaskGuiActivatorIntegrationTest {
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_USER);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_UPDATE_FOCUS);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_SELECT_TASKCONTEXT);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKATTACHMENT_CREATE);
+		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKATTACHMENT_DELETE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

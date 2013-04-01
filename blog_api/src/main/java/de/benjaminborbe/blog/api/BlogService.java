@@ -1,11 +1,11 @@
 package de.benjaminborbe.blog.api;
 
-import java.util.Collection;
-import java.util.List;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface BlogService {
 
@@ -15,15 +15,15 @@ public interface BlogService {
 
 	BlogPost getBlogPost(SessionIdentifier sessionIdentifier, BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostNotFoundException, LoginRequiredException;
 
-	List<BlogPost> getLatestBlogPosts(SessionIdentifier sessionIdentifier) throws BlogServiceException;
+	List<BlogPost> getLatestBlogPosts() throws BlogServiceException;
 
 	BlogPostIdentifier createBlogPost(SessionIdentifier sessionIdentifier, String title, String content) throws BlogServiceException, ValidationException, LoginRequiredException;
 
 	void updateBlogPost(SessionIdentifier sessionIdentifier, BlogPostIdentifier blogPostIdentifier, String title, String content) throws BlogServiceException, ValidationException,
-			LoginRequiredException;
+		LoginRequiredException;
 
 	void deleteBlogPost(SessionIdentifier sessionIdentifier, BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, ValidationException, LoginRequiredException;
 
-	BlogPostIdentifier createBlogPostIdentifier(SessionIdentifier sessionIdentifier, String id) throws BlogServiceException;
+	BlogPostIdentifier createBlogPostIdentifier(String id) throws BlogServiceException;
 
 }

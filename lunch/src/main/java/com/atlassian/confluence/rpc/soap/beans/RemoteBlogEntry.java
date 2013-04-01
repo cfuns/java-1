@@ -7,7 +7,9 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+import javax.xml.namespace.QName;
+
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary implements java.io.Serializable {
 
 	private java.lang.String content;
@@ -18,15 +20,15 @@ public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.Rem
 	}
 
 	public RemoteBlogEntry(
-			final long id,
-			final int permissions,
-			final java.lang.String space,
-			final java.lang.String title,
-			final java.lang.String url,
-			final java.lang.String author,
-			final java.util.Calendar publishDate,
-			final java.lang.String content,
-			final int version) {
+		final long id,
+		final int permissions,
+		final java.lang.String space,
+		final java.lang.String title,
+		final java.lang.String url,
+		final java.lang.String author,
+		final java.util.Calendar publishDate,
+		final java.lang.String content,
+		final int version) {
 		super(id, permissions, space, title, url, author, publishDate);
 		this.content = content;
 		this.version = version;
@@ -34,7 +36,7 @@ public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.Rem
 
 	/**
 	 * Gets the content value for this RemoteBlogEntry.
-	 * 
+	 *
 	 * @return content
 	 */
 	public java.lang.String getContent() {
@@ -43,7 +45,7 @@ public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.Rem
 
 	/**
 	 * Sets the content value for this RemoteBlogEntry.
-	 * 
+	 *
 	 * @param content
 	 */
 	public void setContent(final java.lang.String content) {
@@ -52,7 +54,7 @@ public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.Rem
 
 	/**
 	 * Gets the version value for this RemoteBlogEntry.
-	 * 
+	 *
 	 * @return version
 	 */
 	public int getVersion() {
@@ -61,7 +63,7 @@ public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.Rem
 
 	/**
 	 * Sets the version value for this RemoteBlogEntry.
-	 * 
+	 *
 	 * @param version
 	 */
 	public void setVersion(final int version) {
@@ -85,7 +87,7 @@ public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.Rem
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = super.equals(obj) && ((this.content == null && other.getContent() == null) || (this.content != null && this.content.equals(other.getContent())))
-				&& this.version == other.getVersion();
+			&& this.version == other.getVersion();
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -136,14 +138,14 @@ public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.Rem
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

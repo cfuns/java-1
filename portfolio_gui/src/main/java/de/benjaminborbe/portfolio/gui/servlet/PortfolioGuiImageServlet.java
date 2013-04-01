@@ -1,19 +1,8 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -26,6 +15,14 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Singleton
 public class PortfolioGuiImageServlet extends WebsiteServlet {
@@ -42,14 +39,14 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 
 	@Inject
 	public PortfolioGuiImageServlet(
-			final Logger logger,
-			final GalleryService galleryService,
-			final UrlUtil urlUtil,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final AuthenticationService authenticationService,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final GalleryService galleryService,
+		final UrlUtil urlUtil,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final AuthenticationService authenticationService,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.galleryService = galleryService;
@@ -64,7 +61,7 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 			final String imageId = urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_IMAGE_ID);
 			final GalleryImageIdentifier id = galleryService.createImageIdentifier(imageId);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final GalleryImage image = galleryService.getImage(sessionIdentifier, id);
+			final GalleryImage image = galleryService.getImage(id);
 			logger.debug("loaded image " + image);
 
 			// set header
@@ -78,8 +75,7 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 			response.setContentLength(content.length);
 			final ServletOutputStream outputStream = response.getOutputStream();
 			outputStream.write(content);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			response.setContentType("text/plain");
 			final PrintWriter out = response.getWriter();
 			out.println("fail");

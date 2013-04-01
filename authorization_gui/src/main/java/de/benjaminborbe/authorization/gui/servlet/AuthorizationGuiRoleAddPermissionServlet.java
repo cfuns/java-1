@@ -1,16 +1,8 @@
 package de.benjaminborbe.authorization.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -34,11 +26,15 @@ import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet {
@@ -55,17 +51,16 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 
 	@Inject
 	public AuthorizationGuiRoleAddPermissionServlet(
-			final Logger logger,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authorizationService = authorizationService;
@@ -79,7 +74,7 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		logger.trace("printContent");
 		try {
 			final ListWidget widgets = new ListWidget();
@@ -92,12 +87,10 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				if (authorizationService.addPermissionRole(sessionIdentifier, permission, role)) {
 					widgets.add("success");
-				}
-				else {
+				} else {
 					widgets.add("failed");
 				}
-			}
-			else {
+			} else {
 				final FormWidget form = new FormWidget();
 				form.addMethod(FormMethod.POST);
 				form.addFormInputWidget(new FormInputHiddenWidget(AuthorizationGuiConstants.PARAMETER_ROLE_ID));
@@ -106,13 +99,11 @@ public class AuthorizationGuiRoleAddPermissionServlet extends WebsiteHtmlServlet
 				widgets.add(form);
 			}
 			return widgets;
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			return exceptionWidget;

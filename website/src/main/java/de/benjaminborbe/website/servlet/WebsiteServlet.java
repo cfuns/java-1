@@ -1,25 +1,8 @@
 package de.benjaminborbe.website.servlet;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -35,6 +18,20 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.RedirectWidget;
 import de.benjaminborbe.website.widget.HtmlWidget;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.List;
 
 @Singleton
 public abstract class WebsiteServlet extends HttpServlet {
@@ -57,13 +54,13 @@ public abstract class WebsiteServlet extends HttpServlet {
 
 	@Inject
 	public WebsiteServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider) {
 		this.logger = logger;
 		this.urlUtil = urlUtil;
 		this.authenticationService = authenticationService;
@@ -85,40 +82,33 @@ public abstract class WebsiteServlet extends HttpServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (!isEnabled()) {
 				onDisabled(request, response, context);
-			}
-			else if ((isLoginRequired() || isAdminRequired()) && !authenticationService.isLoggedIn(sessionIdentifier)) {
+			} else if ((isLoginRequired() || isAdminRequired()) && !authenticationService.isLoggedIn(sessionIdentifier)) {
 				onLoginRequired(request, response, context);
-			}
-			else if (isAdminRequired() && !authorizationService.hasAdminRole(sessionIdentifier)) {
+			} else if (isAdminRequired() && !authorizationService.hasAdminRole(sessionIdentifier)) {
 				onPermissionDenied(request, response, context);
-			}
-			else {
+			} else {
 				try {
-					doCheckPermission(request, response, context);
+					doCheckPermission(request);
 					doService(request, response, context);
-				}
-				catch (final LoginRequiredException e) {
+				} catch (final LoginRequiredException e) {
 					onLoginRequired(request, response, context);
-				}
-				catch (final PermissionDeniedException e) {
+				} catch (final PermissionDeniedException e) {
 					onPermissionDenied(request, response, context);
 				}
 			}
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			widget.render(request, response, context);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
 			widget.render(request, response, context);
 		}
 	}
 
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 	}
 
 	protected void onDisabled(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
@@ -151,7 +141,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 	}
 
 	protected abstract void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException;
+		PermissionDeniedException, LoginRequiredException;
 
 	private String getNowAsString() {
 		return String.valueOf(getNowAsLong());
@@ -168,8 +158,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 		result.append(target + "?referer=");
 		try {
 			result.append(buildReferer(request));
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			logger.info("buildReferer failed");
 		}
 		return result.toString();

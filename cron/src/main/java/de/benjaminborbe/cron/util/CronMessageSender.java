@@ -1,9 +1,6 @@
 package de.benjaminborbe.cron.util;
 
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.cron.CronConstants;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.message.CronMessage;
@@ -11,8 +8,8 @@ import de.benjaminborbe.cron.message.CronMessageMapper;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.mapper.MapException;
-import de.benjaminborbe.tools.synchronize.RunOnlyOnceATimeByType;
 import de.benjaminborbe.tools.util.ThreadRunner;
+import org.slf4j.Logger;
 
 public class CronMessageSender {
 
@@ -44,13 +41,12 @@ public class CronMessageSender {
 
 	@Inject
 	public CronMessageSender(
-			final Logger logger,
-			final RunOnlyOnceATimeByType runOnlyOnceATimeByType,
-			final ThreadRunner threadRunner,
-			final CronExecutor cronExecutor,
-			final CronJobRegistry cronJobRegistry,
-			final MessageService messageService,
-			final CronMessageMapper cronMessageMapper) {
+		final Logger logger,
+		final ThreadRunner threadRunner,
+		final CronExecutor cronExecutor,
+		final CronJobRegistry cronJobRegistry,
+		final MessageService messageService,
+		final CronMessageMapper cronMessageMapper) {
 		this.logger = logger;
 		this.threadRunner = threadRunner;
 		this.cronExecutor = cronExecutor;
@@ -67,8 +63,7 @@ public class CronMessageSender {
 			final String content = cronMessageMapper.map(cronMessage);
 			logger.trace("send cron to queue - name: " + name);
 			messageService.sendMessage(CronConstants.MESSAGE_TYPE, id, content);
-		}
-		else {
+		} else {
 			logger.trace("exec cron direct - name: " + name);
 			threadRunner.run("exec direct", new ParallelCronRunnable(name));
 		}

@@ -1,13 +1,6 @@
 package de.benjaminborbe.task.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.search.api.SearchSpecial;
@@ -15,6 +8,8 @@ import de.benjaminborbe.task.gui.guice.TaskGuiModules;
 import de.benjaminborbe.task.gui.service.TaskGuiDashboardWidget;
 import de.benjaminborbe.task.gui.service.TaskGuiSpecialSearch;
 import de.benjaminborbe.task.gui.servlet.TaskGuiNextServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskAttachmentCreateServlet;
+import de.benjaminborbe.task.gui.servlet.TaskGuiTaskAttachmentDeleteServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskCompleteServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextCreateServlet;
 import de.benjaminborbe.task.gui.servlet.TaskGuiTaskContextDeleteServlet;
@@ -41,8 +36,19 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TaskGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private TaskGuiTaskAttachmentCreateServlet taskGuiTaskAttachmentCreateServlet;
+
+	@Inject
+	private TaskGuiTaskAttachmentDeleteServlet taskGuiTaskAttachmentDeleteServlet;
 
 	@Inject
 	private TaskGuiTaskSelectTaskContextServlet taskGuiTaskSelectTaskContextServlet;
@@ -128,9 +134,8 @@ public class TaskGuiActivator extends HttpBundleActivator {
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
-		result.add(new ServletInfo(taskGuiTaskUpdateFocusServlet, TaskGuiConstants.URL_TASK_UPDATE_FOCUS));
-		result.add(new ServletInfo(taskGuiTaskContextUserRemoveServlet, TaskGuiConstants.URL_TASKCONTEXT_USER_REMOVE));
-		result.add(new ServletInfo(taskGuiTaskContextUserServlet, TaskGuiConstants.URL_TASKCONTEXT_USER));
+
+		// task
 		result.add(new ServletInfo(taskGuiTaskFirstServlet, TaskGuiConstants.URL_TASK_FIRST));
 		result.add(new ServletInfo(taskGuiTaskLastServlet, TaskGuiConstants.URL_TASK_LAST));
 		result.add(new ServletInfo(taskGuiTaskStartLaterServlet, TaskGuiConstants.URL_TASK_START_TOMORROW));
@@ -143,12 +148,21 @@ public class TaskGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(taskGuiCompletedTaskListServlet, TaskGuiConstants.URL_TASKS_COMPLETED));
 		result.add(new ServletInfo(taskGuiCompleteServlet, TaskGuiConstants.URL_TASK_COMPLETE));
 		result.add(new ServletInfo(taskGuiUncompleteServlet, TaskGuiConstants.URL_TASK_UNCOMPLETE));
+		result.add(new ServletInfo(taskGuiTaskViewServlet, TaskGuiConstants.URL_TASK_VIEW));
+		result.add(new ServletInfo(taskGuiTaskUpdateFocusServlet, TaskGuiConstants.URL_TASK_UPDATE_FOCUS));
+		result.add(new ServletInfo(taskGuiTaskSelectTaskContextServlet, TaskGuiConstants.URL_TASK_SELECT_TASKCONTEXT));
+
+		// context
+		result.add(new ServletInfo(taskGuiTaskContextUserRemoveServlet, TaskGuiConstants.URL_TASKCONTEXT_USER_REMOVE));
+		result.add(new ServletInfo(taskGuiTaskContextUserServlet, TaskGuiConstants.URL_TASKCONTEXT_USER));
+		result.add(new ServletInfo(taskGuiTaskContextUpdateServlet, TaskGuiConstants.URL_TASKCONTEXT_UPDATE));
 		result.add(new ServletInfo(taskGuiTaskContextCreateServlet, TaskGuiConstants.URL_TASKCONTEXT_CREATE));
 		result.add(new ServletInfo(taskGuiTaskContextDeleteServlet, TaskGuiConstants.URL_TASKCONTEXT_DELETE));
 		result.add(new ServletInfo(taskGuiTaskContextListServlet, TaskGuiConstants.URL_TASKCONTEXT_LIST));
-		result.add(new ServletInfo(taskGuiTaskViewServlet, TaskGuiConstants.URL_TASK_VIEW));
-		result.add(new ServletInfo(taskGuiTaskContextUpdateServlet, TaskGuiConstants.URL_TASKCONTEXT_UPDATE));
-		result.add(new ServletInfo(taskGuiTaskSelectTaskContextServlet, TaskGuiConstants.URL_TASK_SELECT_TASKCONTEXT));
+
+		// attachment
+		result.add(new ServletInfo(taskGuiTaskAttachmentDeleteServlet, TaskGuiConstants.URL_TASKATTACHMENT_DELETE));
+		result.add(new ServletInfo(taskGuiTaskAttachmentCreateServlet, TaskGuiConstants.URL_TASKATTACHMENT_CREATE));
 
 		return result;
 	}

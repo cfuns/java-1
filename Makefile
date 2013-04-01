@@ -1,19 +1,19 @@
 MVN_OPTS=-Djava.awt.headless=true
 fast:
-	mvn $(MVN_OPTS) -Pbase,lib -T 2C -Dmaven.test.skip=true install
+	mvn $(MVN_OPTS) -Pdefault,base,lib -T 2C -Dmaven.test.skip=true install
 all:
-	mvn $(MVN_OPTS) -Pbase,lib,meta,bridge,test,slow install
+	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow install
 clean:
-	mvn $(MVN_OPTS) -Pbase,lib,meta,bridge,test,slow clean
+	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow clean
 	find . -name target -type d -exec rm -rf "{}" \;
 test:
-	mvn $(MVN_OPTS) -Pbase,lib,meta,bridge,test,slow test
+	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow test
 installwotest:
-	mvn $(MVN_OPTS) -Pbase,lib,meta,bridge,test,slow -Dmaven.test.skip=true install
+	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow -Dmaven.test.skip=true install
 update:
-	mvn -Pbase,lib,meta,bridge,test,slow versions:display-dependency-updates | grep ' -> ' | perl ~/bin/unique.pl
+	mvn -Pdefault,base,lib,meta,bridge,test,slow versions:display-dependency-updates | grep ' -> ' | perl ~/bin/unique.pl
 updateplugin:
-	mvn -Pbase,lib,meta,bridge,test,slow versions:display-plugin-updates | grep ' -> ' | perl ~/bin/unique.pl
+	mvn -Pdefault,base,lib,meta,bridge,test,slow versions:display-plugin-updates | grep ' -> ' | perl ~/bin/unique.pl
 sonar:
 	mvn $(MVN_OPTS) sonar:sonar
 package:

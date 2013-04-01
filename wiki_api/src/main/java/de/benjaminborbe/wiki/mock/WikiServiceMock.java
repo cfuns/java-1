@@ -1,15 +1,14 @@
 package de.benjaminborbe.wiki.mock;
 
-import java.util.Collection;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
+
+import java.util.Collection;
 
 @Singleton
 public class WikiServiceMock implements WikiService {
@@ -77,7 +76,7 @@ public class WikiServiceMock implements WikiService {
 	}
 
 	@Override
-	public void deletePage(final WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException {
+	public void deletePage() throws WikiServiceException {
 	}
 
 	@Override

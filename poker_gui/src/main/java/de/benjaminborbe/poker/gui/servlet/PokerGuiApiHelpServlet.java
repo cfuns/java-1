@@ -1,18 +1,8 @@
 package de.benjaminborbe.poker.gui.servlet;
 
-import java.io.IOException;
-import java.util.Collection;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -44,6 +34,13 @@ import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
 
 @Singleton
 public class PokerGuiApiHelpServlet extends WebsiteHtmlServlet {
@@ -64,19 +61,19 @@ public class PokerGuiApiHelpServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public PokerGuiApiHelpServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final CacheService cacheService,
-			final PokerGuiLinkFactory pokerGuiLinkFactory,
-			final PokerService pokerService,
-			final WikiService wikiService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final CacheService cacheService,
+		final PokerGuiLinkFactory pokerGuiLinkFactory,
+		final PokerService pokerService,
+		final WikiService wikiService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
@@ -92,7 +89,7 @@ public class PokerGuiApiHelpServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -109,28 +106,24 @@ public class PokerGuiApiHelpServlet extends WebsiteHtmlServlet {
 			widgets.add(pokerGuiLinkFactory.playerList(request));
 
 			return widgets;
-		}
-		catch (final WikiServiceException e) {
+		} catch (final WikiServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final WikiPageNotFoundException e) {
+		} catch (final WikiPageNotFoundException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			pokerService.expectPokerPlayerOrAdminPermission(sessionIdentifier);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
-		}
-		catch (final PokerServiceException e) {
+		} catch (final PokerServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

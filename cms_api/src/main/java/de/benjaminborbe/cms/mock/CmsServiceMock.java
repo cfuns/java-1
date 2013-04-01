@@ -2,9 +2,7 @@ package de.benjaminborbe.cms.mock;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.cms.api.CmsPage;
-import de.benjaminborbe.cms.api.CmsPageDto;
 import de.benjaminborbe.cms.api.CmsPageIdentifier;
 import de.benjaminborbe.cms.api.CmsService;
 
@@ -16,16 +14,16 @@ public class CmsServiceMock implements CmsService {
 	}
 
 	@Override
-	public CmsPageIdentifier createPage(final CmsPageDto cmsPageDto) {
+	public CmsPageIdentifier createPage() {
 		return null;
 	}
 
 	@Override
-	public void updatePage(final CmsPageDto cmsPageDto) {
+	public void updatePage() {
 	}
 
 	@Override
-	public CmsPage getPage(final CmsPageIdentifier cmsPageIdentifier) {
+	public CmsPage getPage() {
 		return null;
 	}
 }

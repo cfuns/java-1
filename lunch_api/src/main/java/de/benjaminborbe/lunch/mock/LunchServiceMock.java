@@ -1,16 +1,7 @@
 package de.benjaminborbe.lunch.mock;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -19,6 +10,14 @@ import de.benjaminborbe.kiosk.api.KioskUser;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.api.LunchServiceException;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 @Singleton
 public class LunchServiceMock implements LunchService {
@@ -51,8 +50,7 @@ public class LunchServiceMock implements LunchService {
 			public URL getUrl() {
 				try {
 					return new URL("http://example.com");
-				}
-				catch (final MalformedURLException e) {
+				} catch (final MalformedURLException e) {
 					return null;
 				}
 			}
@@ -72,20 +70,20 @@ public class LunchServiceMock implements LunchService {
 	}
 
 	@Override
-	public Collection<KioskUser> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	public Collection<KioskUser> getSubscribeUser(final Calendar day) throws LunchServiceException, LoginRequiredException,
+		PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public Collection<KioskUser> getBookedUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	public Collection<KioskUser> getBookedUser(final Calendar day) throws LunchServiceException, LoginRequiredException,
+		PermissionDeniedException {
 		return null;
 	}
 
 	@Override
 	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<Long> users) throws LunchServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 	}
 
 	@Override

@@ -1,16 +1,8 @@
 package de.benjaminborbe.wiki.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -29,7 +21,6 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormInputTextareaWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
@@ -40,6 +31,11 @@ import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 import de.benjaminborbe.wiki.gui.WikiGuiConstants;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class WikiGuiPageCreateServlet extends WebsiteHtmlServlet {
@@ -54,18 +50,17 @@ public class WikiGuiPageCreateServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public WikiGuiPageCreateServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final WikiService wikiService,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final WikiService wikiService,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.wikiService = wikiService;
@@ -78,7 +73,7 @@ public class WikiGuiPageCreateServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException {
+		PermissionDeniedException, RedirectException {
 		try {
 
 			logger.debug("render " + getClass().getSimpleName());
@@ -94,9 +89,8 @@ public class WikiGuiPageCreateServlet extends WebsiteHtmlServlet {
 					final WikiSpaceIdentifier wikiSpaceIdentifier = wikiService.getSpaceByName(spaceId);
 					final WikiPageIdentifier wikiPageIdentifier = wikiService.createPage(wikiSpaceIdentifier, pageTitle, pageContent);
 					throw new RedirectException(request.getContextPath() + "/wiki/page/show?" + WikiGuiConstants.PARAMETER_PAGE_ID + "=" + wikiPageIdentifier + "&"
-							+ WikiGuiConstants.PARAMETER_SPACE_ID + "=" + wikiSpaceIdentifier);
-				}
-				catch (final ValidationException e) {
+						+ WikiGuiConstants.PARAMETER_SPACE_ID + "=" + wikiSpaceIdentifier);
+				} catch (final ValidationException e) {
 					widgets.add("add page failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -110,8 +104,7 @@ public class WikiGuiPageCreateServlet extends WebsiteHtmlServlet {
 			widgets.add(form);
 
 			return widgets;
-		}
-		catch (final WikiServiceException e) {
+		} catch (final WikiServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

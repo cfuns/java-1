@@ -7,7 +7,9 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+import javax.xml.namespace.QName;
+
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteContentSummaries implements java.io.Serializable {
 
 	private com.atlassian.confluence.rpc.soap.beans.RemoteContentSummary[] content;
@@ -27,7 +29,7 @@ public class RemoteContentSummaries implements java.io.Serializable {
 
 	/**
 	 * Gets the content value for this RemoteContentSummaries.
-	 * 
+	 *
 	 * @return content
 	 */
 	public com.atlassian.confluence.rpc.soap.beans.RemoteContentSummary[] getContent() {
@@ -36,7 +38,7 @@ public class RemoteContentSummaries implements java.io.Serializable {
 
 	/**
 	 * Sets the content value for this RemoteContentSummaries.
-	 * 
+	 *
 	 * @param content
 	 */
 	public void setContent(final com.atlassian.confluence.rpc.soap.beans.RemoteContentSummary[] content) {
@@ -45,7 +47,7 @@ public class RemoteContentSummaries implements java.io.Serializable {
 
 	/**
 	 * Gets the offset value for this RemoteContentSummaries.
-	 * 
+	 *
 	 * @return offset
 	 */
 	public int getOffset() {
@@ -54,7 +56,7 @@ public class RemoteContentSummaries implements java.io.Serializable {
 
 	/**
 	 * Sets the offset value for this RemoteContentSummaries.
-	 * 
+	 *
 	 * @param offset
 	 */
 	public void setOffset(final int offset) {
@@ -63,7 +65,7 @@ public class RemoteContentSummaries implements java.io.Serializable {
 
 	/**
 	 * Gets the totalAvailable value for this RemoteContentSummaries.
-	 * 
+	 *
 	 * @return totalAvailable
 	 */
 	public int getTotalAvailable() {
@@ -72,7 +74,7 @@ public class RemoteContentSummaries implements java.io.Serializable {
 
 	/**
 	 * Sets the totalAvailable value for this RemoteContentSummaries.
-	 * 
+	 *
 	 * @param totalAvailable
 	 */
 	public void setTotalAvailable(final int totalAvailable) {
@@ -96,7 +98,7 @@ public class RemoteContentSummaries implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.content == null && other.getContent() == null) || (this.content != null && java.util.Arrays.equals(this.content, other.getContent())))
-				&& this.offset == other.getOffset() && this.totalAvailable == other.getTotalAvailable();
+			&& this.offset == other.getOffset() && this.totalAvailable == other.getTotalAvailable();
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -159,14 +161,14 @@ public class RemoteContentSummaries implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

@@ -7,7 +7,9 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+import javax.xml.namespace.QName;
+
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteContentPermissionSet implements java.io.Serializable {
 
 	private com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[] contentPermissions;
@@ -24,7 +26,7 @@ public class RemoteContentPermissionSet implements java.io.Serializable {
 
 	/**
 	 * Gets the contentPermissions value for this RemoteContentPermissionSet.
-	 * 
+	 *
 	 * @return contentPermissions
 	 */
 	public com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[] getContentPermissions() {
@@ -33,7 +35,7 @@ public class RemoteContentPermissionSet implements java.io.Serializable {
 
 	/**
 	 * Sets the contentPermissions value for this RemoteContentPermissionSet.
-	 * 
+	 *
 	 * @param contentPermissions
 	 */
 	public void setContentPermissions(final com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[] contentPermissions) {
@@ -42,7 +44,7 @@ public class RemoteContentPermissionSet implements java.io.Serializable {
 
 	/**
 	 * Gets the type value for this RemoteContentPermissionSet.
-	 * 
+	 *
 	 * @return type
 	 */
 	public java.lang.String getType() {
@@ -51,7 +53,7 @@ public class RemoteContentPermissionSet implements java.io.Serializable {
 
 	/**
 	 * Sets the type value for this RemoteContentPermissionSet.
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setType(final java.lang.String type) {
@@ -75,8 +77,8 @@ public class RemoteContentPermissionSet implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true
-				&& ((this.contentPermissions == null && other.getContentPermissions() == null) || (this.contentPermissions != null && java.util.Arrays.equals(this.contentPermissions,
-						other.getContentPermissions()))) && ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())));
+			&& ((this.contentPermissions == null && other.getContentPermissions() == null) || (this.contentPermissions != null && java.util.Arrays.equals(this.contentPermissions,
+			other.getContentPermissions()))) && ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -134,14 +136,14 @@ public class RemoteContentPermissionSet implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

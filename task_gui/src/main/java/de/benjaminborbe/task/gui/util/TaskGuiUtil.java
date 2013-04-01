@@ -1,22 +1,6 @@
 package de.benjaminborbe.task.gui.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -35,6 +19,19 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 public class TaskGuiUtil {
 
@@ -52,12 +49,12 @@ public class TaskGuiUtil {
 
 	@Inject
 	public TaskGuiUtil(
-			final Logger logger,
-			final TaskService taskService,
-			final StringUtil stringUtil,
-			final CalendarUtil calendarUtil,
-			final UrlUtil urlUtil,
-			final ParseUtil parseUtil) {
+		final Logger logger,
+		final TaskService taskService,
+		final StringUtil stringUtil,
+		final CalendarUtil calendarUtil,
+		final UrlUtil urlUtil,
+		final ParseUtil parseUtil) {
 		this.logger = logger;
 		this.taskService = taskService;
 		this.stringUtil = stringUtil;
@@ -67,7 +64,7 @@ public class TaskGuiUtil {
 	}
 
 	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final TaskCache taskCache, final Task task, final int nameLength) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException {
+		LoginRequiredException, PermissionDeniedException {
 		final List<String> names = new ArrayList<String>();
 		Task parent = taskCache.getParent(sessionIdentifier, task);
 		while (parent != null) {
@@ -89,19 +86,17 @@ public class TaskGuiUtil {
 	}
 
 	public Collection<Task> getTasksWithFocus(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus, final List<String> taskContextIds)
-			throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+		throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		logger.debug("task list for context: " + taskContextIds);
 		if (taskContextIds.size() == 1 && TaskGuiConstants.ALL.equals(taskContextIds.get(0))) {
 			logger.debug("get tasks with focus " + taskFocus);
 			return taskService.getTasks(sessionIdentifier, completed, taskFocus);
-		}
-		else if (taskContextIds.size() == 1 && TaskGuiConstants.NONE.equals(taskContextIds.get(0))) {
+		} else if (taskContextIds.size() == 1 && TaskGuiConstants.NONE.equals(taskContextIds.get(0))) {
 			logger.debug("get tasks without context and focus " + taskFocus);
 			return taskService.getTasksWithoutContext(sessionIdentifier, completed, taskFocus);
-		}
-		else {
+		} else {
 			logger.debug("get tasks with contexts " + taskContextIds + " and focus " + taskFocus);
-			return taskService.getTasks(sessionIdentifier, completed, taskFocus, createTaskContextIdentifiers(taskContextIds));
+			return taskService.getTasks(completed, taskFocus, createTaskContextIdentifiers(taskContextIds));
 		}
 	}
 
@@ -144,19 +139,17 @@ public class TaskGuiUtil {
 	}
 
 	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final List<String> taskContextIds) throws TaskServiceException,
-			LoginRequiredException, PermissionDeniedException {
+		LoginRequiredException, PermissionDeniedException {
 		logger.debug("get completed tasks for context: " + taskContextIds);
 		if (taskContextIds.size() == 1 && TaskGuiConstants.ALL.equals(taskContextIds.get(0))) {
 			logger.debug("get tasks completed");
 			return taskService.getTasks(sessionIdentifier, completed);
-		}
-		else if (taskContextIds.size() == 1 && TaskGuiConstants.NONE.equals(taskContextIds.get(0))) {
+		} else if (taskContextIds.size() == 1 && TaskGuiConstants.NONE.equals(taskContextIds.get(0))) {
 			logger.debug("get tasks without context");
 			return taskService.getTasksWithoutContext(sessionIdentifier, completed);
-		}
-		else {
+		} else {
 			logger.debug("get tasks with contexts " + taskContextIds);
-			return taskService.getTasks(sessionIdentifier, completed, createTaskContextIdentifiers(taskContextIds));
+			return taskService.getTasks(completed, createTaskContextIdentifiers(taskContextIds));
 		}
 
 	}
@@ -181,48 +174,39 @@ public class TaskGuiUtil {
 				if (taskContext != null) {
 					task.setContext(taskContext.getId());
 				}
-			}
-			else if (hasNext && "due:".equalsIgnoreCase(token)) {
+			} else if (hasNext && "due:".equalsIgnoreCase(token)) {
 				final String nextToken = st.nextToken();
 				logger.debug("due: " + nextToken);
 				try {
 					task.setDue(calendarUtil.parseSmart(nextToken));
-				}
-				catch (final ParseException e) {
+				} catch (final ParseException e) {
 					logger.debug("parseSmart token " + nextToken + " failed", e);
 				}
-			}
-			else if (hasNext && "start:".equalsIgnoreCase(token)) {
+			} else if (hasNext && "start:".equalsIgnoreCase(token)) {
 				final String nextToken = st.nextToken();
 				logger.debug("start: " + nextToken);
 				try {
 					task.setStart(calendarUtil.parseSmart(nextToken));
-				}
-				catch (final ParseException e) {
+				} catch (final ParseException e) {
 					logger.debug("parseSmart token " + nextToken + " failed", e);
 				}
-			}
-			else if (hasNext && "url:".equalsIgnoreCase(token)) {
+			} else if (hasNext && "url:".equalsIgnoreCase(token)) {
 				final String nextToken = st.nextToken();
 				logger.debug("url: " + nextToken);
 				if (urlUtil.isUrl(nextToken)) {
 					task.setUrl(nextToken);
-				}
-				else {
+				} else {
 					logger.debug("invalid url: " + nextToken);
 				}
-			}
-			else if (hasNext && "focus:".equalsIgnoreCase(token)) {
+			} else if (hasNext && "focus:".equalsIgnoreCase(token)) {
 				final String nextToken = st.nextToken();
 				logger.debug("focus: " + nextToken);
 				try {
 					task.setFocus(parseUtil.parseEnum(TaskFocus.class, nextToken.toUpperCase()));
-				}
-				catch (final ParseException e) {
+				} catch (final ParseException e) {
 					logger.debug("parseEnum token " + nextToken + " failed", e);
 				}
-			}
-			else {
+			} else {
 				remainingTokens.add(token);
 			}
 		}

@@ -48,7 +48,6 @@ import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -106,7 +105,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createTaskContentWidget(final HttpServletRequest request) throws IOException,
 		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
@@ -193,7 +192,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 
 			// attachments
 			{
-				final Collection<TaskAttachment> attachments = taskService.getAttachments(sessionIdentifier, task.getId());
+				final Collection<TaskAttachment> attachments = taskService.getAttachments(task.getId());
 				if (!attachments.isEmpty()) {
 					final UlWidget ul = new UlWidget();
 					for (final TaskAttachment attachment : attachments) {

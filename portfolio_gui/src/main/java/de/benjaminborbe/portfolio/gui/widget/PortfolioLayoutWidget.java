@@ -1,20 +1,8 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-import java.util.HashSet;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
-import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.gallery.api.GalleryEntry;
-import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
@@ -37,6 +25,13 @@ import de.benjaminborbe.website.widget.HeadWidget;
 import de.benjaminborbe.website.widget.HtmlWidget;
 import de.benjaminborbe.website.widget.ImageWidget;
 import de.benjaminborbe.website.widget.VoidWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
 
@@ -56,12 +51,10 @@ public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
 
 	@Inject
 	public PortfolioLayoutWidget(
-			final TopWidget topWidget,
-			final BottomWidget footerWidget,
-			final PortfolioGuiLinkFactory portfolioLinkFactory,
-			final AuthenticationService authenticationService,
-			final Logger logger,
-			final GalleryService galleryService) {
+		final TopWidget topWidget,
+		final BottomWidget footerWidget,
+		final PortfolioGuiLinkFactory portfolioLinkFactory,
+		final Logger logger) {
 		this.topWidget = topWidget;
 		this.footerWidget = footerWidget;
 		this.portfolioLinkFactory = portfolioLinkFactory;
@@ -109,15 +102,15 @@ public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
 
 		final ListWidget widgets = new ListWidget();
 		widgets.add(topWidget);
-		widgets.add(new DivWidget(createContentLayoutWidget(request, response, context)).addAttribute("id", "content"));
+		widgets.add(new DivWidget(createContentLayoutWidget(request)).addAttribute("id", "content"));
 		widgets.add(footerWidget);
 
 		final BodyWidget bodyWidget = new BodyWidget(widgets);
 		return new HtmlWidget(headWidget, bodyWidget);
 	}
 
-	private Widget createContentLayoutWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws GalleryServiceException,
-			UnsupportedEncodingException, AuthenticationServiceException {
+	private Widget createContentLayoutWidget(final HttpServletRequest request) throws GalleryServiceException,
+		UnsupportedEncodingException, AuthenticationServiceException {
 
 		final TableWidget table = new TableWidget();
 		table.addId("images");

@@ -1,18 +1,8 @@
 package de.benjaminborbe.monitoring.gui.servlet;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -34,6 +24,13 @@ import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public abstract class MonitoringWebsiteHtmlServlet extends WebsiteHtmlServlet {
@@ -42,25 +39,25 @@ public abstract class MonitoringWebsiteHtmlServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public MonitoringWebsiteHtmlServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 	}
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		final ListWidget widgets = new ListWidget();
 
-		widgets.add(createMonitoringContentWidget(request, response, context));
+		widgets.add(createMonitoringContentWidget(request));
 
 		final SpanWidget tooltip = new SpanWidget();
 		tooltip.addAttribute("id", "tooltip");
@@ -70,8 +67,8 @@ public abstract class MonitoringWebsiteHtmlServlet extends WebsiteHtmlServlet {
 		return widgets;
 	}
 
-	protected abstract Widget createMonitoringContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException;
+	protected abstract Widget createMonitoringContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException;
 
 	@Override
 	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {

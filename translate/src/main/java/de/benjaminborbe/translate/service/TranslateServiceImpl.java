@@ -1,12 +1,9 @@
 package de.benjaminborbe.translate.service;
 
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import de.benjaminborbe.translate.api.Language;
 import de.benjaminborbe.translate.api.TranslateService;
+import org.slf4j.Logger;
 
 @Singleton
 public class TranslateServiceImpl implements TranslateService {
@@ -19,7 +16,7 @@ public class TranslateServiceImpl implements TranslateService {
 	}
 
 	@Override
-	public String translate(final String text, final Language source, final Language target) {
+	public String translate(final String text) {
 		logger.trace("translate");
 		return text;
 	}

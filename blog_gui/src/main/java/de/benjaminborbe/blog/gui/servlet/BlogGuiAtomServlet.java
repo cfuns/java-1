@@ -1,18 +1,8 @@
 package de.benjaminborbe.blog.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
@@ -27,6 +17,13 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class BlogGuiAtomServlet extends WebsiteWidgetServlet {
@@ -37,13 +34,13 @@ public class BlogGuiAtomServlet extends WebsiteWidgetServlet {
 
 	@Inject
 	public BlogGuiAtomServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final AuthenticationService authenticationService,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final AuthenticationService authenticationService,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.urlUtil = urlUtil;
 	}
@@ -65,17 +62,17 @@ public class BlogGuiAtomServlet extends WebsiteWidgetServlet {
 		feed.setId(request.getRequestURL().toString());
 		feed.setUpdated("2012-09-16T11:50:09+02:00");
 		feed.setAuthor(author);
-		feed.setEntries(createEntries(request, response, context));
+		feed.setEntries(createEntries(request));
 		return feed;
 	}
 
-	private List<Entry> createEntries(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) {
+	private List<Entry> createEntries(final HttpServletRequest request) {
 		final List<Entry> entries = new ArrayList<Entry>();
-		entries.add(createEntry(request, response, context));
+		entries.add(createEntry(request));
 		return entries;
 	}
 
-	private Entry createEntry(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) {
+	private Entry createEntry(final HttpServletRequest request) {
 		final EntryBean entry = new EntryBean();
 		entry.setTitle("Title");
 		entry.setId("123");

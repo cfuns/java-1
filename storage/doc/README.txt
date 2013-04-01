@@ -382,6 +382,7 @@ create column family task_attachment with
 
 drop column family filestorage_entry;
 create column family filestorage_entry with
-	comparator = UTF8Type and
-	key_validation_class = UTF8Type and
-	default_validation_class = UTF8Type;
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;
+

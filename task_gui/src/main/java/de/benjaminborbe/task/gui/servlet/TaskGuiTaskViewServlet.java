@@ -49,7 +49,6 @@ import de.benjaminborbe.website.util.UlWidget;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -122,7 +121,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createTaskContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+	protected Widget createTaskContentWidget(final HttpServletRequest request) throws IOException,
 		PermissionDeniedException, RedirectException, LoginRequiredException {
 
 		try {
@@ -249,6 +248,8 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			options.add(taskGuiLinkFactory.taskUpdate(request, taskGuiWidgetFactory.buildImage(request, "update"), task));
 			options.add(" ");
 			options.add(taskGuiLinkFactory.taskCreateSubTask(request, taskGuiWidgetFactory.buildImage(request, "subtask"), task.getId()));
+			options.add(" ");
+			options.add(taskGuiLinkFactory.taskAttachmentCreate(request, task.getId(), taskGuiWidgetFactory.buildImage(request, "upload")));
 
 			widgets.add(new DivWidget(options).addClass("options"));
 		}
@@ -332,7 +333,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 
 		// attachments
 		{
-			final Collection<TaskAttachment> attachments = taskService.getAttachments(sessionIdentifier, task.getId());
+			final Collection<TaskAttachment> attachments = taskService.getAttachments(task.getId());
 			if (!attachments.isEmpty()) {
 				final UlWidget ul = new UlWidget();
 				for (final TaskAttachment attachment : attachments) {

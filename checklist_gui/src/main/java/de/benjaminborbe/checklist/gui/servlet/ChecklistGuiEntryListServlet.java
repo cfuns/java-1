@@ -1,19 +1,9 @@
 package de.benjaminborbe.checklist.gui.servlet;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -38,13 +28,18 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class ChecklistGuiEntryListServlet extends ChecklistGuiWebsiteHtmlServlet {
@@ -65,20 +60,19 @@ public class ChecklistGuiEntryListServlet extends ChecklistGuiWebsiteHtmlServlet
 
 	@Inject
 	public ChecklistGuiEntryListServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final ChecklistGuiLinkFactory linkFactory,
-			final ChecklistService checklistService,
-			final AuthorizationService authorizationService,
-			final ChecklistGuiEntryComparator checklistEntryComparator,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final ChecklistGuiLinkFactory linkFactory,
+		final ChecklistService checklistService,
+		final AuthorizationService authorizationService,
+		final ChecklistGuiEntryComparator checklistEntryComparator,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.linkFactory = linkFactory;
 		this.checklistService = checklistService;
@@ -93,8 +87,8 @@ public class ChecklistGuiEntryListServlet extends ChecklistGuiWebsiteHtmlServlet
 	}
 
 	@Override
-	protected Widget createChecklistContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createChecklistContentWidget(final HttpServletRequest request) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 
@@ -113,8 +107,7 @@ public class ChecklistGuiEntryListServlet extends ChecklistGuiWebsiteHtmlServlet
 					final ListWidget list = new ListWidget();
 					if (completed) {
 						list.add(linkFactory.entryUncomplete(request, entry.getId()));
-					}
-					else {
+					} else {
 						list.add(linkFactory.entryComplete(request, entry.getId()));
 					}
 					list.add(" ");
@@ -136,12 +129,10 @@ public class ChecklistGuiEntryListServlet extends ChecklistGuiWebsiteHtmlServlet
 				widgets.add(navi);
 			}
 			return widgets;
-		}
-		catch (final ChecklistServiceException e) {
+		} catch (final ChecklistServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}

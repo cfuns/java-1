@@ -1,20 +1,8 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
 import de.benjaminborbe.analytics.api.AnalyticsService;
@@ -46,13 +34,21 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @Singleton
 public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
@@ -75,18 +71,17 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public AnalyticsGuiReportAddDataServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final AnalyticsService analyticsService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final AnalyticsService analyticsService,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
@@ -103,7 +98,7 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -117,10 +112,9 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 
 				try {
 					final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(reportId);
-					addData(sessionIdentifier, analyticsReportIdentifier, date, value);
+					addData(analyticsReportIdentifier, date, value);
 					widgets.add("add data => success");
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("add data => failed");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -134,28 +128,25 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 			widgets.add(formWidget);
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final AnalyticsServiceException e) {
+		} catch (final AnalyticsServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
 	}
 
-	private void addData(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier, final String dateString, final String valueString)
-			throws AnalyticsServiceException, ValidationException, PermissionDeniedException, LoginRequiredException {
+	private void addData(final AnalyticsReportIdentifier analyticsReportIdentifier, final String dateString, final String valueString)
+		throws AnalyticsServiceException, ValidationException, PermissionDeniedException, LoginRequiredException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		Calendar calendar = null;
 		{
 			try {
 				calendar = calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), dateString);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				errors.add(new ValidationErrorSimple("illegal date"));
 			}
 		}
@@ -164,16 +155,14 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 		{
 			try {
 				value = parseUtil.parseDouble(valueString);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				errors.add(new ValidationErrorSimple("illegal delay"));
 			}
 		}
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
-		}
-		else {
+		} else {
 			final AnalyticsReportValueDto reportValue = new AnalyticsReportValueDto(calendar, value, 1l);
 			analyticsService.addReportValue(analyticsReportIdentifier, reportValue);
 		}
@@ -188,16 +177,14 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			analyticsService.expectAnalyticsAdminPermission(sessionIdentifier);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
-		}
-		catch (final AnalyticsServiceException e) {
+		} catch (final AnalyticsServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

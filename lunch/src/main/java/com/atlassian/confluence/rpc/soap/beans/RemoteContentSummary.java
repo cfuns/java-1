@@ -7,7 +7,9 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+import javax.xml.namespace.QName;
+
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteContentSummary implements java.io.Serializable {
 
 	private java.util.Calendar created;
@@ -32,15 +34,15 @@ public class RemoteContentSummary implements java.io.Serializable {
 	}
 
 	public RemoteContentSummary(
-			final java.util.Calendar created,
-			final java.lang.String creator,
-			final long id,
-			final java.util.Calendar modified,
-			final java.lang.String modifier,
-			final java.lang.String space,
-			final java.lang.String status,
-			final java.lang.String title,
-			final java.lang.String type) {
+		final java.util.Calendar created,
+		final java.lang.String creator,
+		final long id,
+		final java.util.Calendar modified,
+		final java.lang.String modifier,
+		final java.lang.String space,
+		final java.lang.String status,
+		final java.lang.String title,
+		final java.lang.String type) {
 		this.created = created;
 		this.creator = creator;
 		this.id = id;
@@ -54,7 +56,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the created value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @return created
 	 */
 	public java.util.Calendar getCreated() {
@@ -63,7 +65,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the created value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @param created
 	 */
 	public void setCreated(final java.util.Calendar created) {
@@ -72,7 +74,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the creator value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @return creator
 	 */
 	public java.lang.String getCreator() {
@@ -81,7 +83,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the creator value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @param creator
 	 */
 	public void setCreator(final java.lang.String creator) {
@@ -90,7 +92,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @return id
 	 */
 	public long getId() {
@@ -99,7 +101,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(final long id) {
@@ -108,7 +110,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the modified value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @return modified
 	 */
 	public java.util.Calendar getModified() {
@@ -117,7 +119,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the modified value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @param modified
 	 */
 	public void setModified(final java.util.Calendar modified) {
@@ -126,7 +128,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the modifier value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @return modifier
 	 */
 	public java.lang.String getModifier() {
@@ -135,7 +137,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the modifier value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @param modifier
 	 */
 	public void setModifier(final java.lang.String modifier) {
@@ -144,7 +146,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the space value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @return space
 	 */
 	public java.lang.String getSpace() {
@@ -153,7 +155,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the space value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @param space
 	 */
 	public void setSpace(final java.lang.String space) {
@@ -162,7 +164,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the status value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @return status
 	 */
 	public java.lang.String getStatus() {
@@ -171,7 +173,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the status value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @param status
 	 */
 	public void setStatus(final java.lang.String status) {
@@ -180,7 +182,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the title value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @return title
 	 */
 	public java.lang.String getTitle() {
@@ -189,7 +191,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the title value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @param title
 	 */
 	public void setTitle(final java.lang.String title) {
@@ -198,7 +200,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the type value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @return type
 	 */
 	public java.lang.String getType() {
@@ -207,7 +209,7 @@ public class RemoteContentSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the type value for this RemoteContentSummary.
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setType(final java.lang.String type) {
@@ -231,13 +233,13 @@ public class RemoteContentSummary implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
-				&& ((this.creator == null && other.getCreator() == null) || (this.creator != null && this.creator.equals(other.getCreator()))) && this.id == other.getId()
-				&& ((this.modified == null && other.getModified() == null) || (this.modified != null && this.modified.equals(other.getModified())))
-				&& ((this.modifier == null && other.getModifier() == null) || (this.modifier != null && this.modifier.equals(other.getModifier())))
-				&& ((this.space == null && other.getSpace() == null) || (this.space != null && this.space.equals(other.getSpace())))
-				&& ((this.status == null && other.getStatus() == null) || (this.status != null && this.status.equals(other.getStatus())))
-				&& ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
-				&& ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())));
+			&& ((this.creator == null && other.getCreator() == null) || (this.creator != null && this.creator.equals(other.getCreator()))) && this.id == other.getId()
+			&& ((this.modified == null && other.getModified() == null) || (this.modified != null && this.modified.equals(other.getModified())))
+			&& ((this.modifier == null && other.getModifier() == null) || (this.modifier != null && this.modifier.equals(other.getModifier())))
+			&& ((this.space == null && other.getSpace() == null) || (this.space != null && this.space.equals(other.getSpace())))
+			&& ((this.status == null && other.getStatus() == null) || (this.status != null && this.status.equals(other.getStatus())))
+			&& ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
+			&& ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -351,14 +353,14 @@ public class RemoteContentSummary implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

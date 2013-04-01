@@ -1,20 +1,9 @@
 package de.benjaminborbe.lunch.service;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
-import javax.xml.rpc.ServiceException;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.atlassian.confluence.rpc.AuthenticationFailedException;
 import com.atlassian.confluence.rpc.RemoteException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -48,6 +37,14 @@ import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import javax.xml.rpc.ServiceException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class LunchServiceImpl implements LunchService {
@@ -73,8 +70,7 @@ public class LunchServiceImpl implements LunchService {
 				}
 
 				sendBookMail(day, users);
-			}
-			catch (final KioskServiceException e) {
+			} catch (final KioskServiceException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}
@@ -108,18 +104,18 @@ public class LunchServiceImpl implements LunchService {
 
 	@Inject
 	public LunchServiceImpl(
-			final Logger logger,
-			final NotificationService notificationService,
-			final RunOnlyOnceATime runOnlyOnceATime,
-			final KioskService kioskService,
-			final LunchWikiConnector wikiConnector,
-			final LunchConfig lunchConfig,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final DurationUtil durationUtil,
-			final CalendarUtil calendarUtil,
-			final LunchUserSettingsDao lunchUserSettingsDao,
-			final ValidationExecutor validationExecutor) {
+		final Logger logger,
+		final NotificationService notificationService,
+		final RunOnlyOnceATime runOnlyOnceATime,
+		final KioskService kioskService,
+		final LunchWikiConnector wikiConnector,
+		final LunchConfig lunchConfig,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final DurationUtil durationUtil,
+		final CalendarUtil calendarUtil,
+		final LunchUserSettingsDao lunchUserSettingsDao,
+		final ValidationExecutor validationExecutor) {
 		this.logger = logger;
 		this.notificationService = notificationService;
 		this.runOnlyOnceATime = runOnlyOnceATime;
@@ -140,20 +136,18 @@ public class LunchServiceImpl implements LunchService {
 		try {
 			logger.debug("getLunchs for current user");
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
-			final String username = authenticationService.getFullname(sessionIdentifier, userIdentifier);
+			final String username = authenticationService.getFullname(userIdentifier);
 			return getLunchs(sessionIdentifier, username);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			throw new LunchServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	private Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname, final Calendar date) throws LunchServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_VIEW));
@@ -163,11 +157,9 @@ public class LunchServiceImpl implements LunchService {
 			final String username = lunchConfig.getConfluenceUsername();
 			final String password = lunchConfig.getConfluencePassword();
 			return wikiConnector.extractLunchs(spaceKey, username, password, fullname, date);
-		}
-		catch (final AuthorizationServiceException | java.rmi.RemoteException | ServiceException | ParseException e) {
+		} catch (final AuthorizationServiceException | java.rmi.RemoteException | ServiceException | ParseException e) {
 			throw new LunchServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -176,18 +168,16 @@ public class LunchServiceImpl implements LunchService {
 
 	@Override
 	public Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_VIEW));
 
 			logger.debug("getLunchs - fullname: " + fullname);
 			return getLunchs(sessionIdentifier, fullname, calendarUtil.today());
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new LunchServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -195,20 +185,19 @@ public class LunchServiceImpl implements LunchService {
 
 	@Override
 	public Collection<Lunch> getLunchsArchiv(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getLunchsArchiv - fullname: " + fullname);
 			return getLunchs(sessionIdentifier, fullname, null);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
-	public Collection<KioskUser> getSubscribeUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException {
+	public Collection<KioskUser> getSubscribeUser(final Calendar day) throws LunchServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getSubscribeUser for day: " + calendarUtil.toDateString(day));
@@ -222,26 +211,19 @@ public class LunchServiceImpl implements LunchService {
 				result.add(buildUser(username));
 			}
 			return result;
-		}
-		catch (final AuthenticationFailedException e) {
+		} catch (final AuthenticationFailedException e) {
 			throw new LunchServiceException(e);
-		}
-		catch (final RemoteException e) {
+		} catch (final RemoteException e) {
 			throw new LunchServiceException(e);
-		}
-		catch (final ServiceException e) {
+		} catch (final ServiceException e) {
 			throw new LunchServiceException(e);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			throw new LunchServiceException(e);
-		}
-		catch (final java.rmi.RemoteException e) {
+		} catch (final java.rmi.RemoteException e) {
 			throw new LunchServiceException(e);
-		}
-		catch (final KioskServiceException e) {
+		} catch (final KioskServiceException e) {
 			throw new LunchServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -262,8 +244,7 @@ public class LunchServiceImpl implements LunchService {
 				user.setSurname(parts[1]);
 				return user;
 			}
-		}
-		else {
+		} else {
 			final KioskUserDto user = new KioskUserDto();
 			user.setPrename(username);
 			return user;
@@ -272,17 +253,15 @@ public class LunchServiceImpl implements LunchService {
 
 	@Override
 	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<Long> users) throws LunchServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(PERMISSION_BOOKING);
 			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
 			runOnlyOnceATime.run(new SendBookings(users, day));
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new LunchServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -311,23 +290,21 @@ public class LunchServiceImpl implements LunchService {
 			notification.setSubject(subject);
 			notification.setMessage(message);
 			notificationService.notify(notification);
-		}
-		catch (final NotificationServiceException | ValidationException | AuthenticationServiceException e) {
+		} catch (final NotificationServiceException | ValidationException | AuthenticationServiceException e) {
 			logger.warn("send book mail failed", e);
 		}
 	}
 
 	@Override
-	public Collection<KioskUser> getBookedUser(final SessionIdentifier sessionIdentifier, final Calendar day) throws LunchServiceException, LoginRequiredException,
-			PermissionDeniedException {
+	public Collection<KioskUser> getBookedUser(final Calendar day) throws LunchServiceException, LoginRequiredException,
+		PermissionDeniedException {
 		try {
 			final List<KioskUser> result = new ArrayList<KioskUser>();
 			for (final KioskUser user : kioskService.getBookingsForDay(day, LunchConstants.MITTAG_EAN)) {
 				result.add(user);
 			}
 			return result;
-		}
-		catch (final KioskServiceException e) {
+		} catch (final KioskServiceException e) {
 			throw new LunchServiceException(e);
 		}
 	}
@@ -339,8 +316,7 @@ public class LunchServiceImpl implements LunchService {
 			final Boolean value = bean.getNotificationActivated();
 			logger.debug("activ = " + value);
 			return Boolean.TRUE.equals(value);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new LunchServiceException(e);
 		}
 	}
@@ -358,8 +334,7 @@ public class LunchServiceImpl implements LunchService {
 			}
 
 			lunchUserSettingsDao.save(bean);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new LunchServiceException(e);
 		}
 	}
@@ -376,8 +351,7 @@ public class LunchServiceImpl implements LunchService {
 				throw new ValidationException(errors);
 			}
 			lunchUserSettingsDao.save(bean);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new LunchServiceException(e);
 		}
 	}

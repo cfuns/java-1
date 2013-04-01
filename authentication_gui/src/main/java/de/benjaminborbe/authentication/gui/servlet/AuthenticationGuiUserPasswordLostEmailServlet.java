@@ -1,17 +1,8 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -33,12 +24,17 @@ import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 @Singleton
 public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlServlet {
@@ -55,18 +51,17 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 
 	@Inject
 	public AuthenticationGuiUserPasswordLostEmailServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthenticationService authenticationService,
+		final UrlUtil urlUtil,
+		final AuthenticationGuiLinkFactory authenticationGuiLinkFactory,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -92,13 +87,11 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 				try {
 					sendPasswordLostEmail(request, sessionIdentifier, userIdentifier, email);
 					widgets.add("password lost email sent successful");
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("password lost failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
-			}
-			else {
+			} else {
 				final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
 				form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_USER_ID).addLabel("Username:").addPlaceholder("Username..."));
 				form.addFormInputWidget(new FormInputTextWidget(AuthenticationGuiConstants.PARAMETER_EMAIL).addLabel("Email:").addPlaceholder("Email..."));
@@ -106,8 +99,7 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 				widgets.add(form);
 			}
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
@@ -115,10 +107,10 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 	}
 
 	private void sendPasswordLostEmail(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email)
-			throws AuthenticationServiceException, ValidationException, UnsupportedEncodingException {
+		throws AuthenticationServiceException, ValidationException, UnsupportedEncodingException {
 		final String shortenUrl = authenticationGuiLinkFactory.getShortenUrl(request);
 		final String resetUrl = authenticationGuiLinkFactory.getPasswordResetUrl(request);
-		authenticationService.sendPasswordLostEmail(sessionIdentifier, shortenUrl, resetUrl, userIdentifier, email);
+		authenticationService.sendPasswordLostEmail(shortenUrl, resetUrl, userIdentifier, email);
 	}
 
 	@Override

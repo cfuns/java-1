@@ -1,11 +1,5 @@
 package de.benjaminborbe.authentication.test;
 
-import java.util.TimeZone;
-
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -16,6 +10,9 @@ import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.test.osgi.TestUtil;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 
 public class AuthenticationIntegrationTest extends TestCaseOsgi {
 
@@ -76,19 +73,18 @@ public class AuthenticationIntegrationTest extends TestCaseOsgi {
 		final UserIdentifier userIdentifier = new UserIdentifier(TestUtil.LOGIN_USER);
 
 		// if user already exists unregister first
-		if (service.verifyCredential(sessionIdentifier, userIdentifier, TestUtil.PASSWORD)) {
+		if (service.verifyCredential(userIdentifier, TestUtil.PASSWORD)) {
 			service.login(sessionIdentifier, userIdentifier, TestUtil.PASSWORD);
 			service.unregister(sessionIdentifier);
 		}
 
 		assertFalse(service.isLoggedIn(sessionIdentifier));
-		assertFalse(service.verifyCredential(sessionIdentifier, userIdentifier, TestUtil.PASSWORD));
-		service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, TestUtil.LOGIN_USER, TestUtil.EMAIL, TestUtil.PASSWORD, TestUtil.FULLNAME, TimeZone.getDefault());
+		assertFalse(service.verifyCredential(userIdentifier, TestUtil.PASSWORD));
+		service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, TestUtil.LOGIN_USER, TestUtil.EMAIL, TestUtil.PASSWORD);
 		try {
-			service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, TestUtil.LOGIN_USER, TestUtil.EMAIL, TestUtil.PASSWORD, TestUtil.FULLNAME, TimeZone.getDefault());
+			service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, TestUtil.LOGIN_USER, TestUtil.EMAIL, TestUtil.PASSWORD);
 			fail("must fail, because already registered");
-		}
-		catch (final ValidationException e) {
+		} catch (final ValidationException e) {
 			assertNotNull(e);
 		}
 	}
@@ -103,7 +99,7 @@ public class AuthenticationIntegrationTest extends TestCaseOsgi {
 		final UserIdentifier userIdentifier = new UserIdentifier(TestUtil.LOGIN_USER);
 
 		// if user already exists unregister first
-		if (service.verifyCredential(sessionIdentifier, userIdentifier, TestUtil.PASSWORD)) {
+		if (service.verifyCredential(userIdentifier, TestUtil.PASSWORD)) {
 			service.login(sessionIdentifier, userIdentifier, TestUtil.PASSWORD);
 			service.unregister(sessionIdentifier);
 		}
@@ -111,10 +107,10 @@ public class AuthenticationIntegrationTest extends TestCaseOsgi {
 		service.logout(sessionIdentifier);
 
 		assertFalse(service.isLoggedIn(sessionIdentifier));
-		service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, TestUtil.LOGIN_USER, TestUtil.EMAIL, TestUtil.PASSWORD, TestUtil.FULLNAME, TimeZone.getDefault());
-		assertTrue(service.verifyCredential(sessionIdentifier, new UserIdentifier(TestUtil.LOGIN_USER), TestUtil.PASSWORD));
-		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier("wrong"), TestUtil.PASSWORD));
-		assertFalse(service.verifyCredential(sessionIdentifier, new UserIdentifier(TestUtil.LOGIN_USER), "wrong"));
+		service.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, TestUtil.LOGIN_USER, TestUtil.EMAIL, TestUtil.PASSWORD);
+		assertTrue(service.verifyCredential(new UserIdentifier(TestUtil.LOGIN_USER), TestUtil.PASSWORD));
+		assertFalse(service.verifyCredential(new UserIdentifier("wrong"), TestUtil.PASSWORD));
+		assertFalse(service.verifyCredential(new UserIdentifier(TestUtil.LOGIN_USER), "wrong"));
 	}
 
 	public void testCreateUser() throws AuthenticationServiceException, ValidationException {

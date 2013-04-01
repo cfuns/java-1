@@ -1,17 +1,8 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
-import java.io.IOException;
-import java.net.URL;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -32,11 +23,16 @@ import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URL;
 
 @Singleton
 public class WebsearchGuiPageExpireServlet extends WebsiteHtmlServlet {
@@ -55,18 +51,17 @@ public class WebsearchGuiPageExpireServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public WebsearchGuiPageExpireServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final WebsearchService websearchService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final WebsearchService websearchService,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.websearchService = websearchService;
 		this.logger = logger;
@@ -81,7 +76,7 @@ public class WebsearchGuiPageExpireServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -92,8 +87,7 @@ public class WebsearchGuiPageExpireServlet extends WebsiteHtmlServlet {
 				final URL url = parseUtil.parseURL(request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID));
 				websearchService.expirePage(sessionIdentifier, websearchService.createPageIdentifier(url));
 				widgets.add("url " + url.toExternalForm() + " expired");
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				final FormWidget form = new FormWidget();
 				form.addFormInputWidget(new FormInputTextWidget("url").addLabel("Url").addPlaceholder("Url..."));
 				form.addFormInputWidget(new FormInputSubmitWidget("expire"));
@@ -101,13 +95,11 @@ public class WebsearchGuiPageExpireServlet extends WebsiteHtmlServlet {
 			}
 
 			return widgets;
-		}
-		catch (final WebsearchServiceException e) {
+		} catch (final WebsearchServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

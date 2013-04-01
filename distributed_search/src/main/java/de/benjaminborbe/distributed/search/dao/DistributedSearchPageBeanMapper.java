@@ -1,14 +1,8 @@
 package de.benjaminborbe.distributed.search.dao;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.distributed.search.util.MapperDistributedSearchPageIdentifier;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
@@ -16,6 +10,11 @@ import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class DistributedSearchPageBeanMapper extends MapObjectMapperAdapter<DistributedSearchPageBean> {
@@ -36,16 +35,16 @@ public class DistributedSearchPageBeanMapper extends MapObjectMapperAdapter<Dist
 
 	@Inject
 	public DistributedSearchPageBeanMapper(
-			final Provider<DistributedSearchPageBean> provider,
-			final MapperDistributedSearchPageIdentifier mapperEntryIdentifier,
-			final MapperString mapperString,
-			final MapperBoolean mapperBoolean,
-			final MapperCalendar mapperCalendar) {
-		super(provider, buildMappings(mapperEntryIdentifier, mapperString, mapperBoolean, mapperCalendar));
+		final Provider<DistributedSearchPageBean> provider,
+		final MapperDistributedSearchPageIdentifier mapperEntryIdentifier,
+		final MapperString mapperString,
+		final MapperBoolean mapperBoolean,
+		final MapperCalendar mapperCalendar) {
+		super(provider, buildMappings(mapperEntryIdentifier, mapperString, mapperCalendar));
 	}
 
 	private static Collection<StringObjectMapper<DistributedSearchPageBean>> buildMappings(final MapperDistributedSearchPageIdentifier mapperEntryIdentifier,
-			final MapperString mapperString, final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar) {
+																																												 final MapperString mapperString, final MapperCalendar mapperCalendar) {
 		final List<StringObjectMapper<DistributedSearchPageBean>> result = new ArrayList<StringObjectMapper<DistributedSearchPageBean>>();
 		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, DistributedSearchPageIdentifier>(ID, mapperEntryIdentifier));
 		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, String>(INDEX, mapperString));

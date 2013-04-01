@@ -1,8 +1,8 @@
 package de.benjaminborbe.wiki.api;
 
-import java.util.Collection;
-
 import de.benjaminborbe.api.ValidationException;
+
+import java.util.Collection;
 
 public interface WikiService {
 
@@ -14,7 +14,7 @@ public interface WikiService {
 
 	void updatePage(WikiPageIdentifier wikiPageIdentifier, String pageTitle, String pageContent) throws WikiServiceException, ValidationException;
 
-	void deletePage(WikiPageIdentifier wikiPageIdentifier) throws WikiServiceException;
+	void deletePage() throws WikiServiceException;
 
 	Collection<WikiSpaceIdentifier> getSpaceIdentifiers() throws WikiServiceException;
 

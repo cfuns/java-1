@@ -2,9 +2,9 @@ package de.benjaminborbe.cms.api;
 
 public interface CmsService {
 
-	public CmsPageIdentifier createPage(CmsPageDto cmsPageDto);
+	public CmsPageIdentifier createPage();
 
-	public void updatePage(CmsPageDto cmsPageDto);
+	public void updatePage();
 
-	public CmsPage getPage(CmsPageIdentifier cmsPageIdentifier);
+	public CmsPage getPage();
 }

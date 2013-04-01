@@ -1,16 +1,8 @@
 package de.benjaminborbe.wiki.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -29,7 +21,6 @@ import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormInputTextareaWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
@@ -41,6 +32,11 @@ import de.benjaminborbe.wiki.api.WikiPageNotFoundException;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.gui.WikiGuiConstants;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class WikiGuiPageEditServlet extends WebsiteHtmlServlet {
@@ -55,18 +51,17 @@ public class WikiGuiPageEditServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public WikiGuiPageEditServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final WikiService wikiService,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final WikiService wikiService,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.wikiService = wikiService;
@@ -79,7 +74,7 @@ public class WikiGuiPageEditServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException {
+		PermissionDeniedException, RedirectException {
 
 		try {
 			logger.debug("render " + getClass().getSimpleName());
@@ -93,8 +88,7 @@ public class WikiGuiPageEditServlet extends WebsiteHtmlServlet {
 				try {
 					wikiService.updatePage(wikiPageIdentifier, title, content);
 					throw new RedirectException(request.getContextPath() + "/wiki/page/show?" + WikiGuiConstants.PARAMETER_PAGE_ID + "=" + wikiPageIdentifier);
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("update page failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -105,18 +99,16 @@ public class WikiGuiPageEditServlet extends WebsiteHtmlServlet {
 			form.addFormInputWidget(new FormInputHiddenWidget(WikiGuiConstants.PARAMETER_PAGE_ID).addValue(page.getId()));
 			form.addFormInputWidget(new FormInputTextWidget(WikiGuiConstants.PARAMETER_PAGE_TITLE).addLabel("Title").addPlaceholder("Title...").addDefaultValue(page.getTitle()));
 			form.addFormInputWidget(new FormInputTextareaWidget(WikiGuiConstants.PARAMETER_PAGE_CONTENT).addLabel("Content").addPlaceholder("Content...")
-					.addDefaultValue(page.getContent()));
+				.addDefaultValue(page.getContent()));
 			form.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(form);
 
 			return widgets;
-		}
-		catch (final WikiServiceException e) {
+		} catch (final WikiServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final WikiPageNotFoundException e) {
+		} catch (final WikiPageNotFoundException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

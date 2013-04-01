@@ -63,52 +63,6 @@ import java.util.Set;
 @Singleton
 public class TaskServiceImpl implements TaskService {
 
-	private final class TaskMatchImpl implements TaskMatch {
-
-		private final BeanMatch<Task> match;
-
-		private TaskMatchImpl(final BeanMatch<Task> match) {
-			this.match = match;
-		}
-
-		@Override
-		public int getMatchCounter() {
-			return match.getMatchCounter();
-		}
-
-		@Override
-		public Task getTask() {
-			return match.getBean();
-		}
-	}
-
-	private final class TaskSearcher extends BeanSearcher<Task> {
-
-		private static final String DESCRIPTION = "title";
-
-		private static final String NAME = "content";
-
-		private static final String URL = "url";
-
-		@Override
-		protected Map<String, Integer> getSearchPrio() {
-			final Map<String, Integer> values = new HashMap<>();
-			values.put(DESCRIPTION, 1);
-			values.put(NAME, 2);
-			values.put(URL, 1);
-			return values;
-		}
-
-		@Override
-		protected Map<String, String> getSearchValues(final Task bean) {
-			final Map<String, String> values = new HashMap<>();
-			values.put(DESCRIPTION, bean.getDescription());
-			values.put(NAME, bean.getName());
-			values.put(URL, bean.getUrl());
-			return values;
-		}
-	}
-
 	private static final int DURATION_WARN = 300;
 
 	private final AuthenticationService authenticationService;
@@ -324,7 +278,7 @@ public class TaskServiceImpl implements TaskService {
 	public TaskContextIdentifier createTaskContextIdentifier(final String id) throws TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			if (id != null && id.length() > 0) {
+			if (id != null && !id.trim().isEmpty()) {
 				return new TaskContextIdentifier(id);
 			} else {
 				return null;
@@ -339,7 +293,7 @@ public class TaskServiceImpl implements TaskService {
 	public TaskIdentifier createTaskIdentifier(final String id) throws TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			if (id != null && id.length() > 0) {
+			if (id != null && !id.trim().isEmpty()) {
 				return new TaskIdentifier(id);
 			} else {
 				return null;
@@ -623,7 +577,7 @@ public class TaskServiceImpl implements TaskService {
 
 			// shared tasks
 			final Collection<TaskContextIdentifier> taskContextIdentifiers = getTaskContextIdentifiers(sessionIdentifier);
-			result.addAll(getTasks(sessionIdentifier, completed, taskContextIdentifiers));
+			result.addAll(getTasks(completed, taskContextIdentifiers));
 
 			return result;
 		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException | EntityIteratorException e) {
@@ -635,7 +589,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+	public Collection<Task> getTasks(final boolean completed, final Collection<TaskContextIdentifier> taskContextIdentifiers)
 		throws TaskServiceException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -660,7 +614,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus,
+	public Collection<Task> getTasks(final boolean completed, final TaskFocus taskFocus,
 																	 final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -871,7 +825,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void updateTaskFocus(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException,
+	public void updateTaskFocus(final TaskIdentifier taskIdentifier, final TaskFocus taskFocus) throws PermissionDeniedException,
 		LoginRequiredException, TaskServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -964,7 +918,7 @@ public class TaskServiceImpl implements TaskService {
 
 			// shared tasks
 			final Collection<TaskContextIdentifier> taskContextIdentifiers = getTaskContextIdentifiers(sessionIdentifier);
-			result.addAll(getTasks(sessionIdentifier, completed, taskFocus, taskContextIdentifiers));
+			result.addAll(getTasks(completed, taskFocus, taskContextIdentifiers));
 
 			return result;
 		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException | EntityIteratorException e) {
@@ -1053,7 +1007,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskAttachmentIdentifier addAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachment taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
+	public TaskAttachmentIdentifier addAttachment(final TaskAttachment taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission();
@@ -1082,7 +1036,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission();
@@ -1104,7 +1058,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<TaskAttachment> getAttachments(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public Collection<TaskAttachment> getAttachments(final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission();
@@ -1157,6 +1111,67 @@ public class TaskServiceImpl implements TaskService {
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public TaskAttachmentIdentifier createTaskAttachmentIdentifier(final String id) throws TaskServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			if (id != null && !id.trim().isEmpty()) {
+				return new TaskAttachmentIdentifier(id);
+			} else {
+				return null;
+			}
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	private final class TaskMatchImpl implements TaskMatch {
+
+		private final BeanMatch<Task> match;
+
+		private TaskMatchImpl(final BeanMatch<Task> match) {
+			this.match = match;
+		}
+
+		@Override
+		public int getMatchCounter() {
+			return match.getMatchCounter();
+		}
+
+		@Override
+		public Task getTask() {
+			return match.getBean();
+		}
+	}
+
+	private final class TaskSearcher extends BeanSearcher<Task> {
+
+		private static final String DESCRIPTION = "title";
+
+		private static final String NAME = "content";
+
+		private static final String URL = "url";
+
+		@Override
+		protected Map<String, Integer> getSearchPrio() {
+			final Map<String, Integer> values = new HashMap<>();
+			values.put(DESCRIPTION, 1);
+			values.put(NAME, 2);
+			values.put(URL, 1);
+			return values;
+		}
+
+		@Override
+		protected Map<String, String> getSearchValues(final Task bean) {
+			final Map<String, String> values = new HashMap<>();
+			values.put(DESCRIPTION, bean.getDescription());
+			values.put(NAME, bean.getName());
+			values.put(URL, bean.getUrl());
+			return values;
 		}
 	}
 

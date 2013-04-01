@@ -7,7 +7,9 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+import javax.xml.namespace.QName;
+
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteContentPermission implements java.io.Serializable {
 
 	private java.lang.String groupName;
@@ -27,7 +29,7 @@ public class RemoteContentPermission implements java.io.Serializable {
 
 	/**
 	 * Gets the groupName value for this RemoteContentPermission.
-	 * 
+	 *
 	 * @return groupName
 	 */
 	public java.lang.String getGroupName() {
@@ -36,7 +38,7 @@ public class RemoteContentPermission implements java.io.Serializable {
 
 	/**
 	 * Sets the groupName value for this RemoteContentPermission.
-	 * 
+	 *
 	 * @param groupName
 	 */
 	public void setGroupName(final java.lang.String groupName) {
@@ -45,7 +47,7 @@ public class RemoteContentPermission implements java.io.Serializable {
 
 	/**
 	 * Gets the type value for this RemoteContentPermission.
-	 * 
+	 *
 	 * @return type
 	 */
 	public java.lang.String getType() {
@@ -54,7 +56,7 @@ public class RemoteContentPermission implements java.io.Serializable {
 
 	/**
 	 * Sets the type value for this RemoteContentPermission.
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setType(final java.lang.String type) {
@@ -63,7 +65,7 @@ public class RemoteContentPermission implements java.io.Serializable {
 
 	/**
 	 * Gets the userName value for this RemoteContentPermission.
-	 * 
+	 *
 	 * @return userName
 	 */
 	public java.lang.String getUserName() {
@@ -72,7 +74,7 @@ public class RemoteContentPermission implements java.io.Serializable {
 
 	/**
 	 * Sets the userName value for this RemoteContentPermission.
-	 * 
+	 *
 	 * @param userName
 	 */
 	public void setUserName(final java.lang.String userName) {
@@ -96,8 +98,8 @@ public class RemoteContentPermission implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.groupName == null && other.getGroupName() == null) || (this.groupName != null && this.groupName.equals(other.getGroupName())))
-				&& ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())))
-				&& ((this.userName == null && other.getUserName() == null) || (this.userName != null && this.userName.equals(other.getUserName())));
+			&& ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())))
+			&& ((this.userName == null && other.getUserName() == null) || (this.userName != null && this.userName.equals(other.getUserName())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -159,14 +161,14 @@ public class RemoteContentPermission implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

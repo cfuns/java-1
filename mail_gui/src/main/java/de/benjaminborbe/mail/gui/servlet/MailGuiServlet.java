@@ -1,18 +1,8 @@
 package de.benjaminborbe.mail.gui.servlet;
 
-import java.io.IOException;
-import java.net.SocketException;
-import java.util.Collection;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -34,12 +24,18 @@ import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.SocketException;
+import java.util.Collection;
 
 @Singleton
 public class MailGuiServlet extends WebsiteHtmlServlet {
@@ -58,19 +54,18 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public MailGuiServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final AuthenticationService authenticationService,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final MailService mailService,
-			final AuthorizationService authorizationService,
-			final NetUtil netUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final AuthenticationService authenticationService,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final MailService mailService,
+		final AuthorizationService authorizationService,
+		final NetUtil netUtil,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.calendarUtil = calendarUtil;
 		this.mailService = mailService;
@@ -85,7 +80,7 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -104,8 +99,7 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 			form.addFormInputWidget(new FormInputSubmitWidget("send testmail"));
 			widgets.add(form);
 			return widgets;
-		}
-		catch (final MailServiceException e) {
+		} catch (final MailServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}
@@ -125,8 +119,7 @@ public class MailGuiServlet extends WebsiteHtmlServlet {
 				sb.append("\n");
 			}
 			sb.append("\n");
-		}
-		catch (final SocketException e) {
+		} catch (final SocketException e) {
 		}
 		sb.append("CurrentTime:\n");
 		sb.append(calendarUtil.toDateTimeString(calendarUtil.now()));

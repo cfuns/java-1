@@ -1,16 +1,8 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -31,12 +23,16 @@ import de.benjaminborbe.website.form.FormInputPasswordWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class AuthenticationGuiUserPasswordChangeServlet extends WebsiteHtmlServlet {
@@ -53,18 +49,17 @@ public class AuthenticationGuiUserPasswordChangeServlet extends WebsiteHtmlServl
 
 	@Inject
 	public AuthenticationGuiUserPasswordChangeServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthenticationService authenticationService,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final AuthenticationGuiLinkFactory authenticationGuiLinkFactory,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -92,8 +87,7 @@ public class AuthenticationGuiUserPasswordChangeServlet extends WebsiteHtmlServl
 				try {
 					authenticationService.changePassword(sessionIdentifier, password_old, password_new, password_repeat);
 					widgets.add("change password successful");
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("change password failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -102,7 +96,7 @@ public class AuthenticationGuiUserPasswordChangeServlet extends WebsiteHtmlServl
 			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_OLD).addLabel("Old password").addPlaceholder("Old password..."));
 			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW).addLabel("New password").addPlaceholder("New password..."));
 			form.addFormInputWidget(new FormInputPasswordWidget(AuthenticationGuiConstants.PARAMETER_PASSWORD_NEW_REPEAT).addLabel("New password repeat").addPlaceholder(
-					"New password repeat..."));
+				"New password repeat..."));
 			form.addFormInputWidget(new FormInputSubmitWidget("change password"));
 			widgets.add(form);
 
@@ -111,8 +105,7 @@ public class AuthenticationGuiUserPasswordChangeServlet extends WebsiteHtmlServl
 			widgets.add(links);
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

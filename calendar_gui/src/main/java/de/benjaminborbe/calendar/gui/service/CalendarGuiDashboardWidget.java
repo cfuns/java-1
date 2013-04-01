@@ -1,16 +1,7 @@
 package de.benjaminborbe.calendar.gui.service;
 
-import java.io.IOException;
-import java.util.Calendar;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.calendar.gui.CalendarGuiConstants;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
@@ -18,6 +9,11 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Calendar;
 
 @Singleton
 public class CalendarGuiDashboardWidget implements DashboardContentWidget {
@@ -27,7 +23,7 @@ public class CalendarGuiDashboardWidget implements DashboardContentWidget {
 	private final TimeZoneUtil timeZoneUtil;
 
 	@Inject
-	public CalendarGuiDashboardWidget(final Logger logger, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
+	public CalendarGuiDashboardWidget(final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
 	}

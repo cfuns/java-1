@@ -1,20 +1,9 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -38,6 +27,14 @@ import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.RedirectWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
@@ -60,18 +57,18 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	@Inject
 	public PortfolioGuiGalleryServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService,
-			final Provider<PortfolioLayoutWidget> portfolioWidgetProvider,
-			final GalleryService galleryService,
-			final PortfolioGuiLinkFactory portfolioLinkFactory,
-			final PortfolioGuiGalleryCollectionComparator galleryComparator,
-			final PortfolioGuiGalleryEntryComparator portfolioGuiGalleryEntryComparator,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthenticationService authenticationService,
+		final Provider<PortfolioLayoutWidget> portfolioWidgetProvider,
+		final GalleryService galleryService,
+		final PortfolioGuiLinkFactory portfolioLinkFactory,
+		final PortfolioGuiGalleryCollectionComparator galleryComparator,
+		final PortfolioGuiGalleryEntryComparator portfolioGuiGalleryEntryComparator,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.authenticationService = authenticationService;
 		this.portfolioWidgetProvider = portfolioWidgetProvider;
@@ -88,25 +85,22 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			final String galleryId = urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_GALLERY_ID);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(galleryId);
-			final GalleryCollection galleryCollection = galleryService.getCollectionShared(sessionIdentifier, galleryCollectionIdentifier);
+			final GalleryCollection galleryCollection = galleryService.getCollectionShared(galleryCollectionIdentifier);
 			if (galleryCollection == null) {
-				final String target = portfolioLinkFactory.createGalleryUrl(request, getDefaultGalleryCollection(request, sessionIdentifier));
+				final String target = portfolioLinkFactory.createGalleryUrl(request, getDefaultGalleryCollection(sessionIdentifier));
 				return new RedirectWidget(target);
-			}
-			else {
+			} else {
 				final PortfolioLayoutWidget portfolioWidget = portfolioWidgetProvider.get();
 				portfolioWidget.addTitle(galleryCollection.getName() + " - Benjamin Borbe");
 				portfolioWidget.addContent(new H1Widget(galleryCollection.getName()));
-				final List<GalleryEntry> entries = Lists.newArrayList(galleryService.getEntriesShared(sessionIdentifier, galleryCollection.getId()));
+				final List<GalleryEntry> entries = Lists.newArrayList(galleryService.getEntriesShared(galleryCollection.getId()));
 				Collections.sort(entries, portfolioGuiGalleryEntryComparator);
 				portfolioWidget.setGalleryEntries(entries);
 				return portfolioWidget;
 			}
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
-		}
-		catch (final GalleryServiceException e) {
+		} catch (final GalleryServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}
@@ -121,13 +115,12 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		return false;
 	}
 
-	private GalleryCollection getDefaultGalleryCollection(final HttpServletRequest request, final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
-		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsShared(sessionIdentifier));
+	private GalleryCollection getDefaultGalleryCollection(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsShared());
 		if (galleries.size() > 0) {
 			Collections.sort(galleries, galleryComparator);
 			return galleries.get(0);
-		}
-		else {
+		} else {
 			return null;
 		}
 	}

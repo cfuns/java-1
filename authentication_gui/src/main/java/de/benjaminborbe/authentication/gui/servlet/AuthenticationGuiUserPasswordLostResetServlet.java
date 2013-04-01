@@ -1,17 +1,8 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -36,12 +27,17 @@ import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlServlet {
@@ -58,18 +54,17 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 
 	@Inject
 	public AuthenticationGuiUserPasswordLostResetServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService,
-			final RedirectUtil redirectUtil,
-			final UrlUtil urlUtil,
-			final AuthorizationService authorizationService,
-			final CacheService cacheService,
-			final AuthenticationGuiLinkFactory authenticationGuiLinkFactory) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthenticationService authenticationService,
+		final UrlUtil urlUtil,
+		final AuthorizationService authorizationService,
+		final CacheService cacheService,
+		final AuthenticationGuiLinkFactory authenticationGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -83,7 +78,7 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, LoginRequiredException,
-			RedirectException {
+		RedirectException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -98,8 +93,7 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 				try {
 					setNewPassword(sessionIdentifier, userIdentifier, token, password, passwordRepeat);
 					throw new RedirectException(authenticationGuiLinkFactory.userLoginUrl(request, userIdentifier));
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("set new password failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -112,8 +106,7 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 			form.addFormInputWidget(new FormInputSubmitWidget("reset password"));
 			widgets.add(form);
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
@@ -121,8 +114,8 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 	}
 
 	private void setNewPassword(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String token, final String password, final String passwordRepeat)
-			throws ValidationException, AuthenticationServiceException {
-		authenticationService.setNewPassword(sessionIdentifier, userIdentifier, token, password, passwordRepeat);
+		throws ValidationException, AuthenticationServiceException {
+		authenticationService.setNewPassword(userIdentifier, token, password, passwordRepeat);
 	}
 
 	@Override
@@ -136,8 +129,8 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 
 		try {
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID));
@@ -145,8 +138,7 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 			if (!authenticationService.verifyEmailToken(userIdentifier, token)) {
 				throw new PermissionDeniedException("invalid token");
 			}
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

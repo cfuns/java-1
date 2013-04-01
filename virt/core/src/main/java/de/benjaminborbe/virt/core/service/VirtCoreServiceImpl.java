@@ -5,12 +5,10 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
-import de.benjaminborbe.virt.api.VirtMachine;
 import de.benjaminborbe.virt.api.VirtMachineIdentifier;
 import de.benjaminborbe.virt.api.VirtNetwork;
 import de.benjaminborbe.virt.api.VirtNetworkIdentifier;
@@ -55,12 +53,12 @@ public class VirtCoreServiceImpl implements VirtService {
 	}
 
 	@Override
-	public VirtMachineIdentifier createVirtualMachine(final SessionIdentifier sessionIdentifier, final VirtMachine virtMachine) {
+	public VirtMachineIdentifier createVirtualMachine() {
 		return new VirtMachineIdentifier("1337");
 	}
 
 	@Override
-	public VirtNetworkIdentifier createVirtNetwork(final SessionIdentifier sessionIdentifier, final VirtNetwork virtNetwork) throws VirtServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public VirtNetworkIdentifier createVirtNetwork(final VirtNetwork virtNetwork) throws VirtServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 
 		try {
 			final VirtNetworkBean bean = virtNetworkDao.create();

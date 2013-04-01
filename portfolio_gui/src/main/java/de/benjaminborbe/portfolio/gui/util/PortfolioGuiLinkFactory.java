@@ -1,27 +1,24 @@
 package de.benjaminborbe.portfolio.gui.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.util.Calendar;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.util.Calendar;
 
 public class PortfolioGuiLinkFactory {
 
 	private final CalendarUtil calendarUtil;
 
 	@Inject
-	public PortfolioGuiLinkFactory(final UrlUtil urlUtil, final CalendarUtil calendarUtil) {
+	public PortfolioGuiLinkFactory(final CalendarUtil calendarUtil) {
 		this.calendarUtil = calendarUtil;
 	}
 

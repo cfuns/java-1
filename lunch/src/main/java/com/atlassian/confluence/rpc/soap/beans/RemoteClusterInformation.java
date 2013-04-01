@@ -7,7 +7,9 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+import javax.xml.namespace.QName;
+
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteClusterInformation implements java.io.Serializable {
 
 	private java.lang.String description;
@@ -28,13 +30,13 @@ public class RemoteClusterInformation implements java.io.Serializable {
 	}
 
 	public RemoteClusterInformation(
-			final java.lang.String description,
-			final int memberCount,
-			final java.lang.Object[] members,
-			final java.lang.String multicastAddress,
-			final java.lang.String multicastPort,
-			final java.lang.String name,
-			final boolean running) {
+		final java.lang.String description,
+		final int memberCount,
+		final java.lang.Object[] members,
+		final java.lang.String multicastAddress,
+		final java.lang.String multicastPort,
+		final java.lang.String name,
+		final boolean running) {
 		this.description = description;
 		this.memberCount = memberCount;
 		this.members = members;
@@ -46,7 +48,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the description value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @return description
 	 */
 	public java.lang.String getDescription() {
@@ -55,7 +57,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the description value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @param description
 	 */
 	public void setDescription(final java.lang.String description) {
@@ -64,7 +66,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the memberCount value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @return memberCount
 	 */
 	public int getMemberCount() {
@@ -73,7 +75,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the memberCount value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @param memberCount
 	 */
 	public void setMemberCount(final int memberCount) {
@@ -82,7 +84,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the members value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @return members
 	 */
 	public java.lang.Object[] getMembers() {
@@ -91,7 +93,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the members value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @param members
 	 */
 	public void setMembers(final java.lang.Object[] members) {
@@ -100,7 +102,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the multicastAddress value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @return multicastAddress
 	 */
 	public java.lang.String getMulticastAddress() {
@@ -109,7 +111,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the multicastAddress value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @param multicastAddress
 	 */
 	public void setMulticastAddress(final java.lang.String multicastAddress) {
@@ -118,7 +120,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the multicastPort value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @return multicastPort
 	 */
 	public java.lang.String getMulticastPort() {
@@ -127,7 +129,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the multicastPort value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @param multicastPort
 	 */
 	public void setMulticastPort(final java.lang.String multicastPort) {
@@ -136,7 +138,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -145,7 +147,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(final java.lang.String name) {
@@ -154,7 +156,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the running value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @return running
 	 */
 	public boolean isRunning() {
@@ -163,7 +165,7 @@ public class RemoteClusterInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the running value for this RemoteClusterInformation.
-	 * 
+	 *
 	 * @param running
 	 */
 	public void setRunning(final boolean running) {
@@ -187,11 +189,11 @@ public class RemoteClusterInformation implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.description == null && other.getDescription() == null) || (this.description != null && this.description.equals(other.getDescription())))
-				&& this.memberCount == other.getMemberCount()
-				&& ((this.members == null && other.getMembers() == null) || (this.members != null && java.util.Arrays.equals(this.members, other.getMembers())))
-				&& ((this.multicastAddress == null && other.getMulticastAddress() == null) || (this.multicastAddress != null && this.multicastAddress.equals(other.getMulticastAddress())))
-				&& ((this.multicastPort == null && other.getMulticastPort() == null) || (this.multicastPort != null && this.multicastPort.equals(other.getMulticastPort())))
-				&& ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName()))) && this.running == other.isRunning();
+			&& this.memberCount == other.getMemberCount()
+			&& ((this.members == null && other.getMembers() == null) || (this.members != null && java.util.Arrays.equals(this.members, other.getMembers())))
+			&& ((this.multicastAddress == null && other.getMulticastAddress() == null) || (this.multicastAddress != null && this.multicastAddress.equals(other.getMulticastAddress())))
+			&& ((this.multicastPort == null && other.getMulticastPort() == null) || (this.multicastPort != null && this.multicastPort.equals(other.getMulticastPort())))
+			&& ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName()))) && this.running == other.isRunning();
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -290,14 +292,14 @@ public class RemoteClusterInformation implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(final Class _javaType, final QName _xmlType) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

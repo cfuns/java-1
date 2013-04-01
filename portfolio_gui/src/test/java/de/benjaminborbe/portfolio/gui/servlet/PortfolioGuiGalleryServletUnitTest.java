@@ -1,24 +1,6 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -45,6 +27,21 @@ import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 public class PortfolioGuiGalleryServletUnitTest {
 
@@ -142,17 +139,17 @@ public class PortfolioGuiGalleryServletUnitTest {
 
 		final GalleryService galleryService = EasyMock.createMock(GalleryService.class);
 		EasyMock.expect(galleryService.createCollectionIdentifier(id)).andReturn(galleryCollectionIdentifier);
-		EasyMock.expect(galleryService.getCollectionShared(sessionIdentifier, galleryCollectionIdentifier)).andReturn(collection);
-		EasyMock.expect(galleryService.getEntriesShared(sessionIdentifier, galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
+		EasyMock.expect(galleryService.getCollectionShared(galleryCollectionIdentifier)).andReturn(collection);
+		EasyMock.expect(galleryService.getEntriesShared(galleryCollectionIdentifier)).andReturn(new ArrayList<GalleryEntry>());
 		EasyMock.replay(galleryService);
 
 		final PortfolioGuiLinkFactory portfolioLinkFactory = EasyMock.createNiceMock(PortfolioGuiLinkFactory.class);
 		EasyMock.replay(portfolioLinkFactory);
 
 		final PortfolioGuiGalleryCollectionComparator galleryComparator = new PortfolioGuiGalleryCollectionComparator(new PortfolioGuiGalleryCollectionComparatorName(),
-				new PortfolioGuiGalleryCollectionComparatorPrio());
+			new PortfolioGuiGalleryCollectionComparatorPrio());
 		final PortfolioGuiGalleryEntryComparator portfolioGuiGalleryEntryComparator = new PortfolioGuiGalleryEntryComparator(new PortfolioGuiGalleryEntryComparatorName(),
-				new PortfolioGuiGalleryEntryComparatorPrio());
+			new PortfolioGuiGalleryEntryComparatorPrio());
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 		authorizationService.expectAdminRole(sessionIdentifier);
@@ -160,8 +157,8 @@ public class PortfolioGuiGalleryServletUnitTest {
 		EasyMock.replay(authorizationService);
 
 		final PortfolioGuiGalleryServlet servlet = new PortfolioGuiGalleryServlet(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService,
-				new ProviderAdapter<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator, portfolioGuiGalleryEntryComparator,
-				authorizationService);
+			new ProviderAdapter<PortfolioLayoutWidget>(portfolioLayoutWidget), galleryService, portfolioLinkFactory, galleryComparator, portfolioGuiGalleryEntryComparator,
+			authorizationService);
 
 		servlet.service(request, response);
 		EasyMock.verify(response);
