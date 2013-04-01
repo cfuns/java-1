@@ -32,18 +32,18 @@ public interface TaskServiceTask {
 
 	Collection<Task> getTasks(SessionIdentifier sessionIdentifier, boolean completed) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
-	Collection<Task> getTasks(boolean completed, Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
-		LoginRequiredException;
+	Collection<Task> getTasks(SessionIdentifier sessionIdentifier, boolean completed, Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException,
+		LoginRequiredException, PermissionDeniedException;
 
 	Collection<Task> getTasks(SessionIdentifier sessionIdentifier, boolean completed, TaskFocus taskFocus) throws LoginRequiredException, TaskServiceException,
 		PermissionDeniedException;
 
-	Collection<Task> getTasks(boolean completed, TaskFocus taskFocus, Collection<TaskContextIdentifier> taskContextIdentifiers)
-		throws TaskServiceException, LoginRequiredException;
+	Collection<Task> getTasks(SessionIdentifier sessionIdentifier, boolean completed, TaskFocus taskFocus, Collection<TaskContextIdentifier> taskContextIdentifiers)
+		throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 
-	Collection<Task> getTasksWithoutContext(SessionIdentifier sessionIdentifier, boolean completed) throws LoginRequiredException, TaskServiceException;
+	Collection<Task> getTasksWithoutContext(SessionIdentifier sessionIdentifier, boolean completed) throws LoginRequiredException, TaskServiceException, PermissionDeniedException;
 
-	Collection<Task> getTasksWithoutContext(SessionIdentifier sessionIdentifier, boolean completed, TaskFocus taskFocus) throws LoginRequiredException, TaskServiceException;
+	Collection<Task> getTasksWithoutContext(SessionIdentifier sessionIdentifier, boolean completed, TaskFocus taskFocus) throws LoginRequiredException, TaskServiceException, PermissionDeniedException;
 
 	List<TaskMatch> searchTasks(SessionIdentifier sessionIdentifier, int limit, List<String> words) throws TaskServiceException, LoginRequiredException, PermissionDeniedException;
 

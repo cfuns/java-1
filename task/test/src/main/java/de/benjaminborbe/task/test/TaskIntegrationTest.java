@@ -86,7 +86,7 @@ public class TaskIntegrationTest extends TestCaseOsgi {
 		task.setName("TestTask");
 		task.setFocus(TaskFocus.INBOX);
 		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, task);
-		final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(taskIdentifier);
+		final Collection<TaskAttachmentIdentifier> attachments = taskService.getAttachmentIdentifiers(sessionIdentifier, taskIdentifier);
 		assertNotNull(attachments);
 		assertEquals(0, attachments.size());
 	}

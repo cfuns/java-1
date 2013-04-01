@@ -146,7 +146,7 @@ public class TaskServiceImpl implements TaskService {
 		PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			logger.debug("completeTask: " + taskIdentifier + " started");
 
@@ -195,7 +195,7 @@ public class TaskServiceImpl implements TaskService {
 		ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			logger.debug("create Task for user " + userIdentifier);
@@ -244,10 +244,10 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public TaskContextIdentifier createTaskContext(final SessionIdentifier sessionIdentifier, final String name) throws TaskServiceException, LoginRequiredException,
-		ValidationException {
+		ValidationException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			logger.debug("createTaskContext");
 
@@ -309,7 +309,7 @@ public class TaskServiceImpl implements TaskService {
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			logger.debug("deleteContextTask");
 			final TaskContextBean taskContext = taskContextDao.load(taskContextIdentifier);
@@ -328,7 +328,7 @@ public class TaskServiceImpl implements TaskService {
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			logger.debug("deleteTask");
 			final TaskBean task = taskDao.load(taskIdentifier);
@@ -430,7 +430,7 @@ public class TaskServiceImpl implements TaskService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getTask for id: " + taskIdentifier);
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			final Task task = taskDao.load(taskIdentifier);
 			if (task == null) {
@@ -447,8 +447,8 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
-	private void expectPermission() throws AuthorizationServiceException {
-		authorizationService.existsPermission(authorizationService.createPermissionIdentifier(PERMISSION));
+	private void expectPermission(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException {
+		authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
 	}
 
 	@Override
@@ -480,7 +480,7 @@ public class TaskServiceImpl implements TaskService {
 		PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			logger.debug("getTaskContext");
 			final TaskContext taskContext = taskContextDao.load(taskContextIdentifier);
@@ -503,7 +503,7 @@ public class TaskServiceImpl implements TaskService {
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			logger.debug("getTaskContextByName");
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
@@ -565,7 +565,7 @@ public class TaskServiceImpl implements TaskService {
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final Set<Task> result = new HashSet<>();
 
@@ -577,7 +577,7 @@ public class TaskServiceImpl implements TaskService {
 
 			// shared tasks
 			final Collection<TaskContextIdentifier> taskContextIdentifiers = getTaskContextIdentifiers(sessionIdentifier);
-			result.addAll(getTasks(completed, taskContextIdentifiers));
+			result.addAll(getTasks(sessionIdentifier, completed, taskContextIdentifiers));
 
 			return result;
 		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException | EntityIteratorException e) {
@@ -589,11 +589,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasks(final boolean completed, final Collection<TaskContextIdentifier> taskContextIdentifiers)
-		throws TaskServiceException, LoginRequiredException {
+	public Collection<Task> getTasks(SessionIdentifier sessionIdentifier, final boolean completed, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+		throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			final Set<Task> result = new HashSet<>();
 
@@ -614,11 +614,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasks(final boolean completed, final TaskFocus taskFocus,
-																	 final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException, LoginRequiredException {
+	public Collection<Task> getTasks(SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus,
+																	 final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			logger.debug("get tasks not completed with focus: " + taskFocus + " contexts: " + taskContextIdentifiers);
 
@@ -702,7 +702,7 @@ public class TaskServiceImpl implements TaskService {
 		LoginRequiredException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			final TaskBean taskA = taskDao.load(taskIdentifierA);
 			authorizationService.expectUser(sessionIdentifier, taskA.getOwner());
@@ -732,7 +732,7 @@ public class TaskServiceImpl implements TaskService {
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 			logger.debug("unCompleteTask");
 			final TaskBean task = taskDao.load(taskIdentifier);
 			expectOwner(sessionIdentifier, task);
@@ -758,7 +758,7 @@ public class TaskServiceImpl implements TaskService {
 		ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			if (taskDto.getId().equals(taskDto.getParentId())) {
 				throw new TaskServiceException("taskId = parentId");
@@ -802,7 +802,7 @@ public class TaskServiceImpl implements TaskService {
 		PermissionDeniedException, LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 			logger.debug("updateTaskContext");
 
 			final TaskContextBean taskContext = taskContextDao.load(taskContextIdentifier);
@@ -851,7 +851,7 @@ public class TaskServiceImpl implements TaskService {
 		LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 			logger.debug("updateTaskContext");
 
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
@@ -876,7 +876,7 @@ public class TaskServiceImpl implements TaskService {
 	public Collection<TaskContext> getTaskContexts(final SessionIdentifier sessionIdentifier) throws TaskServiceException, PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			logger.debug("get all taskContexts for user " + userIdentifier);
 
@@ -902,7 +902,7 @@ public class TaskServiceImpl implements TaskService {
 		TaskServiceException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			logger.debug("get tasks not completed for focus: " + taskFocus + " user: " + userIdentifier);
@@ -918,7 +918,7 @@ public class TaskServiceImpl implements TaskService {
 
 			// shared tasks
 			final Collection<TaskContextIdentifier> taskContextIdentifiers = getTaskContextIdentifiers(sessionIdentifier);
-			result.addAll(getTasks(completed, taskFocus, taskContextIdentifiers));
+			result.addAll(getTasks(sessionIdentifier, completed, taskFocus, taskContextIdentifiers));
 
 			return result;
 		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException | EntityIteratorException e) {
@@ -931,10 +931,10 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Collection<Task> getTasksWithoutContext(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus) throws LoginRequiredException,
-		TaskServiceException {
+		TaskServiceException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 
 			logger.debug("get tasks not completed without context for user: " + userIdentifier + " and focus: " + taskFocus);
@@ -956,10 +956,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasksWithoutContext(final SessionIdentifier sessionIdentifier, final boolean completed) throws LoginRequiredException, TaskServiceException {
+	public Collection<Task> getTasksWithoutContext(final SessionIdentifier sessionIdentifier, final boolean completed) throws LoginRequiredException, TaskServiceException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 
 			logger.debug("get tasks not completed without context for user: " + userIdentifier);
@@ -985,7 +985,7 @@ public class TaskServiceImpl implements TaskService {
 		throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			TaskBean task = taskDao.load(taskIdentifier);
 			authorizationService.expectUser(sessionIdentifier, task.getOwner());
@@ -1007,10 +1007,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskAttachmentIdentifier addAttachment(final TaskAttachment taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
+	public TaskAttachmentIdentifier addAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachment taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			logger.debug("addAttachment to task " + taskAttachment.getTask());
 
@@ -1036,10 +1036,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			final List<TaskAttachmentIdentifier> result = new ArrayList<>();
 
@@ -1058,10 +1058,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<TaskAttachment> getAttachments(final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public Collection<TaskAttachment> getAttachments(SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			final List<TaskAttachment> result = new ArrayList<>();
 
@@ -1083,7 +1083,7 @@ public class TaskServiceImpl implements TaskService {
 	public void deleteAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			final TaskAttachmentBean bean = taskAttachmentDao.load(taskAttachmentIdentifier);
 			expectOwner(sessionIdentifier, bean.getTask());
@@ -1101,7 +1101,7 @@ public class TaskServiceImpl implements TaskService {
 	public TaskAttachment getAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			expectPermission();
+			expectPermission(sessionIdentifier);
 
 			final TaskAttachmentBean bean = taskAttachmentDao.load(taskAttachmentIdentifier);
 			expectOwner(sessionIdentifier, bean.getTask());

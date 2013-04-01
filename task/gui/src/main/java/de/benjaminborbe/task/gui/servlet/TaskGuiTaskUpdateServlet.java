@@ -192,7 +192,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 
 			// attachments
 			{
-				final Collection<TaskAttachment> attachments = taskService.getAttachments(task.getId());
+				final Collection<TaskAttachment> attachments = taskService.getAttachments(sessionIdentifier, task.getId());
 				if (!attachments.isEmpty()) {
 					final UlWidget ul = new UlWidget();
 					for (final TaskAttachment attachment : attachments) {

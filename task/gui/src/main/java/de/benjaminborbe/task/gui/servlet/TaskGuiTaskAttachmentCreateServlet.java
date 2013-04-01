@@ -14,6 +14,8 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.task.api.TaskAttachmentDto;
+import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
@@ -23,6 +25,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
@@ -88,11 +91,20 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 			widgets.add(new H1Widget(getTitle()));
 
 			final String name = request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_NAME);
-			if (name != null) {
+			final String referer = request.getParameter(TaskGuiConstants.PARAMETER_REFERER);
+			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
+			if (name != null && taskIdentifier != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-					taskService.createTaskContext(sessionIdentifier, name.trim());
-					throw new RedirectException(taskGuiLinkFactory.taskContextListUrl(request));
+
+					TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+					taskService.addAttachment(sessionIdentifier, taskAttachment);
+
+					if (referer != null) {
+						throw new RedirectException(referer);
+					} else {
+						throw new RedirectException(taskGuiLinkFactory.taskViewUrl(request, taskIdentifier));
+					}
 				} catch (final ValidationException e) {
 					widgets.add("create taskcontext failed!");
 					widgets.add(new ValidationExceptionWidget(e));
@@ -100,8 +112,9 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 			}
 
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
-			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_NAME).addLabel("Name").addPlaceholder("name..."));
-			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
+			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASKATTACHMENT_NAME).addLabel("Name").addPlaceholder("name..."));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("add attachment"));
 			widgets.add(formWidget);
 
 			final ListWidget links = new ListWidget();

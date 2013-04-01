@@ -96,7 +96,7 @@ public class TaskGuiUtil {
 			return taskService.getTasksWithoutContext(sessionIdentifier, completed, taskFocus);
 		} else {
 			logger.debug("get tasks with contexts " + taskContextIds + " and focus " + taskFocus);
-			return taskService.getTasks(completed, taskFocus, createTaskContextIdentifiers(taskContextIds));
+			return taskService.getTasks(sessionIdentifier, completed, taskFocus, createTaskContextIdentifiers(taskContextIds));
 		}
 	}
 
@@ -149,7 +149,7 @@ public class TaskGuiUtil {
 			return taskService.getTasksWithoutContext(sessionIdentifier, completed);
 		} else {
 			logger.debug("get tasks with contexts " + taskContextIds);
-			return taskService.getTasks(completed, createTaskContextIdentifiers(taskContextIds));
+			return taskService.getTasks(sessionIdentifier, completed, createTaskContextIdentifiers(taskContextIds));
 		}
 
 	}
