@@ -34,11 +34,18 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 @Singleton
 public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServlet {
@@ -93,26 +100,44 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 			final String name = request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_NAME);
 			final String referer = request.getParameter(TaskGuiConstants.PARAMETER_REFERER);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
-			if (name != null && taskIdentifier != null) {
+
+			final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+			if (isMultipart) {
+				// Create a factory for disk-based file items
+				final FileItemFactory factory = new DiskFileItemFactory();
+
+				// Create a new file upload handler
+				final ServletFileUpload upload = new ServletFileUpload(factory);
+
+				// Parse the request
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-					TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
-					taskService.addAttachment(sessionIdentifier, taskAttachment);
+					@SuppressWarnings("unchecked")
+					final List<FileItem> items = upload.parseRequest(request);
+					for (final FileItem item : items) {
+						TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+						taskAttachment.setName(name);
+						taskAttachment.setTask(taskIdentifier);
+						taskAttachment.setContentType(item.getContentType());
+						taskAttachment.setFilename(item.getFieldName());
+						taskAttachment.setContent(item.get());
+						taskService.addAttachment(sessionIdentifier, taskAttachment);
 
-					if (referer != null) {
-						throw new RedirectException(referer);
-					} else {
-						throw new RedirectException(taskGuiLinkFactory.taskViewUrl(request, taskIdentifier));
+						widgets.add("file " + item.getName() + " uploaded!");
+						widgets.add(new BrWidget());
 					}
-				} catch (final ValidationException e) {
-					widgets.add("create taskcontext failed!");
+				} catch (final FileUploadException e) {
+					widgets.add("file upload failed");
+				} catch (ValidationException e) {
+					widgets.add("file upload failed");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
 			}
 
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_TASK_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASKATTACHMENT_NAME).addLabel("Name").addPlaceholder("name..."));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("add attachment"));
 			widgets.add(formWidget);

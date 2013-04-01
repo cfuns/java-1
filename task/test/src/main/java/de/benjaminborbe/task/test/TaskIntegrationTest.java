@@ -69,6 +69,7 @@ public class TaskIntegrationTest extends TestCaseOsgi {
 		final TaskService taskService = getService(TaskService.class);
 		final TestUtil testUtil = new TestUtil(authenticationService, storageService);
 		final SessionIdentifier sessionIdentifier = testUtil.createSessionIdentifier();
+		testUtil.createSuperAdmin(sessionIdentifier);
 		final TaskDto task = new TaskDto();
 		task.setName("TestTask");
 		task.setFocus(TaskFocus.INBOX);
@@ -82,6 +83,7 @@ public class TaskIntegrationTest extends TestCaseOsgi {
 		final TaskService taskService = getService(TaskService.class);
 		final TestUtil testUtil = new TestUtil(authenticationService, storageService);
 		final SessionIdentifier sessionIdentifier = testUtil.createSessionIdentifier();
+		testUtil.createSuperAdmin(sessionIdentifier);
 		final TaskDto task = new TaskDto();
 		task.setName("TestTask");
 		task.setFocus(TaskFocus.INBOX);
