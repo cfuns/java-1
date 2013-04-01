@@ -144,10 +144,7 @@ buildbookmark:
 	cd bookmark_gui && make all
 	cd bookmark_test && make all
 buildauth:
-	cd authentication_api && make all
 	cd authentication && make all
-	cd authentication_gui && make all
-	cd authentication_test && make all
 	cd authorization_api && make all
 	cd authorization && make all
 	cd authorization_gui && make all
@@ -341,6 +338,9 @@ buildnotification:
 	cd notification && make all
 	cd notification_gui && make all
 	cd notification_test && make all
+buildhtml:
+	cd html && make all
+	cd html_test && make all
 buildvirt:
 	cd virt && make all
 buildfilestorage:

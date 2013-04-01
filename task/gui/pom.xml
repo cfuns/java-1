@@ -52,7 +52,10 @@
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
-						<Import-Service>de.benjaminborbe.task.api.TaskService</Import-Service>
+						<Import-Service>
+							de.benjaminborbe.task.api.TaskService,
+							de.benjaminborbe.authorization.api.AuthorizationService
+						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service></Export-Service>
 					</instructions>
@@ -111,8 +114,6 @@
 			<version>${easymock.version}</version>
 			<scope>test</scope>
 		</dependency>
-
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>

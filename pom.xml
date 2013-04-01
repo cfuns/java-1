@@ -84,6 +84,7 @@
 				<module>sample</module>
 				<module>virt</module>
 				<module>task</module>
+				<module>authentication</module>
 			</modules>
 		</profile>
 		<profile>
@@ -107,7 +108,6 @@
 		<profile>
 			<id>test</id>
 			<modules>
-				<module>authentication_test</module>
 				<module>authorization_test</module>
 				<module>blog_test</module>
 				<module>bookmark_test</module>
@@ -185,9 +185,6 @@
 			<id>base</id>
 			<modules>
 				<module>api</module>
-				<module>authentication</module>
-				<module>authentication_api</module>
-				<module>authentication_gui</module>
 				<module>authorization</module>
 				<module>authorization_api</module>
 				<module>authorization_gui</module>
