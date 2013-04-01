@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
-		<artifactId>de.benjaminborbe</artifactId>
+		<artifactId>de.benjaminborbe.configuration</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.authorization.gui</artifactId>
-	<name>Benjamin Borbe - Authorization - Gui</name>
-	<description>Benjamin Borbe - Authorization - Gui</description>
+	<artifactId>de.benjaminborbe.configuration.gui</artifactId>
+	<name>Benjamin Borbe - Configuration - Gui</name>
+	<description>Benjamin Borbe - Configuration - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -42,8 +42,8 @@
 					</supportedProjectTypes>
 					<instructions>
 						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.authorization.gui.AuthorizationGuiActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.authorization.gui.*</Private-Package>
+						<Bundle-Activator>de.benjaminborbe.configuration.gui.ConfigurationGuiActivator</Bundle-Activator>
+						<Private-Package>de.benjaminborbe.configuration.gui.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
@@ -109,6 +109,8 @@
 			<version>${easymock.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>
@@ -132,12 +134,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authorization</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.search</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
@@ -156,7 +152,13 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authorization.api</artifactId>
+			<artifactId>de.benjaminborbe.html</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.configuration.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -168,7 +170,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.html</artifactId>
+			<artifactId>de.benjaminborbe.authorization.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

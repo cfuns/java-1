@@ -85,11 +85,7 @@ buildportfolio:
 	cd portfolio_gui && make all
 	cd portfolio_test && make all
 buildconfiguration:
-	cd configuration_api && make all
-	cd configuration_tools && make all
 	cd configuration && make all
-	cd configuration_gui && make all
-	cd configuration_test && make all
 buildstorage:
 	cd storage_api && make all
 	cd storage_tools && make all

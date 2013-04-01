@@ -85,6 +85,7 @@
 				<module>virt</module>
 				<module>task</module>
 				<module>authentication</module>
+				<module>configuration</module>
 			</modules>
 		</profile>
 		<profile>
@@ -113,7 +114,6 @@
 				<module>bookmark_test</module>
 				<module>calendar_test</module>
 				<module>checklist_test</module>
-				<module>configuration_test</module>
 				<module>confluence_test</module>
 				<module>crawler_test</module>
 				<module>cron_test</module>
@@ -200,10 +200,6 @@
 				<module>checklist</module>
 				<module>checklist_api</module>
 				<module>checklist_gui</module>
-				<module>configuration</module>
-				<module>configuration_tools</module>
-				<module>configuration_api</module>
-				<module>configuration_gui</module>
 				<module>confluence</module>
 				<module>confluence_api</module>
 				<module>confluence_gui</module>
