@@ -47,11 +47,11 @@ public class BlogGuiAtomServlet extends WebsiteWidgetServlet {
 
 	@Override
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
-		final Feed feed = createFeed(request, response, context);
+		final Feed feed = createFeed(request);
 		return new BlogGuiAtomWidget(feed);
 	}
 
-	private Feed createFeed(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) {
+	private Feed createFeed(final HttpServletRequest request) {
 		final AuthorBean author = new AuthorBean();
 		author.setName("Benjamin Borbe");
 

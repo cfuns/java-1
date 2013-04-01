@@ -135,13 +135,13 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		RedirectException, LoginRequiredException {
 		logger.trace("printBody");
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new DivWidget(createTopWidget(request, response, context)).addAttribute("id", "header"));
+		widgets.add(new DivWidget(createTopWidget(request)).addAttribute("id", "header"));
 		widgets.add(new DivWidget(createContentWidget(request, response, context)).addAttribute("id", "content"));
 		widgets.add(new DivWidget(createFooterWidget()).addAttribute("id", "footer"));
 		return new TagWidget("body", widgets);
 	}
 
-	private Widget createTopWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException {
+	private Widget createTopWidget(final HttpServletRequest request) throws IOException, PermissionDeniedException {
 		logger.trace("printTop");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(navigationWidget);

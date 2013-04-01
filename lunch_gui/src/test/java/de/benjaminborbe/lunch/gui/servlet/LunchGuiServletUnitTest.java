@@ -18,7 +18,6 @@ import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -118,9 +117,6 @@ public class LunchGuiServletUnitTest {
 		EasyMock.expect(authenticationService.getFullname(userIdentifier)).andReturn(fullname).anyTimes();
 		EasyMock.replay(authenticationService);
 
-		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);
-		EasyMock.replay(redirectUtil);
-
 		final UrlUtil urlUtil = EasyMock.createMock(UrlUtil.class);
 		EasyMock.replay(urlUtil);
 
@@ -141,7 +137,7 @@ public class LunchGuiServletUnitTest {
 		EasyMock.replay(cacheService);
 
 		final LunchGuiServlet lunchServlet = new LunchGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-			redirectUtil, urlUtil, lunchService, dateUtil, authorizationService, cacheService);
+			urlUtil, lunchService, dateUtil, authorizationService, cacheService);
 
 		lunchServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

@@ -85,7 +85,7 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 			if (userIdentifier != null && email != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
-					sendPasswordLostEmail(request, sessionIdentifier, userIdentifier, email);
+					sendPasswordLostEmail(request, userIdentifier, email);
 					widgets.add("password lost email sent successful");
 				} catch (final ValidationException e) {
 					widgets.add("password lost failed!");
@@ -106,7 +106,7 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 		}
 	}
 
-	private void sendPasswordLostEmail(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String email)
+	private void sendPasswordLostEmail(final HttpServletRequest request, final UserIdentifier userIdentifier, final String email)
 		throws AuthenticationServiceException, ValidationException, UnsupportedEncodingException {
 		final String shortenUrl = authenticationGuiLinkFactory.getShortenUrl(request);
 		final String resetUrl = authenticationGuiLinkFactory.getPasswordResetUrl(request);

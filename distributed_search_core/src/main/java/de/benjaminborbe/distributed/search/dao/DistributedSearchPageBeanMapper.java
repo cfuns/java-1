@@ -38,7 +38,6 @@ public class DistributedSearchPageBeanMapper extends MapObjectMapperAdapter<Dist
 		final Provider<DistributedSearchPageBean> provider,
 		final MapperDistributedSearchPageIdentifier mapperEntryIdentifier,
 		final MapperString mapperString,
-		final MapperBoolean mapperBoolean,
 		final MapperCalendar mapperCalendar) {
 		super(provider, buildMappings(mapperEntryIdentifier, mapperString, mapperCalendar));
 	}

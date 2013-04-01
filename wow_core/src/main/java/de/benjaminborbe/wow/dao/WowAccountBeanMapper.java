@@ -27,7 +27,6 @@ public class WowAccountBeanMapper extends MapObjectMapperAdapter<WowAccountBean>
 		final MapperWowAccountIdentifier mapperWowAccountIdentifier,
 		final MapperUserIdentifier mapperUserIdentifier,
 		final MapperString mapperString,
-		final MapperBoolean mapperBoolean,
 		final MapperCalendar mapperCalendar) {
 		super(provider, buildMappings(mapperWowAccountIdentifier, mapperUserIdentifier, mapperString, mapperCalendar));
 	}

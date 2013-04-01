@@ -27,8 +27,7 @@ public class ProjectileTeamBeanMapper extends MapObjectMapperAdapter<ProjectileT
 		final Provider<ProjectileTeamBean> provider,
 		final MapperProjectileTeamIdentifier mapperListIdentifier,
 		final MapperString mapperString,
-		final MapperCalendar mapperCalendar,
-		final MapperDouble mapperDouble) {
+		final MapperCalendar mapperCalendar) {
 		super(provider, buildMappings(mapperListIdentifier, mapperString, mapperCalendar));
 	}
 

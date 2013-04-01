@@ -1,24 +1,16 @@
 package de.benjaminborbe.kiosk.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import com.google.inject.Provider;
+import de.benjaminborbe.tools.guice.ProviderMock;
+import de.benjaminborbe.tools.mapper.MapperLong;
+import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.util.ParseUtilImpl;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import com.google.inject.Provider;
-
-import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.date.CalendarUtilImpl;
-import de.benjaminborbe.tools.date.CurrentTimeImpl;
-import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
-import de.benjaminborbe.tools.guice.ProviderMock;
-import de.benjaminborbe.tools.mapper.MapperCalendar;
-import de.benjaminborbe.tools.mapper.MapperLong;
-import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.tools.util.ParseUtilImpl;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class KioskBookingMessageMapperUnitTest {
 
@@ -53,13 +45,9 @@ public class KioskBookingMessageMapperUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
-		final CurrentTimeImpl currentTime = new CurrentTimeImpl();
-		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
-		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
-		final Provider<KioskBookingMessage> p = new ProviderMock<KioskBookingMessage>(KioskBookingMessage.class);
+		final Provider<KioskBookingMessage> p = new ProviderMock<>(KioskBookingMessage.class);
 		final MapperLong mapperLong = new MapperLong(parseUtil);
-		return new KioskBookingMessageMapperImpl(p, mapperCalendar, mapperLong);
+		return new KioskBookingMessageMapperImpl(p, mapperLong);
 	}
 }

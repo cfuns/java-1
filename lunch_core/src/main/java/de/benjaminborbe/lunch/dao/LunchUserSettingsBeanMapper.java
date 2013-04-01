@@ -22,7 +22,6 @@ public class LunchUserSettingsBeanMapper extends MapObjectMapperAdapter<LunchUse
 	public LunchUserSettingsBeanMapper(
 		final Provider<LunchUserSettingsBean> provider,
 		final MapperListIdentifier mapperListIdentifier,
-		final MapperString mapperString,
 		final MapperCalendar mapperCalendar,
 		final MapperBoolean mapperBoolean) {
 		super(provider, buildMappings(mapperListIdentifier, mapperCalendar, mapperBoolean));

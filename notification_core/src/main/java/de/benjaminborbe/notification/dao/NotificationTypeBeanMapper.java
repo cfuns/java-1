@@ -25,7 +25,6 @@ public class NotificationTypeBeanMapper extends MapObjectMapperAdapter<Notificat
 	public NotificationTypeBeanMapper(
 		final Provider<NotificationTypeBean> provider,
 		final MapperNotificationTypeIdentifier mapperNotificationTypeIdentifier,
-		final MapperString mapperString,
 		final MapperCalendar mapperCalendar) {
 		super(provider, buildMappings(mapperCalendar, mapperNotificationTypeIdentifier));
 	}

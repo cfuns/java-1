@@ -40,7 +40,7 @@ public class BottomNaviWidget implements Widget {
 		ul.render(request, response, context);
 	}
 
-	protected List<GalleryCollection> getGalleries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	protected List<GalleryCollection> getGalleries() throws GalleryServiceException {
 		final GalleryGroupIdentifier gi = galleryService.getGroupByNameShared(PortfolioGuiConstants.GROUP_NAME_NAVI_BOTTON);
 		if (gi == null) {
 			return new ArrayList<GalleryCollection>();

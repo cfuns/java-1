@@ -87,7 +87,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(galleryId);
 			final GalleryCollection galleryCollection = galleryService.getCollectionShared(galleryCollectionIdentifier);
 			if (galleryCollection == null) {
-				final String target = portfolioLinkFactory.createGalleryUrl(request, getDefaultGalleryCollection(sessionIdentifier));
+				final String target = portfolioLinkFactory.createGalleryUrl(request, getDefaultGalleryCollection());
 				return new RedirectWidget(target);
 			} else {
 				final PortfolioLayoutWidget portfolioWidget = portfolioWidgetProvider.get();
@@ -115,7 +115,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		return false;
 	}
 
-	private GalleryCollection getDefaultGalleryCollection(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	private GalleryCollection getDefaultGalleryCollection() throws GalleryServiceException {
 		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsShared());
 		if (galleries.size() > 0) {
 			Collections.sort(galleries, galleryComparator);

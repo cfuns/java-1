@@ -41,7 +41,6 @@ public class LunchGuiServlet extends LunchGuiBaseServlet {
 		final AuthenticationService authenticationService,
 		final NavigationWidget navigationWidget,
 		final Provider<HttpContext> httpContextProvider,
-		final RedirectUtil redirectUtil,
 		final UrlUtil urlUtil,
 		final LunchService lunchService,
 		final DateUtil dateUtil,

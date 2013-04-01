@@ -91,7 +91,7 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 			if (userIdentifier != null && password != null && passwordRepeat != null && token != null) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
-					setNewPassword(sessionIdentifier, userIdentifier, token, password, passwordRepeat);
+					setNewPassword(userIdentifier, token, password, passwordRepeat);
 					throw new RedirectException(authenticationGuiLinkFactory.userLoginUrl(request, userIdentifier));
 				} catch (final ValidationException e) {
 					widgets.add("set new password failed!");
@@ -113,7 +113,7 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 		}
 	}
 
-	private void setNewPassword(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String token, final String password, final String passwordRepeat)
+	private void setNewPassword(final UserIdentifier userIdentifier, final String token, final String password, final String passwordRepeat)
 		throws ValidationException, AuthenticationServiceException {
 		authenticationService.setNewPassword(userIdentifier, token, password, passwordRepeat);
 	}

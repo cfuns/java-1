@@ -3,7 +3,6 @@ package de.benjaminborbe.kiosk.util;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.tools.mapper.MapException;
-import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.json.JsonObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
@@ -18,7 +17,7 @@ public class KioskBookingMessageMapperImpl implements KioskBookingMessageMapper 
 	private final JsonObjectMapper<KioskBookingMessage> mapper;
 
 	@Inject
-	public KioskBookingMessageMapperImpl(final Provider<KioskBookingMessage> lunchBookingMessageProvider, final MapperCalendar mapperCalendar, final MapperLong mapperLong) {
+	public KioskBookingMessageMapperImpl(final Provider<KioskBookingMessage> lunchBookingMessageProvider, final MapperLong mapperLong) {
 		mapper = new JsonObjectMapper<KioskBookingMessage>(lunchBookingMessageProvider, build(mapperLong));
 	}
 

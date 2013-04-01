@@ -30,7 +30,6 @@ public class AnalyticsReportBeanMapper extends MapObjectMapperAdapter<AnalyticsR
 		final MapperAnalyticsReportIdentifier mapperListIdentifier,
 		final MapperString mapperString,
 		final MapperCalendar mapperCalendar,
-		final MapperDouble mapperDouble,
 		final MapperAnalyticsReportAggregation mapperAnalyticsReportAggregation) {
 		super(provider, buildMappings(mapperListIdentifier, mapperString, mapperCalendar, mapperAnalyticsReportAggregation));
 	}

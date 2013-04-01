@@ -22,7 +22,6 @@ public class ConfigurationBeanMapper extends MapObjectMapperAdapter<Configuratio
 	public ConfigurationBeanMapper(
 		final Provider<ConfigurationBean> provider,
 		final MapperString mapperString,
-		final MapperBoolean mapperBoolean,
 		final MapperCalendar mapperCalendar,
 		final MapperConfigurationIdentifier mapperConfigurationIdentifier) {
 		super(provider, buildMappings(mapperString, mapperCalendar, mapperConfigurationIdentifier));

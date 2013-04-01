@@ -57,7 +57,7 @@ public class TopNaviWidget implements Widget {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final UlWidget ul = new UlWidget();
 			ul.addClass("navi");
-			final List<GalleryCollection> galleries = getGalleries(sessionIdentifier);
+			final List<GalleryCollection> galleries = getGalleries();
 			logger.debug("found " + galleries.size() + " galleries");
 			for (final GalleryCollection gallery : galleries) {
 				ul.add(portfolioLinkFactory.createGallery(request, gallery));
@@ -70,7 +70,7 @@ public class TopNaviWidget implements Widget {
 		}
 	}
 
-	protected List<GalleryCollection> getGalleries(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+	protected List<GalleryCollection> getGalleries() throws GalleryServiceException {
 		final GalleryGroupIdentifier gi = galleryService.getGroupByNameShared(PortfolioGuiConstants.GROUP_NAME_NAVI_TOP);
 		if (gi == null) {
 			return new ArrayList<GalleryCollection>();
