@@ -284,7 +284,7 @@ public class TaskGuiLinkFactory {
 		return taskAttachmentCreate(request, taskIdentifier, new StringWidget("add attachment"));
 	}
 
-	public Widget taskAttachmentCreate(final HttpServletRequest request, final TaskIdentifier taskIdentifier, Widget widget) throws UnsupportedEncodingException, MalformedURLException {
+	public Widget taskAttachmentCreate(final HttpServletRequest request, final TaskIdentifier taskIdentifier, final Widget widget) throws UnsupportedEncodingException, MalformedURLException {
 		final LinkRelativWidget linkRelativWidget = new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKATTACHMENT_CREATE,
 			getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASK_ID, String.valueOf(taskIdentifier)), widget);
 		return new TooltipWidget(linkRelativWidget).addTooltip("Upload attachment");

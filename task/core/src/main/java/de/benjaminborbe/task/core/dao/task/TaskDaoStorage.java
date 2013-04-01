@@ -29,7 +29,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	@Inject
 	public TaskDaoStorage(
 		final Logger logger,
-		TaskAttachmentDao taskAttachmentDao,
+		final TaskAttachmentDao taskAttachmentDao,
 		final StorageService storageService,
 		final Provider<TaskBean> beanProvider,
 		final TaskBeanMapper mapper,

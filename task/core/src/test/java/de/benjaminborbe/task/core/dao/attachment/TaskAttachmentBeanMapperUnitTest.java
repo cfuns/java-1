@@ -11,7 +11,6 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
-import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
@@ -44,7 +43,7 @@ public class TaskAttachmentBeanMapperUnitTest {
 
 	@Parameterized.Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<Object[]>();
+		final List<Object[]> result = new ArrayList<>();
 		result.add(new Object[]{TaskAttachmentBeanMapper.ID, "1337"});
 		result.add(new Object[]{TaskAttachmentBeanMapper.CREATED, "123456"});
 		result.add(new Object[]{TaskAttachmentBeanMapper.MODIFIED, "123456"});
@@ -55,7 +54,7 @@ public class TaskAttachmentBeanMapperUnitTest {
 	}
 
 	private TaskAttachmentBeanMapper getTaskAttachmentBeanMapper() {
-		final Provider<TaskAttachmentBean> beanProvider = new ProviderMock<TaskAttachmentBean>(TaskAttachmentBean.class);
+		final Provider<TaskAttachmentBean> beanProvider = new ProviderMock<>(TaskAttachmentBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -69,10 +68,8 @@ public class TaskAttachmentBeanMapperUnitTest {
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
 		final MapperString mapperString = new MapperString();
 		final MapperTaskAttachmentIdentifier mapperTaskAttachmentIdentifier = new MapperTaskAttachmentIdentifier();
-		final MapperLong mapperLong = new MapperLong(parseUtil);
-
 		final MapperTaskIdentifier mapperTaskIdentifier = new MapperTaskIdentifier();
-		MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier = new MapperFilestorageEntryIdentifier();
+		final MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier = new MapperFilestorageEntryIdentifier();
 
 		return new TaskAttachmentBeanMapper(beanProvider, mapperTaskIdentifier, mapperTaskAttachmentIdentifier, mapperString, mapperCalendar, mapperFilestorageEntryIdentifier);
 	}
@@ -80,7 +77,7 @@ public class TaskAttachmentBeanMapperUnitTest {
 	@Test
 	public void testMaxRetryCounter() throws Exception {
 		final TaskAttachmentBeanMapper mapper = getTaskAttachmentBeanMapper();
-		final Map<String, String> inputData = new HashMap<String, String>();
+		final Map<String, String> inputData = new HashMap<>();
 		inputData.put(fieldName, fieldValue);
 		final TaskAttachmentBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

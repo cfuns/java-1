@@ -110,8 +110,8 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final Map<String, FileItem> files = new HashMap<String, FileItem>();
-			final Map<String, String> parameter = new HashMap<String, String>();
+			final Map<String, FileItem> files = new HashMap<>();
+			final Map<String, String> parameter = new HashMap<>();
 
 			final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			if (isMultipart) {
@@ -141,7 +141,7 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 
 					for (final FileItem item : files.values()) {
 						final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(parameter.get(TaskGuiConstants.PARAMETER_TASK_ID));
-						TaskAttachmentWithContentDto taskAttachment = new TaskAttachmentWithContentDto();
+						final TaskAttachmentWithContentDto taskAttachment = new TaskAttachmentWithContentDto();
 						taskAttachment.setName(parameter.get(TaskGuiConstants.PARAMETER_TASKATTACHMENT_NAME));
 						taskAttachment.setTask(taskIdentifier);
 						taskAttachment.setContent(item.get());
@@ -188,14 +188,8 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 			widgets.add(links);
 
 			return widgets;
-		} catch (final AuthenticationServiceException e) {
-			logger.trace(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
-		} catch (final TaskServiceException e) {
-			logger.trace(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
+		} catch (final TaskServiceException | AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
 		}
 	}
 
@@ -203,7 +197,7 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 		if (item.getContentType() != null) {
 			return item.getContentType();
 		}
-		Parser parser = new AutoDetectParser();
+		final Parser parser = new AutoDetectParser();
 		final InputStream inputStream = item.getInputStream();
 		final ContentHandler contentHandler = new BodyContentHandler();
 		final Metadata metadata = new Metadata();

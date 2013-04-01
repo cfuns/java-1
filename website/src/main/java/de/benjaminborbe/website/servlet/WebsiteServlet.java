@@ -105,7 +105,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 			}
 		} catch (final ServiceUnavailableException | AuthorizationServiceException | AuthenticationServiceException e) {
 			final String title = "Exception in Servlet: " + getClass().getName();
-			ListWidget row = new ListWidget();
+			final ListWidget row = new ListWidget();
 			row.add(new H1Widget(title));
 			row.add(new ExceptionWidget(e));
 			logger.warn("Exception in WebsiteServlet: " + getClass().getName(), e);
@@ -162,7 +162,8 @@ public abstract class WebsiteServlet extends HttpServlet {
 	protected String buildRedirectUrl(final HttpServletRequest request, final String target) {
 		final StringWriter result = new StringWriter();
 		result.append(request.getContextPath());
-		result.append(target + "?referer=");
+		result.append(target);
+		result.append("?referer=");
 		try {
 			result.append(buildReferer(request));
 		} catch (final UnsupportedEncodingException e) {
@@ -188,7 +189,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 		if (e.hasMoreElements()) {
 			referer.append("?");
 		}
-		final List<String> pairs = new ArrayList<String>();
+		final List<String> pairs = new ArrayList<>();
 		while (e.hasMoreElements()) {
 			final String name = e.nextElement();
 			final String[] values = request.getParameterValues(name);

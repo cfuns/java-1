@@ -40,7 +40,7 @@ public class TaskAttachmentBeanMapper extends MapObjectMapperAdapter<TaskAttachm
 		final MapperTaskAttachmentIdentifier mapperTaskAttachmentIdentifier,
 		final MapperString mapperString,
 		final MapperCalendar mapperCalendar,
-		MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier) {
+		final MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier) {
 		super(provider, buildMappings(mapperTaskIdentifier, mapperTaskAttachmentIdentifier, mapperString, mapperCalendar, mapperFilestorageEntryIdentifier));
 	}
 

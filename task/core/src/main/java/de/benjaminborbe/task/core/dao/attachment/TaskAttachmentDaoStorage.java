@@ -29,7 +29,7 @@ public class TaskAttachmentDaoStorage extends DaoStorage<TaskAttachmentBean, Tas
 	@Inject
 	public TaskAttachmentDaoStorage(
 		final Logger logger,
-		FilestorageService filestorageService,
+		final FilestorageService filestorageService,
 		final StorageService storageService,
 		final Provider<TaskAttachmentBean> beanProvider,
 		final TaskAttachmentBeanMapper mapper,
