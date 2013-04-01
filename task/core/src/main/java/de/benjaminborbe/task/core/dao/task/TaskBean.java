@@ -1,0 +1,219 @@
+package de.benjaminborbe.task.core.dao.task;
+
+import de.benjaminborbe.authentication.api.UserIdentifier;
+import de.benjaminborbe.storage.tools.EntityBase;
+import de.benjaminborbe.storage.tools.HasCreated;
+import de.benjaminborbe.storage.tools.HasModified;
+import de.benjaminborbe.task.api.Task;
+import de.benjaminborbe.task.api.TaskContextIdentifier;
+import de.benjaminborbe.task.api.TaskFocus;
+import de.benjaminborbe.task.api.TaskIdentifier;
+
+import java.util.Calendar;
+
+public class TaskBean extends EntityBase<TaskIdentifier> implements Task, HasCreated, HasModified {
+
+	private static final long serialVersionUID = 6058606350883201939L;
+
+	private TaskIdentifier id;
+
+	private Boolean completed;
+
+	private TaskIdentifier parentId;
+
+	private String name;
+
+	private String description;
+
+	private UserIdentifier owner;
+
+	private Calendar created;
+
+	private Calendar modified;
+
+	private Calendar due;
+
+	private Calendar start;
+
+	private Long duration;
+
+	private Integer priority = 0;
+
+	private Calendar completionDate;
+
+	private Long repeatStart;
+
+	private Long repeatDue;
+
+	private String url;
+
+	private TaskFocus focus;
+
+	private TaskContextIdentifier context;
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
+	}
+
+	@Override
+	public UserIdentifier getOwner() {
+		return owner;
+	}
+
+	public void setOwner(final UserIdentifier owner) {
+		this.owner = owner;
+	}
+
+	public void setCompleted(final Boolean completed) {
+		this.completed = completed;
+	}
+
+	@Override
+	public Calendar getCreated() {
+		return created;
+	}
+
+	@Override
+	public void setCreated(final Calendar created) {
+		this.created = created;
+	}
+
+	@Override
+	public Calendar getModified() {
+		return modified;
+	}
+
+	@Override
+	public void setModified(final Calendar modified) {
+		this.modified = modified;
+	}
+
+	@Override
+	public Long getDuration() {
+		return duration;
+	}
+
+	@Override
+	public Calendar getStart() {
+		return start;
+	}
+
+	@Override
+	public Calendar getDue() {
+		return due;
+	}
+
+	public void setDue(final Calendar due) {
+		this.due = due;
+	}
+
+	public void setStart(final Calendar start) {
+		this.start = start;
+	}
+
+	public void setDuration(final Long duration) {
+		this.duration = duration;
+	}
+
+	@Override
+	public Boolean getCompleted() {
+		return completed;
+	}
+
+	@Override
+	public TaskIdentifier getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(final TaskIdentifier parentId) {
+		this.parentId = parentId;
+	}
+
+	@Override
+	public Integer getPriority() {
+		return priority;
+	}
+
+	public void setPriority(final Integer priority) {
+		this.priority = priority;
+	}
+
+	public void setCompletionDate(final Calendar completionDate) {
+		this.completionDate = completionDate;
+	}
+
+	@Override
+	public Calendar getCompletionDate() {
+		return completionDate;
+	}
+
+	@Override
+	public Long getRepeatStart() {
+		return repeatStart;
+	}
+
+	public void setRepeatStart(final Long repeatStart) {
+		this.repeatStart = repeatStart;
+	}
+
+	@Override
+	public Long getRepeatDue() {
+		return repeatDue;
+	}
+
+	public void setRepeatDue(final Long repeatDue) {
+		this.repeatDue = repeatDue;
+	}
+
+	@Override
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(final String url) {
+		this.url = url;
+	}
+
+	@Override
+	public TaskFocus getFocus() {
+		return focus;
+	}
+
+	public void setFocus(final TaskFocus focus) {
+		this.focus = focus;
+	}
+
+	@Override
+	public TaskIdentifier getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(final TaskIdentifier id) {
+		this.id = id;
+	}
+
+	@Override
+	public TaskContextIdentifier getContext() {
+		return context;
+	}
+
+	public void setContext(final TaskContextIdentifier context) {
+		this.context = context;
+	}
+
+}
