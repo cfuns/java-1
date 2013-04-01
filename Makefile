@@ -141,10 +141,7 @@ buildbookmark:
 	cd bookmark_test && make all
 buildauth:
 	cd authentication && make all
-	cd authorization_api && make all
 	cd authorization && make all
-	cd authorization_gui && make all
-	cd authorization_test && make all
 buildmonitoring:
 	cd monitoring_api && make all
 	cd monitoring_tools && make all
@@ -233,10 +230,7 @@ buildgooglesearch:
 	cd googlesearch_gui && make all
 	cd googlesearch_test && make all
 buildnavigation:
-	cd navigation_api && make all
 	cd navigation && make all
-	cd navigation_gui && make all
-	cd navigation_test && make all
 buildchecklist:
 	cd checklist_api && make all
 	cd checklist && make all

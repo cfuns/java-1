@@ -166,7 +166,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage</artifactId>
+			<artifactId>de.benjaminborbe.storage.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -178,7 +178,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.navigation</artifactId>
+			<artifactId>de.benjaminborbe.navigation.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

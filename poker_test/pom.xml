@@ -142,7 +142,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.poker</artifactId>
+			<artifactId>de.benjaminborbe.poker.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -196,7 +196,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage</artifactId>
+			<artifactId>de.benjaminborbe.storage.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

@@ -142,7 +142,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.timetracker</artifactId>
+			<artifactId>de.benjaminborbe.timetracker.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -166,7 +166,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.navigation</artifactId>
+			<artifactId>de.benjaminborbe.navigation.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

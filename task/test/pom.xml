@@ -179,7 +179,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authentication</artifactId>
+			<artifactId>de.benjaminborbe.authentication.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -191,7 +191,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authorization</artifactId>
+			<artifactId>de.benjaminborbe.authorization.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -203,7 +203,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage</artifactId>
+			<artifactId>de.benjaminborbe.storage.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -257,7 +257,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.mail</artifactId>
+			<artifactId>de.benjaminborbe.mail.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -281,7 +281,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.analytics</artifactId>
+			<artifactId>de.benjaminborbe.analytics.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -299,7 +299,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.filestorage</artifactId>
+			<artifactId>de.benjaminborbe.filestorage.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

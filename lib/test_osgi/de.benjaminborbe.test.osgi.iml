@@ -43,7 +43,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.collections:google-collections:1.0" level="project" />
     <orderEntry type="module" module-name="de.benjaminborbe.tools.osgi" scope="PROVIDED" />
-    <orderEntry type="module" module-name="de.benjaminborbe.authorization.api" scope="PROVIDED" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: de.benjaminborbe:de.benjaminborbe.authorization.api:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="de.benjaminborbe.storage.api" scope="PROVIDED" />
   </component>
 </module>

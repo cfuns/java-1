@@ -57,7 +57,9 @@
 						</Import-Package>
 						<Import-Service>
 							de.benjaminborbe.task.api.TaskService,
-							de.benjaminborbe.authorization.api.AuthorizationService
+							de.benjaminborbe.navigation.api.NavigationWidget,
+							de.benjaminborbe.authorization.api.AuthorizationService,
+							de.benjaminborbe.authentication.api.AuthenticationService
 						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service></Export-Service>

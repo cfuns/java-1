@@ -142,7 +142,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.microblog</artifactId>
+			<artifactId>de.benjaminborbe.microblog.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -178,7 +178,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage</artifactId>
+			<artifactId>de.benjaminborbe.storage.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -202,7 +202,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.mail</artifactId>
+			<artifactId>de.benjaminborbe.mail.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

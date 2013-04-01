@@ -52,10 +52,13 @@
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>
-							de.benjaminborbe.task.api.*,
+							de.benjaminborbe.task.api,
 							${felix_plugin_imports}
 						</Import-Package>
-						<Import-Service>de.benjaminborbe.filestorage.api.FilestorageService</Import-Service>
+						<Import-Service>
+							de.benjaminborbe.authorization.api.AuthorizationService,
+							de.benjaminborbe.filestorage.api.FilestorageService
+						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service>de.benjaminborbe.task.api.TaskService</Export-Service>
 					</instructions>

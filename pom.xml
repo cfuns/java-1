@@ -85,8 +85,10 @@
 				<module>virt</module>
 				<module>task</module>
 				<module>authentication</module>
+				<module>authorization</module>
 				<module>configuration</module>
 				<module>filestorage</module>
+				<module>navigation</module>
 			</modules>
 		</profile>
 		<profile>
@@ -110,7 +112,6 @@
 		<profile>
 			<id>test</id>
 			<modules>
-				<module>authorization_test</module>
 				<module>blog_test</module>
 				<module>bookmark_test</module>
 				<module>calendar_test</module>
@@ -136,7 +137,6 @@
 				<module>message_test</module>
 				<module>microblog_test</module>
 				<module>monitoring_test</module>
-				<module>navigation_test</module>
 				<module>performance_test</module>
 				<module>portfolio_test</module>
 				<module>projectile_test</module>
@@ -172,10 +172,10 @@
 		<profile>
 			<id>slow</id>
 			<modules>
-				<module>vaadin</module>
+				<module>vaadin_core</module>
 				<module>vaadin_api</module>
 				<module>vaadin_gui</module>
-				<module>gwt</module>
+				<module>gwt_core</module>
 				<module>gwt_api</module>
 				<module>gwt_gui</module>
 				<module>poker_table</module>
@@ -185,171 +185,165 @@
 			<id>base</id>
 			<modules>
 				<module>api</module>
-				<module>authorization</module>
-				<module>authorization_api</module>
-				<module>authorization_gui</module>
-				<module>blog</module>
+				<module>blog_core</module>
 				<module>blog_api</module>
 				<module>blog_gui</module>
-				<module>bookmark</module>
+				<module>bookmark_core</module>
 				<module>bookmark_api</module>
 				<module>bookmark_gui</module>
-				<module>calendar</module>
+				<module>calendar_core</module>
 				<module>calendar_api</module>
 				<module>calendar_gui</module>
-				<module>checklist</module>
+				<module>checklist_core</module>
 				<module>checklist_api</module>
 				<module>checklist_gui</module>
-				<module>confluence</module>
+				<module>confluence_core</module>
 				<module>confluence_api</module>
 				<module>confluence_gui</module>
-				<module>crawler</module>
+				<module>crawler_core</module>
 				<module>crawler_api</module>
 				<module>crawler_gui</module>
-				<module>cron</module>
+				<module>cron_core</module>
 				<module>cron_api</module>
 				<module>cron_gui</module>
-				<module>dashboard</module>
+				<module>dashboard_core</module>
 				<module>dashboard_api</module>
 				<module>dashboard_gui</module>
-				<module>dhl</module>
+				<module>dhl_core</module>
 				<module>dhl_api</module>
 				<module>dhl_gui</module>
-				<module>eventbus</module>
+				<module>eventbus_core</module>
 				<module>eventbus_api</module>
 				<module>eventbus_gui</module>
-				<module>forum</module>
+				<module>forum_core</module>
 				<module>forum_api</module>
 				<module>forum_gui</module>
-				<module>gallery</module>
+				<module>gallery_core</module>
 				<module>gallery_api</module>
 				<module>gallery_gui</module>
-				<module>geocaching</module>
+				<module>geocaching_core</module>
 				<module>geocaching_api</module>
 				<module>geocaching_gui</module>
-				<module>googlesearch</module>
+				<module>googlesearch_core</module>
 				<module>googlesearch_api</module>
 				<module>googlesearch_gui</module>
 				<module>html</module>
-				<module>lucene_index</module>
+				<module>lucene_index_core</module>
 				<module>lucene_index_api</module>
 				<module>lucene_index_gui</module>
-				<module>index</module>
+				<module>index_core</module>
 				<module>index_api</module>
 				<module>index_gui</module>
-				<module>loggly</module>
+				<module>loggly_core</module>
 				<module>loggly_api</module>
 				<module>loggly_gui</module>
-				<module>kiosk</module>
+				<module>kiosk_core</module>
 				<module>kiosk_api</module>
 				<module>kiosk_gui</module>
-				<module>lunch</module>
+				<module>lunch_core</module>
 				<module>lunch_api</module>
 				<module>lunch_gui</module>
-				<module>mail</module>
+				<module>mail_core</module>
 				<module>mail_api</module>
 				<module>mail_gui</module>
-				<module>message</module>
+				<module>message_core</module>
 				<module>message_api</module>
 				<module>message_gui</module>
-				<module>microblog</module>
+				<module>microblog_core</module>
 				<module>microblog_api</module>
 				<module>microblog_gui</module>
 				<module>monitoring_api</module>
 				<module>monitoring_tools</module>
-				<module>monitoring</module>
+				<module>monitoring_core</module>
 				<module>monitoring_gui</module>
-				<module>navigation</module>
-				<module>navigation_api</module>
-				<module>navigation_gui</module>
-				<module>performance</module>
+				<module>performance_core</module>
 				<module>performance_api</module>
 				<module>performance_gui</module>
-				<module>portfolio</module>
+				<module>portfolio_core</module>
 				<module>portfolio_api</module>
 				<module>portfolio_gui</module>
-				<module>projectile</module>
+				<module>projectile_core</module>
 				<module>projectile_api</module>
 				<module>projectile_gui</module>
-				<module>scala</module>
+				<module>scala_core</module>
 				<module>scala_api</module>
 				<module>scala_gui</module>
-				<module>search</module>
+				<module>search_core</module>
 				<module>search_api</module>
 				<module>search_gui</module>
-				<module>slash</module>
+				<module>slash_core</module>
 				<module>slash_api</module>
 				<module>slash_gui</module>
-				<module>shortener</module>
+				<module>shortener_core</module>
 				<module>shortener_api</module>
 				<module>shortener_gui</module>
-				<module>storage</module>
+				<module>storage_core</module>
 				<module>storage_api</module>
 				<module>storage_gui</module>
 				<module>storage_tools</module>
-				<module>streamcache</module>
+				<module>streamcache_core</module>
 				<module>streamcache_api</module>
 				<module>streamcache_gui</module>
-				<module>systemstatus</module>
+				<module>systemstatus_core</module>
 				<module>systemstatus_api</module>
 				<module>systemstatus_gui</module>
-				<module>analytics</module>
+				<module>analytics_core</module>
 				<module>analytics_api</module>
 				<module>analytics_gui</module>
-				<module>cache</module>
+				<module>cache_core</module>
 				<module>cache_api</module>
 				<module>cache_gui</module>
-				<module>poker</module>
+				<module>poker_core</module>
 				<module>poker_client</module>
 				<module>poker_api</module>
 				<module>poker_gui</module>
-				<module>cms</module>
+				<module>cms_core</module>
 				<module>cms_api</module>
 				<module>cms_gui</module>
-				<module>note</module>
+				<module>note_core</module>
 				<module>note_api</module>
 				<module>note_gui</module>
-				<module>timetracker</module>
+				<module>timetracker_core</module>
 				<module>timetracker_api</module>
 				<module>timetracker_gui</module>
-				<module>translate</module>
+				<module>translate_core</module>
 				<module>translate_api</module>
 				<module>translate_gui</module>
-				<module>util</module>
+				<module>util_core</module>
 				<module>util_api</module>
 				<module>util_gui</module>
-				<module>vnc</module>
+				<module>vnc_core</module>
 				<module>vnc_api</module>
 				<module>vnc_gui</module>
-				<module>weather</module>
+				<module>weather_core</module>
 				<module>weather_api</module>
 				<module>weather_gui</module>
-				<module>distributed_index</module>
+				<module>distributed_index_core</module>
 				<module>distributed_index_api</module>
 				<module>distributed_index_gui</module>
-				<module>distributed_search</module>
+				<module>distributed_search_core</module>
 				<module>distributed_search_api</module>
 				<module>distributed_search_gui</module>
-				<module>websearch</module>
+				<module>websearch_core</module>
 				<module>websearch_api</module>
 				<module>websearch_gui</module>
 				<module>website</module>
-				<module>wiki</module>
+				<module>wiki_core</module>
 				<module>wiki_api</module>
 				<module>wiki_gui</module>
-				<module>worktime</module>
+				<module>worktime_core</module>
 				<module>worktime_api</module>
 				<module>worktime_gui</module>
-				<module>wow</module>
+				<module>wow_core</module>
 				<module>wow_api</module>
 				<module>wow_gui</module>
-				<module>xmpp</module>
+				<module>xmpp_core</module>
 				<module>xmpp_api</module>
 				<module>xmpp_gui</module>
-				<module>xmlrpc</module>
+				<module>xmlrpc_core</module>
 				<module>xmlrpc_api</module>
 				<module>xmlrpc_gui</module>
-				<module>notification</module>
+				<module>notification_core</module>
 				<module>notification_api</module>
 				<module>notification_gui</module>
 			</modules>
