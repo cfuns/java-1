@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.wow</artifactId>
+	<artifactId>de.benjaminborbe.wow.core</artifactId>
 	<name>Benjamin Borbe - Wow - Core</name>
 	<description>Benjamin Borbe - Wow - Core</description>
 	<packaging>bundle</packaging>

@@ -142,7 +142,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.websearch</artifactId>
+			<artifactId>de.benjaminborbe.websearch.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -196,7 +196,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.index</artifactId>
+			<artifactId>de.benjaminborbe.index.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -214,7 +214,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.crawler</artifactId>
+			<artifactId>de.benjaminborbe.crawler.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -232,7 +232,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.search</artifactId>
+			<artifactId>de.benjaminborbe.search.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -274,7 +274,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authentication</artifactId>
+			<artifactId>de.benjaminborbe.authentication.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -286,7 +286,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.cron</artifactId>
+			<artifactId>de.benjaminborbe.cron.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

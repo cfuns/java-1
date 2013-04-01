@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.index</artifactId>
+	<artifactId>de.benjaminborbe.index.core</artifactId>
 	<name>Benjamin Borbe - Index - Core</name>
 	<description>Benjamin Borbe - Index - Core</description>
 	<packaging>bundle</packaging>

@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.crawler</artifactId>
+	<artifactId>de.benjaminborbe.crawler.core</artifactId>
 	<name>Benjamin Borbe - Crawler - Core</name>
 	<description>Benjamin Borbe - Crawler - Core</description>
 	<packaging>bundle</packaging>

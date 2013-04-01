@@ -142,7 +142,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.cron</artifactId>
+			<artifactId>de.benjaminborbe.cron.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

@@ -178,7 +178,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authentication</artifactId>
+			<artifactId>de.benjaminborbe.authentication.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.confluence</artifactId>
+	<artifactId>de.benjaminborbe.confluence.core</artifactId>
 	<name>Benjamin Borbe - Confluence - Core</name>
 	<description>Benjamin Borbe - Confluence - Core</description>
 	<packaging>bundle</packaging>

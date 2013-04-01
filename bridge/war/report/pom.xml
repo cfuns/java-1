@@ -11,23 +11,60 @@
 	<description>Benjamin Borbe - Bridge - War - Report</description>
 	<packaging>war</packaging>
 	<properties>
-		<includeArtifactIds>org.apache.felix.http.bridge, org.apache.felix.metatype, org.apache.felix.webconsole, org.apache.felix.prefs, org.apache.felix.scr,
+		<includeArtifactIds>
+			org.apache.felix.http.bridge,
+			org.apache.felix.metatype,
+			org.apache.felix.webconsole,
+			org.apache.felix.prefs,
+			org.apache.felix.scr,
 			org.apache.felix.configadmin,
-			org.apache.felix.log, org.apache.felix.shell.remote, org.apache.felix.shell, org.apache.felix.bundlerepository, org.osgi.service.obr,
-			de.benjaminborbe.api, de.benjaminborbe.html,
-			de.benjaminborbe.navigation, de.benjaminborbe.navigation.api, de.benjaminborbe.navigation.gui, de.benjaminborbe.projectile.api,
-			de.benjaminborbe.projectile, de.benjaminborbe.projectile.gui,
-			de.benjaminborbe.storage.api, de.benjaminborbe.storage, de.benjaminborbe.storage.gui, de.benjaminborbe.authentication,
-			de.benjaminborbe.authentication.api, de.benjaminborbe.authentication.gui,
-			de.benjaminborbe.authorization, de.benjaminborbe.authorization.api, de.benjaminborbe.authorization.gui, de.benjaminborbe.configuration,
+			org.apache.felix.log,
+			org.apache.felix.shell.remote,
+			org.apache.felix.shell,
+			org.apache.felix.bundlerepository,
+			org.osgi.service.obr,
+			de.benjaminborbe.api,
+			de.benjaminborbe.html.api,
+			de.benjaminborbe.navigation.core,
+			de.benjaminborbe.navigation.api,
+			de.benjaminborbe.navigation.gui,
+			de.benjaminborbe.projectile.api,
+			de.benjaminborbe.projectile.core,
+			de.benjaminborbe.projectile.gui,
+			de.benjaminborbe.storage.api,
+			de.benjaminborbe.storage.core,
+			de.benjaminborbe.storage.gui,
+			de.benjaminborbe.authentication.core,
+			de.benjaminborbe.authentication.api,
+			de.benjaminborbe.authentication.gui,
+			de.benjaminborbe.authorization.core,
+			de.benjaminborbe.authorization.api,
+			de.benjaminborbe.authorization.gui,
+			de.benjaminborbe.configuration.core,
 			de.benjaminborbe.configuration.api,
-			de.benjaminborbe.configuration.gui, de.benjaminborbe.cron.api, de.benjaminborbe.cron, de.benjaminborbe.cron.gui, de.benjaminborbe.shortener.api,
-			de.benjaminborbe.shortener,
-			de.benjaminborbe.shortener.gui, de.benjaminborbe.mail.api, de.benjaminborbe.mail, de.benjaminborbe.mail.gui, de.benjaminborbe.dashboard.api,
-			de.benjaminborbe.message.api, de.benjaminborbe.message,
-			de.benjaminborbe.message.gui, de.benjaminborbe.slash, de.benjaminborbe.slash.api, de.benjaminborbe.slash.gui, de.benjaminborbe.cache,
-			de.benjaminborbe.cache.api, de.benjaminborbe.cache.gui,
-			de.benjaminborbe.analytics.api, de.benjaminborbe.analytics, de.benjaminborbe.analytics.gui
+			de.benjaminborbe.configuration.gui,
+			de.benjaminborbe.cron.api,
+			de.benjaminborbe.cron.core,
+			de.benjaminborbe.cron.gui,
+			de.benjaminborbe.shortener.api,
+			de.benjaminborbe.shortener.core,
+			de.benjaminborbe.shortener.gui,
+			de.benjaminborbe.mail.api,
+			de.benjaminborbe.mail.core,
+			de.benjaminborbe.mail.gui,
+			de.benjaminborbe.dashboard.api,
+			de.benjaminborbe.message.api,
+			de.benjaminborbe.message.core,
+			de.benjaminborbe.message.gui,
+			de.benjaminborbe.slash.core,
+			de.benjaminborbe.slash.api,
+			de.benjaminborbe.slash.gui,
+			de.benjaminborbe.cache.core,
+			de.benjaminborbe.cache.api,
+			de.benjaminborbe.cache.gui,
+			de.benjaminborbe.analytics.api,
+			de.benjaminborbe.analytics.core,
+			de.benjaminborbe.analytics.gui
 		</includeArtifactIds>
 	</properties>
 	<build>
@@ -90,7 +127,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authentication</artifactId>
+			<artifactId>de.benjaminborbe.authentication.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -168,7 +205,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.cron</artifactId>
+			<artifactId>de.benjaminborbe.cron.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -180,7 +217,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.shortener</artifactId>
+			<artifactId>de.benjaminborbe.shortener.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -216,7 +253,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.message</artifactId>
+			<artifactId>de.benjaminborbe.message.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -234,7 +271,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.slash</artifactId>
+			<artifactId>de.benjaminborbe.slash.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

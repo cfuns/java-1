@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.slash</artifactId>
+	<artifactId>de.benjaminborbe.slash.core</artifactId>
 	<name>Benjamin Borbe - Slash - Core</name>
 	<description>Benjamin Borbe - Slash - Core</description>
 	<packaging>bundle</packaging>

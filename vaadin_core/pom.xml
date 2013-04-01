@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.vaadin</artifactId>
+	<artifactId>de.benjaminborbe.vaadin.core</artifactId>
 	<name>Benjamin Borbe - Vaadin - Core</name>
 	<description>Benjamin Borbe - Vaadin - Core</description>
 	<packaging>bundle</packaging>

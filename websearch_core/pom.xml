@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.websearch</artifactId>
+	<artifactId>de.benjaminborbe.websearch.core</artifactId>
 	<name>Benjamin Borbe - Websearch - Core</name>
 	<description>Benjamin Borbe - Websearch - Core</description>
 	<packaging>bundle</packaging>

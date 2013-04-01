@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.notification</artifactId>
+	<artifactId>de.benjaminborbe.notification.core</artifactId>
 	<name>Benjamin Borbe - Notification - Core</name>
 	<description>Benjamin Borbe - Notification - Core</description>
 	<packaging>bundle</packaging>

@@ -142,7 +142,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.blog</artifactId>
+			<artifactId>de.benjaminborbe.blog.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

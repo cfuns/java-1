@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.worktime</artifactId>
+	<artifactId>de.benjaminborbe.worktime.core</artifactId>
 	<name>Benjamin Borbe - Worktime</name>
 	<description>Benjamin Borbe - Worktime</description>
 	<packaging>bundle</packaging>

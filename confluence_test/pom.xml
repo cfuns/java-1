@@ -142,7 +142,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.confluence</artifactId>
+			<artifactId>de.benjaminborbe.confluence.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -178,7 +178,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authentication</artifactId>
+			<artifactId>de.benjaminborbe.authentication.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -190,7 +190,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.shortener</artifactId>
+			<artifactId>de.benjaminborbe.shortener.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -214,7 +214,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.message</artifactId>
+			<artifactId>de.benjaminborbe.message.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
