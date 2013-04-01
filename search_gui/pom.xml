@@ -53,6 +53,19 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
+						<Import-Package>
+							de.benjaminborbe.search.api,
+							de.benjaminborbe.navigation.api,
+							${felix_plugin_imports}
+						</Import-Package>
+						<Import-Service>
+							de.benjaminborbe.navigation.api.NavigationWidget,
+							de.benjaminborbe.authentication.api.AuthenticationService,
+							de.benjaminborbe.cache.api.CacheService,
+							de.benjaminborbe.search.api.SearchService
+						</Import-Service>
+						<Export-Package></Export-Package>
+						<Export-Service></Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>

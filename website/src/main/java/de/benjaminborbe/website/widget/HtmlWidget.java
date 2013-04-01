@@ -1,11 +1,5 @@
 package de.benjaminborbe.website.widget;
 
-import java.io.IOException;
-import java.util.HashSet;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -14,6 +8,11 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashSet;
+
 public class HtmlWidget implements Widget {
 
 	private HeadWidget headWidget;
@@ -21,6 +20,14 @@ public class HtmlWidget implements Widget {
 	private BodyWidget bodyWidget;
 
 	public HtmlWidget() {
+	}
+
+	public HtmlWidget(final HeadWidget headWidget) {
+		addHeadWidget(headWidget);
+	}
+
+	public HtmlWidget( final BodyWidget bodyWidget) {
+		addBodyWidget(bodyWidget);
 	}
 
 	public HtmlWidget(final HeadWidget headWidget, final BodyWidget bodyWidget) {

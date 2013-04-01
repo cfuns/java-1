@@ -89,7 +89,7 @@ buildconfiguration:
 buildstorage:
 	cd storage_api && make all
 	cd storage_tools && make all
-	cd storage && make all
+	cd storage_core && make all
 	cd storage_gui && make all
 	cd storage_test && make all
 buildsample:
@@ -131,7 +131,7 @@ buildwiki:
 	cd wiki_test && make all
 buildslash:
 	cd slash_api && make all
-	cd slash && make all
+	cd slash_core && make all
 	cd slash_gui && make all
 	cd slash_test && make all
 buildbookmark:
@@ -190,7 +190,7 @@ buildmicroblog:
 	cd microblog_test && make all
 buildsearch:
 	cd search_api && make all
-	cd search && make all
+	cd search_core && make all
 	cd search_gui && make all
 	cd search_test && make all
 buildscala:
@@ -268,7 +268,7 @@ builddistributedsearch:
 	cd distributed_search_test && make all
 buildanalytics:
 	cd analytics_api && make all
-	cd analytics && make all
+	cd analytics_core && make all
 	cd analytics_gui && make all
 	cd analytics_test && make all
 buildperformance:

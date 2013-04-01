@@ -10,15 +10,22 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.util.ExceptionWidget;
+import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.RedirectWidget;
+import de.benjaminborbe.website.widget.BodyWidget;
+import de.benjaminborbe.website.widget.HeadWidget;
 import de.benjaminborbe.website.widget.HtmlWidget;
 import org.apache.commons.lang.StringUtils;
+import org.ops4j.peaberry.ServiceUnavailableException;
 import org.slf4j.Logger;
 
 import javax.servlet.ServletException;
@@ -31,6 +38,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 
 @Singleton
@@ -72,13 +80,12 @@ public abstract class WebsiteServlet extends HttpServlet {
 
 	@Override
 	protected final void service(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-		logger.trace("service start");
-		final String startTime = getNowAsString();
-		logger.trace("service startTime=" + startTime);
 		final HttpContext context = httpContextProvider.get();
-		context.getData().put(WebsiteConstants.START_TIME, startTime);
-
 		try {
+			logger.trace("service start");
+			final String startTime = getNowAsString();
+			logger.trace("service startTime=" + startTime);
+			context.getData().put(WebsiteConstants.START_TIME, startTime);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (!isEnabled()) {
 				onDisabled(request, response, context);
@@ -96,13 +103,13 @@ public abstract class WebsiteServlet extends HttpServlet {
 					onPermissionDenied(request, response, context);
 				}
 			}
-		} catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
-			widget.render(request, response, context);
-		} catch (final AuthorizationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final Widget widget = new HtmlWidget(new ExceptionWidget(e));
+		} catch (final ServiceUnavailableException | AuthorizationServiceException | AuthenticationServiceException e) {
+			final String title = "Exception in Servlet: " + getClass().getName();
+			ListWidget row = new ListWidget();
+			row.add(new H1Widget(title));
+			row.add(new ExceptionWidget(e));
+			logger.warn("Exception in WebsiteServlet: " + getClass().getName(), e);
+			final Widget widget = new HtmlWidget(new HeadWidget(title, new HashSet<JavascriptResource>(), new HashSet<CssResource>()), new BodyWidget(row));
 			widget.render(request, response, context);
 		}
 	}

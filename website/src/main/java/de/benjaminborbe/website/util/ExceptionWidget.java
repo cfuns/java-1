@@ -20,7 +20,7 @@ public class ExceptionWidget extends CompositeWidget {
 	@Override
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
 		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget("Exception occurred: " + exception.getClass().getName()));
+		widgets.add(new H2Widget("Exception occurred: " + exception.getClass().getName()));
 		widgets.add("Message: " + exception.getMessage());
 		widgets.add("Stack: ");
 		final StringWriter sw = new StringWriter();

@@ -1,6 +1,10 @@
 package de.benjaminborbe.slash.gui.servlet;
 
-import java.io.IOException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.analytics.api.AnalyticsService;
+import org.slf4j.Logger;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -9,14 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
-import de.benjaminborbe.analytics.api.AnalyticsService;
+import java.io.IOException;
 
 @Singleton
 public class SlashGuiLogFilter implements Filter {
@@ -47,12 +44,10 @@ public class SlashGuiLogFilter implements Filter {
 
 			try {
 				analyticsService.addReportValue(analyticsReportIdentifier);
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				logger.warn(e.getClass().getName(), e);
 			}
-		}
-		finally {
+		} finally {
 			filterChain.doFilter(servletRequest, servletResponse);
 		}
 	}

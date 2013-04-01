@@ -53,6 +53,7 @@
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>
 							de.benjaminborbe.storage.api,
+							de.benjaminborbe.configuration.api,
 							${felix_plugin_imports}
 						</Import-Package>
 						<Import-Service></Import-Service>
@@ -165,12 +166,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.html</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authentication.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
