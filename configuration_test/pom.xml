@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
@@ -17,15 +18,16 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>${maven-bundle-plugin.version}</version>				<extensions>true</extensions>
+				<version>${maven-bundle-plugin.version}</version>
+				<extensions>true</extensions>
 				<configuration>
 					<instructions>
 						<Export-Package></Export-Package>
 						<Private-Package>de.benjaminborbe.configuration.test.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Configuration-Tests</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Configuration-Test Bundle</Bundle-Description>
+						<Bundle-Name>${project.name}</Bundle-Name>
+						<Bundle-Description>${project.description}</Bundle-Description>
 						<Test-Suite>de.benjaminborbe.configuration.test.ConfigurationTestSuite</Test-Suite>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Import-Package>*;resolution:=optional</Import-Package>
@@ -45,7 +47,8 @@
 						<configuration>
 							<configuration>
 								<deployProjectArtifact>true</deployProjectArtifact>
-								<org.osgi.framework.system.packages.extra>${felix_plugin_junit},org.bouncycastle.cms,org.bouncycastle.jce.provider</org.osgi.framework.system.packages.extra>
+								<org.osgi.framework.system.packages.extra>${felix_plugin_junit},org.bouncycastle.cms,org.bouncycastle.jce.provider
+								</org.osgi.framework.system.packages.extra>
 							</configuration>
 						</configuration>
 					</execution>
@@ -90,7 +93,8 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<dependencies><dependency>
+	<dependencies>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.test.osgi</artifactId>
 			<version>${project.version}</version>

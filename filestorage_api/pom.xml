@@ -48,8 +48,8 @@
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Filestorage-Api</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Filestorage-Api</Bundle-Description>
+						<Bundle-Name>${project.name}</Bundle-Name>
+						<Bundle-Description>${project.description}</Bundle-Description>
 						<Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>

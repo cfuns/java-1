@@ -47,7 +47,7 @@ public class PokerGuiApiHelpServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 6022990232153082338L;
 
-	private static final String TITLE = "Poker - Json-Api Help";
+	private static final String TITLE = "Poker - Json - Api Help";
 
 	private final Logger logger;
 
@@ -94,7 +94,7 @@ public class PokerGuiApiHelpServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 
-			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPageIdentifier("POKER-ApiHelp");
+			final WikiPageIdentifier wikiPageIdentifier = wikiService.createPageIdentifier("POKER - ApiHelp");
 			final WikiPage page = wikiService.getPage(wikiPageIdentifier);
 			widgets.add(new H1Widget(page.getTitle()));
 

@@ -8,6 +8,26 @@
 	<description>Benjamin Borbe</description>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
+	<scm>
+		<connection>scm:git:git@github.com:bborbe/java.git</connection>
+		<url>scm:git:git@github.com:bborbe/java.git</url>
+		<developerConnection>scm:git:git@github.com:bborbe/java.git</developerConnection>
+	</scm>
+
+	<organization>
+		<name>Benjamin Borbe</name>
+		<url>https://www.benjamin-borbe.de</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<name>Benjamin Borbe</name>
+			<email>bborbe@rocketnews.de</email>
+		</developer>
+	</developers>
+
+
 	<properties>
 		<!-- Print unit test results into files instead of console -->
 		<unitTestUseFile>true</unitTestUseFile>

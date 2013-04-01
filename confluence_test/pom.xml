@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
@@ -25,8 +26,8 @@
 						<Private-Package>de.benjaminborbe.confluence.test.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
-						<Bundle-Name>Benjamin Borbe - Confluence-Tests</Bundle-Name>
-						<Bundle-Description>Benjamin Borbe - Confluence-Test Bundle</Bundle-Description>
+						<Bundle-Name>${project.name}</Bundle-Name>
+						<Bundle-Description>${project.description}</Bundle-Description>
 						<Test-Suite>de.benjaminborbe.confluence.test.ConfluenceTestSuite</Test-Suite>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Import-Package>*;resolution:=optional</Import-Package>
@@ -46,7 +47,8 @@
 						<configuration>
 							<configuration>
 								<deployProjectArtifact>true</deployProjectArtifact>
-								<org.osgi.framework.system.packages.extra>${felix_plugin_junit},org.bouncycastle.cms,org.bouncycastle.jce.provider</org.osgi.framework.system.packages.extra>
+								<org.osgi.framework.system.packages.extra>${felix_plugin_junit},org.bouncycastle.cms,org.bouncycastle.jce.provider
+								</org.osgi.framework.system.packages.extra>
 							</configuration>
 						</configuration>
 					</execution>
