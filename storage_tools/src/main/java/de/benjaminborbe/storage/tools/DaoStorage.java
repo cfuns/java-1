@@ -1,23 +1,8 @@
 package de.benjaminborbe.storage.tools;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-import java.util.Set;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.api.IdentifierBuilderException;
@@ -30,138 +15,22 @@ import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapper;
+import org.slf4j.Logger;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Singleton
 public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<String>> implements Dao<E, I> {
-
-	private final class EntityIteratorRow implements EntityIterator<E> {
-
-		private final StorageRowIterator r;
-
-		private EntityIteratorRow(final StorageRowIterator r) {
-			this.r = r;
-		}
-
-		@Override
-		public boolean hasNext() throws EntityIteratorException {
-			try {
-				return r.hasNext();
-			}
-			catch (final StorageException e) {
-				throw new EntityIteratorException(e);
-			}
-		}
-
-		@Override
-		public E next() throws EntityIteratorException {
-			try {
-				return rowToBean(r.next());
-			}
-			catch (final StorageException e) {
-				throw new EntityIteratorException(e);
-			}
-			catch (final UnsupportedEncodingException e) {
-				throw new EntityIteratorException(e);
-			}
-			catch (final MapException e) {
-				throw new EntityIteratorException(e);
-			}
-		}
-	}
-
-	private final class IdentifierIteratorImpl implements IdentifierIterator<I> {
-
-		private final StorageIterator i;
-
-		private I next;
-
-		private IdentifierIteratorImpl(final StorageIterator i) {
-			this.i = i;
-		}
-
-		@Override
-		public boolean hasNext() throws IdentifierIteratorException {
-			try {
-				if (next != null) {
-					return true;
-				}
-				else {
-					while (i.hasNext()) {
-						final I id = identifierBuilder.buildIdentifier(i.next().getString());
-						if (exists(id)) {
-							next = id;
-							return true;
-						}
-					}
-				}
-				return false;
-			}
-			catch (final StorageException e) {
-				throw new IdentifierIteratorException(e);
-			}
-			catch (final IdentifierBuilderException e) {
-				throw new IdentifierIteratorException(e);
-			}
-			catch (final UnsupportedEncodingException e) {
-				throw new IdentifierIteratorException(e);
-			}
-		}
-
-		@Override
-		public I next() throws IdentifierIteratorException {
-			if (hasNext()) {
-				final I result = next;
-				next = null;
-				return result;
-			}
-			else {
-				throw new NoSuchElementException();
-			}
-		}
-	}
-
-	private final class StorageRowIteratorWithId implements StorageRowIterator {
-
-		private final StorageRowIterator i;
-
-		private StorageRow next;
-
-		private StorageRowIteratorWithId(final StorageRowIterator i) {
-			this.i = i;
-		}
-
-		@Override
-		public boolean hasNext() throws StorageException {
-			try {
-				if (next != null) {
-					return true;
-				}
-				while (i.hasNext()) {
-					final StorageRow e = i.next();
-					final StorageValue value = e.getValue(new StorageValue(ID_FIELD, getEncoding()));
-					if (value != null && !value.isEmpty()) {
-						next = e;
-						return true;
-					}
-				}
-				return false;
-			}
-			finally {
-			}
-		}
-
-		@Override
-		public StorageRow next() throws StorageException {
-			if (hasNext()) {
-				final StorageRow result = next;
-				next = null;
-				return result;
-			}
-			else {
-				throw new NoSuchElementException();
-			}
-		}
-	}
 
 	private final String ID_FIELD = "id";
 
@@ -179,12 +48,12 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Inject
 	public DaoStorage(
-			final Logger logger,
-			final StorageService storageService,
-			final Provider<E> beanProvider,
-			final MapObjectMapper<E> mapper,
-			final IdentifierBuilder<String, I> identifierBuilder,
-			final CalendarUtil calendarUtil) {
+		final Logger logger,
+		final StorageService storageService,
+		final Provider<E> beanProvider,
+		final MapObjectMapper<E> mapper,
+		final IdentifierBuilder<String, I> identifierBuilder,
+		final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.beanProvider = beanProvider;
@@ -196,8 +65,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public long count() throws StorageException {
 		try {
 			return storageService.count(getColumnFamily());
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new StorageException(e.getClass().getName(), e);
 		}
 	}
@@ -205,8 +73,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public long count(final StorageValue columnName) throws StorageException {
 		try {
 			return storageService.count(getColumnFamily(), columnName);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new StorageException(e.getClass().getName(), e);
 		}
 	}
@@ -214,8 +81,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public long count(final StorageValue columnName, final StorageValue columnValue) throws StorageException {
 		try {
 			return storageService.count(getColumnFamily(), columnName, columnValue);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new StorageException(e.getClass().getName(), e);
 		}
 	}
@@ -235,14 +101,17 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public void delete(final I id) throws StorageException {
 		try {
 			logger.trace("delete");
+			onPreDelete(id);
 			storageService.delete(getColumnFamily(), new StorageValue(id.getId(), getEncoding()));
-			onDelete(id);
-		}
-		finally {
+			onPostDelete(id);
+		} finally {
 		}
 	}
 
-	public void onDelete(final I id) {
+	public void onPostDelete(final I id) throws StorageException {
+	}
+
+	public void onPreDelete(final I id) throws StorageException {
 	}
 
 	@Override
@@ -261,8 +130,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public EntityIterator<E> getEntityIterator() throws StorageException {
 		try {
 			return new EntityIteratorRow(getRowIterator());
-		}
-		catch (final MapException e) {
+		} catch (final MapException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -271,8 +139,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	public EntityIterator<E> getEntityIterator(final Map<StorageValue, StorageValue> where) throws StorageException {
 		try {
 			return new EntityIteratorRow(getRowIterator(where));
-		}
-		catch (final MapException e) {
+		} catch (final MapException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -320,11 +187,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				data.put(fieldname.getString(), fieldvalue != null ? fieldvalue.getString() : null);
 			}
 			mapper.map(data, entity);
-		}
-		catch (final MapException e) {
+		} catch (final MapException e) {
 			throw new StorageException(e);
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -341,12 +206,10 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			load(entity, fieldNames, values);
 			if (entity.getId() != null && entity.getId().getId() != null) {
 				return entity;
-			}
-			else {
+			} else {
 				return null;
 			}
-		}
-		catch (final MapException e) {
+		} catch (final MapException e) {
 			throw new StorageException("MapException load with id " + id + " failed]", e);
 		}
 	}
@@ -394,8 +257,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				for (final Entry<String, String> e : mapper.map(entity).entrySet()) {
 					data.put(new StorageValue(e.getKey(), getEncoding()), new StorageValue(e.getValue(), getEncoding()));
 				}
-			}
-			else {
+			} else {
 				final List<String> fields = new ArrayList<String>();
 				for (final StorageValue fieldName : fieldNames) {
 					fields.add(fieldName.getString());
@@ -406,11 +268,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 			}
 			storageService.set(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), data);
-		}
-		catch (final MapException e) {
+		} catch (final MapException e) {
 			throw new StorageException(e);
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -443,8 +303,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 			}
 			return result;
-		}
-		catch (final MapException e) {
+		} catch (final MapException e) {
 			throw new StorageException(e);
 		}
 
@@ -467,6 +326,124 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			entity.setId(id);
 			save(entity);
 			return entity;
+		}
+	}
+
+	private final class EntityIteratorRow implements EntityIterator<E> {
+
+		private final StorageRowIterator r;
+
+		private EntityIteratorRow(final StorageRowIterator r) {
+			this.r = r;
+		}
+
+		@Override
+		public boolean hasNext() throws EntityIteratorException {
+			try {
+				return r.hasNext();
+			} catch (final StorageException e) {
+				throw new EntityIteratorException(e);
+			}
+		}
+
+		@Override
+		public E next() throws EntityIteratorException {
+			try {
+				return rowToBean(r.next());
+			} catch (final StorageException e) {
+				throw new EntityIteratorException(e);
+			} catch (final UnsupportedEncodingException e) {
+				throw new EntityIteratorException(e);
+			} catch (final MapException e) {
+				throw new EntityIteratorException(e);
+			}
+		}
+	}
+
+	private final class IdentifierIteratorImpl implements IdentifierIterator<I> {
+
+		private final StorageIterator i;
+
+		private I next;
+
+		private IdentifierIteratorImpl(final StorageIterator i) {
+			this.i = i;
+		}
+
+		@Override
+		public boolean hasNext() throws IdentifierIteratorException {
+			try {
+				if (next != null) {
+					return true;
+				} else {
+					while (i.hasNext()) {
+						final I id = identifierBuilder.buildIdentifier(i.next().getString());
+						if (exists(id)) {
+							next = id;
+							return true;
+						}
+					}
+				}
+				return false;
+			} catch (final StorageException e) {
+				throw new IdentifierIteratorException(e);
+			} catch (final IdentifierBuilderException e) {
+				throw new IdentifierIteratorException(e);
+			} catch (final UnsupportedEncodingException e) {
+				throw new IdentifierIteratorException(e);
+			}
+		}
+
+		@Override
+		public I next() throws IdentifierIteratorException {
+			if (hasNext()) {
+				final I result = next;
+				next = null;
+				return result;
+			} else {
+				throw new NoSuchElementException();
+			}
+		}
+	}
+
+	private final class StorageRowIteratorWithId implements StorageRowIterator {
+
+		private final StorageRowIterator i;
+
+		private StorageRow next;
+
+		private StorageRowIteratorWithId(final StorageRowIterator i) {
+			this.i = i;
+		}
+
+		@Override
+		public boolean hasNext() throws StorageException {
+			try {
+				if (next != null) {
+					return true;
+				}
+				while (i.hasNext()) {
+					final StorageRow e = i.next();
+					final StorageValue value = e.getValue(new StorageValue(ID_FIELD, getEncoding()));
+					if (value != null && !value.isEmpty()) {
+						next = e;
+						return true;
+					}
+				}
+				return false;
+			} finally {
+			}
+		}
+
+		@Override
+		public StorageRow next() throws StorageException {
+			if (hasNext()) {
+				final StorageRow result = next;
+				next = null;
+				return result;
+			} else {
+				throw new NoSuchElementException();
+			}
 		}
 	}
 }

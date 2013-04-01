@@ -113,4 +113,6 @@ public interface TaskGuiConstants {
 	String URL_TASKATTACHMENT_DELETE = "/taskattachment/delete";
 
 	String PARAMETER_TASKATTACHMENT_NAME = "taskattachment_name";
+
+	String PARAMETER_TASKATTACHMENT_CONTENT = "taskattachment_content";
 }

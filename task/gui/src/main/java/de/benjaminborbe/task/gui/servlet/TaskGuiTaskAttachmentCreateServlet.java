@@ -14,7 +14,7 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.task.api.TaskAttachmentDto;
+import de.benjaminborbe.task.api.TaskAttachmentWithContentDto;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
@@ -25,6 +25,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormEncType;
+import de.benjaminborbe.website.form.FormInputFileWidget;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
@@ -41,11 +43,22 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.slf4j.Logger;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServlet {
@@ -97,9 +110,8 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final String name = request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_NAME);
-			final String referer = request.getParameter(TaskGuiConstants.PARAMETER_REFERER);
-			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
+			final Map<String, FileItem> files = new HashMap<String, FileItem>();
+			final Map<String, String> parameter = new HashMap<String, String>();
 
 			final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			if (isMultipart) {
@@ -115,19 +127,42 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 
 					@SuppressWarnings("unchecked")
 					final List<FileItem> items = upload.parseRequest(request);
+
 					for (final FileItem item : items) {
-						TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
-						taskAttachment.setName(name);
+						final String itemName = item.getFieldName();
+						if (!item.isFormField()) {
+							logger.info("found image: '" + itemName + "'");
+							files.put(itemName, item);
+						} else {
+							logger.info("parameter " + itemName + " = " + item.getString());
+							parameter.put(itemName, item.getString());
+						}
+					}
+
+					for (final FileItem item : files.values()) {
+						final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(parameter.get(TaskGuiConstants.PARAMETER_TASK_ID));
+						TaskAttachmentWithContentDto taskAttachment = new TaskAttachmentWithContentDto();
+						taskAttachment.setName(parameter.get(TaskGuiConstants.PARAMETER_TASKATTACHMENT_NAME));
 						taskAttachment.setTask(taskIdentifier);
-						taskAttachment.setContentType(item.getContentType());
-						taskAttachment.setFilename(item.getFieldName());
 						taskAttachment.setContent(item.get());
+						taskAttachment.setFilename(item.getFieldName());
+						taskAttachment.setContentType(buildContentType(item));
+						logger.debug("name: " + taskAttachment.getName());
+						logger.debug("filename: " + taskAttachment.getFilename());
+						logger.debug("contentType: " + taskAttachment.getContentType());
 						taskService.addAttachment(sessionIdentifier, taskAttachment);
 
 						widgets.add("file " + item.getName() + " uploaded!");
 						widgets.add(new BrWidget());
+
+						final String referer = parameter.get(TaskGuiConstants.PARAMETER_REFERER);
+						if (referer != null) {
+							throw new RedirectException(referer);
+						} else {
+							throw new RedirectException(taskGuiLinkFactory.taskViewUrl(request, taskIdentifier));
+						}
 					}
-				} catch (final FileUploadException e) {
+				} catch (final FileUploadException | SAXException | TikaException e) {
 					widgets.add("file upload failed");
 				} catch (ValidationException e) {
 					widgets.add("file upload failed");
@@ -136,9 +171,11 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 			}
 
 			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
+			formWidget.addEncType(FormEncType.MULTIPART);
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(TaskGuiConstants.PARAMETER_TASK_ID));
 			formWidget.addFormInputWidget(new FormInputTextWidget(TaskGuiConstants.PARAMETER_TASKATTACHMENT_NAME).addLabel("Name").addPlaceholder("name..."));
+			formWidget.addFormInputWidget(new FormInputFileWidget(TaskGuiConstants.PARAMETER_TASKATTACHMENT_CONTENT).addLabel("Attachment"));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("add attachment"));
 			widgets.add(formWidget);
 
@@ -160,5 +197,19 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private String buildContentType(final FileItem item) throws IOException, TikaException, SAXException {
+		if (item.getContentType() != null) {
+			return item.getContentType();
+		}
+		Parser parser = new AutoDetectParser();
+		final InputStream inputStream = item.getInputStream();
+		final ContentHandler contentHandler = new BodyContentHandler();
+		final Metadata metadata = new Metadata();
+		metadata.set(Metadata.RESOURCE_NAME_KEY, item.getFieldName());
+		final ParseContext parseContext = new ParseContext();
+		parser.parse(inputStream, contentHandler, metadata, parseContext);
+		return metadata.get(Metadata.CONTENT_TYPE);
 	}
 }

@@ -10,6 +10,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskAttachment;
 import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
+import de.benjaminborbe.task.api.TaskAttachmentWithContent;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskFocus;
@@ -206,11 +207,6 @@ public class TaskServiceMock implements TaskService {
 	}
 
 	@Override
-	public TaskAttachmentIdentifier addAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachment taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
-		return null;
-	}
-
-	@Override
 	public Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		return null;
 	}
@@ -231,6 +227,11 @@ public class TaskServiceMock implements TaskService {
 
 	@Override
 	public TaskAttachmentIdentifier createTaskAttachmentIdentifier(final String id) throws TaskServiceException {
+		return null;
+	}
+
+	@Override
+	public TaskAttachmentIdentifier addAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentWithContent taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
 		return null;
 	}
 }

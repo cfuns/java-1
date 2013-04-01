@@ -12,7 +12,6 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIdentifi
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringNot;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,24 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 public class TaskAttachmentValidator extends ValidatorBase<TaskAttachmentBean> {
-
-	private final class ValidationConstrainAllowedCharacters implements ValidationConstraint<String> {
-
-		@Override
-		public boolean precondition(final String object) {
-			return object != null;
-		}
-
-		@Override
-		public boolean validate(final String object) {
-			for (final char c : object.toCharArray()) {
-				if (!Character.isLetter(c) && c != '-') {
-					return false;
-				}
-			}
-			return true;
-		}
-	}
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
@@ -100,8 +81,6 @@ public class TaskAttachmentValidator extends ValidatorBase<TaskAttachmentBean> {
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
-					constraints.add(new ValidationConstrainAllowedCharacters());
-					constraints.add(new ValidationConstraintStringNot("all", "none"));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});

@@ -13,6 +13,10 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.filestorage.api.FilestorageEntryDto;
+import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
+import de.benjaminborbe.filestorage.api.FilestorageService;
+import de.benjaminborbe.filestorage.api.FilestorageServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageValue;
@@ -24,6 +28,7 @@ import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskAttachment;
 import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
+import de.benjaminborbe.task.api.TaskAttachmentWithContent;
 import de.benjaminborbe.task.api.TaskContext;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskDto;
@@ -81,6 +86,8 @@ public class TaskServiceImpl implements TaskService {
 
 	private final TaskContextToUserManyToManyRelation taskContextToUserManyToManyRelation;
 
+	private final FilestorageService filestorageService;
+
 	private final TaskAttachmentDao taskAttachmentDao;
 
 	private final TaskDao taskDao;
@@ -90,6 +97,7 @@ public class TaskServiceImpl implements TaskService {
 	@Inject
 	public TaskServiceImpl(
 		final Logger logger,
+		FilestorageService filestorageService,
 		final TaskAttachmentDao taskAttachmentDao,
 		final TaskDao taskDao,
 		final IdGeneratorUUID idGeneratorUUID,
@@ -101,6 +109,7 @@ public class TaskServiceImpl implements TaskService {
 		final CalendarUtil calendarUtil,
 		final DurationUtil durationUtil) {
 		this.logger = logger;
+		this.filestorageService = filestorageService;
 		this.taskAttachmentDao = taskAttachmentDao;
 		this.taskDao = taskDao;
 		this.idGeneratorUUID = idGeneratorUUID;
@@ -1007,27 +1016,35 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskAttachmentIdentifier addAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachment taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
+	public TaskAttachmentIdentifier addAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentWithContent taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);
 
 			logger.debug("addAttachment to task " + taskAttachment.getTask());
 
+			final FilestorageEntryDto filestorageEntry = new FilestorageEntryDto();
+			filestorageEntry.setContent(taskAttachment.getContent());
+			filestorageEntry.setContentType(taskAttachment.getContentType());
+			filestorageEntry.setFilename(taskAttachment.getFilename());
+			final FilestorageEntryIdentifier filestorageEntryIdentifier = filestorageService.createFilestorageEntry(filestorageEntry);
+
 			final TaskAttachmentBean bean = taskAttachmentDao.create();
 			bean.setId(new TaskAttachmentIdentifier(idGeneratorUUID.nextId()));
 			bean.setName(taskAttachment.getName());
 			bean.setTask(taskAttachment.getTask());
+			bean.setFile(filestorageEntryIdentifier);
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
 				logger.warn(bean.getClass().getSimpleName() + " " + errors.toString());
+				filestorageService.deleteFilestorageEntry(filestorageEntryIdentifier);
 				throw new ValidationException(errors);
 			}
 
 			taskAttachmentDao.save(bean);
 			return bean.getId();
-		} catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final FilestorageServiceException | AuthorizationServiceException | StorageException e) {
 			throw new TaskServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)

@@ -291,7 +291,11 @@ public class TaskGuiLinkFactory {
 	}
 
 	public Widget taskAttachmentDelete(final HttpServletRequest request, final TaskAttachment taskAttachment) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKATTACHMENT_CREATE,
+		return new LinkRelativWidget(urlUtil, request, "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKATTACHMENT_DELETE,
 			getLoopThrough(request).add(TaskGuiConstants.PARAMETER_TASKATTACHMENT_ID, String.valueOf(taskAttachment.getId())), "delete").addConfirm("delete attachment " + taskAttachment.getName() + "?");
+	}
+
+	public Widget taskAttachmentDownload(final HttpServletRequest request, final TaskAttachment attachment) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/filestorage/get/" + attachment.getFile().getId(), attachment.getName());
 	}
 }

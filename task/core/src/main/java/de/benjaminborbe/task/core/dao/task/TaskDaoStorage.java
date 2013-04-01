@@ -13,6 +13,7 @@ import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.core.dao.attachment.TaskAttachmentDao;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
 
@@ -23,9 +24,12 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 
 	private final Logger logger;
 
+	private final TaskAttachmentDao taskAttachmentDao;
+
 	@Inject
 	public TaskDaoStorage(
 		final Logger logger,
+		TaskAttachmentDao taskAttachmentDao,
 		final StorageService storageService,
 		final Provider<TaskBean> beanProvider,
 		final TaskBeanMapper mapper,
@@ -33,6 +37,7 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 		final CalendarUtil calendarUtil) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.logger = logger;
+		this.taskAttachmentDao = taskAttachmentDao;
 	}
 
 	@Override
@@ -94,5 +99,10 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	@Override
 	public EntityIterator<TaskBean> getTasks(final TaskContextIdentifier taskContextIdentifier) throws StorageException {
 		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.CONTEXT, String.valueOf(taskContextIdentifier)));
+	}
+
+	@Override
+	public void onPostDelete(final TaskIdentifier id) throws StorageException {
+		taskAttachmentDao.delete(id);
 	}
 }

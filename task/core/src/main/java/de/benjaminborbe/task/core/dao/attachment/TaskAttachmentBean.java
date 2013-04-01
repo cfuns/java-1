@@ -34,7 +34,6 @@ public class TaskAttachmentBean extends EntityBase<TaskAttachmentIdentifier> imp
 		this.file = file;
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -43,7 +42,6 @@ public class TaskAttachmentBean extends EntityBase<TaskAttachmentIdentifier> imp
 		this.name = name;
 	}
 
-	@Override
 	public TaskIdentifier getTask() {
 		return task;
 	}
@@ -52,22 +50,18 @@ public class TaskAttachmentBean extends EntityBase<TaskAttachmentIdentifier> imp
 		this.task = task;
 	}
 
-	@Override
 	public Calendar getCreated() {
 		return created;
 	}
 
-	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
 	}
 
-	@Override
 	public Calendar getModified() {
 		return modified;
 	}
 
-	@Override
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
 	}

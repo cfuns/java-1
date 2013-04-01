@@ -1,5 +1,7 @@
 package de.benjaminborbe.task.api;
 
+import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
+
 public interface TaskAttachment {
 
 	TaskAttachmentIdentifier getId();
@@ -7,4 +9,6 @@ public interface TaskAttachment {
 	String getName();
 
 	TaskIdentifier getTask();
+
+	FilestorageEntryIdentifier getFile();
 }

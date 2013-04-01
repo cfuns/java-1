@@ -2,8 +2,10 @@ package de.benjaminborbe.task.core.dao.attachment;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
 import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
+import de.benjaminborbe.task.core.util.MapperFilestorageEntryIdentifier;
 import de.benjaminborbe.task.core.util.MapperTaskAttachmentIdentifier;
 import de.benjaminborbe.task.core.util.MapperTaskIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
@@ -29,22 +31,26 @@ public class TaskAttachmentBeanMapper extends MapObjectMapperAdapter<TaskAttachm
 
 	public static final String ID = "id";
 
+	public static final String FILE = "file";
+
 	@Inject
 	public TaskAttachmentBeanMapper(
 		final Provider<TaskAttachmentBean> provider,
 		final MapperTaskIdentifier mapperTaskIdentifier,
 		final MapperTaskAttachmentIdentifier mapperTaskAttachmentIdentifier,
 		final MapperString mapperString,
-		final MapperCalendar mapperCalendar) {
-		super(provider, buildMappings(mapperTaskIdentifier, mapperTaskAttachmentIdentifier, mapperString, mapperCalendar));
+		final MapperCalendar mapperCalendar,
+		MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier) {
+		super(provider, buildMappings(mapperTaskIdentifier, mapperTaskAttachmentIdentifier, mapperString, mapperCalendar, mapperFilestorageEntryIdentifier));
 	}
 
 	private static Collection<StringObjectMapper<TaskAttachmentBean>> buildMappings(final MapperTaskIdentifier mapperTaskIdentifier, final MapperTaskAttachmentIdentifier mapperTaskAttachmentIdentifier, final MapperString mapperString,
-																																									final MapperCalendar mapperCalendar) {
+																																									final MapperCalendar mapperCalendar, final MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier) {
 		final List<StringObjectMapper<TaskAttachmentBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, TaskAttachmentIdentifier>(ID, mapperTaskAttachmentIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, TaskIdentifier>(TASK, mapperTaskIdentifier));
+		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, FilestorageEntryIdentifier>(FILE, mapperFilestorageEntryIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, Calendar>(CREATED, mapperCalendar));
 		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, Calendar>(MODIFIED, mapperCalendar));
 		return result;

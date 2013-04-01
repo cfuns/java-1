@@ -1,5 +1,7 @@
 package de.benjaminborbe.task.api;
 
+import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
+
 public class TaskAttachmentDto implements TaskAttachment {
 
 	private String name;
@@ -8,11 +10,11 @@ public class TaskAttachmentDto implements TaskAttachment {
 
 	private TaskIdentifier task;
 
-	private String contentType;
+	private FilestorageEntryIdentifier file;
 
-	private String filename;
-
-	private byte[] content;
+	public void setFile(final FilestorageEntryIdentifier file) {
+		this.file = file;
+	}
 
 	public void setName(final String name) {
 		this.name = name;
@@ -41,27 +43,9 @@ public class TaskAttachmentDto implements TaskAttachment {
 		return task;
 	}
 
-	public void setContentType(final String contentType) {
-		this.contentType = contentType;
+	@Override
+	public FilestorageEntryIdentifier getFile() {
+		return file;
 	}
 
-	public String getContentType() {
-		return contentType;
-	}
-
-	public void setFilename(final String filename) {
-		this.filename = filename;
-	}
-
-	public String getFilename() {
-		return filename;
-	}
-
-	public void setContent(final byte[] content) {
-		this.content = content;
-	}
-
-	public byte[] getContent() {
-		return content;
-	}
 }

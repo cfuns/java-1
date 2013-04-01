@@ -42,8 +42,10 @@ import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
@@ -189,26 +191,30 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 				selectBox.addDefaultValue(task.getFocus().name());
 				formWidget.addFormInputWidget(selectBox);
 			}
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
+			widgets.add(formWidget);
 
 			// attachments
 			{
+				widgets.add(new H2Widget("Attachments"));
 				final Collection<TaskAttachment> attachments = taskService.getAttachments(sessionIdentifier, task.getId());
 				if (!attachments.isEmpty()) {
 					final UlWidget ul = new UlWidget();
 					for (final TaskAttachment attachment : attachments) {
 						final ListWidget row = new ListWidget();
-						row.add(attachment.getName());
+						row.add(taskGuiLinkFactory.taskAttachmentDownload(request, attachment));
 						row.add(" ");
 						row.add(taskGuiLinkFactory.taskAttachmentDelete(request, attachment));
 						ul.add(row);
 					}
 					widgets.add(ul);
+				} else {
+					widgets.add("no attachments");
+					widgets.add(new BrWidget());
 				}
 				widgets.add(taskGuiLinkFactory.taskAttachmentCreate(request, taskIdentifier));
+				widgets.add(new BrWidget());
 			}
-
-			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
-			widgets.add(formWidget);
 
 			final ListWidget links = new ListWidget();
 			links.add(taskGuiLinkFactory.tasksNext(request));

@@ -10,8 +10,8 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.task.api.TaskAttachment;
-import de.benjaminborbe.task.api.TaskAttachmentDto;
 import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
+import de.benjaminborbe.task.api.TaskAttachmentWithContentDto;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.api.TaskDto;
 import de.benjaminborbe.task.api.TaskFocus;
@@ -867,7 +867,7 @@ public class TaskServiceImplIntegrationTest {
 			assertThat(attachments.size(), is(0));
 		}
 		{
-			final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+			final TaskAttachmentWithContentDto taskAttachment = new TaskAttachmentWithContentDto();
 			taskAttachment.setName("taskAttachmentName");
 			taskAttachment.setTask(taskIdentifier);
 			final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachment);
@@ -881,7 +881,7 @@ public class TaskServiceImplIntegrationTest {
 
 		final SessionIdentifier secondSessionIdentifier = getLoginSession(authenticationService, "secondUser");
 		final TaskIdentifier secondTaskIdentifier = getTask(secondSessionIdentifier, taskService);
-		final TaskAttachmentDto secondTaskAttachment = new TaskAttachmentDto();
+		final TaskAttachmentWithContentDto secondTaskAttachment = new TaskAttachmentWithContentDto();
 		secondTaskAttachment.setName("taskAttachmentName");
 		secondTaskAttachment.setTask(secondTaskIdentifier);
 		final TaskAttachmentIdentifier secondTaskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, secondTaskAttachment);
@@ -904,7 +904,7 @@ public class TaskServiceImplIntegrationTest {
 
 		{
 			try {
-				final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+				final TaskAttachmentWithContentDto taskAttachment = new TaskAttachmentWithContentDto();
 				taskService.addAttachment(sessionIdentifier, taskAttachment);
 				fail("ValidationException expected");
 			} catch (ValidationException e) {
@@ -913,7 +913,7 @@ public class TaskServiceImplIntegrationTest {
 		}
 		{
 			try {
-				final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+				final TaskAttachmentWithContentDto taskAttachment = new TaskAttachmentWithContentDto();
 				taskAttachment.setName("taskAttachmentName");
 				taskService.addAttachment(sessionIdentifier, taskAttachment);
 				fail("ValidationException expected");
@@ -922,7 +922,7 @@ public class TaskServiceImplIntegrationTest {
 			}
 		}
 		{
-			final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+			final TaskAttachmentWithContentDto taskAttachment = new TaskAttachmentWithContentDto();
 			taskAttachment.setName("taskAttachmentName");
 			taskAttachment.setTask(taskIdentifier);
 			final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachment);
@@ -945,7 +945,7 @@ public class TaskServiceImplIntegrationTest {
 			assertThat(attachments.size(), is(0));
 		}
 
-		final TaskAttachmentDto taskAttachment = new TaskAttachmentDto();
+		final TaskAttachmentWithContentDto taskAttachment = new TaskAttachmentWithContentDto();
 		taskAttachment.setName("taskAttachmentName");
 		taskAttachment.setTask(taskIdentifier);
 		final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.addAttachment(sessionIdentifier, taskAttachment);
@@ -975,7 +975,7 @@ public class TaskServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 		final TaskIdentifier taskIdentifier = getTask(sessionIdentifier, taskService);
 
-		final TaskAttachmentDto taskAttachmentDto = new TaskAttachmentDto();
+		final TaskAttachmentWithContentDto taskAttachmentDto = new TaskAttachmentWithContentDto();
 		final String taskAttachmentName = "taskAttachmentName";
 		taskAttachmentDto.setName(taskAttachmentName);
 		taskAttachmentDto.setTask(taskIdentifier);

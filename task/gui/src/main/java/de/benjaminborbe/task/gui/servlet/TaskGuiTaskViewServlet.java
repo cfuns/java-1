@@ -46,6 +46,7 @@ import de.benjaminborbe.website.util.RedirectWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.util.Target;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -335,9 +336,11 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		{
 			final Collection<TaskAttachment> attachments = taskService.getAttachments(sessionIdentifier, task.getId());
 			if (!attachments.isEmpty()) {
+				widgets.add("Attachments:");
+				widgets.add(new BrWidget());
 				final UlWidget ul = new UlWidget();
 				for (final TaskAttachment attachment : attachments) {
-					ul.add(attachment.getName());
+					ul.add(taskGuiLinkFactory.taskAttachmentDownload(request, attachment));
 				}
 				widgets.add(ul);
 			}

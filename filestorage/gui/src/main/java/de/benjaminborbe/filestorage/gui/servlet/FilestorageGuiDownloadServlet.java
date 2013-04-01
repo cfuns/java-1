@@ -24,7 +24,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @Singleton
 public class FilestorageGuiDownloadServlet extends WebsiteHtmlServlet {
@@ -67,17 +66,19 @@ public class FilestorageGuiDownloadServlet extends WebsiteHtmlServlet {
 		try {
 			final FilestorageEntryIdentifier filestorageEntryIdentifier = filestorageService.createFilestorageEntryIdentifier(urlUtil.parseId(request, FilestorageGuiConstants.PARAMETER_FILE_ID));
 			final FilestorageEntry filestorageEntry = filestorageService.getFilestorageEntry(filestorageEntryIdentifier);
-			response.setContentType(filestorageEntry.getContentType());
-
-			final byte[] content = filestorageEntry.getContent();
-			response.setContentLength(content.length);
-			final ServletOutputStream outputStream = response.getOutputStream();
-			outputStream.write(content);
+			if (filestorageEntry != null) {
+				response.setContentType(filestorageEntry.getContentType());
+				final byte[] content = filestorageEntry.getContent();
+				response.setContentLength(content.length);
+				final ServletOutputStream outputStream = response.getOutputStream();
+				outputStream.write(content);
+			} else {
+				logger.warn("filestorageEntry not found: " + filestorageEntryIdentifier);
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			}
 		} catch (final Exception e) {
-			response.setContentType("text/plain");
-			final PrintWriter out = response.getWriter();
-			out.println("fail");
-			logger.warn(e.getClass().getSimpleName(), e);
+			logger.warn(e.getClass().getName(), e);
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 

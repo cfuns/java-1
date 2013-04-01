@@ -96,9 +96,9 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	}
 
 	@Override
-	public void onDelete(final TaskContextIdentifier id) {
+	public void onPostDelete(final TaskContextIdentifier id) {
 		try {
-			logger.debug("onDelete " + id);
+			logger.debug("onPostDelete " + id);
 			final EntityIterator<TaskBean> ti = taskDao.getTasks(id);
 			while (ti.hasNext()) {
 				final TaskBean task = ti.next();

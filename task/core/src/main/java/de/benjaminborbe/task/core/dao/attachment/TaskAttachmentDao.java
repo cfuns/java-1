@@ -12,4 +12,6 @@ public interface TaskAttachmentDao extends Dao<TaskAttachmentBean, TaskAttachmen
 	IdentifierIterator<TaskAttachmentIdentifier> getIdentifierIterator(TaskIdentifier taskIdentifier) throws StorageException;
 
 	EntityIterator<TaskAttachmentBean> getEntityIterator(TaskIdentifier taskIdentifier) throws StorageException;
+
+	void delete(TaskIdentifier id) throws StorageException;
 }
