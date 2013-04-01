@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.lunch</artifactId>
+	<artifactId>de.benjaminborbe.lunch.core</artifactId>
 	<name>Benjamin Borbe - Lunch - Core</name>
 	<description>Benjamin Borbe - Lunch - Core</description>
 	<packaging>bundle</packaging>

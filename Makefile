@@ -1,6 +1,8 @@
 MVN_OPTS=-Djava.awt.headless=true
 fast:
 	mvn $(MVN_OPTS) -Pdefault,base,lib -T 2C -Dmaven.test.skip=true install
+installlib:
+	mvn $(MVN_OPTS) -Pdefault,lib install
 all:
 	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow install
 clean:

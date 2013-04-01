@@ -6,9 +6,9 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.html</artifactId>
-	<name>Benjamin Borbe - Html</name>
-	<description>Benjamin Borbe - Html</description>
+	<artifactId>de.benjaminborbe.html.api</artifactId>
+	<name>Benjamin Borbe - Html - Api</name>
+	<description>Benjamin Borbe - Html - Api</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
