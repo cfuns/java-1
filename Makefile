@@ -147,7 +147,7 @@ buildauth:
 buildmonitoring:
 	cd monitoring_api && make all
 	cd monitoring_tools && make all
-	cd monitoring && make all
+	cd monitoring_core && make all
 	cd monitoring_gui && make all
 	cd monitoring_test && make all
 buildvnc:

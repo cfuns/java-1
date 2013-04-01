@@ -55,7 +55,10 @@
 							de.benjaminborbe.navigation.api,
 							${felix_plugin_imports}
 						</Import-Package>
-						<Import-Service>de.benjaminborbe.navigation.api.NavigationService</Import-Service>
+						<Import-Service>
+							de.benjaminborbe.authentication.api.AuthenticationService,
+							de.benjaminborbe.navigation.api.NavigationService
+						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service>de.benjaminborbe.navigation.api.NavigationWidget</Export-Service>
 					</instructions>
