@@ -15,6 +15,13 @@ import de.benjaminborbe.tools.util.StreamUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 import org.slf4j.Logger;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +30,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 @Singleton
 public class ProxyGuiServlet extends WebsiteServlet {
@@ -44,15 +56,61 @@ public class ProxyGuiServlet extends WebsiteServlet {
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
+		final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManagerAllowAll()};
+
+		final SSLSocketFactory orgSSLSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
+		final HostnameVerifier orgHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+		try {
+			final SSLContext sc = SSLContext.getInstance("SSL");
+			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+			final HostnameVerifier hv = new HostnameVerifierAllowAll();
+			HttpsURLConnection.setDefaultHostnameVerifier(hv);
+			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+			proxy(request, response);
+		} catch (NoSuchAlgorithmException | KeyManagementException e) {
+			logger.warn(e.getClass().getName(), e);
+		} finally {
+			HttpsURLConnection.setDefaultHostnameVerifier(orgHostnameVerifier);
+			HttpsURLConnection.setDefaultSSLSocketFactory(orgSSLSocketFactory);
+		}
+	}
+
+	private void proxy(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		InputStream inputStream = null;
 		ServletOutputStream outputStream = null;
 		try {
-			logger.debug(request.getRequestURI());
+			final String servletPath = request.getContextPath() + request.getServletPath();
+			logger.debug("request: " + request.getRequestURI());
+			logger.debug("servlet: " + servletPath);
 
-			URL url = new URL("http://www.heise.de");
+			final int pos = request.getRequestURI().indexOf(servletPath);
+			final String uri = request.getRequestURI().substring(servletPath.length() + pos);
+			logger.debug("uri: " + uri);
+
+			final String baseUrl = "http://www.heise.de";
+			final URL url = new URL(baseUrl + uri);
 			final URLConnection connection = url.openConnection();
 			connection.setReadTimeout(TIMEOUT);
 			connection.setConnectTimeout(TIMEOUT);
+
+			final List<String> allowedHeaders = new ArrayList<>();
+			allowedHeaders.add("user-agent");
+			allowedHeaders.add("accept");
+			allowedHeaders.add("accept-language");
+
+			final Enumeration headerNames = request.getHeaderNames();
+			while (headerNames.hasMoreElements()) {
+				final String name = String.valueOf(headerNames.nextElement());
+				final String value = request.getHeader(name);
+				if (allowedHeaders.contains(name)) {
+					logger.debug("set header " + name + "=" + value);
+					connection.setRequestProperty(name, value);
+				} else {
+					logger.debug("skip header " + name + "=" + value);
+				}
+			}
+
 			connection.connect();
 
 			response.setContentType(connection.getContentType());
@@ -76,5 +134,29 @@ public class ProxyGuiServlet extends WebsiteServlet {
 	@Override
 	public boolean isLoginRequired() {
 		return false;
+	}
+
+	private final class HostnameVerifierAllowAll implements HostnameVerifier {
+
+		@Override
+		public boolean verify(final String arg0, final SSLSession arg1) {
+			return true;
+		}
+	}
+
+	private final class X509TrustManagerAllowAll implements X509TrustManager {
+
+		@Override
+		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+			return null;
+		}
+
+		@Override
+		public void checkClientTrusted(final java.security.cert.X509Certificate[] certs, final String authType) {
+		}
+
+		@Override
+		public void checkServerTrusted(final java.security.cert.X509Certificate[] certs, final String authType) {
+		}
 	}
 }
