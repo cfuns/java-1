@@ -95,6 +95,7 @@
 				<module>index</module>
 				<module>distributed</module>
 				<module>proxy</module>
+				<module>wiki</module>
 			</modules>
 		</profile>
 		<profile>
