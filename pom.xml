@@ -92,6 +92,7 @@
 				<module>confluence</module>
 				<module>xmpp</module>
 				<module>xmlrpc</module>
+				<module>index</module>
 			</modules>
 		</profile>
 		<profile>
@@ -162,9 +163,6 @@
 				<module>lucene_index_core</module>
 				<module>lucene_index_api</module>
 				<module>lucene_index_gui</module>
-				<module>index_core</module>
-				<module>index_api</module>
-				<module>index_gui</module>
 				<module>loggly_core</module>
 				<module>loggly_api</module>
 				<module>loggly_gui</module>
@@ -300,7 +298,6 @@
 				<module>googlesearch_test</module>
 				<module>gwt_test</module>
 				<module>html_test</module>
-				<module>index_test</module>
 				<module>lucene_index_test</module>
 				<module>loggly_test</module>
 				<module>lunch_test</module>
