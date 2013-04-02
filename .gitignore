@@ -747,3 +747,12 @@ xmpp/test/.settings/
 xmpp/test/de.benjaminborbe.xmpp.test.iml
 xmpp/test/target
 wiki/de.benjaminborbe.wiki.iml
+crawler_core/de.benjaminborbe.crawler.core.iml
+cron_core/de.benjaminborbe.cron.core.iml
+googlesearch_core/de.benjaminborbe.googlesearch.core.iml
+notification_core/de.benjaminborbe.notification.core.iml
+search_core/de.benjaminborbe.search.core.iml
+shortener_core/de.benjaminborbe.shortener.core.iml
+slash_core/de.benjaminborbe.slash.core.iml
+vaadin_core/de.benjaminborbe.vaadin.core.iml
+wow_core/de.benjaminborbe.wow.core.iml
