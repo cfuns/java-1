@@ -56,7 +56,10 @@
 							de.benjaminborbe.xmlrpc.api,
 							${felix_plugin_imports}
 						</Import-Package>
-						<Import-Service>de.benjaminborbe.xmlrpc.api.XmlrpcService</Import-Service>
+						<Import-Service>
+							de.benjaminborbe.index.api.IndexService,
+							de.benjaminborbe.xmlrpc.api.XmlrpcService
+						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service>de.benjaminborbe.confluence.api.ConfluenceService</Export-Service>
 					</instructions>
