@@ -89,6 +89,9 @@
 				<module>configuration</module>
 				<module>filestorage</module>
 				<module>navigation</module>
+				<module>confluence</module>
+				<module>xmpp</module>
+				<module>xmlrpc</module>
 			</modules>
 		</profile>
 		<profile>
@@ -129,9 +132,6 @@
 				<module>checklist_core</module>
 				<module>checklist_api</module>
 				<module>checklist_gui</module>
-				<module>confluence_core</module>
-				<module>confluence_api</module>
-				<module>confluence_gui</module>
 				<module>crawler_core</module>
 				<module>crawler_api</module>
 				<module>crawler_gui</module>
@@ -265,12 +265,6 @@
 				<module>wow_core</module>
 				<module>wow_api</module>
 				<module>wow_gui</module>
-				<module>xmpp_core</module>
-				<module>xmpp_api</module>
-				<module>xmpp_gui</module>
-				<module>xmlrpc_core</module>
-				<module>xmlrpc_api</module>
-				<module>xmlrpc_gui</module>
 				<module>notification_core</module>
 				<module>notification_api</module>
 				<module>notification_gui</module>
@@ -295,7 +289,6 @@
 				<module>bookmark_test</module>
 				<module>calendar_test</module>
 				<module>checklist_test</module>
-				<module>confluence_test</module>
 				<module>crawler_test</module>
 				<module>cron_test</module>
 				<module>dashboard_test</module>
@@ -342,9 +335,7 @@
 				<module>wiki_test</module>
 				<module>worktime_test</module>
 				<module>wow_test</module>
-				<module>xmpp_test</module>
 				<module>shortener_test</module>
-				<module>xmlrpc_test</module>
 				<module>notification_test</module>
 			</modules>
 		</profile>
