@@ -55,7 +55,7 @@
 							de.benjaminborbe.websearch.api,
 							${felix_plugin_imports}
 						</Import-Package>
-						<Import-Service></Import-Service>
+						<Import-Service>de.benjaminborbe.index.api.IndexService</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service>de.benjaminborbe.websearch.api.WebsearchService</Export-Service>
 					</instructions>

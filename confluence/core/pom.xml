@@ -53,7 +53,6 @@
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>
 							de.benjaminborbe.confluence.api,
-							de.benjaminborbe.xmlrpc.api,
 							${felix_plugin_imports}
 						</Import-Package>
 						<Import-Service>

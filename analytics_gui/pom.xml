@@ -55,7 +55,14 @@
 							de.benjaminborbe.analytics.api,
 							${felix_plugin_imports}
 						</Import-Package>
-						<Import-Service>de.benjaminborbe.analytics.api.AnalyticsService</Import-Service>
+						<Import-Service>
+							de.benjaminborbe.configuration.api.ConfigurationService,
+							de.benjaminborbe.authentication.api.AuthenticationService,
+							de.benjaminborbe.navigation.api.NavigationWidget,
+							de.benjaminborbe.authorization.api.AuthorizationService,
+							de.benjaminborbe.cache.api.CacheService,
+							de.benjaminborbe.analytics.api.AnalyticsService
+						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service></Export-Service>
 					</instructions>
