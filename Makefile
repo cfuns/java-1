@@ -172,7 +172,7 @@ buildwebsearch:
 	cd websearch_test && make all
 buildindex:
 	cd index_api && make all
-	cd index && make all
+	cd index_core && make all
 	cd index_gui && make all
 	cd index_test && make all
 buildluceneindex:

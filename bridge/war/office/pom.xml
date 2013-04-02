@@ -24,7 +24,7 @@
 			org.apache.felix.bundlerepository,
 			org.osgi.service.obr,
 			de.benjaminborbe.api,
-			de.benjaminborbe.html,
+			de.benjaminborbe.html.api,
 			de.benjaminborbe.navigation.api,
 			de.benjaminborbe.navigation.core,
 			de.benjaminborbe.navigation.gui,
@@ -672,7 +672,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.monitoring</artifactId>
+			<artifactId>de.benjaminborbe.monitoring.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
