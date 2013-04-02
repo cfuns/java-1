@@ -53,6 +53,13 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
+						<Import-Package>
+							de.benjaminborbe.confluence.api,
+							${felix_plugin_imports}
+						</Import-Package>
+						<Import-Service>de.benjaminborbe.confluence.api.ConfluenceService</Import-Service>
+						<Export-Package></Export-Package>
+						<Export-Service></Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>

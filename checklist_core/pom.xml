@@ -51,10 +51,13 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
+						<Import-Package>
+							de.benjaminborbe.checklist.api,
+							${felix_plugin_imports}
+						</Import-Package>
 						<Import-Service></Import-Service>
-						<Export-Package>de.benjaminborbe.checklist.api</Export-Package>
-						<Export-Service></Export-Service>
+						<Export-Package></Export-Package>
+						<Export-Service>de.benjaminborbe.checklist.api.ChecklistService</Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>

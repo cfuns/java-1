@@ -1,16 +1,6 @@
 package de.benjaminborbe.monitoring.util;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
@@ -24,6 +14,14 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
+import org.slf4j.Logger;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class MonitoringChecker {
 
@@ -37,36 +35,13 @@ public class MonitoringChecker {
 
 	private final CalendarUtil calendarUtil;
 
-	private final class Action implements Runnable {
-
-		@Override
-		public void run() {
-			try {
-				final List<MonitoringNodeBean> beans = new ArrayList<MonitoringNodeBean>();
-				final EntityIterator<MonitoringNodeBean> i = monitoringNodeDao.getEntityIterator();
-				while (i.hasNext()) {
-					final MonitoringNodeBean bean = i.next();
-					beans.add(bean);
-				}
-				final MonitoringNodeTree<MonitoringNodeBean> tree = new MonitoringNodeTree<MonitoringNodeBean>(beans);
-				check(tree.getRootNodes(), tree);
-			}
-			catch (final EntityIteratorException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final StorageException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-		}
-	}
-
 	@Inject
 	public MonitoringChecker(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final RunOnlyOnceATime runOnlyOnceATime,
-			final MonitoringNodeDao monitoringNodeDao,
-			final MonitoringCheckRegistry monitoringCheckRegistry) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final RunOnlyOnceATime runOnlyOnceATime,
+		final MonitoringNodeDao monitoringNodeDao,
+		final MonitoringCheckRegistry monitoringCheckRegistry) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.runOnlyOnceATime = runOnlyOnceATime;
@@ -79,8 +54,7 @@ public class MonitoringChecker {
 		if (runOnlyOnceATime.run(new Action())) {
 			logger.debug("monitoring checker - finished");
 			return true;
-		}
-		else {
+		} else {
 			logger.debug("monitoring checker - skipped");
 			return false;
 		}
@@ -100,6 +74,10 @@ public class MonitoringChecker {
 	private void check(final MonitoringNodeBean node, final MonitoringNodeTree<MonitoringNodeBean> tree) throws StorageException {
 		final MonitoringCheckIdentifier type = node.getCheckType();
 		final MonitoringCheck check = monitoringCheckRegistry.get(type);
+		if (check == null) {
+			logger.warn("no check found for type: " + type);
+			return;
+		}
 		final String name = check.getDescription(node.getParameter()) + " (" + node.getName() + ")";
 		if (Boolean.TRUE.equals(node.getActive())) {
 			logger.debug("node " + name + " active => run check");
@@ -115,12 +93,10 @@ public class MonitoringChecker {
 				save(node);
 
 				check(tree.getChildNodes(node.getId()), tree);
-			}
-			else if (Boolean.FALSE.equals(result.getSuccessful())) {
+			} else if (Boolean.FALSE.equals(result.getSuccessful())) {
 				if (result.getException() != null) {
 					logger.debug("node " + name + " fail: " + result.getMessage(), result.getException());
-				}
-				else {
+				} else {
 					logger.debug("node " + name + " fail: " + result.getMessage());
 				}
 
@@ -131,8 +107,7 @@ public class MonitoringChecker {
 				save(node);
 
 				reset(tree.getChildNodes(node.getId()), tree);
-			}
-			else {
+			} else {
 				logger.debug("node " + name + " unkown");
 
 				node.setMessage(result.getMessage());
@@ -142,8 +117,7 @@ public class MonitoringChecker {
 
 				reset(tree.getChildNodes(node.getId()), tree);
 			}
-		}
-		else {
+		} else {
 			logger.debug("node " + name + " inactive => skip");
 			reset(node);
 		}
@@ -160,9 +134,9 @@ public class MonitoringChecker {
 
 	private void save(final MonitoringNodeBean bean) throws StorageException {
 		monitoringNodeDao.save(
-				bean,
-				Arrays.asList(monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.MESSAGE), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.RESULT),
-						monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.LAST_CHECK), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.FAILURE_COUNTER)));
+			bean,
+			Arrays.asList(monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.MESSAGE), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.RESULT),
+				monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.LAST_CHECK), monitoringNodeDao.buildValue(MonitoringNodeBeanMapper.FAILURE_COUNTER)));
 	}
 
 	private void reset(final List<MonitoringNodeBean> nodes, final MonitoringNodeTree<MonitoringNodeBean> tree) throws StorageException {
@@ -178,5 +152,26 @@ public class MonitoringChecker {
 		bean.setFailureCounter(null);
 		bean.setException(null);
 		save(bean);
+	}
+
+	private final class Action implements Runnable {
+
+		@Override
+		public void run() {
+			try {
+				final List<MonitoringNodeBean> beans = new ArrayList<MonitoringNodeBean>();
+				final EntityIterator<MonitoringNodeBean> i = monitoringNodeDao.getEntityIterator();
+				while (i.hasNext()) {
+					final MonitoringNodeBean bean = i.next();
+					beans.add(bean);
+				}
+				final MonitoringNodeTree<MonitoringNodeBean> tree = new MonitoringNodeTree<MonitoringNodeBean>(beans);
+				check(tree.getRootNodes(), tree);
+			} catch (final EntityIteratorException e) {
+				logger.warn(e.getClass().getName(), e);
+			} catch (final StorageException e) {
+				logger.warn(e.getClass().getName(), e);
+			}
+		}
 	}
 }
