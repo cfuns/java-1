@@ -228,8 +228,8 @@ gwt_gui/de.benjaminborbe.gwt.gui.iml
 gwt_gui/target
 gwt_test/de.benjaminborbe.gwt.test.iml
 gwt_test/target
-html/de.benjaminborbe.html.iml
-html/target
+html_api/de.benjaminborbe.html.api.iml
+html_api/target
 html_test/de.benjaminborbe.html.test.iml
 html_test/target
 index_api/de.benjaminborbe.index.api.iml
