@@ -94,6 +94,7 @@
 				<module>xmlrpc</module>
 				<module>index</module>
 				<module>distributed</module>
+				<module>proxy</module>
 			</modules>
 		</profile>
 		<profile>

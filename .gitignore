@@ -723,3 +723,13 @@ xmpp/test/.project
 xmpp/test/.settings/
 xmpp/test/de.benjaminborbe.xmpp.test.iml
 xmpp/test/target
+proxy/target
+proxy_core/target
+proxy_api/target
+proxy_gui/target
+proxy_test/target
+proxy/api/de.benjaminborbe.proxy.api.iml
+proxy/core/de.benjaminborbe.proxy.core.iml
+proxy/de.benjaminborbe.proxy.iml
+proxy/gui/de.benjaminborbe.proxy.gui.iml
+proxy/test/de.benjaminborbe.proxy.test.iml
