@@ -250,9 +250,6 @@
 				<module>websearch_core</module>
 				<module>websearch_api</module>
 				<module>websearch_gui</module>
-				<module>wiki_core</module>
-				<module>wiki_api</module>
-				<module>wiki_gui</module>
 				<module>worktime_core</module>
 				<module>worktime_api</module>
 				<module>worktime_gui</module>
@@ -323,7 +320,6 @@
 				<module>vnc_test</module>
 				<module>weather_test</module>
 				<module>websearch_test</module>
-				<module>wiki_test</module>
 				<module>worktime_test</module>
 				<module>wow_test</module>
 				<module>shortener_test</module>

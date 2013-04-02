@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
-		<artifactId>de.benjaminborbe</artifactId>
+		<artifactId>de.benjaminborbe.wiki</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.wiki.core</artifactId>
-	<name>Benjamin Borbe - Wiki - Core</name>
-	<description>Benjamin Borbe - Wiki - Core</description>
+	<artifactId>de.benjaminborbe.wiki.gui</artifactId>
+	<name>Benjamin Borbe - Wiki - Gui</name>
+	<description>Benjamin Borbe - Wiki - Gui</description>
 	<packaging>bundle</packaging>
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -41,8 +41,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Bundle-Activator>de.benjaminborbe.wiki.WikiActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.wiki.*</Private-Package>
+						<Bundle-Activator>de.benjaminborbe.wiki.gui.WikiGuiActivator</Bundle-Activator>
+						<Private-Package>de.benjaminborbe.wiki.gui.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>${project.name}</Bundle-Name>
@@ -51,9 +51,12 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
-						<Import-Service></Import-Service>
-						<Export-Package>de.benjaminborbe.wiki.api</Export-Package>
+						<Import-Package>
+							de.benjaminborbe.wiki.api,
+							${felix_plugin_imports}
+						</Import-Package>
+						<Import-Service>de.benjaminborbe.wiki.api.WikiService</Import-Service>
+						<Export-Package></Export-Package>
 						<Export-Service></Export-Service>
 					</instructions>
 				</configuration>
@@ -111,6 +114,8 @@
 			<version>${easymock.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.tools</artifactId>
@@ -123,18 +128,54 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cache.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.website</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.wiki.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage.tools</artifactId>
+			<artifactId>de.benjaminborbe.search.core</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.storage.api</artifactId>
+			<artifactId>de.benjaminborbe.dashboard.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.navigation.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.html.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.authentication.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.authorization.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
