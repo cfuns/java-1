@@ -258,16 +258,8 @@ buildmessage:
 	cd message_core && make all
 	cd message_gui && make all
 	cd message_test && make all
-builddistributedindex:
-	cd distributed_index_api && make all
-	cd distributed_index_core && make all
-	cd distributed_index_gui && make all
-	cd distributed_index_test && make all
-builddistributedsearch:
-	cd distributed_search_api && make all
-	cd distributed_search_core && make all
-	cd distributed_search_gui && make all
-	cd distributed_search_test && make all
+builddistributed:
+	cd distributed && make all
 buildanalytics:
 	cd analytics_api && make all
 	cd analytics_core && make all
