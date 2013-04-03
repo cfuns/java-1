@@ -1,13 +1,14 @@
 package de.benjaminborbe.tools.html;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
-
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 public class HtmlTagParserUnitTest {
 
@@ -131,4 +132,18 @@ public class HtmlTagParserUnitTest {
 		}
 	}
 
+	@Test
+	public void testCorruptTagValue() {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
+
+		final String content = "<a bla='>";
+		assertThat(htmlTagParser.parse(content), is(not(nullValue())));
+		assertThat(htmlTagParser.parse(content).getName(), is("a"));
+		assertThat(htmlTagParser.parse(content).isOpening(), is(true));
+		assertThat(htmlTagParser.parse(content).isClosing(), is(false));
+		assertThat(htmlTagParser.parse(content).getAttribute("bla"), is(notNullValue()));
+	}
 }

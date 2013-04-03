@@ -1,10 +1,8 @@
 package de.benjaminborbe.tools.html;
 
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.tools.util.StringIterator;
+import org.slf4j.Logger;
 
 public class HtmlTagParser {
 
@@ -59,12 +57,11 @@ public class HtmlTagParser {
 				if (i.getCurrentCharacter() == '\'' || i.getCurrentCharacter() == '"') {
 					valueQuote = i.getCurrentCharacter();
 					i.next();
-				}
-				else {
+				} else {
 					valueQuote = null;
 				}
 				final int valueStart = i.getCurrentPosition();
-				while (isValueCharacter(i, valueQuote)) {
+				while (i.hasCurrentCharacter() && isValueCharacter(i, valueQuote)) {
 					i.next();
 				}
 				final String value = i.substring(valueStart, i.getCurrentPosition());
@@ -79,24 +76,23 @@ public class HtmlTagParser {
 	private boolean isValueCharacter(final StringIterator i, final Character valueQuote) {
 		if (valueQuote == null) {
 			return isNameCharacter(i);
-		}
-		else {
+		} else {
 			return i.getCurrentCharacter() != valueQuote;
 		}
 	}
 
 	private boolean isEmptyCharacter(final StringIterator i) {
 		switch (i.getCurrentCharacter()) {
-		case ' ':
-			return true;
-		case '\n':
-			return true;
-		case '\r':
-			return true;
-		case '\t':
-			return true;
-		default:
-			return false;
+			case ' ':
+				return true;
+			case '\n':
+				return true;
+			case '\r':
+				return true;
+			case '\t':
+				return true;
+			default:
+				return false;
 		}
 	}
 
