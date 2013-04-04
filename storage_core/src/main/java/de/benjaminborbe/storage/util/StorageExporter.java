@@ -1,13 +1,13 @@
 package de.benjaminborbe.storage.util;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
+import com.google.inject.Inject;
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageValue;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONArraySimple;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
 import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.Column;
@@ -24,15 +24,13 @@ import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-
-import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.json.JSONArray;
-import de.benjaminborbe.tools.json.JSONArraySimple;
-import de.benjaminborbe.tools.util.Duration;
-import de.benjaminborbe.tools.util.DurationUtil;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class StorageExporter {
 
@@ -53,12 +51,12 @@ public class StorageExporter {
 	}
 
 	public void export(final File targetDirectory, final String keyspace) throws StorageConnectionPoolException, InvalidRequestException, TException, NotFoundException,
-			StorageException, UnavailableException, TimedOutException, IOException {
+		StorageException, UnavailableException, TimedOutException, IOException {
 		export(targetDirectory, keyspace, null);
 	}
 
 	public void export(final File targetDirectory, final String keyspace, final String columnFamily) throws StorageConnectionPoolException, InvalidRequestException, TException,
-			NotFoundException, StorageException, UnavailableException, TimedOutException, IOException {
+		NotFoundException, StorageException, UnavailableException, TimedOutException, IOException {
 		if (!targetDirectory.exists()) {
 			throw new StorageException("targetdirectory not exists");
 		}
@@ -71,6 +69,8 @@ public class StorageExporter {
 
 		StorageConnection connection = null;
 		try {
+			logger.info("export started: " + columnFamily);
+
 			final SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyyMMddHHmmss");
 			final String datetime = datetimeformat.format(calendarUtil.now().getTime());
 			connection = storageConnectionPool.getConnection();
@@ -88,14 +88,14 @@ public class StorageExporter {
 					logger.info("completed backup of " + cf.getName() + " after " + duration.getTime() + " ms");
 				}
 			}
-		}
-		finally {
+			logger.info("export completed: " + columnFamily);
+		} finally {
 			storageConnectionPool.releaseConnection(connection);
 		}
 	}
 
 	public void export(final Writer sw, final String keyspace, final String columnFamily) throws StorageConnectionPoolException, StorageException, InvalidRequestException,
-			UnavailableException, TimedOutException, TException, NotFoundException, IOException {
+		UnavailableException, TimedOutException, TException, IOException {
 
 		sw.append("{\n");
 
@@ -110,8 +110,7 @@ public class StorageExporter {
 				final StorageValue key = i.next();
 				if (firstRow) {
 					firstRow = false;
-				}
-				else {
+				} else {
 					sw.append(",\n");
 				}
 				final SlicePredicate predicate = new SlicePredicate();
@@ -132,8 +131,7 @@ public class StorageExporter {
 					field.add(column.getTimestamp());
 					if (first) {
 						first = false;
-					}
-					else {
+					} else {
 						sw.append(", ");
 					}
 					field.writeJSONString(sw);
@@ -142,8 +140,7 @@ public class StorageExporter {
 				sw.append("]");
 			}
 			sw.append("\n");
-		}
-		finally {
+		} finally {
 			storageConnectionPool.releaseConnection(connection);
 		}
 
