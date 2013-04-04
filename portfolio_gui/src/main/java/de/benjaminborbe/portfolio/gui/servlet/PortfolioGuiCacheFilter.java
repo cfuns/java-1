@@ -1,20 +1,17 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
-import java.io.IOException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.portfolio.gui.util.PortfolioGuiCacheUtil;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.http.HttpFilter;
+import org.slf4j.Logger;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.portfolio.gui.util.PortfolioGuiCacheUtil;
-import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.http.HttpFilter;
+import java.io.IOException;
 
 @Singleton
 public class PortfolioGuiCacheFilter extends HttpFilter {
@@ -35,19 +32,17 @@ public class PortfolioGuiCacheFilter extends HttpFilter {
 		try {
 			final String uri = request.getRequestURI();
 			if (portfolioGuiCacheUtil.isCacheable(request.getContextPath(), uri)) {
-				logger.info("cache: " + uri);
+				logger.debug("cache: " + uri);
 				final int days = 7;
 				// seconds
 				final int cacheAge = days * 24 * 60 * 60;
 				final long expiry = calendarUtil.getTime() + cacheAge * 1000;
 				response.setDateHeader("Expires", expiry);
 				response.setHeader("Cache-Control", "max-age=" + cacheAge);
+			} else {
+				logger.debug("not cache: " + uri);
 			}
-			else {
-				logger.info("not cache: " + uri);
-			}
-		}
-		finally {
+		} finally {
 			filterChain.doFilter(request, response);
 		}
 	}
