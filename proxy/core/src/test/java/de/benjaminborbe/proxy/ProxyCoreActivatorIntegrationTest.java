@@ -24,8 +24,7 @@ public class ProxyCoreActivatorIntegrationTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ProxyModulesMock());
-		final ProxyCoreActivator activator = injector.getInstance(ProxyCoreActivator.class);
-		assertNotNull(activator);
+		assertNotNull(injector.getInstance(ProxyCoreActivator.class));
 	}
 
 	@Test

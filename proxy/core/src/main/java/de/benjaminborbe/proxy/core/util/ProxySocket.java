@@ -17,9 +17,9 @@ import java.net.Socket;
 @Singleton
 public class ProxySocket {
 
-	public static final int PORT = 9999;
+	private static final int PORT = 9999;
 
-	public static final String NEWLINE = "\r\n";
+	private static final String NEWLINE = "\r\n";
 
 	private static final String PROXY_NAME = "BBProxy";
 
@@ -77,7 +77,7 @@ public class ProxySocket {
 				logger.info("stop");
 				serverSocket.close();
 			} catch (IOException e) {
-
+				// nop
 			}
 			serverSocket = null;
 		} else {
