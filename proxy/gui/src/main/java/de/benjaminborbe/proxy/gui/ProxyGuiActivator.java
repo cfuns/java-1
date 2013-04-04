@@ -2,6 +2,7 @@ package de.benjaminborbe.proxy.gui;
 
 import com.google.inject.Inject;
 import de.benjaminborbe.proxy.gui.guice.ProxyGuiModules;
+import de.benjaminborbe.proxy.gui.servlet.ProxyGuiAdminServlet;
 import de.benjaminborbe.proxy.gui.servlet.ProxyGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -13,6 +14,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ProxyGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private ProxyGuiAdminServlet proxyGuiAdminServlet;
 
 	@Inject
 	private ProxyGuiServlet proxyGuiServlet;
@@ -28,8 +32,9 @@ public class ProxyGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(proxyGuiServlet, ProxyGuiConstants.URL_HOME));
+		result.add(new ServletInfo(proxyGuiAdminServlet, ProxyGuiConstants.URL_ADMIN));
 		return result;
 	}
 

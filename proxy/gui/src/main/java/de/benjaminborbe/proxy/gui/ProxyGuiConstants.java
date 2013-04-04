@@ -6,4 +6,11 @@ public interface ProxyGuiConstants {
 
 	String NAME = "proxy";
 
+	String URL_ADMIN = "/admin";
+
+	String PARAMETER_ACTION = "action";
+
+	String VALUE_START = "start";
+
+	String VALUE_STOP = "stop";
 }

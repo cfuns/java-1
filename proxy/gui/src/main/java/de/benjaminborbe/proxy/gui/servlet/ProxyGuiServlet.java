@@ -23,11 +23,11 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.KeyManagementException;
@@ -78,7 +78,7 @@ public class ProxyGuiServlet extends WebsiteServlet {
 
 	private void proxy(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		InputStream inputStream = null;
-		ServletOutputStream outputStream = null;
+		OutputStream outputStream = null;
 		try {
 			final String servletPath = request.getContextPath() + request.getServletPath();
 			logger.debug("request: " + request.getRequestURI());
@@ -112,7 +112,6 @@ public class ProxyGuiServlet extends WebsiteServlet {
 			}
 
 			connection.connect();
-
 			response.setContentType(connection.getContentType());
 
 			inputStream = connection.getInputStream();

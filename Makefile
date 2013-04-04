@@ -329,3 +329,5 @@ buildvirt:
 	cd virt && make all
 buildfilestorage:
 	cd filestorage && make all
+buildproxy:
+	cd proxy && make all
