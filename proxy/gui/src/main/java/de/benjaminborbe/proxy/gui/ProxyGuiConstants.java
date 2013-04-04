@@ -10,7 +10,7 @@ public interface ProxyGuiConstants {
 
 	String PARAMETER_ACTION = "action";
 
-	String VALUE_START = "start";
+	String URL_STOP = "/stop";
 
-	String VALUE_STOP = "stop";
+	String URL_START = "/start";
 }

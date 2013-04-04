@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -20,9 +19,9 @@ public class ProxySocket {
 
 	public static final int PORT = 9999;
 
-	private static final String PROXY_NAME = "BBProxy";
-
 	public static final String NEWLINE = "\r\n";
+
+	private static final String PROXY_NAME = "BBProxy";
 
 	private final Logger logger;
 
@@ -82,7 +81,7 @@ public class ProxySocket {
 			}
 			serverSocket = null;
 		} else {
-			logger.info("start failed, not running");
+			logger.info("stop failed, not running");
 		}
 	}
 
@@ -106,10 +105,10 @@ public class ProxySocket {
 		@Override
 		public void run() {
 			try {
-				serverSocket = new ServerSocket();
+				serverSocket = new ServerSocket(PORT);
 				serverSocket.setReuseAddress(false);
-				//	serverSocket.setSoTimeout(4000);
-				serverSocket.bind(new InetSocketAddress("127.0.0.1", PORT));
+				// serverSocket.setSoTimeout(4000);
+				// serverSocket.bind(new InetSocketAddress("0.0.0.0", PORT));
 				while (serverSocket != null) {
 					final Socket clientSocket = serverSocket.accept();
 					threadRunner.run("request", new ProxyRequestRunnable(clientSocket));

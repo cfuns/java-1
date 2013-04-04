@@ -28,11 +28,13 @@ public class ProxyCoreServiceImpl implements ProxyService {
 
 	@Override
 	public void start() throws ProxyServiceException {
+		logger.info("start");
 		proxySocket.start();
 	}
 
 	@Override
 	public void stop() throws ProxyServiceException {
+		logger.info("stop");
 		proxySocket.stop();
 	}
 

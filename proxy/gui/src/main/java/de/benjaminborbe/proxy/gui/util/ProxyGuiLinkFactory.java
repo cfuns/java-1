@@ -21,12 +21,10 @@ public class ProxyGuiLinkFactory {
 	}
 
 	public Widget startProxy(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_ADMIN, new MapParameter().add(
-			ProxyGuiConstants.PARAMETER_ACTION, ProxyGuiConstants.VALUE_START), "start");
+		return new LinkRelativWidget(urlUtil, request, "/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_START, new MapParameter(), "start");
 	}
 
 	public Widget stopProxy(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_ADMIN, new MapParameter().add(
-			ProxyGuiConstants.PARAMETER_ACTION, ProxyGuiConstants.VALUE_STOP), "stop");
+		return new LinkRelativWidget(urlUtil, request, "/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_STOP, new MapParameter(), "stop");
 	}
 }

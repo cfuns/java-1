@@ -125,16 +125,6 @@ public class ProxyGuiServlet extends WebsiteServlet {
 		}
 	}
 
-	@Override
-	public boolean isAdminRequired() {
-		return false;
-	}
-
-	@Override
-	public boolean isLoginRequired() {
-		return false;
-	}
-
 	private final class HostnameVerifierAllowAll implements HostnameVerifier {
 
 		@Override

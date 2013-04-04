@@ -1,6 +1,7 @@
 package de.benjaminborbe.proxy.gui;
 
 import com.google.inject.Injector;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.proxy.gui.guice.ProxyGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
@@ -44,6 +45,8 @@ public class ProxyGuiActivatorIntegrationTest {
 		final List<String> paths = new ArrayList<>();
 		paths.add("/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_HOME);
 		paths.add("/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_ADMIN);
+		paths.add("/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_START);
+		paths.add("/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_STOP);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
@@ -108,6 +111,7 @@ public class ProxyGuiActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<>();
+		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;
