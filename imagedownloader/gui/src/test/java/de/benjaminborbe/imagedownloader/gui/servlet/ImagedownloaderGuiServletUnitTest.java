@@ -7,6 +7,8 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.imagedownloader.api.ImagedownloaderService;
+import de.benjaminborbe.imagedownloader.gui.ImagedownloaderGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -61,6 +63,8 @@ public class ImagedownloaderGuiServletUnitTest {
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getRequestURI()).andReturn("/path").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
+		EasyMock.expect(request.getParameter(ImagedownloaderGuiConstants.PARAMETER_URL)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(ImagedownloaderGuiConstants.PARAMETER_DEPTH)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);
@@ -125,8 +129,11 @@ public class ImagedownloaderGuiServletUnitTest {
 		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
 		EasyMock.replay(cacheService);
 
+		final ImagedownloaderService imagedownloaderService = EasyMock.createMock(ImagedownloaderService.class);
+		EasyMock.replay(imagedownloaderService);
+
 		final ImagedownloaderGuiServlet imagedownloaderServlet = new ImagedownloaderGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-			urlUtil, authorizationService, cacheService);
+			urlUtil, authorizationService, cacheService, imagedownloaderService);
 
 		imagedownloaderServlet.service(request, response);
 		final String content = sw.getBuffer().toString();

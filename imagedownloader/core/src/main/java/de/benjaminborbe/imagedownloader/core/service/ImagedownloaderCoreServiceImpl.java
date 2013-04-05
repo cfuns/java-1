@@ -3,7 +3,10 @@ package de.benjaminborbe.imagedownloader.core.service;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import de.benjaminborbe.imagedownloader.api.ImagedownloaderService;
+import de.benjaminborbe.imagedownloader.api.ImagedownloaderServiceException;
 import org.slf4j.Logger;
+
+import java.net.URL;
 
 @Singleton
 public class ImagedownloaderCoreServiceImpl implements ImagedownloaderService {
@@ -16,9 +19,8 @@ public class ImagedownloaderCoreServiceImpl implements ImagedownloaderService {
 	}
 
 	@Override
-	public long calc(final long value) {
-		logger.trace("execute");
-		return value * 2;
+	public void downloadImages(final URL url, final int depth) throws ImagedownloaderServiceException {
+		logger.debug("downloadImages - url: " + url + " depth: " + depth);
 	}
 
 }

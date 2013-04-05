@@ -6,4 +6,7 @@ public interface ImagedownloaderGuiConstants {
 
 	String NAME = "imagedownloader";
 
+	String PARAMETER_URL = "url";
+
+	String PARAMETER_DEPTH = "depth";
 }

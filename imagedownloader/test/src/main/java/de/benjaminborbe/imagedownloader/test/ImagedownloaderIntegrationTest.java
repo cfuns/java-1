@@ -8,6 +8,8 @@ import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import java.net.URL;
+
 public class ImagedownloaderIntegrationTest extends TestCaseOsgi {
 
 	@Override
@@ -55,7 +57,8 @@ public class ImagedownloaderIntegrationTest extends TestCaseOsgi {
 
 	public void testCalc() throws Exception {
 		final ImagedownloaderService imagedownloaderService = getService(ImagedownloaderService.class);
-		assertEquals(46, imagedownloaderService.calc(23));
+		assertNotNull(imagedownloaderService);
+		imagedownloaderService.downloadImages(new URL("http://www.heise.de"), 0);
 	}
 
 }

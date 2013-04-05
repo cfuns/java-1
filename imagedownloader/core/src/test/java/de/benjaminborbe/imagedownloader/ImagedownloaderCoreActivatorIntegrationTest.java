@@ -24,8 +24,7 @@ public class ImagedownloaderCoreActivatorIntegrationTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ImagedownloaderModulesMock());
-		final ImagedownloaderCoreActivator activator = injector.getInstance(ImagedownloaderCoreActivator.class);
-		assertNotNull(activator);
+		assertNotNull(injector.getInstance(ImagedownloaderCoreActivator.class));
 	}
 
 	@Test
