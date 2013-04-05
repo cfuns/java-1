@@ -701,7 +701,7 @@ worktime_test/de.benjaminborbe.worktime.test.iml
 worktime_test/target
 wow_api/de.benjaminborbe.wow.api.iml
 wow_api/target
-wow_core/de.benjaminborbe.wow.iml
+wow_core/de.benjaminborbe.wow.core.iml
 wow_core/target
 wow_gui/de.benjaminborbe.wow.gui.iml
 wow_gui/target
@@ -755,4 +755,8 @@ search_core/de.benjaminborbe.search.core.iml
 shortener_core/de.benjaminborbe.shortener.core.iml
 slash_core/de.benjaminborbe.slash.core.iml
 vaadin_core/de.benjaminborbe.vaadin.core.iml
-wow_core/de.benjaminborbe.wow.core.iml
+wow_core/de.benjaminborbe.wow.core.imlimagedownloader/target
+imagedownloader/core/target
+imagedownloader/api/target
+imagedownloader/gui/target
+imagedownloader/test/target
