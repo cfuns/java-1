@@ -4,16 +4,22 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
-import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import de.benjaminborbe.virt.api.VirtMachine;
 import de.benjaminborbe.virt.api.VirtMachineIdentifier;
 import de.benjaminborbe.virt.api.VirtNetwork;
 import de.benjaminborbe.virt.api.VirtNetworkIdentifier;
 import de.benjaminborbe.virt.api.VirtService;
 import de.benjaminborbe.virt.api.VirtServiceException;
+import de.benjaminborbe.virt.api.VirtVirtualMachineIdentifier;
+import de.benjaminborbe.virt.core.VirtCoreConstants;
 import de.benjaminborbe.virt.core.dao.VirtNetworkBean;
 import de.benjaminborbe.virt.core.dao.VirtNetworkDao;
 import org.slf4j.Logger;
@@ -29,22 +35,19 @@ public class VirtCoreServiceImpl implements VirtService {
 
 	private final IdGeneratorUUID iIdGenerator;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
-	public VirtCoreServiceImpl(final Logger logger, final ValidationExecutor validationExecutor, final VirtNetworkDao virtNetworkDao, final IdGeneratorUUID iIdGeneratorUUID) {
+	public VirtCoreServiceImpl(final Logger logger, final ValidationExecutor validationExecutor, final VirtNetworkDao virtNetworkDao, final IdGeneratorUUID iIdGeneratorUUID, final AuthorizationService authorizationService) {
 		this.logger = logger;
 		this.validationExecutor = validationExecutor;
 		this.virtNetworkDao = virtNetworkDao;
 		this.iIdGenerator = iIdGeneratorUUID;
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
-	public long calc(final long value) {
-		logger.trace("execute");
-		return value * 2;
-	}
-
-	@Override
-	public VirtNetworkIdentifier createVirtNetworkIdentifier(final String id) throws VirtServiceException {
+	public VirtNetworkIdentifier createNetworkIdentifier(final String id) {
 		if (id == null || id.trim().isEmpty()) {
 			return null;
 		} else {
@@ -53,17 +56,14 @@ public class VirtCoreServiceImpl implements VirtService {
 	}
 
 	@Override
-	public VirtMachineIdentifier createVirtualMachine() {
-		return new VirtMachineIdentifier("1337");
-	}
-
-	@Override
-	public VirtNetworkIdentifier createVirtNetwork(final VirtNetwork virtNetwork) throws VirtServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
-
+	public VirtNetworkIdentifier createNetwork(final SessionIdentifier sessionIdentifier, final VirtNetwork network) throws VirtServiceException, PermissionDeniedException, ValidationException {
 		try {
+			authorizationService.expectPermission(sessionIdentifier, getDefaultPermission());
+
 			final VirtNetworkBean bean = virtNetworkDao.create();
-			bean.setId(createVirtNetworkIdentifier(iIdGenerator.nextId()));
-			bean.setName(virtNetwork.getName());
+			bean.setId(createNetworkIdentifier(iIdGenerator.nextId()));
+			bean.setName(network.getName());
+			bean.setIp(network.getIp());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -71,20 +71,64 @@ public class VirtCoreServiceImpl implements VirtService {
 				throw new ValidationException(errors);
 			}
 
+			virtNetworkDao.save(bean);
+
 			return bean.getId();
 
-		} catch (StorageException e) {
+		} catch (StorageException | AuthorizationServiceException e) {
 			throw new VirtServiceException(e);
 		}
+	}
 
+	private PermissionIdentifier getDefaultPermission() throws AuthorizationServiceException {
+		return authorizationService.createPermissionIdentifier(VirtCoreConstants.PERMISSION_NAME);
 	}
 
 	@Override
-	public VirtMachineIdentifier createVirtMachineIdentifier(final String id) throws VirtServiceException {
+	public VirtMachineIdentifier createMachineIdentifier(final String id) {
 		if (id == null || id.trim().isEmpty()) {
 			return null;
 		} else {
 			return new VirtMachineIdentifier(id);
+		}
+	}
+
+	@Override
+	public VirtMachineIdentifier createMachine(final SessionIdentifier sessionIdentifier, final VirtMachine machine) throws VirtServiceException, PermissionDeniedException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, getDefaultPermission());
+			return new VirtMachineIdentifier("1337");
+		} catch (AuthorizationServiceException e) {
+			throw new VirtServiceException(e);
+		}
+	}
+
+	@Override
+	public VirtVirtualMachineIdentifier createVirtualMachineIdentifier(final String id) {
+		if (id == null || id.trim().isEmpty()) {
+			return null;
+		} else {
+			return new VirtVirtualMachineIdentifier(id);
+		}
+	}
+
+	@Override
+	public VirtVirtualMachineIdentifier createVirtualMachine(final SessionIdentifier sessionIdentifier, final VirtMachine machine) throws VirtServiceException, PermissionDeniedException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, getDefaultPermission());
+			return new VirtVirtualMachineIdentifier("1337");
+		} catch (AuthorizationServiceException e) {
+			throw new VirtServiceException(e);
+		}
+	}
+
+	@Override
+	public VirtNetwork getNetwork(final SessionIdentifier sessionIdentifier, final VirtNetworkIdentifier networkIdentifier) throws VirtServiceException, PermissionDeniedException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, getDefaultPermission());
+			return virtNetworkDao.load(networkIdentifier);
+		} catch (AuthorizationServiceException | StorageException e) {
+			throw new VirtServiceException(e);
 		}
 	}
 

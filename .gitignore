@@ -760,3 +760,8 @@ imagedownloader/core/target
 imagedownloader/api/target
 imagedownloader/gui/target
 imagedownloader/test/target
+imagedownloader/api/de.benjaminborbe.imagedownloader.api.iml
+imagedownloader/core/de.benjaminborbe.imagedownloader.core.iml
+imagedownloader/de.benjaminborbe.imagedownloader.iml
+imagedownloader/gui/de.benjaminborbe.imagedownloader.gui.iml
+imagedownloader/test/de.benjaminborbe.imagedownloader.test.iml

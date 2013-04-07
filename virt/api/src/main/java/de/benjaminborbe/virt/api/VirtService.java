@@ -1,18 +1,22 @@
 package de.benjaminborbe.virt.api;
 
 import de.benjaminborbe.api.ValidationException;
-import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface VirtService {
 
-	long calc(long value) throws VirtServiceException;
+	VirtNetworkIdentifier createNetworkIdentifier(String id) throws VirtServiceException;
 
-	VirtNetworkIdentifier createVirtNetworkIdentifier(String id) throws VirtServiceException;
+	VirtNetworkIdentifier createNetwork(SessionIdentifier sessionIdentifier, VirtNetwork network) throws VirtServiceException, PermissionDeniedException, ValidationException;
 
-	VirtMachineIdentifier createVirtualMachine() throws VirtServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
+	VirtMachineIdentifier createMachineIdentifier(String id) throws VirtServiceException;
 
-	VirtNetworkIdentifier createVirtNetwork(VirtNetwork virtNetwork) throws VirtServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
+	VirtMachineIdentifier createMachine(SessionIdentifier sessionIdentifier, VirtMachine machine) throws VirtServiceException, PermissionDeniedException;
 
-	VirtMachineIdentifier createVirtMachineIdentifier(String id) throws VirtServiceException;
+	VirtVirtualMachineIdentifier createVirtualMachineIdentifier(String id) throws VirtServiceException;
+
+	VirtVirtualMachineIdentifier createVirtualMachine(SessionIdentifier sessionIdentifier, VirtMachine machine) throws VirtServiceException, PermissionDeniedException;
+
+	VirtNetwork getNetwork(SessionIdentifier sessionIdentifier, VirtNetworkIdentifier networkIdentifier) throws VirtServiceException, PermissionDeniedException;
 }

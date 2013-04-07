@@ -1,6 +1,7 @@
 package de.benjaminborbe.virt.core.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.storage.api.StorageService;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
@@ -11,7 +12,7 @@ public class VirtCoreOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-
+		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
 		bind(StorageService.class).toProvider(service(StorageService.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());
 		bind(ExtHttpService.class).toProvider(service(ExtHttpService.class).single());

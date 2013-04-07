@@ -3,6 +3,7 @@ package de.benjaminborbe.virt.core.dao;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+import de.benjaminborbe.virt.api.VirtIpAddress;
 import de.benjaminborbe.virt.api.VirtNetwork;
 import de.benjaminborbe.virt.api.VirtNetworkIdentifier;
 
@@ -19,6 +20,8 @@ public class VirtNetworkBean extends EntityBase<VirtNetworkIdentifier> implement
 	private Calendar created;
 
 	private Calendar modified;
+
+	private VirtIpAddress ip;
 
 	@Override
 	public String getName() {
@@ -55,8 +58,16 @@ public class VirtNetworkBean extends EntityBase<VirtNetworkIdentifier> implement
 	}
 
 	@Override
+	public VirtIpAddress getIp() {
+		return ip;
+	}
+
+	@Override
 	public void setId(final VirtNetworkIdentifier id) {
 		this.id = id;
 	}
 
+	public void setIp(final VirtIpAddress ip) {
+		this.ip = ip;
+	}
 }

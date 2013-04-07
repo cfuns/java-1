@@ -64,7 +64,7 @@ public class VirtGuiServlet extends WebsiteHtmlServlet {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			widgets.add("result: " + virtService.calc(2));
+			widgets.add("result: " + virtService.createMachineIdentifier("13"));
 			return widgets;
 		} catch (VirtServiceException e) {
 			return new ExceptionWidget(e);
