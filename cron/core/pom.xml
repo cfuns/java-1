@@ -51,10 +51,13 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
-						<Import-Service></Import-Service>
-						<Export-Package>de.benjaminborbe.cron.api</Export-Package>
-						<Export-Service></Export-Service>
+						<Import-Package>
+							de.benjaminborbe.cron.api,
+							${felix_plugin_imports}
+						</Import-Package>
+						<Export-Package></Export-Package>
+						<Import-Service>de.benjaminborbe.message.api.MessageService</Import-Service>
+						<Export-Service>de.benjaminborbe.cron.api.CronService</Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>
