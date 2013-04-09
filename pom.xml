@@ -98,6 +98,7 @@
 				<module>wiki</module>
 				<module>imagedownloader</module>
 				<module>dhl</module>
+				<module>performance</module>
 			</modules>
 		</profile>
 		<profile>
@@ -187,9 +188,6 @@
 				<module>monitoring_tools</module>
 				<module>monitoring_core</module>
 				<module>monitoring_gui</module>
-				<module>performance_core</module>
-				<module>performance_api</module>
-				<module>performance_gui</module>
 				<module>portfolio_core</module>
 				<module>portfolio_api</module>
 				<module>portfolio_gui</module>
@@ -298,7 +296,6 @@
 				<module>message_test</module>
 				<module>microblog_test</module>
 				<module>monitoring_test</module>
-				<module>performance_test</module>
 				<module>portfolio_test</module>
 				<module>projectile_test</module>
 				<module>scala_test</module>

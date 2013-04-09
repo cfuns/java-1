@@ -266,10 +266,7 @@ buildanalytics:
 	cd analytics_gui && make all
 	cd analytics_test && make all
 buildperformance:
-	cd performance_api && make all
-	cd performance_core && make all
-	cd performance_gui && make all
-	cd performance_test && make all
+	cd performance && make all
 builddashboard:
 	cd dashboard_api && make all
 	cd dashboard_core && make all

@@ -3,31 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
-		<artifactId>de.benjaminborbe</artifactId>
+		<artifactId>de.benjaminborbe.performance</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.translate.gui</artifactId>
-	<name>Benjamin Borbe - Translate - Gui</name>
-	<description>Benjamin Borbe - Translate - Gui</description>
+	<artifactId>de.benjaminborbe.performance.test</artifactId>
+	<name>Benjamin Borbe - Performance - Test</name>
+	<description>Benjamin Borbe - Performance - Test</description>
 	<packaging>bundle</packaging>
+	<properties></properties>
 	<build>
-		<finalName>${project.artifactId}</finalName>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-			</resource>
-		</resources>
-		<testResources>
-			<testResource>
-				<directory>src/test/resources</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-			</testResource>
-		</testResources>
 		<plugins>
 			<!-- http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html -->
 			<!-- http://repo2.maven.org/maven2/org/apache/felix/maven-bundle-plugin/2.0.1/ -->
@@ -37,37 +21,89 @@
 				<version>${maven-bundle-plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
-					<supportedProjectTypes>
-						<supportedProjectType>bundle</supportedProjectType>
-					</supportedProjectTypes>
 					<instructions>
 						<Export-Package></Export-Package>
-						<Bundle-Activator>de.benjaminborbe.translate.gui.TranslateGuiActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.translate.gui.*</Private-Package>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
+						<Private-Package>de.benjaminborbe.performance.test.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>${project.name}</Bundle-Name>
 						<Bundle-Description>${project.description}</Bundle-Description>
-						<Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
-						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+						<Test-Suite>de.benjaminborbe.performance.test.PerformanceTestSuite</Test-Suite>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
+						<Import-Package>*;resolution:=optional</Import-Package>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-junit4osgi-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<configuration>
+								<deployProjectArtifact>true</deployProjectArtifact>
+								<org.osgi.framework.system.packages.extra>${felix_plugin_junit},org.bouncycastle.cms,org.bouncycastle.jce.provider
+								</org.osgi.framework.system.packages.extra>
+							</configuration>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>javax.servlet</groupId>
+						<artifactId>servlet-api</artifactId>
+						<version>${servlet-api.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>${mysql.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>javax.mail</groupId>
+						<artifactId>mail</artifactId>
+						<version>1.4.1</version>
+					</dependency>
+					<dependency>
+						<groupId>javax.activation</groupId>
+						<artifactId>activation</artifactId>
+						<version>1.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>${maven-surefire-report-plugin.version}</version>
+				<configuration>
+					<showSuccess>true</showSuccess>
+					<reportsDirectories>
+						<param>target/junit4osgi-reports</param>
+					</reportsDirectories>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 	<dependencies>
 		<dependency>
-			<groupId>org.ops4j</groupId>
-			<artifactId>peaberry</artifactId>
-			<version>${peaberry.version}</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.test.osgi</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-servlet</artifactId>
-			<version>${guice.version}</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cache.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -89,32 +125,15 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.http.api</artifactId>
-			<version>${felix.version.http}</version>
+			<artifactId>org.apache.felix.ipojo.junit4osgi</artifactId>
+			<version>1.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>${slf4j.impl}</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>${easymock.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools</artifactId>
-			<version>${project.version}</version>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.http.api</artifactId>
+			<version>${felix.version.http}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -123,42 +142,19 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.cache.api</artifactId>
+			<artifactId>de.benjaminborbe.performance.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.website</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.translate.core</artifactId>
+			<artifactId>de.benjaminborbe.performance.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.translate.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.search.core</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.dashboard.api</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.navigation.api</artifactId>
+			<artifactId>de.benjaminborbe.performance.gui</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -170,13 +166,19 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.navigation.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.authentication.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.search.api</artifactId>
+			<artifactId>de.benjaminborbe.authorization.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -188,7 +190,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.authorization.api</artifactId>
+			<artifactId>de.benjaminborbe.analytics.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

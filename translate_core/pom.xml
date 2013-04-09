@@ -6,7 +6,7 @@
 		<artifactId>de.benjaminborbe</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>de.benjaminborbe.translate</artifactId>
+	<artifactId>de.benjaminborbe.translate.core</artifactId>
 	<name>Benjamin Borbe - Translate - Core</name>
 	<description>Benjamin Borbe - Translate - Core</description>
 	<packaging>bundle</packaging>
