@@ -55,9 +55,9 @@
 							de.benjaminborbe.dhl.api,
 							${felix_plugin_imports}
 						</Import-Package>
+						<Export-Package></Export-Package>
 						<Import-Service></Import-Service>
-						<Export-Package>de.benjaminborbe.dhl.api.DhlService</Export-Package>
-						<Export-Service></Export-Service>
+						<Export-Service>de.benjaminborbe.dhl.api.DhlService</Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>

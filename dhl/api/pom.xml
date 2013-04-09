@@ -52,8 +52,8 @@
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
-						<Import-Service></Import-Service>
 						<Export-Package>de.benjaminborbe.dhl.api.*</Export-Package>
+						<Import-Service></Import-Service>
 						<Export-Service></Export-Service>
 					</instructions>
 				</configuration>
