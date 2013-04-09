@@ -303,10 +303,7 @@ buildcms:
 	cd cms_gui && make all
 	cd cms_test && make all
 builddhl:
-	cd dhl_api && make all
-	cd dhl_core && make all
-	cd dhl_gui && make all
-	cd dhl_test && make all
+	cd dhl && make all
 buildnote:
 	cd note_api && make all
 	cd note_core && make all

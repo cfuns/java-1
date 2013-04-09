@@ -97,6 +97,7 @@
 				<module>proxy</module>
 				<module>wiki</module>
 				<module>imagedownloader</module>
+				<module>dhl</module>
 			</modules>
 		</profile>
 		<profile>
@@ -146,9 +147,6 @@
 				<module>dashboard_core</module>
 				<module>dashboard_api</module>
 				<module>dashboard_gui</module>
-				<module>dhl_core</module>
-				<module>dhl_api</module>
-				<module>dhl_gui</module>
 				<module>eventbus_core</module>
 				<module>eventbus_api</module>
 				<module>eventbus_gui</module>
@@ -285,7 +283,6 @@
 				<module>crawler_test</module>
 				<module>cron_test</module>
 				<module>dashboard_test</module>
-				<module>dhl_test</module>
 				<module>eventbus_test</module>
 				<module>forum_test</module>
 				<module>gallery_test</module>
