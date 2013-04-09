@@ -15,7 +15,7 @@ installwotest:
 bundle:
 	mvn org.apache.felix:maven-bundle-plugin:bundle
 deploy:
-	../scripts/osgi_deploy.pl 'Benjamin Borbe - Performance' ./target/de.benjaminborbe.performance.jar ${TOMCAT_HOST} 5555 ${LOCAL_BUNDLE_BASE} ${REMOTE_BUNDLE_BASE}
+	../../scripts/osgi_deploy.pl 'Benjamin Borbe - Performance - Core' ./target/de.benjaminborbe.performance.core.jar ${TOMCAT_HOST} 5555 ${LOCAL_BUNDLE_BASE} ${REMOTE_BUNDLE_BASE}
 .PHONY: clean installwotest deploy
 dir:
 	mkdir -p src/main/resources src/main/java src/test/resources src/test/java

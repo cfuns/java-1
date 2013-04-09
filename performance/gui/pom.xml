@@ -50,6 +50,7 @@
 						<Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
+						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>
 							de.benjaminborbe.performance.api,
 							${felix_plugin_imports}
