@@ -18,8 +18,13 @@
 				<module>api</module>
 				<module>core</module>
 				<module>client</module>
-				<module>table</module>
 				<module>gui</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>slow</id>
+			<modules>
+				<module>table</module>
 			</modules>
 		</profile>
 		<profile>
