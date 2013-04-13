@@ -46,7 +46,7 @@ public class DhlGuiActivatorIntegrationTest {
 		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_CREATE);
 		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_DELETE);
 		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_LIST);
-		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_SEND);
+		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_NOTIFY_STATUS);
 		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_SLASH);
 		paths.add("/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_TRIGGER_CHECK);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());

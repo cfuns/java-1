@@ -1,6 +1,7 @@
 package de.benjaminborbe.dhl.gui.util;
 
 import com.google.inject.Inject;
+import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.gui.DhlGuiConstants;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;
@@ -26,5 +27,9 @@ public class DhlGuiLinkFactory {
 
 	public Widget triggerCheck(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_TRIGGER_CHECK, new MapParameter(), "trigger check");
+	}
+
+	public Widget notifyStatus(final HttpServletRequest request, final DhlIdentifier dhlIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + DhlGuiConstants.NAME + DhlGuiConstants.URL_NOTIFY_STATUS, new MapParameter().add(DhlGuiConstants.TRACKING_NUMBER, dhlIdentifier), "send mail");
 	}
 }

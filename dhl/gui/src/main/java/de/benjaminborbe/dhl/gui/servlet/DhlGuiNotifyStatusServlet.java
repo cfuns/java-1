@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Singleton
-public class DhlGuiSendStatusServlet extends DhlWebsiteHtmlServlet {
+public class DhlGuiNotifyStatusServlet extends DhlWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -46,7 +46,7 @@ public class DhlGuiSendStatusServlet extends DhlWebsiteHtmlServlet {
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public DhlGuiSendStatusServlet(
+	public DhlGuiNotifyStatusServlet(
 		final Logger logger,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
@@ -79,17 +79,11 @@ public class DhlGuiSendStatusServlet extends DhlWebsiteHtmlServlet {
 			final String trackingNumber = request.getParameter(DhlGuiConstants.TRACKING_NUMBER);
 			final DhlIdentifier dhlIdentifier = new DhlIdentifier(trackingNumber);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			dhlService.mailStatus(sessionIdentifier, dhlIdentifier);
+			dhlService.notifyStatus(sessionIdentifier, dhlIdentifier);
 			widgets.add("status mailed");
 			return widgets;
-		} catch (final DhlServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
-		} catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
+		} catch (final DhlServiceException | AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
 		}
 	}
 }

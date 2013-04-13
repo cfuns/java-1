@@ -8,7 +8,7 @@ public interface DhlGuiConstants {
 
 	String URL_SLASH = "/";
 
-	String URL_SEND = "/send";
+	String URL_NOTIFY_STATUS = "/notitfy/status";
 
 	String URL_CREATE = "/create";
 

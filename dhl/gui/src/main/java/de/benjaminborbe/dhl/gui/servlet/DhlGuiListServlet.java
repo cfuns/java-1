@@ -8,11 +8,13 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.api.DhlServiceException;
+import de.benjaminborbe.dhl.gui.util.DhlGuiLinkFactory;
 import de.benjaminborbe.dhl.gui.util.DhlWebsiteHtmlServlet;
 import de.benjaminborbe.dhl.gui.widget.DhlGuiCreateDhlIdentifierLink;
 import de.benjaminborbe.dhl.gui.widget.DhlGuiDeleteDhlIdentifierLink;
@@ -49,6 +51,10 @@ public class DhlGuiListServlet extends DhlWebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final AuthorizationService authorizationService;
+
+	private final DhlGuiLinkFactory dhlGuiLinkFactory;
+
 	@Inject
 	public DhlGuiListServlet(
 		final Logger logger,
@@ -61,11 +67,13 @@ public class DhlGuiListServlet extends DhlWebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final DhlService dhlService,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService) {
+		final CacheService cacheService, final DhlGuiLinkFactory dhlGuiLinkFactory) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.dhlService = dhlService;
 		this.authenticationService = authenticationService;
+		this.authorizationService = authorizationService;
+		this.dhlGuiLinkFactory = dhlGuiLinkFactory;
 	}
 
 	@Override
@@ -82,6 +90,8 @@ public class DhlGuiListServlet extends DhlWebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final boolean hasAdminRole = authorizationService.hasAdminRole(sessionIdentifier);
+
 			for (final Dhl dhl : dhlService.getEntries(sessionIdentifier)) {
 				final ListWidget row = new ListWidget();
 				final URL url = dhlService.buildDhlUrl(sessionIdentifier, dhl.getId());
@@ -90,20 +100,18 @@ public class DhlGuiListServlet extends DhlWebsiteHtmlServlet {
 				row.add(" ");
 				row.add(dhl.getStatus());
 				row.add(" ");
+				if (hasAdminRole) {
+					row.add(dhlGuiLinkFactory.notifyStatus(request, dhl.getId()));
+					row.add(" ");
+				}
 				row.add(new DhlGuiDeleteDhlIdentifierLink(request, dhl.getId()));
 				ul.add(row);
 			}
 			widgets.add(ul);
 			widgets.add(new DhlGuiCreateDhlIdentifierLink(request));
 			return widgets;
-		} catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			return exceptionWidget;
-		} catch (final DhlServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			return exceptionWidget;
+		} catch (final AuthenticationServiceException | DhlServiceException | AuthorizationServiceException e) {
+			return new ExceptionWidget(e);
 		}
 	}
 }

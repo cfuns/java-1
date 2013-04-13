@@ -41,10 +41,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package></Export-Package>
 						<Bundle-Activator>de.benjaminborbe.notification.gui.NotificationGuiActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.notification.gui.*</Private-Package>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>${project.name}</Bundle-Name>
@@ -53,6 +51,19 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
+						<Import-Package>
+							de.benjaminborbe.notification.api,
+							${felix_plugin_imports}
+						</Import-Package>
+						<Export-Package></Export-Package>
+						<Import-Service>
+							de.benjaminborbe.authentication.api.AuthenticationService,
+							de.benjaminborbe.authorization.api.AuthorizationService,
+							de.benjaminborbe.notification.api.NotificationService,
+							de.benjaminborbe.navigation.api.NavigationWidget,
+							de.benjaminborbe.cache.api.CacheService
+						</Import-Service>
+						<Export-Service></Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>

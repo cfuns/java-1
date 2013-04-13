@@ -13,9 +13,14 @@
 	<packaging>pom</packaging>
 	<profiles>
 		<profile>
-			<id>base</id>
+			<id>lib</id>
 			<modules>
 				<module>api</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>base</id>
+			<modules>
 				<module>core</module>
 				<module>gui</module>
 				<module>tools</module>

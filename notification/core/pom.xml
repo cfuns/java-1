@@ -51,10 +51,20 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
-						<Import-Service></Import-Service>
-						<Export-Package>de.benjaminborbe.notification.api</Export-Package>
-						<Export-Service></Export-Service>
+						<Import-Package>
+							de.benjaminborbe.notification.api,
+							${felix_plugin_imports}
+						</Import-Package>
+						<Export-Package></Export-Package>
+						<Import-Service>
+							de.benjaminborbe.storage.api.StorageService,
+							de.benjaminborbe.authorization.api.AuthorizationService,
+							de.benjaminborbe.authentication.api.AuthenticationService,
+							de.benjaminborbe.mail.api.MailService,
+							de.benjaminborbe.xmpp.api.XmppService,
+							de.benjaminborbe.configuration.api.ConfigurationService
+						</Import-Service>
+						<Export-Service>de.benjaminborbe.notification.api.NotificationService</Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>

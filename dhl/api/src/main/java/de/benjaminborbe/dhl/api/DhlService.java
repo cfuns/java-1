@@ -12,19 +12,17 @@ public interface DhlService {
 
 	String PERMISSION = "dhl";
 
-	DhlIdentifier createDhlIdentifier(String id) throws DhlServiceException;
+	DhlIdentifier createDhlIdentifier(String id);
 
-	URL buildDhlUrl(SessionIdentifier sessionIdentifier, DhlIdentifier dhlIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException;
+	URL buildDhlUrl(SessionIdentifier sessionIdentifier, DhlIdentifier dhlIdentifier) throws DhlServiceException, PermissionDeniedException;
 
-	void mailStatus(SessionIdentifier sessionIdentifier, DhlIdentifier dhlIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException;
+	void notifyStatus(SessionIdentifier sessionIdentifier, DhlIdentifier dhlIdentifier) throws DhlServiceException, PermissionDeniedException;
 
-	Collection<DhlIdentifier> getIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException;
+	Collection<Dhl> getEntries(final SessionIdentifier sessionIdentifier) throws DhlServiceException, PermissionDeniedException;
 
-	Collection<Dhl> getEntries(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException;
+	void removeTracking(SessionIdentifier sessionIdentifier, DhlIdentifier dhlIdentifier) throws DhlServiceException, PermissionDeniedException;
 
-	void removeTracking(SessionIdentifier sessionIdentifier, DhlIdentifier dhlIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException;
-
-	DhlIdentifier addTracking(SessionIdentifier sessionIdentifier, String trackingNumber, long zip) throws DhlServiceException, LoginRequiredException, PermissionDeniedException,
+	DhlIdentifier addTracking(SessionIdentifier sessionIdentifier, String trackingNumber, long zip) throws DhlServiceException, PermissionDeniedException,
 		ValidationException;
 
 	void triggerCheck(SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException;

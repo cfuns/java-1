@@ -26,12 +26,7 @@ public class DhlServiceMock implements DhlService {
 	}
 
 	@Override
-	public void mailStatus(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
-	}
-
-	@Override
-	public Collection<DhlIdentifier> getIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException {
-		return null;
+	public void notifyStatus(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException {
 	}
 
 	@Override
@@ -39,7 +34,7 @@ public class DhlServiceMock implements DhlService {
 	}
 
 	@Override
-	public DhlIdentifier createDhlIdentifier(final String id) throws DhlServiceException {
+	public DhlIdentifier createDhlIdentifier(final String id) {
 		return null;
 	}
 
@@ -53,7 +48,7 @@ public class DhlServiceMock implements DhlService {
 	}
 
 	@Override
-	public Collection<Dhl> getEntries(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
+	public Collection<Dhl> getEntries(final SessionIdentifier sessionIdentifier) throws DhlServiceException, PermissionDeniedException {
 		return null;
 	}
 

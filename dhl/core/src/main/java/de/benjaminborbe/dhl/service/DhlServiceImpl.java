@@ -91,11 +91,11 @@ public class DhlServiceImpl implements DhlService {
 	}
 
 	@Override
-	public void mailStatus(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException, LoginRequiredException,
+	public void notifyStatus(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException,
 		PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
-			logger.trace("mailStatus - dhlIdentifier: " + dhlIdentifier);
+			logger.trace("notifyStatus - dhlIdentifier: " + dhlIdentifier);
 			final DhlBean dhl = dhlDao.load(dhlIdentifier);
 			final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhl);
 			dhlStatusNotifier.notify(dhl.getOwner(), newStatus);
@@ -104,8 +104,7 @@ public class DhlServiceImpl implements DhlService {
 		}
 	}
 
-	@Override
-	public Collection<DhlIdentifier> getIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
+	public Collection<DhlIdentifier> getIdentifiers(final SessionIdentifier sessionIdentifier) throws DhlServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
 
@@ -127,7 +126,7 @@ public class DhlServiceImpl implements DhlService {
 	}
 
 	@Override
-	public void removeTracking(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException, LoginRequiredException,
+	public void removeTracking(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException,
 		PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
@@ -140,7 +139,7 @@ public class DhlServiceImpl implements DhlService {
 	}
 
 	@Override
-	public URL buildDhlUrl(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException, LoginRequiredException,
+	public URL buildDhlUrl(final SessionIdentifier sessionIdentifier, final DhlIdentifier dhlIdentifier) throws DhlServiceException,
 		PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
@@ -153,12 +152,12 @@ public class DhlServiceImpl implements DhlService {
 	}
 
 	@Override
-	public DhlIdentifier createDhlIdentifier(final String id) throws DhlServiceException {
+	public DhlIdentifier createDhlIdentifier(final String id) {
 		return id != null ? new DhlIdentifier(id) : null;
 	}
 
 	@Override
-	public DhlIdentifier addTracking(final SessionIdentifier sessionIdentifier, final String trackingNumber, final long zip) throws DhlServiceException, LoginRequiredException,
+	public DhlIdentifier addTracking(final SessionIdentifier sessionIdentifier, final String trackingNumber, final long zip) throws DhlServiceException,
 		PermissionDeniedException, ValidationException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
@@ -184,7 +183,7 @@ public class DhlServiceImpl implements DhlService {
 	}
 
 	@Override
-	public Collection<Dhl> getEntries(final SessionIdentifier sessionIdentifier) throws DhlServiceException, LoginRequiredException, PermissionDeniedException {
+	public Collection<Dhl> getEntries(final SessionIdentifier sessionIdentifier) throws DhlServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION));
 
