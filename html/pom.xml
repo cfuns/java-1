@@ -13,7 +13,7 @@
 	<packaging>pom</packaging>
 	<profiles>
 		<profile>
-			<id>base</id>
+			<id>lib</id>
 			<modules>
 				<module>api</module>
 			</modules>
