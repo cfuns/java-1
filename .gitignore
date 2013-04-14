@@ -2,6 +2,17 @@
 poker/table/war
 .project
 .settings/
+dns/api/de.benjaminborbe.dns.api.iml
+dns/api/target
+dns/core/de.benjaminborbe.dns.core.iml
+dns/core/de.benjaminborbe.dns.iml
+dns/core/target
+dns/de.benjaminborbe.dns.iml
+dns/gui/de.benjaminborbe.dns.gui.iml
+dns/test/de.benjaminborbe.dns.test.iml
+dns/test/target
+dns_gui/de.benjaminborbe.dns.gui.iml
+dns_gui/target
 analytics/api/de.benjaminborbe.analytics.api.iml
 analytics/api/target
 analytics/core/de.benjaminborbe.analytics.core.iml
@@ -863,3 +874,8 @@ xmpp/test/de.benjaminborbe.xmpp.test.iml
 xmpp/test/target
 poker/table/de.benjaminborbe.poker.table.iml
 vaadin/gui/de.benjaminborbe.vaadin.gui.iml
+dns/target
+dns/core/target
+dns/api/target
+dns/gui/target
+dns/test/target

@@ -325,3 +325,5 @@ buildfilestorage:
 	cd filestorage && make all
 buildproxy:
 	cd proxy && make all
+builddns:
+	cd dns && make all
