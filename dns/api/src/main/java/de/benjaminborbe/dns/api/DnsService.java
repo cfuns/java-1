@@ -1,6 +1,8 @@
 package de.benjaminborbe.dns.api;
 
+import java.util.List;
+
 public interface DnsService {
 
-	long calc(long value) throws DnsServiceException;
+	List<String> lookup(String dnsServer, String hostname) throws DnsServiceException;
 }

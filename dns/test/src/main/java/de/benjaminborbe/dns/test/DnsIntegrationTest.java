@@ -8,6 +8,8 @@ import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import java.util.List;
+
 public class DnsIntegrationTest extends TestCaseOsgi {
 
 	@Override
@@ -55,7 +57,9 @@ public class DnsIntegrationTest extends TestCaseOsgi {
 
 	public void testCalc() throws Exception {
 		final DnsService dnsService = getService(DnsService.class);
-		assertEquals(46, dnsService.calc(23));
+		final List<String> result = dnsService.lookup("ns.rocketnews.de", "www.benjamin-borbe.de");
+		assertNotNull(result);
+		assertFalse(result.isEmpty());
 	}
 
 }
