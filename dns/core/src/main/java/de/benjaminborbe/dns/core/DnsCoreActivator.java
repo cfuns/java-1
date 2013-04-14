@@ -2,7 +2,9 @@ package de.benjaminborbe.dns.core;
 
 import com.google.inject.Inject;
 import de.benjaminborbe.dns.api.DnsService;
+import de.benjaminborbe.dns.core.check.DnsServerMonitoringCheck;
 import de.benjaminborbe.dns.core.guice.DnsCoreModules;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -13,6 +15,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DnsCoreActivator extends BaseBundleActivator {
+
+	@Inject
+	private DnsServerMonitoringCheck dnsServerMonitoringCheck;
 
 	@Inject
 	private DnsService dnsService;
@@ -26,6 +31,7 @@ public class DnsCoreActivator extends BaseBundleActivator {
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(DnsService.class, dnsService));
+		result.add(new ServiceInfo(MonitoringCheck.class, dnsServerMonitoringCheck));
 		return result;
 	}
 

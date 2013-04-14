@@ -6,6 +6,7 @@ import de.benjaminborbe.dns.api.DnsService;
 import de.benjaminborbe.dns.api.DnsServiceException;
 import org.slf4j.Logger;
 import org.xbill.DNS.ARecord;
+import org.xbill.DNS.Cache;
 import org.xbill.DNS.Lookup;
 import org.xbill.DNS.Record;
 import org.xbill.DNS.SimpleResolver;
@@ -34,6 +35,10 @@ public class DnsCoreServiceImpl implements DnsService {
 			logger.debug("lookup - server: " + dnsServer + " host: " + hostname);
 			final Lookup lookup = new Lookup(hostname, Type.ANY);
 			lookup.setResolver(new SimpleResolver(dnsServer));
+			final Cache cache = new Cache();
+			cache.setMaxEntries(0);
+			cache.clearCache();
+			lookup.setCache(cache);
 			lookup.run();
 			if (lookup.getResult() == Lookup.SUCCESSFUL) {
 				final Record[] records = lookup.run();
@@ -42,7 +47,7 @@ public class DnsCoreServiceImpl implements DnsService {
 						final TXTRecord txt = (TXTRecord) record;
 
 						for (final Object o : txt.getStrings()) {
-							logger.debug("text" + (String) o);
+							logger.debug("text" + o);
 						}
 					} else if (record instanceof ARecord) {
 						result.add(((ARecord) record).getAddress().getHostAddress());

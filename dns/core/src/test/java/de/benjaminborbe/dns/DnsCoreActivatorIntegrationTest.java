@@ -4,6 +4,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.dns.api.DnsService;
 import de.benjaminborbe.dns.core.DnsCoreActivator;
 import de.benjaminborbe.dns.core.guice.DnsModulesMock;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -11,7 +12,6 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -64,7 +64,9 @@ public class DnsCoreActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(DnsService.class.getName());
+		final List<String> names = new ArrayList<>();
+		names.add(DnsService.class.getName());
+		names.add(MonitoringCheck.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;
