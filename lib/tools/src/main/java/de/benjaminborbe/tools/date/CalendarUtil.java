@@ -1,10 +1,10 @@
 package de.benjaminborbe.tools.date;
 
+import de.benjaminborbe.tools.util.ParseException;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
-import de.benjaminborbe.tools.util.ParseException;
 
 public interface CalendarUtil {
 
@@ -82,7 +82,9 @@ public interface CalendarUtil {
 
 	String toDateString(Calendar calendar);
 
-	String toDateTimeString(Calendar date);
+	String toDateTimeString(Calendar calendar);
+
+	String toDateTimeZoneString(Calendar calendar);
 
 	Calendar today();
 

@@ -1,22 +1,7 @@
 package de.benjaminborbe.microblog.connector;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.config.MicroblogConfig;
@@ -31,6 +16,19 @@ import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Singleton
 public class MicroblogConnectorImpl implements MicroblogConnector {
@@ -56,14 +54,14 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 
 	@Inject
 	public MicroblogConnectorImpl(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final MicroblogConfig microblogConfig,
-			final HttpDownloader httpDownloader,
-			final HttpDownloadUtil httpDownloadUtil,
-			final ParseUtil parseUtil,
-			final HtmlUtil htmlUtil) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final MicroblogConfig microblogConfig,
+		final HttpDownloader httpDownloader,
+		final HttpDownloadUtil httpDownloadUtil,
+		final ParseUtil parseUtil,
+		final HtmlUtil htmlUtil) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
@@ -86,21 +84,10 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 				final MatchResult matchResult = matcher.toMatchResult();
 				final String number = matchResult.group(1);
 				return new MicroblogPostIdentifier(parseUtil.parseLong(number));
-			}
-			else {
+			} else {
 				throw new MicroblogConnectorException("can't find latest revision");
 			}
-		}
-		catch (final MalformedURLException e) {
-			throw new MicroblogConnectorException(e);
-		}
-		catch (final IOException e) {
-			throw new MicroblogConnectorException(e);
-		}
-		catch (final ParseException e) {
-			throw new MicroblogConnectorException(e);
-		}
-		catch (final HttpDownloaderException e) {
+		} catch (final HttpDownloaderException | ParseException | IOException e) {
 			throw new MicroblogConnectorException(e);
 		}
 	}
@@ -125,17 +112,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 				logger.trace("conversationUrl=" + conversationUrl);
 			final Calendar date = extractCalendar(pageContent);
 			return new MicroblogPostResult(microblogPostIdentifier, content, author, postUrl, conversationUrl, date);
-		}
-		catch (final MalformedURLException e) {
-			throw new MicroblogConnectorException(e);
-		}
-		catch (final IOException e) {
-			throw new MicroblogConnectorException(e);
-		}
-		catch (final HttpDownloaderException e) {
-			throw new MicroblogConnectorException(e);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException | HttpDownloaderException | IOException e) {
 			throw new MicroblogConnectorException(e);
 		}
 	}
@@ -155,9 +132,8 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			final String startPatternTitle = "title=\"";
 			final String endPatternTitle = "\"";
 			final String contentTitle = extract(abbrContent, startPatternTitle, endPatternTitle);
-			result = calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), contentTitle);
-		}
-		else {
+			result = calendarUtil.parseDateTime(timeZoneUtil.getEuropeBerlinTimeZone(), contentTitle);
+		} else {
 			result = null;
 		}
 		logger.trace("extractCalendar => " + calendarUtil.toDateTimeString(result));
@@ -213,8 +189,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		final String content = extract(pageContent, startPattern, endPattern);
 		if (content != null && content.length() > 0) {
 			return filterContent(content);
-		}
-		else {
+		} else {
 			return content;
 		}
 	}
@@ -225,8 +200,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		final String content = extract(pageContent, startPattern, endPattern);
 		if (content != null && content.length() > 0) {
 			return filterContent(content);
-		}
-		else {
+		} else {
 			return content;
 		}
 	}
@@ -262,23 +236,13 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			}
 			final String conversationUrl = pageContent.substring(open + 6, close);
 			return buildMicroblogConversationResult(conversationUrl, pageContent);
-		}
-		catch (final MalformedURLException e) {
-			throw new MicroblogConnectorException(e);
-		}
-		catch (final HttpDownloaderException e) {
-			throw new MicroblogConnectorException(e);
-		}
-		catch (final UnsupportedEncodingException e) {
-			throw new MicroblogConnectorException(e);
-		}
-		catch (final ParseException e) {
+		} catch (final MalformedURLException | ParseException | UnsupportedEncodingException | HttpDownloaderException e) {
 			throw new MicroblogConnectorException(e);
 		}
 	}
 
 	protected MicroblogConversationResult buildMicroblogConversationResult(final String conversationUrl, final String pageContent) throws ParseException {
-		final List<MicroblogPostResult> list = new ArrayList<MicroblogPostResult>();
+		final List<MicroblogPostResult> list = new ArrayList<>();
 		int itemIndexOpen = pageContent.indexOf("<item>");
 		int itemIndexClose = pageContent.indexOf("</item>", itemIndexOpen);
 		while (itemIndexOpen != -1 && itemIndexClose != -1) {

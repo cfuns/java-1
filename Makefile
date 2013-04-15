@@ -77,248 +77,114 @@ buildtools:
 buildwebsite:
 	cd website && make all
 buildlunch:
-	cd lunch_api && make all
-	cd lunch_core && make all
-	cd lunch_gui && make all
-	cd lunch_test && make all
+	cd lunch && make all
 buildportfolio:
-	cd portfolio_api && make all
 	cd portfolio && make all
-	cd portfolio_gui && make all
-	cd portfolio_test && make all
 buildconfiguration:
 	cd configuration && make all
 buildstorage:
-	cd storage_api && make all
-	cd storage_tools && make all
-	cd storage_core && make all
-	cd storage_gui && make all
-	cd storage_test && make all
+	cd storage && make all
 buildsample:
 	cd sample && make all
 buildloggly:
-	cd loggly_api && make all
-	cd loggly_core && make all
-	cd loggly_gui && make all
-	cd loggly_test && make all
+	cd loggly && make all
 buildworktime:
-	cd worktime_api && make all
-	cd worktime_core && make all
-	cd worktime_gui && make all
-	cd worktime_test && make all
+	cd worktime && make all
 buildgallery:
-	cd gallery_api && make all
-	cd gallery_core && make all
-	cd gallery_gui && make all
-	cd gallery_test && make all
+	cd gallery && make all
 buildweather:
-	cd weather_api && make all
-	cd weather_core && make all
-	cd weather_gui && make all
-	cd weather_test && make all
+	cd weather && make all
 buildgwt:
-	cd gwt_api && make all
-	cd gwt_core && make all
-	cd gwt_gui && make all
-	cd gwt_test && make all
+	cd gwt && make all
 buildblog:
-	cd blog_api && make all
 	cd blog && make all
-	cd blog_gui && make all
-	cd blog_test && make all
 buildwiki:
-	cd wiki_api && make all
-	cd wiki_core && make all
-	cd wiki_gui && make all
-	cd wiki_test && make all
+	cd wiki && make all
 buildslash:
-	cd slash_api && make all
-	cd slash_core && make all
-	cd slash_gui && make all
-	cd slash_test && make all
+	cd slash && make all
 buildbookmark:
-	cd bookmark_api && make all
-	cd bookmark_core && make all
-	cd bookmark_gui && make all
-	cd bookmark_test && make all
+	cd bookmark && make all
 buildauth:
 	cd authentication && make all
 	cd authorization && make all
 buildmonitoring:
-	cd monitoring_api && make all
-	cd monitoring_tools && make all
-	cd monitoring_core && make all
-	cd monitoring_gui && make all
-	cd monitoring_test && make all
+	cd monitoring && make all
 buildvnc:
-	cd vnc_api && make all
-	cd vnc_core && make all
-	cd vnc_gui && make all
-	cd vnc_test && make all
+	cd vnc && make all
 buildxmpp:
-	cd xmpp_api && make all
-	cd xmpp_core && make all
-	cd xmpp_gui && make all
-	cd xmpp_test && make all
+	cd xmpp && make all
 buildwow:
-	cd wow_api && make all
-	cd wow_core && make all
-	cd wow_gui && make all
-	cd wow_test && make all
+	cd wow && make all
 buildwebsearch:
-	cd websearch_api && make all
-	cd websearch_core && make all
-	cd websearch_gui && make all
-	cd websearch_test && make all
+	cd websearch && make all
 buildindex:
-	cd index_api && make all
-	cd index_core && make all
-	cd index_gui && make all
-	cd index_test && make all
+	cd index && make all
 buildluceneindex:
-	cd lucene_index_api && make all
 	cd lucene_index && make all
-	cd lucene_index_gui && make all
-	cd lucene_index_test && make all
 buildcrawler:
-	cd crawler_api && make all
 	cd crawler && make all
-	cd crawler_gui && make all
-	cd crawler_test && make all
 buildmicroblog:
-	cd microblog_api && make all
 	cd microblog && make all
-	cd microblog_gui && make all
-	cd microblog_test && make all
 buildsearch:
-	cd search_api && make all
-	cd search_core && make all
-	cd search_gui && make all
-	cd search_test && make all
+	cd search && make all
 buildscala:
-	cd scala_api && make all
-	cd scala_core && make all
-	cd scala_gui && make all
-	cd scala_test && make all
+	cd scala && make all
 buildtask:
 	cd task && make all
 buildcron:
-	cd cron_api && make all
-	cd cron_core && make all
-	cd cron_gui && make all
-	cd cron_test && make all
+	cd cron && make all
 buildutil:
-	cd util_api && make all
-	cd util_core && make all
-	cd util_gui && make all
-	cd util_test && make all
+	cd util && make all
 buildeventbus:
-	cd eventbus_api && make all
-	cd eventbus_core && make all
-	cd eventbus_gui && make all
-	cd eventbus_test && make all
+	cd eventbus && make all
 buildmeta:
 	cd meta && make all
 buildbridge:
 	cd bridge && make all
 buildconfluence:
-	cd confluence_api && make all
-	cd confluence_core && make all
-	cd confluence_gui && make all
-	cd confluence_test && make all
+	cd confluence && make all
 buildgooglesearch:
-	cd googlesearch_api && make all
-	cd googlesearch_core && make all
-	cd googlesearch_gui && make all
-	cd googlesearch_test && make all
+	cd googlesearch && make all
 buildnavigation:
 	cd navigation && make all
 buildchecklist:
-	cd checklist_api && make all
-	cd checklist_core && make all
-	cd checklist_gui && make all
-	cd checklist_test && make all
+	cd checklist && make all
 buildmail:
-	cd mail_api && make all
-	cd mail_core && make all
-	cd mail_gui && make all
-	cd mail_test && make all
+	cd mail && make all
 buildprojectile:
-	cd projectile_api && make all
-	cd projectile_core && make all
-	cd projectile_gui && make all
-	cd projectile_test && make all
+	cd projectile && make all
 buildshortener:
-	cd shortener_api && make all
-	cd shortener_core && make all
-	cd shortener_gui && make all
-	cd shortener_test && make all
+	cd shortener && make all
 buildmessage:
-	cd message_api && make all
-	cd message_core && make all
-	cd message_gui && make all
-	cd message_test && make all
+	cd message && make all
 builddistributed:
 	cd distributed && make all
 buildanalytics:
-	cd analytics_api && make all
-	cd analytics_core && make all
-	cd analytics_gui && make all
-	cd analytics_test && make all
+	cd analytics && make all
 buildperformance:
 	cd performance && make all
 builddashboard:
-	cd dashboard_api && make all
-	cd dashboard_core && make all
-	cd dashboard_gui && make all
-	cd dashboard_test && make all
+	cd dashboard && make all
 buildkiosk:
-	cd kiosk_api && make all
-	cd kiosk_core && make all
-	cd kiosk_gui && make all
-	cd kiosk_test && make all
+	cd kiosk && make all
 buildsystemstatus:
-	cd systemstatus_api && make all
-	cd systemstatus_core && make all
-	cd systemstatus_gui && make all
-	cd systemstatus_test && make all
+	cd systemstatus && make all
 buildcache:
-	cd cache_api && make all
-	cd cache_core && make all
-	cd cache_gui && make all
-	cd cache_test && make all
+	cd cache && make all
 buildpoker:
-	cd poker_api && make all
-	cd poker_core && make all
-	cd poker_gui && make all
-	cd poker_test && make all
-	cd poker_client && make all
-	cd poker_table && make all
+	cd poker && make all
 buildcms:
-	cd cms_api && make all
-	cd cms_core && make all
-	cd cms_gui && make all
-	cd cms_test && make all
+	cd cms && make all
 builddhl:
 	cd dhl && make all
 buildnote:
-	cd note_api && make all
-	cd note_core && make all
-	cd note_gui && make all
-	cd note_test && make all
+	cd note && make all
 buildxmlrpc:
-	cd xmlrpc_api && make all
-	cd xmlrpc_core && make all
-	cd xmlrpc_gui && make all
-	cd xmlrpc_test && make all
+	cd xmlrpc && make all
 buildnotification:
-	cd notification_api && make all
-	cd notification_core && make all
-	cd notification_gui && make all
-	cd notification_test && make all
+	cd notification && make all
 buildhtml:
-	cd html_api && make all
-	cd html_test && make all
+	cd html && make all
 buildvirt:
 	cd virt && make all
 buildfilestorage:

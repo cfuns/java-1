@@ -1,6 +1,19 @@
 package de.benjaminborbe.tools.date;
 
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -8,18 +21,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
-import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.tools.util.ParseUtilImpl;
 
 public class CalendarUtilImplUnitTest {
 
@@ -567,8 +568,7 @@ public class CalendarUtilImplUnitTest {
 		try {
 			calendarUtil.parseDate(null, "2012-11-09");
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			assertNotNull(e);
 		}
 
@@ -576,8 +576,7 @@ public class CalendarUtilImplUnitTest {
 			final String dateString = null;
 			calendarUtil.parseDate(timeZone, dateString);
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			assertNotNull(e);
 		}
 
@@ -585,8 +584,7 @@ public class CalendarUtilImplUnitTest {
 			final String dateString = "";
 			calendarUtil.parseDate(timeZone, dateString);
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			assertNotNull(e);
 		}
 
@@ -594,8 +592,7 @@ public class CalendarUtilImplUnitTest {
 			final String dateString = "2012-01";
 			calendarUtil.parseDate(timeZone, dateString);
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			assertNotNull(e);
 		}
 
@@ -603,8 +600,7 @@ public class CalendarUtilImplUnitTest {
 			final String dateString = "2012-01-a";
 			calendarUtil.parseDate(timeZone, dateString);
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			assertNotNull(e);
 		}
 	}
@@ -759,14 +755,12 @@ public class CalendarUtilImplUnitTest {
 		try {
 			u.parseTimestamp(timeZone, null);
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 		}
 		try {
 			u.parseTimestamp(timeZone, "");
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 		}
 	}
 
@@ -812,8 +806,7 @@ public class CalendarUtilImplUnitTest {
 		try {
 			u.parseDate(timeZone, (Date) null);
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 		}
 	}
 
@@ -835,6 +828,21 @@ public class CalendarUtilImplUnitTest {
 		final Calendar defaultCalendar = u.now();
 
 		assertThat(u.parseDate(timeZone, new Date(1357327601l), defaultCalendar).getTimeInMillis(), is(1357327601l));
-		assertThat(u.parseDate(timeZone, (Date) null, defaultCalendar).getTimeInMillis(), is(defaultCalendar.getTimeInMillis()));
+		assertThat(u.parseDate(timeZone, null, defaultCalendar).getTimeInMillis(), is(defaultCalendar.getTimeInMillis()));
+	}
+
+	@Test
+	public void testToDateTimeZoneString() throws Exception {
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final CalendarUtil calendarUtil = new CalendarUtilImpl(null, null, parseUtil, null);
+		{
+			final Calendar calendar = null;
+			assertThat(calendarUtil.toDateTimeZoneString(calendar), is(nullValue()));
+		}
+		{
+			final Calendar calendar = calendarUtil.parseDateTime(TimeZone.getTimeZone("GMT"), "2013-12-24 20:15:59");
+			assertThat(calendarUtil.toDateTimeZoneString(calendar), is(notNullValue()));
+			assertThat(calendarUtil.toDateTimeZoneString(calendar), is("2013-12-24 20:15:59 GMT"));
+		}
 	}
 }

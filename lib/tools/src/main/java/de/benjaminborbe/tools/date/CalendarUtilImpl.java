@@ -1,17 +1,15 @@
 package de.benjaminborbe.tools.date;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.tools.util.ParseUtil;
 
 @Singleton
 public class CalendarUtilImpl implements CalendarUtil {
@@ -44,6 +42,14 @@ public class CalendarUtilImpl implements CalendarUtil {
 			return null;
 		}
 		return toDateString(date) + " " + toTimeString(date);
+	}
+
+	@Override
+	public String toDateTimeZoneString(final Calendar calendar) {
+		if (calendar == null) {
+			return null;
+		}
+		return toDateTimeString(calendar) + " " + calendar.getTimeZone().getID();
 	}
 
 	@Override
@@ -102,7 +108,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	@Override
 	public Calendar getCalendar(final TimeZone timeZone, final int year, final int month, final int date, final int hourOfDay, final int minute, final int second,
-			final int millisecond) {
+															final int millisecond) {
 		final Calendar calendar = getCalendar(timeZone);
 		calendar.set(Calendar.YEAR, year);
 		calendar.set(Calendar.MONTH, month);
@@ -122,14 +128,12 @@ public class CalendarUtilImpl implements CalendarUtil {
 			final String[] hourParts;
 			if (parts.length >= 2) {
 				hourParts = parts[1].split(":");
-			}
-			else {
-				hourParts = new String[] { "0", "0", "0" };
+			} else {
+				hourParts = new String[]{"0", "0", "0"};
 			}
 			return getCalendar(timeZone, parseUtil.parseInt(dateParts[0]), parseUtil.parseInt(dateParts[1]) - 1, parseUtil.parseInt(dateParts[2]), parseUtil.parseInt(hourParts[0]),
-					parseUtil.parseInt(hourParts[1]), parseUtil.parseInt(hourParts[2]));
-		}
-		catch (final NullPointerException e) {
+				parseUtil.parseInt(hourParts[1]), parseUtil.parseInt(hourParts[2]));
+		} catch (final NullPointerException e) {
 			throw new ParseException("NullPointerException while parseing timeZone " + (timeZone != null ? timeZone.getID() : "null") + " dateTime: " + dateTime);
 		}
 	}
@@ -179,29 +183,29 @@ public class CalendarUtilImpl implements CalendarUtil {
 	public String getWeekday(final Calendar calendar) {
 		final int day = calendar.get(Calendar.DAY_OF_WEEK);
 		switch (day) {
-		case Calendar.MONDAY:
-			return "monday";
-		case Calendar.TUESDAY:
-			return "tuesday";
-		case Calendar.WEDNESDAY:
-			return "wednesday";
-		case Calendar.THURSDAY:
-			return "thursday";
-		case Calendar.FRIDAY:
-			return "friday";
-		case Calendar.SATURDAY:
-			return "saturday";
-		case Calendar.SUNDAY:
-			return "sunday";
-		default:
-			return null;
+			case Calendar.MONDAY:
+				return "monday";
+			case Calendar.TUESDAY:
+				return "tuesday";
+			case Calendar.WEDNESDAY:
+				return "wednesday";
+			case Calendar.THURSDAY:
+				return "thursday";
+			case Calendar.FRIDAY:
+				return "friday";
+			case Calendar.SATURDAY:
+				return "saturday";
+			case Calendar.SUNDAY:
+				return "sunday";
+			default:
+				return null;
 		}
 	}
 
 	@Override
 	public boolean dayEquals(final Calendar calendar1, final Calendar calendar2) {
 		return calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR) && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)
-				&& calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
+			&& calendar1.get(Calendar.DAY_OF_MONTH) == calendar2.get(Calendar.DAY_OF_MONTH);
 	}
 
 	@Override
@@ -212,8 +216,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 				throw new ParseException("parse date failed");
 			}
 			return getCalendar(timeZone, parseUtil.parseInt(dateParts[0]), parseUtil.parseInt(dateParts[1]) - 1, parseUtil.parseInt(dateParts[2]));
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new ParseException("parse date failed");
 		}
 	}
@@ -281,8 +284,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 			try {
 				final int months = parseUtil.parseInt(substring);
 				return addMonths(onlyDay(baseValue), months);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				logger.debug("parse " + substring);
 			}
 		}
@@ -293,8 +295,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 			try {
 				final int weeks = parseUtil.parseInt(substring);
 				return addWeeks(onlyDay(baseValue), weeks);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				logger.debug("parse " + substring);
 			}
 		}
@@ -305,8 +306,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 			try {
 				final int days = parseUtil.parseInt(substring);
 				return addDays(onlyDay(baseValue), days);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				logger.debug("parse " + substring);
 			}
 		}
@@ -317,8 +317,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 			try {
 				final int hours = parseUtil.parseInt(substring);
 				return addHours(baseValue, hours);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				logger.debug("parse " + substring);
 			}
 		}
@@ -482,8 +481,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 	public Calendar max(final Calendar c1, final Calendar c2) {
 		if (c1 == null || c2 != null && isLE(c1, c2)) {
 			return c2;
-		}
-		else {
+		} else {
 			return c1;
 		}
 	}
@@ -492,8 +490,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 	public Calendar min(final Calendar c1, final Calendar c2) {
 		if (c1 == null || c2 != null && isGT(c1, c2)) {
 			return c2;
-		}
-		else {
+		} else {
 			return c1;
 		}
 	}
@@ -507,8 +504,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 	public Calendar parseTimestamp(final TimeZone timeZone, final String timestamp, final Calendar defaultCalendar) {
 		try {
 			return getCalendar(timeZone, parseUtil.parseLong(timestamp));
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return defaultCalendar;
 		}
 	}
