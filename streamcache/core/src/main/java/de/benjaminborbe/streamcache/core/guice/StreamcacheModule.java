@@ -1,13 +1,11 @@
-package de.benjaminborbe.streamcache.guice;
-
-import org.slf4j.Logger;
+package de.benjaminborbe.streamcache.core.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.streamcache.api.StreamcacheService;
-import de.benjaminborbe.streamcache.service.StreamcacheServiceImpl;
+import de.benjaminborbe.streamcache.core.service.StreamcacheServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
 
 public class StreamcacheModule extends AbstractModule {
 

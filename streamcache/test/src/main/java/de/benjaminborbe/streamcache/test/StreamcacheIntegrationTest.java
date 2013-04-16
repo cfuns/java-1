@@ -1,14 +1,13 @@
 package de.benjaminborbe.streamcache.test;
 
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-import org.osgi.framework.ServiceRegistration;
-
 import de.benjaminborbe.streamcache.api.StreamcacheService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 
 public class StreamcacheIntegrationTest extends TestCaseOsgi {
 
@@ -62,7 +61,7 @@ public class StreamcacheIntegrationTest extends TestCaseOsgi {
 		final Object serviceObject = getServiceObject(StreamcacheService.class.getName(), null);
 		final StreamcacheService service = (StreamcacheService) serviceObject;
 		assertNotNull("StreamcacheService is null", service);
-		assertEquals("de.benjaminborbe.streamcache.service.StreamcacheServiceImpl", service.getClass().getName());
+		assertEquals("de.benjaminborbe.streamcache.core.service.StreamcacheServiceImpl", service.getClass().getName());
 	}
 
 }
