@@ -1,13 +1,12 @@
 package de.benjaminborbe.wow.test;
 
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
-
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 import de.benjaminborbe.wow.api.WowService;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 
 public class WowIntegrationTest extends TestCaseOsgi {
 
@@ -61,7 +60,7 @@ public class WowIntegrationTest extends TestCaseOsgi {
 		final Object serviceObject = getServiceObject(WowService.class.getName(), null);
 		final WowService service = (WowService) serviceObject;
 		assertNotNull(service);
-		assertEquals("de.benjaminborbe.wow.service.WowServiceImpl", service.getClass().getName());
+		assertEquals("de.benjaminborbe.wow.core.service.WowServiceImpl", service.getClass().getName());
 	}
 
 }
