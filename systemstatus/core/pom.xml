@@ -41,8 +41,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Bundle-Activator>de.benjaminborbe.systemstatus.SystemstatusActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.systemstatus.*</Private-Package>
+						<Bundle-Activator>de.benjaminborbe.systemstatus.core.SystemstatusActivator</Bundle-Activator>
+						<Private-Package>de.benjaminborbe.systemstatus.core.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>${project.name}</Bundle-Name>

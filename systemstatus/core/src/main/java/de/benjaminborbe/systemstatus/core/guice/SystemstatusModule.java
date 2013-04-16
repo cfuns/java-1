@@ -1,13 +1,11 @@
-package de.benjaminborbe.systemstatus.guice;
-
-import org.slf4j.Logger;
+package de.benjaminborbe.systemstatus.core.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
-import de.benjaminborbe.systemstatus.service.SystemstatusServiceImpl;
+import de.benjaminborbe.systemstatus.core.service.SystemstatusServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
 
 public class SystemstatusModule extends AbstractModule {
 

@@ -1,13 +1,12 @@
 package de.benjaminborbe.systemstatus.test;
 
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
-
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 
 public class SystemstatusIntegrationTest extends TestCaseOsgi {
 
@@ -61,7 +60,7 @@ public class SystemstatusIntegrationTest extends TestCaseOsgi {
 		final Object serviceObject = getServiceObject(SystemstatusService.class.getName(), null);
 		final SystemstatusService service = (SystemstatusService) serviceObject;
 		assertNotNull(service);
-		assertEquals("de.benjaminborbe.systemstatus.service.SystemstatusServiceImpl", service.getClass().getName());
+		assertEquals("de.benjaminborbe.systemstatus.core.service.SystemstatusServiceImpl", service.getClass().getName());
 	}
 
 }

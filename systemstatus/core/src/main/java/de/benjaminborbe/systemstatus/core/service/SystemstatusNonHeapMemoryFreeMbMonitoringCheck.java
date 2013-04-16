@@ -1,13 +1,6 @@
-package de.benjaminborbe.systemstatus.service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+package de.benjaminborbe.systemstatus.core.service;
 
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -15,13 +8,19 @@ import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.tools.MonitoringCheckResultDto;
 import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
-import de.benjaminborbe.systemstatus.util.SystemstatusMemoryUtil;
+import de.benjaminborbe.systemstatus.core.util.SystemstatusMemoryUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintLongGE;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class SystemstatusNonHeapMemoryFreeMbMonitoringCheck implements MonitoringCheck {
 
@@ -37,9 +36,9 @@ public class SystemstatusNonHeapMemoryFreeMbMonitoringCheck implements Monitorin
 
 	@Inject
 	public SystemstatusNonHeapMemoryFreeMbMonitoringCheck(
-			final SystemstatusMemoryUtil systemstatusMemoryUtil,
-			final ValidationConstraintValidator validationConstraintValidator,
-			final ParseUtil parseUtil) {
+		final SystemstatusMemoryUtil systemstatusMemoryUtil,
+		final ValidationConstraintValidator validationConstraintValidator,
+		final ParseUtil parseUtil) {
 		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
 		this.validationConstraintValidator = validationConstraintValidator;
 		this.parseUtil = parseUtil;
@@ -68,12 +67,10 @@ public class SystemstatusNonHeapMemoryFreeMbMonitoringCheck implements Monitorin
 			final long expectedFree = getFreeMb(parameter);
 			if (free >= expectedFree) {
 				return new MonitoringCheckResultDto(this, true);
-			}
-			else {
+			} else {
 				return new MonitoringCheckResultDto(this, false, "free memory (" + free + "mb) less expected free memory (" + expectedFree + "mb)");
 			}
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return new MonitoringCheckResultDto(this, e);
 		}
 	}
@@ -95,8 +92,7 @@ public class SystemstatusNonHeapMemoryFreeMbMonitoringCheck implements Monitorin
 				constraints.add(new ValidationConstraintNotNull<Long>());
 				constraints.add(new ValidationConstraintLongGE(0));
 				result.addAll(validationConstraintValidator.validate(MEMORY_FREE_MB, memoryFreeMb, constraints));
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				result.add(new ValidationErrorSimple(MEMORY_FREE_MB + " invalid"));
 			}
 		}

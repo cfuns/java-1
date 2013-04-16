@@ -1,15 +1,13 @@
-package de.benjaminborbe.systemstatus.util;
+package de.benjaminborbe.systemstatus.core.util;
+
+import com.google.inject.Inject;
+import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
 
 public class SystemstatusPartitionUtil {
 

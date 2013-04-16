@@ -1,14 +1,12 @@
-package de.benjaminborbe.systemstatus.util;
+package de.benjaminborbe.systemstatus.core.util;
+
+import com.google.inject.Inject;
+import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
+import org.slf4j.Logger;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
 
 public class SystemstatusMemoryUtil {
 

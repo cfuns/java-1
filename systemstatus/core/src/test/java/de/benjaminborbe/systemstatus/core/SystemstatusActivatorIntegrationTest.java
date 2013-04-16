@@ -1,24 +1,22 @@
-package de.benjaminborbe.systemstatus;
+package de.benjaminborbe.systemstatus.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import com.google.inject.Injector;
+import de.benjaminborbe.monitoring.api.MonitoringCheck;
+import de.benjaminborbe.systemstatus.api.SystemstatusService;
+import de.benjaminborbe.systemstatus.core.guice.SystemstatusModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
+import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.monitoring.api.MonitoringCheck;
-import de.benjaminborbe.systemstatus.api.SystemstatusService;
-import de.benjaminborbe.systemstatus.guice.SystemstatusModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.tools.osgi.ServiceInfo;
-import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class SystemstatusActivatorIntegrationTest {
 
@@ -42,7 +40,7 @@ public class SystemstatusActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<String>();
+		final List<String> paths = new ArrayList<>();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
@@ -65,7 +63,7 @@ public class SystemstatusActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<String>();
+		final List<String> names = new ArrayList<>();
 		names.add(SystemstatusService.class.getName());
 		names.add(MonitoringCheck.class.getName());
 		names.add(MonitoringCheck.class.getName());

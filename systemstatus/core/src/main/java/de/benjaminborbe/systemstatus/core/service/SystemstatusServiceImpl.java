@@ -1,18 +1,16 @@
-package de.benjaminborbe.systemstatus.service;
-
-import java.util.Collection;
-
-import org.slf4j.Logger;
+package de.benjaminborbe.systemstatus.core.service;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
 import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
 import de.benjaminborbe.systemstatus.api.SystemstatusServiceException;
-import de.benjaminborbe.systemstatus.util.SystemstatusMemoryUtil;
-import de.benjaminborbe.systemstatus.util.SystemstatusPartitionUtil;
+import de.benjaminborbe.systemstatus.core.util.SystemstatusMemoryUtil;
+import de.benjaminborbe.systemstatus.core.util.SystemstatusPartitionUtil;
+import org.slf4j.Logger;
+
+import java.util.Collection;
 
 @Singleton
 public class SystemstatusServiceImpl implements SystemstatusService {
