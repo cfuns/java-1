@@ -24,20 +24,17 @@
 
 package com.glavsoft.viewer.swing;
 
+import com.glavsoft.rfb.IRepaintController;
+import com.glavsoft.rfb.client.PointerEventMessage;
+import com.glavsoft.rfb.protocol.ProtocolContext;
+import de.benjaminborbe.vnc.core.connector.VncPointerLocation;
+import org.slf4j.Logger;
+
+import javax.swing.event.MouseInputAdapter;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-
-import javax.swing.event.MouseInputAdapter;
-
-import org.slf4j.Logger;
-
-import com.glavsoft.rfb.IRepaintController;
-import com.glavsoft.rfb.client.PointerEventMessage;
-import com.glavsoft.rfb.protocol.ProtocolContext;
-
-import de.benjaminborbe.vnc.connector.VncPointerLocation;
 
 public class MouseEventListener extends MouseInputAdapter implements MouseWheelListener {
 
@@ -62,11 +59,11 @@ public class MouseEventListener extends MouseInputAdapter implements MouseWheelL
 	private final Logger logger;
 
 	public MouseEventListener(
-			final Logger logger,
-			final VncPointerLocation vncPointerLocation,
-			final IRepaintController repaintController,
-			final ProtocolContext context,
-			final double scaleFactor) {
+		final Logger logger,
+		final VncPointerLocation vncPointerLocation,
+		final IRepaintController repaintController,
+		final ProtocolContext context,
+		final double scaleFactor) {
 		this.logger = logger;
 		this.vncPointerLocation = vncPointerLocation;
 		this.repaintController = repaintController;

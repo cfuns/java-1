@@ -24,16 +24,6 @@
 
 package com.glavsoft.viewer.swing;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
-
-import javax.swing.JPanel;
-
-import org.slf4j.Logger;
-
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.drawing.Renderer;
 import com.glavsoft.rfb.IChangeSettingsListener;
@@ -44,8 +34,11 @@ import com.glavsoft.rfb.protocol.ProtocolContext;
 import com.glavsoft.rfb.protocol.ProtocolSettings;
 import com.glavsoft.transport.Reader;
 import com.glavsoft.viewer.ViewerGui;
+import de.benjaminborbe.vnc.core.connector.VncPointerLocation;
+import org.slf4j.Logger;
 
-import de.benjaminborbe.vnc.connector.VncPointerLocation;
+import javax.swing.*;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class Surface extends JPanel implements IRepaintController, IChangeSettingsListener {
@@ -122,8 +115,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 			keyEventListener.setConvertToAscii(convertToAscii);
 			addKeyListener(keyEventListener);
 			enableInputMethods(false);
-		}
-		else {
+		} else {
 			removeMouseListener(mouseEventListener);
 			removeMouseMotionListener(mouseEventListener);
 			removeMouseWheelListener(mouseEventListener);
@@ -208,7 +200,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 	public void repaintCursor() {
 		synchronized (cursor) {
 			repaint((int) (cursor.oldRX * scaleFactor), (int) (cursor.oldRY * scaleFactor), (int) Math.ceil(cursor.oldWidth * scaleFactor) + 1,
-					(int) Math.ceil(cursor.oldHeight * scaleFactor) + 1);
+				(int) Math.ceil(cursor.oldHeight * scaleFactor) + 1);
 			repaint((int) (cursor.rX * scaleFactor), (int) (cursor.rY * scaleFactor), (int) Math.ceil(cursor.width * scaleFactor) + 1, (int) Math.ceil(cursor.height * scaleFactor) + 1);
 		}
 	}
@@ -240,8 +232,7 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 			final ProtocolSettings settings = (ProtocolSettings) e.getSource();
 			setUserInputEnabled(!settings.isViewOnly(), settings.isConvertToAscii());
 			showCursor(settings.isShowRemoteCursor());
-		}
-		else if (UiSettings.isUiSettingsChangedFired(e)) {
+		} else if (UiSettings.isUiSettingsChangedFired(e)) {
 			final UiSettings settings = (UiSettings) e.getSource();
 			oldSize = getPreferredSize();
 			scaleFactor = settings.getScaleFactor();

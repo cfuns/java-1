@@ -1,18 +1,5 @@
 package com.glavsoft.viewer;
 
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
-
-import org.slf4j.Logger;
-
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.drawing.Renderer;
 import com.glavsoft.exceptions.AuthenticationFailedException;
@@ -38,12 +25,21 @@ import com.glavsoft.viewer.swing.ParametersHandler;
 import com.glavsoft.viewer.swing.RendererImpl;
 import com.glavsoft.viewer.swing.UiSettings;
 import com.google.inject.Inject;
-
 import de.benjaminborbe.tools.thread.Assert;
 import de.benjaminborbe.tools.thread.ThreadUtil;
-import de.benjaminborbe.vnc.VncConstants;
-import de.benjaminborbe.vnc.config.VncConfig;
-import de.benjaminborbe.vnc.connector.VncHistory;
+import de.benjaminborbe.vnc.core.VncConstants;
+import de.benjaminborbe.vnc.core.config.VncConfig;
+import de.benjaminborbe.vnc.core.connector.VncHistory;
+import org.slf4j.Logger;
+
+import javax.swing.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.List;
 
 public class ViewerHeadless implements Viewer, IRfbSessionListener, WindowListener, IChangeSettingsListener {
 
@@ -171,8 +167,7 @@ public class ViewerHeadless implements Viewer, IRfbSessionListener, WindowListen
 		if (workingSocket != null && workingSocket.isConnected()) {
 			try {
 				workingSocket.close();
-			}
-			catch (final IOException e) { /* nop */
+			} catch (final IOException e) { /* nop */
 			}
 			workingSocket = null;
 		}
@@ -206,7 +201,7 @@ public class ViewerHeadless implements Viewer, IRfbSessionListener, WindowListen
 
 	@Override
 	public void connect() throws UnsupportedProtocolVersionException, UnsupportedSecurityTypeException, AuthenticationFailedException, TransportException, FatalException,
-			UnknownHostException, IOException {
+		UnknownHostException, IOException {
 		logger.debug("connect - started");
 		workingSocket = connectToHost(connectionParams, settings);
 		workingSocket.setTcpNoDelay(true); // disable Nagle algorithm
@@ -305,8 +300,7 @@ public class ViewerHeadless implements Viewer, IRfbSessionListener, WindowListen
 						return m.isEmpty();
 					}
 				});
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 			}
 
 			workingProtocol.cleanUpSession();

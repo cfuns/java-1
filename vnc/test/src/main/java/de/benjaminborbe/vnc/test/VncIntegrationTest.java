@@ -1,15 +1,14 @@
 package de.benjaminborbe.vnc.test;
 
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
-
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 
 public class VncIntegrationTest extends TestCaseOsgi {
 
@@ -63,7 +62,7 @@ public class VncIntegrationTest extends TestCaseOsgi {
 		final Object serviceObject = getServiceObject(VncService.class.getName(), null);
 		final VncService service = (VncService) serviceObject;
 		assertNotNull(service);
-		assertEquals("de.benjaminborbe.vnc.service.VncServiceImpl", service.getClass().getName());
+		assertEquals("de.benjaminborbe.vnc.core.service.VncServiceImpl", service.getClass().getName());
 	}
 
 	public void testConnectFirstException() throws Exception {
@@ -73,8 +72,7 @@ public class VncIntegrationTest extends TestCaseOsgi {
 		try {
 			service.getScreenContent();
 			fail(VncServiceException.class.getSimpleName() + " expected");
-		}
-		catch (final VncServiceException e) {
+		} catch (final VncServiceException e) {
 			assertNotNull(e);
 		}
 
@@ -91,12 +89,10 @@ public class VncIntegrationTest extends TestCaseOsgi {
 				assertNotNull(vncScreenContent);
 				assertTrue(vncScreenContent.getWidth() > 0);
 				assertTrue(vncScreenContent.getHeight() > 0);
-			}
-			finally {
+			} finally {
 				service.disconnect();
 			}
-		}
-		catch (final VncServiceException e) {
+		} catch (final VncServiceException e) {
 		}
 	}
 

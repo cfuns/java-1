@@ -24,8 +24,6 @@
 
 package com.glavsoft.rfb.protocol;
 
-import org.slf4j.Logger;
-
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.drawing.Renderer;
 import com.glavsoft.exceptions.AuthenticationFailedException;
@@ -48,8 +46,8 @@ import com.glavsoft.rfb.protocol.state.HandshakeState;
 import com.glavsoft.rfb.protocol.state.ProtocolState;
 import com.glavsoft.transport.Reader;
 import com.glavsoft.transport.Writer;
-
-import de.benjaminborbe.vnc.connector.VncHistory;
+import de.benjaminborbe.vnc.core.connector.VncHistory;
+import org.slf4j.Logger;
 
 public class Protocol implements ProtocolContext, IChangeSettingsListener {
 
@@ -98,12 +96,12 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 	private final Logger logger;
 
 	public Protocol(
-			final Logger logger,
-			final VncHistory history,
-			final Reader reader,
-			final Writer writer,
-			final IPasswordRetriever passwordRetriever,
-			final ProtocolSettings settings) {
+		final Logger logger,
+		final VncHistory history,
+		final Reader reader,
+		final Writer writer,
+		final IPasswordRetriever passwordRetriever,
+		final ProtocolSettings settings) {
 		this.logger = logger;
 		this.history = history;
 		this.reader = reader;
@@ -223,7 +221,7 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 
 		sendSupportedEncodingsMessage(settings);
 		settings.addListener(this); // to support pixel format (color depth), and encodings
-																// changes
+		// changes
 		settings.addListener(repaintController);
 
 		sendRefreshMessage();
@@ -255,21 +253,21 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 	private PixelFormat createPixelFormat(final ProtocolSettings settings) {
 		final int serverBigEndianFlag = serverPixelFormat.bigEndianFlag;
 		switch (settings.getBitsPerPixel()) {
-		case ProtocolSettings.BPP_32:
-			return PixelFormat.create32bppPixelFormat(serverBigEndianFlag);
-		case ProtocolSettings.BPP_16:
-			return PixelFormat.create16bppPixelFormat(serverBigEndianFlag);
-		case ProtocolSettings.BPP_8:
-			return PixelFormat.create8bppBGRPixelFormat(serverBigEndianFlag);
-		case ProtocolSettings.BPP_6:
-			return PixelFormat.create6bppPixelFormat(serverBigEndianFlag);
-		case ProtocolSettings.BPP_3:
-			return PixelFormat.create3bppPixelFormat(serverBigEndianFlag);
-		case ProtocolSettings.BPP_SERVER_SETTINGS:
-			return serverPixelFormat;
-		default:
-			// unsupported bpp, use default
-			return PixelFormat.create32bppPixelFormat(serverBigEndianFlag);
+			case ProtocolSettings.BPP_32:
+				return PixelFormat.create32bppPixelFormat(serverBigEndianFlag);
+			case ProtocolSettings.BPP_16:
+				return PixelFormat.create16bppPixelFormat(serverBigEndianFlag);
+			case ProtocolSettings.BPP_8:
+				return PixelFormat.create8bppBGRPixelFormat(serverBigEndianFlag);
+			case ProtocolSettings.BPP_6:
+				return PixelFormat.create6bppPixelFormat(serverBigEndianFlag);
+			case ProtocolSettings.BPP_3:
+				return PixelFormat.create3bppPixelFormat(serverBigEndianFlag);
+			case ProtocolSettings.BPP_SERVER_SETTINGS:
+				return serverPixelFormat;
+			default:
+				// unsupported bpp, use default
+				return PixelFormat.create32bppPixelFormat(serverBigEndianFlag);
 		}
 	}
 
@@ -306,8 +304,7 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 		if (senderTask != null) {
 			try {
 				senderThread.join(1000);
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 				// nop
 			}
 			senderTask = null;
@@ -315,8 +312,7 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 		if (receiverTask != null) {
 			try {
 				receiverThread.join(1000);
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 				// nop
 			}
 			receiverTask = null;

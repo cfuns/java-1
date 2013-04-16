@@ -1,31 +1,5 @@
 package com.glavsoft.viewer;
 
-import java.awt.Container;
-import java.awt.Dialog.ModalityType;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.swing.JApplet;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JToggleButton;
-import javax.swing.SwingUtilities;
-
-import org.slf4j.Logger;
-
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.drawing.Renderer;
 import com.glavsoft.exceptions.AuthenticationFailedException;
@@ -55,10 +29,25 @@ import com.glavsoft.viewer.swing.gui.OptionsDialog;
 import com.glavsoft.viewer.swing.gui.PasswordDialog;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import de.benjaminborbe.vnc.core.config.VncConfig;
+import de.benjaminborbe.vnc.core.connector.VncHistory;
+import de.benjaminborbe.vnc.core.connector.VncPointerLocation;
+import org.slf4j.Logger;
 
-import de.benjaminborbe.vnc.config.VncConfig;
-import de.benjaminborbe.vnc.connector.VncHistory;
-import de.benjaminborbe.vnc.connector.VncPointerLocation;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.Dialog.ModalityType;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.LinkedList;
+import java.util.List;
 
 @Singleton
 public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionListener, WindowListener, IChangeSettingsListener {
@@ -198,8 +187,7 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 		if (workingSocket != null && workingSocket.isConnected()) {
 			try {
 				workingSocket.close();
-			}
-			catch (final IOException e) { /* nop */
+			} catch (final IOException e) { /* nop */
 			}
 		}
 		if (containerFrame != null) {
@@ -233,8 +221,7 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 	public void paint(final Graphics g) {
 		if (!isAppletStopped) {
 			super.paint(g);
-		}
-		else {
+		} else {
 			getContentPane().removeAll();
 			g.clearRect(0, 0, getWidth(), getHeight());
 			g.drawString("Disconnected", 10, 20);
@@ -302,31 +289,22 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 
 				workingProtocol.startNormalHandling(this, surface, clipboardController);
 				tryAgain = false;
-			}
-			catch (final UnsupportedProtocolVersionException e) {
+			} catch (final UnsupportedProtocolVersionException e) {
 				connectionManager.showReconnectDialog("Unsupported Protocol Version", e.getMessage());
 				logger.debug(e.getMessage());
-			}
-			catch (final UnsupportedSecurityTypeException e) {
+			} catch (final UnsupportedSecurityTypeException e) {
 				connectionManager.showReconnectDialog("Unsupported Security Type", e.getMessage());
 				logger.debug(e.getMessage());
-			}
-			catch (final AuthenticationFailedException e) {
+			} catch (final AuthenticationFailedException e) {
 				passwordFromParams = null;
 				connectionManager.showReconnectDialog("Authentication Failed", e.getMessage());
 				logger.debug(e.getMessage());
-			}
-			catch (final TransportException e) {
+			} catch (final TransportException e) {
 				if (!isAppletStopped) {
 					connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
 					logger.debug(e.getMessage());
 				}
-			}
-			catch (final IOException e) {
-				connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
-				logger.debug(e.getMessage());
-			}
-			catch (final FatalException e) {
+			} catch (final IOException | FatalException e) {
 				connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
 				logger.debug(e.getMessage());
 			}
@@ -384,7 +362,7 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 
 		containerManager.addZoomButtons();
 
-		kbdButtons = new LinkedList<JComponent>();
+		kbdButtons = new LinkedList<>();
 
 		buttonsBar.createStrut();
 
@@ -414,8 +392,7 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 			public void itemStateChanged(final ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					context.sendMessage(new KeyEventMessage(logger, Keymap.K_CTRL_LEFT, true));
-				}
-				else {
+				} else {
 					context.sendMessage(new KeyEventMessage(logger, Keymap.K_CTRL_LEFT, false));
 				}
 				setSurfaceToHandleKbdFocus();
@@ -429,8 +406,7 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 			public void itemStateChanged(final ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					context.sendMessage(new KeyEventMessage(logger, Keymap.K_ALT_LEFT, true));
-				}
-				else {
+				} else {
 					context.sendMessage(new KeyEventMessage(logger, Keymap.K_ALT_LEFT, false));
 				}
 				setSurfaceToHandleKbdFocus();
@@ -498,10 +474,10 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 		message.append("Host: ").append(connectionParams.hostName).append(" Port: ").append(connectionParams.getPortNumber()).append("\n\n");
 
 		message.append("Desktop geometry: ").append(String.valueOf(surface.getWidth())).append(" \u00D7 ") // multiplication
-																																																				// sign
-				.append(String.valueOf(surface.getHeight())).append("\n");
+			// sign
+			.append(String.valueOf(surface.getHeight())).append("\n");
 		message.append("Color format: ").append(String.valueOf(Math.round(Math.pow(2, workingProtocol.getPixelFormat().depth)))).append(" colors (")
-				.append(String.valueOf(workingProtocol.getPixelFormat().depth)).append(" bits)\n");
+			.append(String.valueOf(workingProtocol.getPixelFormat().depth)).append(" bits)\n");
 		message.append("Current protocol version: ").append(workingProtocol.getProtocolVersion());
 		if (workingProtocol.isTight()) {
 			message.append("tight");
