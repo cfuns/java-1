@@ -17,8 +17,6 @@ public class TestUtil {
 
 	public static final String SHORTENURL = "http://bb/bb/s";
 
-	public static final String FULLNAME = "";
-
 	public static final String LOGIN_USER = "testuser";
 
 	public static final String LOGIN_ADMIN = "testadmin";

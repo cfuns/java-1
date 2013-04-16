@@ -19,7 +19,7 @@ public class StorageConfigImpl extends ConfigurationBase implements StorageConfi
 
 	private final ConfigurationDescriptionInteger port = new ConfigurationDescriptionInteger(9160, "CassandraPort", "Port of CassandraServer");
 
-	private final ConfigurationDescriptionString keyspace = new ConfigurationDescriptionString("test", "CassandraKeyspace", "Keyspace of CassandraServer");
+	private final ConfigurationDescriptionString keyspace = new ConfigurationDescriptionString("bb_test", "CassandraKeyspace", "Keyspace of CassandraServer");
 
 	private final ConfigurationDescriptionString encoding = new ConfigurationDescriptionString("UTF8", "CassandraEncoding", "Encoding of CassandraServer");
 
