@@ -42,7 +42,7 @@
 					</supportedProjectTypes>
 					<instructions>
 						<Bundle-Activator>de.benjaminborbe.worktime.core.WorktimeActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.worktime.*</Private-Package>
+						<Private-Package>de.benjaminborbe.worktime.core.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>${project.name}</Bundle-Name>
