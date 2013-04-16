@@ -1,10 +1,7 @@
-package de.benjaminborbe.worktime.guice;
-
-import org.slf4j.Logger;
+package de.benjaminborbe.worktime.core.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -14,10 +11,11 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 import de.benjaminborbe.worktime.api.WorktimeRecorder;
 import de.benjaminborbe.worktime.api.WorktimeService;
-import de.benjaminborbe.worktime.service.WorktimeServiceImpl;
-import de.benjaminborbe.worktime.util.WorktimeRecorderImpl;
-import de.benjaminborbe.worktime.util.WorktimeStorageService;
-import de.benjaminborbe.worktime.util.WorktimeStorageServiceImpl;
+import de.benjaminborbe.worktime.core.service.WorktimeServiceImpl;
+import de.benjaminborbe.worktime.core.util.WorktimeRecorderImpl;
+import de.benjaminborbe.worktime.core.util.WorktimeStorageService;
+import de.benjaminborbe.worktime.core.util.WorktimeStorageServiceImpl;
+import org.slf4j.Logger;
 
 public class WorktimeModule extends AbstractModule {
 

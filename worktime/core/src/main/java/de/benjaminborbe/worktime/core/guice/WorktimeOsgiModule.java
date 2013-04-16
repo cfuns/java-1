@@ -1,14 +1,12 @@
-package de.benjaminborbe.worktime.guice;
+package de.benjaminborbe.worktime.core.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
+import com.google.inject.AbstractModule;
+import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.storage.api.StorageService;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
-import com.google.inject.AbstractModule;
-
-import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.storage.api.StorageService;
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class WorktimeOsgiModule extends AbstractModule {
 

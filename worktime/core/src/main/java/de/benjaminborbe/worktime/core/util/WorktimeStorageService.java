@@ -1,9 +1,9 @@
-package de.benjaminborbe.worktime.util;
+package de.benjaminborbe.worktime.core.util;
+
+import de.benjaminborbe.storage.api.StorageException;
 
 import java.util.Calendar;
 import java.util.Collection;
-
-import de.benjaminborbe.storage.api.StorageException;
 
 public interface WorktimeStorageService {
 

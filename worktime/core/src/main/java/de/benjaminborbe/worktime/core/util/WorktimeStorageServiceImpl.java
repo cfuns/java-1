@@ -1,17 +1,7 @@
-package de.benjaminborbe.worktime.util;
-
-import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.slf4j.Logger;
+package de.benjaminborbe.worktime.core.util;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
@@ -22,6 +12,14 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class WorktimeStorageServiceImpl implements WorktimeStorageService {
@@ -46,11 +44,11 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 
 	@Inject
 	public WorktimeStorageServiceImpl(
-			final Logger logger,
-			final StorageService storageService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil) {
+		final Logger logger,
+		final StorageService storageService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.calendarUtil = calendarUtil;
@@ -65,7 +63,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 		final String dateString = calendarUtil.toDateString(worktimeValue.getDate());
 		final String inOffice = String.valueOf(worktimeValue.getInOffice());
 		storageService.set(COLUMNFAMILY, new StorageValue(dateTimeString, getEncoding()),
-				new StorageValueMap(getEncoding()).add(FIELD_IN_OFFICE, inOffice).add(FIELD_DATETIME, dateTimeString).add(FIELD_DATE, dateString));
+			new StorageValueMap(getEncoding()).add(FIELD_IN_OFFICE, inOffice).add(FIELD_DATETIME, dateTimeString).add(FIELD_DATE, dateString));
 	}
 
 	private String getEncoding() {
@@ -75,7 +73,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 	@Override
 	public Collection<WorktimeValue> findByDate(final Calendar calendar) throws StorageException {
 		logger.trace("findByDate");
-		final Set<WorktimeValue> result = new HashSet<WorktimeValue>();
+		final Set<WorktimeValue> result = new HashSet<>();
 		final String dateString = calendarUtil.toDateString(calendar);
 		final StorageIterator i = storageService.keyIterator(COLUMNFAMILY, new StorageValueMap(getEncoding()).add(FIELD_DATE, dateString));
 		while (i.hasNext()) {
@@ -85,11 +83,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 				final String inOfficeString = list.get(0).getString();
 				final String dateTimeString = list.get(1).getString();
 				result.add(new WorktimeValueImpl(calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), dateTimeString), parseUtil.parseBoolean(inOfficeString)));
-			}
-			catch (final ParseException e) {
-				logger.error(e.getClass().getName(), e);
-			}
-			catch (final UnsupportedEncodingException e) {
+			} catch (final ParseException | UnsupportedEncodingException e) {
 				logger.error(e.getClass().getName(), e);
 			}
 		}

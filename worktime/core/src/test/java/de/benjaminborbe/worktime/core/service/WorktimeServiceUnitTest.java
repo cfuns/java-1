@@ -1,18 +1,17 @@
-package de.benjaminborbe.worktime.service;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.Calendar;
-import java.util.TimeZone;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
+package de.benjaminborbe.worktime.core.service;
 
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.tools.util.ThreadRunnerMock;
+import org.easymock.EasyMock;
+import org.junit.Test;
+
+import java.util.Calendar;
+import java.util.TimeZone;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class WorktimeServiceUnitTest {
 

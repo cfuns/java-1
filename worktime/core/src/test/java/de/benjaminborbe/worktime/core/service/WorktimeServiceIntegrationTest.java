@@ -1,14 +1,12 @@
-package de.benjaminborbe.worktime.service;
-
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+package de.benjaminborbe.worktime.core.service;
 
 import com.google.inject.Injector;
-
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.worktime.api.WorktimeService;
-import de.benjaminborbe.worktime.guice.WorktimeModulesMock;
+import de.benjaminborbe.worktime.core.guice.WorktimeModulesMock;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class WorktimeServiceIntegrationTest {
 

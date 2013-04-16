@@ -1,13 +1,11 @@
-package de.benjaminborbe.worktime.service;
-
-import org.slf4j.Logger;
+package de.benjaminborbe.worktime.core.service;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.worktime.api.WorktimeRecorder;
 import de.benjaminborbe.worktime.api.WorktimeRecorderException;
+import org.slf4j.Logger;
 
 @Singleton
 public class WorktimeCronJob implements CronJob {
@@ -35,8 +33,7 @@ public class WorktimeCronJob implements CronJob {
 		logger.trace("execute WorktimeCronJob");
 		try {
 			worktimeRecorder.recordWorktime();
-		}
-		catch (final WorktimeRecorderException e) {
+		} catch (final WorktimeRecorderException e) {
 			logger.error("WorktimeRecorderException", e);
 		}
 	}

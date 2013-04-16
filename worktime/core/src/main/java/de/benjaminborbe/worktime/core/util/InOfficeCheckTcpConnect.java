@@ -1,13 +1,12 @@
-package de.benjaminborbe.worktime.util;
+package de.benjaminborbe.worktime.core.util;
+
+import com.google.inject.Inject;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
 
 public class InOfficeCheckTcpConnect {
 
@@ -39,23 +38,19 @@ public class InOfficeCheckTcpConnect {
 				final String msg = "connected successful to " + hostname + ":" + port;
 				logger.trace(msg);
 				return true;
-			}
-			else {
+			} else {
 				final String msg = "connecting failed to " + hostname + ":" + port;
 				logger.trace(msg);
 				return false;
 			}
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.trace("check tcp-connect to " + hostname + ":" + port + " failed");
 			return false;
-		}
-		finally {
+		} finally {
 			try {
 				if (socket != null)
 					socket.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 				logger.trace("IOException while close socket", e);
 			}
 		}

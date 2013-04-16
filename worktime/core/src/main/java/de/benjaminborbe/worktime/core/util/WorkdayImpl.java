@@ -1,8 +1,8 @@
-package de.benjaminborbe.worktime.util;
-
-import java.util.Calendar;
+package de.benjaminborbe.worktime.core.util;
 
 import de.benjaminborbe.worktime.api.Workday;
+
+import java.util.Calendar;
 
 public class WorkdayImpl implements Workday {
 

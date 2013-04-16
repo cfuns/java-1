@@ -1,17 +1,15 @@
-package de.benjaminborbe.worktime.util;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.slf4j.Logger;
+package de.benjaminborbe.worktime.core.util;
 
 import com.google.inject.Inject;
-
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
+import org.slf4j.Logger;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class InOfficeCheckHttpContent {
 
@@ -54,17 +52,14 @@ public class InOfficeCheckHttpContent {
 				return false;
 			}
 			final String content = httpDownloadUtil.getContent(result);
-			return content != null && content.indexOf(matchString) != -1;
-		}
-		catch (final MalformedURLException e) {
+			return content != null && content.contains(matchString);
+		} catch (final MalformedURLException e) {
 			logger.warn("MalformedURLException");
 			return false;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			logger.warn("IOException");
 			return false;
-		}
-		catch (final HttpDownloaderException e) {
+		} catch (final HttpDownloaderException e) {
 			logger.trace("HttpDownloaderException");
 			return false;
 		}

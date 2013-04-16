@@ -1,20 +1,18 @@
-package de.benjaminborbe.worktime;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
+package de.benjaminborbe.worktime.core;
 
 import com.google.inject.Inject;
-
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.worktime.api.WorktimeService;
-import de.benjaminborbe.worktime.guice.WorktimeModules;
-import de.benjaminborbe.worktime.service.WorktimeCronJob;
+import de.benjaminborbe.worktime.core.guice.WorktimeModules;
+import de.benjaminborbe.worktime.core.service.WorktimeCronJob;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class WorktimeActivator extends BaseBundleActivator {
 
@@ -31,7 +29,7 @@ public class WorktimeActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, worktimeCronJob, worktimeCronJob.getClass().getName()));
 		result.add(new ServiceInfo(WorktimeService.class, worktimeService));
 		return result;

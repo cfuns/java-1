@@ -1,14 +1,13 @@
-package de.benjaminborbe.worktime.guice;
-
-import java.util.Arrays;
-import java.util.Collection;
+package de.benjaminborbe.worktime.core.guice;
 
 import com.google.inject.Module;
-
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModuleMock;
 import de.benjaminborbe.tools.osgi.mock.PeaberryModuleMock;
 import de.benjaminborbe.tools.osgi.mock.ServletModuleMock;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 public class WorktimeModulesMock implements Modules {
 

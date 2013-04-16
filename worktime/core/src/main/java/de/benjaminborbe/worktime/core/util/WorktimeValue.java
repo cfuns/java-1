@@ -1,4 +1,4 @@
-package de.benjaminborbe.worktime.util;
+package de.benjaminborbe.worktime.core.util;
 
 import java.util.Calendar;
 

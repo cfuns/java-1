@@ -41,7 +41,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Bundle-Activator>de.benjaminborbe.worktime.WorktimeActivator</Bundle-Activator>
+						<Bundle-Activator>de.benjaminborbe.worktime.core.WorktimeActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.worktime.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
@@ -51,10 +51,13 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
+						<Import-Package>
+							de.benjaminborbe.worktime.api,
+							${felix_plugin_imports}
+						</Import-Package>
 						<Import-Service></Import-Service>
-						<Export-Package>de.benjaminborbe.worktime.api</Export-Package>
-						<Export-Service></Export-Service>
+						<Export-Package></Export-Package>
+						<Export-Service>de.benjaminborbe.worktime.api.WorktimeService</Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>

@@ -1,15 +1,13 @@
-package de.benjaminborbe.worktime.util;
+package de.benjaminborbe.worktime.core.util;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
+import com.google.inject.Injector;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.worktime.core.guice.WorktimeModulesMock;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.google.inject.Injector;
-
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.worktime.guice.WorktimeModulesMock;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class InOfficeCheckHttpContentIntegrationTest {
 

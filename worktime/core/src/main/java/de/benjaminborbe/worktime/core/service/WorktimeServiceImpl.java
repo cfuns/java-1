@@ -1,18 +1,7 @@
-package de.benjaminborbe.worktime.service;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.slf4j.Logger;
+package de.benjaminborbe.worktime.core.service;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -21,10 +10,19 @@ import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.worktime.api.Workday;
 import de.benjaminborbe.worktime.api.WorktimeService;
 import de.benjaminborbe.worktime.api.WorktimeServiceException;
-import de.benjaminborbe.worktime.util.InOfficeCheckHttpContent;
-import de.benjaminborbe.worktime.util.WorkdayImpl;
-import de.benjaminborbe.worktime.util.WorktimeStorageService;
-import de.benjaminborbe.worktime.util.WorktimeValue;
+import de.benjaminborbe.worktime.core.util.InOfficeCheckHttpContent;
+import de.benjaminborbe.worktime.core.util.WorkdayImpl;
+import de.benjaminborbe.worktime.core.util.WorktimeStorageService;
+import de.benjaminborbe.worktime.core.util.WorktimeValue;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class WorktimeServiceImpl implements WorktimeService {
@@ -44,8 +42,7 @@ public class WorktimeServiceImpl implements WorktimeService {
 		public void run() {
 			try {
 				workdays.add(getWorkday(calendar));
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
 			}
 		}
@@ -73,12 +70,12 @@ public class WorktimeServiceImpl implements WorktimeService {
 
 	@Inject
 	public WorktimeServiceImpl(
-			final Logger logger,
-			final WorktimeStorageService worktimeStorageService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ThreadRunner threadRunner,
-			final InOfficeCheckHttpContent inOfficeCheck) {
+		final Logger logger,
+		final WorktimeStorageService worktimeStorageService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ThreadRunner threadRunner,
+		final InOfficeCheckHttpContent inOfficeCheck) {
 		this.logger = logger;
 		this.worktimeStorageService = worktimeStorageService;
 		this.calendarUtil = calendarUtil;
@@ -90,21 +87,21 @@ public class WorktimeServiceImpl implements WorktimeService {
 	@Override
 	public List<Workday> getTimes(final int days) {
 		logger.trace("get times for " + days + " days");
-		final Set<Workday> workdays = new HashSet<Workday>();
+		final Set<Workday> workdays = new HashSet<>();
 		final Collection<Calendar> calendars = getLastDays(days);
 
-		final Set<Thread> threads = new HashSet<Thread>();
+		final Set<Thread> threads = new HashSet<>();
 		for (final Calendar calendar : calendars) {
 			threads.add(threadRunner.run("workday-calc", new WorkdayCalcRunnable(calendar, workdays)));
 		}
 		for (final Thread thread : threads) {
 			try {
 				thread.join();
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
+				// nop
 			}
 		}
-		final List<Workday> result = new ArrayList<Workday>(workdays);
+		final List<Workday> result = new ArrayList<>(workdays);
 		Collections.sort(result, new WorkdayComparator());
 		return result;
 	}
@@ -124,7 +121,7 @@ public class WorktimeServiceImpl implements WorktimeService {
 	}
 
 	protected Collection<Calendar> getLastDays(final int amount) {
-		final List<Calendar> calendars = new ArrayList<Calendar>();
+		final List<Calendar> calendars = new ArrayList<>();
 		final Calendar now = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
 		for (int i = 0; i < amount; ++i) {
 			calendars.add(calendarUtil.subDays(now, i));
