@@ -41,8 +41,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Bundle-Activator>de.benjaminborbe.websearch.WebsearchActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.websearch.*</Private-Package>
+						<Bundle-Activator>de.benjaminborbe.websearch.core.WebsearchActivator</Bundle-Activator>
+						<Private-Package>de.benjaminborbe.websearch.core.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>${project.name}</Bundle-Name>
