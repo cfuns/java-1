@@ -1,13 +1,12 @@
 package de.benjaminborbe.search.test;
 
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
-
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
 
 public class SearchIntegrationTest extends TestCaseOsgi {
 
@@ -51,7 +50,7 @@ public class SearchIntegrationTest extends TestCaseOsgi {
 		final Object serviceObject = getServiceObject(SearchService.class.getName(), null);
 		final SearchService service = (SearchService) serviceObject;
 		assertNotNull(service);
-		assertEquals("de.benjaminborbe.search.service.SearchServiceImpl", service.getClass().getName());
+		assertEquals("de.benjaminborbe.search.core.service.SearchServiceImpl", service.getClass().getName());
 	}
 
 }

@@ -41,8 +41,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Bundle-Activator>de.benjaminborbe.search.SearchActivator</Bundle-Activator>
-						<Private-Package>de.benjaminborbe.search.*</Private-Package>
+						<Bundle-Activator>de.benjaminborbe.search.core.SearchActivator</Bundle-Activator>
+						<Private-Package>de.benjaminborbe.search.core.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>${project.name}</Bundle-Name>
