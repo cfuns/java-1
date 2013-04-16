@@ -1,27 +1,25 @@
 package de.benjaminborbe.storage.config;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StorageConfigImpl extends ConfigurationBase implements StorageConfig {
 
-	private final ConfigurationDescriptionString hostname = new ConfigurationDescriptionString("127.0.0.1", "CassandraHost", "Hostname of CassandraServer");
+	private final ConfigurationDescriptionString hostname = new ConfigurationDescriptionString("cassandra", "CassandraHost", "Hostname of CassandraServer");
 
 	private final ConfigurationDescriptionInteger port = new ConfigurationDescriptionInteger(9160, "CassandraPort", "Port of CassandraServer");
 
-	private final ConfigurationDescriptionString keyspace = new ConfigurationDescriptionString("bb", "CassandraKeyspace", "Keyspace of CassandraServer");
+	private final ConfigurationDescriptionString keyspace = new ConfigurationDescriptionString("test", "CassandraKeyspace", "Keyspace of CassandraServer");
 
 	private final ConfigurationDescriptionString encoding = new ConfigurationDescriptionString("UTF8", "CassandraEncoding", "Encoding of CassandraServer");
 
