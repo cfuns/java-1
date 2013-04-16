@@ -1,4 +1,4 @@
-package de.benjaminborbe.translate.service;
+package de.benjaminborbe.translate.core.service;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

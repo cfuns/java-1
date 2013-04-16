@@ -1,11 +1,9 @@
-package de.benjaminborbe.translate.guice;
-
-import org.slf4j.Logger;
+package de.benjaminborbe.translate.core.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
 
 public class TranslateModule extends AbstractModule {
 
