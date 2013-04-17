@@ -13,7 +13,7 @@ public class Grid {
 	}
 
 	public Collection<Coordinate> getCoordinates(final Coordinate c1, final Coordinate c2) {
-		final Set<Coordinate> result = new HashSet<Coordinate>();
+		final Set<Coordinate> result = new HashSet<>();
 		for (final Coordinate coordinate : coordinates) {
 			if (isBetween(coordinate, c1, c2)) {
 				result.add(coordinate);

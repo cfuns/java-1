@@ -1,23 +1,6 @@
 package de.benjaminborbe.projectile.dao;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.projectile.util.MapperProjectileReportIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
@@ -30,6 +13,21 @@ import de.benjaminborbe.tools.mapper.MapperDouble;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 @RunWith(Parameterized.class)
 public class ProjectileReportBeanMapperUnitTest {
@@ -45,35 +43,35 @@ public class ProjectileReportBeanMapperUnitTest {
 
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<Object[]>();
-		result.add(new Object[] { "id", "1337" });
-		result.add(new Object[] { "created", "123456" });
-		result.add(new Object[] { "modified", "123456" });
-		result.add(new Object[] { "name", "test" });
+		final List<Object[]> result = new ArrayList<>();
+		result.add(new Object[]{"id", "1337"});
+		result.add(new Object[]{"created", "123456"});
+		result.add(new Object[]{"modified", "123456"});
+		result.add(new Object[]{"name", "test"});
 
-		result.add(new Object[] { "weekIntern", "12.34" });
-		result.add(new Object[] { "weekExtern", "12.34" });
-		result.add(new Object[] { "weekTarget", "12.34" });
-		result.add(new Object[] { "weekBillable", "12.34" });
-		result.add(new Object[] { "weekUpdateDate", "123456" });
+		result.add(new Object[]{"weekIntern", "12.34"});
+		result.add(new Object[]{"weekExtern", "12.34"});
+		result.add(new Object[]{"weekTarget", "12.34"});
+		result.add(new Object[]{"weekBillable", "12.34"});
+		result.add(new Object[]{"weekUpdateDate", "123456"});
 
-		result.add(new Object[] { "monthIntern", "12.34" });
-		result.add(new Object[] { "monthExtern", "12.34" });
-		result.add(new Object[] { "monthTarget", "12.34" });
-		result.add(new Object[] { "monthBillable", "12.34" });
-		result.add(new Object[] { "monthUpdateDate", "123456" });
+		result.add(new Object[]{"monthIntern", "12.34"});
+		result.add(new Object[]{"monthExtern", "12.34"});
+		result.add(new Object[]{"monthTarget", "12.34"});
+		result.add(new Object[]{"monthBillable", "12.34"});
+		result.add(new Object[]{"monthUpdateDate", "123456"});
 
-		result.add(new Object[] { "yearIntern", "12.34" });
-		result.add(new Object[] { "yearExtern", "12.34" });
-		result.add(new Object[] { "yearTarget", "12.34" });
-		result.add(new Object[] { "yearBillable", "12.34" });
-		result.add(new Object[] { "yearUpdateDate", "123456" });
+		result.add(new Object[]{"yearIntern", "12.34"});
+		result.add(new Object[]{"yearExtern", "12.34"});
+		result.add(new Object[]{"yearTarget", "12.34"});
+		result.add(new Object[]{"yearBillable", "12.34"});
+		result.add(new Object[]{"yearUpdateDate", "123456"});
 
 		return result;
 	}
 
 	private ProjectileReportBeanMapper getProjectileReportBeanMapper() {
-		final Provider<ProjectileReportBean> provider = new ProviderMock<ProjectileReportBean>(ProjectileReportBean.class);
+		final Provider<ProjectileReportBean> provider = new ProviderMock<>(ProjectileReportBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -95,7 +93,7 @@ public class ProjectileReportBeanMapperUnitTest {
 	@Test
 	public void testMap() throws Exception {
 		final ProjectileReportBeanMapper mapper = getProjectileReportBeanMapper();
-		final Map<String, String> inputData = new HashMap<String, String>();
+		final Map<String, String> inputData = new HashMap<>();
 		inputData.put(fieldName, fieldValue);
 		final ProjectileReportBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

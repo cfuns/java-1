@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class HttpContext {
 
-	private final Map<String, String> data = new HashMap<String, String>();
+	private final Map<String, String> data = new HashMap<>();
 
 	public Map<String, String> getData() {
 		return data;

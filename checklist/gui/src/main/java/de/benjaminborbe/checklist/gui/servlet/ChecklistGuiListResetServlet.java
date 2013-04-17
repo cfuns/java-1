@@ -1,17 +1,8 @@
 package de.benjaminborbe.checklist.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -30,6 +21,12 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.util.RedirectWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class ChecklistGuiListResetServlet extends ChecklistGuiWebsiteServlet {
@@ -44,14 +41,14 @@ public class ChecklistGuiListResetServlet extends ChecklistGuiWebsiteServlet {
 
 	@Inject
 	public ChecklistGuiListResetServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final ChecklistService checklistService,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final ChecklistService checklistService,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.checklistService = checklistService;
 		this.authenticationService = authenticationService;
@@ -60,7 +57,7 @@ public class ChecklistGuiListResetServlet extends ChecklistGuiWebsiteServlet {
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ChecklistListIdentifier checklistListIdentifier = new ChecklistListIdentifier(request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_ID));
@@ -68,14 +65,7 @@ public class ChecklistGuiListResetServlet extends ChecklistGuiWebsiteServlet {
 			for (final ChecklistEntry entry : checklistService.getEntries(sessionIdentifier, checklistListIdentifier)) {
 				checklistService.uncomplete(sessionIdentifier, entry.getId());
 			}
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final ChecklistServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final ValidationException e) {
+		} catch (final AuthenticationServiceException | ValidationException | ChecklistServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

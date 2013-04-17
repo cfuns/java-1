@@ -1,22 +1,20 @@
 package de.benjaminborbe.eventbus.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.eventbus.api.EventbusInitializedEvent;
 import de.benjaminborbe.eventbus.api.EventbusInitializedEventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.guice.EventbusModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class EventbusServiceIntegrationTest {
 
@@ -35,7 +33,7 @@ public class EventbusServiceIntegrationTest {
 		assertNotNull(Eventbus);
 		assertEquals(EventbusServiceImpl.class, Eventbus.getClass());
 
-		final List<EventbusInitializedEvent> events = new ArrayList<EventbusInitializedEvent>();
+		final List<EventbusInitializedEvent> events = new ArrayList<>();
 
 		assertEquals(0, Eventbus.getHandlerCount(EventbusInitializedEvent.TYPE));
 		assertFalse(Eventbus.isEventHandled(EventbusInitializedEvent.TYPE));

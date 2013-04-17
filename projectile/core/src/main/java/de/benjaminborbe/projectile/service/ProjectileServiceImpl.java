@@ -129,7 +129,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 			expectPermission(sessionIdentifier);
 			logger.debug("getSlacktimeReportAllTeams");
 
-			final List<ProjectileSlacktimeReport> result = new ArrayList<ProjectileSlacktimeReport>();
+			final List<ProjectileSlacktimeReport> result = new ArrayList<>();
 
 			final EntityIterator<ProjectileTeamBean> it = projectileTeamDao.getEntityIterator();
 			while (it.hasNext()) {
@@ -137,7 +137,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 
 				final Collection<UserIdentifier> users = getUsersForTeam(sessionIdentifier, team.getId());
 
-				final List<ProjectileSlacktimeReport> userResult = new ArrayList<ProjectileSlacktimeReport>();
+				final List<ProjectileSlacktimeReport> userResult = new ArrayList<>();
 				final EntityIterator<ProjectileReportBean> i = projectileReportDao.getEntityIterator();
 				while (i.hasNext()) {
 					final ProjectileReportBean report = i.next();
@@ -171,15 +171,13 @@ public class ProjectileServiceImpl implements ProjectileService {
 			expectProjectileAdminPermission(sessionIdentifier);
 
 			logger.debug("getSlacktimeReportAllUsers");
-			final List<ProjectileSlacktimeReport> result = new ArrayList<ProjectileSlacktimeReport>();
+			final List<ProjectileSlacktimeReport> result = new ArrayList<>();
 			final EntityIterator<ProjectileReportBean> i = projectileReportDao.getEntityIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new ProjectileServiceException(e);
-		} catch (final EntityIteratorException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new ProjectileServiceException(e);
 		}
 	}
@@ -200,7 +198,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 			final ProjectileTeamBean team = projectileTeamDao.load(projectileTeamIdentifier);
 			final Collection<UserIdentifier> users = getUsersForTeam(sessionIdentifier, projectileTeamIdentifier);
 
-			final List<ProjectileSlacktimeReport> result = new ArrayList<ProjectileSlacktimeReport>();
+			final List<ProjectileSlacktimeReport> result = new ArrayList<>();
 			final EntityIterator<ProjectileReportBean> i = projectileReportDao.getEntityIterator();
 			while (i.hasNext()) {
 				final ProjectileReportBean report = i.next();
@@ -256,11 +254,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
 			projectileCsvReportImporter.importCsvReport(calendarUtil.now(), content, interval);
-		} catch (final StorageException e) {
-			throw new ProjectileServiceException(e);
-		} catch (final ParseException e) {
-			throw new ProjectileServiceException(e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException | ParseException e) {
 			throw new ProjectileServiceException(e);
 		}
 	}
@@ -277,15 +271,13 @@ public class ProjectileServiceImpl implements ProjectileService {
 	@Override
 	public Collection<ProjectileTeam> listTeams() throws ProjectileServiceException, PermissionDeniedException {
 		try {
-			final List<ProjectileTeam> result = new ArrayList<ProjectileTeam>();
+			final List<ProjectileTeam> result = new ArrayList<>();
 			final EntityIterator<ProjectileTeamBean> i = projectileTeamDao.getEntityIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final EntityIteratorException e) {
-			throw new ProjectileServiceException(e);
-		} catch (final StorageException e) {
+		} catch (final EntityIteratorException | StorageException e) {
 			throw new ProjectileServiceException(e);
 		}
 	}
@@ -456,11 +448,7 @@ public class ProjectileServiceImpl implements ProjectileService {
 				return new ProjectileTeamIdentifier(i.next().getString());
 			}
 			return null;
-		} catch (final StorageException e) {
-			throw new ProjectileServiceException(e);
-		} catch (final UnsupportedEncodingException e) {
-			throw new ProjectileServiceException(e);
-		} catch (final AuthenticationServiceException e) {
+		} catch (final StorageException | AuthenticationServiceException | UnsupportedEncodingException e) {
 			throw new ProjectileServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());
@@ -475,18 +463,14 @@ public class ProjectileServiceImpl implements ProjectileService {
 			authenticationService.isLoggedIn(sessionIdentifier);
 			logger.debug("removeUserFromTeam");
 
-			final List<UserIdentifier> result = new ArrayList<UserIdentifier>();
+			final List<UserIdentifier> result = new ArrayList<>();
 
 			final StorageIterator i = projectileTeamUserManyToManyRelation.getA(projectileTeamIdentifier);
 			while (i.hasNext()) {
 				result.add(new UserIdentifier(i.next().getString()));
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new ProjectileServiceException(e);
-		} catch (final UnsupportedEncodingException e) {
-			throw new ProjectileServiceException(e);
-		} catch (final AuthenticationServiceException e) {
+		} catch (final StorageException | AuthenticationServiceException | UnsupportedEncodingException e) {
 			throw new ProjectileServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());

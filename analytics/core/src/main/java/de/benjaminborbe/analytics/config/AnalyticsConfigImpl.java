@@ -1,14 +1,7 @@
 package de.benjaminborbe.analytics.config;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.analytics.AnalyticsConstants;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
@@ -16,6 +9,11 @@ import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionLong;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Singleton
 public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsConfig {
@@ -23,7 +21,7 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 	private final ConfigurationDescriptionBoolean cronActive = new ConfigurationDescriptionBoolean(false, AnalyticsConstants.CONFIG_CRON_ACTIVE, "Analytics Cron Active");
 
 	private final ConfigurationDescriptionLong aggregationChunkSize = new ConfigurationDescriptionLong(100l, AnalyticsConstants.CONFIG_AGGREGATION_CHUNK_SIZE,
-			"Analytics Aggregation Chunk Size");
+		"Analytics Aggregation Chunk Size");
 
 	@Inject
 	public AnalyticsConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
@@ -32,7 +30,7 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
+		final Set<ConfigurationDescription> result = new HashSet<>();
 		result.add(cronActive);
 		result.add(aggregationChunkSize);
 		return result;

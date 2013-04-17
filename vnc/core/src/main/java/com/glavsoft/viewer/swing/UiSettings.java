@@ -24,13 +24,13 @@
 
 package com.glavsoft.viewer.swing;
 
+import com.glavsoft.core.SettingsChangedEvent;
+import com.glavsoft.rfb.IChangeSettingsListener;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.glavsoft.core.SettingsChangedEvent;
-import com.glavsoft.rfb.IChangeSettingsListener;
 
 /**
  * @author dime at tightvnc.com
@@ -51,7 +51,7 @@ public class UiSettings {
 
 	private double scalePercent = 100;
 
-	private final List<IChangeSettingsListener> listeners = new LinkedList<IChangeSettingsListener>();
+	private final List<IChangeSettingsListener> listeners = new LinkedList<>();
 
 	public UiSettings() {
 		scalePercent = 100;

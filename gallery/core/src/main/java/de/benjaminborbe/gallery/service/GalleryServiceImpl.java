@@ -111,9 +111,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 			galleryCollectionDao.save(collection);
 			return galleryIdentifier;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -163,9 +161,7 @@ public class GalleryServiceImpl implements GalleryService {
 			galleryEntryDao.save(entry);
 			logger.debug("createEntry name: " + entryName);
 			return id;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -205,9 +201,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 			galleryGroupDao.save(group);
 			return galleryGroupIdentifier;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -276,9 +270,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 			// delete gallery
 			galleryCollectionDao.delete(galleryIdentifier);
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -299,9 +291,7 @@ public class GalleryServiceImpl implements GalleryService {
 			deleteImage(entry.getImageIdentifier());
 
 			galleryEntryDao.delete(id);
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -324,9 +314,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 			// delete gallery
 			galleryGroupDao.delete(galleryGroupIdentifier);
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -347,9 +335,7 @@ public class GalleryServiceImpl implements GalleryService {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
 			return galleryCollectionDao.load(galleryIdentifier);
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -372,11 +358,7 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return null;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -396,9 +378,7 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return null;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -414,17 +394,13 @@ public class GalleryServiceImpl implements GalleryService {
 
 			authorizationService.expectAdminRole(sessionIdentifier);
 
-			final List<GalleryCollectionIdentifier> result = new ArrayList<GalleryCollectionIdentifier>();
+			final List<GalleryCollectionIdentifier> result = new ArrayList<>();
 			final IdentifierIterator<GalleryCollectionIdentifier> i = galleryCollectionDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final IdentifierIteratorException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException | IdentifierIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -459,16 +435,12 @@ public class GalleryServiceImpl implements GalleryService {
 			logger.debug("getGalleries");
 
 			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();
-			final List<GalleryCollection> result = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> result = new ArrayList<>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -482,14 +454,12 @@ public class GalleryServiceImpl implements GalleryService {
 			logger.debug("getCollectionsPublic");
 
 			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIteratorShared();
-			final List<GalleryCollection> result = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> result = new ArrayList<>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -505,7 +475,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 			logger.debug("getCollectionsWithGroup");
 			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIterator();
-			final List<GalleryCollection> result = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> result = new ArrayList<>();
 			while (i.hasNext()) {
 				final GalleryCollectionBean collection = i.next();
 				if (galleryGroupIdentifier.equals(collection.getGroupId())) {
@@ -513,11 +483,7 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -531,7 +497,7 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			logger.debug("getCollectionsWithGroupPublic");
 			final EntityIterator<GalleryCollectionBean> i = galleryCollectionDao.getEntityIteratorShared();
-			final List<GalleryCollection> result = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> result = new ArrayList<>();
 			while (i.hasNext()) {
 				final GalleryCollectionBean collection = i.next();
 				if (galleryGroupIdentifier.equals(collection.getGroupId())) {
@@ -539,9 +505,7 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -557,7 +521,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 			logger.debug("getEntries");
 			final EntityIterator<GalleryEntryBean> i = galleryEntryDao.getEntityIterator();
-			final List<GalleryEntry> result = new ArrayList<GalleryEntry>();
+			final List<GalleryEntry> result = new ArrayList<>();
 			while (i.hasNext()) {
 				final GalleryEntryBean entry = i.next();
 				if (galleryCollectionIdentifier.equals(entry.getCollectionId())) {
@@ -565,11 +529,7 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -583,7 +543,7 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			logger.debug("getEntriesPublic");
 			final EntityIterator<GalleryEntryBean> i = galleryEntryDao.getEntityIteratorShared();
-			final List<GalleryEntry> result = new ArrayList<GalleryEntry>();
+			final List<GalleryEntry> result = new ArrayList<>();
 			while (i.hasNext()) {
 				final GalleryEntryBean entry = i.next();
 				if (galleryCollectionIdentifier.equals(entry.getCollectionId())) {
@@ -591,9 +551,7 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -611,9 +569,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 			final GalleryEntryBean image = galleryEntryDao.load(id);
 			return image;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -629,12 +585,10 @@ public class GalleryServiceImpl implements GalleryService {
 
 			authorizationService.expectAdminRole(sessionIdentifier);
 
-			final List<GalleryEntryIdentifier> result = new ArrayList<GalleryEntryIdentifier>(galleryEntryDao.getGalleryImageIdentifiers(galleryIdentifier));
+			final List<GalleryEntryIdentifier> result = new ArrayList<>(galleryEntryDao.getGalleryImageIdentifiers(galleryIdentifier));
 			logger.debug("getImages - GallerIdentifier: " + galleryIdentifier + " => " + result.size());
 			return result;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -650,9 +604,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 			logger.debug("getGroup");
 			return galleryGroupDao.load(galleryGroupIdentifier);
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -675,11 +627,7 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return null;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -699,9 +647,7 @@ public class GalleryServiceImpl implements GalleryService {
 				}
 			}
 			return null;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -716,17 +662,13 @@ public class GalleryServiceImpl implements GalleryService {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
 			logger.debug("getGroupIdentifiers");
-			final List<GalleryGroupIdentifier> result = new ArrayList<GalleryGroupIdentifier>();
+			final List<GalleryGroupIdentifier> result = new ArrayList<>();
 			final IdentifierIterator<GalleryGroupIdentifier> i = galleryGroupDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final IdentifierIteratorException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException | IdentifierIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -741,16 +683,12 @@ public class GalleryServiceImpl implements GalleryService {
 
 			logger.debug("getGalleries");
 			final EntityIterator<GalleryGroupBean> i = galleryGroupDao.getEntityIterator();
-			final List<GalleryGroup> result = new ArrayList<GalleryGroup>();
+			final List<GalleryGroup> result = new ArrayList<>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException | EntityIteratorException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -792,9 +730,7 @@ public class GalleryServiceImpl implements GalleryService {
 			}
 
 			galleryEntryDao.save(entry);
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -820,9 +756,7 @@ public class GalleryServiceImpl implements GalleryService {
 			}
 
 			galleryGroupDao.save(group);
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -852,9 +786,7 @@ public class GalleryServiceImpl implements GalleryService {
 			}
 
 			galleryCollectionDao.save(collection);
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -899,9 +831,7 @@ public class GalleryServiceImpl implements GalleryService {
 			galleryEntryB.setPriority(p2);
 			galleryEntryDao.save(galleryEntryA);
 			galleryEntryDao.save(galleryEntryB);
-		} catch (final AuthorizationServiceException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -921,9 +851,7 @@ public class GalleryServiceImpl implements GalleryService {
 			entry.setShared(true);
 
 			galleryEntryDao.save(entry);
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -943,9 +871,7 @@ public class GalleryServiceImpl implements GalleryService {
 			entry.setShared(false);
 
 			galleryEntryDao.save(entry);
-		} catch (final StorageException e) {
-			throw new GalleryServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());

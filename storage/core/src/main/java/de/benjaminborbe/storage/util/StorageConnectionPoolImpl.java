@@ -58,9 +58,7 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 				allConnections.offer(c);
 				return c;
 			}
-		} catch (final TTransportException e) {
-			throw new StorageConnectionPoolException(e);
-		} catch (final InterruptedException e) {
+		} catch (final TTransportException | InterruptedException e) {
 			throw new StorageConnectionPoolException(e);
 		}
 	}

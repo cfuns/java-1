@@ -121,9 +121,7 @@ public class PokerGuiActionRaiseServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			pokerService.expectPokerAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
-		} catch (final PokerServiceException e) {
+		} catch (final AuthenticationServiceException | PokerServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

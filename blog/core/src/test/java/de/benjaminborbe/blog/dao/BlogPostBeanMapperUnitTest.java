@@ -1,16 +1,6 @@
 package de.benjaminborbe.blog.dao;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
 import de.benjaminborbe.blog.util.MapperBlogPostIdentifier;
 import de.benjaminborbe.blog.util.MapperUserIdentifier;
@@ -24,11 +14,19 @@ import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class BlogPostBeanMapperUnitTest {
 
 	private BlogPostBeanMapper getBlogPostBeanMapper() {
-		final Provider<BlogPostBean> beanProvider = new ProviderMock<BlogPostBean>(BlogPostBean.class);
+		final Provider<BlogPostBean> beanProvider = new ProviderMock<>(BlogPostBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -58,7 +56,7 @@ public class BlogPostBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			data.put(fieldname, String.valueOf(value));
 			final BlogPostBean bean = mapper.map(data);
 			assertEquals(value, bean.getId());

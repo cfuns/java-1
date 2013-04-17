@@ -7,7 +7,7 @@
 
 package net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2;
 
-@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
+@SuppressWarnings({"unused", "unchecked", "rawtypes"})
 public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.Stub implements net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapService {
 
 	private final java.util.Vector cachedSerClasses = new java.util.Vector();
@@ -46,10 +46,10 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getPermissions");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"));
 		oper.setReturnClass(java.lang.String[].class);
@@ -57,21 +57,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[0] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("search");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteSearchResult"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
@@ -79,24 +79,24 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[1] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("search");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://xml.apache.org/xml-soap", "Map"), java.util.HashMap.class, false, false);
+			"http://xml.apache.org/xml-soap", "Map"), java.util.HashMap.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteSearchResult"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
@@ -104,16 +104,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[2] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
@@ -121,18 +121,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[3] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getComment");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteComment"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteComment.class);
@@ -140,15 +140,15 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[4] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getServerInfo");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteServerInfo"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteServerInfo.class);
@@ -156,18 +156,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[5] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getChildren");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemotePageSummary"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
@@ -175,18 +175,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[6] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteUser"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteUser.class);
@@ -194,18 +194,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[7] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("login");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
 		oper.setReturnClass(java.lang.String.class);
@@ -213,21 +213,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.AuthenticationFailedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AuthenticationFailedException"), true));
+			"com.atlassian.confluence.rpc.AuthenticationFailedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AuthenticationFailedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[8] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getPage");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePage"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePage.class);
@@ -235,9 +235,9 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[9] = oper;
 
 	}
@@ -248,10 +248,10 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getPage");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePage"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePage.class);
@@ -259,18 +259,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[10] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("isPluginEnabled");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -278,13 +278,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[11] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getClusterInformation");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteClusterInformation"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteClusterInformation.class);
@@ -292,16 +292,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[12] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getAttachments");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteAttachment"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteAttachment[].class);
@@ -309,24 +309,24 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[13] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addAttachment");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteAttachment"), com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteAttachment"), com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteAttachment"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class);
@@ -334,19 +334,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[14] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addAttachment");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteAttachment"), com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteAttachment"), com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteAttachment"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class);
@@ -354,19 +354,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[15] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeAttachment");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -374,19 +374,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[16] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getContentPermissionSet");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteContentPermissionSet"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet.class);
@@ -394,20 +394,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[17] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getContentPermissionSets");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteContentPermissionSet"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet[].class);
@@ -415,20 +415,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[18] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getComments");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteComment"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteComment[].class);
@@ -436,9 +436,9 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[19] = oper;
 
 	}
@@ -449,10 +449,10 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addComment");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteComment"), com.atlassian.confluence.rpc.soap.beans.RemoteComment.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteComment"), com.atlassian.confluence.rpc.soap.beans.RemoteComment.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteComment"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteComment.class);
@@ -460,20 +460,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[20] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeComment");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -481,20 +481,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[21] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getDescendents");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemotePageSummary"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
@@ -502,18 +502,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[22] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getAncestors");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemotePageSummary"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
@@ -521,15 +521,15 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[23] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("logout");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -537,22 +537,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[24] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getAttachment");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteAttachment"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class);
@@ -560,16 +560,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[25] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -577,70 +577,70 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[26] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteUser"), com.atlassian.confluence.rpc.soap.beans.RemoteUser.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteUser"), com.atlassian.confluence.rpc.soap.beans.RemoteUser.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(org.apache.axis.encoding.XMLType.AXIS_VOID);
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[27] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteUser"), com.atlassian.confluence.rpc.soap.beans.RemoteUser.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteUser"), com.atlassian.confluence.rpc.soap.beans.RemoteUser.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(org.apache.axis.encoding.XMLType.AXIS_VOID);
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[28] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getRelatedLabels");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteLabel"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
@@ -648,9 +648,9 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[29] = oper;
 
 	}
@@ -661,7 +661,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getSpaces");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteSpaceSummary"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[].class);
@@ -669,18 +669,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[30] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getPages");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemotePageSummary"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
@@ -688,18 +688,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[31] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getSpaceStatus");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
 		oper.setReturnClass(java.lang.String.class);
@@ -707,17 +707,17 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[32] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getGroups");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"));
 		oper.setReturnClass(java.lang.String[].class);
@@ -725,18 +725,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[33] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getPagePermissions");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemotePermission"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePermission[].class);
@@ -744,25 +744,25 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[34] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("setContentPermissions");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteContentPermission"),
-				com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[].class, false, false);
+			"https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteContentPermission"),
+			com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[].class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -770,29 +770,29 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[35] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("moveAttachment");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in4"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -800,16 +800,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[36] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("editComment");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteComment"), com.atlassian.confluence.rpc.soap.beans.RemoteComment.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteComment"), com.atlassian.confluence.rpc.soap.beans.RemoteComment.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteComment"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteComment.class);
@@ -817,20 +817,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[37] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getTopLevelPages");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemotePageSummary"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
@@ -838,22 +838,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[38] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getAttachmentData");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "base64Binary"));
 		oper.setReturnClass(byte[].class);
@@ -861,7 +861,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[39] = oper;
 
 	}
@@ -872,13 +872,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("isWatchingSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -886,19 +886,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[40] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("isWatchingPage");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -906,22 +906,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[41] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getTrashContents");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteContentSummaries"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteContentSummaries.class);
@@ -929,16 +929,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[42] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("emptyTrash");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -946,16 +946,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[43] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -963,20 +963,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[44] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("deactivateUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -984,20 +984,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[45] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("reactivateUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1005,23 +1005,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[46] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeGroup");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1029,20 +1029,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[47] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeAllPermissionsForGroup");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1050,16 +1050,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[48] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getRecentlyUsedLabels");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteLabel"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
@@ -1067,9 +1067,9 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[49] = oper;
 
 	}
@@ -1080,13 +1080,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getRecentlyUsedLabelsInSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteLabel"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
@@ -1094,18 +1094,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[50] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getMostPopularLabels");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteLabel"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
@@ -1113,21 +1113,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[51] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getMostPopularLabelsInSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteLabel"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
@@ -1135,18 +1135,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[52] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addGroup");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1154,23 +1154,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[53] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addUserToGroup");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1178,23 +1178,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[54] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("installPlugin");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1202,16 +1202,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[55] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getSpaceGroup");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpaceGroup"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup.class);
@@ -1219,25 +1219,25 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
+			"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[56] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("setSpaceStatus");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1245,23 +1245,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[57] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getPermissionsForUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"));
 		oper.setReturnClass(java.lang.String[].class);
@@ -1269,20 +1269,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[58] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeSpaceGroup");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1290,7 +1290,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[59] = oper;
 
 	}
@@ -1301,7 +1301,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getSpaceGroups");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteSpaceGroup"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup[].class);
@@ -1309,24 +1309,24 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[60] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getRelatedLabelsInSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteLabel"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
@@ -1334,18 +1334,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[61] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getSpacesContainingContentWithLabel");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteSpace"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpace[].class);
@@ -1353,18 +1353,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[62] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getSpacesWithLabel");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteSpace"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpace[].class);
@@ -1372,27 +1372,27 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[63] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getLabelsByDetail");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in4"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteLabel"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
@@ -1400,21 +1400,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[64] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("movePageToTopLevel");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1422,22 +1422,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[65] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("renderContent");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
 		oper.setReturnClass(java.lang.String.class);
@@ -1445,27 +1445,27 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[66] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("renderContent");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in4"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://xml.apache.org/xml-soap", "Map"), java.util.HashMap.class, false, false);
+			"http://xml.apache.org/xml-soap", "Map"), java.util.HashMap.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
 		oper.setReturnClass(java.lang.String.class);
@@ -1473,19 +1473,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[67] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("exportSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
 		oper.setReturnClass(java.lang.String.class);
@@ -1493,22 +1493,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[68] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("exportSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
 		oper.setReturnClass(java.lang.String.class);
@@ -1516,7 +1516,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[69] = oper;
 
 	}
@@ -1527,13 +1527,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeUserFromGroup");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1541,20 +1541,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[70] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("hasUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1562,18 +1562,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[71] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("setEnableWysiwyg");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1581,16 +1581,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[72] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"), com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"), com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
@@ -1598,22 +1598,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
+			"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[73] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getUserGroups");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"));
 		oper.setReturnClass(java.lang.String[].class);
@@ -1621,23 +1621,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[74] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("updatePage");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemotePage"), com.atlassian.confluence.rpc.soap.beans.RemotePage.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemotePage"), com.atlassian.confluence.rpc.soap.beans.RemotePage.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemotePageUpdateOptions"), com.atlassian.confluence.rpc.soap.beans.RemotePageUpdateOptions.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemotePageUpdateOptions"), com.atlassian.confluence.rpc.soap.beans.RemotePageUpdateOptions.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePage"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePage.class);
@@ -1645,22 +1645,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.VersionMismatchException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "VersionMismatchException"), true));
+			"com.atlassian.confluence.rpc.VersionMismatchException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "VersionMismatchException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[75] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("isPluginInstalled");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1668,19 +1668,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[76] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getPageSummary");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePageSummary"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePageSummary.class);
@@ -1688,18 +1688,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[77] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getPageSummary");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePageSummary"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePageSummary.class);
@@ -1707,18 +1707,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[78] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getPageHistory");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemotePageHistory"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePageHistory[].class);
@@ -1726,9 +1726,9 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[79] = oper;
 
 	}
@@ -1739,16 +1739,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("movePage");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1756,16 +1756,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[80] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removePage");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1773,20 +1773,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[81] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("storePage");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemotePage"), com.atlassian.confluence.rpc.soap.beans.RemotePage.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemotePage"), com.atlassian.confluence.rpc.soap.beans.RemotePage.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemotePage"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemotePage.class);
@@ -1794,25 +1794,25 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.VersionMismatchException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "VersionMismatchException"), true));
+			"com.atlassian.confluence.rpc.VersionMismatchException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "VersionMismatchException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[82] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("purgeFromTrash");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1820,16 +1820,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[83] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("watchPage");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1837,19 +1837,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[84] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("watchPageForUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1857,16 +1857,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[85] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("watchSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1874,16 +1874,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[86] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removePageWatch");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1891,16 +1891,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[87] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeSpaceWatch");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1908,19 +1908,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[88] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removePageWatchForUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1928,7 +1928,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[89] = oper;
 
 	}
@@ -1939,10 +1939,10 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getWatchersForPage");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteUser"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteUser[].class);
@@ -1950,22 +1950,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[90] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("isWatchingSpaceForType");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -1973,16 +1973,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[91] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getWatchersForSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteUser"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteUser[].class);
@@ -1990,16 +1990,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[92] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getSpacesInGroup");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteSpaceSummary"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[].class);
@@ -2007,16 +2007,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[93] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addSpaceWithDefaultPermissions");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"), com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"), com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
@@ -2024,22 +2024,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
+			"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[94] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("storeSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"), com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"), com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
@@ -2047,16 +2047,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[95] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addSpaceGroup");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpaceGroup"), com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpaceGroup"), com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpaceGroup"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup.class);
@@ -2064,25 +2064,25 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
+			"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[96] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addPersonalSpaceWithDefaultPermissions");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"), com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"), com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
@@ -2090,25 +2090,25 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
+			"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[97] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addPersonalSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"), com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"), com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteSpace"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
@@ -2116,19 +2116,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
+			"com.atlassian.confluence.rpc.AlreadyExistsException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "AlreadyExistsException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[98] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getSpaceLevelPermissions");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"));
 		oper.setReturnClass(java.lang.String[].class);
@@ -2136,7 +2136,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[99] = oper;
 
 	}
@@ -2147,16 +2147,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addPermissionToSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2164,19 +2164,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[100] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addGlobalPermissions");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"), java.lang.String[].class, false, false);
+			"https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"), java.lang.String[].class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2184,21 +2184,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[101] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addGlobalPermission");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2206,15 +2206,15 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[102] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addAnonymousUsePermission");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2222,13 +2222,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[103] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addAnonymousViewUserProfilePermission");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2236,13 +2236,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[104] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeAnonymousViewUserProfilePermission");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2250,19 +2250,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[105] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeGlobalPermission");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2270,22 +2270,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[106] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addPermissionsToSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"), java.lang.String[].class, false, false);
+			"https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"), java.lang.String[].class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2293,22 +2293,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[107] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removePermissionFromSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2316,18 +2316,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[108] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("editUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteUser"), com.atlassian.confluence.rpc.soap.beans.RemoteUser.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteUser"), com.atlassian.confluence.rpc.soap.beans.RemoteUser.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2335,11 +2335,11 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[109] = oper;
 
 	}
@@ -2350,10 +2350,10 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("isActiveUser");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2361,18 +2361,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[110] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getActiveUsers");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"));
 		oper.setReturnClass(java.lang.String[].class);
@@ -2380,21 +2380,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[111] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("changeMyPassword");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2402,21 +2402,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[112] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("changeUserPassword");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2424,20 +2424,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[113] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("setUserInformation");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteUserInformation"), com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteUserInformation"), com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2445,20 +2445,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[114] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getUserInformation");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteUserInformation"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation.class);
@@ -2466,24 +2466,24 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[115] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("setUserPreferenceBoolean");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2491,21 +2491,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[116] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getUserPreferenceBoolean");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2513,24 +2513,24 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[117] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("setUserPreferenceLong");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2538,21 +2538,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[118] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getUserPreferenceLong");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "long"));
 		oper.setReturnClass(long.class);
@@ -2560,9 +2560,9 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[119] = oper;
 
 	}
@@ -2573,16 +2573,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("setUserPreferenceString");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2590,21 +2590,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[120] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getUserPreferenceString");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
 		oper.setReturnClass(java.lang.String.class);
@@ -2612,18 +2612,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[121] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("hasGroup");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2631,27 +2631,27 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[122] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addProfilePicture");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in4"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2659,26 +2659,26 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[123] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getBlogEntryByDayAndTitle");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteBlogEntry"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
@@ -2686,28 +2686,28 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[124] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getBlogEntryByDateAndTitle");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in3"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in4"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "int"), int.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in5"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteBlogEntry"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
@@ -2715,16 +2715,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[125] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getBlogEntry");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteBlogEntry"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
@@ -2732,16 +2732,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[126] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getBlogEntries");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteBlogEntrySummary"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary[].class);
@@ -2749,18 +2749,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[127] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("storeBlogEntry");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteBlogEntry"), com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteBlogEntry"), com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://beans.soap.rpc.confluence.atlassian.com", "RemoteBlogEntry"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
@@ -2768,22 +2768,22 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.VersionMismatchException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "VersionMismatchException"), true));
+			"com.atlassian.confluence.rpc.VersionMismatchException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "VersionMismatchException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[128] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("exportSite");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
 		oper.setReturnClass(java.lang.String.class);
@@ -2791,7 +2791,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[129] = oper;
 
 	}
@@ -2802,7 +2802,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("flushIndexQueue");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2810,13 +2810,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[130] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("clearIndexQueue");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2824,13 +2824,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[131] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getClusterNodeStatuses");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteNodeStatus"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteNodeStatus[].class);
@@ -2838,16 +2838,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[132] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("importSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2855,16 +2855,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[133] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("setEnableAnonymousAccess");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "boolean"), boolean.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2872,16 +2872,16 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[134] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getLabelsById");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteLabel"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
@@ -2889,18 +2889,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[135] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getLabelContentById");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteSearchResult"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
@@ -2908,18 +2908,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[136] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getLabelContentByName");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteSearchResult"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
@@ -2927,18 +2927,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[137] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("getLabelContentByObject");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteLabel"), com.atlassian.confluence.rpc.soap.beans.RemoteLabel.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteLabel"), com.atlassian.confluence.rpc.soap.beans.RemoteLabel.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_tns2_RemoteSearchResult"));
 		oper.setReturnClass(com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
@@ -2946,21 +2946,21 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[138] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addLabelByName");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2968,11 +2968,11 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[139] = oper;
 
 	}
@@ -2983,13 +2983,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addLabelById");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -2997,23 +2997,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[140] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addLabelByObject");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteLabel"), com.atlassian.confluence.rpc.soap.beans.RemoteLabel.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteLabel"), com.atlassian.confluence.rpc.soap.beans.RemoteLabel.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -3021,23 +3021,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[141] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addLabelByNameToSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -3045,23 +3045,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[142] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeLabelByName");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -3069,23 +3069,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[143] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeLabelById");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -3093,23 +3093,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[144] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeLabelByObject");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://beans.soap.rpc.confluence.atlassian.com", "RemoteLabel"), com.atlassian.confluence.rpc.soap.beans.RemoteLabel.class, false, false);
+			"http://beans.soap.rpc.confluence.atlassian.com", "RemoteLabel"), com.atlassian.confluence.rpc.soap.beans.RemoteLabel.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "long"), long.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -3117,23 +3117,23 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[145] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeLabelByNameFromSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -3141,17 +3141,17 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
+			"com.atlassian.confluence.rpc.InvalidSessionException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "InvalidSessionException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[146] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeAnonymousUsePermission");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -3159,19 +3159,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[147] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addAnonymousPermissionToSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -3179,19 +3179,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[148] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("addAnonymousPermissionsToSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"), java.lang.String[].class, false, false);
+			"https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "ArrayOf_xsd_string"), java.lang.String[].class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -3199,7 +3199,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[149] = oper;
 
 	}
@@ -3210,13 +3210,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("removeAnonymousPermissionFromSpace");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in2"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "boolean"));
 		oper.setReturnClass(boolean.class);
@@ -3224,18 +3224,18 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
+			"com.atlassian.confluence.rpc.NotPermittedException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "NotPermittedException"), true));
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[150] = oper;
 
 		oper = new org.apache.axis.description.OperationDesc();
 		oper.setName("convertWikiToStorageFormat");
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in0"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "in1"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName(
-				"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+			"http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
 		oper.addParameter(param);
 		oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
 		oper.setReturnClass(java.lang.String.class);
@@ -3243,7 +3243,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		oper.setStyle(org.apache.axis.constants.Style.RPC);
 		oper.setUse(org.apache.axis.constants.Use.ENCODED);
 		oper.addFault(new org.apache.axis.description.FaultDesc(new javax.xml.namespace.QName("https://kunden.seibert-media.net/rpc/soap-axis/confluenceservice-v2", "fault"),
-				"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
+			"com.atlassian.confluence.rpc.RemoteException", new javax.xml.namespace.QName("http://rpc.confluence.atlassian.com", "RemoteException"), true));
 		_operations[151] = oper;
 
 	}
@@ -3260,8 +3260,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	public ConfluenceserviceV2SoapBindingStub(final javax.xml.rpc.Service service) throws org.apache.axis.AxisFault {
 		if (service == null) {
 			super.service = new org.apache.axis.client.Service();
-		}
-		else {
+		} else {
 			super.service = service;
 		}
 		((org.apache.axis.client.Service) super.service).setTypeMappingVersion("1.1");
@@ -3703,8 +3702,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 							final java.lang.Class sf = (java.lang.Class) cachedSerFactories.get(i);
 							final java.lang.Class df = (java.lang.Class) cachedDeserFactories.get(i);
 							_call.registerTypeMapping(cls, qName, sf, df, false);
-						}
-						else if (x instanceof javax.xml.rpc.encoding.SerializerFactory) {
+						} else if (x instanceof javax.xml.rpc.encoding.SerializerFactory) {
 							final org.apache.axis.encoding.SerializerFactory sf = (org.apache.axis.encoding.SerializerFactory) cachedSerFactories.get(i);
 							final org.apache.axis.encoding.DeserializerFactory df = (org.apache.axis.encoding.DeserializerFactory) cachedDeserFactories.get(i);
 							_call.registerTypeMapping(cls, qName, sf, df, false);
@@ -3713,15 +3711,14 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 				}
 			}
 			return _call;
-		}
-		catch (final java.lang.Throwable _t) {
+		} catch (final java.lang.Throwable _t) {
 			throw new org.apache.axis.AxisFault("Failure trying to get the Call object", _t);
 		}
 	}
 
 	@Override
 	public java.lang.String[] getPermissions(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3735,22 +3732,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String[]) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -3768,7 +3762,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] search(final java.lang.String in0, final java.lang.String in1, final int in2)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3782,23 +3776,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Integer(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Integer(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -3816,7 +3807,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] search(final java.lang.String in0, final java.lang.String in1, final java.util.HashMap in2, final int in3)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3830,23 +3821,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, new java.lang.Integer(in3) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, new java.lang.Integer(in3)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -3861,7 +3849,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace getSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3875,22 +3863,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -3908,7 +3893,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteComment getComment(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3922,23 +3907,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteComment) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteComment) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteComment.class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteComment.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -3956,7 +3938,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteServerInfo getServerInfo(final java.lang.String in0) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3970,23 +3952,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteServerInfo) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteServerInfo) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteServerInfo.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteServerInfo.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4004,7 +3983,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getChildren(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4018,23 +3997,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4052,7 +4028,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteUser getUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4066,22 +4042,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteUser) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteUser) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteUser.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4099,7 +4072,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public java.lang.String login(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.AuthenticationFailedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4113,22 +4086,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4146,7 +4116,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePage getPage(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4160,22 +4130,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePage) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePage) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemotePage.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4193,7 +4160,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePage getPage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4207,22 +4174,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePage) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePage) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemotePage.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4239,7 +4203,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean isPluginEnabled(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean isPluginEnabled(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4253,22 +4217,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4282,8 +4243,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteClusterInformation getClusterInformation(final java.lang.String in0) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteClusterInformation getClusterInformation(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4297,23 +4257,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteClusterInformation) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteClusterInformation) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteClusterInformation.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteClusterInformation.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4328,7 +4285,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment[] getAttachments(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4342,23 +4299,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteAttachment[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteAttachment[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteAttachment[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteAttachment[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4376,7 +4330,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment addAttachment(final java.lang.String in0, final long in1,
-			final com.atlassian.confluence.rpc.soap.beans.RemoteAttachment in2, final byte[] in3) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+																																								final com.atlassian.confluence.rpc.soap.beans.RemoteAttachment in2, final byte[] in3) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4390,23 +4344,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2, in3 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2, in3});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteAttachment) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteAttachment) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4421,7 +4372,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment addAttachment(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteAttachment in1,
-			final byte[] in2) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+																																								final byte[] in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4435,23 +4386,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteAttachment) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteAttachment) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4465,8 +4413,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeAttachment(final java.lang.String in0, final long in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeAttachment(final java.lang.String in0, final long in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4480,22 +4427,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4510,8 +4454,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet getContentPermissionSet(final java.lang.String in0, final long in1, final java.lang.String in2)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4525,23 +4469,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4562,7 +4503,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet[] getContentPermissionSets(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4576,23 +4517,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4613,7 +4551,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteComment[] getComments(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4627,23 +4565,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteComment[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteComment[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteComment[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteComment[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4661,8 +4596,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteComment addComment(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteComment in1)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4676,23 +4611,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteComment) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteComment) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteComment.class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteComment.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4712,8 +4644,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeComment(final java.lang.String in0, final long in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeComment(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4727,22 +4659,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4763,7 +4692,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getDescendents(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4777,23 +4706,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4811,7 +4737,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getAncestors(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4825,23 +4751,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4858,7 +4781,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean logout(final java.lang.String in0) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean logout(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4872,22 +4795,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4902,7 +4822,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment getAttachment(final java.lang.String in0, final long in1, final java.lang.String in2, final int in3)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4916,23 +4836,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2, new java.lang.Integer(in3) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2, new java.lang.Integer(in3)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteAttachment) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteAttachment) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteAttachment.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4946,8 +4863,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4961,22 +4878,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -4997,7 +4911,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public void addUser(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUser in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5011,14 +4925,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
 			}
 			extractAttachments(_call);
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5039,8 +4952,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public void addUser(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUser in1, final java.lang.String in2, final boolean in3)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5054,14 +4967,13 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, new java.lang.Boolean(in3) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, new java.lang.Boolean(in3)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
 			}
 			extractAttachments(_call);
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5082,7 +4994,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRelatedLabels(final java.lang.String in0, final java.lang.String in1, final int in2)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5096,23 +5008,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Integer(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Integer(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5130,7 +5039,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[] getSpaces(final java.lang.String in0) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5144,23 +5053,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5178,7 +5084,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getPages(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5192,23 +5098,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5226,7 +5129,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public java.lang.String getSpaceStatus(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5240,22 +5143,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5275,8 +5175,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String[] getGroups(final java.lang.String in0) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String[] getGroups(final java.lang.String in0) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5290,22 +5190,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String[]) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5323,7 +5220,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePermission[] getPagePermissions(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5337,23 +5234,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePermission[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePermission[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemotePermission[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemotePermission[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5371,8 +5265,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean setContentPermissions(final java.lang.String in0, final long in1, final java.lang.String in2,
-			final com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[] in3) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+																			 final com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[] in3) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5386,22 +5280,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2, in3 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2, in3});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5422,7 +5313,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean moveAttachment(final java.lang.String in0, final long in1, final java.lang.String in2, final long in3, final java.lang.String in4)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5436,22 +5327,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2, new java.lang.Long(in3), in4 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2, new java.lang.Long(in3), in4});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5466,8 +5354,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteComment editComment(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteComment in1)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5481,23 +5369,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteComment) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteComment) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteComment.class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteComment.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5517,8 +5402,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getTopLevelPages(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getTopLevelPages(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5532,23 +5416,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5562,8 +5443,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public byte[] getAttachmentData(final java.lang.String in0, final long in1, final java.lang.String in2, final int in3) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public byte[] getAttachmentData(final java.lang.String in0, final long in1, final java.lang.String in2, final int in3) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5577,22 +5457,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2, new java.lang.Integer(in3) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2, new java.lang.Integer(in3)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (byte[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (byte[]) org.apache.axis.utils.JavaUtils.convert(_resp, byte[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5606,8 +5483,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean isWatchingSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean isWatchingSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5621,22 +5497,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5650,8 +5523,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean isWatchingPage(final java.lang.String in0, final long in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean isWatchingPage(final java.lang.String in0, final long in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5665,22 +5537,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5695,7 +5564,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteContentSummaries getTrashContents(final java.lang.String in0, final java.lang.String in1, final int in2, final int in3)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5709,23 +5578,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Integer(in2), new java.lang.Integer(in3) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Integer(in2), new java.lang.Integer(in3)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteContentSummaries) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteContentSummaries) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteContentSummaries.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteContentSummaries.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5739,7 +5605,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean emptyTrash(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean emptyTrash(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5753,22 +5619,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5782,8 +5645,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5797,22 +5660,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5832,8 +5692,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean deactivateUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean deactivateUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5847,22 +5707,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5882,8 +5739,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean reactivateUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean reactivateUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5897,22 +5754,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5933,7 +5787,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean removeGroup(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5947,22 +5801,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -5982,7 +5833,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeAllPermissionsForGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeAllPermissionsForGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5996,22 +5847,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6026,7 +5874,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRecentlyUsedLabels(final java.lang.String in0, final int in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6040,23 +5888,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Integer(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Integer(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6074,7 +5919,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRecentlyUsedLabelsInSpace(final java.lang.String in0, final java.lang.String in1, final int in2)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6088,23 +5933,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Integer(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Integer(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6122,7 +5964,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getMostPopularLabels(final java.lang.String in0, final int in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6136,23 +5978,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Integer(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Integer(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6170,7 +6009,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getMostPopularLabelsInSpace(final java.lang.String in0, final java.lang.String in1, final int in2)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6184,23 +6023,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Integer(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Integer(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6217,8 +6053,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean addGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6232,22 +6068,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6268,7 +6101,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean addUserToGroup(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6282,22 +6115,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6317,8 +6147,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean installPlugin(final java.lang.String in0, final java.lang.String in1, final byte[] in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean installPlugin(final java.lang.String in0, final java.lang.String in1, final byte[] in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6332,22 +6161,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6362,8 +6188,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup getSpaceGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.AlreadyExistsException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6377,23 +6202,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6417,7 +6239,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean setSpaceStatus(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6431,22 +6253,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6467,7 +6286,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public java.lang.String[] getPermissionsForUser(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6481,22 +6300,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String[]) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6516,7 +6332,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeSpaceGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeSpaceGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6530,22 +6346,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6560,7 +6373,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup[] getSpaceGroups(final java.lang.String in0) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6574,23 +6387,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6608,7 +6418,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRelatedLabelsInSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2,
-			final int in3) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+																																											 final int in3) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6622,23 +6432,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, new java.lang.Integer(in3) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, new java.lang.Integer(in3)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6656,7 +6463,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace[] getSpacesContainingContentWithLabel(final java.lang.String in0, final java.lang.String in1)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6670,23 +6477,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace[]) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteSpace[].class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteSpace[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6704,7 +6508,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace[] getSpacesWithLabel(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6718,23 +6522,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace[]) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteSpace[].class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteSpace[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6752,8 +6553,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getLabelsByDetail(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2,
-			final java.lang.String in3, final java.lang.String in4) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.RemoteException {
+																																								 final java.lang.String in3, final java.lang.String in4) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6767,23 +6568,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, in3, in4 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, in3, in4});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6800,8 +6598,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean movePageToTopLevel(final java.lang.String in0, final long in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean movePageToTopLevel(final java.lang.String in0, final long in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6815,22 +6612,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6845,7 +6639,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public java.lang.String renderContent(final java.lang.String in0, final java.lang.String in1, final long in2, final java.lang.String in3) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6859,22 +6653,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Long(in2), in3 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Long(in2), in3});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6892,7 +6683,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public java.lang.String renderContent(final java.lang.String in0, final java.lang.String in1, final long in2, final java.lang.String in3, final java.util.HashMap in4)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6906,22 +6697,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Long(in2), in3, in4 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Long(in2), in3, in4});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6935,8 +6723,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String exportSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String exportSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6950,22 +6737,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -6979,8 +6763,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String exportSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final boolean in3) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String exportSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final boolean in3) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6994,22 +6777,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, new java.lang.Boolean(in3) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, new java.lang.Boolean(in3)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7024,7 +6804,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean removeUserFromGroup(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7038,22 +6818,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7073,8 +6850,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean hasUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean hasUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7088,22 +6865,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7120,7 +6894,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean setEnableWysiwyg(final java.lang.String in0, final boolean in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean setEnableWysiwyg(final java.lang.String in0, final boolean in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7134,22 +6908,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Boolean(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Boolean(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7164,8 +6935,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addSpace(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.AlreadyExistsException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7179,22 +6950,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7218,7 +6986,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public java.lang.String[] getUserGroups(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7232,22 +7000,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String[]) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7268,8 +7033,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePage updatePage(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemotePage in1,
-			final com.atlassian.confluence.rpc.soap.beans.RemotePageUpdateOptions in2) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.VersionMismatchException, com.atlassian.confluence.rpc.RemoteException {
+																																			 final com.atlassian.confluence.rpc.soap.beans.RemotePageUpdateOptions in2) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7283,22 +7048,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePage) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePage) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemotePage.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7321,7 +7083,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean isPluginInstalled(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean isPluginInstalled(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7335,22 +7097,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7365,7 +7124,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary getPageSummary(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7379,23 +7138,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemotePageSummary.class);
+						com.atlassian.confluence.rpc.soap.beans.RemotePageSummary.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7413,7 +7169,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary getPageSummary(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7427,23 +7183,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageSummary) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemotePageSummary.class);
+						com.atlassian.confluence.rpc.soap.beans.RemotePageSummary.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7461,7 +7214,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePageHistory[] getPageHistory(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7475,23 +7228,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageHistory[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePageHistory[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemotePageHistory[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemotePageHistory[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7508,8 +7258,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean movePage(final java.lang.String in0, final long in1, final long in2, final java.lang.String in3) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean movePage(final java.lang.String in0, final long in1, final long in2, final java.lang.String in3) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7523,22 +7272,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), new java.lang.Long(in2), in3 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), new java.lang.Long(in2), in3});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7552,8 +7298,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removePage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removePage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7567,22 +7313,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7603,8 +7346,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePage storePage(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemotePage in1)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.VersionMismatchException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7618,22 +7361,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePage) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemotePage) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemotePage.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7656,8 +7396,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean purgeFromTrash(final java.lang.String in0, final java.lang.String in1, final long in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean purgeFromTrash(final java.lang.String in0, final java.lang.String in1, final long in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7671,22 +7410,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Long(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Long(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7700,7 +7436,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean watchPage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean watchPage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7714,22 +7450,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7743,8 +7476,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean watchPageForUser(final java.lang.String in0, final long in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean watchPageForUser(final java.lang.String in0, final long in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7758,22 +7490,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7787,7 +7516,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean watchSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean watchSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7801,22 +7530,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7830,7 +7556,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removePageWatch(final java.lang.String in0, final long in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removePageWatch(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7844,22 +7570,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7873,7 +7596,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeSpaceWatch(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeSpaceWatch(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7887,22 +7610,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7916,8 +7636,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removePageWatchForUser(final java.lang.String in0, final long in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean removePageWatchForUser(final java.lang.String in0, final long in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7931,22 +7650,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -7960,8 +7676,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteUser[] getWatchersForPage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteUser[] getWatchersForPage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7975,22 +7690,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteUser[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteUser[]) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteUser[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8005,7 +7717,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean isWatchingSpaceForType(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final java.lang.String in3)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8019,22 +7731,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, in3 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, in3});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8048,8 +7757,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteUser[] getWatchersForSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteUser[] getWatchersForSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8063,22 +7771,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteUser[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteUser[]) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteUser[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8092,8 +7797,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[] getSpacesInGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[] getSpacesInGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8107,23 +7811,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8138,8 +7839,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addSpaceWithDefaultPermissions(final java.lang.String in0,
-			final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.AlreadyExistsException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+																																														final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8153,22 +7854,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8192,7 +7890,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace storeSpace(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8206,22 +7904,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8236,8 +7931,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup addSpaceGroup(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup in1)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.AlreadyExistsException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8251,23 +7946,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8291,9 +7983,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addPersonalSpaceWithDefaultPermissions(final java.lang.String in0,
-			final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.AlreadyExistsException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.RemoteException {
+																																																		final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1, final java.lang.String in2) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8307,22 +7998,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8346,8 +8034,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addPersonalSpace(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1,
-			final java.lang.String in2) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.AlreadyExistsException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+																																							final java.lang.String in2) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8361,22 +8049,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSpace) org.apache.axis.utils.JavaUtils.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteSpace.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8399,7 +8084,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String[] getSpaceLevelPermissions(final java.lang.String in0) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String[] getSpaceLevelPermissions(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8413,22 +8098,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String[]) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8443,7 +8125,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean addPermissionToSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final java.lang.String in3)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8457,22 +8139,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, in3 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, in3});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8487,7 +8166,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean addGlobalPermissions(final java.lang.String in0, final java.lang.String[] in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8501,22 +8180,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8534,7 +8210,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean addGlobalPermission(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8548,22 +8224,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8580,7 +8253,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addAnonymousUsePermission(final java.lang.String in0) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean addAnonymousUsePermission(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8594,22 +8267,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8623,7 +8293,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addAnonymousViewUserProfilePermission(final java.lang.String in0) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean addAnonymousViewUserProfilePermission(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8637,22 +8307,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8666,7 +8333,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeAnonymousViewUserProfilePermission(final java.lang.String in0) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeAnonymousViewUserProfilePermission(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8680,22 +8347,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8709,8 +8373,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeGlobalPermission(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeGlobalPermission(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8724,22 +8387,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8754,7 +8414,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean addPermissionsToSpace(final java.lang.String in0, final java.lang.String[] in1, final java.lang.String in2, final java.lang.String in3)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8768,22 +8428,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, in3 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, in3});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8798,7 +8455,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean removePermissionFromSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final java.lang.String in3)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8812,22 +8469,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, in3 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, in3});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8845,7 +8499,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean editUser(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUser in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8859,22 +8513,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8894,8 +8545,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean isActiveUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean isActiveUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8909,22 +8560,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8941,8 +8589,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String[] getActiveUsers(final java.lang.String in0, final boolean in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String[] getActiveUsers(final java.lang.String in0, final boolean in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8956,22 +8604,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Boolean(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Boolean(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String[]) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -8989,7 +8634,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean changeMyPassword(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9003,22 +8648,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9036,7 +8678,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean changeUserPassword(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9050,22 +8692,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9086,7 +8725,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean setUserInformation(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9100,22 +8739,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9136,7 +8772,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation getUserInformation(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9150,23 +8786,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9184,7 +8817,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean setUserPreferenceBoolean(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final boolean in3) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9198,22 +8831,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, new java.lang.Boolean(in3) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, new java.lang.Boolean(in3)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9231,7 +8861,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean getUserPreferenceBoolean(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9245,22 +8875,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9278,7 +8905,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean setUserPreferenceLong(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final long in3) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9292,22 +8919,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, new java.lang.Long(in3) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, new java.lang.Long(in3)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9325,7 +8949,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public long getUserPreferenceLong(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9339,22 +8963,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Long) _resp).longValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Long) org.apache.axis.utils.JavaUtils.convert(_resp, long.class)).longValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9372,7 +8993,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean setUserPreferenceString(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final java.lang.String in3)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9386,22 +9007,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, in3 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, in3});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9419,7 +9037,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public java.lang.String getUserPreferenceString(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9433,22 +9051,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9465,8 +9080,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean hasGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean hasGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9480,22 +9095,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9513,8 +9125,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean addProfilePicture(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final java.lang.String in3, final byte[] in4)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9528,22 +9140,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2, in3, in4 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2, in3, in4});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9564,7 +9173,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry getBlogEntryByDayAndTitle(final java.lang.String in0, final java.lang.String in1, final int in2,
-			final java.lang.String in3) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+																																													 final java.lang.String in3) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9578,23 +9187,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Integer(in2), in3 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Integer(in2), in3});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9609,7 +9215,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry getBlogEntryByDateAndTitle(final java.lang.String in0, final java.lang.String in1, final int in2, final int in3,
-			final int in4, final java.lang.String in5) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+																																														final int in4, final java.lang.String in5) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9623,23 +9229,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Integer(in2), new java.lang.Integer(in3), new java.lang.Integer(in4), in5 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Integer(in2), new java.lang.Integer(in3), new java.lang.Integer(in4), in5});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9653,8 +9256,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry getBlogEntry(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry getBlogEntry(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9668,23 +9270,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9699,7 +9298,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary[] getBlogEntries(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9713,23 +9312,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9747,8 +9343,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry storeBlogEntry(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry in1)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException,
-			com.atlassian.confluence.rpc.VersionMismatchException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9762,23 +9358,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9801,7 +9394,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String exportSite(final java.lang.String in0, final boolean in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String exportSite(final java.lang.String in0, final boolean in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9815,22 +9408,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Boolean(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Boolean(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9844,7 +9434,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean flushIndexQueue(final java.lang.String in0) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean flushIndexQueue(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9858,22 +9448,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9887,7 +9474,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean clearIndexQueue(final java.lang.String in0) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean clearIndexQueue(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9901,22 +9488,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9930,8 +9514,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteNodeStatus[] getClusterNodeStatuses(final java.lang.String in0) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteNodeStatus[] getClusterNodeStatuses(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9945,23 +9528,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteNodeStatus[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteNodeStatus[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteNodeStatus[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteNodeStatus[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -9975,7 +9555,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean importSpace(final java.lang.String in0, final byte[] in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean importSpace(final java.lang.String in0, final byte[] in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9989,22 +9569,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10018,7 +9595,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean setEnableAnonymousAccess(final java.lang.String in0, final boolean in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean setEnableAnonymousAccess(final java.lang.String in0, final boolean in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10032,22 +9609,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Boolean(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Boolean(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10062,7 +9636,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getLabelsById(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10076,23 +9650,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteLabel[]) org.apache.axis.utils.JavaUtils
-							.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
+						.convert(_resp, com.atlassian.confluence.rpc.soap.beans.RemoteLabel[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10110,7 +9681,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentById(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10124,23 +9695,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10158,7 +9726,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentByName(final java.lang.String in0, final java.lang.String in1)
-			throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10172,23 +9740,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10206,8 +9771,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentByObject(final java.lang.String in0,
-			final com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.RemoteException {
+																																															final com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10221,23 +9786,20 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[]) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[]) org.apache.axis.utils.JavaUtils.convert(_resp,
-							com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
+						com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[].class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10255,7 +9817,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean addLabelByName(final java.lang.String in0, final java.lang.String in1, final long in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10269,22 +9831,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Long(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Long(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10304,8 +9863,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addLabelById(final java.lang.String in0, final long in1, final long in2) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean addLabelById(final java.lang.String in0, final long in1, final long in2) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10319,22 +9878,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), new java.lang.Long(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), new java.lang.Long(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10355,7 +9911,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean addLabelByObject(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1, final long in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10369,22 +9925,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Long(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Long(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10405,7 +9958,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean addLabelByNameToSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10419,22 +9972,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10455,7 +10005,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean removeLabelByName(final java.lang.String in0, final java.lang.String in1, final long in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10469,22 +10019,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Long(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Long(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10504,8 +10051,8 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeLabelById(final java.lang.String in0, final long in1, final long in2) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.InvalidSessionException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeLabelById(final java.lang.String in0, final long in1, final long in2) throws java.rmi.RemoteException,
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10519,22 +10066,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, new java.lang.Long(in1), new java.lang.Long(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, new java.lang.Long(in1), new java.lang.Long(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10555,7 +10099,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean removeLabelByObject(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1, final long in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10569,22 +10113,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, new java.lang.Long(in2) });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, new java.lang.Long(in2)});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10605,7 +10146,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean removeLabelByNameFromSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.InvalidSessionException, com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10619,22 +10160,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10654,7 +10192,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeAnonymousUsePermission(final java.lang.String in0) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeAnonymousUsePermission(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10668,22 +10206,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10697,8 +10232,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addAnonymousPermissionToSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean addAnonymousPermissionToSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10712,22 +10246,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10741,8 +10272,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addAnonymousPermissionsToSpace(final java.lang.String in0, final java.lang.String[] in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public boolean addAnonymousPermissionsToSpace(final java.lang.String in0, final java.lang.String[] in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10756,22 +10286,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10786,7 +10313,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean removeAnonymousPermissionFromSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.NotPermittedException, com.atlassian.confluence.rpc.RemoteException {
+		com.atlassian.confluence.rpc.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10800,22 +10327,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1, in2 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1, in2});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return ((java.lang.Boolean) _resp).booleanValue();
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return ((java.lang.Boolean) org.apache.axis.utils.JavaUtils.convert(_resp, boolean.class)).booleanValue();
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;
@@ -10832,8 +10356,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String convertWikiToStorageFormat(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-			com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String convertWikiToStorageFormat(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10847,22 +10370,19 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 		setRequestHeaders(_call);
 		setAttachments(_call);
 		try {
-			final java.lang.Object _resp = _call.invoke(new java.lang.Object[] { in0, in1 });
+			final java.lang.Object _resp = _call.invoke(new java.lang.Object[]{in0, in1});
 
 			if (_resp instanceof java.rmi.RemoteException) {
 				throw (java.rmi.RemoteException) _resp;
-			}
-			else {
+			} else {
 				extractAttachments(_call);
 				try {
 					return (java.lang.String) _resp;
-				}
-				catch (final java.lang.Exception _exception) {
+				} catch (final java.lang.Exception _exception) {
 					return (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_resp, java.lang.String.class);
 				}
 			}
-		}
-		catch (final org.apache.axis.AxisFault axisFaultException) {
+		} catch (final org.apache.axis.AxisFault axisFaultException) {
 			if (axisFaultException.detail != null) {
 				if (axisFaultException.detail instanceof java.rmi.RemoteException) {
 					throw (java.rmi.RemoteException) axisFaultException.detail;

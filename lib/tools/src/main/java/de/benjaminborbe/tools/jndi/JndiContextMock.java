@@ -1,18 +1,17 @@
 package de.benjaminborbe.tools.jndi;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class JndiContextMock implements JndiContext {
 
-	private final Map<String, Object> values = new HashMap<String, Object>();
+	private final Map<String, Object> values = new HashMap<>();
 
 	@Inject
 	public JndiContextMock() {

@@ -62,10 +62,7 @@ public class VncConnector {
 				viewer.connect();
 				connected = true;
 				logger.debug("connect complete");
-			} catch (final UnsupportedProtocolVersionException | FatalException | TransportException | AuthenticationFailedException | UnsupportedSecurityTypeException e) {
-				logger.debug(e.getClass().getName(), e);
-				throw new VncConnectorException(e.getClass().getName(), e);
-			} catch (final IOException e) {
+			} catch (final UnsupportedProtocolVersionException | FatalException | TransportException | AuthenticationFailedException | UnsupportedSecurityTypeException | IOException e) {
 				logger.debug(e.getClass().getName(), e);
 				throw new VncConnectorException(e.getClass().getName(), e);
 			}

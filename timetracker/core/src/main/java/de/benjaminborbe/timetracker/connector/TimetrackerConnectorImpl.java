@@ -1,17 +1,7 @@
 package de.benjaminborbe.timetracker.connector;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
@@ -21,6 +11,14 @@ import de.benjaminborbe.tools.json.JSONArray;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParseException;
 import de.benjaminborbe.tools.json.JSONParser;
+import org.slf4j.Logger;
+
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class TimetrackerConnectorImpl implements TimetrackerConnector {
@@ -40,11 +38,11 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 
 	@Inject
 	public TimetrackerConnectorImpl(
-			final Logger logger,
-			final HttpDownloader httpDownloader,
-			final HttpDownloadUtil httpDownloadUtil,
-			final DateUtil dateUtil,
-			final JSONParser jsonParser) {
+		final Logger logger,
+		final HttpDownloader httpDownloader,
+		final HttpDownloadUtil httpDownloadUtil,
+		final DateUtil dateUtil,
+		final JSONParser jsonParser) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
@@ -57,9 +55,9 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 		try {
 			logger.debug("isCompleted");
 			final URL url = new URL("https://timetracker.rp.seibert-media.net/timetracker/ajax/getTasksAndBookings");
-			final Map<String, String> parameter = new HashMap<String, String>();
+			final Map<String, String> parameter = new HashMap<>();
 			parameter.put("date", dateUtil.germanDateString(date));
-			final Map<String, String> cookies = new HashMap<String, String>();
+			final Map<String, String> cookies = new HashMap<>();
 			cookies.put("JSESSIONID", sessionId);
 			final HttpDownloadResult result = httpDownloader.postUrl(url, parameter, cookies, TIMEOUT);
 			final String content = httpDownloadUtil.getContent(result);
@@ -86,17 +84,7 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			}
 			// System.err.println("content: " + content);
 			return false;
-		}
-		catch (final HttpDownloaderException e) {
-			throw new TimetrackerConnectorException(e);
-		}
-		catch (final MalformedURLException e) {
-			throw new TimetrackerConnectorException(e);
-		}
-		catch (final UnsupportedEncodingException e) {
-			throw new TimetrackerConnectorException(e);
-		}
-		catch (final JSONParseException e) {
+		} catch (final HttpDownloaderException | JSONParseException | UnsupportedEncodingException | MalformedURLException e) {
 			throw new TimetrackerConnectorException(e);
 		}
 	}
@@ -106,7 +94,7 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 		try {
 			logger.debug("getSessionId");
 			final URL url = new URL("https://timetracker.rp.seibert-media.net/timetracker/authentication/signIn/login");
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			data.put("username", username);
 			data.put("password", password);
 			final HttpDownloadResult result = httpDownloader.postUrl(url, data, TIMEOUT);
@@ -116,20 +104,10 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			final int pos2 = content.indexOf("\"", pos1);
 			if (pos1 != -1 && pos2 != -1) {
 				return content.substring(pos1 + startString.length(), pos2);
-			}
-			else {
+			} else {
 				return null;
 			}
-		}
-		catch (final MalformedURLException e) {
-			logger.debug(e.getClass().getSimpleName(), e);
-			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
-		}
-		catch (final HttpDownloaderException e) {
-			logger.debug(e.getClass().getSimpleName(), e);
-			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final MalformedURLException | UnsupportedEncodingException | HttpDownloaderException e) {
 			logger.debug(e.getClass().getSimpleName(), e);
 			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
 		}

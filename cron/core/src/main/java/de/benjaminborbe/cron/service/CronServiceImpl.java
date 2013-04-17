@@ -1,14 +1,7 @@
 package de.benjaminborbe.cron.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -24,6 +17,11 @@ import de.benjaminborbe.cron.util.CronJobRegistry;
 import de.benjaminborbe.cron.util.CronMessageSender;
 import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.mapper.MapException;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class CronServiceImpl implements CronService {
@@ -40,11 +38,11 @@ public class CronServiceImpl implements CronService {
 
 	@Inject
 	public CronServiceImpl(
-			final Logger logger,
-			final CronJobRegistry cronJobRegistry,
-			final AuthorizationService authorizationService,
-			final CronExecutionHistory cronExecutionHistory,
-			final CronMessageSender cronMessageSender) {
+		final Logger logger,
+		final CronJobRegistry cronJobRegistry,
+		final AuthorizationService authorizationService,
+		final CronExecutionHistory cronExecutionHistory,
+		final CronMessageSender cronMessageSender) {
 		this.logger = logger;
 		this.cronJobRegistry = cronJobRegistry;
 		this.authorizationService = authorizationService;
@@ -65,15 +63,14 @@ public class CronServiceImpl implements CronService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
-			final List<CronIdentifier> result = new ArrayList<CronIdentifier>();
+			final List<CronIdentifier> result = new ArrayList<>();
 
 			for (final CronJob cron : cronJobRegistry.getAll()) {
 				result.add(createCronIdentifier(cron.getClass().getName()));
 			}
 
 			return result;
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new CronServiceException(e);
 		}
 	}
@@ -85,18 +82,11 @@ public class CronServiceImpl implements CronService {
 
 	@Override
 	public void triggerCron(final SessionIdentifier sessionIdentifier, final CronIdentifier cronIdentifier) throws CronServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			cronMessageSender.send(cronIdentifier.getId());
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new CronServiceException(e);
-		}
-		catch (final MapException e) {
-			throw new CronServiceException(e);
-		}
-		catch (final MessageServiceException e) {
+		} catch (final AuthorizationServiceException | MessageServiceException | MapException e) {
 			throw new CronServiceException(e);
 		}
 	}

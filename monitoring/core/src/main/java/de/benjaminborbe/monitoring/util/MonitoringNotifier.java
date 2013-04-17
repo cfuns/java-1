@@ -1,14 +1,6 @@
 package de.benjaminborbe.monitoring.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -31,6 +23,12 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class MonitoringNotifier {
 
@@ -57,7 +55,7 @@ public class MonitoringNotifier {
 		@Override
 		public void run() {
 			try {
-				final List<MonitoringNode> nodes = new ArrayList<MonitoringNode>();
+				final List<MonitoringNode> nodes = new ArrayList<>();
 
 				final EntityIterator<MonitoringNodeBean> i = monitoringNodeDao.getEntityIterator();
 				while (i.hasNext()) {
@@ -65,13 +63,12 @@ public class MonitoringNotifier {
 					nodes.add(monitoringNodeBuilder.build(bean));
 				}
 
-				final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<MonitoringNode>(nodes);
-				final List<MonitoringNode> results = new ArrayList<MonitoringNode>();
+				final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<>(nodes);
+				final List<MonitoringNode> results = new ArrayList<>();
 				handle(results, tree.getRootNodes(), tree);
 				if (results.isEmpty()) {
 					logger.debug("no errors found => skip mail");
-				}
-				else {
+				} else {
 					final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(MonitoringConstants.ROLE_MONITORING_SUPERVISOR);
 					final Collection<UserIdentifier> userIdentifiers = authorizationService.getUsersWithRole(roleIdentifier);
 					for (final UserIdentifier userIdentifier : userIdentifiers) {
@@ -84,20 +81,18 @@ public class MonitoringNotifier {
 							notification.setSubject(subject);
 							notification.setMessage(message);
 							notificationService.notify(notification);
-						}
-						catch (NotificationServiceException | ValidationException e) {
+						} catch (NotificationServiceException | ValidationException e) {
 							logger.warn("notify user failed", e);
 						}
 					}
 				}
-			}
-			catch (final EntityIteratorException | AuthorizationServiceException | StorageException e) {
+			} catch (final EntityIteratorException | AuthorizationServiceException | StorageException e) {
 				logger.warn("notify failed", e);
 			}
 		}
 
 		private void handle(final List<MonitoringNode> results, final List<MonitoringNode> list, final MonitoringNodeTree<MonitoringNode> tree) {
-			Collections.sort(list, new MonitoringNodeComparator<MonitoringNode>());
+			Collections.sort(list, new MonitoringNodeComparator<>());
 			for (final MonitoringNode node : list) {
 				final String label = buildLabel(node);
 				if (Boolean.TRUE.equals(node.getActive())) {
@@ -107,21 +102,17 @@ public class MonitoringNotifier {
 							if (node.getFailureCounter() != null && node.getFailureCounter() >= FAILURE_COUNTER_LIMIT) {
 								results.add(node);
 								logger.debug("node " + label + " has failure => add");
-							}
-							else {
+							} else {
 								logger.debug("failureCounter(" + node.getFailureCounter() + ") < limit(" + FAILURE_COUNTER_LIMIT + ") => skip");
 							}
-						}
-						else {
+						} else {
 							logger.debug("node " + label + " is silent => skip");
 						}
-					}
-					else {
+					} else {
 						logger.debug("node " + label + " is success => skip");
 						handle(results, tree.getChildNodes(node.getId()), tree);
 					}
-				}
-				else {
+				} else {
 					logger.debug("node is inactive " + label);
 				}
 			}
@@ -130,13 +121,13 @@ public class MonitoringNotifier {
 
 	@Inject
 	public MonitoringNotifier(
-			final Logger logger,
-			final AuthorizationService authorizationService,
-			final MonitoringNodeBuilder monitoringNodeBuilder,
-			final NotificationService notificationService,
-			final RunOnlyOnceATime runOnlyOnceATime,
-			final MonitoringNodeDao monitoringNodeDao,
-			final MonitoringCheckRegistry monitoringCheckRegistry) {
+		final Logger logger,
+		final AuthorizationService authorizationService,
+		final MonitoringNodeBuilder monitoringNodeBuilder,
+		final NotificationService notificationService,
+		final RunOnlyOnceATime runOnlyOnceATime,
+		final MonitoringNodeDao monitoringNodeDao,
+		final MonitoringCheckRegistry monitoringCheckRegistry) {
 		this.logger = logger;
 		this.authorizationService = authorizationService;
 		this.monitoringNodeBuilder = monitoringNodeBuilder;
@@ -151,8 +142,7 @@ public class MonitoringNotifier {
 		if (runOnlyOnceATime.run(new Action())) {
 			logger.debug("monitoring mailer - finished");
 			return true;
-		}
-		else {
+		} else {
 			logger.debug("monitoring mailer - skipped");
 			return false;
 		}

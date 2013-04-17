@@ -124,9 +124,7 @@ public class MonitoringGuiServlet extends MonitoringWebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			monitoringService.expectMonitoringViewOrAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
-		} catch (final MonitoringServiceException e) {
+		} catch (final AuthenticationServiceException | MonitoringServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

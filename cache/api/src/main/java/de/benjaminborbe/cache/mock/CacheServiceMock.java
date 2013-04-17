@@ -1,18 +1,17 @@
 package de.benjaminborbe.cache.mock;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.cache.api.CacheServiceException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class CacheServiceMock implements CacheService {
 
-	private final Map<String, String> data = new HashMap<String, String>();
+	private final Map<String, String> data = new HashMap<>();
 
 	@Inject
 	public CacheServiceMock() {

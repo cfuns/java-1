@@ -144,7 +144,7 @@ public class WebsearchGuiServlet extends WebsiteHtmlServlet {
 	@Override
 	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
+		final List<JavascriptResource> result = new ArrayList<>();
 		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
 		return result;
 	}

@@ -1,9 +1,9 @@
 package de.benjaminborbe.analytics.gui.chart;
 
+import com.google.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.inject.Inject;
 
 public class AnalyticsReportChartColorGenerator {
 
@@ -44,7 +44,7 @@ public class AnalyticsReportChartColorGenerator {
 		}
 	}
 
-	private final List<Color> colors = new ArrayList<Color>();
+	private final List<Color> colors = new ArrayList<>();
 
 	@Inject
 	public AnalyticsReportChartColorGenerator() {
@@ -88,7 +88,7 @@ public class AnalyticsReportChartColorGenerator {
 
 	public List<String> getColors(final int amount) {
 		final int limit = Math.min(colors.size(), amount);
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		if (limit == 0) {
 			return result;
 		}

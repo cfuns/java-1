@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class RegistryListenerBase<T> extends RegistryBase<T> implements RegistryListener<T> {
 
-	private final Set<RegistryChangeListener<T>> changeListener = new HashSet<RegistryChangeListener<T>>();
+	private final Set<RegistryChangeListener<T>> changeListener = new HashSet<>();
 
 	@SafeVarargs
 	public RegistryListenerBase(final T... ts) {

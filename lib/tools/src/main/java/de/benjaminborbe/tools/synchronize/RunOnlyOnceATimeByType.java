@@ -1,15 +1,14 @@
 package de.benjaminborbe.tools.synchronize;
 
+import com.google.inject.Inject;
+import org.slf4j.Logger;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-
 public class RunOnlyOnceATimeByType {
 
-	private final Set<String> running = new HashSet<String>();
+	private final Set<String> running = new HashSet<>();
 
 	private final Logger logger;
 
@@ -23,14 +22,12 @@ public class RunOnlyOnceATimeByType {
 		if (isNotRunning(type)) {
 			try {
 				runnable.run();
-			}
-			finally {
+			} finally {
 				finished(type);
 			}
 			logger.trace("finished");
 			return true;
-		}
-		else {
+		} else {
 			logger.trace("skipped");
 			return false;
 		}

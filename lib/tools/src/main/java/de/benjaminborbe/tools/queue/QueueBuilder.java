@@ -1,10 +1,8 @@
 package de.benjaminborbe.tools.queue;
 
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.tools.util.ThreadRunner;
+import org.slf4j.Logger;
 
 public class QueueBuilder {
 
@@ -19,7 +17,7 @@ public class QueueBuilder {
 	}
 
 	public <M> Queue<M> buildQueue(final QueueConsumer<M> queueConsumer) {
-		return new Queue<M>(logger, threadRunner, queueConsumer);
+		return new Queue<>(logger, threadRunner, queueConsumer);
 	}
 
 }

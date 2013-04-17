@@ -1,16 +1,7 @@
 package de.benjaminborbe.notification.dao;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
@@ -18,6 +9,13 @@ import de.benjaminborbe.notification.util.NotificationNotifierRegistry;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
+import org.slf4j.Logger;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class NotificationMediaDaoStorage implements NotificationMediaDao {
@@ -45,13 +43,13 @@ public class NotificationMediaDaoStorage implements NotificationMediaDao {
 
 	@Override
 	public void add(final UserIdentifier userIdentifier, final NotificationTypeIdentifier type, final NotificationMediaIdentifier notificationMediaIdentifier)
-			throws StorageException {
+		throws StorageException {
 		storageService.set(COLUMN_FAMILY, getKey(userIdentifier, type), getValue(notificationMediaIdentifier.getId()), getValue(TRUE));
 	}
 
 	@Override
 	public void remove(final UserIdentifier userIdentifier, final NotificationTypeIdentifier type, final NotificationMediaIdentifier notificationMediaIdentifier)
-			throws StorageException {
+		throws StorageException {
 		storageService.set(COLUMN_FAMILY, getKey(userIdentifier, type), getValue(notificationMediaIdentifier.getId()), getValue(FALSE));
 	}
 
@@ -59,7 +57,7 @@ public class NotificationMediaDaoStorage implements NotificationMediaDao {
 	public Collection<NotificationMediaIdentifier> get(final UserIdentifier userIdentifier, final NotificationTypeIdentifier type) throws StorageException {
 		try {
 			logger.debug("get - user: " + userIdentifier + " type: " + type);
-			final List<NotificationMediaIdentifier> result = new ArrayList<NotificationMediaIdentifier>();
+			final List<NotificationMediaIdentifier> result = new ArrayList<>();
 			final Map<StorageValue, StorageValue> data = storageService.get(COLUMN_FAMILY, getKey(userIdentifier, type));
 			for (final NotificationMediaIdentifier notificationMediaIdentifier : notifcationNotifierRegistry.getMedias()) {
 				final StorageValue v = data.get(getValue(notificationMediaIdentifier.getId()));
@@ -68,8 +66,7 @@ public class NotificationMediaDaoStorage implements NotificationMediaDao {
 				}
 			}
 			return result;
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -84,11 +81,10 @@ public class NotificationMediaDaoStorage implements NotificationMediaDao {
 
 	@Override
 	public boolean has(final UserIdentifier userIdentifier, final NotificationTypeIdentifier notificationTypeIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier)
-			throws StorageException {
+		throws StorageException {
 		try {
 			return has(storageService.get(COLUMN_FAMILY, getKey(userIdentifier, notificationTypeIdentifier), getValue(notificationMediaIdentifier.getId())));
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -96,11 +92,9 @@ public class NotificationMediaDaoStorage implements NotificationMediaDao {
 	private boolean has(final StorageValue v) throws UnsupportedEncodingException {
 		if (v != null && TRUE.equals(v.getString())) {
 			return true;
-		}
-		else if (v != null && FALSE.equals(v.getString())) {
+		} else if (v != null && FALSE.equals(v.getString())) {
 			return false;
-		}
-		else {
+		} else {
 			return DEFAULT;
 		}
 	}

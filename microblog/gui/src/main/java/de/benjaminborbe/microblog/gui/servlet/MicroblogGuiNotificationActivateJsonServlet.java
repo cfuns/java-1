@@ -1,18 +1,7 @@
 package de.benjaminborbe.microblog.gui.servlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -31,6 +20,14 @@ import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MicroblogGuiNotificationActivateJsonServlet extends WebsiteJsonServlet {
 
@@ -44,15 +41,15 @@ public class MicroblogGuiNotificationActivateJsonServlet extends WebsiteJsonServ
 
 	@Inject
 	public MicroblogGuiNotificationActivateJsonServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final MicroblogGuiConfig microblogGuiConfig,
-			final MicroblogService microblogService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final MicroblogGuiConfig microblogGuiConfig,
+		final MicroblogService microblogService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.microblogGuiConfig = microblogGuiConfig;
@@ -61,7 +58,7 @@ public class MicroblogGuiNotificationActivateJsonServlet extends WebsiteJsonServ
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final String token = request.getParameter(MicroblogGuiConstants.PARAEMTER_NOTIFICATION_TOKEN);
 			if (token == null || token.isEmpty() || !token.equals(microblogGuiConfig.getAuthToken())) {
@@ -87,9 +84,8 @@ public class MicroblogGuiNotificationActivateJsonServlet extends WebsiteJsonServ
 				logger.debug("activate notification for user: " + login);
 				microblogService.activateNotification(new UserIdentifier(login), keyword);
 				result = true;
-			}
-			catch (final ValidationException e) {
-				final List<String> messages = new ArrayList<String>();
+			} catch (final ValidationException e) {
+				final List<String> messages = new ArrayList<>();
 				for (final ValidationError error : e.getErrors()) {
 					messages.add(error.getMessage());
 				}
@@ -100,8 +96,7 @@ public class MicroblogGuiNotificationActivateJsonServlet extends WebsiteJsonServ
 			jsonObject.put("result", result ? "success" : "failure");
 			printJson(response, jsonObject);
 
-		}
-		catch (final MicroblogServiceException e) {
+		} catch (final MicroblogServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 			printException(response, e);
 		}

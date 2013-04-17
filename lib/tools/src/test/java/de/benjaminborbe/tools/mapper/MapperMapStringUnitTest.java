@@ -1,16 +1,15 @@
 package de.benjaminborbe.tools.mapper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import de.benjaminborbe.tools.json.JSONParser;
+import de.benjaminborbe.tools.json.JSONParserSimple;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
-
-import de.benjaminborbe.tools.json.JSONParser;
-import de.benjaminborbe.tools.json.JSONParserSimple;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class MapperMapStringUnitTest {
 
@@ -18,7 +17,7 @@ public class MapperMapStringUnitTest {
 	public void testMapping() throws Exception {
 		final JSONParser jsonParser = new JSONParserSimple();
 		final MapperMapString mapper = new MapperMapString(jsonParser);
-		final Map<String, String> data = new HashMap<String, String>();
+		final Map<String, String> data = new HashMap<>();
 		data.put("keyA", "valueA");
 		data.put("keyB", "valueB");
 		data.put("keyC", "valueC");
@@ -46,7 +45,7 @@ public class MapperMapStringUnitTest {
 	public void testMappingEmpty() throws Exception {
 		final JSONParser jsonParser = new JSONParserSimple();
 		final MapperMapString mapper = new MapperMapString(jsonParser);
-		final Map<String, String> data = new HashMap<String, String>();
+		final Map<String, String> data = new HashMap<>();
 		final String json = mapper.toString(data);
 		assertNotNull(json);
 		final Map<String, String> d = mapper.fromString(json);
@@ -57,7 +56,7 @@ public class MapperMapStringUnitTest {
 	public void testMappingNullValue() throws Exception {
 		final JSONParser jsonParser = new JSONParserSimple();
 		final MapperMapString mapper = new MapperMapString(jsonParser);
-		final Map<String, String> data = new HashMap<String, String>();
+		final Map<String, String> data = new HashMap<>();
 		data.put("keyA", null);
 		data.put("keyB", "valueB");
 		data.put("keyC", "valueC");

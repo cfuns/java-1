@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -102,23 +101,7 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 				widgets.add(taskGuiLinkFactory.tasksNext(request));
 				widgets.render(request, response, context);
 			}
-		} catch (final TaskServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
-		} catch (final LoginRequiredException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
-		} catch (final PermissionDeniedException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
-		} catch (final ValidationException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			widget.render(request, response, context);
-		} catch (final AuthenticationServiceException e) {
+		} catch (final TaskServiceException | AuthenticationServiceException | ValidationException | PermissionDeniedException | LoginRequiredException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
@@ -126,7 +109,7 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 	}
 
 	private void addTask(final HttpServletRequest request, final HttpServletResponse response, final SessionIdentifier sessionIdentifier, final String input)
-		throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, IOException, UnsupportedEncodingException {
+		throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException, IOException {
 		final TaskIdentifier taskIdentifier = taskService.createTask(sessionIdentifier, taskGuiUtil.quickStringToTask(sessionIdentifier, input));
 		response.sendRedirect(taskGuiLinkFactory.taskViewUrl(request, taskIdentifier));
 	}

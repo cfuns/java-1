@@ -1,13 +1,6 @@
 package de.benjaminborbe.monitoring.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModules;
 import de.benjaminborbe.monitoring.gui.service.MonitoringGuiNavigationEntry;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeCheckServlet;
@@ -29,6 +22,11 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MonitoringGuiActivator extends HttpBundleActivator {
 
@@ -85,7 +83,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, monitoringGuiNavigationEntry, monitoringGuiNavigationEntry.getClass().getName()));
 
 		return result;
@@ -93,7 +91,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(monitoringGuiServlet, MonitoringGuiConstants.URL_HOME));
 		result.add(new ServletInfo(monitoringGuiNodeCheckServlet, MonitoringGuiConstants.URL_NODE_CHECK));
 		result.add(new ServletInfo(monitoringGuiNodeJsonServlet, MonitoringGuiConstants.URL_NODE_JSON));
@@ -112,7 +110,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		return result;
 	}

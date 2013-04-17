@@ -1,20 +1,6 @@
 package de.benjaminborbe.analytics.gui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.Filter;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.analytics.gui.guice.AnalyticsGuiModulesMock;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -23,6 +9,17 @@ import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import org.junit.Test;
+
+import javax.servlet.Filter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class AnalyticsGuiActivatorIntegrationTest {
 
@@ -46,7 +43,7 @@ public class AnalyticsGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<String>();
+		final List<String> paths = new ArrayList<>();
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_LIST);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_VIEW);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_CREATE);
@@ -98,7 +95,7 @@ public class AnalyticsGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<String>();
+		final List<String> paths = new ArrayList<>();
 		paths.add("/" + AnalyticsGuiConstants.NAME + "/js");
 		paths.add("/" + AnalyticsGuiConstants.NAME + "/css");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
@@ -122,7 +119,7 @@ public class AnalyticsGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<String>();
+		final List<String> names = new ArrayList<>();
 		names.add(NavigationEntry.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());

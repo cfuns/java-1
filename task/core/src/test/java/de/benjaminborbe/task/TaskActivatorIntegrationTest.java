@@ -41,7 +41,7 @@ public class TaskActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<String>();
+		final List<String> paths = new ArrayList<>();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
@@ -64,7 +64,7 @@ public class TaskActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<String>();
+		final List<String> names = new ArrayList<>();
 		names.add(TaskService.class.getName());
 		names.add(SearchServiceComponent.class.getName());
 		assertEquals(names.size(), serviceInfos.size());

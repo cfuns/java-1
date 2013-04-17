@@ -59,9 +59,7 @@ public class TaskGuiTaskAttachmentDeleteServlet extends TaskGuiWebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskAttachmentIdentifier taskAttachmentIdentifier = taskService.createTaskAttachmentIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASKATTACHMENT_ID));
 			taskService.deleteAttachment(sessionIdentifier, taskAttachmentIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		} catch (final TaskServiceException e) {
+		} catch (final AuthenticationServiceException | TaskServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

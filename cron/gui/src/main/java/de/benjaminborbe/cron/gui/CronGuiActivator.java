@@ -1,13 +1,6 @@
 package de.benjaminborbe.cron.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.cron.gui.guice.CronGuiModules;
 import de.benjaminborbe.cron.gui.service.CronGuiNavigationEntry;
 import de.benjaminborbe.cron.gui.servlet.CronGuiLatestExecutedServlet;
@@ -20,6 +13,11 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CronGuiActivator extends HttpBundleActivator {
 
@@ -52,7 +50,7 @@ public class CronGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 
 		result.add(new ServletInfo(cronGuiListServlet, CronGuiConstants.URL_LIST));
 		result.add(new ServletInfo(cronGuiTriggerServlet, CronGuiConstants.URL_CRON_TRIGGER));
@@ -65,7 +63,7 @@ public class CronGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, cronGuiNavigationEntry));
 		return result;
 	}

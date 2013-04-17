@@ -1,7 +1,6 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
 import com.google.inject.Inject;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
@@ -43,9 +42,9 @@ public class BottomNaviWidget implements Widget {
 	protected List<GalleryCollection> getGalleries() throws GalleryServiceException {
 		final GalleryGroupIdentifier gi = galleryService.getGroupByNameShared(PortfolioGuiConstants.GROUP_NAME_NAVI_BOTTON);
 		if (gi == null) {
-			return new ArrayList<GalleryCollection>();
+			return new ArrayList<>();
 		}
-		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithGroupShared(gi));
+		final List<GalleryCollection> galleries = new ArrayList<>(galleryService.getCollectionsWithGroupShared(gi));
 		Collections.sort(galleries, galleryComparator);
 		return galleries;
 	}

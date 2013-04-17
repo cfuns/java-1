@@ -1,12 +1,12 @@
 package de.benjaminborbe.tools.validation;
 
+import de.benjaminborbe.api.ValidationError;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import de.benjaminborbe.api.ValidationError;
 
 public abstract class ValidatorBase<T> implements Validator<T> {
 
@@ -24,7 +24,7 @@ public abstract class ValidatorBase<T> implements Validator<T> {
 
 	@Override
 	public final Collection<ValidationError> validate(final T object) {
-		final Set<ValidationError> result = new HashSet<ValidationError>();
+		final Set<ValidationError> result = new HashSet<>();
 		for (final ValidatorRule<T> value : buildRules().values()) {
 			result.addAll(value.validate(object));
 		}
@@ -33,7 +33,7 @@ public abstract class ValidatorBase<T> implements Validator<T> {
 
 	@Override
 	public final Collection<ValidationError> validate(final T object, final Collection<String> fields) {
-		final Set<ValidationError> result = new HashSet<ValidationError>();
+		final Set<ValidationError> result = new HashSet<>();
 		for (final Entry<String, ValidatorRule<T>> e : buildRules().entrySet()) {
 			if (fields.contains(e.getKey())) {
 				result.addAll(e.getValue().validate(object));

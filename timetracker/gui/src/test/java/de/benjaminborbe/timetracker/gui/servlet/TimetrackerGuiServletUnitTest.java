@@ -86,7 +86,7 @@ public class TimetrackerGuiServletUnitTest {
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(startTime), endTime)).andReturn(startTime);
 		EasyMock.replay(parseUtil);
 
-		final Map<String, String> data = new HashMap<String, String>();
+		final Map<String, String> data = new HashMap<>();
 
 		final HttpContext httpContext = EasyMock.createMock(HttpContext.class);
 		EasyMock.expect(httpContext.getData()).andReturn(data).anyTimes();
@@ -96,7 +96,7 @@ public class TimetrackerGuiServletUnitTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<HttpContext>(httpContext);
+		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<>(httpContext);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
@@ -132,6 +132,6 @@ public class TimetrackerGuiServletUnitTest {
 		timetrackerServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Timetracker</h1>") != -1);
+		assertTrue(content.contains("<h1>Timetracker</h1>"));
 	}
 }

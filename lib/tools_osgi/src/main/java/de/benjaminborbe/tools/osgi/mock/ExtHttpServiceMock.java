@@ -1,5 +1,17 @@
 package de.benjaminborbe.tools.osgi.mock;
 
+import com.google.inject.Inject;
+import de.benjaminborbe.tools.url.UrlUtil;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleException;
+import org.osgi.framework.ServiceReference;
+import org.osgi.service.http.HttpContext;
+import org.osgi.service.http.NamespaceException;
+
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -9,28 +21,13 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.Filter;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleException;
-import org.osgi.framework.ServiceReference;
-import org.osgi.service.http.HttpContext;
-import org.osgi.service.http.NamespaceException;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.tools.url.UrlUtil;
-
 public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
-	private final Map<Servlet, String> servletAlias = new HashMap<Servlet, String>();
+	private final Map<Servlet, String> servletAlias = new HashMap<>();
 
-	private final Map<String, String> resourceAlias = new HashMap<String, String>();
+	private final Map<String, String> resourceAlias = new HashMap<>();
 
-	private final Map<Filter, String> filterAlias = new HashMap<Filter, String>();
+	private final Map<Filter, String> filterAlias = new HashMap<>();
 
 	private int unregisterServletCallCounter;
 
@@ -61,7 +58,7 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
 	@Override
 	public void registerServlet(final String alias, final Servlet servlet, @SuppressWarnings("rawtypes") final Dictionary initparams, final HttpContext context)
-			throws ServletException, NamespaceException {
+		throws ServletException, NamespaceException {
 		servletAlias.put(servlet, urlUtil.removeTailingSlash(alias));
 		registerServletCallCounter++;
 	}
@@ -74,7 +71,7 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
 	@Override
 	public void registerFilter(final Filter filter, final String pattern, @SuppressWarnings("rawtypes") final Dictionary initParams, final int ranking, final HttpContext context)
-			throws ServletException {
+		throws ServletException {
 		filterAlias.put(filter, pattern);
 		registerFilterCallCounter++;
 	}

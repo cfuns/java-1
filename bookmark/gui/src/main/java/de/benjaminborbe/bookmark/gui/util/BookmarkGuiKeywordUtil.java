@@ -1,10 +1,10 @@
 package de.benjaminborbe.bookmark.gui.util;
 
+import com.google.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.google.inject.Inject;
 
 public class BookmarkGuiKeywordUtil {
 
@@ -14,7 +14,7 @@ public class BookmarkGuiKeywordUtil {
 	}
 
 	public List<String> buildKeywords(final String keywords) {
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		if (keywords != null) {
 			final String[] parts = keywords.toLowerCase().split("\\s+");
 			for (final String keyword : parts) {

@@ -77,7 +77,7 @@ public class UtilGuiQUnitServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<CssResource> result = new ArrayList<CssResource>(super.getCssResources(request, response));
+		final List<CssResource> result = new ArrayList<>(super.getCssResources(request, response));
 		result.add(new CssResourceImpl(contextPath + "/util/css/qunit-1.9.0.css"));
 		return result;
 	}

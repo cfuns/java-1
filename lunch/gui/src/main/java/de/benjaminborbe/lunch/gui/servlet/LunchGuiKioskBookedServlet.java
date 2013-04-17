@@ -119,7 +119,7 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 			}
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<KioskUser> list = new ArrayList<KioskUser>(lunchService.getBookedUser(calendar));
+			final List<KioskUser> list = new ArrayList<>(lunchService.getBookedUser(calendar));
 
 			if (list.isEmpty()) {
 				widgets.add("no bookings found");
@@ -153,9 +153,7 @@ public class LunchGuiKioskBookedServlet extends LunchGuiHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(LunchService.PERMISSION_BOOKING);
 			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

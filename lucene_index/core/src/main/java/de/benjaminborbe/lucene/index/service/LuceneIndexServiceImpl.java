@@ -1,18 +1,19 @@
 package de.benjaminborbe.lucene.index.service;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.lucene.index.LuceneIndexConstants;
+import de.benjaminborbe.lucene.index.api.LuceneIndexSearchResult;
+import de.benjaminborbe.lucene.index.api.LuceneIndexService;
+import de.benjaminborbe.lucene.index.api.LuceneIndexServiceException;
+import de.benjaminborbe.lucene.index.util.LuceneIndexFactory;
+import de.benjaminborbe.tools.util.StringUtil;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -32,15 +33,11 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.lucene.index.LuceneIndexConstants;
-import de.benjaminborbe.lucene.index.api.LuceneIndexSearchResult;
-import de.benjaminborbe.lucene.index.api.LuceneIndexService;
-import de.benjaminborbe.lucene.index.api.LuceneIndexServiceException;
-import de.benjaminborbe.lucene.index.util.LuceneIndexFactory;
-import de.benjaminborbe.tools.util.StringUtil;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class LuceneIndexServiceImpl implements LuceneIndexService {
@@ -61,7 +58,7 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 	@Override
 	public List<LuceneIndexSearchResult> search(final String indexName, final String searchQuery, final int hitsPerPage) {
 		logger.debug("search in index: " + indexName + " for " + searchQuery);
-		final List<LuceneIndexSearchResult> result = new ArrayList<LuceneIndexSearchResult>();
+		final List<LuceneIndexSearchResult> result = new ArrayList<>();
 		try {
 			final Directory index = indexFactory.getLuceneIndex(indexName);
 
@@ -98,18 +95,14 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 				result.add(buildSearchResult(indexName, document));
 			}
 
-		}
-		catch (final IOException e) {
-			logger.error(e.getClass().getName(), e);
-		}
-		catch (final ParseException e) {
+		} catch (final IOException | ParseException e) {
 			logger.error(e.getClass().getName(), e);
 		}
 		return result;
 	}
 
 	private String[] buildFields() {
-		final List<String> fields = new ArrayList<String>();
+		final List<String> fields = new ArrayList<>();
 		for (final LuceneIndexField field : LuceneIndexField.values()) {
 			fields.add(field.getFieldName());
 		}
@@ -152,19 +145,14 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 			indexWriter.commit();
 			indexWriter.close();
 			indexWriter = null;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			logger.error("IOException", e);
 			throw new LuceneIndexServiceException("IOException", e);
-		}
-		finally {
+		} finally {
 			if (indexWriter != null) {
 				try {
 					indexWriter.close();
-				}
-				catch (final CorruptIndexException e) {
-				}
-				catch (final IOException e) {
+				} catch (final IOException e) {
 				}
 			}
 		}
@@ -187,18 +175,13 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 			indexWriter.commit();
 			indexWriter.close();
 			indexWriter = null;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new LuceneIndexServiceException(e);
-		}
-		finally {
+		} finally {
 			if (indexWriter != null) {
 				try {
 					indexWriter.close();
-				}
-				catch (final CorruptIndexException e) {
-				}
-				catch (final IOException e) {
+				} catch (final IOException e) {
 				}
 			}
 		}
@@ -246,19 +229,14 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 			indexWriter.commit();
 			indexWriter.close();
 			indexWriter = null;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			logger.error("IOException", e);
 			throw new LuceneIndexServiceException("IOException", e);
-		}
-		finally {
+		} finally {
 			if (indexWriter != null) {
 				try {
 					indexWriter.close();
-				}
-				catch (final CorruptIndexException e) {
-				}
-				catch (final IOException e) {
+				} catch (final IOException e) {
 				}
 			}
 		}

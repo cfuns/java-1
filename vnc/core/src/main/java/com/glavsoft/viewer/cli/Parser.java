@@ -24,21 +24,21 @@
 
 package com.glavsoft.viewer.cli;
 
+import com.glavsoft.utils.Strings;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.glavsoft.utils.Strings;
 
 /**
  * Command line interface parameters parser
  */
 public class Parser {
 
-	private final Map<String, Option> options = new LinkedHashMap<String, Option>();
+	private final Map<String, Option> options = new LinkedHashMap<>();
 
-	private final List<String> plainOptions = new ArrayList<String>();
+	private final List<String> plainOptions = new ArrayList<>();
 
 	private boolean isSetPlainOptions = false;
 
@@ -59,8 +59,7 @@ public class Parser {
 						op.value = params[1];
 					}
 				}
-			}
-			else if (!p.startsWith("-")) {
+			} else if (!p.startsWith("-")) {
 				isSetPlainOptions = true;
 				plainOptions.add(p);
 			}

@@ -1,16 +1,15 @@
 package de.benjaminborbe.poker.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.poker.api.PokerCardColor;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerCardValue;
 import de.benjaminborbe.tools.map.MapList;
 import de.benjaminborbe.tools.util.ComparatorUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class PokerCardUtil {
 
@@ -25,7 +24,7 @@ public class PokerCardUtil {
 	}
 
 	public MapList<PokerCardColor, PokerCardIdentifier> groupByColor(final Collection<PokerCardIdentifier> cards) {
-		final MapList<PokerCardColor, PokerCardIdentifier> result = new MapList<PokerCardColor, PokerCardIdentifier>();
+		final MapList<PokerCardColor, PokerCardIdentifier> result = new MapList<>();
 		for (final PokerCardIdentifier card : cards) {
 			result.add(card.getColor(), card);
 		}
@@ -33,7 +32,7 @@ public class PokerCardUtil {
 	}
 
 	public List<PokerCardValue> values(final Collection<PokerCardIdentifier> cards) {
-		final List<PokerCardValue> result = new ArrayList<PokerCardValue>();
+		final List<PokerCardValue> result = new ArrayList<>();
 		for (final PokerCardIdentifier card : cards) {
 			result.add(card.getValue());
 		}
@@ -41,7 +40,7 @@ public class PokerCardUtil {
 	}
 
 	public List<PokerCardColor> colors(final Collection<PokerCardIdentifier> cards) {
-		final List<PokerCardColor> result = new ArrayList<PokerCardColor>();
+		final List<PokerCardColor> result = new ArrayList<>();
 		for (final PokerCardIdentifier card : cards) {
 			result.add(card.getColor());
 		}
@@ -49,7 +48,7 @@ public class PokerCardUtil {
 	}
 
 	public List<PokerCardValue> unique(final List<PokerCardValue> values) {
-		final List<PokerCardValue> result = new ArrayList<PokerCardValue>();
+		final List<PokerCardValue> result = new ArrayList<>();
 		for (final PokerCardValue value : values) {
 			if (!result.contains(value)) {
 				result.add(value);

@@ -106,7 +106,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(startTime), endTime)).andReturn(startTime);
 		EasyMock.replay(parseUtil);
 
-		final Map<String, String> data = new HashMap<String, String>();
+		final Map<String, String> data = new HashMap<>();
 
 		final HttpContext httpContext = EasyMock.createMock(HttpContext.class);
 		EasyMock.expect(httpContext.getData()).andReturn(data).anyTimes();
@@ -116,7 +116,7 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<HttpContext>(httpContext);
+		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<>(httpContext);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);
@@ -153,9 +153,9 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 		EasyMock.expect(taskGuiLinkFactory.tasksCompleted(request)).andReturn(new StringWidget(""));
 		EasyMock.expect(taskGuiLinkFactory.taskContextList(request)).andReturn(new StringWidget(""));
 		EasyMock.replay(taskGuiLinkFactory);
-		final List<Task> allTasks = new ArrayList<Task>();
+		final List<Task> allTasks = new ArrayList<>();
 
-		final List<String> list = new ArrayList<String>();
+		final List<String> list = new ArrayList<>();
 		final TaskGuiUtil taskGuiUtil = EasyMock.createMock(TaskGuiUtil.class);
 		EasyMock.expect(taskGuiUtil.getSelectedTaskContextIds(request)).andReturn(list).anyTimes();
 		EasyMock.expect(taskGuiUtil.getSelectedTaskFocus(request)).andReturn(TaskFocus.INBOX).anyTimes();
@@ -182,11 +182,11 @@ public class TaskGuiTasksUncompletedServletUnitTest {
 
 		final TaskGuiTasksUncompletedServlet taskServlet = new TaskGuiTasksUncompletedServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget,
 			httpContextProvider, urlUtil, authorizationService, taskGuiLinkFactory, taskGuiWidgetFactory, taskGuiUtil, taskGuiSwitchWidget, comparatorUtil,
-			taskComparator, new ProviderAdapter<TaskCache>(taskCache), cacheService);
+			taskComparator, new ProviderAdapter<>(taskCache), cacheService);
 
 		taskServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Tasks</h1>") != -1);
+		assertTrue(content.contains("<h1>Tasks</h1>"));
 	}
 }

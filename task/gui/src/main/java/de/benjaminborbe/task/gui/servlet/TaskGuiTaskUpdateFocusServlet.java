@@ -68,13 +68,7 @@ public class TaskGuiTaskUpdateFocusServlet extends TaskGuiWebsiteServlet {
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 			final TaskFocus taskFocus = parseUtil.parseEnum(TaskFocus.class, request.getParameter(TaskGuiConstants.PARAMETER_TASK_FOCUS));
 			taskService.updateTaskFocus(taskIdentifier, taskFocus);
-		} catch (final AuthenticationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		} catch (final TaskServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		} catch (final ParseException e) {
-			logger.warn(e.getClass().getName(), e);
-		} catch (final ValidationException e) {
+		} catch (final AuthenticationServiceException | ValidationException | ParseException | TaskServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

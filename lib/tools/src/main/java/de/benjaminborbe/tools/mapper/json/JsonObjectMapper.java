@@ -1,14 +1,6 @@
 package de.benjaminborbe.tools.mapper.json;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.json.JSONParseException;
@@ -16,6 +8,13 @@ import de.benjaminborbe.tools.json.JSONParser;
 import de.benjaminborbe.tools.json.JSONParserSimple;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class JsonObjectMapper<T> {
 
@@ -30,7 +29,7 @@ public class JsonObjectMapper<T> {
 
 	public JsonObjectMapper(final Provider<T> provider, final Collection<StringObjectMapper<T>> mapSingles) {
 		this.provider = provider;
-		this.mappings = new ArrayList<StringObjectMapper<T>>(mapSingles);
+		this.mappings = new ArrayList<>(mapSingles);
 	}
 
 	public String toJson(final T bean) throws MapException {
@@ -44,8 +43,7 @@ public class JsonObjectMapper<T> {
 			final StringWriter sw = new StringWriter();
 			jsonObject.writeJSONString(sw);
 			return sw.toString();
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new MapException(e);
 		}
 	}
@@ -66,8 +64,7 @@ public class JsonObjectMapper<T> {
 				return bean;
 			}
 			throw new MapException("not a json object");
-		}
-		catch (final JSONParseException e) {
+		} catch (final JSONParseException e) {
 			throw new MapException(e);
 		}
 	}

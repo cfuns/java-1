@@ -1,25 +1,23 @@
 package de.benjaminborbe.eventbus.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.eventbus.api.Event;
 import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.api.HandlerRegistration;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class EventbusServiceImpl implements EventbusService {
 
-	private final Map<Type<EventHandler>, List<EventHandler>> handlers = new HashMap<Type<EventHandler>, List<EventHandler>>();
+	private final Map<Type<EventHandler>, List<EventHandler>> handlers = new HashMap<>();
 
 	private final Logger logger;
 
@@ -34,7 +32,7 @@ public class EventbusServiceImpl implements EventbusService {
 		logger.trace("CoreEventbus - register handler: " + handler.toString() + " for type: " + type.toString());
 		List<EventHandler> eventHandlers = handlers.get(type);
 		if (eventHandlers == null) {
-			eventHandlers = new ArrayList<EventHandler>();
+			eventHandlers = new ArrayList<>();
 			handlers.put((Type<EventHandler>) type, eventHandlers);
 		}
 		eventHandlers.add(handler);

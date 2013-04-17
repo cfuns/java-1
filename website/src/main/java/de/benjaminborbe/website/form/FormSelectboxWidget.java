@@ -1,11 +1,5 @@
 package de.benjaminborbe.website.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.util.CompositeWidget;
@@ -13,8 +7,13 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+
 public class FormSelectboxWidget extends CompositeWidget implements FormElementWidget, HasPaceholder<FormSelectboxWidget>, HasId<FormSelectboxWidget>,
-		HasOption<FormSelectboxWidget>, HasLabel<FormSelectboxWidget>, HasDefaultValue<FormSelectboxWidget>, HasName<FormSelectboxWidget>, HasValue<FormSelectboxWidget> {
+	HasOption<FormSelectboxWidget>, HasLabel<FormSelectboxWidget>, HasDefaultValue<FormSelectboxWidget>, HasName<FormSelectboxWidget>, HasValue<FormSelectboxWidget> {
 
 	private final class Option {
 
@@ -36,7 +35,7 @@ public class FormSelectboxWidget extends CompositeWidget implements FormElementW
 		}
 	}
 
-	private final List<Option> options = new ArrayList<Option>();
+	private final List<Option> options = new ArrayList<>();
 
 	private String name;
 

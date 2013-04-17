@@ -1,16 +1,8 @@
 package de.benjaminborbe.message.service;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.api.ValidationException;
@@ -38,6 +30,12 @@ import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class MessageServiceImpl implements MessageService {
@@ -66,16 +64,16 @@ public class MessageServiceImpl implements MessageService {
 
 	@Inject
 	public MessageServiceImpl(
-			final Logger logger,
-			final MessageLock messageLock,
-			final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider,
-			final ValidationExecutor validationExecutor,
-			final AnalyticsService analyticsService,
-			final MessageDao messageDao,
-			final IdGeneratorUUID idGeneratorUUID,
-			final MessageUnlock messageUnlock,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil) {
+		final Logger logger,
+		final MessageLock messageLock,
+		final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider,
+		final ValidationExecutor validationExecutor,
+		final AnalyticsService analyticsService,
+		final MessageDao messageDao,
+		final IdGeneratorUUID idGeneratorUUID,
+		final MessageUnlock messageUnlock,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil) {
 		this.logger = logger;
 		this.messageLock = messageLock;
 		this.messageConsumerExchangerProvider = messageConsumerExchangerProvider;
@@ -100,8 +98,7 @@ public class MessageServiceImpl implements MessageService {
 			if (messageDao.exists(messageIdentifier)) {
 				logger.trace("message already exists => skip");
 				return;
-			}
-			else {
+			} else {
 				logger.trace("message not exists => sendMessage");
 				final MessageBean bean = messageDao.create();
 				bean.setId(messageIdentifier);
@@ -121,11 +118,7 @@ public class MessageServiceImpl implements MessageService {
 				messageDao.save(bean);
 				track(analyticsReportIdentifierMessageInsert);
 			}
-		}
-		catch (final StorageException e) {
-			throw new MessageServiceException(e);
-		}
-		catch (final ValidationException e) {
+		} catch (final StorageException | ValidationException e) {
 			throw new MessageServiceException(e);
 		}
 	}
@@ -133,8 +126,7 @@ public class MessageServiceImpl implements MessageService {
 	private void track(final AnalyticsReportIdentifier id) {
 		try {
 			analyticsService.addReportValue(id);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.warn("track " + id + " failed", e);
 		}
 	}
@@ -149,8 +141,7 @@ public class MessageServiceImpl implements MessageService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			return messageUnlock.execute();
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new MessageServiceException(e);
 		}
 	}
@@ -160,8 +151,7 @@ public class MessageServiceImpl implements MessageService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			return messageLock.getLockName();
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new MessageServiceException(e);
 		}
 	}
@@ -176,14 +166,7 @@ public class MessageServiceImpl implements MessageService {
 				final MessageIdentifier messageIdentifier = i.next();
 				messageDao.delete(messageIdentifier);
 			}
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new MessageServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new MessageServiceException(e);
-		}
-		catch (final IdentifierIteratorException e) {
+		} catch (final AuthorizationServiceException | IdentifierIteratorException | StorageException e) {
 			throw new MessageServiceException(e);
 		}
 	}
@@ -193,37 +176,26 @@ public class MessageServiceImpl implements MessageService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
-			final List<Message> result = new ArrayList<Message>();
+			final List<Message> result = new ArrayList<>();
 			final EntityIterator<MessageBean> i = messageDao.getEntityIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 
 			return result;
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new MessageServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new MessageServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final AuthorizationServiceException | EntityIteratorException | StorageException e) {
 			throw new MessageServiceException(e);
 		}
 	}
 
 	@Override
 	public void deleteById(final SessionIdentifier sessionIdentifier, final MessageIdentifier messageIdentifier) throws MessageServiceException, PermissionDeniedException,
-			LoginRequiredException {
+		LoginRequiredException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
 			messageDao.delete(messageIdentifier);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new MessageServiceException(e);
-		}
-		catch (final StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new MessageServiceException(e);
 		}
 	}
@@ -240,8 +212,7 @@ public class MessageServiceImpl implements MessageService {
 
 			messageConsumerExchangerProvider.get().exchange();
 			return true;
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new MessageServiceException(e);
 		}
 	}

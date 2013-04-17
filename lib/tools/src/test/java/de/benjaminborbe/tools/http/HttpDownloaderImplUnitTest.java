@@ -1,17 +1,17 @@
 package de.benjaminborbe.tools.http;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class HttpDownloaderImplUnitTest {
 
 	@Test
 	public void testbuildCookieString() {
-		final Map<String, String> data = new HashMap<String, String>();
+		final Map<String, String> data = new HashMap<>();
 		data.put("userId", "igbrown");
 		data.put("sessionId", "SID77689211949");
 		data.put("isAuthenticated", "true");

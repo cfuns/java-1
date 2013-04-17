@@ -1,15 +1,14 @@
 package de.benjaminborbe.portfolio.gui.util;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.gallery.api.GalleryCollection;
+import org.easymock.EasyMock;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.easymock.EasyMock;
-import org.junit.Test;
-
-import de.benjaminborbe.gallery.api.GalleryCollection;
+import static org.junit.Assert.assertEquals;
 
 public class PortfolioGuiGalleryCollectionComparatorPrioUnitTest {
 
@@ -18,12 +17,12 @@ public class PortfolioGuiGalleryCollectionComparatorPrioUnitTest {
 		final PortfolioGuiGalleryCollectionComparatorPrio galleryComparatorPrio = new PortfolioGuiGalleryCollectionComparatorPrio();
 
 		{
-			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> list = new ArrayList<>();
 			Collections.sort(list, galleryComparatorPrio);
 		}
 
 		{
-			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> list = new ArrayList<>();
 			list.add(build("a", 1l));
 			list.add(build("b", 2l));
 			list.add(build("c", 3l));
@@ -34,7 +33,7 @@ public class PortfolioGuiGalleryCollectionComparatorPrioUnitTest {
 		}
 
 		{
-			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> list = new ArrayList<>();
 			list.add(build("a", 1l));
 			list.add(build("b", 2l));
 			list.add(build("c", null));

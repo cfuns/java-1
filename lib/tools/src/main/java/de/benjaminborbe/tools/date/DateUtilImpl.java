@@ -1,12 +1,11 @@
 package de.benjaminborbe.tools.date;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.tools.util.ParseException;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Singleton
 public class DateUtilImpl implements DateUtil {
@@ -44,11 +43,7 @@ public class DateUtilImpl implements DateUtil {
 		final SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			return datetimeformat.parse(datetime);
-		}
-		catch (final NullPointerException e) {
-			throw new ParseException(e);
-		}
-		catch (final java.text.ParseException e) {
+		} catch (final NullPointerException | java.text.ParseException e) {
 			throw new ParseException(e);
 		}
 	}
@@ -58,11 +53,7 @@ public class DateUtilImpl implements DateUtil {
 		final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			return dateformat.parse(date);
-		}
-		catch (final NullPointerException e) {
-			throw new ParseException(e);
-		}
-		catch (final java.text.ParseException e) {
+		} catch (final NullPointerException | java.text.ParseException e) {
 			throw new ParseException(e);
 		}
 	}
@@ -78,8 +69,7 @@ public class DateUtilImpl implements DateUtil {
 		final Date now = new Date();
 		try {
 			return parseDate(dateString(now));
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return now;
 		}
 	}

@@ -1,9 +1,8 @@
 package de.benjaminborbe.storage.util;
 
-import java.nio.ByteBuffer;
-import java.util.List;
-import java.util.NoSuchElementException;
-
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageValue;
 import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ConsistencyLevel;
@@ -16,9 +15,9 @@ import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
-import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.api.StorageIterator;
-import de.benjaminborbe.storage.api.StorageValue;
+import java.nio.ByteBuffer;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class StorageKeyIteratorImpl implements StorageIterator {
 
@@ -70,29 +69,14 @@ public class StorageKeyIteratorImpl implements StorageIterator {
 			if (cols == null) {
 				cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
 				currentPos = 0;
-			}
-			else if (currentPos == cols.size()) {
+			} else if (currentPos == cols.size()) {
 				cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
 				currentPos = 1;
 			}
 			return currentPos < cols.size();
-		}
-		catch (final InvalidRequestException e) {
+		} catch (final InvalidRequestException | StorageConnectionPoolException | TException | TimedOutException | UnavailableException e) {
 			throw new StorageException(e);
-		}
-		catch (final UnavailableException e) {
-			throw new StorageException(e);
-		}
-		catch (final TimedOutException e) {
-			throw new StorageException(e);
-		}
-		catch (final TException e) {
-			throw new StorageException(e);
-		}
-		catch (final StorageConnectionPoolException e) {
-			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			storageConnectionPool.releaseConnection(connection);
 		}
 	}
@@ -104,8 +88,7 @@ public class StorageKeyIteratorImpl implements StorageIterator {
 			range.setStart_key(result);
 			currentPos++;
 			return new StorageValue(result, encoding);
-		}
-		else {
+		} else {
 			throw new NoSuchElementException();
 		}
 	}

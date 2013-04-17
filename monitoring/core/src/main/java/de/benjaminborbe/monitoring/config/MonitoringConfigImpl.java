@@ -1,13 +1,6 @@
 package de.benjaminborbe.monitoring.config;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
@@ -15,6 +8,11 @@ import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.monitoring.MonitoringConstants;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MonitoringConfigImpl extends ConfigurationBase implements MonitoringConfig {
 
@@ -29,7 +27,7 @@ public class MonitoringConfigImpl extends ConfigurationBase implements Monitorin
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
+		final Set<ConfigurationDescription> result = new HashSet<>();
 		result.add(cronEnabled);
 		result.add(authToken);
 		return result;

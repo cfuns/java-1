@@ -1,16 +1,16 @@
 package de.benjaminborbe.tools.validation;
 
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationResult;
+
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import de.benjaminborbe.api.ValidationError;
-import de.benjaminborbe.api.ValidationResult;
-
 public class ValidationResultImpl implements ValidationResult {
 
-	private final Set<ValidationError> errors = new HashSet<ValidationError>();
+	private final Set<ValidationError> errors = new HashSet<>();
 
 	public ValidationResultImpl() {
 	}
@@ -42,8 +42,7 @@ public class ValidationResultImpl implements ValidationResult {
 		for (final ValidationError error : errors) {
 			if (first) {
 				first = false;
-			}
-			else {
+			} else {
 				sw.append(", ");
 			}
 			sw.append(String.valueOf(error));

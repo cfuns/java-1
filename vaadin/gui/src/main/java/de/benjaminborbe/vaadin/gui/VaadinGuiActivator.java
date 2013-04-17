@@ -1,19 +1,17 @@
 package de.benjaminborbe.vaadin.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.vaadin.gui.guice.VaadinGuiModules;
 import de.benjaminborbe.vaadin.gui.servlet.VaadinGuiApplicationServlet;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class VaadinGuiActivator extends HttpBundleActivator {
 
@@ -31,14 +29,14 @@ public class VaadinGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(vaadinGuiApplicationServlet, "/"));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
 		result.add(new ResourceInfo("/VAADIN", "VAADIN", true));
 		return result;
 	}

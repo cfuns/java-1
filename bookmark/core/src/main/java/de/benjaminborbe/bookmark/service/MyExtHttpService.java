@@ -1,26 +1,24 @@
 package de.benjaminborbe.bookmark.service;
 
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.Filter;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.NamespaceException;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class MyExtHttpService implements ExtHttpService {
 
 	private final ServletPathRegistry registry;
 
-	private final Map<Servlet, String> servletAlias = new HashMap<Servlet, String>();
+	private final Map<Servlet, String> servletAlias = new HashMap<>();
 
 	@Inject
 	public MyExtHttpService(final ServletPathRegistry registry) {
@@ -29,7 +27,7 @@ public class MyExtHttpService implements ExtHttpService {
 
 	@Override
 	public void registerServlet(final String alias, final Servlet servlet, @SuppressWarnings("rawtypes") final Dictionary initparams, final HttpContext context)
-			throws ServletException, NamespaceException {
+		throws ServletException, NamespaceException {
 		registry.add(alias);
 		servletAlias.put(servlet, alias);
 	}
@@ -50,7 +48,7 @@ public class MyExtHttpService implements ExtHttpService {
 
 	@Override
 	public void registerFilter(final Filter filter, final String pattern, @SuppressWarnings("rawtypes") final Dictionary initParams, final int ranking, final HttpContext context)
-			throws ServletException {
+		throws ServletException {
 	}
 
 	@Override

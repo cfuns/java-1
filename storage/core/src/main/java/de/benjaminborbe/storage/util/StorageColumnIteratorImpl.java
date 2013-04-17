@@ -1,10 +1,9 @@
 package de.benjaminborbe.storage.util;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.util.List;
-import java.util.NoSuchElementException;
-
+import de.benjaminborbe.storage.api.StorageColumn;
+import de.benjaminborbe.storage.api.StorageColumnIterator;
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageValue;
 import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.ColumnOrSuperColumn;
 import org.apache.cassandra.thrift.ColumnParent;
@@ -16,10 +15,10 @@ import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
-import de.benjaminborbe.storage.api.StorageColumn;
-import de.benjaminborbe.storage.api.StorageColumnIterator;
-import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.api.StorageValue;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class StorageColumnIteratorImpl implements StorageColumnIterator {
 
@@ -46,12 +45,12 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 	private int columnPos = 0;
 
 	public StorageColumnIteratorImpl(
-			final StorageConnectionPool storageConnectionPool,
-			final String keySpace,
-			final String columnFamily,
-			final String encoding,
-			final StorageValue id,
-			final boolean reversed) throws UnsupportedEncodingException {
+		final StorageConnectionPool storageConnectionPool,
+		final String keySpace,
+		final String columnFamily,
+		final String encoding,
+		final StorageValue id,
+		final boolean reversed) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.encoding = encoding;
@@ -76,30 +75,15 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 				if (columns != null) {
 					slice_range.setStart(columns.get(columns.size() - 1).getColumn().getName());
 					columnPos = 1;
-				}
-				else {
+				} else {
 					columnPos = 0;
 				}
 				columns = client.get_slice(key, columnParent, predicate, consistency_level);
 			}
 			return columns != null && columns.size() > columnPos;
-		}
-		catch (final StorageConnectionPoolException e) {
+		} catch (final StorageConnectionPoolException | TimedOutException | UnavailableException | TException | InvalidRequestException e) {
 			throw new StorageException(e);
-		}
-		catch (final InvalidRequestException e) {
-			throw new StorageException(e);
-		}
-		catch (final TException e) {
-			throw new StorageException(e);
-		}
-		catch (final UnavailableException e) {
-			throw new StorageException(e);
-		}
-		catch (final TimedOutException e) {
-			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (connection != null)
 				storageConnectionPool.releaseConnection(connection);
 		}
@@ -112,8 +96,7 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 			final StorageColumn result = new StorageColumnImpl(new StorageValue(column.getColumn().getName(), encoding), new StorageValue(column.getColumn().getValue(), encoding));
 			columnPos++;
 			return result;
-		}
-		else {
+		} else {
 			throw new NoSuchElementException();
 		}
 	}

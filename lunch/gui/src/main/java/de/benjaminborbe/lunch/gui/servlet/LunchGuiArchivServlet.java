@@ -19,7 +19,6 @@ import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.website.servlet.RedirectUtil;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class LunchGuiArchivServlet extends LunchGuiBaseServlet {
 
 	@Override
 	protected List<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException, LoginRequiredException, PermissionDeniedException {
-		return new ArrayList<Lunch>(lunchService.getLunchsArchiv(sessionIdentifier, fullname));
+		return new ArrayList<>(lunchService.getLunchsArchiv(sessionIdentifier, fullname));
 	}
 
 }

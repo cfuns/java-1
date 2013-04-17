@@ -1,21 +1,19 @@
 package de.benjaminborbe.analytics.util;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import com.google.inject.Injector;
+import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
+import de.benjaminborbe.analytics.guice.AnalyticsModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.google.inject.Injector;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
-import de.benjaminborbe.analytics.guice.AnalyticsModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(Parameterized.class)
 public class AnalyticsAggregatorCalculatorFactoryIntegrationTest {
@@ -24,9 +22,9 @@ public class AnalyticsAggregatorCalculatorFactoryIntegrationTest {
 
 	@Parameters(name = "{index} - {0}")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<Object[]>();
+		final List<Object[]> result = new ArrayList<>();
 		for (final AnalyticsReportAggregation analyticsReportAggregation : AnalyticsReportAggregation.values()) {
-			result.add(new Object[] { analyticsReportAggregation });
+			result.add(new Object[]{analyticsReportAggregation});
 		}
 		return result;
 	}

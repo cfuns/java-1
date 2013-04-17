@@ -1,14 +1,7 @@
 package de.benjaminborbe.note.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -31,6 +24,11 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class NoteServiceImpl implements NoteService {
@@ -49,12 +47,12 @@ public class NoteServiceImpl implements NoteService {
 
 	@Inject
 	public NoteServiceImpl(
-			final Logger logger,
-			final ValidationExecutor validationExecutor,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final NoteDao noteDao,
-			final IdGeneratorUUID idGeneratorUUID) {
+		final Logger logger,
+		final ValidationExecutor validationExecutor,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final NoteDao noteDao,
+		final IdGeneratorUUID idGeneratorUUID) {
 		this.logger = logger;
 		this.validationExecutor = validationExecutor;
 		this.authenticationService = authenticationService;
@@ -70,7 +68,7 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public Note getNote(final SessionIdentifier sessionIdentifier, final NoteIdentifier noteIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			NoteServiceException {
+		NoteServiceException {
 		try {
 			authorizationService.existsPermission(authorizationService.createPermissionIdentifier(PERMISSION));
 			logger.debug("getNote - id: " + noteIdentifier);
@@ -78,15 +76,14 @@ public class NoteServiceImpl implements NoteService {
 			final NoteBean note = noteDao.load(noteIdentifier);
 			authorizationService.expectUser(sessionIdentifier, note.getOwner());
 			return note;
-		}
-		catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new NoteServiceException(e);
 		}
 	}
 
 	@Override
 	public NoteIdentifier createNote(final SessionIdentifier sessionIdentifier, final NoteDto noteDto) throws PermissionDeniedException, LoginRequiredException,
-			NoteServiceException, ValidationException {
+		NoteServiceException, ValidationException {
 		try {
 			authorizationService.existsPermission(authorizationService.createPermissionIdentifier(PERMISSION));
 			logger.debug("createNote");
@@ -106,15 +103,14 @@ public class NoteServiceImpl implements NoteService {
 
 			noteDao.save(bean);
 			return id;
-		}
-		catch (final AuthorizationServiceException | AuthenticationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException | AuthenticationServiceException | StorageException e) {
 			throw new NoteServiceException(e);
 		}
 	}
 
 	@Override
 	public void updateNote(final SessionIdentifier sessionIdentifier, final NoteDto noteDto) throws PermissionDeniedException, LoginRequiredException, NoteServiceException,
-			ValidationException {
+		ValidationException {
 		try {
 			authorizationService.existsPermission(authorizationService.createPermissionIdentifier(PERMISSION));
 			logger.debug("updateNote");
@@ -131,23 +127,21 @@ public class NoteServiceImpl implements NoteService {
 			}
 
 			noteDao.save(bean);
-		}
-		catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new NoteServiceException(e);
 		}
 	}
 
 	@Override
 	public void deleteNote(final SessionIdentifier sessionIdentifier, final NoteIdentifier noteIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			NoteServiceException {
+		NoteServiceException {
 		try {
 			authorizationService.existsPermission(authorizationService.createPermissionIdentifier(PERMISSION));
 			logger.debug("deleteNote");
 			final NoteBean note = noteDao.load(noteIdentifier);
 			authorizationService.expectUser(sessionIdentifier, note.getOwner());
 			noteDao.delete(note);
-		}
-		catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new NoteServiceException(e);
 		}
 	}
@@ -159,13 +153,12 @@ public class NoteServiceImpl implements NoteService {
 			logger.debug("getNodes");
 			final UserIdentifier user = authenticationService.getCurrentUser(sessionIdentifier);
 			final EntityIterator<NoteBean> i = noteDao.getEntityIterator(user);
-			final List<Note> result = new ArrayList<Note>();
+			final List<Note> result = new ArrayList<>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final AuthenticationServiceException | EntityIteratorException | AuthorizationServiceException | StorageException e) {
+		} catch (final AuthenticationServiceException | EntityIteratorException | AuthorizationServiceException | StorageException e) {
 			throw new NoteServiceException(e);
 		}
 	}

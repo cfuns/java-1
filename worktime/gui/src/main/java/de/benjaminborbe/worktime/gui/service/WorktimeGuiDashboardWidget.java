@@ -1,17 +1,7 @@
 package de.benjaminborbe.worktime.gui.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -28,6 +18,13 @@ import de.benjaminborbe.worktime.api.WorktimeService;
 import de.benjaminborbe.worktime.api.WorktimeServiceException;
 import de.benjaminborbe.worktime.gui.WorktimeGuiConstants;
 import de.benjaminborbe.worktime.gui.widget.WorktimeListWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class WorktimeGuiDashboardWidget implements DashboardContentWidget, RequireJavascriptResource, Widget {
@@ -64,8 +61,7 @@ public class WorktimeGuiDashboardWidget implements DashboardContentWidget, Requi
 			final List<Workday> worktimes = worktimeService.getTimes(dayAmount);
 			widgets.add(new WorktimeListWidget(dateUtil, calendarUtil, worktimes));
 			widgets.render(request, response, context);
-		}
-		catch (final WorktimeServiceException e) {
+		} catch (final WorktimeServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
@@ -80,7 +76,7 @@ public class WorktimeGuiDashboardWidget implements DashboardContentWidget, Requi
 	@Override
 	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
+		final List<JavascriptResource> result = new ArrayList<>();
 		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
 		return result;
 	}

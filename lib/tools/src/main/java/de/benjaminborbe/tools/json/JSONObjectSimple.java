@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class JSONObjectSimple implements JSONObject, Map<String, Object> {
 
-	private final Map<String, Object> data = new HashMap<String, Object>();
+	private final Map<String, Object> data = new HashMap<>();
 
 	@Override
 	public void writeJSONString(final Writer out) throws IOException {
@@ -26,8 +26,7 @@ public class JSONObjectSimple implements JSONObject, Map<String, Object> {
 		for (final Entry<String, Object> e : data.entrySet()) {
 			if (first) {
 				first = false;
-			}
-			else {
+			} else {
 				out.append(',');
 			}
 			final String key = e.getKey();

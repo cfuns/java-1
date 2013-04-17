@@ -1,13 +1,5 @@
 package de.benjaminborbe.website.widget;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -18,13 +10,20 @@ import de.benjaminborbe.website.util.JavascriptResourceWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.TagWidget;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class HeadWidget implements Widget {
 
 	private String title;
 
-	private final List<JavascriptResource> javascriptResources = new ArrayList<JavascriptResource>();
+	private final List<JavascriptResource> javascriptResources = new ArrayList<>();
 
-	private final List<CssResource> cssResources = new ArrayList<CssResource>();
+	private final List<CssResource> cssResources = new ArrayList<>();
 
 	private final ListWidget widgets = new ListWidget();
 

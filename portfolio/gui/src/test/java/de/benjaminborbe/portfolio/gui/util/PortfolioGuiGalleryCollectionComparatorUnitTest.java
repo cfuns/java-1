@@ -1,17 +1,16 @@
 package de.benjaminborbe.portfolio.gui.util;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.gallery.api.GalleryCollection;
+import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
-
-import de.benjaminborbe.gallery.api.GalleryCollection;
-import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
-import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
+import static org.junit.Assert.assertEquals;
 
 public class PortfolioGuiGalleryCollectionComparatorUnitTest {
 
@@ -22,17 +21,17 @@ public class PortfolioGuiGalleryCollectionComparatorUnitTest {
 		final PortfolioGuiGalleryCollectionComparator galleryComparator = new PortfolioGuiGalleryCollectionComparator(galleryComparatorName, galleryComparatorPrio);
 
 		{
-			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> list = new ArrayList<>();
 			Collections.sort(list, galleryComparator);
 		}
 
 		{
-			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> list = new ArrayList<>();
 			list.add(build("name", 1l));
 			Collections.sort(list, galleryComparator);
 		}
 		{
-			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> list = new ArrayList<>();
 			list.add(build("a", 1l));
 			list.add(build("c", 1l));
 			list.add(build("b", 1l));
@@ -42,7 +41,7 @@ public class PortfolioGuiGalleryCollectionComparatorUnitTest {
 			assertEquals("c", list.get(2).getName());
 		}
 		{
-			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> list = new ArrayList<>();
 			list.add(build("a", null));
 			list.add(build("c", null));
 			list.add(build("b", null));
@@ -52,7 +51,7 @@ public class PortfolioGuiGalleryCollectionComparatorUnitTest {
 			assertEquals("c", list.get(2).getName());
 		}
 		{
-			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> list = new ArrayList<>();
 			list.add(build("a", 2l));
 			list.add(build("c", 1l));
 			list.add(build("b", 2l));
@@ -62,7 +61,7 @@ public class PortfolioGuiGalleryCollectionComparatorUnitTest {
 			assertEquals("c", list.get(2).getName());
 		}
 		{
-			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
+			final List<GalleryCollection> list = new ArrayList<>();
 			list.add(build("a", null));
 			list.add(build("c", 1l));
 			list.add(build("b", null));

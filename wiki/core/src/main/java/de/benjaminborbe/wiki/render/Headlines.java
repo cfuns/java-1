@@ -1,17 +1,17 @@
 package de.benjaminborbe.wiki.render;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.benjaminborbe.wiki.render.part.Head1Part;
 import de.benjaminborbe.wiki.render.part.Head2Part;
 import de.benjaminborbe.wiki.render.part.Head3Part;
 import de.benjaminborbe.wiki.render.part.Part;
 import de.benjaminborbe.wiki.render.part.TocPart;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Headlines {
 
-	private final List<Head1Part> h1s = new ArrayList<Head1Part>();
+	private final List<Head1Part> h1s = new ArrayList<>();
 
 	public Part createHead1Part(final String title) {
 		final Head1Part p = new Head1Part(title);

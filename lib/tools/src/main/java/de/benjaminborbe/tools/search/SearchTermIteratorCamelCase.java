@@ -1,18 +1,18 @@
 package de.benjaminborbe.tools.search;
 
+import de.benjaminborbe.api.IteratorWithoutException;
+import de.benjaminborbe.tools.iterator.IteratorWithoutExceptionBase;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import de.benjaminborbe.api.IteratorWithoutException;
-import de.benjaminborbe.tools.iterator.IteratorWithoutExceptionBase;
-
 public class SearchTermIteratorCamelCase extends IteratorWithoutExceptionBase<String> {
 
 	private final IteratorWithoutException<String> iterator;
 
-	private final Queue<String> words = new LinkedList<String>();
+	private final Queue<String> words = new LinkedList<>();
 
 	public SearchTermIteratorCamelCase(final IteratorWithoutException<String> iterator) {
 		this.iterator = iterator;
@@ -28,14 +28,13 @@ public class SearchTermIteratorCamelCase extends IteratorWithoutExceptionBase<St
 		}
 		if (!words.isEmpty()) {
 			return words.poll();
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
 
 	private List<String> buildWords(final String content) {
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		final char[] chars = content.toCharArray();
 		if (chars.length > 1 && Character.isUpperCase(chars[0]) && Character.isLowerCase(chars[1])) {
 			int startPos = 0;
@@ -46,8 +45,7 @@ public class SearchTermIteratorCamelCase extends IteratorWithoutExceptionBase<St
 				}
 			}
 			result.add(content.substring(startPos));
-		}
-		else {
+		} else {
 			result.add(content);
 		}
 		return result;

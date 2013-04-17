@@ -1,17 +1,16 @@
 package de.benjaminborbe.microblog.util;
 
-import java.util.Collection;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.map.MapList;
+
+import java.util.Collection;
 
 @Singleton
 public class MicroblogNotification {
 
-	private final MapList<UserIdentifier, String> keywords = new MapList<UserIdentifier, String>();
+	private final MapList<UserIdentifier, String> keywords = new MapList<>();
 
 	@Inject
 	public MicroblogNotification() {

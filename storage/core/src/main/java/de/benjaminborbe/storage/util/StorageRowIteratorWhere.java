@@ -96,15 +96,7 @@ public class StorageRowIteratorWhere implements StorageRowIterator {
 				currentPos = 1;
 			}
 			return currentPos < cols.size();
-		} catch (final InvalidRequestException e) {
-			throw new StorageException(e);
-		} catch (final UnavailableException e) {
-			throw new StorageException(e);
-		} catch (final TimedOutException e) {
-			throw new StorageException(e);
-		} catch (final TException e) {
-			throw new StorageException(e);
-		} catch (final StorageConnectionPoolException e) {
+		} catch (final InvalidRequestException | StorageConnectionPoolException | TException | TimedOutException | UnavailableException e) {
 			throw new StorageException(e);
 		} finally {
 			storageConnectionPool.releaseConnection(connection);

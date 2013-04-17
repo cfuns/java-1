@@ -1,28 +1,6 @@
 package de.benjaminborbe.projectile.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.mail.BodyPart;
-import javax.mail.Flags;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Store;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.storage.api.StorageException;
@@ -33,6 +11,24 @@ import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.StreamUtil;
+import org.slf4j.Logger;
+
+import javax.mail.BodyPart;
+import javax.mail.Flags;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Store;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 public class ProjectileMailReportFetcher {
 
@@ -59,7 +55,7 @@ public class ProjectileMailReportFetcher {
 				final int count = fldr.getMessageCount();
 				logger.debug(count + " total messages");
 
-				final Map<String, Date> subjectSendDate = new HashMap<String, Date>();
+				final Map<String, Date> subjectSendDate = new HashMap<>();
 
 				// Message numbers start at 1
 				for (int i = 1; i <= count; i++) {
@@ -108,41 +104,24 @@ public class ProjectileMailReportFetcher {
 							// mark mail to delete
 							m.setFlag(Flags.Flag.DELETED, true);
 							logger.debug("mark mail to delete: " + m.getSubject() + " " + dateUtil.dateTimeString(m.getSentDate()));
-						}
-						else {
+						} else {
 							logger.debug("leave mail on server: " + m.getSubject() + " " + dateUtil.dateTimeString(m.getSentDate()));
 						}
 					}
-				}
-				else {
+				} else {
 					logger.debug("leave mails on server");
 				}
 
 				// "true" actually deletes flagged messages from folder
 				fldr.close(true);
 				logger.debug("close connection to " + host);
-			}
-			catch (final NoSuchProviderException e) {
+			} catch (final ParseException | StorageException | IOException | MessagingException e) {
 				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final MessagingException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final IOException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final StorageException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final ParseException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			finally {
+			} finally {
 				if (store != null) {
 					try {
 						store.close();
-					}
-					catch (final MessagingException e) {
+					} catch (final MessagingException e) {
 					}
 				}
 			}
@@ -170,15 +149,15 @@ public class ProjectileMailReportFetcher {
 
 	@Inject
 	public ProjectileMailReportFetcher(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final DateUtil dateUtil,
-			final ProjectileConfig projectileConfig,
-			final RunOnlyOnceATime runOnlyOnceATime,
-			final StreamUtil streamUtil,
-			final ProjectileCsvReportImporter projectileCsvReportImporter) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final DateUtil dateUtil,
+		final ProjectileConfig projectileConfig,
+		final RunOnlyOnceATime runOnlyOnceATime,
+		final StreamUtil streamUtil,
+		final ProjectileCsvReportImporter projectileCsvReportImporter) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;
@@ -195,8 +174,7 @@ public class ProjectileMailReportFetcher {
 		if (runOnlyOnceATime.run(new FetchRunnable())) {
 			logger.trace("fetch projectile-report - finished");
 			return true;
-		}
-		else {
+		} else {
 			logger.trace("fetch projectile-report - skipped");
 			return false;
 		}
@@ -228,8 +206,7 @@ public class ProjectileMailReportFetcher {
 			final int sec = parseUtil.parseInt(fileName.substring(pos + 13, pos + 15));
 
 			return calendarUtil.getCalendar(timeZoneUtil.getUTCTimeZone(), year, month, date, hour, min, sec);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new ParseException(e);
 		}
 	}

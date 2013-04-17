@@ -63,9 +63,7 @@ public class TopNaviWidget implements Widget {
 				ul.add(portfolioLinkFactory.createGallery(request, gallery));
 			}
 			ul.render(request, response, context);
-		} catch (final GalleryServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-		} catch (final AuthenticationServiceException e) {
+		} catch (final GalleryServiceException | AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
@@ -73,9 +71,9 @@ public class TopNaviWidget implements Widget {
 	protected List<GalleryCollection> getGalleries() throws GalleryServiceException {
 		final GalleryGroupIdentifier gi = galleryService.getGroupByNameShared(PortfolioGuiConstants.GROUP_NAME_NAVI_TOP);
 		if (gi == null) {
-			return new ArrayList<GalleryCollection>();
+			return new ArrayList<>();
 		}
-		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithGroupShared(gi));
+		final List<GalleryCollection> galleries = new ArrayList<>(galleryService.getCollectionsWithGroupShared(gi));
 		Collections.sort(galleries, galleryComparator);
 		return galleries;
 	}

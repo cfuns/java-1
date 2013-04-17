@@ -1,12 +1,9 @@
 package de.benjaminborbe.message.dao;
 
-import org.slf4j.Logger;
-
 import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.message.util.MessageUtil;
 import de.benjaminborbe.storage.api.StorageException;
@@ -17,6 +14,7 @@ import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import org.slf4j.Logger;
 
 @Singleton
 public class MessageDaoStorage extends DaoStorage<MessageBean, MessageIdentifier> implements MessageDao {
@@ -33,13 +31,13 @@ public class MessageDaoStorage extends DaoStorage<MessageBean, MessageIdentifier
 
 	@Inject
 	public MessageDaoStorage(
-			final Logger logger,
-			final MessageUtil messageUtil,
-			final StorageService storageService,
-			final Provider<MessageBean> beanProvider,
-			final MessageBeanMapper mapper,
-			final MessageIdentifierBuilder identifierBuilder,
-			final CalendarUtil calendarUtil) {
+		final Logger logger,
+		final MessageUtil messageUtil,
+		final StorageService storageService,
+		final Provider<MessageBean> beanProvider,
+		final MessageBeanMapper mapper,
+		final MessageIdentifierBuilder identifierBuilder,
+		final CalendarUtil calendarUtil) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.messageUtil = messageUtil;
 	}
@@ -63,6 +61,6 @@ public class MessageDaoStorage extends DaoStorage<MessageBean, MessageIdentifier
 
 	@Override
 	public EntityIterator<MessageBean> findExpired() throws StorageException {
-		return new EntityIteratorFilter<MessageBean>(getEntityIterator(), new MessageLockExpiredPredicate());
+		return new EntityIteratorFilter<>(getEntityIterator(), new MessageLockExpiredPredicate());
 	}
 }

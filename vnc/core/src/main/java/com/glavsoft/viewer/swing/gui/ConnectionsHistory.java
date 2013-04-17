@@ -1,5 +1,12 @@
 package com.glavsoft.viewer.swing.gui;
 
+import com.glavsoft.core.SettingsChangedEvent;
+import com.glavsoft.rfb.IChangeSettingsListener;
+import com.glavsoft.rfb.protocol.ProtocolSettings;
+import com.glavsoft.utils.Strings;
+import com.glavsoft.viewer.swing.ConnectionParams;
+import org.slf4j.Logger;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,14 +20,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-
-import org.slf4j.Logger;
-
-import com.glavsoft.core.SettingsChangedEvent;
-import com.glavsoft.rfb.IChangeSettingsListener;
-import com.glavsoft.rfb.protocol.ProtocolSettings;
-import com.glavsoft.utils.Strings;
-import com.glavsoft.viewer.swing.ConnectionParams;
 
 /**
  * @author dime at tightvnc.com
@@ -56,8 +55,8 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 	public ConnectionsHistory(final Logger logger, final ConnectionParams workingConnectionParams) {
 		this.logger = logger;
 		this.workingConnectionParams = workingConnectionParams;
-		settingsMap = new HashMap<ConnectionParams, ProtocolSettings>();
-		connections = new LinkedList<ConnectionParams>();
+		settingsMap = new HashMap<>();
+		connections = new LinkedList<>();
 		retrieve();
 	}
 
@@ -68,14 +67,13 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 			final byte[] emptyByteArray = new byte[0];
 			final String[] orderNums;
 			orderNums = connectionsHistoryNode.childrenNames();
-			final SortedMap<Integer, ConnectionParams> conns = new TreeMap<Integer, ConnectionParams>();
-			final HashSet<ConnectionParams> uniques = new HashSet<ConnectionParams>();
+			final SortedMap<Integer, ConnectionParams> conns = new TreeMap<>();
+			final HashSet<ConnectionParams> uniques = new HashSet<>();
 			for (final String orderNum : orderNums) {
 				int num = 0;
 				try {
 					num = Integer.parseInt(orderNum);
-				}
-				catch (final NumberFormatException skip) {
+				} catch (final NumberFormatException skip) {
 					// nop
 				}
 				final Preferences node = connectionsHistoryNode.node(orderNum);
@@ -83,7 +81,7 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 				if (null == hostName)
 					continue; // skip entries without hostName field
 				final ConnectionParams cp = new ConnectionParams(hostName, node.getInt(NODE_PORT_NUMBER, 0), node.getBoolean(NODE_USE_SSH, false), node.get(NODE_SSH_HOST_NAME, ""),
-						node.getInt(NODE_SSH_PORT_NUMBER, 0), node.get(NODE_SSH_USER_NAME, ""));
+					node.getInt(NODE_SSH_PORT_NUMBER, 0), node.get(NODE_SSH_USER_NAME, ""));
 				if (uniques.contains(cp))
 					continue; // skip duplicates
 				uniques.add(cp);
@@ -94,11 +92,9 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 						final ProtocolSettings settings = (ProtocolSettings) (new ObjectInputStream(new ByteArrayInputStream(bytes))).readObject();
 						settings.refine();
 						settingsMap.put(cp, settings);
-					}
-					catch (final IOException e) {
+					} catch (final IOException e) {
 						logger.debug("Cannot deserialize ProtocolSettings: " + e.getMessage());
-					}
-					catch (final ClassNotFoundException e) {
+					} catch (final ClassNotFoundException e) {
 						logger.debug("Cannot deserialize ProtocolSettings : " + e.getMessage());
 					}
 				}
@@ -107,14 +103,12 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 			for (final ConnectionParams cp : conns.values()) {
 				if (itemsCount < MAX_ITEMS) {
 					connections.add(cp);
-				}
-				else {
+				} else {
 					connectionsHistoryNode.node(cp.hostName).removeNode();
 				}
 				++itemsCount;
 			}
-		}
-		catch (final BackingStoreException e) {
+		} catch (final BackingStoreException e) {
 			logger.debug("Cannot retrieve connections history info: " + e.getMessage());
 		}
 	}
@@ -136,8 +130,7 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 			for (final String host : hosts) {
 				connectionsHistoryNode.node(host).removeNode();
 			}
-		}
-		catch (final BackingStoreException e) {
+		} catch (final BackingStoreException e) {
 			logger.debug("Cannot remove node: " + e.getMessage());
 		}
 		int num = 0;
@@ -167,15 +160,13 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 				final ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
 				objectOutputStream.writeObject(settings);
 				node.putByteArray(NODE_PROTOCOL_SETTINGS, byteArrayOutputStream.toByteArray());
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 				logger.debug("Cannot serialize ProtocolSettings: " + e.getMessage());
 			}
 		}
 		try {
 			node.flush();
-		}
-		catch (final BackingStoreException e) {
+		} catch (final BackingStoreException e) {
 			logger.debug("Cannot retrieve connections history info: " + e.getMessage());
 		}
 	}
@@ -183,7 +174,7 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 	void reorderConnectionsList(final ConnectionParams connectionParams, final ProtocolSettings settings) {
 		while (connections.remove(connectionParams)) {/* empty - remove all occurrence */
 		}
-		final LinkedList<ConnectionParams> cpList = new LinkedList<ConnectionParams>();
+		final LinkedList<ConnectionParams> cpList = new LinkedList<>();
 		cpList.addAll(connections);
 
 		connections.clear();
@@ -196,8 +187,7 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 		final ProtocolSettings savedSettings = settingsMap.get(connectionParams);
 		if (savedSettings != null) {
 			savedSettings.copySerializedFieldsFrom(settings);
-		}
-		else {
+		} else {
 			settingsMap.put(new ConnectionParams(connectionParams), new ProtocolSettings(logger, settings));
 		}
 	}
@@ -222,17 +212,17 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 				continue;
 			}
 			if (orig.hostName.equals(cp.hostName) && orig.getPortNumber() == cp.getPortNumber() && orig.useSsh() && cp.useSsh()
-					&& compareTextFields(orig.sshHostName, res.sshHostName, cp.sshHostName)) {
+				&& compareTextFields(orig.sshHostName, res.sshHostName, cp.sshHostName)) {
 				res = cp;
 				continue;
 			}
 			if (orig.hostName.equals(cp.hostName) && orig.getPortNumber() == cp.getPortNumber() && orig.useSsh() && cp.useSsh() && orig.sshHostName != null
-					&& orig.sshHostName.equals(cp.hostName) && comparePorts(orig.getSshPortNumber(), res.getSshPortNumber(), cp.getSshPortNumber())) {
+				&& orig.sshHostName.equals(cp.hostName) && comparePorts(orig.getSshPortNumber(), res.getSshPortNumber(), cp.getSshPortNumber())) {
 				res = cp;
 				continue;
 			}
 			if (orig.hostName.equals(cp.hostName) && orig.getPortNumber() == cp.getPortNumber() && orig.useSsh() && cp.useSsh() && orig.sshHostName != null
-					&& orig.sshHostName.equals(cp.hostName) && orig.getSshPortNumber() == cp.getSshPortNumber() && compareTextFields(orig.sshUserName, res.sshUserName, cp.sshUserName)) {
+				&& orig.sshHostName.equals(cp.hostName) && orig.getSshPortNumber() == cp.getSshPortNumber() && compareTextFields(orig.sshUserName, res.sshUserName, cp.sshUserName)) {
 				res = cp;
 			}
 		}

@@ -1,15 +1,14 @@
 package de.benjaminborbe.bridge;
 
+import org.apache.felix.framework.Felix;
+import org.apache.felix.framework.util.FelixConstants;
+
+import javax.servlet.ServletContext;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-
-import javax.servlet.ServletContext;
-
-import org.apache.felix.framework.Felix;
-import org.apache.felix.framework.util.FelixConstants;
 
 public final class FrameworkService {
 
@@ -24,8 +23,7 @@ public final class FrameworkService {
 	public void start() {
 		try {
 			doStart();
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			log("Failed to start framework", e);
 		}
 	}
@@ -33,8 +31,7 @@ public final class FrameworkService {
 	public void stop() {
 		try {
 			doStop();
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			log("Error stopping framework", e);
 		}
 	}
@@ -44,8 +41,7 @@ public final class FrameworkService {
 			felix = new Felix(createConfig());
 			felix.start();
 			log("OSGi framework started", null);
-		}
-		catch (final RuntimeException e) {
+		} catch (final RuntimeException e) {
 			log("OSGi framework started failed!", e);
 		}
 	}
@@ -62,7 +58,7 @@ public final class FrameworkService {
 		final Properties props = new Properties();
 		props.load(context.getResourceAsStream("/WEB-INF/framework.properties"));
 
-		final Map<String, Object> map = new HashMap<String, Object>();
+		final Map<String, Object> map = new HashMap<>();
 		for (final Entry<Object, Object> entry : props.entrySet()) {
 			final String key = entry.getKey().toString();
 			final Object value = entry.getValue();

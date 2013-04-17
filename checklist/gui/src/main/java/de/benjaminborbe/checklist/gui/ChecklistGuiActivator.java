@@ -1,13 +1,6 @@
 package de.benjaminborbe.checklist.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.checklist.gui.guice.ChecklistGuiModules;
 import de.benjaminborbe.checklist.gui.service.ChecklistGuiNavigationEntry;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryCompleteServlet;
@@ -27,6 +20,11 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ChecklistGuiActivator extends HttpBundleActivator {
 
@@ -77,14 +75,14 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, checklistGuiNavigationEntry));
 		return result;
 	}
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(checklistGuiListResetServlet, ChecklistGuiConstants.URL_LIST_RESET));
 		result.add(new ServletInfo(checklistGuiEntryCreateServlet, ChecklistGuiConstants.URL_ENTRY_CREATE));
 		result.add(new ServletInfo(checklistGuiEntryDeleteServlet, ChecklistGuiConstants.URL_ENTRY_DELETE));
@@ -101,7 +99,7 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
 		result.add(new ResourceInfo(ChecklistGuiConstants.URL_IMAGES, "images"));
 		result.add(new ResourceInfo(ChecklistGuiConstants.URL_CSS, "css"));
 		return result;

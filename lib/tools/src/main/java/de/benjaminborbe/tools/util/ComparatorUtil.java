@@ -1,12 +1,12 @@
 package de.benjaminborbe.tools.util;
 
+import com.google.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import com.google.inject.Inject;
 
 public class ComparatorUtil {
 
@@ -18,9 +18,8 @@ public class ComparatorUtil {
 		final List<T> list;
 		if (collection instanceof List) {
 			list = (List<T>) collection;
-		}
-		else {
-			list = new ArrayList<T>(collection);
+		} else {
+			list = new ArrayList<>(collection);
 		}
 		Collections.sort(list, comparator);
 		return list;

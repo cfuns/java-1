@@ -1,14 +1,13 @@
 package de.benjaminborbe.poker.util;
 
+import com.google.inject.Inject;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import de.benjaminborbe.poker.api.PokerCardValue;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.poker.api.PokerCardIdentifier;
-import de.benjaminborbe.poker.api.PokerCardValue;
 
 public class PokerCardsStraightComparator implements Comparator<Collection<PokerCardIdentifier>> {
 
@@ -28,14 +27,11 @@ public class PokerCardsStraightComparator implements Comparator<Collection<Poker
 		final List<PokerCardValue> listB = getStraight(cardsB);
 		if (listA == null && listB == null) {
 			return 0;
-		}
-		else if (listA != null && listB == null) {
+		} else if (listA != null && listB == null) {
 			return 1;
-		}
-		else if (listA == null && listB != null) {
+		} else if (listA == null && listB != null) {
 			return -1;
-		}
-		else {
+		} else {
 			return pokerValueComparator.compare(listA.get(listA.size() - 1), listB.get(listB.size() - 1));
 		}
 	}
@@ -44,7 +40,7 @@ public class PokerCardsStraightComparator implements Comparator<Collection<Poker
 		final List<PokerCardValue> list = pokerCardUtil.sort(pokerCardUtil.unique(pokerCardUtil.values(cards)));
 
 		for (int start = list.size() - 1; start >= 4; --start) {
-			final List<PokerCardValue> result = new ArrayList<PokerCardValue>();
+			final List<PokerCardValue> result = new ArrayList<>();
 			result.add(list.get(start));
 			for (int i = start - 1; i >= 0; --i) {
 				if (list.get(i).getValue() == list.get(i + 1).getValue() - 1) {

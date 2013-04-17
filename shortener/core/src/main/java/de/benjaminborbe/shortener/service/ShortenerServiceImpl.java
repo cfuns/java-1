@@ -1,12 +1,7 @@
 package de.benjaminborbe.shortener.service;
 
-import java.net.URL;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.shortener.api.ShortenerService;
@@ -20,6 +15,9 @@ import de.benjaminborbe.tools.password.PasswordGenerator;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import org.slf4j.Logger;
+
+import java.net.URL;
 
 @Singleton
 public class ShortenerServiceImpl implements ShortenerService {
@@ -36,11 +34,11 @@ public class ShortenerServiceImpl implements ShortenerService {
 
 	@Inject
 	public ShortenerServiceImpl(
-			final Logger logger,
-			final ParseUtil parseUtil,
-			final PasswordGenerator passwordGenerator,
-			final ValidationExecutor validationExecutor,
-			final ShortenerUrlDao shortenerUrlDao) {
+		final Logger logger,
+		final ParseUtil parseUtil,
+		final PasswordGenerator passwordGenerator,
+		final ValidationExecutor validationExecutor,
+		final ShortenerUrlDao shortenerUrlDao) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.passwordGenerator = passwordGenerator;
@@ -66,8 +64,7 @@ public class ShortenerServiceImpl implements ShortenerService {
 			shortenerUrlDao.save(bean);
 
 			return shortenerUrlIdentifier;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new ShortenerServiceException(e);
 		}
 	}
@@ -90,14 +87,9 @@ public class ShortenerServiceImpl implements ShortenerService {
 				return null;
 			}
 			return parseUtil.parseURL(bean.getUrl());
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException | ParseException e) {
 			throw new ShortenerServiceException(e);
-		}
-		catch (final ParseException e) {
-			throw new ShortenerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 

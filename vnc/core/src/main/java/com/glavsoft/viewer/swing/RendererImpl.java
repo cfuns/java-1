@@ -24,9 +24,13 @@
 
 package com.glavsoft.viewer.swing;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
+import com.glavsoft.drawing.Renderer;
+import com.glavsoft.rfb.encoding.PixelFormat;
+import com.glavsoft.rfb.encoding.decoder.FramebufferUpdateRectangle;
+import com.glavsoft.transport.Reader;
+import org.slf4j.Logger;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
@@ -40,13 +44,6 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import org.slf4j.Logger;
-
-import com.glavsoft.drawing.Renderer;
-import com.glavsoft.rfb.encoding.PixelFormat;
-import com.glavsoft.rfb.encoding.decoder.FramebufferUpdateRectangle;
-import com.glavsoft.transport.Reader;
 
 public class RendererImpl extends Renderer implements ImageObserver {
 
@@ -73,15 +70,15 @@ public class RendererImpl extends Renderer implements ImageObserver {
 
 	/**
 	 * Draw jpeg image data
-	 * 
+	 *
 	 * @param bytes
-	 *          jpeg image data array
+	 * jpeg image data array
 	 * @param offset
-	 *          start offset at data array
+	 * start offset at data array
 	 * @param jpegBufferLength
-	 *          jpeg image data array length
+	 * jpeg image data array length
 	 * @param rect
-	 *          image location and dimensions
+	 * image location and dimensions
 	 */
 	private final CyclicBarrier barier = new CyclicBarrier(2);
 
@@ -91,14 +88,7 @@ public class RendererImpl extends Renderer implements ImageObserver {
 		Toolkit.getDefaultToolkit().prepareImage(jpegImage, -1, -1, this);
 		try {
 			barier.await(3, TimeUnit.SECONDS);
-		}
-		catch (final InterruptedException e) {
-			// nop
-		}
-		catch (final BrokenBarrierException e) {
-			// nop
-		}
-		catch (final TimeoutException e) {
+		} catch (final InterruptedException | TimeoutException | BrokenBarrierException e) {
 			// nop
 		}
 		final Graphics graphics = offscreanImage.getGraphics();
@@ -111,11 +101,7 @@ public class RendererImpl extends Renderer implements ImageObserver {
 		if (isReady) {
 			try {
 				barier.await();
-			}
-			catch (final InterruptedException e) {
-				// nop
-			}
-			catch (final BrokenBarrierException e) {
+			} catch (final InterruptedException | BrokenBarrierException e) {
 				// nop
 			}
 		}

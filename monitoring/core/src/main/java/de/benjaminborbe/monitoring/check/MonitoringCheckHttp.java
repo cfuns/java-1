@@ -1,18 +1,6 @@
 package de.benjaminborbe.monitoring.check;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -35,6 +23,16 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintOr;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
+import org.slf4j.Logger;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class MonitoringCheckHttp implements MonitoringCheck {
 
@@ -64,11 +62,11 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 
 	@Inject
 	public MonitoringCheckHttp(
-			final Logger logger,
-			final HttpDownloader httpDownloader,
-			final HttpDownloadUtil httpDownloadUtil,
-			final ParseUtil parseUtil,
-			final ValidationConstraintValidator validationConstraintValidator) {
+		final Logger logger,
+		final HttpDownloader httpDownloader,
+		final HttpDownloadUtil httpDownloadUtil,
+		final ParseUtil parseUtil,
+		final ValidationConstraintValidator validationConstraintValidator) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
@@ -91,8 +89,7 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		final int timeout;
 		try {
 			timeout = parseUtil.parseInt(parameter.get(TIMEOUT));
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return new MonitoringCheckResultDto(this, false, "illegal paremter " + TIMEOUT);
 		}
 		return check(urlString, timeout, titleMatch, contentMatch, username, password);
@@ -105,8 +102,7 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 			final HttpDownloadResult result;
 			if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
 				result = httpDownloader.getUrlUnsecure(url, timeout, username, password);
-			}
-			else {
+			} else {
 				result = httpDownloader.getUrlUnsecure(url, timeout);
 			}
 			logger.trace("downloaded " + url + " in " + result.getDuration() + " ms");
@@ -128,23 +124,20 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 			}
 			final String msg = "download url successful " + url;
 			return new MonitoringCheckResultDto(this, true, msg, url);
-		}
-		catch (final MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
-		}
-		catch (final HttpDownloaderException e) {
+		} catch (final HttpDownloaderException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
 		}
 	}
 
 	private boolean checkContent(final String content, final String contentMatch) {
-		return contentMatch == null || content.indexOf(contentMatch) != -1;
+		return contentMatch == null || content.contains(contentMatch);
 	}
 
 	private boolean checkTitle(final String content, final String titleMatch) {
@@ -165,11 +158,10 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 			return false;
 		}
 		final String title = content.substring(posStart + start.length(), posEnd);
-		if (title.indexOf(titleMatch) != -1) {
+		if (title.contains(titleMatch)) {
 			logger.debug("title match => check success");
 			return true;
-		}
-		else {
+		} else {
 			logger.debug("title mismatch " + title + " != " + titleMatch + " => check failed");
 			return false;
 		}
@@ -183,17 +175,16 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 
 	@Override
 	public Collection<ValidationError> validate(final Map<String, String> parameter) {
-		final List<ValidationError> result = new ArrayList<ValidationError>();
+		final List<ValidationError> result = new ArrayList<>();
 
 		// url
 		{
 			try {
 				final URL url = parseUtil.parseURL(parameter.get(URL));
-				final List<ValidationConstraint<URL>> constraints = new ArrayList<ValidationConstraint<URL>>();
+				final List<ValidationConstraint<URL>> constraints = new ArrayList<>();
 				constraints.add(new ValidationConstraintNotNull<URL>());
 				result.addAll(validationConstraintValidator.validate("url", url, constraints));
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				result.add(new ValidationErrorSimple("url invalid"));
 			}
 		}
@@ -202,13 +193,12 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		{
 			try {
 				final int timeout = parseUtil.parseInt(parameter.get(TIMEOUT));
-				final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
+				final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
 				constraints.add(new ValidationConstraintNotNull<Integer>());
 				constraints.add(new ValidationConstraintIntegerGE(0));
 				constraints.add(new ValidationConstraintIntegerLE(60000));
 				result.addAll(validationConstraintValidator.validate("timeout", timeout, constraints));
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				result.add(new ValidationErrorSimple("timeout invalid"));
 			}
 		}
@@ -216,14 +206,14 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		// titlematch
 		{
 			final String titlematch = parameter.get(TITLEMATCH);
-			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+			final List<ValidationConstraint<String>> constraints = new ArrayList<>();
 
 			// null
-			final ValidationConstraint<String> v1 = new ValidationConstraintNull<String>();
+			final ValidationConstraint<String> v1 = new ValidationConstraintNull<>();
 
 			// not null
 			final ValidationConstraint<String> v2 = new ValidationConstraintAnd<String>().add(new ValidationConstraintNotNull<String>()).add(new ValidationConstraintStringMinLength(1))
-					.add(new ValidationConstraintStringMaxLength(255));
+				.add(new ValidationConstraintStringMaxLength(255));
 
 			constraints.add(new ValidationConstraintOr<String>().add(v1).add(v2));
 			result.addAll(validationConstraintValidator.validate("titlematch", titlematch, constraints));
@@ -232,7 +222,7 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		// contentmatch
 		{
 			final String contentmatch = parameter.get(CONTENTMATCH);
-			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+			final List<ValidationConstraint<String>> constraints = new ArrayList<>();
 			constraints.add(new ValidationConstraintNotNull<String>());
 			constraints.add(new ValidationConstraintStringMinLength(1));
 			constraints.add(new ValidationConstraintStringMaxLength(255));

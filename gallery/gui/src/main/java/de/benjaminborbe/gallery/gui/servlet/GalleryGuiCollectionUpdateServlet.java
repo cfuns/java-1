@@ -143,7 +143,7 @@ public class GalleryGuiCollectionUpdateServlet extends GalleryGuiHtmlServlet {
 
 		Long prio;
 		Boolean shared;
-		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		final List<ValidationError> errors = new ArrayList<>();
 		{
 			try {
 				if (prioString == null || prioString.length() == 0) {

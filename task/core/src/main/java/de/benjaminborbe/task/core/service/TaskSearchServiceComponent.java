@@ -44,7 +44,7 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
-		final List<SearchResult> results = new ArrayList<SearchResult>();
+		final List<SearchResult> results = new ArrayList<>();
 		try {
 			final List<TaskMatch> tasks = taskService.searchTasks(sessionIdentifier, maxResults, words);
 			final int max = Math.min(maxResults, tasks.size());
@@ -56,11 +56,7 @@ public class TaskSearchServiceComponent implements SearchServiceComponent {
 				}
 			}
 			logger.trace("search found " + results.size() + " tasks");
-		} catch (final TaskServiceException e) {
-			logger.trace(e.getClass().getName(), e);
-		} catch (final LoginRequiredException e) {
-			logger.trace(e.getClass().getName(), e);
-		} catch (final PermissionDeniedException e) {
+		} catch (final TaskServiceException | PermissionDeniedException | LoginRequiredException e) {
 			logger.trace(e.getClass().getName(), e);
 		}
 		return results;

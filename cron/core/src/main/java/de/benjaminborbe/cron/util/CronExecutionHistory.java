@@ -1,27 +1,25 @@
 package de.benjaminborbe.cron.util;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.cron.api.CronExecutionInfo;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.fifo.Fifo;
 import de.benjaminborbe.tools.fifo.FifoIndexOutOfBoundsException;
 import de.benjaminborbe.tools.util.MathUtil;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimeZone;
 
 @Singleton
 public class CronExecutionHistory {
 
 	private final int MAX_SIZE = 100;
 
-	private final Fifo<CronExecutionInfo> infos = new Fifo<CronExecutionInfo>();
+	private final Fifo<CronExecutionInfo> infos = new Fifo<>();
 
 	private final CalendarUtil calendarUtil;
 
@@ -47,10 +45,9 @@ public class CronExecutionHistory {
 			final List<CronExecutionInfo> result = infos.last(count);
 			logger.debug("getLatestElements found " + result.size());
 			return result;
-		}
-		catch (final FifoIndexOutOfBoundsException e) {
+		} catch (final FifoIndexOutOfBoundsException e) {
 			logger.debug("FifoIndexOutOfBoundsException", e);
-			return new ArrayList<CronExecutionInfo>();
+			return new ArrayList<>();
 		}
 	}
 
@@ -58,8 +55,7 @@ public class CronExecutionHistory {
 		if (infos.size() > MAX_SIZE) {
 			try {
 				infos.remove();
-			}
-			catch (final FifoIndexOutOfBoundsException e) {
+			} catch (final FifoIndexOutOfBoundsException e) {
 				logger.trace("FifoIndexOutOfBoundsException", e);
 			}
 		}

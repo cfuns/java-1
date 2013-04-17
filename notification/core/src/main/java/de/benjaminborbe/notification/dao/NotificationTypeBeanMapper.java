@@ -6,7 +6,6 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
 import de.benjaminborbe.notification.util.MapperNotificationTypeIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
-import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
@@ -31,7 +30,7 @@ public class NotificationTypeBeanMapper extends MapObjectMapperAdapter<Notificat
 
 	private static Collection<StringObjectMapper<NotificationTypeBean>> buildMappings(final MapperCalendar mapperCalendar,
 																																										final MapperNotificationTypeIdentifier mapperNotificationTypeIdentifier) {
-		final List<StringObjectMapper<NotificationTypeBean>> result = new ArrayList<StringObjectMapper<NotificationTypeBean>>();
+		final List<StringObjectMapper<NotificationTypeBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<NotificationTypeBean, NotificationTypeIdentifier>("id", mapperNotificationTypeIdentifier));
 		result.add(new StringObjectMapperAdapter<NotificationTypeBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<NotificationTypeBean, Calendar>("modified", mapperCalendar));

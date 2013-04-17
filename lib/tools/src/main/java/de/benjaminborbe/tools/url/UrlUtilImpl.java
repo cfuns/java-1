@@ -1,5 +1,10 @@
 package de.benjaminborbe.tools.url;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.tools.util.ComparatorBase;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -10,13 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.tools.util.ComparatorBase;
 
 @Singleton
 public class UrlUtilImpl implements UrlUtil {
@@ -49,7 +47,7 @@ public class UrlUtilImpl implements UrlUtil {
 		final StringWriter sw = new StringWriter();
 		sw.append(path);
 		if (!parameter.isEmpty()) {
-			final List<String> keys = new ArrayList<String>(parameter.keySet());
+			final List<String> keys = new ArrayList<>(parameter.keySet());
 			Collections.sort(keys, new Sort());
 			boolean first = false;
 			for (final String key : keys) {
@@ -60,8 +58,7 @@ public class UrlUtilImpl implements UrlUtil {
 							if (!first) {
 								sw.append('?');
 								first = true;
-							}
-							else {
+							} else {
 								sw.append('&');
 							}
 							sw.append(key);
@@ -79,8 +76,7 @@ public class UrlUtilImpl implements UrlUtil {
 	public String removeTailingSlash(final String path) {
 		if (path.length() > 1 && path.charAt(path.length() - 1) == '/') {
 			return removeTailingSlash(path.substring(0, path.length() - 1));
-		}
-		else {
+		} else {
 			return path;
 		}
 	}
@@ -98,8 +94,7 @@ public class UrlUtilImpl implements UrlUtil {
 				final int dotPos = uri.indexOf('.', slashPos);
 				if (dotPos != -1) {
 					return uri.substring(slashPos + 1, dotPos);
-				}
-				else {
+				} else {
 					return uri.substring(slashPos + 1);
 				}
 			}
@@ -112,8 +107,7 @@ public class UrlUtilImpl implements UrlUtil {
 		try {
 			new URL(url);
 			return true;
-		}
-		catch (final MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			return false;
 		}
 	}
@@ -122,8 +116,7 @@ public class UrlUtilImpl implements UrlUtil {
 	public String buildBaseUrl(final HttpServletRequest request) {
 		if ("http".equalsIgnoreCase(request.getScheme()) && request.getServerPort() == 80 || "https".equalsIgnoreCase(request.getScheme()) && request.getServerPort() == 443) {
 			return request.getScheme() + "://" + request.getServerName() + request.getContextPath();
-		}
-		else {
+		} else {
 			return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 		}
 	}
@@ -132,8 +125,7 @@ public class UrlUtilImpl implements UrlUtil {
 	public URL buildUrl(final HttpServletRequest request, final String url) throws MalformedURLException {
 		if (url.indexOf("/") == 0) {
 			return new URL(buildBaseUrl(request) + url);
-		}
-		else {
+		} else {
 			return new URL(url);
 		}
 	}

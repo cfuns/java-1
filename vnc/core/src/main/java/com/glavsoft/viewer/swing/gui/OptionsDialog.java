@@ -24,11 +24,12 @@
 
 package com.glavsoft.viewer.swing.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Window;
+import com.glavsoft.rfb.encoding.EncodingType;
+import com.glavsoft.rfb.protocol.LocalPointer;
+import com.glavsoft.rfb.protocol.ProtocolSettings;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -39,28 +40,10 @@ import java.awt.event.WindowListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSlider;
-
-import com.glavsoft.rfb.encoding.EncodingType;
-import com.glavsoft.rfb.protocol.LocalPointer;
-import com.glavsoft.rfb.protocol.ProtocolSettings;
-
 /**
  * Options dialog
  */
-@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
+@SuppressWarnings({"serial", "rawtypes", "unchecked"})
 public class OptionsDialog extends JDialog {
 
 	private JSlider jpegQuality;
@@ -320,7 +303,7 @@ public class OptionsDialog extends JDialog {
 				final ColorDepthSelectItem selectedItem = (ColorDepthSelectItem) colorDepth.getSelectedItem();
 				setEnabled(selectedItem.bpp > ProtocolSettings.BPP_8 || selectedItem.bpp == ProtocolSettings.BPP_SERVER_SETTINGS, useJpegQuality);
 				setEnabled(useJpegQuality.isSelected() && (selectedItem.bpp > ProtocolSettings.BPP_8 || selectedItem.bpp == ProtocolSettings.BPP_SERVER_SETTINGS), jpegQuality,
-						jpegQualityPoorLabel, jpegQualityBestLabel);
+					jpegQualityPoorLabel, jpegQualityBestLabel);
 			}
 		});
 		return colorDepthPanel;
@@ -364,7 +347,7 @@ public class OptionsDialog extends JDialog {
 			final int bpp = ((ColorDepthSelectItem) colorDepth.getSelectedItem()).bpp;
 			setEnabled(bpp > ProtocolSettings.BPP_8 || bpp == ProtocolSettings.BPP_SERVER_SETTINGS, useJpegQuality);
 			setEnabled(useJpegQuality.isSelected() && (bpp > ProtocolSettings.BPP_8 || bpp == ProtocolSettings.BPP_SERVER_SETTINGS), jpegQuality, jpegQualityPoorLabel,
-					jpegQualityBestLabel);
+				jpegQualityBestLabel);
 		}
 	}
 
@@ -420,8 +403,8 @@ public class OptionsDialog extends JDialog {
 
 		final ButtonGroup mouseCursorTrackGroup = new ButtonGroup();
 
-		mouseCursorTrackSelected = new RadioButtonSelectedState<LocalPointer>();
-		mouseCursorTrackMap = new HashMap<LocalPointer, JRadioButton>();
+		mouseCursorTrackSelected = new RadioButtonSelectedState<>();
+		mouseCursorTrackMap = new HashMap<>();
 
 		addRadioButton("Track remote cursor locally", LocalPointer.ON, mouseCursorTrackSelected, mouseCursorTrackMap, mouseCursorBox, mouseCursorTrackGroup);
 		addRadioButton("Let remote server deal with mouse cursor", LocalPointer.OFF, mouseCursorTrackSelected, mouseCursorTrackMap, mouseCursorBox, mouseCursorTrackGroup);
@@ -444,7 +427,7 @@ public class OptionsDialog extends JDialog {
 	}
 
 	private <T> JRadioButton addRadioButton(final String text, final T state, final RadioButtonSelectedState<T> selected, final Map<T, JRadioButton> state2buttonMap,
-			final JComponent component, final ButtonGroup group) {
+																					final JComponent component, final ButtonGroup group) {
 		final JRadioButton radio = new JRadioButton(text);
 		radio.addActionListener(new ActionListener() {
 

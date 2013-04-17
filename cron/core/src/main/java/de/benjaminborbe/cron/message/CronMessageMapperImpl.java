@@ -1,17 +1,16 @@
 package de.benjaminborbe.cron.message;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.json.JsonObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class CronMessageMapperImpl implements CronMessageMapper {
 
@@ -19,11 +18,11 @@ public class CronMessageMapperImpl implements CronMessageMapper {
 
 	@Inject
 	public CronMessageMapperImpl(final Provider<CronMessage> messageProvider, final MapperString mapperString) {
-		mapper = new JsonObjectMapper<CronMessage>(messageProvider, build(mapperString));
+		mapper = new JsonObjectMapper<>(messageProvider, build(mapperString));
 	}
 
 	private Collection<StringObjectMapper<CronMessage>> build(final MapperString mapperString) {
-		final List<StringObjectMapper<CronMessage>> result = new ArrayList<StringObjectMapper<CronMessage>>();
+		final List<StringObjectMapper<CronMessage>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<CronMessage, String>("name", mapperString));
 		return result;
 	}

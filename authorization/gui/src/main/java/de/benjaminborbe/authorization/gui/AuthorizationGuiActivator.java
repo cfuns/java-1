@@ -1,13 +1,6 @@
 package de.benjaminborbe.authorization.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.authorization.gui.guice.AuthorizationGuiModules;
 import de.benjaminborbe.authorization.gui.service.AuthorizationGuiNavigationPermissionsEntry;
 import de.benjaminborbe.authorization.gui.service.AuthorizationGuiNavigationRolesEntry;
@@ -31,6 +24,11 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AuthorizationGuiActivator extends HttpBundleActivator {
 
@@ -96,7 +94,7 @@ public class AuthorizationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(authorizationGuiServlet, AuthorizationGuiConstants.URL_SLASH));
 		result.add(new ServletInfo(authorizationGuiRoleListServlet, AuthorizationGuiConstants.URL_ROLE_LIST));
 		result.add(new ServletInfo(authorizationGuiRoleCreateServlet, AuthorizationGuiConstants.URL_ROLE_CREATE));
@@ -117,7 +115,7 @@ public class AuthorizationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, authorizationGuiNavigationPermissionsEntry));
 		result.add(new ServiceInfo(NavigationEntry.class, authorizationGuiNavigationRolesEntry));
 		return result;

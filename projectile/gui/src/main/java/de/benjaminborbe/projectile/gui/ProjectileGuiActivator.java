@@ -1,13 +1,6 @@
 package de.benjaminborbe.projectile.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.projectile.gui.guice.ProjectileGuiModules;
 import de.benjaminborbe.projectile.gui.service.ProjectileGuiNavigationEntry;
@@ -29,6 +22,11 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProjectileGuiActivator extends HttpBundleActivator {
 
@@ -88,7 +86,7 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(projectileGuiTeamViewServlet, ProjectileGuiConstants.URL_TEAM_VIEW));
 		result.add(new ServletInfo(projectileGuiServlet, ProjectileGuiConstants.URL_HOME));
 		result.add(new ServletInfo(projectileGuiSlacktimeServlet, ProjectileGuiConstants.URL_REPORT_USER_CURRENT));
@@ -108,7 +106,7 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, projectileGuiNavigationEntry));
 		return result;
 	}

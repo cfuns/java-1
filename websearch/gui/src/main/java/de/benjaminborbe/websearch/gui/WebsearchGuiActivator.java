@@ -1,13 +1,6 @@
 package de.benjaminborbe.websearch.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -25,6 +18,11 @@ import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshAllServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class WebsearchGuiActivator extends HttpBundleActivator {
 
@@ -72,7 +70,7 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(websearchGuiServlet, WebsearchGuiConstants.URL_HOME));
 		result.add(new ServletInfo(websearchGuiRefreshPagesServlet, WebsearchGuiConstants.URL_REFRESH));
 		result.add(new ServletInfo(websearchGuiListPagesServlet, WebsearchGuiConstants.URL_LIST));
@@ -88,7 +86,7 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, websearchGuiNavigationEntry));
 		return result;
 	}

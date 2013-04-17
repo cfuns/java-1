@@ -1,16 +1,6 @@
 package de.benjaminborbe.shortener.dao;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
@@ -22,11 +12,19 @@ import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class ShortenerUrlBeanMapperUnitTest {
 
 	private ShortenerUrlBeanMapper getShortenerUrlBeanMapper() {
-		final Provider<ShortenerUrlBean> beanProvider = new ProviderMock<ShortenerUrlBean>(ShortenerUrlBean.class);
+		final Provider<ShortenerUrlBean> beanProvider = new ProviderMock<>(ShortenerUrlBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -55,7 +53,7 @@ public class ShortenerUrlBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			data.put(fieldname, String.valueOf(value));
 			final ShortenerUrlBean bean = mapper.map(data);
 			assertEquals(value, bean.getId());

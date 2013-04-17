@@ -1,18 +1,16 @@
 package de.benjaminborbe.microblog.revision;
 
-import java.io.UnsupportedEncodingException;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.io.UnsupportedEncodingException;
 
 @Singleton
 public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
@@ -48,15 +46,10 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 			final long result = parseUtil.parseLong(value.getString());
 			logger.trace("getLastRevision - found " + result);
 			return new MicroblogPostIdentifier(result);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			logger.trace("ParseException", e);
 			return null;
-		}
-		catch (final StorageException e) {
-			throw new MicroblogRevisionStorageException(e.getClass().getName(), e);
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final StorageException | UnsupportedEncodingException e) {
 			throw new MicroblogRevisionStorageException(e.getClass().getName(), e);
 		}
 	}
@@ -66,8 +59,7 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 		logger.trace("setLastRevision to " + revision);
 		try {
 			storageService.set(COLUMNFAMILY, new StorageValue(ID, getEncoding()), new StorageValue(KEY, getEncoding()), new StorageValue(String.valueOf(revision), getEncoding()));
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			logger.trace("StorageException", e);
 			throw new MicroblogRevisionStorageException("StorageException", e);
 		}

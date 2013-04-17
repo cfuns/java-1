@@ -107,11 +107,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			}
 			logger.debug("found " + result.size() + " pages");
 			return result;
-		} catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final StorageException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
+		} catch (final AuthorizationServiceException | EntityIteratorException | StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -137,9 +133,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 			final WebsearchPageBean page = pageDao.load(pageIdentifier);
 			expirePage(page);
-		} catch (final StorageException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -158,9 +152,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			final String indexName = WebsearchConstants.INDEX;
 			logger.debug("clearIndex - name: " + indexName);
 			indexerService.clear(indexName);
-		} catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final IndexerServiceException e) {
+		} catch (final AuthorizationServiceException | IndexerServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -174,9 +166,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			logger.debug("trigger refresh of url " + url);
 			final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, 5000);
 			crawlerService.processCrawlerInstruction(crawlerInstruction);
-		} catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final CrawlerException e) {
+		} catch (final AuthorizationServiceException | CrawlerException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}
@@ -200,9 +190,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			logger.debug("getConfiguration");
 
 			return websearchConfigurationDao.load(websearchConfigurationIdentifier);
-		} catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -223,11 +211,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final StorageException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
+		} catch (final AuthorizationServiceException | EntityIteratorException | StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -244,9 +228,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 			// delete websearch
 			websearchConfigurationDao.delete(websearchConfigurationIdentifier);
-		} catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -279,11 +261,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 			websearchConfigurationDao.save(configuration);
 			return websearchConfigurationIdentifier;
-		} catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final StorageException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final AuthenticationServiceException e) {
+		} catch (final AuthorizationServiceException | AuthenticationServiceException | StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -313,9 +291,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			}
 
 			websearchConfigurationDao.save(configuration);
-		} catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());
@@ -333,11 +309,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 			while (i.hasNext()) {
 				expirePage(i.next());
 			}
-		} catch (final AuthorizationServiceException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final StorageException e) {
-			throw new WebsearchServiceException(e.getClass().getName(), e);
-		} catch (final EntityIteratorException e) {
+		} catch (final AuthorizationServiceException | EntityIteratorException | StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		} finally {
 			logger.debug("duration " + duration.getTime());

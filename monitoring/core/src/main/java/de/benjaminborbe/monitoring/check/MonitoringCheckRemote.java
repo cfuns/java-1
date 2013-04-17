@@ -1,16 +1,6 @@
 package de.benjaminborbe.monitoring.check;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -34,6 +24,14 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerG
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerLE;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringUrl;
+import org.slf4j.Logger;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class MonitoringCheckRemote implements MonitoringCheck {
 
@@ -59,13 +57,13 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 
 	@Inject
 	public MonitoringCheckRemote(
-			final Logger logger,
-			final ParseUtil parseUtil,
-			final HttpDownloader httpDownloader,
-			final HttpDownloadUtil httpDownloadUtil,
-			final JSONParser jsonParser,
-			final ValidationConstraintValidator validationConstraintValidator,
-			final UrlUtil urlUtil) {
+		final Logger logger,
+		final ParseUtil parseUtil,
+		final HttpDownloader httpDownloader,
+		final HttpDownloadUtil httpDownloadUtil,
+		final JSONParser jsonParser,
+		final ValidationConstraintValidator validationConstraintValidator,
+		final UrlUtil urlUtil) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.httpDownloader = httpDownloader;
@@ -86,15 +84,13 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 		final java.net.URL url;
 		try {
 			url = parseUtil.parseURL(parameter.get(URL));
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return new MonitoringCheckResultDto(this, false, "illegal paremter " + URL);
 		}
 		final int timeout;
 		try {
 			timeout = parseUtil.parseInt(parameter.get(TIMEOUT));
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return new MonitoringCheckResultDto(this, false, "illegal paremter " + TIMEOUT);
 		}
 		return check(url, timeout);
@@ -113,25 +109,20 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 				final boolean result = parseUtil.parseBoolean(asString(jsonObject.get(MapperJsonObjectMonitoringNode.RESULT)), false);
 				if (result) {
 					return new MonitoringCheckResultDto(this, result, message, url);
-				}
-				else {
+				} else {
 					return new MonitoringCheckResultDto(this, result, message != null ? message : httpContent, url);
 				}
-			}
-			else {
+			} else {
 				logger.debug("no json-data found");
 				return new MonitoringCheckResultDto(this, false, "invalid json response", url);
 			}
-		}
-		catch (final HttpDownloaderException e) {
+		} catch (final HttpDownloaderException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
-		}
-		catch (final JSONParseException e) {
+		} catch (final JSONParseException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
 		}
@@ -149,12 +140,12 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 
 	@Override
 	public Collection<ValidationError> validate(final Map<String, String> parameter) {
-		final List<ValidationError> result = new ArrayList<ValidationError>();
+		final List<ValidationError> result = new ArrayList<>();
 
 		// url
 		{
 			final String url = parameter.get(URL);
-			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+			final List<ValidationConstraint<String>> constraints = new ArrayList<>();
 			constraints.add(new ValidationConstraintNotNull<String>());
 			constraints.add(new ValidationConstraintStringUrl(urlUtil));
 			result.addAll(validationConstraintValidator.validate(URL, url, constraints));
@@ -164,13 +155,12 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 		{
 			try {
 				final int timeout = parseUtil.parseInt(parameter.get(TIMEOUT));
-				final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
+				final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
 				constraints.add(new ValidationConstraintNotNull<Integer>());
 				constraints.add(new ValidationConstraintIntegerGE(0));
 				constraints.add(new ValidationConstraintIntegerLE(60000));
 				result.addAll(validationConstraintValidator.validate("timeout", timeout, constraints));
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				result.add(new ValidationErrorSimple("timeout invalid"));
 			}
 		}

@@ -86,7 +86,7 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Collection<Widget> getWidgets() {
-		final Set<Widget> result = new HashSet<Widget>(super.getWidgets());
+		final Set<Widget> result = new HashSet<>(super.getWidgets());
 		result.add(dashboardWidget);
 		return result;
 	}

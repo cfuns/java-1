@@ -1,16 +1,7 @@
 package de.benjaminborbe.poker.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
@@ -51,6 +42,13 @@ import de.benjaminborbe.tools.list.ListUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class PokerServiceImpl implements PokerService {
@@ -83,18 +81,18 @@ public class PokerServiceImpl implements PokerService {
 
 	@Inject
 	public PokerServiceImpl(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final AnalyticsService analyticsService,
-			final PokerConfig pokerConfig,
-			final AuthorizationService authorizationService,
-			final PokerWinnerCalculator pokerWinnerCalculator,
-			final ListUtil listUtil,
-			final PokerCardFactory pokerCardFactory,
-			final PokerGameDao pokerGameDao,
-			final IdGeneratorUUID idGeneratorUUID,
-			final ValidationExecutor validationExecutor,
-			final PokerPlayerDao pokerPlayerDao) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final AnalyticsService analyticsService,
+		final PokerConfig pokerConfig,
+		final AuthorizationService authorizationService,
+		final PokerWinnerCalculator pokerWinnerCalculator,
+		final ListUtil listUtil,
+		final PokerCardFactory pokerCardFactory,
+		final PokerGameDao pokerGameDao,
+		final IdGeneratorUUID idGeneratorUUID,
+		final ValidationExecutor validationExecutor,
+		final PokerPlayerDao pokerPlayerDao) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.analyticsService = analyticsService;
@@ -114,19 +112,14 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("getGameIdentifiers");
 			final IdentifierIterator<PokerGameIdentifier> i = pokerGameDao.getIdentifierIterator();
-			final List<PokerGameIdentifier> result = new ArrayList<PokerGameIdentifier>();
+			final List<PokerGameIdentifier> result = new ArrayList<>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final IdentifierIteratorException e) {
+		} catch (final IdentifierIteratorException | StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -135,11 +128,9 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("getGame - id: " + gameIdentifier);
 			return pokerGameDao.load(gameIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -148,11 +139,9 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.trace("getPlayer - id: " + playerIdentifier);
 			return pokerPlayerDao.load(playerIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -183,11 +172,9 @@ public class PokerServiceImpl implements PokerService {
 			pokerGameDao.save(bean);
 
 			return id;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -217,11 +204,9 @@ public class PokerServiceImpl implements PokerService {
 			trackPlayerAmount(bean.getId(), bean.getAmount());
 
 			return id;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -229,8 +214,7 @@ public class PokerServiceImpl implements PokerService {
 	public PokerPlayerIdentifier createPlayerIdentifier(final String id) throws PokerServiceException {
 		try {
 			return id != null ? new PokerPlayerIdentifier(id) : null;
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -239,11 +223,9 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			return game.getPlayers();
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -252,11 +234,9 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			return game.getActivePlayers();
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -264,8 +244,7 @@ public class PokerServiceImpl implements PokerService {
 	public PokerGameIdentifier createGameIdentifier(final String gameId) throws PokerServiceException {
 		try {
 			return gameId != null ? new PokerGameIdentifier(gameId) : null;
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -295,11 +274,9 @@ public class PokerServiceImpl implements PokerService {
 			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("running").add("players").add("buttonPosition").add("round"));
 
 			nextRound(gameIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -307,11 +284,9 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			nextRound(game);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -342,11 +317,9 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			return player.getCards();
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -355,11 +328,9 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			return game.getBoardCards();
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -385,11 +356,9 @@ public class PokerServiceImpl implements PokerService {
 
 			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("players"));
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("game"));
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -411,11 +380,9 @@ public class PokerServiceImpl implements PokerService {
 
 			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("players"));
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("game"));
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -426,15 +393,12 @@ public class PokerServiceImpl implements PokerService {
 			final Integer pos = game.getActivePosition();
 			if (pos != null) {
 				return game.getActivePlayers().get(pos);
-			}
-			else {
+			} else {
 				return null;
 			}
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -444,15 +408,12 @@ public class PokerServiceImpl implements PokerService {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			if (game.getButtonPosition() != null) {
 				return game.getPlayers().get(game.getButtonPosition());
-			}
-			else {
+			} else {
 				return null;
 			}
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -463,15 +424,12 @@ public class PokerServiceImpl implements PokerService {
 			if (game.getButtonPosition() != null) {
 				final int pos = (game.getButtonPosition() + 1) % game.getPlayers().size();
 				return game.getPlayers().get(pos);
-			}
-			else {
+			} else {
 				return null;
 			}
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -482,15 +440,12 @@ public class PokerServiceImpl implements PokerService {
 			if (game.getButtonPosition() != null) {
 				final int pos = (game.getButtonPosition() + 2) % game.getPlayers().size();
 				return game.getPlayers().get(pos);
-			}
-			else {
+			} else {
 				return null;
 			}
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -522,11 +477,9 @@ public class PokerServiceImpl implements PokerService {
 			completeTurn(game);
 
 			trackPlayerAmount(player.getId(), player.getAmount());
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -536,8 +489,7 @@ public class PokerServiceImpl implements PokerService {
 				final String reportName = "PokerPlayerAmount-" + id.getId();
 				final AnalyticsReportIdentifier analyticsReportIdentifier = analyticsService.createAnalyticsReportIdentifier(reportName);
 				analyticsService.addReportValue(analyticsReportIdentifier, amount);
-			}
-			catch (final AnalyticsServiceException e) {
+			} catch (final AnalyticsServiceException e) {
 				logger.trace("trackPlayerAmount failed", e);
 			}
 		}
@@ -555,8 +507,7 @@ public class PokerServiceImpl implements PokerService {
 			}
 			logger.debug("completeTurn => true");
 			nextTurn(game);
-		}
-		else {
+		} else {
 			logger.debug("completeTurn => false");
 		}
 	}
@@ -586,10 +537,10 @@ public class PokerServiceImpl implements PokerService {
 		// showdown
 		else {
 			logger.debug("showdown - calc winnners");
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
 			for (final PokerPlayerIdentifier playerIdentifier : game.getActivePlayers()) {
 				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
-				final List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
+				final List<PokerCardIdentifier> cards = new ArrayList<>();
 				cards.addAll(game.getBoardCards());
 				cards.addAll(player.getCards());
 				playerCards.put(playerIdentifier, cards);
@@ -679,7 +630,7 @@ public class PokerServiceImpl implements PokerService {
 		game.setBet(game.getBigBlind());
 
 		pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("buttonPosition").add("cards").add("cardPosition").add("round").add("activePosition").add("pot")
-				.add("bet").add("activePlayers").add("boardCards"));
+			.add("bet").add("activePlayers").add("boardCards"));
 	}
 
 	@Override
@@ -702,11 +653,9 @@ public class PokerServiceImpl implements PokerService {
 			completeTurn(game);
 
 			trackPlayerAmount(player.getId(), player.getAmount());
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -726,11 +675,9 @@ public class PokerServiceImpl implements PokerService {
 			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add("activePosition").add("activePlayers"));
 
 			completeTurn(game);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -739,19 +686,14 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("getGames");
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
-			final List<PokerGame> result = new ArrayList<PokerGame>();
+			final List<PokerGame> result = new ArrayList<>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new PokerServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -760,19 +702,14 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("getPlayers");
 			final EntityIterator<PokerPlayerBean> i = pokerPlayerDao.getEntityIterator();
-			final List<PokerPlayer> result = new ArrayList<PokerPlayer>();
+			final List<PokerPlayer> result = new ArrayList<>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new PokerServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -792,11 +729,9 @@ public class PokerServiceImpl implements PokerService {
 				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add("game"));
 			}
 			pokerGameDao.delete(gameIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -809,17 +744,14 @@ public class PokerServiceImpl implements PokerService {
 				final PokerGameBean game = pokerGameDao.load(player.getGame());
 				if (Boolean.TRUE.equals(game.getRunning())) {
 					throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("can't delete player with running game")));
-				}
-				else {
+				} else {
 					leaveGame(player.getGame(), playerIdentifier);
 				}
 			}
 			pokerPlayerDao.delete(playerIdentifier);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -828,7 +760,7 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("getGames - running: " + running);
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
-			final List<PokerGame> result = new ArrayList<PokerGame>();
+			final List<PokerGame> result = new ArrayList<>();
 			while (i.hasNext()) {
 				final PokerGameBean game = i.next();
 				if (Boolean.TRUE.equals(game.getRunning()) == running) {
@@ -836,14 +768,9 @@ public class PokerServiceImpl implements PokerService {
 				}
 			}
 			return result;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new PokerServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -889,14 +816,12 @@ public class PokerServiceImpl implements PokerService {
 				trackPlayerAmount(player.getId(), player.getAmount());
 			}
 			pokerGameDao.save(
-					game,
-					new StorageValueList(pokerGameDao.getEncoding()).add("running").add("cards").add("cardPosition").add("buttonPosition").add("round").add("activePlayers")
-							.add("activePosition").add("boardCards").add("bet"));
-		}
-		catch (final StorageException e) {
+				game,
+				new StorageValueList(pokerGameDao.getEncoding()).add("running").add("cards").add("cardPosition").add("buttonPosition").add("round").add("activePlayers")
+					.add("activePosition").add("boardCards").add("bet"));
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -904,8 +829,7 @@ public class PokerServiceImpl implements PokerService {
 	public void expectPokerAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN));
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
 		}
 	}
@@ -914,9 +838,8 @@ public class PokerServiceImpl implements PokerService {
 	public void expectPokerPlayerOrAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 		try {
 			authorizationService.expectOneOfPermissions(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN),
-					authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
-		}
-		catch (final AuthorizationServiceException e) {
+				authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
+		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
 		}
 	}
@@ -925,8 +848,7 @@ public class PokerServiceImpl implements PokerService {
 	public void expectPokerPlayerPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
 		}
 	}
@@ -935,8 +857,7 @@ public class PokerServiceImpl implements PokerService {
 	public boolean hasPokerAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		try {
 			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN));
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
 		}
 	}
@@ -945,9 +866,8 @@ public class PokerServiceImpl implements PokerService {
 	public boolean hasPokerPlayerOrAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		try {
 			return authorizationService.hasOneOfPermissions(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN),
-					authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
-		}
-		catch (final AuthorizationServiceException e) {
+				authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
+		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
 		}
 	}
@@ -956,8 +876,7 @@ public class PokerServiceImpl implements PokerService {
 	public boolean hasPokerPlayerPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
 		try {
 			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
 		}
 	}
@@ -977,11 +896,9 @@ public class PokerServiceImpl implements PokerService {
 			}
 
 			pokerGameDao.save(bean, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.NAME));
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -1002,13 +919,11 @@ public class PokerServiceImpl implements PokerService {
 			}
 
 			pokerPlayerDao.save(bean,
-					new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.NAME).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.OWNERS));
+				new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.NAME).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.OWNERS));
 			trackPlayerAmount(bean.getId(), bean.getAmount());
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 

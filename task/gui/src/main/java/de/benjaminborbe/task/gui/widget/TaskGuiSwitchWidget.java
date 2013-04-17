@@ -38,7 +38,7 @@ public class TaskGuiSwitchWidget extends CompositeWidget {
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 		final ListWidget contextList = new ListWidget();
-		final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier));
+		final List<TaskContext> taskContexts = new ArrayList<>(taskService.getTaskContexts(sessionIdentifier));
 		Collections.sort(taskContexts, new TaskContextComparator());
 		contextList.add("Context: ");
 		contextList.add(taskGuiLinkFactory.taskContextSwitchNone(request));

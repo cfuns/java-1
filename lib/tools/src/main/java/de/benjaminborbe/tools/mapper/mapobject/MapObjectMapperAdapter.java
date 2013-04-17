@@ -1,5 +1,9 @@
 package de.benjaminborbe.tools.mapper.mapobject;
 
+import com.google.inject.Provider;
+import de.benjaminborbe.tools.mapper.MapException;
+import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -7,11 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.inject.Provider;
-
-import de.benjaminborbe.tools.mapper.MapException;
-import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 
 public class MapObjectMapperAdapter<T> extends MapObjectMapperBase<T> {
 
@@ -24,7 +23,7 @@ public class MapObjectMapperAdapter<T> extends MapObjectMapperBase<T> {
 
 	public MapObjectMapperAdapter(final Provider<T> provider, final Collection<StringObjectMapper<T>> mapSingles) {
 		super(provider);
-		mappings = new ArrayList<StringObjectMapper<T>>(mapSingles);
+		mappings = new ArrayList<>(mapSingles);
 	}
 
 	@Override
@@ -64,6 +63,6 @@ public class MapObjectMapperAdapter<T> extends MapObjectMapperBase<T> {
 	}
 
 	private Set<String> toSet(final Collection<String> fieldNames) {
-		return new HashSet<String>(fieldNames);
+		return new HashSet<>(fieldNames);
 	}
 }

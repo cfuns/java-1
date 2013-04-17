@@ -1,15 +1,6 @@
 package de.benjaminborbe.analytics.gui.chart;
 
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
@@ -32,6 +23,13 @@ import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.JavascriptWidget;
 import de.benjaminborbe.website.util.ListWidget;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChartBuilder {
 
 	private static final int LIMIT = 60;
@@ -46,10 +44,10 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 
 	@Inject
 	public AnalyticsReportChartBuilderLineChart(
-			final AnalyticsService analyticsService,
-			final ResourceUtil resourceUtil,
-			final CalendarUtil calendarUtil,
-			final AnalyticsReportChartColorGenerator analyticsReportChartColorGenerator) {
+		final AnalyticsService analyticsService,
+		final ResourceUtil resourceUtil,
+		final CalendarUtil calendarUtil,
+		final AnalyticsReportChartColorGenerator analyticsReportChartColorGenerator) {
 		this.analyticsService = analyticsService;
 		this.resourceUtil = resourceUtil;
 		this.calendarUtil = calendarUtil;
@@ -58,15 +56,15 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 
 	@Override
 	public Widget buildChart(final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> reportIdentifiers,
-			final AnalyticsReportInterval selectedAnalyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException, IOException {
+													 final AnalyticsReportInterval selectedAnalyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException, IOException {
 		try {
 			final AnalyticsReportValueListIterator reportValueIterator = analyticsService.getReportListIteratorFillMissing(sessionIdentifier, reportIdentifiers,
-					selectedAnalyticsReportInterval);
+				selectedAnalyticsReportInterval);
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new DivWidget().addId("chart"));
 
-			final List<List<String>> tooltips = new ArrayList<List<String>>();
-			final List<List<String>> values = new ArrayList<List<String>>();
+			final List<List<String>> tooltips = new ArrayList<>();
+			final List<List<String>> values = new ArrayList<>();
 			final DecimalFormat df = new DecimalFormat("#####0.0");
 
 			for (int i = 0; i < reportIdentifiers.size(); ++i) {
@@ -88,11 +86,9 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 			widgets.add(new JavascriptWidget(buildTemplate(reportIdentifiers)));
 
 			return widgets;
-		}
-		catch (final IteratorException e) {
+		} catch (final IteratorException e) {
 			throw new AnalyticsServiceException(e);
-		}
-		finally {
+		} finally {
 		}
 	}
 
@@ -109,7 +105,7 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 	}
 
 	private String buildContent(final List<List<String>> tooltips, final List<List<String>> values, final List<AnalyticsReportIdentifier> reportIdentifiers) throws IOException,
-			IteratorException {
+		IteratorException {
 		final String content = resourceUtil.getResourceContentAsString("chart_data.js");
 		final String tooltipString = buildTooltips(tooltips, values, reportIdentifiers);
 		final String valuesString = buildValues(values);
@@ -143,8 +139,7 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		for (int i = values.size() - 1; i >= 0; --i) {
 			if (first) {
 				first = false;
-			}
-			else {
+			} else {
 				sb.append(", ");
 			}
 			sb.append(values.get(i));
@@ -153,7 +148,7 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 	}
 
 	private String buildTooltips(final List<List<String>> tooltips, final List<List<String>> values, final List<AnalyticsReportIdentifier> reportIdentifiers)
-			throws IteratorException {
+		throws IteratorException {
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 1; i <= values.size(); ++i) {
 			sb.append("serie" + i + ": [");
@@ -169,16 +164,15 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		}
 		final StringBuilder sb = new StringBuilder();
 
-		final IteratorWithException<String, IteratorException> ti = new IteratorByListReverse<String, IteratorException>(tooltips);
-		final IteratorWithException<String, IteratorException> vi = new IteratorByListReverse<String, IteratorException>(values);
+		final IteratorWithException<String, IteratorException> ti = new IteratorByListReverse<>(tooltips);
+		final IteratorWithException<String, IteratorException> vi = new IteratorByListReverse<>(values);
 		boolean first = true;
 		while (ti.hasNext() && vi.hasNext()) {
 			final String tooltip = ti.next();
 			final String value = vi.next();
 			if (first) {
 				first = false;
-			}
-			else {
+			} else {
 				sb.append(", ");
 			}
 
@@ -196,7 +190,7 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 	@Override
 	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
+		final List<JavascriptResource> result = new ArrayList<>();
 		result.add(new JavascriptResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"));
 		result.add(new JavascriptResourceImpl(contextPath + "/" + AnalyticsGuiConstants.NAME + "/js/raphael.js"));
 		result.add(new JavascriptResourceImpl(contextPath + "/" + AnalyticsGuiConstants.NAME + "/js/elycharts.min.js"));

@@ -1,13 +1,6 @@
 package de.benjaminborbe.shortener.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -18,6 +11,12 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringUrl;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ShortenerUrlValidator extends ValidatorBase<ShortenerUrlBean> {
 
@@ -38,7 +37,7 @@ public class ShortenerUrlValidator extends ValidatorBase<ShortenerUrlBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<ShortenerUrlBean>> buildRules() {
-		final Map<String, ValidatorRule<ShortenerUrlBean>> result = new HashMap<String, ValidatorRule<ShortenerUrlBean>>();
+		final Map<String, ValidatorRule<ShortenerUrlBean>> result = new HashMap<>();
 
 		// url
 		{
@@ -48,7 +47,7 @@ public class ShortenerUrlValidator extends ValidatorBase<ShortenerUrlBean> {
 				@Override
 				public Collection<ValidationError> validate(final ShortenerUrlBean bean) {
 					final String value = bean.getUrl();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

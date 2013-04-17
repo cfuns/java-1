@@ -1,14 +1,13 @@
 package de.benjaminborbe.tools.synchronize;
 
-import static org.junit.Assert.assertEquals;
-
+import de.benjaminborbe.tools.util.ThreadResult;
+import de.benjaminborbe.tools.util.ThreadRunner;
+import de.benjaminborbe.tools.util.ThreadRunnerImpl;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.tools.util.ThreadResult;
-import de.benjaminborbe.tools.util.ThreadRunner;
-import de.benjaminborbe.tools.util.ThreadRunnerImpl;
+import static org.junit.Assert.assertEquals;
 
 public class RunOnlyOnceATimeUnitTest {
 
@@ -30,8 +29,7 @@ public class RunOnlyOnceATimeUnitTest {
 				synchronized (threadResult) {
 					threadResult.set(threadResult.get() + 1);
 				}
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 			}
 		}
 	}
@@ -43,7 +41,7 @@ public class RunOnlyOnceATimeUnitTest {
 		EasyMock.replay(logger);
 
 		final RunOnlyOnceATime runOnlyOnceATime = new RunOnlyOnceATime(logger);
-		final ThreadResult<Long> threadResult = new ThreadResult<Long>();
+		final ThreadResult<Long> threadResult = new ThreadResult<>();
 		threadResult.set(0L);
 		final Runnable runnable = new MyRunnable(timeout, threadResult);
 
@@ -61,7 +59,7 @@ public class RunOnlyOnceATimeUnitTest {
 		EasyMock.replay(logger);
 
 		final RunOnlyOnceATime runOnlyOnceATime = new RunOnlyOnceATime(logger);
-		final ThreadResult<Long> threadResult = new ThreadResult<Long>();
+		final ThreadResult<Long> threadResult = new ThreadResult<>();
 		threadResult.set(0L);
 		final Runnable runnable = new MyRunnable(timeout, threadResult);
 

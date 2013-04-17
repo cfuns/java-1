@@ -1,19 +1,16 @@
 package de.benjaminborbe.website.form;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import de.benjaminborbe.html.api.HttpContext;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import de.benjaminborbe.html.api.HttpContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class FormInputTextareaWidgetUnitTest {
 
@@ -25,7 +22,7 @@ public class FormInputTextareaWidgetUnitTest {
 	}
 
 	@Test
-	public void testRender() throws Exception, IOException {
+	public void testRender() throws Exception {
 		final String name = "test123";
 		final FormInputTextareaWidget formInputTextareaWidget = new FormInputTextareaWidget(name);
 

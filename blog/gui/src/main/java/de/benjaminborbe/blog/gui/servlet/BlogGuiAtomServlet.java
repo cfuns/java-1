@@ -67,7 +67,7 @@ public class BlogGuiAtomServlet extends WebsiteWidgetServlet {
 	}
 
 	private List<Entry> createEntries(final HttpServletRequest request) {
-		final List<Entry> entries = new ArrayList<Entry>();
+		final List<Entry> entries = new ArrayList<>();
 		entries.add(createEntry(request));
 		return entries;
 	}

@@ -77,7 +77,7 @@ public class AuthorizationGuiRoleListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
-			final List<RoleIdentifier> rs = new ArrayList<RoleIdentifier>(authorizationService.getRoles());
+			final List<RoleIdentifier> rs = new ArrayList<>(authorizationService.getRoles());
 			Collections.sort(rs, new RoleIdentifierComparator());
 			for (final RoleIdentifier roleIdentifier : rs) {
 				final ListWidget row = new ListWidget();

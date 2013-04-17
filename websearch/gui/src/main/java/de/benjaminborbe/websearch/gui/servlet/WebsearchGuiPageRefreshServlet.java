@@ -1,18 +1,8 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
-import java.io.IOException;
-import java.net.URL;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -28,6 +18,13 @@ import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URL;
 
 @Singleton
 public class WebsearchGuiPageRefreshServlet extends WebsiteServlet {
@@ -42,14 +39,14 @@ public class WebsearchGuiPageRefreshServlet extends WebsiteServlet {
 
 	@Inject
 	public WebsearchGuiPageRefreshServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final WebsearchService websearchService,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final WebsearchService websearchService,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.websearchService = websearchService;
 		this.authenticationService = authenticationService;
@@ -58,16 +55,12 @@ public class WebsearchGuiPageRefreshServlet extends WebsiteServlet {
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final WebsearchPageIdentifier page = websearchService.createPageIdentifier(new URL(request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID)));
 			websearchService.refreshPage(sessionIdentifier, page);
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final WebsearchServiceException e) {
+		} catch (final AuthenticationServiceException | WebsearchServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

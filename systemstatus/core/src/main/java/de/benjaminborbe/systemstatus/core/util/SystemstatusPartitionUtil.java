@@ -54,7 +54,7 @@ public class SystemstatusPartitionUtil {
 
 	public Collection<SystemstatusPartition> getPartitions() {
 		logger.debug("getPartitions");
-		final List<SystemstatusPartition> result = new ArrayList<SystemstatusPartition>();
+		final List<SystemstatusPartition> result = new ArrayList<>();
 		for (final File file : File.listRoots()) {
 			result.add(new PartitionImpl(file));
 		}

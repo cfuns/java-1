@@ -1,17 +1,8 @@
 package de.benjaminborbe.slash.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -21,6 +12,12 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class SlashGuiServlet extends WebsiteServlet {
@@ -35,13 +32,13 @@ public class SlashGuiServlet extends WebsiteServlet {
 
 	@Inject
 	public SlashGuiServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -55,25 +52,21 @@ public class SlashGuiServlet extends WebsiteServlet {
 
 	protected String buildRedirectTargetPath(final HttpServletRequest request) {
 		final String serverName = request.getServerName();
-		if (serverName.indexOf("benjamin-borbe") != -1 || serverName.indexOf("benjaminborbe") != -1) {
+		if (serverName.contains("benjamin-borbe") || serverName.contains("benjaminborbe")) {
 			try {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				if (authenticationService.isLoggedIn(sessionIdentifier)) {
 					return request.getContextPath() + "/search";
 				}
-			}
-			catch (final AuthenticationServiceException e) {
+			} catch (final AuthenticationServiceException e) {
 				logger.warn(e.getClass().getName());
 			}
 			return request.getContextPath() + "/portfolio";
-		}
-		else if (serverName.indexOf("harteslicht.de") != -1 || serverName.indexOf("harteslicht.com") != -1) {
+		} else if (serverName.contains("harteslicht.de") || serverName.contains("harteslicht.com")) {
 			return request.getContextPath() + "/blog";
-		}
-		else if (serverName.indexOf("rocketnews") != -1 || serverName.indexOf("rocketsource") != -1) {
+		} else if (serverName.contains("rocketnews") || serverName.contains("rocketsource")) {
 			return request.getContextPath() + "/wiki";
-		}
-		else {
+		} else {
 			return request.getContextPath() + "/" + DEFAULT_TARGET;
 		}
 	}

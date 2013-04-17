@@ -43,7 +43,7 @@ public class AuthenticationGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<String>();
+		final List<String> paths = new ArrayList<>();
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_SLASH);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_LOGIN);
 		paths.add("/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_LOGOUT);
@@ -104,7 +104,7 @@ public class AuthenticationGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<String>();
+		final List<String> paths = new ArrayList<>();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
@@ -127,7 +127,7 @@ public class AuthenticationGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<String>();
+		final List<String> names = new ArrayList<>();
 		names.add(NavigationEntry.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());

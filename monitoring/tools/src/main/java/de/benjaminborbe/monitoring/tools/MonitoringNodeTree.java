@@ -1,11 +1,11 @@
 package de.benjaminborbe.monitoring.tools;
 
+import de.benjaminborbe.monitoring.api.MonitoringHasParentId;
+import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import de.benjaminborbe.monitoring.api.MonitoringHasParentId;
-import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 
 public class MonitoringNodeTree<N extends MonitoringHasParentId> {
 
@@ -16,7 +16,7 @@ public class MonitoringNodeTree<N extends MonitoringHasParentId> {
 	}
 
 	public List<N> getRootNodes() {
-		final List<N> result = new ArrayList<N>();
+		final List<N> result = new ArrayList<>();
 		for (final N node : nodes) {
 			if (node.getParentId() == null) {
 				result.add(node);
@@ -26,7 +26,7 @@ public class MonitoringNodeTree<N extends MonitoringHasParentId> {
 	}
 
 	public List<N> getChildNodes(final MonitoringNodeIdentifier parentId) {
-		final List<N> result = new ArrayList<N>();
+		final List<N> result = new ArrayList<>();
 		for (final N node : nodes) {
 			if (parentId.equals(node.getParentId())) {
 				result.add(node);

@@ -1,10 +1,5 @@
 package de.benjaminborbe.poker.player;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
@@ -13,6 +8,11 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implements PokerPlayer, HasCreated, HasModified {
 
@@ -32,7 +32,7 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 
 	private PokerGameIdentifier game;
 
-	private List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
+	private List<PokerCardIdentifier> cards = new ArrayList<>();
 
 	private Collection<UserIdentifier> owners;
 

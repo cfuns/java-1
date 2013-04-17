@@ -78,7 +78,7 @@ public class SearchGuiHelpServlet extends SearchGuiWebsiteHtmlServlet {
 		widgets.add(new H2Widget("SpecialSearchs"));
 		for (final SearchSpecial specialSearch : searchGuiSpecialSearchRegistry.getAll()) {
 			final ListWidget list = new ListWidget();
-			final List<String> names = new ArrayList<String>();
+			final List<String> names = new ArrayList<>();
 			for (final String name : specialSearch.getAliases()) {
 				names.add("type '" + name + ": [searchterm]'");
 			}

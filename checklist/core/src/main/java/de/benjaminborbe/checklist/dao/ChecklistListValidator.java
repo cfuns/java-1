@@ -1,13 +1,6 @@
 package de.benjaminborbe.checklist.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
@@ -18,6 +11,12 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ChecklistListValidator extends ValidatorBase<ChecklistListBean> {
 
@@ -35,7 +34,7 @@ public class ChecklistListValidator extends ValidatorBase<ChecklistListBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<ChecklistListBean>> buildRules() {
-		final Map<String, ValidatorRule<ChecklistListBean>> result = new HashMap<String, ValidatorRule<ChecklistListBean>>();
+		final Map<String, ValidatorRule<ChecklistListBean>> result = new HashMap<>();
 
 		// name
 		{
@@ -45,7 +44,7 @@ public class ChecklistListValidator extends ValidatorBase<ChecklistListBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistListBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -62,7 +61,7 @@ public class ChecklistListValidator extends ValidatorBase<ChecklistListBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistListBean bean) {
 					final ChecklistListIdentifier value = bean.getId();
-					final List<ValidationConstraint<ChecklistListIdentifier>> constraints = new ArrayList<ValidationConstraint<ChecklistListIdentifier>>();
+					final List<ValidationConstraint<ChecklistListIdentifier>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<ChecklistListIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -77,7 +76,7 @@ public class ChecklistListValidator extends ValidatorBase<ChecklistListBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistListBean bean) {
 					final UserIdentifier value = bean.getOwner();
-					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<ValidationConstraint<UserIdentifier>>();
+					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<UserIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}

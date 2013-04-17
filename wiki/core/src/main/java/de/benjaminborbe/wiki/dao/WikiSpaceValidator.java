@@ -1,13 +1,6 @@
 package de.benjaminborbe.wiki.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
@@ -19,6 +12,12 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMa
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringNot;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class WikiSpaceValidator extends ValidatorBase<WikiSpaceBean> {
 
@@ -50,8 +49,7 @@ public class WikiSpaceValidator extends ValidatorBase<WikiSpaceBean> {
 	private boolean isValidCharacter(final char c) {
 		if (Character.isLetterOrDigit(c) || c == ' ') {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
@@ -63,7 +61,7 @@ public class WikiSpaceValidator extends ValidatorBase<WikiSpaceBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<WikiSpaceBean>> buildRules() {
-		final Map<String, ValidatorRule<WikiSpaceBean>> result = new HashMap<String, ValidatorRule<WikiSpaceBean>>();
+		final Map<String, ValidatorRule<WikiSpaceBean>> result = new HashMap<>();
 
 		// id
 		{
@@ -73,7 +71,7 @@ public class WikiSpaceValidator extends ValidatorBase<WikiSpaceBean> {
 				@Override
 				public Collection<ValidationError> validate(final WikiSpaceBean bean) {
 					final WikiSpaceIdentifier value = bean.getId();
-					final List<ValidationConstraint<WikiSpaceIdentifier>> constraints = new ArrayList<ValidationConstraint<WikiSpaceIdentifier>>();
+					final List<ValidationConstraint<WikiSpaceIdentifier>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<WikiSpaceIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<WikiSpaceIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -89,7 +87,7 @@ public class WikiSpaceValidator extends ValidatorBase<WikiSpaceBean> {
 				@Override
 				public Collection<ValidationError> validate(final WikiSpaceBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

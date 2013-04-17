@@ -1,26 +1,8 @@
 package de.benjaminborbe.lunch.wikiconnector;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
-import javax.xml.rpc.ServiceException;
-
-import net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapService;
-import net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapServiceServiceLocator;
-
-import org.slf4j.Logger;
-
-import com.atlassian.confluence.rpc.AuthenticationFailedException;
-import com.atlassian.confluence.rpc.InvalidSessionException;
-import com.atlassian.confluence.rpc.RemoteException;
 import com.atlassian.confluence.rpc.soap.beans.RemotePage;
 import com.atlassian.confluence.rpc.soap.beans.RemotePageSummary;
 import com.google.inject.Inject;
-
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.bean.LunchBean;
 import de.benjaminborbe.lunch.util.LunchParseUtil;
@@ -28,6 +10,17 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.ParseException;
+import net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapService;
+import net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapServiceServiceLocator;
+import org.slf4j.Logger;
+
+import javax.xml.rpc.ServiceException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 public class LunchWikiConnectorImpl implements LunchWikiConnector {
 
@@ -53,20 +46,19 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 
 	@Override
 	public Collection<Lunch> extractLunchs(final String spaceKey, final String username, final String password, final String fullname, final Calendar date) throws ServiceException,
-			AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException {
+		java.rmi.RemoteException, ParseException {
 
 		final ConfluenceSoapService service = getService();
 		final String token = service.login(username, password);
 		final RemotePageSummary[] remotePageSummaries = service.getPages(token, spaceKey);
 
-		final List<Lunch> result = new ArrayList<Lunch>();
+		final List<Lunch> result = new ArrayList<>();
 		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
 			if (isLunchPage(remotePageSummary) && isLunchDateTodayOrFuture(remotePageSummary, date)) {
 				logger.trace("'" + remotePageSummary.getTitle() + "' is lunch page");
 				final Lunch lunch = createLunch(service, token, remotePageSummary, fullname);
 				result.add(lunch);
-			}
-			else {
+			} else {
 				logger.trace("'" + remotePageSummary.getTitle() + "' is not lunch page");
 			}
 		}
@@ -96,7 +88,7 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 	}
 
 	protected Lunch createLunch(final ConfluenceSoapService service, final String token, final RemotePageSummary remotePageSummary, final String fullname) throws ParseException,
-			InvalidSessionException, RemoteException, java.rmi.RemoteException {
+		java.rmi.RemoteException {
 		final RemotePage page = service.getPage(token, remotePageSummary.getId());
 		final String htmlContent = htmlUtil.unescapeHtml(service.renderContent(token, page.getSpace(), page.getId(), page.getContent()));
 		final LunchBean lunch = new LunchBean();
@@ -110,8 +102,7 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 	private URL buildUrl(final String url) {
 		try {
 			return new URL(url);
-		}
-		catch (final MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			logger.debug("build WikiPageUrl failed!", e);
 			return null;
 		}
@@ -128,13 +119,13 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 
 	@Override
 	public Collection<String> extractSubscriptions(final String spaceKey, final String username, final String password, final Calendar date) throws ServiceException,
-			AuthenticationFailedException, RemoteException, java.rmi.RemoteException, ParseException {
+		java.rmi.RemoteException, ParseException {
 
 		final ConfluenceSoapService service = getService();
 		final String token = service.login(username, password);
 		final RemotePageSummary[] remotePageSummaries = service.getPages(token, spaceKey);
 		logger.debug("found " + remotePageSummaries + " pages");
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
 			if (isLunchPage(remotePageSummary) && isLunchDate(remotePageSummary, date)) {
 				logger.debug("found lunchpage for date " + calendarUtil.toDateString(date) + " => " + remotePageSummary.getTitle());

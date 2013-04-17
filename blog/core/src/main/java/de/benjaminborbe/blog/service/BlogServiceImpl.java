@@ -130,7 +130,7 @@ public class BlogServiceImpl implements BlogService {
 	public List<BlogPost> getLatestBlogPosts() throws BlogServiceException {
 		try {
 			logger.debug("getLatestBlogPosts");
-			final List<BlogPost> result = new ArrayList<BlogPost>();
+			final List<BlogPost> result = new ArrayList<>();
 			final EntityIterator<BlogPostBean> i = blogPostDao.getEntityIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
@@ -145,7 +145,7 @@ public class BlogServiceImpl implements BlogService {
 	public Collection<BlogPostIdentifier> getBlogPostIdentifiers(final SessionIdentifier sessionIdentifier) throws BlogServiceException, LoginRequiredException {
 		try {
 			expectPermission();
-			final List<BlogPostIdentifier> result = new ArrayList<BlogPostIdentifier>();
+			final List<BlogPostIdentifier> result = new ArrayList<>();
 			final IdentifierIterator<BlogPostIdentifier> i = blogPostDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				result.add(i.next());

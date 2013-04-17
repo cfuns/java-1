@@ -1,12 +1,6 @@
 package de.benjaminborbe.analytics.dao;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
@@ -20,6 +14,11 @@ import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.util.Counter;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 
@@ -37,8 +36,7 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 		public boolean hasNext() throws AnalyticsServiceException {
 			try {
 				return i.hasNext();
-			}
-			catch (final StorageException e) {
+			} catch (final StorageException e) {
 				throw new AnalyticsServiceException(e);
 			}
 		}
@@ -50,14 +48,7 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 				final String columnName = column.getColumnName().getString();
 				final String[] parts = columnName.split(SEPERATOR);
 				return new AnalyticsReportLogValueDto(columnName, mapperCalendar.fromString(parts[0]), parseUtil.parseDouble(column.getColumnValue().getString()));
-			}
-			catch (final StorageException e) {
-				throw new AnalyticsServiceException(e);
-			}
-			catch (final UnsupportedEncodingException e) {
-				throw new AnalyticsServiceException(e);
-			}
-			catch (final ParseException e) {
+			} catch (final StorageException | ParseException | UnsupportedEncodingException e) {
 				throw new AnalyticsServiceException(e);
 			}
 		}
@@ -94,7 +85,7 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 		columnName.append(SEPERATOR);
 		columnName.append(String.valueOf(counter.incrementAndGet()));
 		storageService.set(COLUMN_FAMILY, new StorageValue(buildKey(analyticsReportIdentifier), encoding), new StorageValue(columnName.toString(), encoding),
-				new StorageValue(String.valueOf(reportValue.getValue()), encoding));
+			new StorageValue(String.valueOf(reportValue.getValue()), encoding));
 	}
 
 	@Override
@@ -106,7 +97,7 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 	@Override
 	public void delete(final AnalyticsReportIdentifier analyticsReportIdentifier, final Collection<String> columnNames) throws StorageException {
 		final String encoding = storageService.getEncoding();
-		final List<StorageValue> columns = new ArrayList<StorageValue>();
+		final List<StorageValue> columns = new ArrayList<>();
 		for (final String columnName : columnNames) {
 			columns.add(new StorageValue(columnName, encoding));
 		}

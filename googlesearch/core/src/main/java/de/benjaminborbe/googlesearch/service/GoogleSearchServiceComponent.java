@@ -1,21 +1,7 @@
 package de.benjaminborbe.googlesearch.service;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
@@ -34,6 +20,18 @@ import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class GoogleSearchServiceComponent implements SearchServiceComponent {
@@ -48,7 +46,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
 		@Override
 		protected Map<String, String> getSearchValues(final SearchResult bean) {
-			final Map<String, String> values = new HashMap<String, String>();
+			final Map<String, String> values = new HashMap<>();
 			values.put(TITLE, bean.getTitle());
 			values.put(DESCRIPTION, bean.getDescription());
 			values.put(URL, bean.getUrl());
@@ -57,7 +55,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
 		@Override
 		protected Map<String, Integer> getSearchPrio() {
-			final Map<String, Integer> values = new HashMap<String, Integer>();
+			final Map<String, Integer> values = new HashMap<>();
 			values.put(TITLE, 2);
 			values.put(DESCRIPTION, 1);
 			values.put(URL, 2);
@@ -87,13 +85,13 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
 	@Inject
 	public GoogleSearchServiceComponent(
-			final Logger logger,
-			final SearchUtil searchUtil,
-			final HttpDownloader httpDownloader,
-			final HttpDownloadUtil httpDownloadUtil,
-			final HtmlUtil htmlUtil,
-			final UrlUtil urlUtil,
-			final JSONParser jsonParser) {
+		final Logger logger,
+		final SearchUtil searchUtil,
+		final HttpDownloader httpDownloader,
+		final HttpDownloadUtil httpDownloadUtil,
+		final HtmlUtil htmlUtil,
+		final UrlUtil urlUtil,
+		final JSONParser jsonParser) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.httpDownloader = httpDownloader;
@@ -107,7 +105,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.trace("search");
-		final List<SearchResult> result = new ArrayList<SearchResult>();
+		final List<SearchResult> result = new ArrayList<>();
 		// https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=foo
 		try {
 			final URL url = buildQueryUrl(words);
@@ -118,20 +116,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 			for (final BeanMatch<SearchResult> beanResult : beanResults) {
 				result.add(map(beanResult));
 			}
-		}
-		catch (final HttpDownloaderException e) {
-			logger.error(e.getClass().getName(), e);
-		}
-		catch (final MalformedURLException e) {
-			logger.error(e.getClass().getName(), e);
-		}
-		catch (final UnsupportedEncodingException e) {
-			logger.error(e.getClass().getName(), e);
-		}
-		catch (final JSONParseException e) {
-			logger.error(e.getClass().getName(), e);
-		}
-		catch (final ParseException e) {
+		} catch (final HttpDownloaderException | ParseException | JSONParseException | UnsupportedEncodingException | MalformedURLException e) {
 			logger.error(e.getClass().getName(), e);
 		}
 
@@ -149,7 +134,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	protected List<SearchResult> buildResults(final String content) throws MalformedURLException, JSONParseException, ParseException {
-		final List<SearchResult> searchResults = new ArrayList<SearchResult>();
+		final List<SearchResult> searchResults = new ArrayList<>();
 		final Object object = jsonParser.parse(content);
 		if (object instanceof JSONObject) {
 			final JSONObject root = (JSONObject) object;

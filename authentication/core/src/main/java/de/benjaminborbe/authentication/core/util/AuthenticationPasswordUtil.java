@@ -33,7 +33,7 @@ public class AuthenticationPasswordUtil {
 	}
 
 	public List<ValidationError> validatePassword(final String password) {
-		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		final List<ValidationError> errors = new ArrayList<>();
 		if (!passwordValidator.hasDigest(password, 1)) {
 			errors.add(new ValidationErrorSimple("password contains no digest characters"));
 		}

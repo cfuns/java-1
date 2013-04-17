@@ -1,16 +1,6 @@
 package de.benjaminborbe.checklist.dao;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.checklist.api.ChecklistEntryIdentifier;
 import de.benjaminborbe.checklist.util.MapperEntryIdentifier;
 import de.benjaminborbe.checklist.util.MapperListIdentifier;
@@ -26,11 +16,19 @@ import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class ChecklistEntryBeanMapperUnitTest {
 
 	private ChecklistEntryBeanMapper getChecklistEntryBeanMapper() {
-		final Provider<ChecklistEntryBean> taskBeanProvider = new ProviderMock<ChecklistEntryBean>(ChecklistEntryBean.class);
+		final Provider<ChecklistEntryBean> taskBeanProvider = new ProviderMock<>(ChecklistEntryBean.class);
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
@@ -64,7 +62,7 @@ public class ChecklistEntryBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			data.put(fieldname, String.valueOf(value));
 			final ChecklistEntryBean bean = mapper.map(data);
 			assertEquals(value, bean.getId());

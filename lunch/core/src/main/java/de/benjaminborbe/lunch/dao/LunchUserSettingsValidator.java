@@ -1,17 +1,6 @@
 package de.benjaminborbe.lunch.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -22,6 +11,15 @@ import de.benjaminborbe.tools.validation.ValidatorBase;
 import de.benjaminborbe.tools.validation.ValidatorRule;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class LunchUserSettingsValidator extends ValidatorBase<LunchUserSettingsBean> {
 
@@ -69,7 +67,7 @@ public class LunchUserSettingsValidator extends ValidatorBase<LunchUserSettingsB
 
 	@Override
 	protected Map<String, ValidatorRule<LunchUserSettingsBean>> buildRules() {
-		final Map<String, ValidatorRule<LunchUserSettingsBean>> result = new HashMap<String, ValidatorRule<LunchUserSettingsBean>>();
+		final Map<String, ValidatorRule<LunchUserSettingsBean>> result = new HashMap<>();
 
 		// id
 		{
@@ -79,7 +77,7 @@ public class LunchUserSettingsValidator extends ValidatorBase<LunchUserSettingsB
 				@Override
 				public Collection<ValidationError> validate(final LunchUserSettingsBean bean) {
 					final LunchUserSettingsIdentifier value = bean.getId();
-					final List<ValidationConstraint<LunchUserSettingsIdentifier>> constraints = new ArrayList<ValidationConstraint<LunchUserSettingsIdentifier>>();
+					final List<ValidationConstraint<LunchUserSettingsIdentifier>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<LunchUserSettingsIdentifier>());
 					constraints.add(new ValidationConstraintUsername("alle", "root", "admin"));
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -94,14 +92,13 @@ public class LunchUserSettingsValidator extends ValidatorBase<LunchUserSettingsB
 
 				@Override
 				public Collection<ValidationError> validate(final LunchUserSettingsBean bean) {
-					final Set<ValidationError> result = new HashSet<ValidationError>();
+					final Set<ValidationError> result = new HashSet<>();
 					final UserIdentifier owner = bean.getOwner();
 					try {
 						if (!authenticationService.existsUser(owner)) {
 							result.add(new ValidationErrorSimple("unkown user " + owner));
 						}
-					}
-					catch (final AuthenticationServiceException e) {
+					} catch (final AuthenticationServiceException e) {
 						logger.warn(e.getClass().getName(), e);
 						result.add(new ValidationErrorSimple("validate user failed"));
 					}

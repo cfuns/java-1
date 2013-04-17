@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.core.util.MapperConfigurationIdentifier;
-import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
@@ -29,7 +28,7 @@ public class ConfigurationBeanMapper extends MapObjectMapperAdapter<Configuratio
 
 	private static Collection<StringObjectMapper<ConfigurationBean>> buildMappings(final MapperString mapperString,
 																																								 final MapperCalendar mapperCalendar, final MapperConfigurationIdentifier mapperConfigurationIdentifier) {
-		final List<StringObjectMapper<ConfigurationBean>> result = new ArrayList<StringObjectMapper<ConfigurationBean>>();
+		final List<StringObjectMapper<ConfigurationBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<ConfigurationBean, ConfigurationIdentifier>("id", mapperConfigurationIdentifier));
 		result.add(new StringObjectMapperAdapter<ConfigurationBean, String>("value", mapperString));
 		result.add(new StringObjectMapperAdapter<ConfigurationBean, Calendar>("created", mapperCalendar));

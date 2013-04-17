@@ -1,7 +1,11 @@
 package de.benjaminborbe.poker.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import de.benjaminborbe.poker.api.PokerCardColor;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import de.benjaminborbe.poker.api.PokerCardValue;
+import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
+import de.benjaminborbe.tools.util.ComparatorUtil;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,13 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
-
-import de.benjaminborbe.poker.api.PokerCardColor;
-import de.benjaminborbe.poker.api.PokerCardIdentifier;
-import de.benjaminborbe.poker.api.PokerCardValue;
-import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
-import de.benjaminborbe.tools.util.ComparatorUtil;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class PokerWinnerCalculatorUnitTest {
 
@@ -23,20 +22,20 @@ public class PokerWinnerCalculatorUnitTest {
 	public void testCompareHighcard() throws Exception {
 		final PokerWinnerCalculator comparator = getComparator();
 		{
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
 			final Collection<PokerPlayerIdentifier> result = comparator.getWinners(playerCards);
 			assertNotNull(result);
 			assertEquals(0, result.size());
 		}
 		{
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
 			playerCards.put(new PokerPlayerIdentifier("playerA"), buildCards());
 			final Collection<PokerPlayerIdentifier> result = comparator.getWinners(playerCards);
 			assertNotNull(result);
 			assertEquals(1, result.size());
 		}
 		{
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
 			playerCards.put(new PokerPlayerIdentifier("playerA"), buildCards());
 			playerCards.put(new PokerPlayerIdentifier("playerB"), buildCards());
 			final Collection<PokerPlayerIdentifier> result = comparator.getWinners(playerCards);
@@ -44,7 +43,7 @@ public class PokerWinnerCalculatorUnitTest {
 			assertEquals(2, result.size());
 		}
 		{
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
 			playerCards.put(new PokerPlayerIdentifier("playerA"), buildCards(PokerCardValue.ACE));
 			playerCards.put(new PokerPlayerIdentifier("playerB"), buildCards(PokerCardValue.KING));
 			final Collection<PokerPlayerIdentifier> result = comparator.getWinners(playerCards);
@@ -52,7 +51,7 @@ public class PokerWinnerCalculatorUnitTest {
 			assertEquals(1, result.size());
 		}
 		{
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
 			playerCards.put(new PokerPlayerIdentifier("playerA"), buildCards(PokerCardValue.ACE, PokerCardValue.TWO));
 			playerCards.put(new PokerPlayerIdentifier("playerB"), buildCards(PokerCardValue.ACE, PokerCardValue.KING));
 			final Collection<PokerPlayerIdentifier> result = comparator.getWinners(playerCards);
@@ -79,13 +78,13 @@ public class PokerWinnerCalculatorUnitTest {
 		final PokerCardsPairComparator pokerCardsPairComparator = new PokerCardsPairComparator(pokerCardsHighcardComparator);
 
 		final PokerCardsComparator comparator = new PokerCardsComparator(pokerCardsRoyalFlushComparator, pokerCardsStraightFlushComparator, pokerCardsFourOfAKindComparator,
-				pokerCardsFullHouseComparator, pokerCardsFlushComparator, pokerCardsStraightComparator, pokerCardsThreeOfAKindComparator, pokerCardsTwoPairComparator,
-				pokerCardsPairComparator, pokerCardsHighcardComparator);
+			pokerCardsFullHouseComparator, pokerCardsFlushComparator, pokerCardsStraightComparator, pokerCardsThreeOfAKindComparator, pokerCardsTwoPairComparator,
+			pokerCardsPairComparator, pokerCardsHighcardComparator);
 		return new PokerWinnerCalculator(comparator);
 	}
 
 	private Collection<PokerCardIdentifier> buildCards(final PokerCardValue... values) {
-		final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
+		final List<PokerCardIdentifier> result = new ArrayList<>();
 		for (final PokerCardValue value : values) {
 			result.add(new PokerCardIdentifier(PokerCardColor.CLUBS, value));
 		}

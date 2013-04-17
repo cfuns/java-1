@@ -1,16 +1,16 @@
 package de.benjaminborbe.tools.validation.constraint;
 
+import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-
-import org.junit.Test;
 
 public class ValidationConstraintOrUnitTest {
 
 	@Test
 	public void testValidate() throws Exception {
 		{
-			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>();
+			final ValidationConstraintOr<String> v = new ValidationConstraintOr<>();
 			assertThat(v.validate("bla"), is(false));
 		}
 		{
@@ -23,7 +23,7 @@ public class ValidationConstraintOrUnitTest {
 		}
 		{
 			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>().add(new ValidationConstraintStringOnlyLetters())
-					.add(new ValidationConstraintStringOnlyDigest());
+				.add(new ValidationConstraintStringOnlyDigest());
 			assertThat(v.validate("bla"), is(true));
 		}
 		{

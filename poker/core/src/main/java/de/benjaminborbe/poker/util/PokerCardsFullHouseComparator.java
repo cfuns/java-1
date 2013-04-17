@@ -1,17 +1,16 @@
 package de.benjaminborbe.poker.util;
 
+import com.google.inject.Inject;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import de.benjaminborbe.poker.api.PokerCardValue;
+import de.benjaminborbe.tools.map.MapList;
+import de.benjaminborbe.tools.util.ComparatorUtil;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.poker.api.PokerCardIdentifier;
-import de.benjaminborbe.poker.api.PokerCardValue;
-import de.benjaminborbe.tools.map.MapList;
-import de.benjaminborbe.tools.util.ComparatorUtil;
 
 public class PokerCardsFullHouseComparator implements Comparator<Collection<PokerCardIdentifier>> {
 
@@ -52,7 +51,7 @@ public class PokerCardsFullHouseComparator implements Comparator<Collection<Poke
 	}
 
 	private List<PokerCardValue> buildList(final Collection<PokerCardIdentifier> cards, final int length) {
-		final List<PokerCardValue> list = new ArrayList<PokerCardValue>();
+		final List<PokerCardValue> list = new ArrayList<>();
 		final MapList<PokerCardValue, PokerCardIdentifier> map = buildMap(cards);
 		for (final Entry<PokerCardValue, List<PokerCardIdentifier>> e : map.entrySet()) {
 			if (e.getValue().size() >= length) {
@@ -63,7 +62,7 @@ public class PokerCardsFullHouseComparator implements Comparator<Collection<Poke
 	}
 
 	private MapList<PokerCardValue, PokerCardIdentifier> buildMap(final Collection<PokerCardIdentifier> cards) {
-		final MapList<PokerCardValue, PokerCardIdentifier> result = new MapList<PokerCardValue, PokerCardIdentifier>();
+		final MapList<PokerCardValue, PokerCardIdentifier> result = new MapList<>();
 		for (final PokerCardIdentifier card : cards) {
 			result.add(card.getValue(), card);
 		}

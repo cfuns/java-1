@@ -97,9 +97,7 @@ public class AnalyticsGuiReportAggregateServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			analyticsService.expectAnalyticsAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
-		} catch (final AnalyticsServiceException e) {
+		} catch (final AuthenticationServiceException | AnalyticsServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

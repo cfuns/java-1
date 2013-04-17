@@ -1,17 +1,8 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -28,6 +19,12 @@ import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class WebsearchGuiConfigurationDeleteServlet extends WebsiteServlet {
@@ -42,14 +39,14 @@ public class WebsearchGuiConfigurationDeleteServlet extends WebsiteServlet {
 
 	@Inject
 	public WebsearchGuiConfigurationDeleteServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final WebsearchService websearchService,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final WebsearchService websearchService,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.websearchService = websearchService;
 		this.logger = logger;
@@ -58,20 +55,13 @@ public class WebsearchGuiConfigurationDeleteServlet extends WebsiteServlet {
 
 	@Override
 	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final WebsearchConfigurationIdentifier websearchConfigurationIdentifier = websearchService.createConfigurationIdentifier(request
-					.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID));
+				.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID));
 			websearchService.deleteConfiguration(sessionIdentifier, websearchConfigurationIdentifier);
-		}
-		catch (final WebsearchServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		}
-		catch (final LoginRequiredException e) {
+		} catch (final WebsearchServiceException | LoginRequiredException | AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

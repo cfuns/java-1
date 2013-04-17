@@ -1,13 +1,6 @@
 package de.benjaminborbe.lunch;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.config.LunchConfig;
@@ -17,6 +10,11 @@ import de.benjaminborbe.microblog.api.MicroblogPostListener;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class LunchActivator extends BaseBundleActivator {
 
@@ -36,7 +34,7 @@ public class LunchActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(LunchService.class, lunchService));
 		for (final ConfigurationDescription configuration : lunchConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));

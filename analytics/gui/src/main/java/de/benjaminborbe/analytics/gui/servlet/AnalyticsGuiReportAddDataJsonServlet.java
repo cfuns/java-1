@@ -95,9 +95,7 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 					printError(response, "add value failed");
 				}
 			}
-		} catch (final AnalyticsServiceException e) {
-			printException(response, e);
-		} catch (final AuthenticationServiceException e) {
+		} catch (final AnalyticsServiceException | AuthenticationServiceException e) {
 			printException(response, e);
 		}
 	}
@@ -129,7 +127,7 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 
 	private void addData(final AnalyticsReportIdentifier analyticsReportIdentifier, final String valueString)
 		throws AnalyticsServiceException, ValidationException, PermissionDeniedException, LoginRequiredException {
-		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		final List<ValidationError> errors = new ArrayList<>();
 
 		double value = 0;
 		{

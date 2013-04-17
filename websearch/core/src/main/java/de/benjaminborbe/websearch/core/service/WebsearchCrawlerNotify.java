@@ -73,11 +73,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 				parseLinks(result);
 				addToIndex(result);
 			}
-		} catch (final StorageException e) {
-			logger.debug("StorageException", e);
-		} catch (final IndexerServiceException e) {
-			logger.debug("StorageException", e);
-		} catch (final ParseException e) {
+		} catch (final StorageException | ParseException | IndexerServiceException e) {
 			logger.debug("StorageException", e);
 		}
 	}

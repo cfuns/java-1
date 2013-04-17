@@ -1,17 +1,16 @@
 package de.benjaminborbe.tools.mapper;
 
+import com.google.inject.Inject;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
+import de.benjaminborbe.tools.json.JSONParseException;
+import de.benjaminborbe.tools.json.JSONParser;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.tools.json.JSONObject;
-import de.benjaminborbe.tools.json.JSONObjectSimple;
-import de.benjaminborbe.tools.json.JSONParseException;
-import de.benjaminborbe.tools.json.JSONParser;
 
 public class MapperMapString implements Mapper<Map<String, String>> {
 
@@ -31,15 +30,14 @@ public class MapperMapString implements Mapper<Map<String, String>> {
 			final Object object = jsonParser.parse(json);
 			if (object instanceof JSONObject) {
 				final JSONObject jsonObject = (JSONObject) object;
-				final Map<String, String> result = new HashMap<String, String>();
+				final Map<String, String> result = new HashMap<>();
 
 				for (final Entry<String, Object> e : jsonObject.entrySet()) {
 					result.put(asString(e.getKey()), asString(e.getValue()));
 				}
 				return result;
 			}
-		}
-		catch (final JSONParseException e) {
+		} catch (final JSONParseException e) {
 			throw new MapException("no valid json", e);
 		}
 		throw new MapException("no valid json");
@@ -62,8 +60,7 @@ public class MapperMapString implements Mapper<Map<String, String>> {
 			final StringWriter sw = new StringWriter();
 			jsonObject.writeJSONString(sw);
 			return sw.toString();
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new MapException(e);
 		}
 	}

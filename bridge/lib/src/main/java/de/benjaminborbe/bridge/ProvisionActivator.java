@@ -1,5 +1,10 @@
 package de.benjaminborbe.bridge;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -7,12 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-
-import javax.servlet.ServletContext;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
 
 public final class ProvisionActivator implements BundleActivator {
 
@@ -29,8 +28,7 @@ public final class ProvisionActivator implements BundleActivator {
 			try {
 				servletContext.log("Starting bundle [" + bundle.getSymbolicName() + "]");
 				bundle.start();
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				servletContext.log("Starting bundle [" + bundle.getSymbolicName() + "] failed!", e);
 			}
 		}
@@ -54,7 +52,7 @@ public final class ProvisionActivator implements BundleActivator {
 	public void start(final BundleContext context) throws Exception {
 		servletContext.setAttribute(BundleContext.class.getName(), context);
 
-		installed = new ArrayList<Bundle>();
+		installed = new ArrayList<>();
 
 		for (final URL url : orderBundles(findBundles(), getProperties())) {
 			servletContext.log("Installing bundle [" + url + "]");
@@ -69,8 +67,7 @@ public final class ProvisionActivator implements BundleActivator {
 
 				final Thread thread = new Thread(new RunStartBundle(bundle), "start felix-osgi-bundle");
 				thread.start();
-			}
-			else {
+			} else {
 				servletContext.log("Starting bundle [" + bundle.getSymbolicName() + "]");
 				bundle.start();
 			}
@@ -84,8 +81,8 @@ public final class ProvisionActivator implements BundleActivator {
 	 * sortieren
 	 */
 	protected List<URL> orderBundles(final List<URL> bundles, final Properties props) {
-		final List<URL> result = new ArrayList<URL>();
-		final Set<URL> availableBundles = new HashSet<URL>(bundles);
+		final List<URL> result = new ArrayList<>();
+		final Set<URL> availableBundles = new HashSet<>(bundles);
 		// Reinfolge aus Konfig lesen
 		final List<String> installBundles = getInstallConfigOrders(BUNDLE_PREFIX, props);
 
@@ -96,7 +93,7 @@ public final class ProvisionActivator implements BundleActivator {
 			servletContext.log("installBundle: \"" + installBundle + "\"");
 			for (final URL b : availableBundles) {
 				servletContext.log(b.getFile() + " contains " + installBundle);
-				if (b.getFile().indexOf(installBundle) != -1) {
+				if (b.getFile().contains(installBundle)) {
 					servletContext.log(b.getFile() + " contains " + installBundle + " => true");
 					result.add(b);
 				}
@@ -117,7 +114,7 @@ public final class ProvisionActivator implements BundleActivator {
 	}
 
 	protected List<String> getInstallConfigOrders(final String prefix, final Properties props) {
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		int i = 1;
 		while (props.containsKey(prefix + i)) {
 			result.add(props.getProperty(prefix + i).toString());
@@ -137,7 +134,7 @@ public final class ProvisionActivator implements BundleActivator {
 	}
 
 	private List<URL> findBundles() throws Exception {
-		final ArrayList<URL> list = new ArrayList<URL>();
+		final ArrayList<URL> list = new ArrayList<>();
 		for (final Object o : this.servletContext.getResourcePaths("/WEB-INF/bundles/")) {
 			final String name = (String) o;
 			if (name.endsWith(".jar")) {
@@ -158,8 +155,7 @@ public final class ProvisionActivator implements BundleActivator {
 		final Properties props = new Properties();
 		try {
 			props.load(servletContext.getResourceAsStream(CONFIG));
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			servletContext.log("load framework.properties failed", e);
 		}
 		return props;

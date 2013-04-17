@@ -1,20 +1,18 @@
 package de.benjaminborbe.lunch.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import com.google.inject.Inject;
+import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-
-import de.benjaminborbe.tools.html.HtmlUtil;
-import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.tools.util.ParseUtil;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class LunchParseUtil {
 
@@ -33,7 +31,7 @@ public class LunchParseUtil {
 
 	public Collection<String> extractSubscribedUser(final String htmlContent) {
 		// logger.debug("htmlContent:\n" + htmlContent);
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		final Document document = Jsoup.parse(htmlContent);
 		final Elements tables = document.getElementsByTag("table");
 		for (final Element table : tables) {
@@ -71,7 +69,7 @@ public class LunchParseUtil {
 	}
 
 	public boolean extractLunchSubscribed(final String content, final String fullname) {
-		return content.indexOf(fullname) != -1;
+		return content.contains(fullname);
 	}
 
 	public String extractLunchName(final String htmlContent) throws ParseException {
@@ -94,8 +92,7 @@ public class LunchParseUtil {
 			pos = parseUtil.indexOf(htmlContent, "ac:name=\"tip\"", pos);
 			try {
 				pos = parseUtil.indexOf(htmlContent, "INLINE", pos);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				// nop
 			}
 			final int pstart = parseUtil.indexOf(htmlContent, "<ac:rich-text-body>", pos);

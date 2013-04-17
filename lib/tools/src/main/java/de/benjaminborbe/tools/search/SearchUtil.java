@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.search;
 
+import com.google.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.inject.Inject;
 
 public class SearchUtil {
 
@@ -12,7 +12,7 @@ public class SearchUtil {
 	}
 
 	public List<String> buildSearchParts(final String searchQuery) {
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		for (final String word : buildSearchTermIterator(searchQuery)) {
 			result.add(word);
 		}

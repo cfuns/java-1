@@ -1,12 +1,10 @@
 package de.benjaminborbe.cron.util;
 
-import static org.quartz.CronScheduleBuilder.cronSchedule;
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.cron.CronConstants;
+import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.cron.job.CronJobOsgi;
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
@@ -15,12 +13,12 @@ import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
 
-import de.benjaminborbe.cron.CronConstants;
-import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.cron.job.CronJobOsgi;
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 @Singleton
 public class QuartzImpl implements Quartz {
@@ -31,7 +29,7 @@ public class QuartzImpl implements Quartz {
 
 	private final SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 
-	private final Map<Class<? extends CronJob>, JobKey> jobDetails = new HashMap<Class<? extends CronJob>, JobKey>();
+	private final Map<Class<? extends CronJob>, JobKey> jobDetails = new HashMap<>();
 
 	private Scheduler sched = null;
 
@@ -64,7 +62,7 @@ public class QuartzImpl implements Quartz {
 
 	/**
 	 * used directly to deactivate ALL cronjobs in Activator.stop
-	 * 
+	 *
 	 * @throws SchedulerException
 	 */
 	@Override
@@ -81,8 +79,7 @@ public class QuartzImpl implements Quartz {
 		logger.trace("QuartzImpl.addCronJob()");
 		if (jobDetails.containsKey(cronJob.getClass())) {
 			logger.trace("skip add cronJob, already added");
-		}
-		else {
+		} else {
 			try {
 				final String name = cronJob.getClass().getName();
 				final JobDetail jobDetail = newJob(CronJobOsgi.class).withIdentity(name, name).usingJobData(CronConstants.JOB_NAME, name).build();
@@ -93,8 +90,7 @@ public class QuartzImpl implements Quartz {
 				// add job to scheduler
 				getScheduler().scheduleJob(jobDetail, trigger);
 				logger.trace("job scheduled");
-			}
-			catch (final SchedulerException e) {
+			} catch (final SchedulerException e) {
 				logger.error("SchedulerException", e);
 			}
 		}
@@ -108,12 +104,10 @@ public class QuartzImpl implements Quartz {
 				getScheduler().deleteJob(jobDetails.get(cronJob.getClass()));
 				jobDetails.remove(cronJob.getClass());
 				logger.trace("job deleted");
-			}
-			catch (final SchedulerException e) {
+			} catch (final SchedulerException e) {
 				logger.error("SchedulerException", e);
 			}
-		}
-		else {
+		} else {
 			logger.trace("skip remove cronJob, not added");
 		}
 	}

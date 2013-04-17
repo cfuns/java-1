@@ -1,12 +1,7 @@
 package de.benjaminborbe.mail.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.tools.mapper.MapException;
@@ -15,17 +10,21 @@ import de.benjaminborbe.tools.mapper.json.JsonObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class MailJsonMapper {
 
 	private final JsonObjectMapper<MailDto> mapper;
 
 	@Inject
 	public MailJsonMapper(final Provider<MailDto> provider, final MapperString mapperString) {
-		mapper = new JsonObjectMapper<MailDto>(provider, build(mapperString));
+		mapper = new JsonObjectMapper<>(provider, build(mapperString));
 	}
 
 	private Collection<StringObjectMapper<MailDto>> build(final MapperString mapperString) {
-		final List<StringObjectMapper<MailDto>> result = new ArrayList<StringObjectMapper<MailDto>>();
+		final List<StringObjectMapper<MailDto>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<MailDto, String>("from", mapperString));
 		result.add(new StringObjectMapperAdapter<MailDto, String>("to", mapperString));
 		result.add(new StringObjectMapperAdapter<MailDto, String>("subject", mapperString));

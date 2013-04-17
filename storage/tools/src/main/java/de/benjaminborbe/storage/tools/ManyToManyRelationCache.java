@@ -39,7 +39,7 @@ public class ManyToManyRelationCache<A extends Identifier<?>, B extends Identifi
 	public void removeB(final B identifierB) throws StorageException {
 		final Set<String> remove = new HashSet<>();
 		for (final String key : data.keySet()) {
-			if (key.indexOf("-" + identifierB) != -1) {
+			if (key.contains("-" + identifierB)) {
 				remove.add(key);
 			}
 		}
@@ -52,7 +52,7 @@ public class ManyToManyRelationCache<A extends Identifier<?>, B extends Identifi
 	public void removeA(final A identifierA) throws StorageException {
 		final Set<String> remove = new HashSet<>();
 		for (final String key : data.keySet()) {
-			if (key.indexOf(identifierA + "-") != -1) {
+			if (key.contains(identifierA + "-")) {
 				remove.add(key);
 			}
 		}

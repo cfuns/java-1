@@ -89,9 +89,7 @@ public class ProjectileGuiReportJsonServlet extends WebsiteJsonServlet {
 			} else {
 				printError(response, "parameter required: " + ProjectileGuiConstants.PARAMETER_AUTH_TOKEN + " and " + ProjectileGuiConstants.PARAMETER_USERNAME);
 			}
-		} catch (final ProjectileServiceException e) {
-			printException(response, e);
-		} catch (final AuthenticationServiceException e) {
+		} catch (final ProjectileServiceException | AuthenticationServiceException e) {
 			printException(response, e);
 		}
 	}

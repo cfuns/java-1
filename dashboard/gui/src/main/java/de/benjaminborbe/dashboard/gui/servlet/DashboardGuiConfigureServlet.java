@@ -96,7 +96,7 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final List<DashboardContentWidget> list = new ArrayList<DashboardContentWidget>(dashboardGuiWidgetRegistry.getAll());
+			final List<DashboardContentWidget> list = new ArrayList<>(dashboardGuiWidgetRegistry.getAll());
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final String action = request.getParameter("action");
 			if ("update".equals(action)) {
@@ -109,7 +109,7 @@ public class DashboardGuiConfigureServlet extends WebsiteHtmlServlet {
 				}
 			}
 
-			final Set<DashboardIdentifier> di = new HashSet<DashboardIdentifier>(dashboardService.getSelectedDashboards(sessionIdentifier));
+			final Set<DashboardIdentifier> di = new HashSet<>(dashboardService.getSelectedDashboards(sessionIdentifier));
 			Collections.sort(list, new DashboardGuiContentWidgetComparatorTitle());
 			final FormWidget form = new FormWidget();
 			for (final DashboardContentWidget w : list) {

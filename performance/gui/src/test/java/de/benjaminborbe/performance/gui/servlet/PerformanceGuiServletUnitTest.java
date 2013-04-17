@@ -86,7 +86,7 @@ public class PerformanceGuiServletUnitTest {
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(startTime), endTime)).andReturn(startTime);
 		EasyMock.replay(parseUtil);
 
-		final Map<String, String> data = new HashMap<String, String>();
+		final Map<String, String> data = new HashMap<>();
 
 		final HttpContext httpContext = EasyMock.createMock(HttpContext.class);
 		EasyMock.expect(httpContext.getData()).andReturn(data).anyTimes();
@@ -96,7 +96,7 @@ public class PerformanceGuiServletUnitTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<HttpContext>(httpContext);
+		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<>(httpContext);
 
 		final PerformanceService performanceTracker = EasyMock.createMock(PerformanceService.class);
 		EasyMock.expect(performanceTracker.getSlowestEntries(20)).andReturn(new ArrayList<PerformanceEntry>());
@@ -135,6 +135,6 @@ public class PerformanceGuiServletUnitTest {
 		performanceServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Performance</h1>") != -1);
+		assertTrue(content.contains("<h1>Performance</h1>"));
 	}
 }

@@ -1,16 +1,6 @@
 package de.benjaminborbe.gallery.dao;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Calendar;
-import java.util.Map;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.gallery.util.MapperGalleryImageIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -26,11 +16,19 @@ import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.Calendar;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class GalleryImageBeanMapperUnitTest {
 
 	private GalleryImageBeanMapper getGalleryImageBeanMapper() {
-		final Provider<GalleryImageBean> taskBeanProvider = new ProviderMock<GalleryImageBean>(GalleryImageBean.class);
+		final Provider<GalleryImageBean> taskBeanProvider = new ProviderMock<>(GalleryImageBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 

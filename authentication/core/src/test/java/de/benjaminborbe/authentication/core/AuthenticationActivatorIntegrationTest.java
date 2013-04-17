@@ -42,7 +42,7 @@ public class AuthenticationActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<String>();
+		final List<String> paths = new ArrayList<>();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
@@ -71,7 +71,7 @@ public class AuthenticationActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		bundleActivatorTestUtil.startBundle(activator);
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<String>();
+		final List<String> names = new ArrayList<>();
 		names.add(AuthenticationService.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());

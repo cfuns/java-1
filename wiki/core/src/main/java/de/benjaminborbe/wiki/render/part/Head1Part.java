@@ -7,7 +7,7 @@ public class Head1Part implements Part {
 
 	private final String title;
 
-	private final List<Head2Part> h2s = new ArrayList<Head2Part>();
+	private final List<Head2Part> h2s = new ArrayList<>();
 
 	public Head1Part(final String title) {
 		this.title = title;

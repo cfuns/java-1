@@ -1,21 +1,8 @@
 package de.benjaminborbe.slash.gui.servlet;
 
-import java.io.IOException;
-import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -36,6 +23,16 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
@@ -54,17 +51,17 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public SlashGuiSessionTestServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final NetUtil netUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final NetUtil netUtil,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.parseUtil = parseUtil;
@@ -78,7 +75,7 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		logger.trace("printContent");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
@@ -93,14 +90,13 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 		widgets.add("Hostnames: ");
 		try {
 			final UlWidget ul = new UlWidget();
-			final List<String> hostnames = new ArrayList<String>(netUtil.getHostnames());
+			final List<String> hostnames = new ArrayList<>(netUtil.getHostnames());
 			Collections.sort(hostnames);
 			for (final String hostname : hostnames) {
 				ul.add(hostname);
 			}
 			widgets.add(ul);
-		}
-		catch (final SocketException e) {
+		} catch (final SocketException e) {
 			widgets.add("getHostnames failed!");
 			widgets.add(new ExceptionWidget(e));
 		}

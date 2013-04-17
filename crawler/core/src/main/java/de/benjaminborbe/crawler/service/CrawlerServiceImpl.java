@@ -1,10 +1,7 @@
 package de.benjaminborbe.crawler.service;
 
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.crawler.CrawlerConstants;
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
@@ -16,6 +13,7 @@ import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
 
 @Singleton
 public class CrawlerServiceImpl implements CrawlerService {
@@ -42,14 +40,7 @@ public class CrawlerServiceImpl implements CrawlerService {
 			logger.trace("processCrawlerInstruction");
 			final CrawlerMessage message = new CrawlerMessage(parseUtil.parseURL(crawlerInstruction.getUrl()), crawlerInstruction.getTimeout());
 			messageService.sendMessage(CrawlerConstants.MESSSAGE_TYPE, crawlerInstruction.getUrl(), crawlerMessageMapper.map(message));
-		}
-		catch (final ParseException e) {
-			throw new CrawlerException(e);
-		}
-		catch (final MessageServiceException e) {
-			throw new CrawlerException(e);
-		}
-		catch (final MapException e) {
+		} catch (final ParseException | MapException | MessageServiceException e) {
 			throw new CrawlerException(e);
 		}
 	}

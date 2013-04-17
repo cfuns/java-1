@@ -1,11 +1,8 @@
 package de.benjaminborbe.gallery.dao;
 
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.util.SharedPredicate;
 import de.benjaminborbe.storage.api.StorageException;
@@ -14,18 +11,19 @@ import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import org.slf4j.Logger;
 
 @Singleton
 public class GalleryGroupDaoStorage extends DaoStorage<GalleryGroupBean, GalleryGroupIdentifier> implements GalleryGroupDao {
 
 	@Inject
 	public GalleryGroupDaoStorage(
-			final Logger logger,
-			final StorageService storageService,
-			final Provider<GalleryGroupBean> beanProvider,
-			final GalleryGroupBeanMapper mapper,
-			final GalleryGroupIdentifierBuilder identifierBuilder,
-			final CalendarUtil calendarUtil) {
+		final Logger logger,
+		final StorageService storageService,
+		final Provider<GalleryGroupBean> beanProvider,
+		final GalleryGroupBeanMapper mapper,
+		final GalleryGroupIdentifierBuilder identifierBuilder,
+		final CalendarUtil calendarUtil) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 
@@ -38,6 +36,6 @@ public class GalleryGroupDaoStorage extends DaoStorage<GalleryGroupBean, Gallery
 
 	@Override
 	public EntityIterator<GalleryGroupBean> getEntityIteratorShared() throws StorageException {
-		return new EntityIteratorFilter<GalleryGroupBean>(getEntityIterator(), new SharedPredicate<GalleryGroupBean>());
+		return new EntityIteratorFilter<>(getEntityIterator(), new SharedPredicate<GalleryGroupBean>());
 	}
 }

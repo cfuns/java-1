@@ -1,14 +1,7 @@
 package de.benjaminborbe.projectile.config;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
@@ -16,6 +9,11 @@ import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.projectile.ProjectileConstants;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Singleton
 public class ProjectileConfigImpl extends ConfigurationBase implements ProjectileConfig {
@@ -39,7 +37,7 @@ public class ProjectileConfigImpl extends ConfigurationBase implements Projectil
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
+		final Set<ConfigurationDescription> result = new HashSet<>();
 		result.add(authToken);
 		result.add(pop3Login);
 		result.add(pop3Password);

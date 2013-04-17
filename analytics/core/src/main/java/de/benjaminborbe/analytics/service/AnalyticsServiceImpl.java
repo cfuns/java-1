@@ -270,15 +270,13 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			expectAnalyticsViewPermission(sessionIdentifier);
 			logger.debug("getReports");
 
-			final List<AnalyticsReport> result = new ArrayList<AnalyticsReport>();
+			final List<AnalyticsReport> result = new ArrayList<>();
 			final EntityIterator<AnalyticsReportBean> i = analyticsReportDao.getEntityIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException e) {
-			throw new AnalyticsServiceException(e);
-		} catch (final EntityIteratorException e) {
+		} catch (final StorageException | EntityIteratorException e) {
 			throw new AnalyticsServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -321,7 +319,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			expectAnalyticsAdminPermission(sessionIdentifier);
 			logger.debug("getLogWithoutReport");
 
-			final List<String> result = new ArrayList<String>();
+			final List<String> result = new ArrayList<>();
 			final StorageIterator i = analyticsReportLogDao.reportNameIterator();
 			while (i.hasNext()) {
 				final String name = i.next().getString();
@@ -330,11 +328,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 				}
 			}
 			return result;
-		} catch (final UnsupportedEncodingException e) {
-			throw new AnalyticsServiceException(e);
-		} catch (final StorageException e) {
-			throw new AnalyticsServiceException(e);
-		} catch (final IdentifierIteratorException e) {
+		} catch (final UnsupportedEncodingException | IdentifierIteratorException | StorageException e) {
 			throw new AnalyticsServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -350,7 +344,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			expectAnalyticsViewPermission(sessionIdentifier);
 			logger.debug("getReportListIterator - interval: " + analyticsReportInterval);
 
-			final List<AnalyticsReportValueIterator> analyticsReportValueIterators = new ArrayList<AnalyticsReportValueIterator>();
+			final List<AnalyticsReportValueIterator> analyticsReportValueIterators = new ArrayList<>();
 			for (final AnalyticsReportIdentifier analyticsReportIdentifier : analyticsReportIdentifiers) {
 				analyticsReportValueIterators.add(getReportIterator(sessionIdentifier, analyticsReportIdentifier, analyticsReportInterval));
 			}
@@ -370,7 +364,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			expectAnalyticsViewPermission(sessionIdentifier);
 			logger.debug("getReportListIteratorFillMissing - interval: " + analyticsReportInterval);
 
-			final List<AnalyticsReportValueIterator> analyticsReportValueIterators = new ArrayList<AnalyticsReportValueIterator>();
+			final List<AnalyticsReportValueIterator> analyticsReportValueIterators = new ArrayList<>();
 			for (final AnalyticsReportIdentifier analyticsReportIdentifier : analyticsReportIdentifiers) {
 				analyticsReportValueIterators.add(getReportIteratorFillMissing(sessionIdentifier, analyticsReportIdentifier, analyticsReportInterval));
 			}
@@ -395,7 +389,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			logger.debug("rebuildReport - id: " + analyticsReportIdentifier);
 
 			final AnalyticsReportValueIterator i = getReportIterator(sessionIdentifier, analyticsReportIdentifier, AnalyticsReportInterval.MINUTE);
-			final List<AnalyticsReportValue> values = new ArrayList<AnalyticsReportValue>();
+			final List<AnalyticsReportValue> values = new ArrayList<>();
 			while (i.hasNext()) {
 				final AnalyticsReportValue value = i.next();
 				values.add(value);
@@ -404,11 +398,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
 			final AnalyticsReport analyticsReport = analyticsReportDao.load(analyticsReportIdentifier);
 			analyticsAggregator.rebuildReport(analyticsReport, values);
-		} catch (final StorageException e) {
-			throw new AnalyticsServiceException(e);
-		} catch (final UnsupportedEncodingException e) {
-			throw new AnalyticsServiceException(e);
-		} catch (final ParseException e) {
+		} catch (final StorageException | ParseException | UnsupportedEncodingException e) {
 			throw new AnalyticsServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -427,9 +417,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			while (i.hasNext()) {
 				rebuildReport(sessionIdentifier, i.next());
 			}
-		} catch (final StorageException e) {
-			throw new AnalyticsServiceException(e);
-		} catch (final IdentifierIteratorException e) {
+		} catch (final StorageException | IdentifierIteratorException e) {
 			throw new AnalyticsServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)

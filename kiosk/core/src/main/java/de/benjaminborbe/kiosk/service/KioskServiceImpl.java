@@ -1,15 +1,7 @@
 package de.benjaminborbe.kiosk.service;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.kiosk.KioskConstants;
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.api.KioskServiceException;
@@ -24,6 +16,12 @@ import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.mapper.MapException;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class KioskServiceImpl implements KioskService {
@@ -44,12 +42,12 @@ public class KioskServiceImpl implements KioskService {
 
 	@Inject
 	public KioskServiceImpl(
-			final Logger logger,
-			final CurrentTime currentTime,
-			final CalendarUtil calendarUtil,
-			final MessageService messageService,
-			final KioskDatabaseConnector kioskDatabaseConnector,
-			final KioskBookingMessageMapper kioskBookingMessageMapper) {
+		final Logger logger,
+		final CurrentTime currentTime,
+		final CalendarUtil calendarUtil,
+		final MessageService messageService,
+		final KioskDatabaseConnector kioskDatabaseConnector,
+		final KioskBookingMessageMapper kioskBookingMessageMapper) {
 		this.logger = logger;
 		this.currentTime = currentTime;
 		this.calendarUtil = calendarUtil;
@@ -66,11 +64,7 @@ public class KioskServiceImpl implements KioskService {
 			final String id = customer + "_" + ean;
 			final Calendar startTime = calendarUtil.getCalendar(currentTime.currentTimeMillis() + DELAY);
 			messageService.sendMessage(KioskConstants.BOOKING_MESSAGE_TYPE, id, kioskBookingMessageMapper.map(bookingMessage), startTime);
-		}
-		catch (final MessageServiceException e) {
-			throw new KioskServiceException(e);
-		}
-		catch (final MapException e) {
+		} catch (final MessageServiceException | MapException e) {
 			throw new KioskServiceException(e);
 		}
 	}
@@ -80,8 +74,7 @@ public class KioskServiceImpl implements KioskService {
 		try {
 			logger.debug("getCustomerNumber - prename: " + prename + " surename: " + surename);
 			return kioskDatabaseConnector.getCustomerNumber(prename, surename);
-		}
-		catch (final KioskDatabaseConnectorException e) {
+		} catch (final KioskDatabaseConnectorException e) {
 			throw new KioskServiceException(e);
 		}
 	}
@@ -90,13 +83,12 @@ public class KioskServiceImpl implements KioskService {
 	public Collection<KioskUser> getBookingsForDay(final Calendar calendar, final long ean) throws KioskServiceException {
 		try {
 			logger.debug("getBookingsForDay - calendar: " + calendarUtil.toDateString(calendar) + " ean: " + ean);
-			final List<KioskUser> result = new ArrayList<KioskUser>();
+			final List<KioskUser> result = new ArrayList<>();
 			for (final KioskUserBean user : kioskDatabaseConnector.getBookingsForDay(calendar, ean)) {
 				result.add(user);
 			}
 			return result;
-		}
-		catch (final KioskDatabaseConnectorException e) {
+		} catch (final KioskDatabaseConnectorException e) {
 			throw new KioskServiceException(e);
 		}
 	}

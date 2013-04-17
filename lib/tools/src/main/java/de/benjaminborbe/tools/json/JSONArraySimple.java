@@ -10,7 +10,7 @@ import java.util.ListIterator;
 
 public class JSONArraySimple implements JSONArray {
 
-	private final List<Object> values = new ArrayList<Object>();
+	private final List<Object> values = new ArrayList<>();
 
 	@Override
 	public void writeJSONString(final Writer out) throws IOException {
@@ -27,8 +27,7 @@ public class JSONArraySimple implements JSONArray {
 		for (final Object value : values) {
 			if (first) {
 				first = false;
-			}
-			else {
+			} else {
 				out.append(',');
 			}
 			JSONValueSimple.writeJSONString(value, out);

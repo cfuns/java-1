@@ -1,17 +1,16 @@
 package de.benjaminborbe.tools.osgi.mock;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Vector;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
-
 @SuppressWarnings("deprecation")
 public class HttpSessionMock implements HttpSession {
 
-	private final HashMap<String, Object> attributes = new HashMap<String, Object>();
+	private final HashMap<String, Object> attributes = new HashMap<>();
 
 	public Object getAttribute(final String arg0) {
 		return attributes.get(arg0);
@@ -25,7 +24,7 @@ public class HttpSessionMock implements HttpSession {
 		attributes.remove(arg0);
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public Enumeration getAttributeNames() {
 		final Vector temp = new Vector();
 		temp.addAll(attributes.keySet());

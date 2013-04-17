@@ -137,7 +137,7 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 
 	private void createPlayer(final String name, final String creditsString, final Collection<UserIdentifier> owners) throws PokerServiceException, ValidationException {
 
-		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		final List<ValidationError> errors = new ArrayList<>();
 		long credits = 0;
 		try {
 			credits = parseUtil.parseLong(creditsString);
@@ -174,9 +174,7 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			pokerService.expectPokerAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
-		} catch (final PokerServiceException e) {
+		} catch (final AuthenticationServiceException | PokerServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

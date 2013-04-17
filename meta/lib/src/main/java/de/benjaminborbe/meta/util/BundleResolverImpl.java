@@ -1,12 +1,11 @@
 package de.benjaminborbe.meta.util;
 
+import com.google.inject.Inject;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
 
 public class BundleResolverImpl implements BundleResolver {
 
@@ -26,7 +25,7 @@ public class BundleResolverImpl implements BundleResolver {
 	}
 
 	protected List<String> parseValue(final String value) {
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		if (value == null) {
 			return result;
 		}

@@ -116,7 +116,7 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 	}
 
 	private GalleryCollection getDefaultGalleryCollection() throws GalleryServiceException {
-		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsShared());
+		final List<GalleryCollection> galleries = new ArrayList<>(galleryService.getCollectionsShared());
 		if (galleries.size() > 0) {
 			Collections.sort(galleries, galleryComparator);
 			return galleries.get(0);

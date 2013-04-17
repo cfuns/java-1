@@ -1,13 +1,6 @@
 package de.benjaminborbe.blog.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.blog.gui.guice.BlogGuiModules;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiAtomServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiCreatePostServlet;
@@ -21,6 +14,11 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BlogGuiActivator extends HttpBundleActivator {
 
@@ -53,7 +51,7 @@ public class BlogGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(blogGuiLatestPostsServlet, BlogGuiConstants.URL_HOME));
 		result.add(new ServletInfo(blogGuiAddPostServlet, BlogGuiConstants.POST_ADD_URL));
 		result.add(new ServletInfo(blogGuiDeletePostServlet, BlogGuiConstants.POST_DELETE_URL));
@@ -64,14 +62,14 @@ public class BlogGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, blogGuiNavigationEntry));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
 		result.add(new ResourceInfo("/images", "images"));
 		result.add(new ResourceInfo("/css", "css"));
 		result.add(new ResourceInfo("/js", "js"));

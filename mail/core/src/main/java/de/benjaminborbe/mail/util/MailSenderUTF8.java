@@ -1,5 +1,10 @@
 package de.benjaminborbe.mail.util;
 
+import com.google.inject.Inject;
+import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailServiceException;
+import org.slf4j.Logger;
+
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.Multipart;
@@ -8,13 +13,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailServiceException;
 
 public class MailSenderUTF8 implements MailSender {
 
@@ -33,7 +31,7 @@ public class MailSenderUTF8 implements MailSender {
 		if (mail == null) {
 			throw new MailServiceException("parameter mail missing");
 		}
-		if (mail.getTo() != null && mail.getTo().indexOf("@example.com") != -1) {
+		if (mail.getTo() != null && mail.getTo().contains("@example.com")) {
 			logger.debug("skip send mail because @example.com - subject: " + mail.getSubject());
 			return;
 		}
@@ -42,7 +40,7 @@ public class MailSenderUTF8 implements MailSender {
 			final String charset = "utf-8";
 			final MimeMessage message = new MimeMessage(mailSessionFactory.getInstance());
 			message.setFrom(new InternetAddress(mail.getFrom()));
-			final InternetAddress recipients[] = { new InternetAddress(mail.getTo()) };
+			final InternetAddress recipients[] = {new InternetAddress(mail.getTo())};
 			message.setRecipients(Message.RecipientType.TO, recipients);
 			message.setSubject(mail.getSubject(), charset);
 			final BodyPart messageBodyPart = new MimeBodyPart();
@@ -51,8 +49,7 @@ public class MailSenderUTF8 implements MailSender {
 			multipart.addBodyPart(messageBodyPart);
 			message.setContent(multipart);
 			Transport.send(message);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new MailServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

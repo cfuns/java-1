@@ -1,17 +1,16 @@
 package de.benjaminborbe.cron.util;
 
+import com.google.inject.Singleton;
+import de.benjaminborbe.cron.api.CronJob;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.cron.api.CronJob;
-
 @Singleton
 public class CronJobRegistryImpl implements CronJobRegistry {
 
-	private final Map<String, CronJob> data = new HashMap<String, CronJob>();
+	private final Map<String, CronJob> data = new HashMap<>();
 
 	@Override
 	public void remove(final CronJob cronJob) {

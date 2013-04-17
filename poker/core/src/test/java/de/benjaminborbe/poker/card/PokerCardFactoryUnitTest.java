@@ -1,14 +1,13 @@
 package de.benjaminborbe.poker.card;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
-
-import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class PokerCardFactoryUnitTest {
 
@@ -17,7 +16,7 @@ public class PokerCardFactoryUnitTest {
 		final PokerCardFactory pokerCardFactory = new PokerCardFactory();
 		assertNotNull(pokerCardFactory.getCards());
 		assertEquals(52, pokerCardFactory.getCards().size());
-		final Set<PokerCardIdentifier> cards = new HashSet<PokerCardIdentifier>();
+		final Set<PokerCardIdentifier> cards = new HashSet<>();
 		for (final PokerCardIdentifier card : pokerCardFactory.getCards()) {
 			cards.add(card);
 		}

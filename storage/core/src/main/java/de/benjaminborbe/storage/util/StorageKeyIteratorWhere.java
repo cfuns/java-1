@@ -1,12 +1,8 @@
 package de.benjaminborbe.storage.util;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageValue;
 import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ConsistencyLevel;
@@ -21,9 +17,12 @@ import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
-import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.api.StorageIterator;
-import de.benjaminborbe.storage.api.StorageValue;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 
 public class StorageKeyIteratorWhere implements StorageIterator {
 
@@ -47,11 +46,11 @@ public class StorageKeyIteratorWhere implements StorageIterator {
 	private final String keySpace;
 
 	public StorageKeyIteratorWhere(
-			final StorageConnectionPool storageConnectionPool,
-			final String keySpace,
-			final String columnFamily,
-			final String encoding,
-			final Map<StorageValue, StorageValue> where) throws UnsupportedEncodingException {
+		final StorageConnectionPool storageConnectionPool,
+		final String keySpace,
+		final String columnFamily,
+		final String encoding,
+		final Map<StorageValue, StorageValue> where) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.column_parent = new ColumnParent(columnFamily);
@@ -87,29 +86,14 @@ public class StorageKeyIteratorWhere implements StorageIterator {
 			if (cols == null) {
 				cols = client.get_indexed_slices(column_parent, index_clause, predicate, ConsistencyLevel.ONE);
 				currentPos = 0;
-			}
-			else if (currentPos == cols.size()) {
+			} else if (currentPos == cols.size()) {
 				cols = client.get_indexed_slices(column_parent, index_clause, predicate, ConsistencyLevel.ONE);
 				currentPos = 1;
 			}
 			return currentPos < cols.size();
-		}
-		catch (final InvalidRequestException e) {
+		} catch (final InvalidRequestException | StorageConnectionPoolException | TException | TimedOutException | UnavailableException e) {
 			throw new StorageException(e);
-		}
-		catch (final UnavailableException e) {
-			throw new StorageException(e);
-		}
-		catch (final TimedOutException e) {
-			throw new StorageException(e);
-		}
-		catch (final TException e) {
-			throw new StorageException(e);
-		}
-		catch (final StorageConnectionPoolException e) {
-			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			storageConnectionPool.releaseConnection(connection);
 		}
 	}
@@ -121,8 +105,7 @@ public class StorageKeyIteratorWhere implements StorageIterator {
 			index_clause.setStart_key(result);
 			currentPos++;
 			return new StorageValue(result, encoding);
-		}
-		else {
+		} else {
 			throw new NoSuchElementException();
 		}
 	}

@@ -1,10 +1,7 @@
 package de.benjaminborbe.mail.service;
 
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.mail.MailConstants;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailService;
@@ -13,6 +10,7 @@ import de.benjaminborbe.mail.util.MailJsonMapper;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.mapper.MapException;
+import org.slf4j.Logger;
 
 @Singleton
 public class MailServiceImpl implements MailService {
@@ -35,11 +33,7 @@ public class MailServiceImpl implements MailService {
 		try {
 			logger.debug("send mail from: " + mail.getFrom() + " to: " + mail.getTo() + " subject: " + mail.getSubject());
 			messageService.sendMessage(MailConstants.MAIL_SEND_TYPE, mailJsonMapper.map(mail));
-		}
-		catch (final MessageServiceException e) {
-			throw new MailServiceException(e);
-		}
-		catch (final MapException e) {
+		} catch (final MessageServiceException | MapException e) {
 			throw new MailServiceException(e);
 		}
 	}

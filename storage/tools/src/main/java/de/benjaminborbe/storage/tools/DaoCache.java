@@ -127,9 +127,7 @@ public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>
 		try {
 			final Object value = PropertyUtils.getProperty(from, fieldname);
 			PropertyUtils.setProperty(to, fieldname, value);
-		} catch (final IllegalAccessException e) {
-		} catch (final InvocationTargetException e) {
-		} catch (final NoSuchMethodException e) {
+		} catch (final IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
 		}
 	}
 

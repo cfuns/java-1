@@ -1,14 +1,13 @@
 package de.benjaminborbe.tools.queue;
 
-import static org.junit.Assert.assertEquals;
-
+import de.benjaminborbe.tools.util.Counter;
+import de.benjaminborbe.tools.util.ThreadRunner;
+import de.benjaminborbe.tools.util.ThreadRunnerImpl;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.tools.util.Counter;
-import de.benjaminborbe.tools.util.ThreadRunner;
-import de.benjaminborbe.tools.util.ThreadRunnerImpl;
+import static org.junit.Assert.assertEquals;
 
 public class QueueUnitTest {
 
@@ -32,7 +31,7 @@ public class QueueUnitTest {
 
 		final Counter counter = new Counter();
 		final ThreadRunner threadRunner = new ThreadRunnerImpl();
-		final Queue<Message> queue = new Queue<Message>(logger, threadRunner, new QueueConsumer<Message>() {
+		final Queue<Message> queue = new Queue<>(logger, threadRunner, new QueueConsumer<Message>() {
 
 			@Override
 			public void consume(final Message message) {

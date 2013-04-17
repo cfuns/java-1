@@ -6,7 +6,6 @@ import com.google.inject.Singleton;
 import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 import de.benjaminborbe.projectile.util.MapperProjectileTeamIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
-import de.benjaminborbe.tools.mapper.MapperDouble;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
@@ -33,7 +32,7 @@ public class ProjectileTeamBeanMapper extends MapObjectMapperAdapter<ProjectileT
 
 	private static Collection<StringObjectMapper<ProjectileTeamBean>> buildMappings(final MapperProjectileTeamIdentifier mapperListIdentifier, final MapperString mapperString,
 																																									final MapperCalendar mapperCalendar) {
-		final List<StringObjectMapper<ProjectileTeamBean>> result = new ArrayList<StringObjectMapper<ProjectileTeamBean>>();
+		final List<StringObjectMapper<ProjectileTeamBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<ProjectileTeamBean, ProjectileTeamIdentifier>("id", mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<ProjectileTeamBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<ProjectileTeamBean, Calendar>("created", mapperCalendar));

@@ -169,7 +169,7 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 	private Collection<DashboardContentWidget> getWidgets(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, DashboardServiceException,
 		LoginRequiredException, PermissionDeniedException {
 		final boolean hasAdmin = authorizationService.hasAdminRole(sessionIdentifier);
-		final List<DashboardContentWidget> dashboardWidgets = new ArrayList<DashboardContentWidget>(dashboardWidgetRegistry.getAll());
+		final List<DashboardContentWidget> dashboardWidgets = new ArrayList<>(dashboardWidgetRegistry.getAll());
 		Collections.sort(dashboardWidgets, dashboardContentWidgetComparator);
 
 		final Collection<DashboardIdentifier> selected = dashboardService.getSelectedDashboards(sessionIdentifier);
@@ -191,7 +191,7 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 	@Override
 	public List<CssResource> getCssResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<CssResource> result = new ArrayList<CssResource>();
+		final List<CssResource> result = new ArrayList<>();
 		result.add(new CssResourceImpl(contextPath + "/dashboard/css/style.css"));
 		for (final DashboardContentWidget dashboardWidget : dashboardWidgetRegistry.getAll()) {
 			if (dashboardWidget instanceof RequireCssResource) {
@@ -204,7 +204,7 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 
 	@Override
 	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
-		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
+		final List<JavascriptResource> result = new ArrayList<>();
 		for (final DashboardContentWidget dashboardWidget : dashboardWidgetRegistry.getAll()) {
 			if (dashboardWidget instanceof RequireJavascriptResource) {
 				result.addAll(((RequireJavascriptResource) dashboardWidget).getJavascriptResource(request, response));
@@ -218,13 +218,13 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
 		try {
 			final ListWidget widgets = new ListWidget();
-			final Set<Thread> threads = new HashSet<Thread>();
-			final List<ThreadResult<String>> results = new ArrayList<ThreadResult<String>>();
+			final Set<Thread> threads = new HashSet<>();
+			final List<ThreadResult<String>> results = new ArrayList<>();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 			// render all widgets
 			for (final DashboardContentWidget dashboardWidget : getWidgets(sessionIdentifier)) {
-				final ThreadResult<String> result = new ThreadResult<String>();
+				final ThreadResult<String> result = new ThreadResult<>();
 				results.add(result);
 				threads.add(threadRunner.run("dashboard-widget-render " + dashboardWidget.getClass().getSimpleName(), new DashboardWidgetRenderRunnable(request, response, context,
 					dashboardWidget, result, calendarUtil)));

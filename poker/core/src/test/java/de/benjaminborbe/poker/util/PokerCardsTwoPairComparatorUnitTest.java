@@ -1,17 +1,16 @@
 package de.benjaminborbe.poker.util;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.poker.api.PokerCardColor;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import de.benjaminborbe.poker.api.PokerCardValue;
+import de.benjaminborbe.tools.util.ComparatorUtil;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Test;
-
-import de.benjaminborbe.poker.api.PokerCardColor;
-import de.benjaminborbe.poker.api.PokerCardIdentifier;
-import de.benjaminborbe.poker.api.PokerCardValue;
-import de.benjaminborbe.tools.util.ComparatorUtil;
+import static org.junit.Assert.assertEquals;
 
 public class PokerCardsTwoPairComparatorUnitTest {
 
@@ -42,9 +41,9 @@ public class PokerCardsTwoPairComparatorUnitTest {
 		final PokerCardsTwoPairComparator comparator = getComparator();
 		assertEquals(0, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.ACE),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.ACE),
 
-		buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.KING)
+			buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.KING)
 
 		));
 	}
@@ -54,49 +53,49 @@ public class PokerCardsTwoPairComparatorUnitTest {
 		final PokerCardsTwoPairComparator comparator = getComparator();
 		assertEquals(0, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.ACE),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.ACE),
 
-		buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.KING)
+			buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.KING)
 
 		));
 
 		assertEquals(0, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.KING, PokerCardValue.KING),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.KING, PokerCardValue.KING),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.KING, PokerCardValue.KING)
-
-		));
-
-		assertEquals(1, comparator.compare(
-
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO, PokerCardValue.TWO),
-
-		buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.TWO, PokerCardValue.TWO)
-
-		));
-
-		assertEquals(-1, comparator.compare(
-
-		buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.TWO, PokerCardValue.TWO),
-
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO, PokerCardValue.TWO)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.KING, PokerCardValue.KING)
 
 		));
 
 		assertEquals(1, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.THREE),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO, PokerCardValue.TWO),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO, PokerCardValue.TWO)
+			buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.TWO, PokerCardValue.TWO)
 
 		));
 
 		assertEquals(-1, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO, PokerCardValue.TWO),
+			buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.TWO, PokerCardValue.TWO),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.THREE)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO, PokerCardValue.TWO)
+
+		));
+
+		assertEquals(1, comparator.compare(
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.THREE),
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO, PokerCardValue.TWO)
+
+		));
+
+		assertEquals(-1, comparator.compare(
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO, PokerCardValue.TWO),
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.THREE)
 
 		));
 
@@ -107,81 +106,81 @@ public class PokerCardsTwoPairComparatorUnitTest {
 		final PokerCardsTwoPairComparator comparator = getComparator();
 		assertEquals(0, comparator.compare(
 
-		buildCards(PokerCardValue.TWO, PokerCardValue.THREE, PokerCardValue.FOUR, PokerCardValue.FIVE, PokerCardValue.SIX),
+			buildCards(PokerCardValue.TWO, PokerCardValue.THREE, PokerCardValue.FOUR, PokerCardValue.FIVE, PokerCardValue.SIX),
 
-		buildCards(PokerCardValue.SEVEN, PokerCardValue.EIGHT, PokerCardValue.NINE, PokerCardValue.TEN, PokerCardValue.JACK)
+			buildCards(PokerCardValue.SEVEN, PokerCardValue.EIGHT, PokerCardValue.NINE, PokerCardValue.TEN, PokerCardValue.JACK)
 
 		));
 
 		assertEquals(0, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.JACK),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.JACK),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.JACK)
-
-		));
-
-		assertEquals(1, comparator.compare(
-
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.TWO),
-
-		buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.THREE)
-
-		));
-
-		assertEquals(-1, comparator.compare(
-
-		buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.THREE),
-
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.TWO)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.JACK)
 
 		));
 
 		assertEquals(1, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.THREE),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.TWO),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.TWO)
+			buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.THREE)
 
 		));
 
 		assertEquals(-1, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.TWO),
+			buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.THREE),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.THREE)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.TWO)
 
 		));
 
 		assertEquals(1, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.THREE),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.THREE),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.TWO)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.TWO)
 
 		));
 
 		assertEquals(-1, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.TWO),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.JACK, PokerCardValue.JACK, PokerCardValue.TWO),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.THREE)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.THREE)
 
 		));
 
 		assertEquals(1, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.TWO),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.THREE),
 
-		buildCards(PokerCardValue.TWO, PokerCardValue.THREE, PokerCardValue.FOUR, PokerCardValue.FIVE, PokerCardValue.SIX)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.TWO)
 
 		));
 
 		assertEquals(-1, comparator.compare(
 
-		buildCards(PokerCardValue.TWO, PokerCardValue.THREE, PokerCardValue.FOUR, PokerCardValue.FIVE, PokerCardValue.SIX),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.TWO),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.TWO)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.THREE)
+
+		));
+
+		assertEquals(1, comparator.compare(
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.TWO),
+
+			buildCards(PokerCardValue.TWO, PokerCardValue.THREE, PokerCardValue.FOUR, PokerCardValue.FIVE, PokerCardValue.SIX)
+
+		));
+
+		assertEquals(-1, comparator.compare(
+
+			buildCards(PokerCardValue.TWO, PokerCardValue.THREE, PokerCardValue.FOUR, PokerCardValue.FIVE, PokerCardValue.SIX),
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.QUEEN, PokerCardValue.QUEEN, PokerCardValue.TWO)
 
 		));
 	}
@@ -197,7 +196,7 @@ public class PokerCardsTwoPairComparatorUnitTest {
 	}
 
 	private Collection<PokerCardIdentifier> buildCards(final PokerCardValue... values) {
-		final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
+		final List<PokerCardIdentifier> result = new ArrayList<>();
 		for (final PokerCardValue value : values) {
 			result.add(new PokerCardIdentifier(PokerCardColor.CLUBS, value));
 		}

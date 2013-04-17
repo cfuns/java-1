@@ -148,7 +148,7 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 
 	private void addData(final SessionIdentifier sessionIdentifier, final String name, final String aggregationString) throws AnalyticsServiceException, ValidationException,
 		PermissionDeniedException, LoginRequiredException {
-		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		final List<ValidationError> errors = new ArrayList<>();
 		AnalyticsReportAggregation aggregation = null;
 		try {
 			aggregation = parseUtil.parseEnum(AnalyticsReportAggregation.class, aggregationString);
@@ -168,7 +168,7 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 	@Override
 	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
+		final List<JavascriptResource> result = new ArrayList<>();
 		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
 		return result;
 	}
@@ -179,9 +179,7 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			analyticsService.expectAnalyticsAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
-		} catch (final AnalyticsServiceException e) {
+		} catch (final AuthenticationServiceException | AnalyticsServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

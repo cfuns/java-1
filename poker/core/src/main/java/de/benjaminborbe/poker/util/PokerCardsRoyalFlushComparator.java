@@ -1,17 +1,16 @@
 package de.benjaminborbe.poker.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.poker.api.PokerCardColor;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerCardValue;
 import de.benjaminborbe.tools.map.MapList;
 import de.benjaminborbe.tools.util.ComparatorUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 public class PokerCardsRoyalFlushComparator implements Comparator<Collection<PokerCardIdentifier>> {
 
@@ -34,14 +33,11 @@ public class PokerCardsRoyalFlushComparator implements Comparator<Collection<Pok
 		final List<PokerCardIdentifier> listB = getStraightFlush(cardsB);
 		if (listA == null && listB == null) {
 			return 0;
-		}
-		else if (listA != null && listB == null) {
+		} else if (listA != null && listB == null) {
 			return 1;
-		}
-		else if (listA == null && listB != null) {
+		} else if (listA == null && listB != null) {
 			return -1;
-		}
-		else {
+		} else {
 			return pokerCardComparator.compare(listA.get(listA.size() - 1), listB.get(listB.size() - 1));
 		}
 	}
@@ -50,7 +46,7 @@ public class PokerCardsRoyalFlushComparator implements Comparator<Collection<Pok
 		final MapList<PokerCardColor, PokerCardIdentifier> map = pokerCardUtil.groupByColor(cards);
 		for (final List<PokerCardIdentifier> v : map.values()) {
 			final List<PokerCardIdentifier> values = comparatorUtil.sort(v, pokerCardComparator);
-			final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
+			final List<PokerCardIdentifier> result = new ArrayList<>();
 			if (values.size() >= 5) {
 				final PokerCardIdentifier first = values.get(values.size() - 1);
 				if (PokerCardValue.ACE.equals(first.getValue())) {

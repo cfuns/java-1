@@ -24,12 +24,11 @@
 
 package com.glavsoft.rfb.protocol;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
+import com.glavsoft.rfb.client.ClientToServerMessage;
 import org.slf4j.Logger;
 
-import com.glavsoft.rfb.client.ClientToServerMessage;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * @author dime at tightvnc.com
@@ -42,7 +41,7 @@ public class MessageQueue {
 
 	public MessageQueue(final Logger logger) {
 		this.logger = logger;
-		queue = new LinkedBlockingQueue<ClientToServerMessage>();
+		queue = new LinkedBlockingQueue<>();
 	}
 
 	public void put(final ClientToServerMessage message) {

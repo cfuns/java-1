@@ -1,17 +1,16 @@
 package de.benjaminborbe.notification.util;
 
+import com.google.inject.Inject;
+import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
+import de.benjaminborbe.tools.registry.RegistryBase;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.inject.Inject;
-
-import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
-import de.benjaminborbe.tools.registry.RegistryBase;
-
 public class NotificationNotifierRegistry extends RegistryBase<NotificationNotifier> {
 
-	private final Map<NotificationMediaIdentifier, NotificationNotifier> data = new HashMap<NotificationMediaIdentifier, NotificationNotifier>();
+	private final Map<NotificationMediaIdentifier, NotificationNotifier> data = new HashMap<>();
 
 	@Inject
 	public NotificationNotifierRegistry(final NotificationNotifierMail notifcationNotifierMail, final NotificationNotifierXmpp notifcationNotifierXmpp) {

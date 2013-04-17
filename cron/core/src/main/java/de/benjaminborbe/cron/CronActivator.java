@@ -1,14 +1,6 @@
 package de.benjaminborbe.cron;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.api.CronService;
@@ -22,6 +14,12 @@ import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CronActivator extends BaseBundleActivator {
 
@@ -62,14 +60,14 @@ public class CronActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
 		serviceTrackers.add(new CronJobServiceTracker(logger, quartz, cronJobRegistry, context, CronJob.class));
 		return serviceTrackers;
 	}
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronController.class, cronController));
 		result.add(new ServiceInfo(CronService.class, cronService));
 		result.add(new ServiceInfo(MessageConsumer.class, cronMessageConsumer));

@@ -38,7 +38,6 @@ import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.List;
 
 public class ViewerHeadless implements Viewer, IRfbSessionListener, WindowListener, IChangeSettingsListener {
@@ -201,7 +200,7 @@ public class ViewerHeadless implements Viewer, IRfbSessionListener, WindowListen
 
 	@Override
 	public void connect() throws UnsupportedProtocolVersionException, UnsupportedSecurityTypeException, AuthenticationFailedException, TransportException, FatalException,
-		UnknownHostException, IOException {
+		IOException {
 		logger.debug("connect - started");
 		workingSocket = connectToHost(connectionParams, settings);
 		workingSocket.setTcpNoDelay(true); // disable Nagle algorithm
@@ -221,7 +220,7 @@ public class ViewerHeadless implements Viewer, IRfbSessionListener, WindowListen
 		logger.debug("connect - complete");
 	}
 
-	private Socket connectToHost(final ConnectionParams connectionParams, final ProtocolSettings settings) throws UnknownHostException, IOException {
+	private Socket connectToHost(final ConnectionParams connectionParams, final ProtocolSettings settings) throws IOException {
 		final String host = connectionParams.hostName;
 		final int port = connectionParams.getPortNumber();
 		final Socket sock = new Socket();

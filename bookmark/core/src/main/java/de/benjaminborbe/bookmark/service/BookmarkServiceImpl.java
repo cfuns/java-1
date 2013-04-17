@@ -72,7 +72,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 		@Override
 		protected Map<String, String> getSearchValues(final Bookmark bookmark) {
-			final Map<String, String> values = new HashMap<String, String>();
+			final Map<String, String> values = new HashMap<>();
 			values.put(URL, bookmark.getUrl());
 			values.put(NAME, bookmark.getName());
 			values.put(DESCRIPTION, bookmark.getDescription());
@@ -82,7 +82,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 		@Override
 		protected Map<String, Integer> getSearchPrio() {
-			final Map<String, Integer> values = new HashMap<String, Integer>();
+			final Map<String, Integer> values = new HashMap<>();
 			values.put(URL, 2);
 			values.put(NAME, 2);
 			values.put(DESCRIPTION, 1);
@@ -134,7 +134,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			logger.trace("getBookmarks");
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final EntityIterator<BookmarkBean> i = bookmarkDao.getByUsername(userIdentifier);
-			final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
+			final List<Bookmark> bookmarks = new ArrayList<>();
 			while (i.hasNext()) {
 				bookmarks.add(i.next());
 			}
@@ -154,7 +154,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 			logger.trace("getBookmarkFavorite");
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final EntityIterator<BookmarkBean> i = bookmarkDao.getFavorites(userIdentifier);
-			final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
+			final List<Bookmark> bookmarks = new ArrayList<>();
 			while (i.hasNext()) {
 				bookmarks.add(i.next());
 			}
@@ -171,7 +171,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 		final List<Bookmark> bookmarks = getBookmarks(sessionIdentifier);
 		final BeanSearcher<Bookmark> beanSearch = new BookmarkSearcher();
 		final List<BeanMatch<Bookmark>> matches = beanSearch.search(bookmarks, limit, words);
-		final List<BookmarkMatch> result = new ArrayList<BookmarkMatch>();
+		final List<BookmarkMatch> result = new ArrayList<>();
 		for (final BeanMatch<Bookmark> match : matches) {
 			result.add(new BookmarkMatchImpl(match));
 		}

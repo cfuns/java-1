@@ -189,9 +189,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				data.put(fieldname.getString(), fieldvalue != null ? fieldvalue.getString() : null);
 			}
 			mapper.map(data, entity);
-		} catch (final MapException e) {
-			throw new StorageException(e);
-		} catch (final UnsupportedEncodingException e) {
+		} catch (final MapException | UnsupportedEncodingException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -270,9 +268,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 			}
 			storageService.set(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), data);
-		} catch (final MapException e) {
-			throw new StorageException(e);
-		} catch (final UnsupportedEncodingException e) {
+		} catch (final MapException | UnsupportedEncodingException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -352,11 +348,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		public E next() throws EntityIteratorException {
 			try {
 				return rowToBean(r.next());
-			} catch (final StorageException e) {
-				throw new EntityIteratorException(e);
-			} catch (final UnsupportedEncodingException e) {
-				throw new EntityIteratorException(e);
-			} catch (final MapException e) {
+			} catch (final StorageException | MapException | UnsupportedEncodingException e) {
 				throw new EntityIteratorException(e);
 			}
 		}
@@ -387,11 +379,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 					}
 				}
 				return false;
-			} catch (final StorageException e) {
-				throw new IdentifierIteratorException(e);
-			} catch (final IdentifierBuilderException e) {
-				throw new IdentifierIteratorException(e);
-			} catch (final UnsupportedEncodingException e) {
+			} catch (final StorageException | UnsupportedEncodingException | IdentifierBuilderException e) {
 				throw new IdentifierIteratorException(e);
 			}
 		}

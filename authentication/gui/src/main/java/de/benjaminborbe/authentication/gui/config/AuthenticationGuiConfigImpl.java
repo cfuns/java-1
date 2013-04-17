@@ -27,7 +27,7 @@ public class AuthenticationGuiConfigImpl extends ConfigurationBase implements Au
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
+		final Set<ConfigurationDescription> result = new HashSet<>();
 		result.add(registerEnabled);
 		return result;
 	}

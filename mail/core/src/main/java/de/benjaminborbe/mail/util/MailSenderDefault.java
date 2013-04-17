@@ -1,16 +1,14 @@
 package de.benjaminborbe.mail.util;
 
+import com.google.inject.Inject;
+import de.benjaminborbe.mail.api.Mail;
+import de.benjaminborbe.mail.api.MailServiceException;
+import org.slf4j.Logger;
+
 import javax.mail.Message;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.mail.api.Mail;
-import de.benjaminborbe.mail.api.MailServiceException;
 
 public class MailSenderDefault implements MailSender {
 
@@ -29,7 +27,7 @@ public class MailSenderDefault implements MailSender {
 		if (mail == null) {
 			throw new MailServiceException("parameter mail missing");
 		}
-		if (mail.getTo() != null && mail.getTo().indexOf("@example.com") != -1) {
+		if (mail.getTo() != null && mail.getTo().contains("@example.com")) {
 			logger.debug("skip send mail because @example.com - subject: " + mail.getSubject());
 			return;
 		}
@@ -47,8 +45,7 @@ public class MailSenderDefault implements MailSender {
 			message.setSubject(subject);
 			message.setContent(content, "text/plain");
 			Transport.send(message);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new MailServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

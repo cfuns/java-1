@@ -1,20 +1,19 @@
 package de.benjaminborbe.authorization.dao;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.authorization.util.MapperRoleIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class RoleBeanMapper extends MapObjectMapperAdapter<RoleBean> {
@@ -25,7 +24,7 @@ public class RoleBeanMapper extends MapObjectMapperAdapter<RoleBean> {
 	}
 
 	private static Collection<StringObjectMapper<RoleBean>> buildMappings(final MapperCalendar mapperCalendar, final MapperRoleIdentifier mapperRoleIdentifier) {
-		final List<StringObjectMapper<RoleBean>> result = new ArrayList<StringObjectMapper<RoleBean>>();
+		final List<StringObjectMapper<RoleBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<RoleBean, RoleIdentifier>("id", mapperRoleIdentifier));
 		result.add(new StringObjectMapperAdapter<RoleBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<RoleBean, Calendar>("modified", mapperCalendar));

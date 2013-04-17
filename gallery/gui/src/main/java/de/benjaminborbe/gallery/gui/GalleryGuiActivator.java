@@ -1,13 +1,6 @@
 package de.benjaminborbe.gallery.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.gallery.gui.guice.GalleryGuiModules;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionCreateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionDeleteServlet;
@@ -32,6 +25,11 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GalleryGuiActivator extends HttpBundleActivator {
 
@@ -97,7 +95,7 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(galleryGuiGroupCreateServlet, GalleryGuiConstants.URL_GROUP_CREATE));
 		result.add(new ServletInfo(galleryGuiGroupDeleteServlet, GalleryGuiConstants.URL_GROUP_DELETE));
 		result.add(new ServletInfo(galleryGuiGroupListServlet, GalleryGuiConstants.URL_GROUP_LIST));
@@ -119,14 +117,14 @@ public class GalleryGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, galleryGuiNavigationEntry));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
 		result.add(new ResourceInfo(GalleryGuiConstants.URL_CSS, "css"));
 		return result;
 	}

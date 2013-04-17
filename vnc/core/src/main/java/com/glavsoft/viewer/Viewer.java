@@ -10,14 +10,13 @@ import com.glavsoft.rfb.client.ClientToServerMessage;
 import de.benjaminborbe.vnc.core.connector.VncHistory;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 public interface Viewer {
 
 	VncHistory getHistory();
 
 	void connect() throws UnsupportedProtocolVersionException, UnsupportedSecurityTypeException, AuthenticationFailedException, TransportException, FatalException,
-		UnknownHostException, IOException;
+		IOException;
 
 	void disconnect();
 

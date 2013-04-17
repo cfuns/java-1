@@ -1,18 +1,17 @@
 package de.benjaminborbe.tools.log;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 
-import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoggerListAdapter implements Logger {
 
 	private final Logger primaryLogger;
 
-	private final List<Logger> loggers = new ArrayList<Logger>();
+	private final List<Logger> loggers = new ArrayList<>();
 
 	@Inject
 	public LoggerListAdapter(final Logger primaryLogger, final Logger... loggers) {

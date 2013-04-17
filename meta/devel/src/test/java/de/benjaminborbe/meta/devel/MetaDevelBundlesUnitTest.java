@@ -1,19 +1,18 @@
 package de.benjaminborbe.meta.devel;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import de.benjaminborbe.meta.util.BundleResolver;
+import de.benjaminborbe.meta.util.BundleResolverImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
-import de.benjaminborbe.meta.util.BundleResolver;
-import de.benjaminborbe.meta.util.BundleResolverImpl;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class MetaDevelBundlesUnitTest {
 
@@ -25,7 +24,7 @@ public class MetaDevelBundlesUnitTest {
 		final List<String> names = bundleResolver.getBundleSymbolicNames();
 		assertNotNull(names);
 		assertTrue(names.size() > 0);
-		final Set<String> namesUnique = new HashSet<String>(names);
+		final Set<String> namesUnique = new HashSet<>(names);
 		assertEquals("dupplicate bundle!", names.size(), namesUnique.size());
 	}
 }

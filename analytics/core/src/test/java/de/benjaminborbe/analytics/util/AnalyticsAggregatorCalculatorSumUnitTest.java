@@ -1,15 +1,14 @@
 package de.benjaminborbe.analytics.util;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.analytics.api.AnalyticsReportValue;
+import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.junit.Test;
-
-import de.benjaminborbe.analytics.api.AnalyticsReportValue;
-import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
+import static org.junit.Assert.assertEquals;
 
 public class AnalyticsAggregatorCalculatorSumUnitTest {
 
@@ -17,7 +16,7 @@ public class AnalyticsAggregatorCalculatorSumUnitTest {
 	public void testAggreate() throws Exception {
 		final AnalyticsAggregatorCalculatorSum calc = new AnalyticsAggregatorCalculatorSum();
 		final Calendar calendar = Calendar.getInstance();
-		final List<AnalyticsReportValue> values = new ArrayList<AnalyticsReportValue>();
+		final List<AnalyticsReportValue> values = new ArrayList<>();
 
 		{
 			final AnalyticsReportValue result = calc.aggregate(calendar, values);

@@ -1,15 +1,15 @@
 package de.benjaminborbe.bookmark.dao;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.Bookmark;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class BookmarkBean extends EntityBase<BookmarkIdentifier> implements Bookmark, HasCreated, HasModified {
 
@@ -66,7 +66,7 @@ public class BookmarkBean extends EntityBase<BookmarkIdentifier> implements Book
 
 	@Override
 	public List<String> getKeywords() {
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		if (keywords != null) {
 			for (final String keyword : keywords) {
 				if (keyword != null && !keyword.isEmpty()) {

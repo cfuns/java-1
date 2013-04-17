@@ -24,20 +24,19 @@
 
 package com.glavsoft.rfb.protocol;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.glavsoft.core.SettingsChangedEvent;
 import com.glavsoft.rfb.CapabilityContainer;
 import com.glavsoft.rfb.IChangeSettingsListener;
 import com.glavsoft.rfb.RfbCapabilityInfo;
 import com.glavsoft.rfb.encoding.EncodingType;
 import com.glavsoft.rfb.protocol.auth.SecurityType;
+import org.slf4j.Logger;
+
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Protocol Settings class
@@ -143,7 +142,7 @@ public class ProtocolSettings implements Serializable {
 		bitsPerPixel = 0;// DEFAULT_BITS_PER_PIXEL;
 		refine();
 
-		listeners = new LinkedList<IChangeSettingsListener>();
+		listeners = new LinkedList<>();
 		tunnelingCapabilities = new CapabilityContainer(logger);
 		authCapabilities = new CapabilityContainer(logger);
 		serverMessagesCapabilities = new CapabilityContainer(logger);
@@ -242,28 +241,27 @@ public class ProtocolSettings implements Serializable {
 		if (bitsPerPixel != bpp) {
 			changedSettingsMask |= CHANGED_BITS_PER_PIXEL;
 			switch (bpp) {
-			case BPP_32:
-			case BPP_16:
-			case BPP_8:
-			case BPP_6:
-			case BPP_3:
-			case BPP_SERVER_SETTINGS:
-				bitsPerPixel = bpp;
-				break;
-			default:
-				bitsPerPixel = DEFAULT_BITS_PER_PIXEL;
+				case BPP_32:
+				case BPP_16:
+				case BPP_8:
+				case BPP_6:
+				case BPP_3:
+				case BPP_SERVER_SETTINGS:
+					bitsPerPixel = bpp;
+					break;
+				default:
+					bitsPerPixel = DEFAULT_BITS_PER_PIXEL;
 			}
 			refine();
 		}
 	}
 
 	public void refine() {
-		final LinkedHashSet<EncodingType> encodings = new LinkedHashSet<EncodingType>();
+		final LinkedHashSet<EncodingType> encodings = new LinkedHashSet<>();
 		if (EncodingType.RAW_ENCODING == preferredEncoding) {
 			// when RAW selected send no ordinary encodings so only default RAW encoding will be
 			// enabled
-		}
-		else {
+		} else {
 			encodings.add(preferredEncoding); // preferred first
 			encodings.addAll(EncodingType.ordinaryEncodings);
 			if (compressionLevel > 0 && compressionLevel < 10) {
@@ -277,19 +275,19 @@ public class ProtocolSettings implements Serializable {
 			}
 		}
 		switch (mouseCursorTrack) {
-		case OFF:
-			setShowRemoteCursor(false);
-			break;
-		case HIDE:
-			setShowRemoteCursor(false);
-			encodings.add(EncodingType.RICH_CURSOR);
-			encodings.add(EncodingType.CURSOR_POS);
-			break;
-		case ON:
-		default:
-			setShowRemoteCursor(true);
-			encodings.add(EncodingType.RICH_CURSOR);
-			encodings.add(EncodingType.CURSOR_POS);
+			case OFF:
+				setShowRemoteCursor(false);
+				break;
+			case HIDE:
+				setShowRemoteCursor(false);
+				encodings.add(EncodingType.RICH_CURSOR);
+				encodings.add(EncodingType.CURSOR_POS);
+				break;
+			case ON:
+			default:
+				setShowRemoteCursor(true);
+				encodings.add(EncodingType.RICH_CURSOR);
+				encodings.add(EncodingType.CURSOR_POS);
 		}
 		encodings.add(EncodingType.DESKTOP_SIZE);
 		if (isEncodingsChanged(this.encodings, encodings) || isChangedEncodings()) {

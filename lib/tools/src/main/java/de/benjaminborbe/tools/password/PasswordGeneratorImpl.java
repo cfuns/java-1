@@ -1,16 +1,15 @@
 package de.benjaminborbe.tools.password;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import org.apache.commons.lang.ArrayUtils;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-
-import org.apache.commons.lang.ArrayUtils;
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 @Singleton
 public class PasswordGeneratorImpl implements PasswordGenerator {
@@ -28,7 +27,7 @@ public class PasswordGeneratorImpl implements PasswordGenerator {
 	}
 
 	protected List<Character> combine(final Collection<PasswordCharacter> characters) {
-		final List<Character> cs = new ArrayList<Character>();
+		final List<Character> cs = new ArrayList<>();
 		for (final PasswordCharacter character : characters) {
 			cs.addAll(toCharacter(character.getCharacters()));
 		}

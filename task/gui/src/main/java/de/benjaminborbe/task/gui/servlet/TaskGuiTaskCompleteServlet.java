@@ -60,11 +60,7 @@ public class TaskGuiTaskCompleteServlet extends TaskGuiWebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 			taskService.completeTask(sessionIdentifier, taskIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		} catch (final TaskServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		} catch (final ValidationException e) {
+		} catch (final AuthenticationServiceException | ValidationException | TaskServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

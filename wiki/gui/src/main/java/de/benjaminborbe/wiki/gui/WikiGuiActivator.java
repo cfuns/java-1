@@ -1,13 +1,6 @@
 package de.benjaminborbe.wiki.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -26,6 +19,11 @@ import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceDeleteServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceEditServlet;
 import de.benjaminborbe.wiki.gui.servlet.WikiGuiSpaceListServlet;
 import de.benjaminborbe.wiki.gui.util.WikiGuiNavigationEntry;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class WikiGuiActivator extends HttpBundleActivator {
 
@@ -73,7 +71,7 @@ public class WikiGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(wikiGuiDashboardServlet, WikiGuiConstants.WIKI_GUI_DASHBOARD_SERVLET_URL));
 		result.add(new ServletInfo(wikiGuiPageEditServlet, WikiGuiConstants.WIKI_GUI_PAGE_EDIT_SERVLET_URL));
 		result.add(new ServletInfo(wikiGuiPageCreateServlet, WikiGuiConstants.WIKI_GUI_PAGE_CREATE_SERVLET_URL));
@@ -89,14 +87,14 @@ public class WikiGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, wikiGuiNavigationEntry));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		result.add(new ResourceInfo("/js", "js"));
 		return result;

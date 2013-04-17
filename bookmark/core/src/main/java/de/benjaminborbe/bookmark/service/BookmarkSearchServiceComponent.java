@@ -1,19 +1,7 @@
 package de.benjaminborbe.bookmark.service;
 
-import java.io.StringWriter;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -26,6 +14,16 @@ import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.search.SearchUtil;
 import de.benjaminborbe.tools.util.ComparatorStringCaseInsensitive;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class BookmarkSearchServiceComponent implements SearchServiceComponent {
@@ -51,21 +49,19 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 		final List<String> words = searchUtil.buildSearchParts(query);
 
 		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
-		final List<SearchResult> results = new ArrayList<SearchResult>();
+		final List<SearchResult> results = new ArrayList<>();
 		try {
 			final List<BookmarkMatch> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, maxResults, words);
 			final int max = Math.min(maxResults, bookmarks.size());
 			for (int i = 0; i < max; ++i) {
 				try {
 					results.add(mapBookmark(bookmarks.get(i)));
-				}
-				catch (final MalformedURLException e) {
+				} catch (final MalformedURLException e) {
 					logger.error("MalformedURLException", e);
 				}
 			}
 			logger.trace("search found " + results.size() + " bookmarks");
-		}
-		catch (final BookmarkServiceException | LoginRequiredException | PermissionDeniedException e) {
+		} catch (final BookmarkServiceException | LoginRequiredException | PermissionDeniedException e) {
 			logger.trace(e.getClass().getName(), e);
 		}
 		return results;

@@ -1,18 +1,7 @@
 package de.benjaminborbe.analytics.util;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-
 import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
@@ -31,6 +20,15 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.tools.map.MapList;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ParseException;
+import org.slf4j.Logger;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class AnalyticsAggregator {
 
@@ -41,7 +39,7 @@ public class AnalyticsAggregator {
 			try {
 				logger.debug("aggregate started");
 
-				final MapList<String, AnalyticsReportBean> reportMap = new MapList<String, AnalyticsReportBean>();
+				final MapList<String, AnalyticsReportBean> reportMap = new MapList<>();
 
 				final EntityIterator<AnalyticsReportBean> i = analyticsReportDao.getEntityIterator();
 				while (i.hasNext()) {
@@ -56,8 +54,7 @@ public class AnalyticsAggregator {
 				}
 
 				logger.debug("aggregate finished");
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				logger.warn("aggregate failed: " + e.getClass().getName(), e);
 			}
 		}
@@ -81,14 +78,14 @@ public class AnalyticsAggregator {
 
 	@Inject
 	public AnalyticsAggregator(
-			final Logger logger,
-			final AnalyticsAggregatorCalculatorFactory analyticsAggregatorCalculatorFactory,
-			final AnalyticsIntervalUtil analyticsIntervalUtil,
-			final AnalyticsConfig analyticsConfig,
-			final RunOnlyOnceATime runOnlyOnceATime,
-			final AnalyticsReportDao analyticsReportDao,
-			final AnalyticsReportValueDao analyticsReportValueDao,
-			final AnalyticsReportLogDao analyticsReportLogDao) {
+		final Logger logger,
+		final AnalyticsAggregatorCalculatorFactory analyticsAggregatorCalculatorFactory,
+		final AnalyticsIntervalUtil analyticsIntervalUtil,
+		final AnalyticsConfig analyticsConfig,
+		final RunOnlyOnceATime runOnlyOnceATime,
+		final AnalyticsReportDao analyticsReportDao,
+		final AnalyticsReportValueDao analyticsReportValueDao,
+		final AnalyticsReportLogDao analyticsReportLogDao) {
 		this.logger = logger;
 		this.analyticsAggregatorCalculatorFactory = analyticsAggregatorCalculatorFactory;
 		this.analyticsIntervalUtil = analyticsIntervalUtil;
@@ -104,8 +101,7 @@ public class AnalyticsAggregator {
 		if (runOnlyOnceATime.run(new AggregateRunnable())) {
 			logger.debug("analytics aggregate - finished");
 			return true;
-		}
-		else {
+		} else {
 			logger.debug("analytics aggregate - skipped");
 			return false;
 		}
@@ -116,8 +112,8 @@ public class AnalyticsAggregator {
 		final AnalyticsReportLogIterator i = analyticsReportLogDao.valueIterator(id);
 
 		// read chunkSize values to aggregate
-		final List<AnalyticsReportValue> values = new ArrayList<AnalyticsReportValue>();
-		final List<String> columnNames = new ArrayList<String>();
+		final List<AnalyticsReportValue> values = new ArrayList<>();
+		final List<String> columnNames = new ArrayList<>();
 		final long chunkSize = analyticsConfig.getAggregationChunkSize();
 		long counter = 0;
 		while (i.hasNext() && counter < chunkSize) {
@@ -148,7 +144,7 @@ public class AnalyticsAggregator {
 	}
 
 	private AnalyticsReportValue buildAggregatedValue(final AnalyticsReportAggregation aggregation, final AnalyticsReportValue oldValue, final Calendar calendar,
-			final List<AnalyticsReportValue> list) {
+																										final List<AnalyticsReportValue> list) {
 
 		final List<AnalyticsReportValue> values = Lists.newArrayList(list);
 		if (oldValue != null) {
@@ -160,14 +156,13 @@ public class AnalyticsAggregator {
 	}
 
 	private Map<String, List<AnalyticsReportValue>> groupByInterval(final List<AnalyticsReportValue> values, final AnalyticsReportInterval analyticsReportInterval) {
-		final Map<String, List<AnalyticsReportValue>> data = new HashMap<String, List<AnalyticsReportValue>>();
+		final Map<String, List<AnalyticsReportValue>> data = new HashMap<>();
 		for (final AnalyticsReportValue value : values) {
 			final String key = buildKey(analyticsReportInterval, value.getDate());
 			final List<AnalyticsReportValue> list = data.get(key);
 			if (list != null) {
 				list.add(value);
-			}
-			else {
+			} else {
 				data.put(key, Lists.newArrayList(value));
 			}
 		}

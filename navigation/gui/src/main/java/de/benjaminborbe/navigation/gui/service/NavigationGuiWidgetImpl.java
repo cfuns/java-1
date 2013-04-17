@@ -1,19 +1,7 @@
 package de.benjaminborbe.navigation.gui.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -26,6 +14,15 @@ import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class NavigationGuiWidgetImpl implements NavigationWidget {
@@ -67,8 +64,7 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 					ul.add(new LinkWidget(urlUtil.buildUrl(request, navigationEntry.getURL()), navigationEntry.getTitle()));
 				}
 			}
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		widgets.add(ul);
@@ -76,7 +72,7 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 	}
 
 	protected List<NavigationEntry> sort(final Collection<NavigationEntry> all) {
-		final List<NavigationEntry> result = new ArrayList<NavigationEntry>(all);
+		final List<NavigationEntry> result = new ArrayList<>(all);
 		Collections.sort(result, new NavigationEntryComparator());
 		return result;
 	}

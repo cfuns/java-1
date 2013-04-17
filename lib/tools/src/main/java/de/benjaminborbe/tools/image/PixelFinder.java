@@ -1,12 +1,11 @@
 package de.benjaminborbe.tools.image;
 
+import com.google.inject.Inject;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
 
 public class PixelFinder {
 
@@ -22,7 +21,7 @@ public class PixelFinder {
 	}
 
 	public Collection<Coordinate> find(final Pixels image, final Pixels subImage, final int matchInPercent) {
-		final List<Coordinate> result = new ArrayList<Coordinate>();
+		final List<Coordinate> result = new ArrayList<>();
 		for (int xi = 1; xi <= image.getWidth() - subImage.getWidth() + 1; ++xi) {
 			for (int yi = 1; yi <= image.getHeight() - subImage.getHeight() + 1; ++yi) {
 				if (isMatch(image, subImage, xi, yi, matchInPercent)) {
@@ -42,18 +41,15 @@ public class PixelFinder {
 				final int pa = image.getPixel(xi + xs - 1, yi + ys - 1);
 				if (pa == pb) {
 					// counter++;
-				}
-				else if (100 == matchInPercent) {
+				} else if (100 == matchInPercent) {
 					return false;
-				}
-				else {
+				} else {
 					final Pixel pixela = new Pixel(pa);
 					final Pixel pixelb = new Pixel(pb);
 					if (match(pixela.getRed(), pixelb.getRed(), matchInPercent) && match(pixela.getBlue(), pixelb.getBlue(), matchInPercent)
-							&& match(pixela.getGreen(), pixelb.getGreen(), matchInPercent)) {
+						&& match(pixela.getGreen(), pixelb.getGreen(), matchInPercent)) {
 						// counter++;
-					}
-					else {
+					} else {
 						return false;
 					}
 				}

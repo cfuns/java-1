@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class RegistryBase<T> implements Registry<T> {
 
-	private final Set<T> objects = new HashSet<T>();
+	private final Set<T> objects = new HashSet<>();
 
 	@SafeVarargs
 	public RegistryBase(final T... ts) {

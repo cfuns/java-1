@@ -1,21 +1,18 @@
 package de.benjaminborbe.storage.config;
 
-import java.util.Collection;
-
-import javax.naming.NameNotFoundException;
-import javax.naming.NamingException;
-import javax.naming.NoInitialContextException;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.tools.jndi.JndiContext;
+import org.slf4j.Logger;
+
+import javax.naming.NameNotFoundException;
+import javax.naming.NamingException;
+import javax.naming.NoInitialContextException;
+import java.util.Collection;
 
 public class ConfigurationServiceJndi implements ConfigurationService {
 
@@ -44,12 +41,8 @@ public class ConfigurationServiceJndi implements ConfigurationService {
 				logger.trace("getConfigurationValue - name: " + name + " value: " + value);
 				return String.valueOf(value);
 			}
-		}
-		catch (final NameNotFoundException e) {
-		}
-		catch (final NoInitialContextException e) {
-		}
-		catch (final NamingException e) {
+		} catch (final NameNotFoundException | NoInitialContextException e) {
+		} catch (final NamingException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 		return configuration.getDefaultValueAsString();

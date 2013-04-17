@@ -24,15 +24,14 @@
 
 package com.glavsoft.viewer.swing;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JToggleButton;
-
 public class ModifierButtonEventListener {
 
-	Map<Integer, JToggleButton> buttons = new HashMap<Integer, JToggleButton>();
+	Map<Integer, JToggleButton> buttons = new HashMap<>();
 
 	public void addButton(final int keyCode, final JToggleButton button) {
 		buttons.put(keyCode, button);

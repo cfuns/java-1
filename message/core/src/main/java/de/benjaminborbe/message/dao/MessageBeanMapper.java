@@ -1,14 +1,8 @@
 package de.benjaminborbe.message.dao;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperLong;
@@ -16,6 +10,11 @@ import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
@@ -40,17 +39,17 @@ public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
 
 	@Inject
 	public MessageBeanMapper(
-			final Provider<MessageBean> provider,
-			final MapperMessageIdentifier mapperMessageIdentifier,
-			final MapperString mapperString,
-			final MapperCalendar mapperCalendar,
-			final MapperLong mapperLong) {
+		final Provider<MessageBean> provider,
+		final MapperMessageIdentifier mapperMessageIdentifier,
+		final MapperString mapperString,
+		final MapperCalendar mapperCalendar,
+		final MapperLong mapperLong) {
 		super(provider, buildMappings(mapperMessageIdentifier, mapperString, mapperCalendar, mapperLong));
 	}
 
 	private static Collection<StringObjectMapper<MessageBean>> buildMappings(final MapperMessageIdentifier mapperMessageIdentifier, final MapperString mapperString,
-			final MapperCalendar mapperCalendar, final MapperLong mapperLong) {
-		final List<StringObjectMapper<MessageBean>> result = new ArrayList<StringObjectMapper<MessageBean>>();
+																																					 final MapperCalendar mapperCalendar, final MapperLong mapperLong) {
+		final List<StringObjectMapper<MessageBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<MessageBean, MessageIdentifier>(ID, mapperMessageIdentifier));
 		result.add(new StringObjectMapperAdapter<MessageBean, String>(CONTENT, mapperString));
 		result.add(new StringObjectMapperAdapter<MessageBean, String>(TYPE, mapperString));

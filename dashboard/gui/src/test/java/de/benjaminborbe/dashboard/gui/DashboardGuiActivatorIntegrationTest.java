@@ -1,20 +1,6 @@
 package de.benjaminborbe.dashboard.gui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.Filter;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.dashboard.gui.guice.DashboardGuiModulesMock;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -23,6 +9,17 @@ import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import org.junit.Test;
+
+import javax.servlet.Filter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class DashboardGuiActivatorIntegrationTest {
 
@@ -46,7 +43,7 @@ public class DashboardGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<String>();
+		final List<String> paths = new ArrayList<>();
 		paths.add("/" + DashboardGuiConstants.NAME + DashboardGuiConstants.URL_HOME);
 		paths.add("/" + DashboardGuiConstants.NAME + DashboardGuiConstants.URL_CONFIGURE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());

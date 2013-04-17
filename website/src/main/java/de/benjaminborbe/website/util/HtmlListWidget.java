@@ -1,18 +1,17 @@
 package de.benjaminborbe.website.util;
 
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.Widget;
-
 public class HtmlListWidget implements Widget {
 
-	private final List<Widget> widgets = new ArrayList<Widget>();
+	private final List<Widget> widgets = new ArrayList<>();
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {

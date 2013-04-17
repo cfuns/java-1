@@ -1,18 +1,7 @@
 package de.benjaminborbe.microblog.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexService;
@@ -24,6 +13,15 @@ import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.search.SearchUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class MicroblogSearchServiceComponent implements SearchServiceComponent {
@@ -38,7 +36,7 @@ public class MicroblogSearchServiceComponent implements SearchServiceComponent {
 
 		@Override
 		protected Map<String, String> getSearchValues(final IndexSearchResult bean) {
-			final Map<String, String> values = new HashMap<String, String>();
+			final Map<String, String> values = new HashMap<>();
 			values.put(TITLE, bean.getTitle());
 			values.put(CONTENT, bean.getContent());
 			values.put(URL, bean.getURL());
@@ -47,7 +45,7 @@ public class MicroblogSearchServiceComponent implements SearchServiceComponent {
 
 		@Override
 		protected Map<String, Integer> getSearchPrio() {
-			final Map<String, Integer> values = new HashMap<String, Integer>();
+			final Map<String, Integer> values = new HashMap<>();
 			values.put(TITLE, 2);
 			values.put(CONTENT, 1);
 			values.put(URL, 2);
@@ -73,7 +71,7 @@ public class MicroblogSearchServiceComponent implements SearchServiceComponent {
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 		logger.debug("search - query: " + query);
-		final List<SearchResult> result = new ArrayList<SearchResult>();
+		final List<SearchResult> result = new ArrayList<>();
 		try {
 			final List<String> words = searchUtil.buildSearchParts(query);
 			final List<IndexSearchResult> indexResults = indexSearcherService.search(MicroblogConstants.INDEX, StringUtils.join(words, " "), MicroblogConstants.SEARCH_LIMIT);
@@ -85,8 +83,7 @@ public class MicroblogSearchServiceComponent implements SearchServiceComponent {
 				}
 			}
 			logger.debug("search - found " + result.size() + " results");
-		}
-		catch (final IndexerServiceException e) {
+		} catch (final IndexerServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		return result;

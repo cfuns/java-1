@@ -1,11 +1,10 @@
 package de.benjaminborbe.tools.mapper.stringobject;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.apache.commons.beanutils.PropertyUtils;
-
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
+import org.apache.commons.beanutils.PropertyUtils;
+
+import java.lang.reflect.InvocationTargetException;
 
 public class StringObjectMapperAdapter<B, T> implements StringObjectMapper<B> {
 
@@ -28,17 +27,7 @@ public class StringObjectMapperAdapter<B, T> implements StringObjectMapper<B> {
 	public String map(final B bean) throws MapException {
 		try {
 			return mapper.toString((T) PropertyUtils.getProperty(bean, getName()));
-		}
-		catch (final IllegalAccessException e) {
-			throw new MapException(e);
-		}
-		catch (final InvocationTargetException e) {
-			throw new MapException(e);
-		}
-		catch (final NoSuchMethodException e) {
-			throw new MapException(e);
-		}
-		catch (final ClassCastException e) {
+		} catch (final IllegalAccessException | ClassCastException | NoSuchMethodException | InvocationTargetException e) {
 			throw new MapException(e);
 		}
 	}
@@ -47,14 +36,7 @@ public class StringObjectMapperAdapter<B, T> implements StringObjectMapper<B> {
 	public void map(final B bean, final String value) throws MapException {
 		try {
 			PropertyUtils.setProperty(bean, getName(), mapper.fromString(value));
-		}
-		catch (final IllegalAccessException e) {
-			throw new MapException(e);
-		}
-		catch (final InvocationTargetException e) {
-			throw new MapException(e);
-		}
-		catch (final NoSuchMethodException e) {
+		} catch (final IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
 			throw new MapException(e);
 		}
 	}

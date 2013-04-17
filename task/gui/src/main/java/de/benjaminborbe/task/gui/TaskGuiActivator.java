@@ -133,7 +133,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 
 		// task
 		result.add(new ServletInfo(taskGuiTaskFirstServlet, TaskGuiConstants.URL_TASK_FIRST));
@@ -169,7 +169,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, taskGuiNavigationEntry));
 		result.add(new ServiceInfo(DashboardContentWidget.class, taskGuiDashboardWidget, taskGuiDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, taskGuiSpecialSearch, taskGuiSpecialSearch.getClass().getName()));
@@ -178,7 +178,7 @@ public class TaskGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
 		result.add(new ResourceInfo(TaskGuiConstants.URL_CSS, "css"));
 		result.add(new ResourceInfo(TaskGuiConstants.URL_JS, "js"));
 		result.add(new ResourceInfo(TaskGuiConstants.URL_IMAGES, "images"));

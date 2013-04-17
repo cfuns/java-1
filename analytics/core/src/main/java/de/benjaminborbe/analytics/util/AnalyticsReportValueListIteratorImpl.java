@@ -1,18 +1,18 @@
 package de.benjaminborbe.analytics.util;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.NoSuchElementException;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueListIterator;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 public class AnalyticsReportValueListIteratorImpl implements AnalyticsReportValueListIterator {
 
-	private final List<AnalyticsReportValueIteratorCurrent> analyticsReportValueIterators = new ArrayList<AnalyticsReportValueIteratorCurrent>();
+	private final List<AnalyticsReportValueIteratorCurrent> analyticsReportValueIterators = new ArrayList<>();
 
 	private List<AnalyticsReportValue> next;
 
@@ -41,14 +41,13 @@ public class AnalyticsReportValueListIteratorImpl implements AnalyticsReportValu
 			}
 
 			if (nextDate != null) {
-				final List<AnalyticsReportValue> result = new ArrayList<AnalyticsReportValue>();
+				final List<AnalyticsReportValue> result = new ArrayList<>();
 				for (final AnalyticsReportValueIteratorCurrent analyticsReportValueIterator : analyticsReportValueIterators) {
 					final AnalyticsReportValue current = analyticsReportValueIterator.getCurrent();
 					if (current != null && current.getDate().equals(nextDate)) {
 						result.add(current);
 						analyticsReportValueIterator.setCurrent(null);
-					}
-					else {
+					} else {
 						result.add(null);
 					}
 				}
@@ -64,8 +63,7 @@ public class AnalyticsReportValueListIteratorImpl implements AnalyticsReportValu
 			final List<AnalyticsReportValue> result = next;
 			next = null;
 			return result;
-		}
-		else {
+		} else {
 			throw new NoSuchElementException();
 		}
 	}

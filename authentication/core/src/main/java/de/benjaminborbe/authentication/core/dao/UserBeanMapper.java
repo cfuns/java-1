@@ -67,7 +67,7 @@ public class UserBeanMapper extends MapObjectMapperAdapter<UserBean> {
 
 	private static Collection<StringObjectMapper<UserBean>> buildMappings(final MapperUserIdentifier mapperUserIdentifier, final MapperTimeZone mapperTimeZone,
 																																				final MapperByteArray mapperByteArray, final MapperBoolean mapperBoolean, final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperLong mapperLong) {
-		final List<StringObjectMapper<UserBean>> result = new ArrayList<StringObjectMapper<UserBean>>();
+		final List<StringObjectMapper<UserBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<UserBean, UserIdentifier>(ID, mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<UserBean, byte[]>(PASSWORD, mapperByteArray));
 		result.add(new StringObjectMapperAdapter<UserBean, byte[]>(PASSWORD_SALT, mapperByteArray));

@@ -1,15 +1,15 @@
 package de.benjaminborbe.tools.mapper;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class MapperListStringUnitTest {
 
@@ -36,7 +36,7 @@ public class MapperListStringUnitTest {
 			assertEquals(values, map.fromString(valuesString));
 		}
 		{
-			final List<String> values = new ArrayList<String>();
+			final List<String> values = new ArrayList<>();
 			final MapperListString map = new MapperListString();
 			final String valuesString = map.toString(values);
 			assertEquals(values, map.fromString(valuesString));

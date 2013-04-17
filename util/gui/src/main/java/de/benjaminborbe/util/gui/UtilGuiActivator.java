@@ -1,13 +1,6 @@
 package de.benjaminborbe.util.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -27,6 +20,11 @@ import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeConvertServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiUUIDGeneratorServlet;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class UtilGuiActivator extends HttpBundleActivator {
 
@@ -77,7 +75,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(utilServlet, UtilGuiConstants.URL_SLASH));
 		result.add(new ServletInfo(utilGuiCalcServlet, UtilGuiConstants.URL_CALC));
 		result.add(new ServletInfo(utilPasswordGeneratorServlet, UtilGuiConstants.URL_PASSWORD_GENERATOR));
@@ -94,7 +92,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		result.add(new ResourceInfo("/js", "js"));
 		result.add(new ResourceInfo("/html", "html"));
@@ -103,7 +101,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, utilGuiNavigationEntry));
 		return result;
 	}

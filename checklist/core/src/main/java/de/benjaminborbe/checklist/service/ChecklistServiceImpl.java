@@ -1,14 +1,7 @@
 package de.benjaminborbe.checklist.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -37,6 +30,11 @@ import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class ChecklistServiceImpl implements ChecklistService {
@@ -61,14 +59,14 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Inject
 	public ChecklistServiceImpl(
-			final Logger logger,
-			final DurationUtil durationUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final ChecklistEntryDao checklistEntryDao,
-			final ChecklistListDao checklistListDao,
-			final IdGeneratorUUID idGeneratorUUID,
-			final ValidationExecutor validationExecutor) {
+		final Logger logger,
+		final DurationUtil durationUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final ChecklistEntryDao checklistEntryDao,
+		final ChecklistListDao checklistListDao,
+		final IdGeneratorUUID idGeneratorUUID,
+		final ValidationExecutor validationExecutor) {
 		this.logger = logger;
 		this.durationUtil = durationUtil;
 		this.authenticationService = authenticationService;
@@ -81,7 +79,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public void delete(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier id) throws ChecklistServiceException, PermissionDeniedException,
-			LoginRequiredException {
+		LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
@@ -102,20 +100,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 			}
 
 			checklistListDao.delete(bean);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException | EntityIteratorException | AuthorizationServiceException | StorageException e) {
 			throw new ChecklistServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new ChecklistServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new ChecklistServiceException(e);
-		}
-		catch (final EntityIteratorException e) {
-			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -123,7 +110,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public ChecklistList read(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier id) throws ChecklistServiceException, PermissionDeniedException,
-			LoginRequiredException {
+		LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
@@ -139,14 +126,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 			authorizationService.expectUser(sessionIdentifier, bean.getOwner());
 
 			return bean;
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new ChecklistServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -154,7 +136,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public ChecklistListIdentifier create(final SessionIdentifier sessionIdentifier, final ChecklistList checklistList) throws ChecklistServiceException, PermissionDeniedException,
-			ValidationException, LoginRequiredException {
+		ValidationException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
@@ -178,11 +160,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 			checklistListDao.save(bean);
 
 			return checklistListIdentifier;
-		}
-		catch (final AuthenticationServiceException | StorageException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException | StorageException | AuthorizationServiceException e) {
 			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -190,7 +170,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public void update(final SessionIdentifier sessionIdentifier, final ChecklistList checklistList) throws ChecklistServiceException, PermissionDeniedException,
-			ValidationException, LoginRequiredException {
+		ValidationException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
@@ -209,11 +189,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 				throw new ValidationException(errors);
 			}
 			checklistListDao.save(bean);
-		}
-		catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -221,7 +199,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public void delete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier id) throws ChecklistServiceException, PermissionDeniedException,
-			LoginRequiredException {
+		LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
@@ -237,11 +215,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 			authorizationService.expectUser(sessionIdentifier, bean.getOwner());
 
 			checklistEntryDao.delete(bean);
-		}
-		catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -249,7 +225,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public ChecklistEntry read(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier id) throws ChecklistServiceException, PermissionDeniedException,
-			LoginRequiredException {
+		LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
@@ -265,14 +241,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 			authorizationService.expectUser(sessionIdentifier, bean.getOwner());
 
 			return bean;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new ChecklistServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -280,7 +251,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public ChecklistEntryIdentifier create(final SessionIdentifier sessionIdentifier, final ChecklistEntry checklistEntry) throws ChecklistServiceException,
-			PermissionDeniedException, ValidationException, LoginRequiredException {
+		PermissionDeniedException, ValidationException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
@@ -308,17 +279,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 			checklistEntryDao.save(bean);
 
 			return checklistEntryIdentifier;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException | AuthorizationServiceException | StorageException e) {
 			throw new ChecklistServiceException(e);
-		}
-		catch (final StorageException e) {
-			throw new ChecklistServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -326,7 +289,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public void update(final SessionIdentifier sessionIdentifier, final ChecklistEntry checklistEntry) throws ChecklistServiceException, PermissionDeniedException,
-			ValidationException, LoginRequiredException {
+		ValidationException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
@@ -345,14 +308,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 				throw new ValidationException(errors);
 			}
 			checklistEntryDao.save(bean);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new ChecklistServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -366,17 +324,15 @@ public class ChecklistServiceImpl implements ChecklistService {
 			authorizationService.existsPermission(permissionIdentifier);
 
 			logger.debug("getLists");
-			final List<ChecklistList> result = new ArrayList<ChecklistList>();
+			final List<ChecklistList> result = new ArrayList<>();
 			final EntityIterator<ChecklistListBean> i = checklistListDao.getEntityIteratorForUser(authenticationService.getCurrentUser(sessionIdentifier));
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final AuthenticationServiceException | StorageException | AuthorizationServiceException | EntityIteratorException e) {
+		} catch (final AuthenticationServiceException | StorageException | AuthorizationServiceException | EntityIteratorException e) {
 			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -384,25 +340,23 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public Collection<ChecklistEntry> getEntries(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier checklistListIdentifier) throws ChecklistServiceException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
 			authorizationService.existsPermission(permissionIdentifier);
 
 			logger.debug("getEntries");
-			final List<ChecklistEntry> result = new ArrayList<ChecklistEntry>();
+			final List<ChecklistEntry> result = new ArrayList<>();
 			final EntityIterator<ChecklistEntryBean> i = checklistEntryDao.getEntityIteratorForListAndUser(checklistListIdentifier,
-					authenticationService.getCurrentUser(sessionIdentifier));
+				authenticationService.getCurrentUser(sessionIdentifier));
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException | AuthorizationServiceException | AuthenticationServiceException | EntityIteratorException e) {
+		} catch (final StorageException | AuthorizationServiceException | AuthenticationServiceException | EntityIteratorException e) {
 			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -410,7 +364,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public void uncomplete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier identifier) throws ChecklistServiceException, PermissionDeniedException,
-			LoginRequiredException, ValidationException {
+		LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
@@ -429,11 +383,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 				throw new ValidationException(errors);
 			}
 			checklistEntryDao.save(bean);
-		}
-		catch (final StorageException | AuthorizationServiceException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -441,7 +393,7 @@ public class ChecklistServiceImpl implements ChecklistService {
 
 	@Override
 	public void complete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier identifier) throws ChecklistServiceException, PermissionDeniedException,
-			LoginRequiredException, ValidationException {
+		LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
@@ -460,14 +412,9 @@ public class ChecklistServiceImpl implements ChecklistService {
 				throw new ValidationException(errors);
 			}
 			checklistEntryDao.save(bean);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException | AuthorizationServiceException e) {
 			throw new ChecklistServiceException(e);
-		}
-		catch (final AuthorizationServiceException e) {
-			throw new ChecklistServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}

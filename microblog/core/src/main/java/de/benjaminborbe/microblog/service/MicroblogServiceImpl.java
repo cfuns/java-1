@@ -1,12 +1,7 @@
 package de.benjaminborbe.microblog.service;
 
-import java.util.Collection;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -33,6 +28,9 @@ import de.benjaminborbe.microblog.util.MicroblogPostUpdater;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
+import org.slf4j.Logger;
+
+import java.util.Collection;
 
 @Singleton
 public class MicroblogServiceImpl implements MicroblogService {
@@ -63,17 +61,17 @@ public class MicroblogServiceImpl implements MicroblogService {
 
 	@Inject
 	public MicroblogServiceImpl(
-			final Logger logger,
-			final DurationUtil durationUtil,
-			final AuthorizationService authorizationService,
-			final MicroblogConnector microblogConnector,
-			final MicroblogPostUpdater microblogPostUpdater,
-			final MicroblogPostRefresher microblogRefresher,
-			final MicroblogRevisionStorage microblogRevisionStorage,
-			final MicroblogPostNotifier microblogPostMailer,
-			final MicroblogConversationFinder microblogConversationFinder,
-			final MicroblogConversationNotifier microblogConversationMailer,
-			final MicroblogNotification microblogNotification) {
+		final Logger logger,
+		final DurationUtil durationUtil,
+		final AuthorizationService authorizationService,
+		final MicroblogConnector microblogConnector,
+		final MicroblogPostUpdater microblogPostUpdater,
+		final MicroblogPostRefresher microblogRefresher,
+		final MicroblogRevisionStorage microblogRevisionStorage,
+		final MicroblogPostNotifier microblogPostMailer,
+		final MicroblogConversationFinder microblogConversationFinder,
+		final MicroblogConversationNotifier microblogConversationMailer,
+		final MicroblogNotification microblogNotification) {
 		this.logger = logger;
 		this.durationUtil = durationUtil;
 		this.microblogConnector = microblogConnector;
@@ -92,11 +90,9 @@ public class MicroblogServiceImpl implements MicroblogService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return microblogRevisionStorage.getLastRevision();
-		}
-		catch (final MicroblogRevisionStorageException e) {
+		} catch (final MicroblogRevisionStorageException e) {
 			throw new MicroblogServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -108,14 +104,9 @@ public class MicroblogServiceImpl implements MicroblogService {
 		try {
 			final MicroblogPost microblogPost = microblogConnector.getPost(microblogPostIdentifier);
 			microblogPostMailer.mailPost(microblogPost);
-		}
-		catch (final MicroblogPostNotifierException e) {
+		} catch (final MicroblogPostNotifierException | MicroblogConnectorException e) {
 			throw new MicroblogServiceException(e);
-		}
-		catch (final MicroblogConnectorException e) {
-			throw new MicroblogServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -126,11 +117,9 @@ public class MicroblogServiceImpl implements MicroblogService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			microblogConversationMailer.mailConversation(microblogConversationIdentifier);
-		}
-		catch (final MicroblogConversationNotifierException e) {
+		} catch (final MicroblogConversationNotifierException e) {
 			throw new MicroblogServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -141,8 +130,7 @@ public class MicroblogServiceImpl implements MicroblogService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return new MicroblogConversationIdentifier(conversationNumber);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -153,8 +141,7 @@ public class MicroblogServiceImpl implements MicroblogService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return new MicroblogPostIdentifier(postNumber);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -165,14 +152,9 @@ public class MicroblogServiceImpl implements MicroblogService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return microblogConversationFinder.findIdentifier(microblogPostIdentifier);
-		}
-		catch (final MicroblogConnectorException e) {
+		} catch (final MicroblogConnectorException | ParseException e) {
 			throw new MicroblogServiceException(e);
-		}
-		catch (final ParseException e) {
-			throw new MicroblogServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -184,11 +166,9 @@ public class MicroblogServiceImpl implements MicroblogService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			microblogPostRefresher.refresh();
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new MicroblogServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -196,19 +176,14 @@ public class MicroblogServiceImpl implements MicroblogService {
 
 	@Override
 	public void updatePost(final SessionIdentifier sessionIdentifier, final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			microblogPostUpdater.update(microblogPostIdentifier);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException | MicroblogConnectorException e) {
 			throw new MicroblogServiceException(e);
-		}
-		catch (final MicroblogConnectorException e) {
-			throw new MicroblogServiceException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}

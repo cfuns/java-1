@@ -1,11 +1,6 @@
 package de.benjaminborbe.message.util;
 
-import java.util.Calendar;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.message.dao.MessageBeanMapper;
 import de.benjaminborbe.message.dao.MessageDao;
@@ -14,6 +9,9 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
+import org.slf4j.Logger;
+
+import java.util.Calendar;
 
 public class MessageUnlock {
 
@@ -37,21 +35,15 @@ public class MessageUnlock {
 							logger.info("unlock message - type: " + bean.getType() + " id: " + bean.getId());
 							messageDao.save(bean, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_NAME).add(MessageBeanMapper.LOCK_TIME));
 							logger.debug("expired => unlock");
-						}
-						else {
+						} else {
 							logger.debug("not expired => skip");
 						}
-					}
-					else {
+					} else {
 						logger.debug("not locked => skip");
 					}
 				}
 				logger.trace("unlock message finished");
-			}
-			catch (final StorageException e) {
-				logger.warn(e.getClass().getName(), e);
-			}
-			catch (final EntityIteratorException e) {
+			} catch (final StorageException | EntityIteratorException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}
@@ -79,8 +71,7 @@ public class MessageUnlock {
 		if (runOnlyOnceATime.run(new UnlockRunnable())) {
 			logger.trace("message-unlock - finished");
 			return true;
-		}
-		else {
+		} else {
 			logger.trace("message-unlock - skipped");
 			return false;
 		}

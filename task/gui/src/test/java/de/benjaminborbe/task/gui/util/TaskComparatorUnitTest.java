@@ -20,27 +20,27 @@ public class TaskComparatorUnitTest {
 		final TaskPrioComparator prio = new TaskPrioComparator();
 		final TaskComparator taskComparator = new TaskComparator(name, prio);
 		{
-			final List<Task> list = new ArrayList<Task>();
+			final List<Task> list = new ArrayList<>();
 			final List<Task> result = comparatorUtil.sort(list, taskComparator);
 			assertNotNull(result);
 			assertEquals(0, result.size());
 		}
 		{
-			final List<Task> list = new ArrayList<Task>();
+			final List<Task> list = new ArrayList<>();
 			list.add(buildTask(1));
 			final List<Task> result = comparatorUtil.sort(list, taskComparator);
 			assertNotNull(result);
 			assertEquals(1, result.size());
 		}
 		{
-			final List<Task> list = new ArrayList<Task>();
+			final List<Task> list = new ArrayList<>();
 			list.add(buildTask(null));
 			final List<Task> result = comparatorUtil.sort(list, taskComparator);
 			assertNotNull(result);
 			assertEquals(1, result.size());
 		}
 		{
-			final List<Task> list = new ArrayList<Task>();
+			final List<Task> list = new ArrayList<>();
 			list.add(buildTask(2));
 			list.add(buildTask(1));
 			list.add(buildTask(3));
@@ -54,7 +54,7 @@ public class TaskComparatorUnitTest {
 			assertEquals(new Integer(4), list.get(3).getPriority());
 		}
 		{
-			final List<Task> list = new ArrayList<Task>();
+			final List<Task> list = new ArrayList<>();
 			list.add(buildTask(2));
 			list.add(buildTask(1));
 			final List<Task> result = comparatorUtil.sort(list, taskComparator);

@@ -1,16 +1,14 @@
 package de.benjaminborbe.wiki.render;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.wiki.render.part.Part;
+import de.benjaminborbe.wiki.render.part.StringPart;
+import org.slf4j.Logger;
+
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.wiki.render.part.Part;
-import de.benjaminborbe.wiki.render.part.StringPart;
 
 @Singleton
 public class WikiConfluenceRenderer implements WikiRenderer {
@@ -26,7 +24,7 @@ public class WikiConfluenceRenderer implements WikiRenderer {
 	public String render(final String markup) {
 		logger.debug("render");
 		final Headlines headlines = new Headlines();
-		final List<Part> parts = new ArrayList<Part>();
+		final List<Part> parts = new ArrayList<>();
 		final String[] lines = markup.split("\n");
 		boolean codeOpen = false;
 		boolean ulOpen = false;
@@ -39,8 +37,7 @@ public class WikiConfluenceRenderer implements WikiRenderer {
 				if (codeOpen) {
 					parts.add(new StringPart("</pre>\n"));
 					codeOpen = false;
-				}
-				else {
+				} else {
 					parts.add(new StringPart("\n<pre class=\"wikiCode\">\n"));
 					codeOpen = true;
 					simpleText = false;
@@ -62,8 +59,7 @@ public class WikiConfluenceRenderer implements WikiRenderer {
 				parts.add(new StringPart(line.substring(2)));
 				parts.add(new StringPart("</li>"));
 				continue;
-			}
-			else {
+			} else {
 				if (ulOpen) {
 					parts.add(new StringPart("</ul>"));
 					ulOpen = false;
@@ -76,31 +72,26 @@ public class WikiConfluenceRenderer implements WikiRenderer {
 					emptyLine = true;
 				}
 				simpleText = false;
-			}
-			else if ((pos = lineLowerCase.indexOf("h1.")) != -1) {
+			} else if ((pos = lineLowerCase.indexOf("h1.")) != -1) {
 				final String title = line.substring(pos + 3).trim();
 				parts.add(headlines.createHead1Part(title));
 				emptyLine = false;
 				simpleText = false;
-			}
-			else if ((pos = lineLowerCase.indexOf("h2.")) != -1) {
+			} else if ((pos = lineLowerCase.indexOf("h2.")) != -1) {
 				final String title = line.substring(pos + 3).trim();
 				parts.add(headlines.createHead2Part(title));
 				emptyLine = false;
 				simpleText = false;
-			}
-			else if ((pos = lineLowerCase.indexOf("h3.")) != -1) {
+			} else if ((pos = lineLowerCase.indexOf("h3.")) != -1) {
 				final String title = line.substring(pos + 3).trim();
 				parts.add(headlines.createHead3Part(title));
 				emptyLine = false;
 				simpleText = false;
-			}
-			else if ((pos = lineLowerCase.indexOf("{toc}")) != -1) {
+			} else if ((pos = lineLowerCase.indexOf("{toc}")) != -1) {
 				parts.add(headlines.createTocPart());
 				emptyLine = false;
 				simpleText = false;
-			}
-			else {
+			} else {
 				if (emptyLine) {
 					parts.add(new StringPart("<br/><br/>"));
 					emptyLine = false;

@@ -1,20 +1,6 @@
 package de.benjaminborbe.lunch.gui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.Filter;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.lunch.gui.guice.LunchGuiModulesMock;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -23,6 +9,17 @@ import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import org.junit.Test;
+
+import javax.servlet.Filter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class LunchGuiActivatorIntegrationTest {
 
@@ -46,7 +43,7 @@ public class LunchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<String>();
+		final List<String> paths = new ArrayList<>();
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKED);
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_HOME);
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_ARCHIV);
@@ -97,7 +94,7 @@ public class LunchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<String>();
+		final List<String> paths = new ArrayList<>();
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_CSS);
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_JS);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
@@ -121,7 +118,7 @@ public class LunchGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<String>();
+		final List<String> names = new ArrayList<>();
 		names.add(NavigationEntry.class.getName());
 		names.add(NavigationEntry.class.getName());
 		names.add(NavigationEntry.class.getName());

@@ -1,11 +1,10 @@
 package de.benjaminborbe.tools.image;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PixelsDiffer {
 
@@ -25,7 +24,7 @@ public class PixelsDiffer {
 	public List<Coordinate> diff(final Pixels pixelsA, final Pixels pixelsB, final PixelFilter pixelFilter) {
 		logger.debug("diff");
 
-		final List<Coordinate> result = new ArrayList<Coordinate>();
+		final List<Coordinate> result = new ArrayList<>();
 		if (pixelsA.getWidth() != pixelsB.getWidth() || pixelsA.getHeight() != pixelsB.getHeight()) {
 			throw new IllegalArgumentException("different size");
 		}

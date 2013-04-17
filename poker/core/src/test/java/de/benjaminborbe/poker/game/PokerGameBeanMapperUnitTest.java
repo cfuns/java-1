@@ -1,23 +1,6 @@
 package de.benjaminborbe.poker.game;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.poker.card.PokerCardIdentifierBuilder;
 import de.benjaminborbe.poker.util.MapperPokerCardIdentifier;
 import de.benjaminborbe.poker.util.MapperPokerCardIdentifierList;
@@ -37,6 +20,21 @@ import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 @RunWith(Parameterized.class)
 public class PokerGameBeanMapperUnitTest {
@@ -52,30 +50,30 @@ public class PokerGameBeanMapperUnitTest {
 
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<Object[]>();
-		result.add(new Object[] { PokerGameBeanMapper.ID, "1337" });
-		result.add(new Object[] { PokerGameBeanMapper.NAME, "bla" });
-		result.add(new Object[] { PokerGameBeanMapper.CREATED, "123456" });
-		result.add(new Object[] { PokerGameBeanMapper.MODIFIED, "123456" });
-		result.add(new Object[] { PokerGameBeanMapper.ACTIVE_POSITION_TIME, "123456" });
-		result.add(new Object[] { PokerGameBeanMapper.RUNNING, "true" });
-		result.add(new Object[] { PokerGameBeanMapper.SMALL_BLIND, "500" });
-		result.add(new Object[] { PokerGameBeanMapper.BIG_BLIND, "1000" });
-		result.add(new Object[] { PokerGameBeanMapper.ACTIVE_POSITION, "1" });
-		result.add(new Object[] { PokerGameBeanMapper.BUTTON_POSITION, "2" });
-		result.add(new Object[] { PokerGameBeanMapper.ROUND, "42" });
-		result.add(new Object[] { PokerGameBeanMapper.BET, "23" });
-		result.add(new Object[] { PokerGameBeanMapper.ACTIVE_PLAYERS, "1337" });
-		result.add(new Object[] { PokerGameBeanMapper.PLAYERS, "1337" });
-		result.add(new Object[] { PokerGameBeanMapper.CARDS, "HEARTS_TEN" });
-		result.add(new Object[] { PokerGameBeanMapper.BOARD_CARDS, "HEARTS_TEN" });
-		result.add(new Object[] { PokerGameBeanMapper.MAX_BID, "1000" });
-		result.add(new Object[] { PokerGameBeanMapper.AUTO_FOLD_TIMEOUT, "1337" });
+		final List<Object[]> result = new ArrayList<>();
+		result.add(new Object[]{PokerGameBeanMapper.ID, "1337"});
+		result.add(new Object[]{PokerGameBeanMapper.NAME, "bla"});
+		result.add(new Object[]{PokerGameBeanMapper.CREATED, "123456"});
+		result.add(new Object[]{PokerGameBeanMapper.MODIFIED, "123456"});
+		result.add(new Object[]{PokerGameBeanMapper.ACTIVE_POSITION_TIME, "123456"});
+		result.add(new Object[]{PokerGameBeanMapper.RUNNING, "true"});
+		result.add(new Object[]{PokerGameBeanMapper.SMALL_BLIND, "500"});
+		result.add(new Object[]{PokerGameBeanMapper.BIG_BLIND, "1000"});
+		result.add(new Object[]{PokerGameBeanMapper.ACTIVE_POSITION, "1"});
+		result.add(new Object[]{PokerGameBeanMapper.BUTTON_POSITION, "2"});
+		result.add(new Object[]{PokerGameBeanMapper.ROUND, "42"});
+		result.add(new Object[]{PokerGameBeanMapper.BET, "23"});
+		result.add(new Object[]{PokerGameBeanMapper.ACTIVE_PLAYERS, "1337"});
+		result.add(new Object[]{PokerGameBeanMapper.PLAYERS, "1337"});
+		result.add(new Object[]{PokerGameBeanMapper.CARDS, "HEARTS_TEN"});
+		result.add(new Object[]{PokerGameBeanMapper.BOARD_CARDS, "HEARTS_TEN"});
+		result.add(new Object[]{PokerGameBeanMapper.MAX_BID, "1000"});
+		result.add(new Object[]{PokerGameBeanMapper.AUTO_FOLD_TIMEOUT, "1337"});
 		return result;
 	}
 
 	private PokerGameBeanMapper getPokerGameBeanMapper() {
-		final Provider<PokerGameBean> beanProvider = new ProviderMock<PokerGameBean>(PokerGameBean.class);
+		final Provider<PokerGameBean> beanProvider = new ProviderMock<>(PokerGameBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -98,13 +96,13 @@ public class PokerGameBeanMapperUnitTest {
 		final MapperPokerPlayerIdentifierList mapperPokerPlayerIdentifierList = new MapperPokerPlayerIdentifierList(mapperPokerPlayerIdentifier);
 		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
 		return new PokerGameBeanMapper(beanProvider, mapperPokerGameIdentifier, mapperCalendar, mapperString, mapperBoolean, mapperLong, mapperInteger, mapperPokerCardIdentifierList,
-				mapperPokerPlayerIdentifierList);
+			mapperPokerPlayerIdentifierList);
 	}
 
 	@Test
 	public void testMaxRetryCounter() throws Exception {
 		final PokerGameBeanMapper mapper = getPokerGameBeanMapper();
-		final Map<String, String> inputData = new HashMap<String, String>();
+		final Map<String, String> inputData = new HashMap<>();
 		inputData.put(fieldName, fieldValue);
 		final PokerGameBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

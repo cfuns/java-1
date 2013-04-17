@@ -1,15 +1,10 @@
 package de.benjaminborbe.loggly.util;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.loggly.config.LogglyConfig;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -26,12 +21,15 @@ import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.HttpParams;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.loggly.config.LogglyConfig;
-import de.benjaminborbe.tools.json.JSONObject;
-import de.benjaminborbe.tools.json.JSONObjectSimple;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class LogglyConnectorImpl implements LogglyConnector {
@@ -55,8 +53,7 @@ public class LogglyConnectorImpl implements LogglyConnector {
 					if (sample.getRetryCount() > 10) {
 						// todo: capture statistics about the failure (exception and/or status code)
 						// and then report on it in some sort of thoughtful way to standard err
-					}
-					else {
+					} else {
 						pool.submit(sample);
 					}
 				}
@@ -64,8 +61,7 @@ public class LogglyConnectorImpl implements LogglyConnector {
 				// retry every 10 seconds
 				try {
 					Thread.sleep(10000);
-				}
-				catch (final InterruptedException e) {
+				} catch (final InterruptedException e) {
 					System.err.println("Retry sleep was interrupted, giving up on retry thread");
 					return;
 				}
@@ -115,23 +111,19 @@ public class LogglyConnectorImpl implements LogglyConnector {
 						increaseRetryCount();
 						retryQueue.offer(this);
 					}
-				}
-				else {
+				} else {
 					logger.debug("send loggy");
 				}
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				if (allowRetry) {
 					increaseRetryCount();
 					retryQueue.offer(this);
 				}
-			}
-			finally {
+			} finally {
 				if (entity != null) {
 					try {
 						entity.consumeContent();
-					}
-					catch (final IOException e) {
+					} catch (final IOException e) {
 						// safe to ignore
 					}
 				}
@@ -182,12 +174,10 @@ public class LogglyConnectorImpl implements LogglyConnector {
 					System.out.println("Not all Loggly messages sent out - still had " + pool.getQueue().size() + " left :(");
 					pool.shutdownNow();
 				}
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 				// ignore
 			}
-		}
-		finally {
+		} finally {
 			httpClient.getConnectionManager().shutdown();
 			System.out.println("Loggly handler shut down");
 		}
@@ -236,18 +226,18 @@ public class LogglyConnectorImpl implements LogglyConnector {
 	private void init() {
 
 		pool = new ThreadPoolExecutor(logglyConfig.getMaxThreads(), logglyConfig.getMaxThreads(), 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(logglyConfig.getBacklog()),
-				new ThreadFactory() {
+			new ThreadFactory() {
 
-					@Override
-					public Thread newThread(final Runnable r) {
-						final Thread thread = new Thread(r, "Loggly Thread");
-						thread.setDaemon(true);
-						return thread;
-					}
-				}, new ThreadPoolExecutor.DiscardOldestPolicy());
+				@Override
+				public Thread newThread(final Runnable r) {
+					final Thread thread = new Thread(r, "Loggly Thread");
+					thread.setDaemon(true);
+					return thread;
+				}
+			}, new ThreadPoolExecutor.DiscardOldestPolicy());
 		pool.allowCoreThreadTimeOut(true);
 
-		retryQueue = new LinkedBlockingQueue<LogglyEntry>(logglyConfig.getBacklog());
+		retryQueue = new LinkedBlockingQueue<>(logglyConfig.getBacklog());
 
 		final Thread retryThread = new Thread(new RetryRunnable(), "Loggly Retry Thread");
 		retryThread.setDaemon(true);
@@ -265,8 +255,7 @@ public class LogglyConnectorImpl implements LogglyConnector {
 		final SchemeRegistry registry = new SchemeRegistry();
 		try {
 			registry.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new RuntimeException("Could not register SSL socket factor for Loggly", e);
 		}
 

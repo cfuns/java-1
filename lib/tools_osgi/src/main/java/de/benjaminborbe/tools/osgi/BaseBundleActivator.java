@@ -1,21 +1,19 @@
 package de.benjaminborbe.tools.osgi;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
-
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.Modules;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.tools.guice.Modules;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
 
 public abstract class BaseBundleActivator implements BundleActivator {
 
@@ -24,7 +22,7 @@ public abstract class BaseBundleActivator implements BundleActivator {
 
 	private Injector injector;
 
-	private final Set<ServiceRegistration> serviceRegistrations = new HashSet<ServiceRegistration>();
+	private final Set<ServiceRegistration> serviceRegistrations = new HashSet<>();
 
 	private Injector getInjector(final BundleContext context) {
 		if (getInjector() == null)
@@ -54,14 +52,12 @@ public abstract class BaseBundleActivator implements BundleActivator {
 
 			try {
 				onStarted();
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				logger.debug("onStarted failed", e);
 			}
 
 			logger.info("starting: " + this.getClass().getName() + " done");
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			if (logger != null) {
 				logger.error("starting: " + this.getClass().getName() + " failed: " + e.toString(), e);
 			}
@@ -93,14 +89,12 @@ public abstract class BaseBundleActivator implements BundleActivator {
 
 			try {
 				onStopped();
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				logger.debug("onStopped failed", e);
 			}
 
 			logger.info("stopping: " + this.getClass().getName() + " done");
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			if (logger != null) {
 				logger.error("stopping: " + this.getClass().getName() + " failed: " + e.toString(), e);
 			}
@@ -114,14 +108,14 @@ public abstract class BaseBundleActivator implements BundleActivator {
 	}
 
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>();
+		final Set<ServiceInfo> result = new HashSet<>();
 		return result;
 	}
 
 	protected abstract Modules getModules(BundleContext context);
 
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> result = new HashSet<ServiceTracker>();
+		final Set<ServiceTracker> result = new HashSet<>();
 		return result;
 	}
 

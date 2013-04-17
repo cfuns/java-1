@@ -26,8 +26,7 @@ public class MapperCollectionBase<T> implements Mapper<Collection<T>> {
 		for (final T value : values) {
 			if (first) {
 				first = false;
-			}
-			else {
+			} else {
 				sb.append(SEPERATOR);
 			}
 			sb.append(escape(mapper.toString(value)));
@@ -41,26 +40,23 @@ public class MapperCollectionBase<T> implements Mapper<Collection<T>> {
 
 	@Override
 	public List<T> fromString(final String values) throws MapException {
-		final List<T> result = new ArrayList<T>();
+		final List<T> result = new ArrayList<>();
 		if (values != null) {
 			final char[] chars = values.toCharArray();
 			boolean nextEscaped = false;
-			final List<Character> value = new ArrayList<Character>();
+			final List<Character> value = new ArrayList<>();
 			for (int i = 0; i < chars.length; ++i) {
 				final char c = chars[i];
 				if (nextEscaped) {
 					nextEscaped = false;
 					value.add(c);
-				}
-				else {
+				} else {
 					if (c == ESCAPE) {
 						nextEscaped = true;
-					}
-					else if (c == SEPERATOR) {
+					} else if (c == SEPERATOR) {
 						result.add(mapper.fromString(asString(value)));
 						value.clear();
-					}
-					else {
+					} else {
 						value.add(c);
 					}
 				}

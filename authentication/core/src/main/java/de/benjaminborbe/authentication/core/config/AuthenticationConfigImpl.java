@@ -43,7 +43,7 @@ public class AuthenticationConfigImpl extends ConfigurationBase implements Authe
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
+		final Set<ConfigurationDescription> result = new HashSet<>();
 		result.add(providerUrl);
 		result.add(domain);
 		result.add(credentials);

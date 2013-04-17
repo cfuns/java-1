@@ -31,7 +31,7 @@ public class SessionBeanMapper extends MapObjectMapperAdapter<SessionBean> {
 
 	private static Collection<StringObjectMapper<SessionBean>> buildMappings(final MapperCalendar mapperCalendar, final MapperSessionIdentifier mapperSessionIdentifier,
 																																					 final MapperUserIdentifier mapperUserIdentifier) {
-		final List<StringObjectMapper<SessionBean>> result = new ArrayList<StringObjectMapper<SessionBean>>();
+		final List<StringObjectMapper<SessionBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<SessionBean, SessionIdentifier>("id", mapperSessionIdentifier));
 		result.add(new StringObjectMapperAdapter<SessionBean, UserIdentifier>("currentUser", mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<SessionBean, Calendar>("created", mapperCalendar));

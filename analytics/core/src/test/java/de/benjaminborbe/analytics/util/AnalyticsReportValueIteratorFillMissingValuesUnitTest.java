@@ -1,22 +1,21 @@
 package de.benjaminborbe.analytics.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.tools.iterator.IteratorByList;
+import org.easymock.EasyMock;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AnalyticsReportValueIteratorFillMissingValuesUnitTest {
 
@@ -34,7 +33,7 @@ public class AnalyticsReportValueIteratorFillMissingValuesUnitTest {
 	@Test
 	public void testFillIterator() throws Exception {
 		final Double v = new Double(1);
-		final AnalyticsReportValue[] values = { buildAnalyticsReportValue(2012, 0, v), buildAnalyticsReportValue(2009, 0, v) };
+		final AnalyticsReportValue[] values = {buildAnalyticsReportValue(2012, 0, v), buildAnalyticsReportValue(2009, 0, v)};
 		final AnalyticsReportValueIterator analyticsReportValueIterator = new I(values);
 		assertTrue(analyticsReportValueIterator.hasNext());
 		assertEquals(2012, analyticsReportValueIterator.next().getDate().get(Calendar.YEAR));
@@ -48,11 +47,11 @@ public class AnalyticsReportValueIteratorFillMissingValuesUnitTest {
 		final Double v = new Double(1);
 		final AnalyticsReportInterval analyticsReportInterval = AnalyticsReportInterval.YEAR;
 		final AnalyticsIntervalUtil analyticsIntervalUtil = new AnalyticsIntervalUtil();
-		final AnalyticsReportValue[] values = { buildAnalyticsReportValue(2012, 0, v), buildAnalyticsReportValue(2009, 0, v) };
+		final AnalyticsReportValue[] values = {buildAnalyticsReportValue(2012, 0, v), buildAnalyticsReportValue(2009, 0, v)};
 		final AnalyticsReportValueIterator analyticsReportValueIterator = new I(values);
 		final AnalyticsReportAggregation analyticsReportAggregation = AnalyticsReportAggregation.SUM;
 		final AnalyticsReportValueIteratorFillMissingValues i = new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueIterator,
-				analyticsReportAggregation, analyticsReportInterval);
+			analyticsReportAggregation, analyticsReportInterval);
 
 		{
 			assertTrue(i.hasNext());
@@ -95,7 +94,7 @@ public class AnalyticsReportValueIteratorFillMissingValuesUnitTest {
 	public void testFillWithUnnecessaryValues() throws Exception {
 		final AnalyticsReportInterval analyticsReportInterval = AnalyticsReportInterval.YEAR;
 		final AnalyticsIntervalUtil analyticsIntervalUtil = new AnalyticsIntervalUtil();
-		final List<AnalyticsReportValue> values = new ArrayList<AnalyticsReportValue>();
+		final List<AnalyticsReportValue> values = new ArrayList<>();
 		values.add(buildAnalyticsReportValue(2012, 1, new Double(1)));
 		values.add(buildAnalyticsReportValue(2012, 0, new Double(2)));
 		values.add(buildAnalyticsReportValue(2009, 4, new Double(3)));
@@ -107,7 +106,7 @@ public class AnalyticsReportValueIteratorFillMissingValuesUnitTest {
 		final AnalyticsReportValueIterator analyticsReportValueIterator = new I(values);
 		final AnalyticsReportAggregation analyticsReportAggregation = AnalyticsReportAggregation.SUM;
 		final AnalyticsReportValueIteratorFillMissingValues i = new AnalyticsReportValueIteratorFillMissingValues(analyticsIntervalUtil, analyticsReportValueIterator,
-				analyticsReportAggregation, analyticsReportInterval);
+			analyticsReportAggregation, analyticsReportInterval);
 
 		{
 			assertTrue(i.hasNext());

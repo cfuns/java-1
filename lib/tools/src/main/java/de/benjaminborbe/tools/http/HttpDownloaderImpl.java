@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -213,9 +212,6 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding, headers);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
-		} catch (final UnsupportedEncodingException e) {
-			logger.error(e.getClass().getSimpleName(), e);
-			throw new HttpDownloaderException(e.getClass().getSimpleName(), e);
 		} catch (final IOException e) {
 			logger.error(e.getClass().getSimpleName(), e);
 			throw new HttpDownloaderException(e.getClass().getSimpleName(), e);
@@ -225,14 +221,14 @@ public class HttpDownloaderImpl implements HttpDownloader {
 
 	@Override
 	public HttpDownloadResult postUrl(final URL url, final Map<String, String> data, final int timeout) throws HttpDownloaderException {
-		final Map<String, String> cookies = new HashMap<String, String>();
+		final Map<String, String> cookies = new HashMap<>();
 		return postUrl(url, data, cookies, timeout);
 	}
 
 	protected String buildCookieString(final Map<String, String> cookies) {
 		boolean first = true;
 		final StringWriter result = new StringWriter();
-		final List<String> keys = new ArrayList<String>(cookies.keySet());
+		final List<String> keys = new ArrayList<>(cookies.keySet());
 		Collections.sort(keys);
 		for (final String key : keys) {
 			if (first) {

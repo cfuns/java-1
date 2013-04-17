@@ -1,16 +1,5 @@
 package de.benjaminborbe.website.table;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.form.HasClass;
@@ -18,14 +7,23 @@ import de.benjaminborbe.website.form.HasId;
 import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.TagWidget;
+import org.apache.commons.lang.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class TableWidget extends CompositeWidget implements Widget, HasId<TableWidget>, HasClass<TableWidget> {
 
-	private final Set<String> classes = new HashSet<String>();
+	private final Set<String> classes = new HashSet<>();
 
 	private String id;
 
-	private final List<TableRowWidget> rows = new ArrayList<TableRowWidget>();
+	private final List<TableRowWidget> rows = new ArrayList<>();
 
 	private TableHeadWidget head;
 

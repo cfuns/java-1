@@ -24,20 +24,20 @@
 
 package com.glavsoft.rfb.encoding.decoder;
 
+import com.glavsoft.rfb.encoding.EncodingType;
+import org.slf4j.Logger;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.slf4j.Logger;
-
-import com.glavsoft.rfb.encoding.EncodingType;
 
 /**
  * Decoders container class
  */
 public class DecodersContainer {
 
-	private static final Map<EncodingType, Class<? extends Decoder>> knownDecoders = new HashMap<EncodingType, Class<? extends Decoder>>();
+	private static final Map<EncodingType, Class<? extends Decoder>> knownDecoders = new HashMap<>();
+
 	static {
 		knownDecoders.put(EncodingType.TIGHT, TightDecoder.class);
 		knownDecoders.put(EncodingType.HEXTILE, HextileDecoder.class);
@@ -48,7 +48,7 @@ public class DecodersContainer {
 		// knownDecoders.put(EncodingType.RAW_ENCODING, RawDecoder.class);
 	}
 
-	private final Map<EncodingType, Decoder> decoders = new HashMap<EncodingType, Decoder>();
+	private final Map<EncodingType, Decoder> decoders = new HashMap<>();
 
 	private final Logger logger;
 
@@ -59,20 +59,15 @@ public class DecodersContainer {
 
 	/**
 	 * Instantiate decoders for encodings we are going to use.
-	 * 
-	 * @param encodings
-	 *          encodings we need to handle
+	 *
+	 * @param encodings encodings we need to handle
 	 */
 	public void instantiateDecodersWhenNeeded(final Collection<EncodingType> encodings) {
 		for (final EncodingType enc : encodings) {
 			if (EncodingType.ordinaryEncodings.contains(enc) && !decoders.containsKey(enc)) {
 				try {
 					decoders.put(enc, knownDecoders.get(enc).newInstance());
-				}
-				catch (final InstantiationException e) {
-					logError(enc, e);
-				}
-				catch (final IllegalAccessException e) {
+				} catch (final InstantiationException | IllegalAccessException e) {
 					logError(enc, e);
 				}
 			}

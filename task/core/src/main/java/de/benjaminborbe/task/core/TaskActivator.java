@@ -30,7 +30,7 @@ public class TaskActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(SearchServiceComponent.class, taskSearchServiceComponent, taskSearchServiceComponent.getClass().getName()));
 		result.add(new ServiceInfo(TaskService.class, taskService));
 		return result;
@@ -38,7 +38,7 @@ public class TaskActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
 		// serviceTrackers.add(new TaskServiceTracker(taskRegistry, context,
 		// TaskService.class));
 		return serviceTrackers;

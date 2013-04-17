@@ -1,20 +1,18 @@
 package de.benjaminborbe.lunch.config;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 
@@ -25,7 +23,7 @@ public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 	private final ConfigurationDescriptionString confluencePassword = new ConfigurationDescriptionString(null, "LunchConfluencePassword", "Lunch Password for Confluence");
 
 	private final ConfigurationDescriptionString mittagNotifyKeywords = new ConfigurationDescriptionString("Essen, Mittagessen, Mittagstisch", "LunchNotifyKeywords",
-			"Lunch Notify Keywords");
+		"Lunch Notify Keywords");
 
 	@Inject
 	public LunchConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
@@ -44,7 +42,7 @@ public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
+		final Set<ConfigurationDescription> result = new HashSet<>();
 		result.add(confluenceSpaceKey);
 		result.add(confluenceUsername);
 		result.add(confluencePassword);
@@ -60,7 +58,7 @@ public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 	@Override
 	public List<String> getMittagNotifyKeywords() {
 		final String value = getValueString(mittagNotifyKeywords);
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		if (value != null) {
 			for (final String part : value.split(",")) {
 				result.add(part.trim());

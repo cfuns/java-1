@@ -1,13 +1,6 @@
 package de.benjaminborbe.gallery.validation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.gallery.dao.GalleryImageBean;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -18,6 +11,12 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintByteArra
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GalleryImageValidator extends ValidatorBase<GalleryImageBean> {
 
@@ -35,7 +34,7 @@ public class GalleryImageValidator extends ValidatorBase<GalleryImageBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<GalleryImageBean>> buildRules() {
-		final Map<String, ValidatorRule<GalleryImageBean>> result = new HashMap<String, ValidatorRule<GalleryImageBean>>();
+		final Map<String, ValidatorRule<GalleryImageBean>> result = new HashMap<>();
 
 		// content
 		{
@@ -45,7 +44,7 @@ public class GalleryImageValidator extends ValidatorBase<GalleryImageBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryImageBean bean) {
 					final byte[] value = bean.getContent();
-					final List<ValidationConstraint<byte[]>> constraints = new ArrayList<ValidationConstraint<byte[]>>();
+					final List<ValidationConstraint<byte[]>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<byte[]>());
 					constraints.add(new ValidationConstraintByteArrayMinLength(1));
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -61,7 +60,7 @@ public class GalleryImageValidator extends ValidatorBase<GalleryImageBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryImageBean bean) {
 					final String value = bean.getContentType();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

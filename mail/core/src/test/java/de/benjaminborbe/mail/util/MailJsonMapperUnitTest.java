@@ -1,21 +1,19 @@
 package de.benjaminborbe.mail.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperString;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class MailJsonMapperUnitTest {
 
 	@Test
 	public void testName() throws Exception {
-		final Provider<MailDto> a = new ProviderMock<MailDto>(MailDto.class);
+		final Provider<MailDto> a = new ProviderMock<>(MailDto.class);
 		final MapperString b = new MapperString();
 		final MailJsonMapper mapper = new MailJsonMapper(a, b);
 

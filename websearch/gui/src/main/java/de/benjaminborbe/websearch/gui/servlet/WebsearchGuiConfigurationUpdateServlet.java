@@ -1,20 +1,8 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
@@ -51,6 +39,15 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
@@ -71,18 +68,18 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public WebsearchGuiConfigurationUpdateServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final WebsearchService websearchService,
-			final AuthorizationService authorizationService,
-			final WebsearchGuiLinkFactory websearchGuiLinkFactory,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final WebsearchService websearchService,
+		final AuthorizationService authorizationService,
+		final WebsearchGuiLinkFactory websearchGuiLinkFactory,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.websearchService = websearchService;
 		this.logger = logger;
@@ -93,7 +90,7 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
@@ -115,12 +112,10 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 
 					if (referer != null) {
 						throw new RedirectException(referer);
-					}
-					else {
+					} else {
 						throw new RedirectException(websearchGuiLinkFactory.configurationListUrl(request));
 					}
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("update configuration => failed");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -129,46 +124,43 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(WebsearchGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID).addValue(websearchConfiguration.getId()));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_URL).addLabel("Url:").addDefaultValue(
-					websearchConfiguration.getUrl() != null ? websearchConfiguration.getUrl().toExternalForm() : null));
+				websearchConfiguration.getUrl() != null ? websearchConfiguration.getUrl().toExternalForm() : null));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXCLUDES).addLabel("Excludes:").addDefaultValue(
-					websearchConfiguration.getExcludes() != null ? StringUtils.join(websearchConfiguration.getExcludes(), ",") : null));
+				websearchConfiguration.getExcludes() != null ? StringUtils.join(websearchConfiguration.getExcludes(), ",") : null));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_EXPIRE).addLabel("Expire in days:")
-					.addDefaultValue(websearchConfiguration.getExpire()).addPlaceholder("7"));
+				.addDefaultValue(websearchConfiguration.getExpire()).addPlaceholder("7"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_DELAY).addLabel("Delay in milliseconds:").addDefaultValue(
-					websearchConfiguration.getDelay()));
+				websearchConfiguration.getDelay()));
 			formWidget.addFormInputWidget(new FormCheckboxWidget(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ACTIVATED).addLabel("Activated:").setCheckedDefault(
-					websearchConfiguration.getActivated()));
+				websearchConfiguration.getActivated()));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(formWidget);
 			return widgets;
-		}
-		catch (final WebsearchServiceException e) {
+		} catch (final WebsearchServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
 	}
 
 	private void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final String urlString,
-			final String excludesString, final String expireString, final String delayString, final String activatedString) throws WebsearchServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException {
-		final List<ValidationError> errors = new ArrayList<ValidationError>();
+																	 final String excludesString, final String expireString, final String delayString, final String activatedString) throws WebsearchServiceException, LoginRequiredException,
+		PermissionDeniedException, ValidationException {
+		final List<ValidationError> errors = new ArrayList<>();
 
 		URL url;
 		{
 			try {
 				url = parseUtil.parseURL(urlString);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				url = null;
 				errors.add(new ValidationErrorSimple("illegal url"));
 			}
 		}
 
-		final List<String> excludes = new ArrayList<String>();
+		final List<String> excludes = new ArrayList<>();
 		{
 			if (excludesString != null) {
 				final String[] parts = excludesString.split(",");
@@ -177,8 +169,7 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 						excludes.add(part.trim());
 					}
 				}
-			}
-			else {
+			} else {
 				errors.add(new ValidationErrorSimple("illegal excludes"));
 			}
 		}
@@ -187,8 +178,7 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 		{
 			try {
 				expire = parseUtil.parseInt(expireString);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				errors.add(new ValidationErrorSimple("illegal expire"));
 			}
 		}
@@ -197,8 +187,7 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 		{
 			try {
 				delay = parseUtil.parseInt(delayString);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				errors.add(new ValidationErrorSimple("illegal delay"));
 			}
 		}
@@ -207,8 +196,7 @@ public class WebsearchGuiConfigurationUpdateServlet extends WebsiteHtmlServlet {
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
-		}
-		else {
+		} else {
 			websearchService.updateConfiguration(sessionIdentifier, websearchConfigurationIdentifier, url, excludes, expire, delay, activated);
 		}
 	}

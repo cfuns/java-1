@@ -1,23 +1,21 @@
 package de.benjaminborbe.website.widget;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.form.HasClass;
 import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.SingleTagWidget;
+import org.apache.commons.lang.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ImageWidget extends CompositeWidget implements HasClass<ImageWidget> {
 
-	private final Set<String> classes = new HashSet<String>();
+	private final Set<String> classes = new HashSet<>();
 
 	private String path;
 

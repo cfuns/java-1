@@ -1,16 +1,15 @@
 package de.benjaminborbe.poker.util;
 
+import com.google.inject.Inject;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import de.benjaminborbe.poker.api.PokerCardValue;
+import de.benjaminborbe.tools.map.MapList;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.poker.api.PokerCardIdentifier;
-import de.benjaminborbe.poker.api.PokerCardValue;
-import de.benjaminborbe.tools.map.MapList;
 
 public class PokerCardsFourOfAKindComparator implements Comparator<Collection<PokerCardIdentifier>> {
 
@@ -36,7 +35,7 @@ public class PokerCardsFourOfAKindComparator implements Comparator<Collection<Po
 	}
 
 	private Collection<PokerCardIdentifier> buildRemaining(final Collection<PokerCardIdentifier> cards, final List<PokerCardIdentifier> list) {
-		final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
+		final List<PokerCardIdentifier> result = new ArrayList<>();
 		for (final PokerCardIdentifier card : cards) {
 			if (!list.contains(card)) {
 				result.add(card);
@@ -46,7 +45,7 @@ public class PokerCardsFourOfAKindComparator implements Comparator<Collection<Po
 	}
 
 	private List<PokerCardIdentifier> buildList(final Collection<PokerCardIdentifier> cards) {
-		final List<PokerCardIdentifier> list = new ArrayList<PokerCardIdentifier>();
+		final List<PokerCardIdentifier> list = new ArrayList<>();
 		final MapList<PokerCardValue, PokerCardIdentifier> map = buildMap(cards);
 		for (final Entry<PokerCardValue, List<PokerCardIdentifier>> e : map.entrySet()) {
 			if (e.getValue().size() == 4) {
@@ -57,7 +56,7 @@ public class PokerCardsFourOfAKindComparator implements Comparator<Collection<Po
 	}
 
 	private MapList<PokerCardValue, PokerCardIdentifier> buildMap(final Collection<PokerCardIdentifier> cards) {
-		final MapList<PokerCardValue, PokerCardIdentifier> result = new MapList<PokerCardValue, PokerCardIdentifier>();
+		final MapList<PokerCardValue, PokerCardIdentifier> result = new MapList<>();
 		for (final PokerCardIdentifier card : cards) {
 			result.add(card.getValue(), card);
 		}

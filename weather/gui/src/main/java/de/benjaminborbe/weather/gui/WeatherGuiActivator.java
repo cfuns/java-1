@@ -1,13 +1,6 @@
 package de.benjaminborbe.weather.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -16,6 +9,11 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 import de.benjaminborbe.weather.gui.guice.WeatherGuiModules;
 import de.benjaminborbe.weather.gui.service.WeatherGuiDashboardWidget;
 import de.benjaminborbe.weather.gui.servlet.WeatherGuiServlet;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class WeatherGuiActivator extends HttpBundleActivator {
 
@@ -36,14 +34,14 @@ public class WeatherGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(weatherServlet, "/"));
 		return result;
 	}
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, weatherDashboardWidget, weatherDashboardWidget.getClass().getName()));
 		return result;
 	}

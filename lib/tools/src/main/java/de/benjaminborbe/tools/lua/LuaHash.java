@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 public class LuaHash implements Lua {
 
-	private final Map<String, Lua> data = new HashMap<String, Lua>();
+	private final Map<String, Lua> data = new HashMap<>();
 
 	public Collection<String> keys() {
 		return data.keySet();

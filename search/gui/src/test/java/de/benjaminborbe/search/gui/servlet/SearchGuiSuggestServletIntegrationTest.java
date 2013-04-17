@@ -1,21 +1,19 @@
 package de.benjaminborbe.search.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.google.inject.Injector;
+import de.benjaminborbe.search.api.SearchResult;
+import de.benjaminborbe.search.gui.guice.SearchGuiModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.json.JSONArray;
+import org.easymock.EasyMock;
+import org.junit.Test;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.easymock.EasyMock;
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.search.api.SearchResult;
-import de.benjaminborbe.search.gui.guice.SearchGuiModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.tools.json.JSONArray;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class SearchGuiSuggestServletIntegrationTest {
 
@@ -33,7 +31,7 @@ public class SearchGuiSuggestServletIntegrationTest {
 	public void testBuildJson() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchGuiModulesMock());
 		final SearchGuiSuggestServlet searchServlet = injector.getInstance(SearchGuiSuggestServlet.class);
-		final List<SearchResult> bookmarks = new ArrayList<SearchResult>();
+		final List<SearchResult> bookmarks = new ArrayList<>();
 		final SearchResult searchResult = EasyMock.createMock(SearchResult.class);
 		EasyMock.expect(searchResult.getUrl()).andReturn("http://www.google.com");
 		EasyMock.expect(searchResult.getTitle()).andReturn("Google");

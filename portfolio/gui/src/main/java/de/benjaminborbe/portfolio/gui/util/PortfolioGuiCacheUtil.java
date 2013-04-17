@@ -1,11 +1,10 @@
 package de.benjaminborbe.portfolio.gui.util;
 
+import com.google.inject.Inject;
+import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 
 public class PortfolioGuiCacheUtil {
 
@@ -18,16 +17,16 @@ public class PortfolioGuiCacheUtil {
 		if (uri.indexOf(contextPath + "/" + PortfolioGuiConstants.NAME) != 0) {
 			return false;
 		}
-		if (uri.indexOf(PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_IMAGE) != -1) {
+		if (uri.contains(PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_IMAGE)) {
 			return true;
 		}
-		if (uri.indexOf(PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_GALLERY) != -1) {
+		if (uri.contains(PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_GALLERY)) {
 			return true;
 		}
-		if (uri.indexOf(PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_LINKS) != -1) {
+		if (uri.contains(PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_LINKS)) {
 			return true;
 		}
-		if (uri.indexOf(PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_CONTACT) != -1) {
+		if (uri.contains(PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_CONTACT)) {
 			return true;
 		}
 
@@ -41,7 +40,7 @@ public class PortfolioGuiCacheUtil {
 	}
 
 	public List<String> getCacheAbleExtentions() {
-		final List<String> exts = new ArrayList<String>();
+		final List<String> exts = new ArrayList<>();
 		exts.add("css");
 		exts.add("js");
 		exts.add("gif");

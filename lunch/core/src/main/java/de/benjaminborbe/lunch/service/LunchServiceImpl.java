@@ -1,7 +1,6 @@
 package de.benjaminborbe.lunch.service;
 
 import com.atlassian.confluence.rpc.AuthenticationFailedException;
-import com.atlassian.confluence.rpc.RemoteException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
@@ -206,22 +205,14 @@ public class LunchServiceImpl implements LunchService {
 			final String confluencePassword = lunchConfig.getConfluencePassword();
 			final Collection<String> list = wikiConnector.extractSubscriptions(confluenceSpaceKey, confluenceUsername, confluencePassword, day);
 
-			final List<KioskUser> result = new ArrayList<KioskUser>();
+			final List<KioskUser> result = new ArrayList<>();
 			for (final String username : list) {
 				result.add(buildUser(username));
 			}
 			return result;
-		} catch (final AuthenticationFailedException e) {
-			throw new LunchServiceException(e);
-		} catch (final RemoteException e) {
-			throw new LunchServiceException(e);
-		} catch (final ServiceException e) {
-			throw new LunchServiceException(e);
-		} catch (final ParseException e) {
+		} catch (final AuthenticationFailedException | KioskServiceException | ParseException | ServiceException e) {
 			throw new LunchServiceException(e);
 		} catch (final java.rmi.RemoteException e) {
-			throw new LunchServiceException(e);
-		} catch (final KioskServiceException e) {
 			throw new LunchServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -299,7 +290,7 @@ public class LunchServiceImpl implements LunchService {
 	public Collection<KioskUser> getBookedUser(final Calendar day) throws LunchServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		try {
-			final List<KioskUser> result = new ArrayList<KioskUser>();
+			final List<KioskUser> result = new ArrayList<>();
 			for (final KioskUser user : kioskService.getBookingsForDay(day, LunchConstants.MITTAG_EAN)) {
 				result.add(user);
 			}

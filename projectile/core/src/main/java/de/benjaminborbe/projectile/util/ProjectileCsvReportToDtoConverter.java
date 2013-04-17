@@ -1,16 +1,14 @@
 package de.benjaminborbe.projectile.util;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.tools.util.LineIterator;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class ProjectileCsvReportToDtoConverter {
 
@@ -29,7 +27,7 @@ public class ProjectileCsvReportToDtoConverter {
 
 	public List<ProjectileCsvReportToDto> convert(final Calendar date, final String csvString) throws ParseException {
 		logger.debug("convert");
-		final List<ProjectileCsvReportToDto> result = new ArrayList<ProjectileCsvReportToDto>();
+		final List<ProjectileCsvReportToDto> result = new ArrayList<>();
 		if (csvString == null) {
 			return result;
 		}
@@ -58,7 +56,7 @@ public class ProjectileCsvReportToDtoConverter {
 	}
 
 	private ProjectileCsvReportToDto buildBean(final String username, final String target, final String extern, final String intern, final String billable, final Calendar updateDate)
-			throws ParseException {
+		throws ParseException {
 		final ProjectileCsvReportToDto projectileReport = new ProjectileCsvReportToDto();
 		projectileReport.setUsername(projectileNameMapper.fullnameToLogin(username));
 		projectileReport.setExtern(parseDouble(extern));
@@ -78,8 +76,7 @@ public class ProjectileCsvReportToDtoConverter {
 			final String line = lineIterator.next();
 			if (line != null && (line.contains("Mitarbeiter") || line.contains("Login"))) {
 				return;
-			}
-			else {
+			} else {
 				logger.trace("consume line: " + line);
 			}
 		}

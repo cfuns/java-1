@@ -24,32 +24,20 @@
 
 package com.glavsoft.viewer.swing.gui;
 
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import com.glavsoft.rfb.protocol.ProtocolSettings;
+import com.glavsoft.utils.Strings;
+import com.glavsoft.viewer.swing.ConnectionParams;
+import com.glavsoft.viewer.swing.Utils;
+import org.slf4j.Logger;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowListener;
-
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-
-import org.slf4j.Logger;
-
-import com.glavsoft.rfb.protocol.ProtocolSettings;
-import com.glavsoft.utils.Strings;
-import com.glavsoft.viewer.swing.ConnectionParams;
-import com.glavsoft.viewer.swing.Utils;
 
 /**
  * Dialog window for connection parameters get from.
@@ -90,12 +78,12 @@ public class ConnectionDialog extends JDialog {
 	private JLabel ssUserWarningLabel;
 
 	public ConnectionDialog(
-			final Logger logger,
-			final JFrame owner,
-			final WindowListener appWindowListener,
-			final ConnectionParams connectionParams,
-			final ProtocolSettings settings,
-			final boolean hasJsch) {
+		final Logger logger,
+		final JFrame owner,
+		final WindowListener appWindowListener,
+		final ConnectionParams connectionParams,
+		final ProtocolSettings settings,
+		final boolean hasJsch) {
 		super(owner, "New TightVNC Connection");
 		this.connectionParams = connectionParams;
 		this.hasJsch = hasJsch;
@@ -108,7 +96,7 @@ public class ConnectionDialog extends JDialog {
 
 		int gridRow = 0;
 
-		serverNameCombo = new JComboBox<ConnectionParams>();
+		serverNameCombo = new JComboBox<>();
 		connectionsHistory = new ConnectionsHistory(logger, connectionParams);
 		initConnectionsHistoryCombo();
 		settings.copySerializedFieldsFrom(connectionsHistory.getSettings(connectionParams));
@@ -159,8 +147,7 @@ public class ConnectionDialog extends JDialog {
 				completeCombo();
 				if (validateFields()) {
 					setVisible(false);
-				}
-				else {
+				} else {
 					serverNameCombo.requestFocusInWindow();
 				}
 			}
@@ -211,7 +198,7 @@ public class ConnectionDialog extends JDialog {
 	private void initConnectionsHistoryCombo() {
 		serverNameCombo.setEditable(true);
 		new AutoCompletionComboEditorDocument(serverNameCombo); // use autocompletion feature
-																														// for ComboBox
+		// for ComboBox
 		connectionParams.completeEmptyFieldsFrom(connectionsHistory.getMostSuitableConnection(connectionParams));
 		completeCombo();
 		serverNameCombo.setRenderer(new HostnameComboboxRenderer());

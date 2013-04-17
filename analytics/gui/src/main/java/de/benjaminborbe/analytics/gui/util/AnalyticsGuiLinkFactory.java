@@ -1,14 +1,6 @@
 package de.benjaminborbe.analytics.gui.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
@@ -17,6 +9,12 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnalyticsGuiLinkFactory {
 
@@ -28,14 +26,14 @@ public class AnalyticsGuiLinkFactory {
 	}
 
 	public Widget reportView(final HttpServletRequest request, final List<AnalyticsReportIdentifier> reportIdentifiers, final AnalyticsReportInterval analyticsReportInterval,
-			final AnalyticsReportChartType type, final Widget widget) throws MalformedURLException, UnsupportedEncodingException {
+													 final AnalyticsReportChartType type, final Widget widget) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_VIEW, new MapParameter()
-				.add(AnalyticsGuiConstants.PARAMETER_REPORT_ID, toArray(reportIdentifiers)).add(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL, String.valueOf(analyticsReportInterval))
-				.add(AnalyticsGuiConstants.PARAMETER_CHART_TYPE, String.valueOf(type)), widget);
+			.add(AnalyticsGuiConstants.PARAMETER_REPORT_ID, toArray(reportIdentifiers)).add(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL, String.valueOf(analyticsReportInterval))
+			.add(AnalyticsGuiConstants.PARAMETER_CHART_TYPE, String.valueOf(type)), widget);
 	}
 
 	private List<String> toArray(final List<AnalyticsReportIdentifier> reportIdentifiers) {
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		for (final AnalyticsReportIdentifier reportIdentifier : reportIdentifiers) {
 			result.add(reportIdentifier.getId());
 		}
@@ -43,9 +41,9 @@ public class AnalyticsGuiLinkFactory {
 	}
 
 	public Widget reportAddData(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier) throws MalformedURLException,
-			UnsupportedEncodingException {
+		UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_ADD_DATA, new MapParameter().add(
-				AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), "insert");
+			AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), "insert");
 	}
 
 	public Widget addReport(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
@@ -54,7 +52,7 @@ public class AnalyticsGuiLinkFactory {
 
 	public Widget addReport(final HttpServletRequest request, final String name) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_CREATE, new MapParameter().add(
-				AnalyticsGuiConstants.PARAMETER_REPORT_NAME, name), "add report");
+			AnalyticsGuiConstants.PARAMETER_REPORT_NAME, name), "add report");
 	}
 
 	public Widget reportList(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
@@ -66,14 +64,14 @@ public class AnalyticsGuiLinkFactory {
 	}
 
 	public Widget reportDelete(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier) throws MalformedURLException,
-			UnsupportedEncodingException {
+		UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_DELETE, new MapParameter().add(
-				AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), "delete").addConfirm("delete report " + analyticsReportIdentifier + "?");
+			AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), "delete").addConfirm("delete report " + analyticsReportIdentifier + "?");
 	}
 
 	public Widget aggregateReport(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_AGGREGATE, new MapParameter(), "aggregate")
-				.addConfirm("aggregate?");
+			.addConfirm("aggregate?");
 	}
 
 	public Widget logWithoutReport(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
@@ -81,13 +79,13 @@ public class AnalyticsGuiLinkFactory {
 	}
 
 	public Widget reportRebuild(final HttpServletRequest request, final AnalyticsReportIdentifier analyticsReportIdentifier) throws MalformedURLException,
-			UnsupportedEncodingException {
+		UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_REBUILD, new MapParameter().add(
-				AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), "rebuild").addConfirm("rebuild report " + analyticsReportIdentifier + "?");
+			AnalyticsGuiConstants.PARAMETER_REPORT_ID, String.valueOf(analyticsReportIdentifier)), "rebuild").addConfirm("rebuild report " + analyticsReportIdentifier + "?");
 	}
 
 	public Widget reportRebuildAll(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_REBUILD_ALL, new MapParameter(), "rebuild all")
-				.addConfirm("rebuild all reports?");
+			.addConfirm("rebuild all reports?");
 	}
 }

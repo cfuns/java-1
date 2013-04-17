@@ -1,14 +1,8 @@
 package de.benjaminborbe.note.dao;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.note.api.NoteIdentifier;
 import de.benjaminborbe.note.util.MapperNoteIdentifier;
@@ -18,6 +12,11 @@ import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class NoteBeanMapper extends MapObjectMapperAdapter<NoteBean> {
@@ -36,17 +35,17 @@ public class NoteBeanMapper extends MapObjectMapperAdapter<NoteBean> {
 
 	@Inject
 	public NoteBeanMapper(
-			final Provider<NoteBean> provider,
-			final MapperNoteIdentifier mapperNoteIdentifier,
-			final MapperCalendar mapperCalendar,
-			final MapperString mapperString,
-			final MapperUserIdentifier mapperUserIdentifier) {
+		final Provider<NoteBean> provider,
+		final MapperNoteIdentifier mapperNoteIdentifier,
+		final MapperCalendar mapperCalendar,
+		final MapperString mapperString,
+		final MapperUserIdentifier mapperUserIdentifier) {
 		super(provider, buildMappings(mapperUserIdentifier, mapperNoteIdentifier, mapperCalendar, mapperString));
 	}
 
 	private static Collection<StringObjectMapper<NoteBean>> buildMappings(final MapperUserIdentifier mapperUserIdentifier, final MapperNoteIdentifier mapperNoteIdentifier,
-			final MapperCalendar mapperCalendar, final MapperString mapperString) {
-		final List<StringObjectMapper<NoteBean>> result = new ArrayList<StringObjectMapper<NoteBean>>();
+																																				final MapperCalendar mapperCalendar, final MapperString mapperString) {
+		final List<StringObjectMapper<NoteBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<NoteBean, NoteIdentifier>(ID, mapperNoteIdentifier));
 		result.add(new StringObjectMapperAdapter<NoteBean, UserIdentifier>(OWNER, mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<NoteBean, String>(TITLE, mapperString));

@@ -1,9 +1,5 @@
 package de.benjaminborbe.cron.mock;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -12,11 +8,15 @@ import de.benjaminborbe.cron.api.CronIdentifier;
 import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.cron.api.CronServiceException;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class CronServiceMock implements CronService {
 
 	@Override
 	public List<CronExecutionInfo> getLatestExecutionInfos(final int amount) {
-		return new ArrayList<CronExecutionInfo>();
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class CronServiceMock implements CronService {
 
 	@Override
 	public void triggerCron(final SessionIdentifier sessionIdentifier, final CronIdentifier cronIdentifier) throws CronServiceException, LoginRequiredException,
-			PermissionDeniedException {
+		PermissionDeniedException {
 	}
 
 	@Override

@@ -1,25 +1,23 @@
 package de.benjaminborbe.lucene.index.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.lucene.index.config.LuceneIndexConfig;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.lucene.index.config.LuceneIndexConfig;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class LuceneIndexFactoryImpl implements LuceneIndexFactory {
 
 	private final Logger logger;
 
-	private final Map<String, FSDirectory> indexes = new HashMap<String, FSDirectory>();
+	private final Map<String, FSDirectory> indexes = new HashMap<>();
 
 	private final LuceneIndexConfig indexConfig;
 
@@ -46,11 +44,9 @@ public class LuceneIndexFactoryImpl implements LuceneIndexFactory {
 		final File dir = new File(dirName);
 		if (dir.exists()) {
 			return dir;
-		}
-		else if (dir.mkdirs()) {
+		} else if (dir.mkdirs()) {
 			return dir;
-		}
-		else {
+		} else {
 			throw new IOException("can't create index direcory " + dirName);
 		}
 	}

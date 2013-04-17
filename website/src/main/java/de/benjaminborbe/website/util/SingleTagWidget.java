@@ -1,5 +1,12 @@
 package de.benjaminborbe.website.util;
 
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.tools.util.ComparatorBase;
+import org.apache.commons.lang.StringEscapeUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -9,15 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringEscapeUtils;
-
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.tools.util.ComparatorBase;
 
 public class SingleTagWidget implements Widget {
 
@@ -31,7 +29,7 @@ public class SingleTagWidget implements Widget {
 
 	private final String tag;
 
-	private final Map<String, String> attributes = new HashMap<String, String>();
+	private final Map<String, String> attributes = new HashMap<>();
 
 	public SingleTagWidget(final String tag) {
 		this.tag = tag;
@@ -53,7 +51,7 @@ public class SingleTagWidget implements Widget {
 	}
 
 	private List<Entry<String, String>> sortEntrySet(final Set<Entry<String, String>> entrySet) {
-		final List<Entry<String, String>> result = new ArrayList<Entry<String, String>>(entrySet);
+		final List<Entry<String, String>> result = new ArrayList<>(entrySet);
 		Collections.sort(result, new EntrySetComparator());
 		return result;
 	}

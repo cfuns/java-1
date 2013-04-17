@@ -53,8 +53,8 @@ public abstract class BeanSearcher<B> {
 	private static final int COUNTER_LIMIT = 5;
 
 	public List<BeanMatch<B>> search(final Collection<B> beans, final int limit, final List<String> words) {
-		final List<Match> matches = new ArrayList<Match>();
-		for (final B bean : new HashSet<B>(beans)) {
+		final List<Match> matches = new ArrayList<>();
+		for (final B bean : new HashSet<>(beans)) {
 			final int counter = match(bean, words);
 			if (counter > 0) {
 				final Match match = new Match(bean, counter);
@@ -63,14 +63,13 @@ public abstract class BeanSearcher<B> {
 		}
 
 		Collections.sort(matches, new MatchComparator());
-		final List<BeanMatch<B>> result = new ArrayList<BeanMatch<B>>();
+		final List<BeanMatch<B>> result = new ArrayList<>();
 		int counter = 0;
 		for (final Match match : matches) {
 			if (counter < limit) {
 				result.add(match);
 				counter++;
-			}
-			else {
+			} else {
 				return result;
 			}
 		}
@@ -114,8 +113,7 @@ public abstract class BeanSearcher<B> {
 					final Integer amount = prio.get(fieldname);
 					if (amount != null && amount > 0) {
 						rating += amount;
-					}
-					else {
+					} else {
 						rating++;
 					}
 				}

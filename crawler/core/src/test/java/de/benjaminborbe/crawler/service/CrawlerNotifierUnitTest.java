@@ -1,16 +1,15 @@
 package de.benjaminborbe.crawler.service;
 
-import java.net.URL;
-import java.util.HashSet;
-import java.util.Set;
-
+import de.benjaminborbe.crawler.api.CrawlerNotifier;
+import de.benjaminborbe.crawler.api.CrawlerResult;
+import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.crawler.api.CrawlerNotifier;
-import de.benjaminborbe.crawler.api.CrawlerResult;
-import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
+import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CrawlerNotifierUnitTest {
 
@@ -29,7 +28,7 @@ public class CrawlerNotifierUnitTest {
 		EasyMock.expectLastCall().times(1);
 		EasyMock.replay(clientCrawlerNotifier);
 
-		final Set<CrawlerNotifier> crawlerNotifiers = new HashSet<CrawlerNotifier>();
+		final Set<CrawlerNotifier> crawlerNotifiers = new HashSet<>();
 		crawlerNotifiers.add(clientCrawlerNotifier);
 
 		final CrawlerNotifierRegistry crawlerNotifierRegistry = EasyMock.createMock(CrawlerNotifierRegistry.class);

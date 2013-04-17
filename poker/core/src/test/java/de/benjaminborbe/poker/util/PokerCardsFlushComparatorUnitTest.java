@@ -1,17 +1,16 @@
 package de.benjaminborbe.poker.util;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.poker.api.PokerCardColor;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import de.benjaminborbe.poker.api.PokerCardValue;
+import de.benjaminborbe.tools.util.ComparatorUtil;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Test;
-
-import de.benjaminborbe.poker.api.PokerCardColor;
-import de.benjaminborbe.poker.api.PokerCardIdentifier;
-import de.benjaminborbe.poker.api.PokerCardValue;
-import de.benjaminborbe.tools.util.ComparatorUtil;
+import static org.junit.Assert.assertEquals;
 
 public class PokerCardsFlushComparatorUnitTest {
 
@@ -20,9 +19,9 @@ public class PokerCardsFlushComparatorUnitTest {
 		final PokerCardsFlushComparator comparator = getComparator();
 		assertEquals(0, comparator.compare(
 
-		buildCards(),
+			buildCards(),
 
-		buildCards()
+			buildCards()
 
 		));
 	}
@@ -32,9 +31,9 @@ public class PokerCardsFlushComparatorUnitTest {
 		final PokerCardsFlushComparator comparator = getComparator();
 		assertEquals(0, comparator.compare(
 
-		buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE)),
+			buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE)),
 
-		buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.KING))
+			buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.KING))
 
 		));
 	}
@@ -44,9 +43,9 @@ public class PokerCardsFlushComparatorUnitTest {
 		final PokerCardsFlushComparator comparator = getComparator();
 		assertEquals(0, comparator.compare(
 
-		buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.ACE)),
+			buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.ACE)),
 
-		buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.KING), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING))
+			buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.KING), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING))
 
 		));
 	}
@@ -55,32 +54,32 @@ public class PokerCardsFlushComparatorUnitTest {
 	public void testCompareThreeCard() throws Exception {
 		final PokerCardsFlushComparator comparator = getComparator();
 		assertEquals(
-				0,
-				comparator.compare(
+			0,
+			comparator.compare(
 
-						buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.ACE),
-								buildCard(PokerCardColor.HEARTS, PokerCardValue.ACE)),
+				buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.ACE),
+					buildCard(PokerCardColor.HEARTS, PokerCardValue.ACE)),
 
-						buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.KING), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING),
-								buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING))
+				buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.KING), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING),
+					buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING))
 
-				));
+			));
 	}
 
 	@Test
 	public void testCompareFourCard() throws Exception {
 		final PokerCardsFlushComparator comparator = getComparator();
 		assertEquals(
-				0,
-				comparator.compare(
+			0,
+			comparator.compare(
 
-						buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.ACE),
-								buildCard(PokerCardColor.HEARTS, PokerCardValue.ACE), buildCard(PokerCardColor.SPADES, PokerCardValue.ACE)),
+				buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.ACE),
+					buildCard(PokerCardColor.HEARTS, PokerCardValue.ACE), buildCard(PokerCardColor.SPADES, PokerCardValue.ACE)),
 
-						buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.KING), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING),
-								buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING), buildCard(PokerCardColor.SPADES, PokerCardValue.KING))
+				buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.KING), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING),
+					buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING), buildCard(PokerCardColor.SPADES, PokerCardValue.KING))
 
-				));
+			));
 	}
 
 	@Test
@@ -88,64 +87,64 @@ public class PokerCardsFlushComparatorUnitTest {
 		final PokerCardsFlushComparator comparator = getComparator();
 		assertEquals(0, comparator.compare(
 
-				buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.ACE),
-						buildCard(PokerCardColor.HEARTS, PokerCardValue.ACE), buildCard(PokerCardColor.SPADES, PokerCardValue.ACE), buildCard(PokerCardColor.SPADES, PokerCardValue.QUEEN)),
+			buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.ACE),
+				buildCard(PokerCardColor.HEARTS, PokerCardValue.ACE), buildCard(PokerCardColor.SPADES, PokerCardValue.ACE), buildCard(PokerCardColor.SPADES, PokerCardValue.QUEEN)),
 
-				buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.KING), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING),
-						buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING), buildCard(PokerCardColor.SPADES, PokerCardValue.KING),
-						buildCard(PokerCardColor.DIAMONDS, PokerCardValue.QUEEN))
+			buildCards(buildCard(PokerCardColor.CLUBS, PokerCardValue.KING), buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING),
+				buildCard(PokerCardColor.DIAMONDS, PokerCardValue.KING), buildCard(PokerCardColor.SPADES, PokerCardValue.KING),
+				buildCard(PokerCardColor.DIAMONDS, PokerCardValue.QUEEN))
 
 		));
 
 		assertEquals(-1, comparator.compare(buildCards(
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.KING),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.KING),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.QUEEN),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.QUEEN),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.JACK),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.JACK),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.TEN),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.TEN),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.NINE)
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.NINE)
 
 		), buildCards(
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.KING),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.KING),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.QUEEN),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.QUEEN),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.JACK),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.JACK),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.TEN)
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.TEN)
 
 		)));
 
 		assertEquals(1, comparator.compare(buildCards(
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.ACE),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.KING),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.KING),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.QUEEN),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.QUEEN),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.JACK),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.JACK),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.TEN)
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.TEN)
 
 		), buildCards(
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.KING),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.KING),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.QUEEN),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.QUEEN),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.JACK),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.JACK),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.TEN),
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.TEN),
 
-		buildCard(PokerCardColor.CLUBS, PokerCardValue.NINE)
+			buildCard(PokerCardColor.CLUBS, PokerCardValue.NINE)
 
 		)));
 
@@ -165,7 +164,7 @@ public class PokerCardsFlushComparatorUnitTest {
 	}
 
 	private Collection<PokerCardIdentifier> buildCards(final PokerCardIdentifier... values) {
-		final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
+		final List<PokerCardIdentifier> result = new ArrayList<>();
 		for (final PokerCardIdentifier value : values) {
 			result.add(value);
 		}

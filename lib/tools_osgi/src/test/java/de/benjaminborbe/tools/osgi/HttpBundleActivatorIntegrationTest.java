@@ -1,12 +1,12 @@
 package de.benjaminborbe.tools.osgi;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
-
+import com.google.inject.AbstractModule;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
+import de.benjaminborbe.tools.guice.Modules;
+import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import de.benjaminborbe.tools.util.ThreadRunner;
+import de.benjaminborbe.tools.util.ThreadRunnerMock;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.osgi.framework.BundleContext;
@@ -15,18 +15,17 @@ import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
 
-import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.log.LoggerSlf4Provider;
-import de.benjaminborbe.tools.util.ThreadRunner;
-import de.benjaminborbe.tools.util.ThreadRunnerMock;
+import static org.junit.Assert.assertEquals;
 
 public class HttpBundleActivatorIntegrationTest {
 
 	private final class TestService {
+
 	}
 
 	private final class HttpBundleActivatorModuleMock extends AbstractModule {
@@ -50,7 +49,7 @@ public class HttpBundleActivatorIntegrationTest {
 
 				@Override
 				public Collection<Module> getModules() {
-					final Set<Module> result = new HashSet<Module>();
+					final Set<Module> result = new HashSet<>();
 					result.add(new HttpBundleActivatorModuleMock());
 					return result;
 				}
@@ -111,7 +110,7 @@ public class HttpBundleActivatorIntegrationTest {
 
 			@Override
 			public Collection<ServiceInfo> getServiceInfos() {
-				final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+				final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 				result.add(new ServiceInfo(name, service, properties));
 				return result;
 			}

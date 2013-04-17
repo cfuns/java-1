@@ -1,18 +1,7 @@
 package de.benjaminborbe.search.gui.service;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
@@ -29,6 +18,14 @@ import de.benjaminborbe.website.util.CssResourceImpl;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.JavascriptWidget;
 import de.benjaminborbe.website.util.ListWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class SearchGuiDashboardWidget implements DashboardContentWidget, RequireCssResource, RequireJavascriptResource {
@@ -76,7 +73,7 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 
 	@Override
 	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
-		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
+		final List<JavascriptResource> result = new ArrayList<>();
 		result.add(new JavascriptResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"));
 		result.add(new JavascriptResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"));
 		return result;
@@ -85,7 +82,7 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 	@Override
 	public List<CssResource> getCssResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<CssResource> result = new ArrayList<CssResource>();
+		final List<CssResource> result = new ArrayList<>();
 		result.add(new CssResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"));
 		result.add(new CssResourceImpl(contextPath + "/search/css/style.css"));
 		return result;

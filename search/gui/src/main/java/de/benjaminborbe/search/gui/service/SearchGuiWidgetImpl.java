@@ -1,23 +1,7 @@
 package de.benjaminborbe.search.gui.service;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringEscapeUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -39,6 +23,19 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteConstants;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.Target;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.TimeZone;
 
 @Singleton
 public class SearchGuiWidgetImpl implements SearchWidget {
@@ -75,18 +72,18 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 
 	@Inject
 	public SearchGuiWidgetImpl(
-			final Logger logger,
-			final SearchUtil searchUtil,
-			final SearchService searchService,
-			final SearchGuiDashboardWidget searchDashboardWidget,
-			final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory,
-			final AuthenticationService authenticationService,
-			final SearchGuiTermHighlighter searchGuiTermHighlighter,
-			final ParseUtil parseUtil,
-			final UrlUtil urlUtil,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final SearchGuiShortener searchGuiShortener) {
+		final Logger logger,
+		final SearchUtil searchUtil,
+		final SearchService searchService,
+		final SearchGuiDashboardWidget searchDashboardWidget,
+		final SearchGuiSpecialSearchFactory searchGuiSpecialSearchFactory,
+		final AuthenticationService authenticationService,
+		final SearchGuiTermHighlighter searchGuiTermHighlighter,
+		final ParseUtil parseUtil,
+		final UrlUtil urlUtil,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final SearchGuiShortener searchGuiShortener) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.searchService = searchService;
@@ -115,8 +112,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 				logger.trace("found special search");
 				searchGuiSpecialSearch.render(request, response, context);
 				return;
-			}
-			else {
+			} else {
 				logger.trace("found no special search");
 			}
 
@@ -127,13 +123,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 				final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, MAX_RESULTS);
 				printSearchResults(request, response, context, results, words);
 			}
-		}
-		catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			exceptionWidget.render(request, response, context);
-		}
-		catch (final SearchServiceException e) {
+		} catch (final AuthenticationServiceException | SearchServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);
@@ -155,7 +145,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 	}
 
 	protected void printSearchResults(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final List<SearchResult> results,
-			final List<String> words) throws IOException {
+																		final List<String> words) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<div class=\"resultcounter\">");
 		final long now = getNowAsLong();
@@ -192,7 +182,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			out.println("<div class=\"title\">");
 			out.println("<a href=\"" + url + "\" target=\"" + target + "\">");
 			out.println("[" + StringEscapeUtils.escapeHtml(type.toUpperCase()) + "] - "
-					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(searchGuiShortener.shortenTitle(title)), escapedWords));
+				+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(searchGuiShortener.shortenTitle(title)), escapedWords));
 			out.println("</a>");
 			if (result.getMatchCounter() > 0 && result.getMatchCounter() < Integer.MAX_VALUE) {
 				out.println("<span class=\"matchCounter\">( hitrate: " + result.getMatchCounter() + " )</span>");
@@ -200,22 +190,21 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 			out.println("</div>");
 			out.println("<div class=\"link\">");
 			out.println("<a href=\"" + urlString + "\" target=\"" + target + "\">"
-					+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(searchGuiShortener.shortenUrl(urlString)), escapedWords) + "</a>");
+				+ searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(searchGuiShortener.shortenUrl(urlString)), escapedWords) + "</a>");
 			out.println("</div>");
 			out.println("<div class=\"description\">");
 			out.println(searchGuiTermHighlighter.highlightSearchTerms(StringEscapeUtils.escapeHtml(searchGuiShortener.shortenDescription(description, words)), escapedWords));
 			out.println("<br/>");
 			out.println("</div>");
 			out.println("</div>");
-		}
-		catch (final MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			logger.debug("illegal type: " + result.getType() + " url: " + result.getUrl());
 			// nop
 		}
 	}
 
 	private List<String> buildEscapedWords(final List<String> words) {
-		final List<String> result = new ArrayList<String>();
+		final List<String> result = new ArrayList<>();
 		for (final String word : words) {
 			result.add(StringEscapeUtils.escapeHtml(word));
 		}

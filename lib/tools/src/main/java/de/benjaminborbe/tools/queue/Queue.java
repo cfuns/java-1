@@ -1,11 +1,10 @@
 package de.benjaminborbe.tools.queue;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
+import de.benjaminborbe.tools.util.ThreadRunner;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.tools.util.ThreadRunner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Queue<M> {
 
@@ -38,8 +37,7 @@ public class Queue<M> {
 			while (running) {
 				try {
 					queueConsumer.consume(get());
-				}
-				catch (final Exception e) {
+				} catch (final Exception e) {
 					// nop
 				}
 			}
@@ -58,7 +56,7 @@ public class Queue<M> {
 		this.logger = logger;
 		this.threadRunner = threadRunner;
 		this.queueConsumer = queueConsumer;
-		this.queue = new LinkedBlockingQueue<M>();
+		this.queue = new LinkedBlockingQueue<>();
 	}
 
 	public void put(final M message) {

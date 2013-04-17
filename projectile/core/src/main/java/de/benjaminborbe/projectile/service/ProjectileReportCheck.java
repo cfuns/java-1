@@ -1,16 +1,6 @@
 package de.benjaminborbe.projectile.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -21,6 +11,14 @@ import de.benjaminborbe.projectile.dao.ProjectileReportBean;
 import de.benjaminborbe.projectile.dao.ProjectileReportDao;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CurrentTime;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class ProjectileReportCheck implements MonitoringCheck {
 
@@ -85,8 +83,7 @@ public class ProjectileReportCheck implements MonitoringCheck {
 				return new MonitoringCheckResultDto(this, false, msg);
 			}
 			return new MonitoringCheckResultDto(this, true);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			return new MonitoringCheckResultDto(this, e);
 		}
 	}
@@ -102,7 +99,7 @@ public class ProjectileReportCheck implements MonitoringCheck {
 
 	@Override
 	public Collection<ValidationError> validate(final Map<String, String> parameter) {
-		final List<ValidationError> result = new ArrayList<ValidationError>();
+		final List<ValidationError> result = new ArrayList<>();
 		return result;
 	}
 

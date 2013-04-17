@@ -1,17 +1,16 @@
 package de.benjaminborbe.message.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.registry.RegistryBase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Singleton
 public class MessageConsumerRegistry extends RegistryBase<MessageConsumer> {
 
-	private final Map<String, MessageConsumer> data = new HashMap<String, MessageConsumer>();
+	private final Map<String, MessageConsumer> data = new HashMap<>();
 
 	@Override
 	protected void onElementAdded(final MessageConsumer object) {

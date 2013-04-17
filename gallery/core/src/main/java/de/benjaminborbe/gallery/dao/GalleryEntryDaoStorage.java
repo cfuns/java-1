@@ -1,18 +1,9 @@
 package de.benjaminborbe.gallery.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.slf4j.Logger;
-
 import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.util.GalleryPredicate;
@@ -24,6 +15,13 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, GalleryEntryIdentifier> implements GalleryEntryDao {
@@ -34,12 +32,12 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 
 	@Inject
 	public GalleryEntryDaoStorage(
-			final Logger logger,
-			final StorageService storageService,
-			final Provider<GalleryEntryBean> beanProvider,
-			final GalleryEntryBeanMapper mapper,
-			final GalleryEntryIdentifierBuilder identifierBuilder,
-			final CalendarUtil calendarUtil) {
+		final Logger logger,
+		final StorageService storageService,
+		final Provider<GalleryEntryBean> beanProvider,
+		final GalleryEntryBeanMapper mapper,
+		final GalleryEntryIdentifierBuilder identifierBuilder,
+		final CalendarUtil calendarUtil) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.logger = logger;
 	}
@@ -55,7 +53,7 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 			logger.debug("getGalleryImages id: " + galleryIdentifier);
 			final Predicate<GalleryEntryBean> p = new GalleryPredicate(galleryIdentifier);
 			final EntityIterator<GalleryEntryBean> i = getEntityIterator();
-			final List<GalleryEntryBean> result = new ArrayList<GalleryEntryBean>();
+			final List<GalleryEntryBean> result = new ArrayList<>();
 			while (i.hasNext()) {
 				final GalleryEntryBean image = i.next();
 				if (p.apply(image)) {
@@ -63,8 +61,7 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 				}
 			}
 			return result;
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -72,7 +69,7 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 	@Override
 	public Collection<GalleryEntryIdentifier> getGalleryImageIdentifiers(final GalleryCollectionIdentifier galleryIdentifier) throws StorageException {
 		final Collection<GalleryEntryBean> images = getGalleryImages(galleryIdentifier);
-		final Set<GalleryEntryIdentifier> result = new HashSet<GalleryEntryIdentifier>();
+		final Set<GalleryEntryIdentifier> result = new HashSet<>();
 		for (final GalleryEntryBean image : images) {
 			result.add(image.getId());
 		}
@@ -81,7 +78,7 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 
 	@Override
 	public EntityIterator<GalleryEntryBean> getEntityIteratorShared() throws StorageException {
-		return new EntityIteratorFilter<GalleryEntryBean>(getEntityIterator(), new SharedPredicate<GalleryEntryBean>());
+		return new EntityIteratorFilter<>(getEntityIterator(), new SharedPredicate<GalleryEntryBean>());
 	}
 
 }

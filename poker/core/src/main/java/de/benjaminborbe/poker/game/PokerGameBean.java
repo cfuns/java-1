@@ -1,9 +1,5 @@
 package de.benjaminborbe.poker.game;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
@@ -11,6 +7,10 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements PokerGame, HasCreated, HasModified {
 
@@ -38,13 +38,13 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Integer buttonPosition;
 
-	private List<PokerPlayerIdentifier> players = new ArrayList<PokerPlayerIdentifier>();
+	private List<PokerPlayerIdentifier> players = new ArrayList<>();
 
-	private List<PokerPlayerIdentifier> activePlayers = new ArrayList<PokerPlayerIdentifier>();
+	private List<PokerPlayerIdentifier> activePlayers = new ArrayList<>();
 
-	private List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
+	private List<PokerCardIdentifier> cards = new ArrayList<>();
 
-	private List<PokerCardIdentifier> boardCards = new ArrayList<PokerCardIdentifier>();
+	private List<PokerCardIdentifier> boardCards = new ArrayList<>();
 
 	private Integer cardPosition;
 

@@ -8,7 +8,6 @@ import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.util.MapperAnalyticsReportAggregation;
 import de.benjaminborbe.analytics.util.MapperAnalyticsReportIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
-import de.benjaminborbe.tools.mapper.MapperDouble;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
@@ -36,7 +35,7 @@ public class AnalyticsReportBeanMapper extends MapObjectMapperAdapter<AnalyticsR
 
 	private static Collection<StringObjectMapper<AnalyticsReportBean>> buildMappings(final MapperAnalyticsReportIdentifier mapperListIdentifier, final MapperString mapperString,
 																																									 final MapperCalendar mapperCalendar, final MapperAnalyticsReportAggregation mapperAnalyticsReportAggregation) {
-		final List<StringObjectMapper<AnalyticsReportBean>> result = new ArrayList<StringObjectMapper<AnalyticsReportBean>>();
+		final List<StringObjectMapper<AnalyticsReportBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, AnalyticsReportIdentifier>("id", mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, AnalyticsReportAggregation>("aggregation", mapperAnalyticsReportAggregation));

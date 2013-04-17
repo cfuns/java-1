@@ -1,23 +1,6 @@
 package de.benjaminborbe.poker.player;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.poker.card.PokerCardIdentifierBuilder;
 import de.benjaminborbe.poker.util.MapperPokerCardIdentifier;
 import de.benjaminborbe.poker.util.MapperPokerCardIdentifierList;
@@ -36,6 +19,21 @@ import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 @RunWith(Parameterized.class)
 public class PokerPlayerBeanMapperUnitTest {
@@ -51,21 +49,21 @@ public class PokerPlayerBeanMapperUnitTest {
 
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<Object[]>();
-		result.add(new Object[] { "id", "1337" });
-		result.add(new Object[] { "name", "bla" });
-		result.add(new Object[] { "created", "123456" });
-		result.add(new Object[] { "modified", "123456" });
-		result.add(new Object[] { "amount", "1337" });
-		result.add(new Object[] { "game", "1337" });
-		result.add(new Object[] { "bet", "1337" });
-		result.add(new Object[] { "token", "asdfasdf" });
-		result.add(new Object[] { "owners", "bgates" });
+		final List<Object[]> result = new ArrayList<>();
+		result.add(new Object[]{"id", "1337"});
+		result.add(new Object[]{"name", "bla"});
+		result.add(new Object[]{"created", "123456"});
+		result.add(new Object[]{"modified", "123456"});
+		result.add(new Object[]{"amount", "1337"});
+		result.add(new Object[]{"game", "1337"});
+		result.add(new Object[]{"bet", "1337"});
+		result.add(new Object[]{"token", "asdfasdf"});
+		result.add(new Object[]{"owners", "bgates"});
 		return result;
 	}
 
 	private PokerPlayerBeanMapper getPokerPlayerBeanMapper() {
-		final Provider<PokerPlayerBean> beanProvider = new ProviderMock<PokerPlayerBean>(PokerPlayerBean.class);
+		final Provider<PokerPlayerBean> beanProvider = new ProviderMock<>(PokerPlayerBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -87,13 +85,13 @@ public class PokerPlayerBeanMapperUnitTest {
 		final MapperUserIdentifier mapperUserIdentifier = new MapperUserIdentifier();
 		final MapperUserIdentifierCollection mapperUserIdentifierCollection = new MapperUserIdentifierCollection(mapperUserIdentifier);
 		return new PokerPlayerBeanMapper(beanProvider, mapperUserIdentifierCollection, mapperPokerPlayerIdentifier, mapperPokerGameIdentifier, mapperCalendar, mapperString,
-				mapperLong, mapperPokerCardIdentifierList);
+			mapperLong, mapperPokerCardIdentifierList);
 	}
 
 	@Test
 	public void testMaxRetryCounter() throws Exception {
 		final PokerPlayerBeanMapper mapper = getPokerPlayerBeanMapper();
-		final Map<String, String> inputData = new HashMap<String, String>();
+		final Map<String, String> inputData = new HashMap<>();
 		inputData.put(fieldName, fieldValue);
 		final PokerPlayerBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

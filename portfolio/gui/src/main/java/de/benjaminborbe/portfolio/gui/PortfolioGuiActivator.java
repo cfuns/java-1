@@ -1,13 +1,6 @@
 package de.benjaminborbe.portfolio.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.portfolio.gui.guice.PortfolioGuiModules;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiCacheFilter;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiContactServlet;
@@ -19,6 +12,11 @@ import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PortfolioGuiActivator extends HttpBundleActivator {
 
@@ -48,7 +46,7 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(portfolioGuiGalleryServlet, PortfolioGuiConstants.URL_GALLERY));
 		result.add(new ServletInfo(portfolioGuiContactServlet, PortfolioGuiConstants.URL_CONTACT));
 		result.add(new ServletInfo(portfolioGuiImageServlet, PortfolioGuiConstants.URL_IMAGE));
@@ -58,14 +56,14 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<FilterInfo> getFilterInfos() {
-		final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
+		final Set<FilterInfo> result = new HashSet<>(super.getFilterInfos());
 		result.add(new FilterInfo(portfolioCacheFilter, ".*", 500));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		result.add(new ResourceInfo("/js", "js"));
 		result.add(new ResourceInfo("/images", "images"));

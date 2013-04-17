@@ -138,6 +138,6 @@ public class ImagedownloaderGuiServletUnitTest {
 		imagedownloaderServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Imagedownloader</h1>") != -1);
+		assertTrue(content.contains("<h1>Imagedownloader</h1>"));
 	}
 }

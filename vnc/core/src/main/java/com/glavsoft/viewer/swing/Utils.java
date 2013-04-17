@@ -24,19 +24,11 @@
 
 package com.glavsoft.viewer.swing;
 
-import java.awt.Dialog;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
+import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 
 /**
  * Utils for Swing GUI
@@ -49,7 +41,7 @@ public class Utils {
 		if (icons != null) {
 			return icons;
 		}
-		icons = new LinkedList<Image>();
+		icons = new LinkedList<>();
 		URL resource = Utils.class.getResource("/com/glavsoft/viewer/images/tightvnc-logo-16x16.png");
 		Image image = resource != null ? Toolkit.getDefaultToolkit().getImage(resource) : null;
 		if (image != null) {
@@ -71,8 +63,7 @@ public class Utils {
 	public static void decorateDialog(final JDialog dialog) {
 		try {
 			dialog.setAlwaysOnTop(true);
-		}
-		catch (SecurityException e) {
+		} catch (SecurityException e) {
 			// nop
 		}
 		dialog.pack();

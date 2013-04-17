@@ -7,7 +7,7 @@ public class HtmlTag {
 
 	private final String name;
 
-	private final Map<String, String> attributes = new HashMap<String, String>();
+	private final Map<String, String> attributes = new HashMap<>();
 
 	private final boolean opening;
 

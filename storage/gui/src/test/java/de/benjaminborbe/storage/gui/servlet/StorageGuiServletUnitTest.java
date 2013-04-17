@@ -139,6 +139,6 @@ public class StorageGuiServletUnitTest {
 		storageServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.indexOf("<h1>Storage</h1>") != -1);
+		assertTrue(content.contains("<h1>Storage</h1>"));
 	}
 }

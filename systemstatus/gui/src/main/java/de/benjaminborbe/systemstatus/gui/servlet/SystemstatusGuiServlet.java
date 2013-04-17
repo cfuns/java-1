@@ -115,7 +115,7 @@ public class SystemstatusGuiServlet extends WebsiteHtmlServlet {
 		widgets.add(new H2Widget("Hostnames"));
 		try {
 			final UlWidget ul = new UlWidget();
-			final List<String> hostnames = new ArrayList<String>(netUtil.getHostnames());
+			final List<String> hostnames = new ArrayList<>(netUtil.getHostnames());
 			Collections.sort(hostnames);
 			for (final String hostname : hostnames) {
 				ul.add(hostname);

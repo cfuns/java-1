@@ -89,7 +89,7 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<AnalyticsReport> reports = new ArrayList<AnalyticsReport>(analyticsService.getReports(sessionIdentifier));
+			final List<AnalyticsReport> reports = new ArrayList<>(analyticsService.getReports(sessionIdentifier));
 			Collections.sort(reports, new AnalyticsReportComparator());
 			final UlWidget ul = new UlWidget();
 			for (final AnalyticsReport report : reports) {
@@ -140,9 +140,7 @@ public class AnalyticsGuiReportListServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			analyticsService.expectAnalyticsViewOrAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
-		} catch (final AnalyticsServiceException e) {
+		} catch (final AuthenticationServiceException | AnalyticsServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

@@ -65,9 +65,7 @@ public class ProjectileGuiTeamDeleteServlet extends WebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ProjectileTeamIdentifier projectileTeamIdentifier = new ProjectileTeamIdentifier(request.getParameter(ProjectileGuiConstants.PARAMETER_TEAM_ID));
 			projectileService.deleteTeam(sessionIdentifier, projectileTeamIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			logger.warn(e.getClass().getName(), e);
-		} catch (final ProjectileServiceException e) {
+		} catch (final AuthenticationServiceException | ProjectileServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
@@ -81,9 +79,7 @@ public class ProjectileGuiTeamDeleteServlet extends WebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(ProjectileService.PERMISSION_ADMIN);
 			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
-		} catch (final AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

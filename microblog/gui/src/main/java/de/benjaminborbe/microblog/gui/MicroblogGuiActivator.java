@@ -1,13 +1,6 @@
 package de.benjaminborbe.microblog.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.microblog.gui.config.MicroblogGuiConfig;
@@ -29,6 +22,11 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MicroblogGuiActivator extends HttpBundleActivator {
 
@@ -82,7 +80,7 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(microblogGuiPostUpdateServlet, MicroblogGuiConstants.URL_POST_UPDATE));
 		result.add(new ServletInfo(microblogGuiRefreshServlet, MicroblogGuiConstants.URL_POST_REFRESH));
 		result.add(new ServletInfo(microblogServlet, MicroblogGuiConstants.URL_SLASH));
@@ -100,7 +98,7 @@ public class MicroblogGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, microblogDashboardWidget, microblogDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(NavigationEntry.class, microblogGuiNavigationEntry));
 		for (final ConfigurationDescription configuration : microblogGuiConfig.getConfigurations()) {

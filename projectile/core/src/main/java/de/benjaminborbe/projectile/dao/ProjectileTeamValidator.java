@@ -1,13 +1,6 @@
 package de.benjaminborbe.projectile.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -17,6 +10,12 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProjectileTeamValidator extends ValidatorBase<ProjectileTeamBean> {
 
@@ -34,7 +33,7 @@ public class ProjectileTeamValidator extends ValidatorBase<ProjectileTeamBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<ProjectileTeamBean>> buildRules() {
-		final Map<String, ValidatorRule<ProjectileTeamBean>> result = new HashMap<String, ValidatorRule<ProjectileTeamBean>>();
+		final Map<String, ValidatorRule<ProjectileTeamBean>> result = new HashMap<>();
 
 		// id
 		{
@@ -44,7 +43,7 @@ public class ProjectileTeamValidator extends ValidatorBase<ProjectileTeamBean> {
 				@Override
 				public Collection<ValidationError> validate(final ProjectileTeamBean bean) {
 					final ProjectileTeamIdentifier value = bean.getId();
-					final List<ValidationConstraint<ProjectileTeamIdentifier>> constraints = new ArrayList<ValidationConstraint<ProjectileTeamIdentifier>>();
+					final List<ValidationConstraint<ProjectileTeamIdentifier>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<ProjectileTeamIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -59,7 +58,7 @@ public class ProjectileTeamValidator extends ValidatorBase<ProjectileTeamBean> {
 				@Override
 				public Collection<ValidationError> validate(final ProjectileTeamBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

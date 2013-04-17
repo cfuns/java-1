@@ -1,19 +1,8 @@
 package de.benjaminborbe.search.gui.servlet;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -31,6 +20,14 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.HtmlContentWidget;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
@@ -51,14 +48,14 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 
 	@Inject
 	public SearchGuiSuggestServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final SearchService searchService,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final SearchService searchService,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.logger = logger;
 		this.searchService = searchService;
@@ -89,22 +86,19 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				searchResults = searchService.search(sessionIdentifier, queryString, MAX_RESULTS);
 				logger.trace("found " + searchResults.size() + " searchResults");
-			}
-			else {
-				searchResults = new ArrayList<SearchResult>();
+			} else {
+				searchResults = new ArrayList<>();
 			}
 			final JSONArray obj = buildJson(searchResults);
 			final StringWriter sw = new StringWriter();
 			obj.writeJSONString(sw);
 
 			return new HtmlContentWidget(sw.toString());
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			response.setContentType("text/plain");
 			return new ExceptionWidget(e);
-		}
-		catch (final SearchServiceException e) {
+		} catch (final SearchServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			response.setContentType("text/plain");
 			return new ExceptionWidget(e);

@@ -24,20 +24,19 @@
 
 package com.glavsoft.rfb;
 
+import com.glavsoft.exceptions.TransportException;
+import com.glavsoft.rfb.encoding.EncodingType;
+import com.glavsoft.transport.Reader;
+import org.slf4j.Logger;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import org.slf4j.Logger;
-
-import com.glavsoft.exceptions.TransportException;
-import com.glavsoft.rfb.encoding.EncodingType;
-import com.glavsoft.transport.Reader;
-
 /**
  * Container for Tight extention protocol capabilities
- * 
+ * <p/>
  * Needed to set what capabilities we support, which of them supported
  * by server and for enabling/disabling ops on them.
  */
@@ -49,7 +48,7 @@ public class CapabilityContainer {
 		this.logger = logger;
 	}
 
-	private final Map<Integer, RfbCapabilityInfo> caps = new HashMap<Integer, RfbCapabilityInfo>();
+	private final Map<Integer, RfbCapabilityInfo> caps = new HashMap<>();
 
 	public void add(final RfbCapabilityInfo capabilityInfo) {
 		caps.put(capabilityInfo.getCode(), capabilityInfo);
@@ -79,7 +78,7 @@ public class CapabilityContainer {
 	}
 
 	public Collection<EncodingType> getEnabledEncodingTypes() {
-		final Collection<EncodingType> types = new LinkedList<EncodingType>();
+		final Collection<EncodingType> types = new LinkedList<>();
 		for (final RfbCapabilityInfo c : caps.values()) {
 			if (c.isEnabled()) {
 				types.add(EncodingType.byId(c.getCode()));

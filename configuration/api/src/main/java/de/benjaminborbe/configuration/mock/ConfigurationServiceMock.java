@@ -1,21 +1,20 @@
 package de.benjaminborbe.configuration.mock;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 @Singleton
 public class ConfigurationServiceMock implements ConfigurationService {
 
-	private final Map<ConfigurationIdentifier, String> data = new HashMap<ConfigurationIdentifier, String>();
+	private final Map<ConfigurationIdentifier, String> data = new HashMap<>();
 
 	@Inject
 	public ConfigurationServiceMock() {

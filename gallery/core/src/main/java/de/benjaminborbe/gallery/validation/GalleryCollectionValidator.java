@@ -1,13 +1,6 @@
 package de.benjaminborbe.gallery.validation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.gallery.dao.GalleryCollectionBean;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -18,6 +11,12 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringOnlyLetters;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GalleryCollectionValidator extends ValidatorBase<GalleryCollectionBean> {
 
@@ -35,7 +34,7 @@ public class GalleryCollectionValidator extends ValidatorBase<GalleryCollectionB
 
 	@Override
 	protected Map<String, ValidatorRule<GalleryCollectionBean>> buildRules() {
-		final Map<String, ValidatorRule<GalleryCollectionBean>> result = new HashMap<String, ValidatorRule<GalleryCollectionBean>>();
+		final Map<String, ValidatorRule<GalleryCollectionBean>> result = new HashMap<>();
 
 		// name
 		{
@@ -45,7 +44,7 @@ public class GalleryCollectionValidator extends ValidatorBase<GalleryCollectionB
 				@Override
 				public Collection<ValidationError> validate(final GalleryCollectionBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

@@ -25,14 +25,14 @@ public class PerformanceActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(PerformanceService.class, performanceService));
 		return result;
 	}
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
 		// serviceTrackers.add(new PerformanceServiceTracker(performanceRegistry, context,
 		// PerformanceService.class));
 		return serviceTrackers;

@@ -1,14 +1,6 @@
 package de.benjaminborbe.tools.osgi;
 
-import java.util.Collection;
-import java.util.Dictionary;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.servlet.Filter;
-import javax.servlet.Servlet;
-import javax.servlet.ServletException;
-
+import com.google.inject.Inject;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -16,7 +8,13 @@ import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.NamespaceException;
 import org.osgi.util.tracker.ServiceTracker;
 
-import com.google.inject.Inject;
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
+import java.util.Collection;
+import java.util.Dictionary;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class HttpBundleActivator extends BaseBundleActivator {
 
@@ -36,8 +34,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			final String pattern;
 			if (filterInfo.isSlashFilter()) {
 				pattern = cleanupPattern(filterInfo.getPattern());
-			}
-			else {
+			} else {
 				pattern = cleanupPattern(prefix + filterInfo.getPattern());
 			}
 			@SuppressWarnings("rawtypes")
@@ -46,8 +43,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			try {
 				logger.info("registerFilter for pattern: \"" + pattern + "\"");
 				service.registerFilter(filter, pattern, initParams, ranking, context);
-			}
-			catch (final ServletException e) {
+			} catch (final ServletException e) {
 				logger.error("ServletException", e);
 			}
 		}
@@ -55,8 +51,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			final String alias;
 			if (servletInfo.isSlashServlet()) {
 				alias = cleanupAlias(servletInfo.getAlias());
-			}
-			else {
+			} else {
 				alias = cleanupAlias(prefix + "/" + servletInfo.getAlias());
 			}
 			final Servlet servlet = servletInfo.getServlet();
@@ -66,11 +61,9 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			try {
 				logger.info("registerServlet for alias: \"" + alias + "\"");
 				service.registerServlet(alias, servlet, initparams, context);
-			}
-			catch (final ServletException e) {
+			} catch (final ServletException e) {
 				logger.error("ServletException", e);
-			}
-			catch (final NamespaceException e) {
+			} catch (final NamespaceException e) {
 				logger.error("NamespaceException", e);
 			}
 		}
@@ -78,8 +71,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			final String alias;
 			if (resourceInfo.isSlashResoure()) {
 				alias = cleanupAlias(resourceInfo.getAlias());
-			}
-			else {
+			} else {
 				alias = cleanupAlias(prefix + "/" + resourceInfo.getAlias());
 			}
 			final String name = resourceInfo.getName();
@@ -87,8 +79,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 			try {
 				logger.info("registerResource for alias: \"" + alias + "\"");
 				service.registerResources(alias, name, context);
-			}
-			catch (final NamespaceException e) {
+			} catch (final NamespaceException e) {
 				logger.error("NamespaceException", e);
 			}
 		}
@@ -111,7 +102,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
 		// create serviceTracker for ExtHttpService
 		{
 			final ServiceTracker serviceTracker = new ServiceTracker(context, ExtHttpService.class.getName(), null) {
@@ -135,17 +126,17 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 	}
 
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>();
+		final Set<ServletInfo> result = new HashSet<>();
 		return result;
 	}
 
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>();
+		final Set<ResourceInfo> result = new HashSet<>();
 		return result;
 	}
 
 	protected Collection<FilterInfo> getFilterInfos() {
-		final Set<FilterInfo> result = new HashSet<FilterInfo>();
+		final Set<FilterInfo> result = new HashSet<>();
 		result.add(new FilterInfo(guiceFilter, ".*", 999));
 		return result;
 	}

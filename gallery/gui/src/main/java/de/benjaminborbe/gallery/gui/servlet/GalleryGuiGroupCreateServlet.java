@@ -126,7 +126,7 @@ public class GalleryGuiGroupCreateServlet extends GalleryGuiHtmlServlet {
 	private GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String name, final String sharedString) throws GalleryServiceException,
 		LoginRequiredException, PermissionDeniedException, ValidationException {
 		Boolean shared;
-		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		final List<ValidationError> errors = new ArrayList<>();
 		{
 			try {
 				shared = parseUtil.parseBoolean(sharedString);

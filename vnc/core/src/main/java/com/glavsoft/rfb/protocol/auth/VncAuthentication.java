@@ -24,9 +24,13 @@
 
 package com.glavsoft.rfb.protocol.auth;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import com.glavsoft.exceptions.CryptoException;
+import com.glavsoft.exceptions.FatalException;
+import com.glavsoft.exceptions.TransportException;
+import com.glavsoft.rfb.CapabilityContainer;
+import com.glavsoft.rfb.IPasswordRetriever;
+import com.glavsoft.transport.Reader;
+import com.glavsoft.transport.Writer;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -35,14 +39,9 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
-
-import com.glavsoft.exceptions.CryptoException;
-import com.glavsoft.exceptions.FatalException;
-import com.glavsoft.exceptions.TransportException;
-import com.glavsoft.rfb.CapabilityContainer;
-import com.glavsoft.rfb.IPasswordRetriever;
-import com.glavsoft.transport.Reader;
-import com.glavsoft.transport.Writer;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 public class VncAuthentication extends AuthHandler {
 
@@ -53,7 +52,7 @@ public class VncAuthentication extends AuthHandler {
 
 	@Override
 	public boolean authenticate(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws TransportException,
-			FatalException {
+		FatalException {
 		final byte[] challenge = reader.readBytes(16);
 		final String password = passwordRetriever.getPassword();
 		if (null == password)
@@ -66,10 +65,9 @@ public class VncAuthentication extends AuthHandler {
 
 	/**
 	 * Encript challenge by key using DES
-	 * 
+	 *
 	 * @return encripted bytes
-	 * @throws CryptoException
-	 *           on problem with DES algorithm support or smth about
+	 * @throws CryptoException on problem with DES algorithm support or smth about
 	 */
 	public byte[] encrypt(final byte[] challenge, final byte[] key) throws CryptoException {
 		try {
@@ -79,23 +77,7 @@ public class VncAuthentication extends AuthHandler {
 			final Cipher desCipher = Cipher.getInstance("DES/ECB/NoPadding");
 			desCipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			return desCipher.doFinal(challenge);
-		}
-		catch (final NoSuchAlgorithmException e) {
-			throw new CryptoException("Cannot encrypt challenge", e);
-		}
-		catch (final NoSuchPaddingException e) {
-			throw new CryptoException("Cannot encrypt challenge", e);
-		}
-		catch (final IllegalBlockSizeException e) {
-			throw new CryptoException("Cannot encrypt challenge", e);
-		}
-		catch (final BadPaddingException e) {
-			throw new CryptoException("Cannot encrypt challenge", e);
-		}
-		catch (final InvalidKeyException e) {
-			throw new CryptoException("Cannot encrypt challenge", e);
-		}
-		catch (final InvalidKeySpecException e) {
+		} catch (final NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
 			throw new CryptoException("Cannot encrypt challenge", e);
 		}
 	}

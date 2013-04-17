@@ -1,21 +1,6 @@
 package de.benjaminborbe.bookmark.dao;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.easymock.EasyMock;
-import org.jsoup.helper.StringUtil;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.bookmark.util.MapperBookmarkIdentifier;
 import de.benjaminborbe.bookmark.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -31,13 +16,26 @@ import de.benjaminborbe.tools.mapper.MapperListString;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.apache.commons.lang.StringUtils;
+import org.easymock.EasyMock;
+import org.jsoup.helper.StringUtil;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class BookmarkBeanMapperUnitTest {
 
 	@Test
 	public void testId() throws Exception {
 
-		final List<List<String>> values = new ArrayList<List<String>>();
+		final List<List<String>> values = new ArrayList<>();
 		values.add(new ArrayList<String>());
 		values.add(Arrays.asList("a"));
 		values.add(Arrays.asList("a", "b"));
@@ -52,7 +50,7 @@ public class BookmarkBeanMapperUnitTest {
 				assertEquals(data.get(fieldname), value.isEmpty() ? null : StringUtil.join(value, ","));
 			}
 			{
-				final Map<String, String> data = new HashMap<String, String>();
+				final Map<String, String> data = new HashMap<>();
 				data.put(fieldname, value.isEmpty() ? null : StringUtil.join(value, ","));
 				final BookmarkBean bean = mapper.map(data);
 				assertEquals(value.size(), bean.getKeywords().size());
@@ -62,7 +60,7 @@ public class BookmarkBeanMapperUnitTest {
 	}
 
 	private BookmarkBeanMapper getBookmarkBeanMapper() {
-		final Provider<BookmarkBean> provider = new ProviderMock<BookmarkBean>(BookmarkBean.class);
+		final Provider<BookmarkBean> provider = new ProviderMock<>(BookmarkBean.class);
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);

@@ -1,24 +1,23 @@
 package de.benjaminborbe.dashboard.gui.service;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.dashboard.gui.util.DashboardGuiContentWidgetComparator;
+import de.benjaminborbe.dashboard.gui.util.DashboardGuiContentWidgetComparatorPrio;
+import de.benjaminborbe.dashboard.gui.util.DashboardGuiContentWidgetComparatorTitle;
+import org.easymock.EasyMock;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.easymock.EasyMock;
-import org.junit.Test;
-
-import de.benjaminborbe.dashboard.api.DashboardContentWidget;
-import de.benjaminborbe.dashboard.gui.util.DashboardGuiContentWidgetComparator;
-import de.benjaminborbe.dashboard.gui.util.DashboardGuiContentWidgetComparatorPrio;
-import de.benjaminborbe.dashboard.gui.util.DashboardGuiContentWidgetComparatorTitle;
+import static org.junit.Assert.assertEquals;
 
 public class DashboardGuiWidgetUnitTest {
 
 	@Test
 	public void testSortWidgets() {
-		final List<DashboardContentWidget> result = new ArrayList<DashboardContentWidget>();
+		final List<DashboardContentWidget> result = new ArrayList<>();
 		result.add(buildDashboardWidgetWithPrio(42, "a"));
 		result.add(buildDashboardWidgetWithPrio(42, "b"));
 		result.add(buildDashboardWidgetWithPrio(1, "a"));
@@ -27,7 +26,7 @@ public class DashboardGuiWidgetUnitTest {
 		result.add(buildDashboardWidgetWithPrio(1337, "a"));
 
 		final DashboardGuiContentWidgetComparator c = new DashboardGuiContentWidgetComparator(new DashboardGuiContentWidgetComparatorPrio(),
-				new DashboardGuiContentWidgetComparatorTitle());
+			new DashboardGuiContentWidgetComparatorTitle());
 		Collections.sort(result, c);
 		assertEquals(1337, result.get(0).getPriority());
 		assertEquals("a", result.get(0).getTitle());

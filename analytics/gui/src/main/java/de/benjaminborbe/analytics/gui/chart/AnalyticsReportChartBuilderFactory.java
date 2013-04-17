@@ -1,21 +1,19 @@
 package de.benjaminborbe.analytics.gui.chart;
 
+import com.google.inject.Inject;
+import de.benjaminborbe.html.api.JavascriptResource;
+import de.benjaminborbe.html.api.RequireJavascriptResource;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.inject.Inject;
-
-import de.benjaminborbe.html.api.JavascriptResource;
-import de.benjaminborbe.html.api.RequireJavascriptResource;
-
 public class AnalyticsReportChartBuilderFactory implements RequireJavascriptResource {
 
-	private final Map<AnalyticsReportChartType, AnalyticsReportChartBuilder> builders = new HashMap<AnalyticsReportChartType, AnalyticsReportChartBuilder>();
+	private final Map<AnalyticsReportChartType, AnalyticsReportChartBuilder> builders = new HashMap<>();
 
 	@Inject
 	public AnalyticsReportChartBuilderFactory(final AnalyticsReportChartBuilderTable table, final AnalyticsReportChartBuilderLineChart lineChart) {
@@ -33,7 +31,7 @@ public class AnalyticsReportChartBuilderFactory implements RequireJavascriptReso
 
 	@Override
 	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
-		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
+		final List<JavascriptResource> result = new ArrayList<>();
 		for (final AnalyticsReportChartBuilder builder : builders.values()) {
 			result.addAll(builder.getJavascriptResource(request, response));
 		}

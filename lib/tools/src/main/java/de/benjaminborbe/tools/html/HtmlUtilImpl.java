@@ -1,12 +1,9 @@
 package de.benjaminborbe.tools.html;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.tools.util.LineIterator;
+import de.benjaminborbe.tools.util.ParseException;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
@@ -15,11 +12,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.tools.util.LineIterator;
-import de.benjaminborbe.tools.util.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class HtmlUtilImpl implements HtmlUtil {
@@ -50,7 +48,7 @@ public class HtmlUtilImpl implements HtmlUtil {
 			return null;
 		}
 		final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, content);
-		final List<String> parts = new ArrayList<String>();
+		final List<String> parts = new ArrayList<>();
 		while (i.hasNext()) {
 			parts.add(i.next());
 		}
@@ -59,7 +57,7 @@ public class HtmlUtilImpl implements HtmlUtil {
 
 	@Override
 	public Collection<String> parseLinks(final String htmlContent) {
-		final Set<String> result = new HashSet<String>();
+		final Set<String> result = new HashSet<>();
 		if (htmlContent == null || htmlContent.length() == 0) {
 			logger.trace("no htmlcontent to parse");
 			return result;
@@ -104,8 +102,7 @@ public class HtmlUtilImpl implements HtmlUtil {
 		while (i.hasNext()) {
 			if (first) {
 				first = false;
-			}
-			else {
+			} else {
 				result.append("\n");
 			}
 

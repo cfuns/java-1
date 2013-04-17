@@ -124,7 +124,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MonitoringCheckIdentifier type = getType(checkType);
 			final Collection<String> requiredParameters = monitoringService.getRequireParameter(sessionIdentifier, type);
-			final Map<String, String> parameter = new HashMap<String, String>();
+			final Map<String, String> parameter = new HashMap<>();
 			for (final String requiredParameter : requiredParameters) {
 				final String value = stringUtil.trim(request.getParameter(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter));
 				parameter.put(requiredParameter, (value == null || value.isEmpty()) ? null : value);
@@ -186,7 +186,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 	private void createNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeParentIdentifier, final String name,
 													final String checkTypeString, final Map<String, String> parameter, final String activeString, final String silentString) throws ValidationException,
 		MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
-		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		final List<ValidationError> errors = new ArrayList<>();
 		final MonitoringCheckIdentifier checkType = new MonitoringCheckIdentifier(checkTypeString);
 		final boolean active = parseUtil.parseBoolean(activeString, false);
 		final boolean silent = parseUtil.parseBoolean(silentString, false);
@@ -216,9 +216,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			monitoringService.expectMonitoringAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
-		} catch (final MonitoringServiceException e) {
+		} catch (final AuthenticationServiceException | MonitoringServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

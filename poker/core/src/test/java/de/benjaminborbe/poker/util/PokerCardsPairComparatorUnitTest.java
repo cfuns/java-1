@@ -1,17 +1,16 @@
 package de.benjaminborbe.poker.util;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.poker.api.PokerCardColor;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import de.benjaminborbe.poker.api.PokerCardValue;
+import de.benjaminborbe.tools.util.ComparatorUtil;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Test;
-
-import de.benjaminborbe.poker.api.PokerCardColor;
-import de.benjaminborbe.poker.api.PokerCardIdentifier;
-import de.benjaminborbe.poker.api.PokerCardValue;
-import de.benjaminborbe.tools.util.ComparatorUtil;
+import static org.junit.Assert.assertEquals;
 
 public class PokerCardsPairComparatorUnitTest {
 
@@ -43,41 +42,41 @@ public class PokerCardsPairComparatorUnitTest {
 
 		assertEquals(0, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO)
-
-		));
-
-		assertEquals(1, comparator.compare(
-
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO),
-
-		buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.TWO)
-
-		));
-
-		assertEquals(-1, comparator.compare(
-
-		buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.TWO),
-
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO)
-
-		));
-
-		assertEquals(-1, comparator.compare(
-
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO),
-
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO)
 
 		));
 
 		assertEquals(1, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO)
+			buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.TWO)
+
+		));
+
+		assertEquals(-1, comparator.compare(
+
+			buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.TWO),
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO)
+
+		));
+
+		assertEquals(-1, comparator.compare(
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO),
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE)
+
+		));
+
+		assertEquals(1, comparator.compare(
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE),
+
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.TWO)
 
 		));
 
@@ -88,23 +87,23 @@ public class PokerCardsPairComparatorUnitTest {
 		final PokerCardsPairComparator comparator = getComparator();
 		assertEquals(0, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.TWO),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.TWO),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.TWO)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.TWO)
 
 		));
 		assertEquals(1, comparator.compare(
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.TWO),
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.TWO),
 
-		buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.THREE, PokerCardValue.TWO)
+			buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.THREE, PokerCardValue.TWO)
 
 		));
 		assertEquals(-1, comparator.compare(
 
-		buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.THREE, PokerCardValue.TWO),
+			buildCards(PokerCardValue.KING, PokerCardValue.KING, PokerCardValue.THREE, PokerCardValue.TWO),
 
-		buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.TWO)
+			buildCards(PokerCardValue.ACE, PokerCardValue.ACE, PokerCardValue.THREE, PokerCardValue.TWO)
 
 		));
 
@@ -121,7 +120,7 @@ public class PokerCardsPairComparatorUnitTest {
 	}
 
 	private Collection<PokerCardIdentifier> buildCards(final PokerCardValue... values) {
-		final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
+		final List<PokerCardIdentifier> result = new ArrayList<>();
 		for (final PokerCardValue value : values) {
 			result.add(new PokerCardIdentifier(PokerCardColor.CLUBS, value));
 		}

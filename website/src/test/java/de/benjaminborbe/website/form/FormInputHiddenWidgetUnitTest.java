@@ -1,18 +1,15 @@
 package de.benjaminborbe.website.form;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import de.benjaminborbe.html.api.HttpContext;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import de.benjaminborbe.html.api.HttpContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import static org.junit.Assert.assertEquals;
 
 public class FormInputHiddenWidgetUnitTest {
 
@@ -24,7 +21,7 @@ public class FormInputHiddenWidgetUnitTest {
 	}
 
 	@Test
-	public void testRenderValue() throws Exception, IOException {
+	public void testRenderValue() throws Exception {
 		final String name = "fieldName";
 		final String value = "fieldValue";
 		final FormInputHiddenWidget formInputTextareaWidget = new FormInputHiddenWidget(name);
@@ -48,7 +45,7 @@ public class FormInputHiddenWidgetUnitTest {
 	}
 
 	@Test
-	public void testRender() throws Exception, IOException {
+	public void testRender() throws Exception {
 		final String name = "fieldName";
 		final FormInputHiddenWidget formInputTextareaWidget = new FormInputHiddenWidget(name);
 

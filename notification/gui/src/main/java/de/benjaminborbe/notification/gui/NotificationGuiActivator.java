@@ -1,13 +1,6 @@
 package de.benjaminborbe.notification.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.notification.gui.guice.NotificationGuiModules;
 import de.benjaminborbe.notification.gui.service.NotificationGuiNavigationEntry;
@@ -19,6 +12,11 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class NotificationGuiActivator extends HttpBundleActivator {
 
@@ -48,7 +46,7 @@ public class NotificationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(notificationGuiListServlet, NotificationGuiConstants.URL_LIST));
 		result.add(new ServletInfo(notificationGuiSendServlet, NotificationGuiConstants.URL_SEND));
 		result.add(new ServletInfo(notificationGuiAddServlet, NotificationGuiConstants.URL_ADD));
@@ -58,7 +56,7 @@ public class NotificationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, notificationGuiNavigationEntry));
 		return result;
 	}

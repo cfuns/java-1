@@ -133,7 +133,7 @@ public class GalleryGuiGroupUpdateServlet extends GalleryGuiHtmlServlet {
 	private void updateGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name, final String sharedString)
 		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		Boolean shared;
-		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		final List<ValidationError> errors = new ArrayList<>();
 		{
 			try {
 				shared = parseUtil.parseBoolean(sharedString);

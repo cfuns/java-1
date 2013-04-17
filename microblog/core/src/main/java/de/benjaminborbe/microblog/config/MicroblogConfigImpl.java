@@ -1,14 +1,7 @@
 package de.benjaminborbe.microblog.config;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
@@ -16,6 +9,11 @@ import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.microblog.MicroblogConstants;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Singleton
 public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogConfig {
@@ -25,7 +23,7 @@ public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogC
 	private final ConfigurationDescriptionBoolean cronEnabled = new ConfigurationDescriptionBoolean(false, "MicroblogCronEnabled", "Microblog Cron Enabled");
 
 	private final ConfigurationDescriptionString microblogRssFeed = new ConfigurationDescriptionString("https://micro.rp.seibert-media.net/api/statuses/public_timeline.rss",
-			"MicroblogRssFeed", "Microblog Rss Feed");
+		"MicroblogRssFeed", "Microblog Rss Feed");
 
 	private final ConfigurationDescriptionString microblogUrl = new ConfigurationDescriptionString("https://micro.rp.seibert-media.net", "MicroblogUrl", "Microblog Url");
 
@@ -36,7 +34,7 @@ public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogC
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
+		final Set<ConfigurationDescription> result = new HashSet<>();
 		result.add(cronEnabled);
 		result.add(mailEnabled);
 		result.add(microblogRssFeed);

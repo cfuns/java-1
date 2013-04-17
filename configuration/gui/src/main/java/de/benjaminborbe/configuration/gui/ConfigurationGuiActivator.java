@@ -1,13 +1,6 @@
 package de.benjaminborbe.configuration.gui;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.configuration.gui.guice.ConfigurationGuiModules;
 import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiListServlet;
 import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiUpdateServlet;
@@ -18,6 +11,11 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ConfigurationGuiActivator extends HttpBundleActivator {
 
@@ -41,7 +39,7 @@ public class ConfigurationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
 		result.add(new ServletInfo(configurationGuiListServlet, ConfigurationGuiConstants.URL_LIST));
 		result.add(new ServletInfo(configurationGuiUpdateServlet, ConfigurationGuiConstants.URL_UPDATE));
 		return result;
@@ -49,14 +47,14 @@ public class ConfigurationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, configurationGuiNavigationEntry));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		return result;
 	}

@@ -1,16 +1,6 @@
 package de.benjaminborbe.gallery.dao;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Calendar;
-import java.util.Map;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.util.MapperGalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.util.MapperGalleryGroupIdentifier;
@@ -26,11 +16,19 @@ import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.Calendar;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 public class GalleryCollectionBeanMapperUnitTest {
 
 	private GalleryCollectionBeanMapper getGalleryCollectionBeanMapper() {
-		final Provider<GalleryCollectionBean> taskBeanProvider = new ProviderMock<GalleryCollectionBean>(GalleryCollectionBean.class);
+		final Provider<GalleryCollectionBean> taskBeanProvider = new ProviderMock<>(GalleryCollectionBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -49,7 +47,7 @@ public class GalleryCollectionBeanMapperUnitTest {
 		final MapperGalleryCollectionIdentifier mapperGalleryCollectionIdentifier = new MapperGalleryCollectionIdentifier();
 		final MapperGalleryGroupIdentifier mapperGalleryGroupIdentifier = new MapperGalleryGroupIdentifier();
 		return new GalleryCollectionBeanMapper(taskBeanProvider, mapperGalleryCollectionIdentifier, mapperGalleryGroupIdentifier, mapperString, mapperLong, mapperBoolean,
-				mapperCalendar);
+			mapperCalendar);
 	}
 
 	@Test
