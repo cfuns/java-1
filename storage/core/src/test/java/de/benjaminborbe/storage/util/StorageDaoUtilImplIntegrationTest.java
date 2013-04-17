@@ -1,11 +1,18 @@
 package de.benjaminborbe.storage.util;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import com.google.inject.Injector;
+import de.benjaminborbe.storage.api.StorageColumn;
+import de.benjaminborbe.storage.api.StorageColumnIterator;
+import de.benjaminborbe.storage.api.StorageIterator;
+import de.benjaminborbe.storage.api.StorageValue;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.guice.StorageModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.map.MapChain;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -17,21 +24,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.storage.api.StorageColumn;
-import de.benjaminborbe.storage.api.StorageColumnIterator;
-import de.benjaminborbe.storage.api.StorageIterator;
-import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.storage.config.StorageConfig;
-import de.benjaminborbe.storage.guice.StorageModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.tools.map.MapChain;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class StorageDaoUtilImplIntegrationTest {
 
@@ -49,15 +47,12 @@ public class StorageDaoUtilImplIntegrationTest {
 
 			notFound = !socket.isConnected();
 			notFound = false;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			notFound = true;
-		}
-		finally {
+		} finally {
 			try {
 				socket.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 			}
 		}
 	}
@@ -90,7 +85,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		assertEquals(0, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY));
 
 		final StorageValue id = new StorageValue("a", encoding);
-		final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+		final Map<StorageValue, StorageValue> data = new HashMap<>();
 		final StorageValue key = new StorageValue(StorageTestUtil.FIELD_NAME, encoding);
 		final StorageValue value = new StorageValue("valueA\nvalueB", encoding);
 		data.put(key, value);
@@ -124,14 +119,14 @@ public class StorageDaoUtilImplIntegrationTest {
 		final String encoding = config.getEncoding();
 
 		final List<String> testValues = Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-				"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7",
-				"8", "9");
+			"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7",
+			"8", "9");
 		int counter = 0;
 		for (final String idString : testValues) {
 			final StorageValue id = new StorageValue(idString, encoding);
 			counter++;
 
-			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+			final Map<StorageValue, StorageValue> data = new HashMap<>();
 			final StorageValue key = new StorageValue(StorageTestUtil.FIELD_NAME, encoding);
 			final StorageValue value = new StorageValue("valueA", encoding);
 			data.put(key, value);
@@ -160,7 +155,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		assertEquals(0, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY));
 		for (int id = 1; id <= max; ++id) {
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			final String key = StorageTestUtil.FIELD_NAME;
 			data.put(key + "_a", String.valueOf(id));
 			data.put(key + "_b", String.valueOf(id));
@@ -181,7 +176,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		final String encoding = config.getEncoding();
 
 		for (int i = 1; i <= 1000; ++i) {
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			final String key = StorageTestUtil.FIELD_NAME;
 			final String value = "valueA";
 			data.put(key, value);
@@ -218,7 +213,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		// Connection zur Datenbank oeffnen
 
-		final Map<String, String> data = new HashMap<String, String>();
+		final Map<String, String> data = new HashMap<>();
 		final String id = StorageTestUtil.REPLICATION_FACTOR;
 		final String key = StorageTestUtil.FIELD_NAME;
 
@@ -258,7 +253,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final int limit = 10;
 		for (int i = 1; i <= limit; ++i) {
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			final String key = StorageTestUtil.FIELD_NAME;
 			final String value = "valueA";
 			data.put(key, value);
@@ -295,7 +290,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final int limit = 10;
 		for (int i = 1; i <= limit; ++i) {
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			final String key = StorageTestUtil.FIELD_NAME;
 			final String value = "valueA";
 			data.put(key, value);
@@ -306,7 +301,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		}
 
 		for (int i = 1; i <= limit; ++i) {
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			final String key = StorageTestUtil.FIELD_NAME;
 			final String value = "valueB";
 			data.put(key, value);
@@ -317,7 +312,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		}
 
 		final StorageIterator i = daoUtil.keyIterator(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY,
-				new MapChain<StorageValue, StorageValue>().add(c(StorageTestUtil.FIELD_NAME, encoding), c("valueA", encoding)));
+			new MapChain<StorageValue, StorageValue>().add(c(StorageTestUtil.FIELD_NAME, encoding), c("valueA", encoding)));
 		assertNotNull(i);
 		int counter = 0;
 		while (i.hasNext()) {
@@ -386,7 +381,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("keyC", encoding), c("valueC", encoding));
 
 		final List<StorageValue> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding),
-				Arrays.asList(c("keyA", encoding), c("keyB", encoding), c("keyC", encoding)));
+			Arrays.asList(c("keyA", encoding), c("keyB", encoding), c("keyC", encoding)));
 		assertNotNull(data);
 		assertEquals(3, data.size());
 		assertEquals(c("valueA", encoding), data.get(0));
@@ -408,7 +403,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding), c("keyC", encoding), c("valueC", encoding));
 
 		final List<StorageValue> data = daoUtil.read(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c("12", encoding),
-				Arrays.asList(c("keyA", encoding), c("keyB", encoding), c("keyC", encoding)));
+			Arrays.asList(c("keyA", encoding), c("keyB", encoding), c("keyC", encoding)));
 		assertNotNull(data);
 		assertEquals(3, data.size());
 		assertEquals(c("valueA", encoding), data.get(0));
@@ -450,7 +445,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final int count = 1000;
 		{
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			for (int i = 1; i <= count; ++i) {
 				data.put("key" + i, "value" + i);
 			}
@@ -476,7 +471,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final int limit = 1000;
 		{
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			for (int i = 1; i <= limit; ++i) {
 				data.put("key" + i, "value" + i);
 			}
@@ -560,7 +555,7 @@ public class StorageDaoUtilImplIntegrationTest {
 	}
 
 	private Map<StorageValue, StorageValue> c(final Map<String, String> data, final String encoding) {
-		final Map<StorageValue, StorageValue> result = new HashMap<StorageValue, StorageValue>();
+		final Map<StorageValue, StorageValue> result = new HashMap<>();
 		for (final Entry<String, String> e : data.entrySet()) {
 			result.put(c(e.getKey(), encoding), c(e.getValue(), encoding));
 		}
@@ -572,7 +567,7 @@ public class StorageDaoUtilImplIntegrationTest {
 	}
 
 	private byte[] toByteArray(final int i) {
-		return new byte[] { new Integer(i).byteValue() };
+		return new byte[]{new Integer(i).byteValue()};
 	}
 
 }

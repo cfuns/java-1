@@ -1,13 +1,9 @@
 package de.benjaminborbe.storage.util;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageRow;
+import de.benjaminborbe.storage.api.StorageRowIterator;
+import de.benjaminborbe.storage.api.StorageValue;
 import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ColumnOrSuperColumn;
@@ -21,10 +17,13 @@ import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
-import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.api.StorageRow;
-import de.benjaminborbe.storage.api.StorageRowIterator;
-import de.benjaminborbe.storage.api.StorageValue;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class StorageRowIteratorImpl implements StorageRowIterator {
 
@@ -48,11 +47,11 @@ public class StorageRowIteratorImpl implements StorageRowIterator {
 	private final String keySpace;
 
 	public StorageRowIteratorImpl(
-			final StorageConnectionPool storageConnectionPool,
-			final String keySpace,
-			final String columnFamily,
-			final String encoding,
-			final List<StorageValue> columnNames) throws UnsupportedEncodingException {
+		final StorageConnectionPool storageConnectionPool,
+		final String keySpace,
+		final String columnFamily,
+		final String encoding,
+		final List<StorageValue> columnNames) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.column_parent = new ColumnParent(columnFamily);
@@ -81,35 +80,28 @@ public class StorageRowIteratorImpl implements StorageRowIterator {
 			if (cols == null) {
 				cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
 				currentPos = 0;
-			}
-			else if (currentPos == cols.size()) {
+			} else if (currentPos == cols.size()) {
 				cols = client.get_range_slices(column_parent, predicate, range, ConsistencyLevel.ONE);
 				currentPos = 1;
 			}
 			return currentPos < cols.size();
-		}
-		catch (final InvalidRequestException e) {
+		} catch (final InvalidRequestException e) {
 			throw new StorageException(e);
-		}
-		catch (final UnavailableException e) {
+		} catch (final UnavailableException e) {
 			throw new StorageException(e);
-		}
-		catch (final TimedOutException e) {
+		} catch (final TimedOutException e) {
 			throw new StorageException(e);
-		}
-		catch (final TException e) {
+		} catch (final TException e) {
 			throw new StorageException(e);
-		}
-		catch (final StorageConnectionPoolException e) {
+		} catch (final StorageConnectionPoolException e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			storageConnectionPool.releaseConnection(connection);
 		}
 	}
 
 	private List<ByteBuffer> buildColumnNames(final List<StorageValue> columnNames) throws UnsupportedEncodingException {
-		final List<ByteBuffer> result = new ArrayList<ByteBuffer>();
+		final List<ByteBuffer> result = new ArrayList<>();
 		for (final StorageValue columnName : columnNames) {
 			result.add(ByteBuffer.wrap(columnName.getByte()));
 		}
@@ -122,19 +114,17 @@ public class StorageRowIteratorImpl implements StorageRowIterator {
 			if (hasNext()) {
 				final KeySlice keySlice = cols.get(currentPos);
 				range.setStart_key(keySlice.getKey());
-				final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+				final Map<StorageValue, StorageValue> data = new HashMap<>();
 				for (final ColumnOrSuperColumn c : keySlice.getColumns()) {
 					final Column column = c.getColumn();
 					data.put(new StorageValue(column.getName(), encoding), new StorageValue(column.getValue(), encoding));
 				}
 				currentPos++;
 				return new StorageRowImpl(new StorageValue(keySlice.getKey(), encoding), data);
-			}
-			else {
+			} else {
 				throw new NoSuchElementException();
 			}
-		}
-		finally {
+		} finally {
 		}
 	}
 }

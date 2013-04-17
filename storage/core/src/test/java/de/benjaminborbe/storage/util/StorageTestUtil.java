@@ -1,21 +1,19 @@
 package de.benjaminborbe.storage.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.inject.Injector;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.guice.StorageModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.ColumnDef;
 import org.apache.cassandra.thrift.IndexType;
 import org.apache.cassandra.thrift.KsDef;
 import org.slf4j.Logger;
 
-import com.google.inject.Injector;
-
-import de.benjaminborbe.storage.config.StorageConfig;
-import de.benjaminborbe.storage.guice.StorageModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StorageTestUtil {
 
@@ -35,19 +33,20 @@ public class StorageTestUtil {
 		final StorageConnectionPool connectionPool = injector.getInstance(StorageConnectionPool.class);
 		final StorageConfig config = injector.getInstance(StorageConfig.class);
 		StorageConnection connection = null;
+		final String keySpace = config.getKeySpace();
 		try {
 			connection = connectionPool.getConnection();
 
 			try {
-				logger.debug("drop keyspace");
-				connection.getClient().system_drop_keyspace(config.getKeySpace());
-			}
-			catch (final Exception e1) {
+				logger.debug("drop keyspace: " + keySpace);
+				connection.getClient().system_drop_keyspace(keySpace);
+			} catch (final Exception e) {
+				// nop
 			}
 
 			// Definition ders KeySpaces
 			// Create CF
-			final CfDef input = new CfDef(config.getKeySpace(), COLUMNFAMILY);
+			final CfDef input = new CfDef(keySpace, COLUMNFAMILY);
 			input.setComparator_type(TYPE);
 			input.setDefault_validation_class(TYPE);
 			input.setKey_validation_class(TYPE);
@@ -62,36 +61,32 @@ public class StorageTestUtil {
 			}
 
 			// Erstellt einen neuen KeySpace
-			final List<CfDef> cfDefList = new ArrayList<CfDef>();
+			final List<CfDef> cfDefList = new ArrayList<>();
 			cfDefList.add(input);
 			// NetworkTopologyStrategy.class.getName()
-			final KsDef ksdef = new KsDef(config.getKeySpace(), "org.apache.cassandra.locator.NetworkTopologyStrategy", cfDefList);
-			final Map<String, String> strategy_options = new HashMap<String, String>();
+			final KsDef ksdef = new KsDef(keySpace, "org.apache.cassandra.locator.NetworkTopologyStrategy", cfDefList);
+			final Map<String, String> strategy_options = new HashMap<>();
 			// strategy_options.put("replication_factor", REPLICATION_FACTOR);
 			strategy_options.put("datacenter1", "1");
 			ksdef.setStrategy_options(strategy_options);
 			ksdef.setDurable_writes(true);
 			connection.getClient().system_add_keyspace(ksdef);
 
-			final int magnitude = connection.getClient().describe_ring(config.getKeySpace()).size();
+			final int magnitude = connection.getClient().describe_ring(keySpace).size();
 			try {
 				Thread.sleep(1000 * magnitude);
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 				throw new RuntimeException(e);
 			}
 
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.debug(e.getClass().getName(), e);
 			try {
 				logger.debug("drop keyspace");
-				connection.getClient().system_drop_keyspace(config.getKeySpace());
+				connection.getClient().system_drop_keyspace(keySpace);
+			} catch (final Exception e1) {
 			}
-			catch (final Exception e1) {
-			}
-		}
-		finally {
+		} finally {
 			connectionPool.close();
 		}
 	}
@@ -107,11 +102,8 @@ public class StorageTestUtil {
 			connection = connectionPool.getConnection();
 			logger.debug("drop keyspace");
 			connection.getClient().system_drop_keyspace(config.getKeySpace());
-		}
-		catch (final Exception e) {
-		}
-
-		finally {
+		} catch (final Exception e) {
+		} finally {
 			connectionPool.close();
 		}
 	}

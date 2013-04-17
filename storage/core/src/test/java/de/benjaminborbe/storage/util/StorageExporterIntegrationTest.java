@@ -1,8 +1,18 @@
 package de.benjaminborbe.storage.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import com.google.inject.Injector;
+import de.benjaminborbe.storage.api.StorageValue;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.guice.StorageModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONParser;
+import de.benjaminborbe.tools.json.JSONParserSimple;
+import de.benjaminborbe.tools.util.IdGeneratorUUID;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -13,21 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.storage.config.StorageConfig;
-import de.benjaminborbe.storage.guice.StorageModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.tools.json.JSONObject;
-import de.benjaminborbe.tools.json.JSONParser;
-import de.benjaminborbe.tools.json.JSONParserSimple;
-import de.benjaminborbe.tools.util.IdGeneratorUUID;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class StorageExporterIntegrationTest {
 
@@ -45,15 +43,12 @@ public class StorageExporterIntegrationTest {
 
 			notFound = !socket.isConnected();
 			notFound = false;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			notFound = true;
-		}
-		finally {
+		} finally {
 			try {
 				socket.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 			}
 		}
 	}
@@ -89,26 +84,26 @@ public class StorageExporterIntegrationTest {
 
 		{
 			final String id = idGeneratorUUID.nextId();
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			data.put("a", "a");
 			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 		{
 			final String id = idGeneratorUUID.nextId();
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			data.put("a", "b");
 			data.put("b", "b");
 			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 		{
 			final String id = idGeneratorUUID.nextId();
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			data.put("c", "c");
 			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 		{
 			final String id = idGeneratorUUID.nextId();
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			data.put("c", "'");
 			data.put("d", "\"");
 			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
@@ -125,7 +120,7 @@ public class StorageExporterIntegrationTest {
 	}
 
 	private Map<StorageValue, StorageValue> c(final Map<String, String> data, final String encoding) {
-		final Map<StorageValue, StorageValue> result = new HashMap<StorageValue, StorageValue>();
+		final Map<StorageValue, StorageValue> result = new HashMap<>();
 		for (final Entry<String, String> e : data.entrySet()) {
 			result.put(c(e.getKey(), encoding), c(e.getValue(), encoding));
 		}

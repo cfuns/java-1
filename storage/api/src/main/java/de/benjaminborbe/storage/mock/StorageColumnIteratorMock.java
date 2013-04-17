@@ -1,5 +1,11 @@
 package de.benjaminborbe.storage.mock;
 
+import de.benjaminborbe.storage.api.StorageColumn;
+import de.benjaminborbe.storage.api.StorageColumnIterator;
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageValue;
+import de.benjaminborbe.tools.util.ComparatorBase;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,12 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import de.benjaminborbe.storage.api.StorageColumn;
-import de.benjaminborbe.storage.api.StorageColumnIterator;
-import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.tools.util.ComparatorBase;
-
 public class StorageColumnIteratorMock implements StorageColumnIterator {
 
 	private final class StorageColumnComparator extends ComparatorBase<StorageColumn, String> implements Comparator<StorageColumn> {
@@ -23,8 +23,7 @@ public class StorageColumnIteratorMock implements StorageColumnIterator {
 		public String getValue(final StorageColumn o) {
 			try {
 				return o.getColumnName() != null ? o.getColumnName().getString() : null;
-			}
-			catch (final UnsupportedEncodingException e) {
+			} catch (final UnsupportedEncodingException e) {
 				return null;
 			}
 		}
@@ -56,7 +55,7 @@ public class StorageColumnIteratorMock implements StorageColumnIterator {
 	private final Iterator<StorageColumn> i;
 
 	public StorageColumnIteratorMock(final Map<StorageValue, StorageValue> data) {
-		final List<StorageColumn> columns = new ArrayList<StorageColumn>();
+		final List<StorageColumn> columns = new ArrayList<>();
 		if (data != null) {
 			for (final Entry<StorageValue, StorageValue> e : data.entrySet()) {
 				columns.add(new StorageColumnImpl(e.getKey(), e.getValue()));

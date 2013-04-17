@@ -1,9 +1,8 @@
 package de.benjaminborbe.storage.util;
 
-import java.net.SocketException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import de.benjaminborbe.storage.config.StorageConfig;
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -13,10 +12,8 @@ import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.storage.config.StorageConfig;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @Singleton
 public class StorageConnectionPoolImpl implements StorageConnectionPool {
@@ -39,8 +36,8 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 		this.storageConfig = storageConfig;
 		this.maxConnections = storageConfig.getMaxConnections();
 		this.aliveCheck = storageConfig.getAliveCheck();
-		this.freeConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
-		this.allConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
+		this.freeConnections = new LinkedBlockingQueue<>(maxConnections);
+		this.allConnections = new LinkedBlockingQueue<>(maxConnections);
 	}
 
 	@Override
@@ -50,28 +47,20 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 				final StorageConnection connection = freeConnections.take();
 				if (!aliveCheck || isAlive(connection)) {
 					return connection;
-				}
-				else {
+				} else {
 					closeConnection(connection);
 					return getConnection();
 				}
-			}
-			else if (allConnections.size() == maxConnections) {
+			} else if (allConnections.size() == maxConnections) {
 				throw new StorageConnectionPoolException("max connections reached");
-			}
-			else {
+			} else {
 				final StorageConnection c = createNewConnection();
 				allConnections.offer(c);
 				return c;
 			}
-		}
-		catch (final TTransportException e) {
+		} catch (final TTransportException e) {
 			throw new StorageConnectionPoolException(e);
-		}
-		catch (final SocketException e) {
-			throw new StorageConnectionPoolException(e);
-		}
-		catch (final InterruptedException e) {
+		} catch (final InterruptedException e) {
 			throw new StorageConnectionPoolException(e);
 		}
 	}
@@ -84,8 +73,7 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 			final String keyspace = connection.getKeyspace();
 			connection.getClient().set_keyspace(keyspace != null ? keyspace : "system");
 			return true;
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}
@@ -98,8 +86,7 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 	public void releaseConnection(final StorageConnection connection) {
 		if (connection == null) {
 			logger.info("can't release connection null");
-		}
-		else {
+		} else {
 			freeConnections.offer(connection);
 		}
 	}
@@ -110,15 +97,14 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 			try {
 				final StorageConnection connection = allConnections.take();
 				connection.getTr().close();
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 			}
 		}
 		allConnections.clear();
 		freeConnections.clear();
 	}
 
-	private StorageConnection createNewConnection() throws TTransportException, SocketException {
+	private StorageConnection createNewConnection() throws TTransportException {
 		logger.debug("createNewConnection to " + storageConfig.getHost() + ":" + storageConfig.getPort());
 		final TSocket socket = new TSocket(storageConfig.getHost(), storageConfig.getPort());
 		final TFramedTransport tr = new TFramedTransport(socket);

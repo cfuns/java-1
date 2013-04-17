@@ -1,18 +1,7 @@
 package de.benjaminborbe.storage.service;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.cassandra.thrift.NotFoundException;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
@@ -26,6 +15,15 @@ import de.benjaminborbe.storage.util.StorageExporter;
 import de.benjaminborbe.storage.util.StorageImporter;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
+import org.apache.cassandra.thrift.NotFoundException;
+import org.slf4j.Logger;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class StorageServiceImpl implements StorageService {
@@ -48,13 +46,13 @@ public class StorageServiceImpl implements StorageService {
 
 	@Inject
 	public StorageServiceImpl(
-			final Logger logger,
-			final StorageConfig config,
-			final StorageDaoUtil storageDaoUtil,
-			final StorageConnectionPool storageConnectionPool,
-			final StorageExporter storageExporter,
-			final StorageImporter storageImporter,
-			final DurationUtil durationUtil) {
+		final Logger logger,
+		final StorageConfig config,
+		final StorageDaoUtil storageDaoUtil,
+		final StorageConnectionPool storageConnectionPool,
+		final StorageExporter storageExporter,
+		final StorageImporter storageImporter,
+		final DurationUtil durationUtil) {
 		this.logger = logger;
 		this.config = config;
 		this.storageDaoUtil = storageDaoUtil;
@@ -69,14 +67,11 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id, key);
-		}
-		catch (final NotFoundException e) {
+		} catch (final NotFoundException e) {
 			return null;
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -87,15 +82,12 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id);
-		}
-		catch (final NotFoundException e) {
+		} catch (final NotFoundException e) {
 			return null;
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.trace("Exception", e);
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -106,8 +98,7 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			delete(columnFamily, id, Arrays.asList(key));
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -117,11 +108,10 @@ public class StorageServiceImpl implements StorageService {
 	public void set(final String columnFamily, final StorageValue id, final StorageValue key, final StorageValue value) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+			final Map<StorageValue, StorageValue> data = new HashMap<>();
 			data.put(key, value);
 			set(columnFamily, id, data);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -132,12 +122,10 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			storageDaoUtil.insert(config.getKeySpace(), columnFamily, id, data);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.trace(e.getClass().getSimpleName(), e);
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -148,11 +136,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 
@@ -164,11 +150,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.keyIterator(config.getKeySpace(), columnFamily, where);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -179,11 +163,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			storageDaoUtil.delete(config.getKeySpace(), columnFamily, id, keys);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -194,11 +176,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			storageDaoUtil.delete(config.getKeySpace(), columnFamily, id);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 
@@ -210,14 +190,11 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, id, keys);
-		}
-		catch (final NotFoundException e) {
+		} catch (final NotFoundException e) {
 			return null;
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -228,8 +205,7 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageConnectionPool.getFreeConnections();
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -240,8 +216,7 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageConnectionPool.getConnections();
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -252,8 +227,7 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageConnectionPool.getMaxConnections();
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -264,11 +238,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.rowIterator(config.getKeySpace(), columnFamily, columnNames);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -279,11 +251,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.rowIterator(config.getKeySpace(), columnFamily, columnNames, where);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -295,11 +265,9 @@ public class StorageServiceImpl implements StorageService {
 		try {
 			final File targetDirectory = new File(config.getBackpuDirectory());
 			storageExporter.export(targetDirectory, config.getKeySpace(), columnFamily);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -311,11 +279,9 @@ public class StorageServiceImpl implements StorageService {
 		try {
 			final File targetDirectory = new File(config.getBackpuDirectory());
 			storageExporter.export(targetDirectory, config.getKeySpace());
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -328,11 +294,9 @@ public class StorageServiceImpl implements StorageService {
 			logger.info("restore - columnfamily: " + columnfamily + " jsonContent: " + jsonContent);
 
 			storageImporter.importJson(config.getKeySpace(), columnfamily, jsonContent);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -343,11 +307,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.count(config.getKeySpace(), columnFamily);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -358,11 +320,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.count(config.getKeySpace(), columnFamily, columnName);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -373,11 +333,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.count(config.getKeySpace(), columnFamily, columnName, columnValue);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -388,11 +346,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.columnIterator(config.getKeySpace(), columnFamily, key);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -408,11 +364,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, keys, columnNames);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -423,11 +377,9 @@ public class StorageServiceImpl implements StorageService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.columnIteratorReversed(config.getKeySpace(), columnFamily, storageValue);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new StorageException(e);
-		}
-		finally {
+		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
@@ -438,8 +390,7 @@ public class StorageServiceImpl implements StorageService {
 		try {
 			storageDaoUtil.count(config.getKeySpace(), "user");
 			return true;
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}

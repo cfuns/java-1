@@ -1,9 +1,11 @@
 package de.benjaminborbe.storage.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import com.google.inject.Injector;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.guice.StorageModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -12,14 +14,10 @@ import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.storage.config.StorageConfig;
-import de.benjaminborbe.storage.guice.StorageModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class StorageConnectionPoolImplIntegrationTest {
 
@@ -37,15 +35,12 @@ public class StorageConnectionPoolImplIntegrationTest {
 
 			notFound = !socket.isConnected();
 			notFound = false;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			notFound = true;
-		}
-		finally {
+		} finally {
 			try {
 				socket.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 			}
 		}
 	}
@@ -73,8 +68,7 @@ public class StorageConnectionPoolImplIntegrationTest {
 			assertNotNull(connection.getClient());
 			assertNotNull(connection.getTr());
 			assertTrue(connection.getTr().isOpen());
-		}
-		finally {
+		} finally {
 			connectionPool.close();
 			assertFalse(connection.getTr().isOpen());
 		}
@@ -86,7 +80,7 @@ public class StorageConnectionPoolImplIntegrationTest {
 			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageConnectionPool connectionPool = injector.getInstance(StorageConnectionPool.class);
-		final List<StorageConnection> connections = new ArrayList<StorageConnection>();
+		final List<StorageConnection> connections = new ArrayList<>();
 		try {
 			assertEquals(0, connectionPool.getConnections());
 			assertEquals(0, connectionPool.getFreeConnections());
@@ -134,8 +128,7 @@ public class StorageConnectionPoolImplIntegrationTest {
 			}
 
 			assertEquals(10, connections.size());
-		}
-		finally {
+		} finally {
 			connectionPool.close();
 			assertEquals(0, connectionPool.getConnections());
 			assertEquals(0, connectionPool.getFreeConnections());

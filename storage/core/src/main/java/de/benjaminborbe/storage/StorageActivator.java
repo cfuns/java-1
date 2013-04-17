@@ -1,19 +1,17 @@
 package de.benjaminborbe.storage;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.osgi.framework.BundleContext;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.guice.StorageModules;
 import de.benjaminborbe.storage.util.StorageConnectionPool;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import org.osgi.framework.BundleContext;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class StorageActivator extends HttpBundleActivator {
 
@@ -33,7 +31,7 @@ public class StorageActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(StorageService.class, persistentStorageService));
 		// for (final ConfigurationDescription configuration :
 		// storageConfig.getConfigurations()) {

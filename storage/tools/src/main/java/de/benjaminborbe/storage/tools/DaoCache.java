@@ -1,5 +1,14 @@
 package de.benjaminborbe.storage.tools;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+import de.benjaminborbe.api.Identifier;
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageValue;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -8,17 +17,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
-
-import de.benjaminborbe.api.Identifier;
-import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.storage.api.StorageValue;
 
 @Singleton
 public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>> implements Dao<E, I> {
@@ -44,7 +42,7 @@ public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>
 
 	protected final Logger logger;
 
-	private final Map<I, E> data = new HashMap<I, E>();
+	private final Map<I, E> data = new HashMap<>();
 
 	private final Provider<E> provider;
 
@@ -95,7 +93,7 @@ public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>
 
 	@Override
 	public EntityIterator<E> getEntityIterator() throws StorageException {
-		return new EntityIteratorImpl<E>(data.values().iterator());
+		return new EntityIteratorImpl<>(data.values().iterator());
 	}
 
 	@Override
@@ -120,8 +118,7 @@ public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>
 			for (final StorageValue fieldName : fieldNames) {
 				copyFieldValue(load, entity, fieldName.getString());
 			}
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -130,12 +127,9 @@ public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>
 		try {
 			final Object value = PropertyUtils.getProperty(from, fieldname);
 			PropertyUtils.setProperty(to, fieldname, value);
-		}
-		catch (final IllegalAccessException e) {
-		}
-		catch (final InvocationTargetException e) {
-		}
-		catch (final NoSuchMethodException e) {
+		} catch (final IllegalAccessException e) {
+		} catch (final InvocationTargetException e) {
+		} catch (final NoSuchMethodException e) {
 		}
 	}
 
@@ -151,7 +145,7 @@ public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>
 
 	@Override
 	public Collection<E> load(final Collection<I> ids) throws StorageException {
-		final Set<E> result = new HashSet<E>();
+		final Set<E> result = new HashSet<>();
 		for (final I id : ids) {
 			result.add(load(id));
 		}

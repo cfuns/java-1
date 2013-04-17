@@ -1,25 +1,8 @@
 package de.benjaminborbe.storage.gui.servlet;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -45,6 +28,20 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class StorageRestoreServlet extends StorageHtmlServlet {
@@ -59,17 +56,17 @@ public class StorageRestoreServlet extends StorageHtmlServlet {
 
 	@Inject
 	public StorageRestoreServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final StorageService storageService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final StorageService storageService,
+		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.storageService = storageService;
@@ -77,13 +74,13 @@ public class StorageRestoreServlet extends StorageHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final Map<String, FileItem> files = new HashMap<String, FileItem>();
-			final Map<String, String> parameter = new HashMap<String, String>();
+			final Map<String, FileItem> files = new HashMap<>();
+			final Map<String, String> parameter = new HashMap<>();
 			final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			if (isMultipart) {
 				logger.info("isMultipart");
@@ -102,8 +99,7 @@ public class StorageRestoreServlet extends StorageHtmlServlet {
 						if (!item.isFormField()) {
 							logger.info("found image: '" + itemName + "'");
 							files.put(itemName, item);
-						}
-						else {
+						} else {
 							logger.info("parameter " + itemName + " = " + item.getString());
 							parameter.put(itemName, item.getString());
 						}
@@ -115,12 +111,10 @@ public class StorageRestoreServlet extends StorageHtmlServlet {
 						final byte[] content = item.get();
 						storageService.restore(columnfamily, new String(content, "UTF-8"));
 						widgets.add("json uploaded!");
-					}
-					else {
+					} else {
 						logger.info("parameter missing");
 					}
-				}
-				catch (final FileUploadException e) {
+				} catch (final FileUploadException e) {
 					logger.debug(e.getClass().getName(), e);
 					widgets.add(new ExceptionWidget(e));
 				}
@@ -133,8 +127,7 @@ public class StorageRestoreServlet extends StorageHtmlServlet {
 			widgets.add(form);
 
 			return widgets;
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			return new ExceptionWidget(e);
 		}
 	}

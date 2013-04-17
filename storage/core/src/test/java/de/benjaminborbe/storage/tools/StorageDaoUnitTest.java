@@ -1,19 +1,7 @@
 package de.benjaminborbe.storage.tools;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.util.Collections;
-import java.util.List;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
@@ -21,6 +9,16 @@ import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapper;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class StorageDaoUnitTest {
 
@@ -41,7 +39,7 @@ public class StorageDaoUnitTest {
 		EasyMock.replay(logger);
 
 		final StorageService storageService = new StorageServiceMock(logger);
-		final Provider<TestBean> beanProvider = new ProviderMock<TestBean>(TestBean.class);
+		final Provider<TestBean> beanProvider = new ProviderMock<>(TestBean.class);
 		final MapObjectMapper<TestBean> mapper = new TestBeanMapper(beanProvider);
 		final IdentifierBuilder<String, TestIdentifier> builder = new TestIdentifierBuilder();
 		final CalendarUtil calendarUtil = EasyMock.createMock(CalendarUtil.class);
@@ -98,12 +96,12 @@ public class StorageDaoUnitTest {
 
 		@Inject
 		public StorageTestDao(
-				final Logger logger,
-				final StorageService storageService,
-				final Provider<TestBean> beanProvider,
-				final MapObjectMapper<TestBean> mapper,
-				final IdentifierBuilder<String, TestIdentifier> identifierBuilder,
-				final CalendarUtil calendarUtil) {
+			final Logger logger,
+			final StorageService storageService,
+			final Provider<TestBean> beanProvider,
+			final MapObjectMapper<TestBean> mapper,
+			final IdentifierBuilder<String, TestIdentifier> identifierBuilder,
+			final CalendarUtil calendarUtil) {
 			super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		}
 

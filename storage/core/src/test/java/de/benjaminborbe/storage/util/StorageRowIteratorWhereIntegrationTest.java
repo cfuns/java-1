@@ -1,8 +1,15 @@
 package de.benjaminborbe.storage.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import com.google.inject.Injector;
+import de.benjaminborbe.storage.api.StorageRow;
+import de.benjaminborbe.storage.api.StorageValue;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.guice.StorageModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -13,18 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.storage.api.StorageRow;
-import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.storage.config.StorageConfig;
-import de.benjaminborbe.storage.guice.StorageModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class StorageRowIteratorWhereIntegrationTest {
 
@@ -42,15 +40,12 @@ public class StorageRowIteratorWhereIntegrationTest {
 
 			notFound = !socket.isConnected();
 			notFound = false;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			notFound = true;
-		}
-		finally {
+		} finally {
 			try {
 				socket.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 			}
 		}
 	}
@@ -81,7 +76,7 @@ public class StorageRowIteratorWhereIntegrationTest {
 
 		final String encoding = config.getEncoding();
 		final StorageValue id = new StorageValue("a", encoding);
-		final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+		final Map<StorageValue, StorageValue> data = new HashMap<>();
 		final StorageValue key = new StorageValue(StorageTestUtil.FIELD_NAME, encoding);
 		final StorageValue value = new StorageValue("value", encoding);
 		data.put(key, value);
@@ -89,7 +84,7 @@ public class StorageRowIteratorWhereIntegrationTest {
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
 
 		final List<StorageValue> columnNames = Arrays.asList(new StorageValue(StorageTestUtil.FIELD_NAME, encoding));
-		final Map<StorageValue, StorageValue> where = new HashMap<StorageValue, StorageValue>();
+		final Map<StorageValue, StorageValue> where = new HashMap<>();
 		where.put(key, value);
 
 		final StorageRowIteratorWhere i = new StorageRowIteratorWhere(storageConnectionPool, config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, encoding, columnNames, where);

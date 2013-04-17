@@ -1,13 +1,6 @@
 package de.benjaminborbe.storage.tools;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
 import com.google.inject.Inject;
-
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
@@ -15,6 +8,11 @@ import de.benjaminborbe.storage.api.StorageRow;
 import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B extends Identifier<?>> implements ManyToManyRelation<A, B> {
 
@@ -54,7 +52,7 @@ public abstract class ManyToManyRelationStorage<A extends Identifier<?>, B exten
 	private final StorageService storageService;
 
 	@Inject
-	public ManyToManyRelationStorage(final Logger logger, final StorageService storageService) throws StorageException {
+	public ManyToManyRelationStorage(final Logger logger, final StorageService storageService) {
 		this.logger = logger;
 		this.storageService = storageService;
 	}

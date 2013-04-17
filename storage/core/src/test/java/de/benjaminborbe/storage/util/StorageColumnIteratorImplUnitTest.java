@@ -1,15 +1,6 @@
 package de.benjaminborbe.storage.util;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
-
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-
+import de.benjaminborbe.storage.api.StorageValue;
 import org.apache.cassandra.thrift.Cassandra.Client;
 import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ColumnOrSuperColumn;
@@ -19,7 +10,15 @@ import org.apache.cassandra.thrift.SlicePredicate;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import de.benjaminborbe.storage.api.StorageValue;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
 
 public class StorageColumnIteratorImplUnitTest {
 
@@ -34,7 +33,7 @@ public class StorageColumnIteratorImplUnitTest {
 	private static final boolean reversed = false;
 
 	private List<ColumnOrSuperColumn> buildColumn(final int size) throws UnsupportedEncodingException {
-		final List<ColumnOrSuperColumn> result = new ArrayList<ColumnOrSuperColumn>();
+		final List<ColumnOrSuperColumn> result = new ArrayList<>();
 		for (int i = 0; i < size; ++i) {
 			final byte[] name = ("columnName" + i).getBytes(encoding);
 			final byte[] value = ("columnValue" + i).getBytes(encoding);
@@ -57,8 +56,8 @@ public class StorageColumnIteratorImplUnitTest {
 	public void testIteratorEmpty() throws Exception {
 		final Client client = EasyMock.createMock(Client.class);
 		EasyMock.expect(
-				client.get_slice(EasyMock.anyObject(ByteBuffer.class), EasyMock.anyObject(ColumnParent.class), EasyMock.anyObject(SlicePredicate.class),
-						EasyMock.anyObject(ConsistencyLevel.class))).andReturn(buildColumn(0));
+			client.get_slice(EasyMock.anyObject(ByteBuffer.class), EasyMock.anyObject(ColumnParent.class), EasyMock.anyObject(SlicePredicate.class),
+				EasyMock.anyObject(ConsistencyLevel.class))).andReturn(buildColumn(0));
 		EasyMock.replay(client);
 
 		final StorageConnection connection = EasyMock.createMock(StorageConnection.class);
@@ -79,11 +78,11 @@ public class StorageColumnIteratorImplUnitTest {
 	public void testIteratorOne() throws Exception {
 		final Client client = EasyMock.createMock(Client.class);
 		EasyMock.expect(
-				client.get_slice(EasyMock.anyObject(ByteBuffer.class), EasyMock.anyObject(ColumnParent.class), EasyMock.anyObject(SlicePredicate.class),
-						EasyMock.anyObject(ConsistencyLevel.class))).andReturn(buildColumn(1));
+			client.get_slice(EasyMock.anyObject(ByteBuffer.class), EasyMock.anyObject(ColumnParent.class), EasyMock.anyObject(SlicePredicate.class),
+				EasyMock.anyObject(ConsistencyLevel.class))).andReturn(buildColumn(1));
 		EasyMock.expect(
-				client.get_slice(EasyMock.anyObject(ByteBuffer.class), EasyMock.anyObject(ColumnParent.class), EasyMock.anyObject(SlicePredicate.class),
-						EasyMock.anyObject(ConsistencyLevel.class))).andReturn(buildColumn(0));
+			client.get_slice(EasyMock.anyObject(ByteBuffer.class), EasyMock.anyObject(ColumnParent.class), EasyMock.anyObject(SlicePredicate.class),
+				EasyMock.anyObject(ConsistencyLevel.class))).andReturn(buildColumn(0));
 		EasyMock.replay(client);
 
 		final StorageConnection connection = EasyMock.createMock(StorageConnection.class);
@@ -110,11 +109,11 @@ public class StorageColumnIteratorImplUnitTest {
 	public void testIteratorTwo() throws Exception {
 		final Client client = EasyMock.createMock(Client.class);
 		EasyMock.expect(
-				client.get_slice(EasyMock.anyObject(ByteBuffer.class), EasyMock.anyObject(ColumnParent.class), EasyMock.anyObject(SlicePredicate.class),
-						EasyMock.anyObject(ConsistencyLevel.class))).andReturn(buildColumn(2));
+			client.get_slice(EasyMock.anyObject(ByteBuffer.class), EasyMock.anyObject(ColumnParent.class), EasyMock.anyObject(SlicePredicate.class),
+				EasyMock.anyObject(ConsistencyLevel.class))).andReturn(buildColumn(2));
 		EasyMock.expect(
-				client.get_slice(EasyMock.anyObject(ByteBuffer.class), EasyMock.anyObject(ColumnParent.class), EasyMock.anyObject(SlicePredicate.class),
-						EasyMock.anyObject(ConsistencyLevel.class))).andReturn(buildColumn(0));
+			client.get_slice(EasyMock.anyObject(ByteBuffer.class), EasyMock.anyObject(ColumnParent.class), EasyMock.anyObject(SlicePredicate.class),
+				EasyMock.anyObject(ConsistencyLevel.class))).andReturn(buildColumn(0));
 		EasyMock.replay(client);
 
 		final StorageConnection connection = EasyMock.createMock(StorageConnection.class);

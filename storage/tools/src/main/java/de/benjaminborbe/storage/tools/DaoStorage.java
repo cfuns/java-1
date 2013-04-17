@@ -109,9 +109,11 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	public void onPostDelete(final I id) throws StorageException {
+		logger.trace("onPostDelete - id: " + id);
 	}
 
 	public void onPreDelete(final I id) throws StorageException {
+		logger.trace("onPreDelete - id: " + id);
 	}
 
 	@Override
@@ -145,7 +147,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	protected List<StorageValue> getFieldNames(final E entity) throws MapException {
-		final List<StorageValue> result = new ArrayList<StorageValue>();
+		final List<StorageValue> result = new ArrayList<>();
 		for (final String f : mapper.map(entity).keySet()) {
 			result.add(new StorageValue(f, getEncoding()));
 		}
@@ -172,13 +174,13 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public void load(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
-		final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), new ArrayList<StorageValue>(fieldNames));
+		final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), new ArrayList<>(fieldNames));
 		load(entity, fieldNames, values);
 	}
 
 	private void load(final E entity, final Collection<StorageValue> fieldNames, final List<StorageValue> values) throws StorageException {
 		try {
-			final Map<String, String> data = new HashMap<String, String>();
+			final Map<String, String> data = new HashMap<>();
 			final Iterator<StorageValue> fi = fieldNames.iterator();
 			final Iterator<StorageValue> vi = values.iterator();
 			while (fi.hasNext() && vi.hasNext()) {
@@ -202,7 +204,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			}
 			final E entity = create();
 			final List<StorageValue> fieldNames = getFieldNames(entity);
-			final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(id.getId(), getEncoding()), new ArrayList<StorageValue>(fieldNames));
+			final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(id.getId(), getEncoding()), new ArrayList<>(fieldNames));
 			load(entity, fieldNames, values);
 			if (entity.getId() != null && entity.getId().getId() != null) {
 				return entity;
@@ -219,7 +221,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		logger.trace("load - id: " + id);
 		final E entity = create();
 		final Collection<StorageValue> columnNames = row.getColumnNames();
-		final Map<String, String> data = new HashMap<String, String>();
+		final Map<String, String> data = new HashMap<>();
 		for (final StorageValue columnName : columnNames) {
 			final StorageValue columnValue = row.getValue(columnName);
 			data.put(columnName != null ? columnName.getString() : null, columnValue != null ? columnValue.getString() : null);
@@ -252,13 +254,13 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 			}
 
-			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
+			final Map<StorageValue, StorageValue> data = new HashMap<>();
 			if (fieldNames == null) {
 				for (final Entry<String, String> e : mapper.map(entity).entrySet()) {
 					data.put(new StorageValue(e.getKey(), getEncoding()), new StorageValue(e.getValue(), getEncoding()));
 				}
 			} else {
-				final List<String> fields = new ArrayList<String>();
+				final List<String> fields = new ArrayList<>();
 				for (final StorageValue fieldName : fieldNames) {
 					fields.add(fieldName.getString());
 				}
@@ -288,13 +290,13 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	@Override
 	public Collection<E> load(final Collection<I> ids) throws StorageException {
 		try {
-			final Set<StorageValue> keys = new HashSet<StorageValue>();
+			final Set<StorageValue> keys = new HashSet<>();
 			for (final I id : ids) {
 				keys.add(new StorageValue(id.getId(), getEncoding()));
 			}
 			final List<StorageValue> columnNames = getFieldNames(create());
 			final Collection<List<StorageValue>> data = storageService.get(getColumnFamily(), keys, columnNames);
-			final Set<E> result = new HashSet<E>();
+			final Set<E> result = new HashSet<>();
 			for (final List<StorageValue> columnValues : data) {
 				final E entity = create();
 				load(entity, columnNames, columnValues);
