@@ -5,14 +5,18 @@ import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Singleton
 public class ConfigurationServiceMock implements ConfigurationService {
 
 	private final Map<ConfigurationIdentifier, String> data = new HashMap<>();
 
+	@Inject
 	public ConfigurationServiceMock() {
 	}
 

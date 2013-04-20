@@ -12,8 +12,13 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class AuthorizationServiceMock implements AuthorizationService {
 
+	@Inject
 	public AuthorizationServiceMock() {
 	}
 
