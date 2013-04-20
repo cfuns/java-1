@@ -1,7 +1,7 @@
 package de.benjaminborbe.timetracker.connector;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;

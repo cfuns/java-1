@@ -3,7 +3,7 @@ package de.benjaminborbe.projectile.gui.util;
 import java.io.IOException;
 import java.util.Calendar;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.tools.date.CalendarUtil;

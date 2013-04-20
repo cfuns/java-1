@@ -1,6 +1,6 @@
 package de.benjaminborbe.message.util;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.registry.RegistryBase;
 

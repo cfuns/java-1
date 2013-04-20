@@ -1,7 +1,7 @@
 package de.benjaminborbe.xmpp.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.config.XmppConfig;

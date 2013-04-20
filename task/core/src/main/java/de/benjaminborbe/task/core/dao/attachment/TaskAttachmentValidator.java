@@ -1,6 +1,6 @@
 package de.benjaminborbe.task.core.dao.attachment;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;

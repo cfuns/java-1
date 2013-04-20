@@ -1,8 +1,8 @@
 package de.benjaminborbe.dhl.gui.servlet;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;

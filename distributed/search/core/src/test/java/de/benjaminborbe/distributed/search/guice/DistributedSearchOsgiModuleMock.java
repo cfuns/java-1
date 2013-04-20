@@ -1,7 +1,7 @@
 package de.benjaminborbe.distributed.search.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.mock.DistributedIndexServiceMock;
 import de.benjaminborbe.storage.api.StorageService;

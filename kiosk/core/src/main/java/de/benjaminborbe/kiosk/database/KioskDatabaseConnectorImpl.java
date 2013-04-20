@@ -1,6 +1,6 @@
 package de.benjaminborbe.kiosk.database;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
 

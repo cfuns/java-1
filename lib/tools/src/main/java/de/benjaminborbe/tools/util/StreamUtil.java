@@ -8,7 +8,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class StreamUtil {
 

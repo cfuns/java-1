@@ -1,6 +1,6 @@
 package de.benjaminborbe.filestorage.gui.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
 import de.benjaminborbe.filestorage.gui.FilestorageGuiConstants;
 import de.benjaminborbe.html.api.Widget;

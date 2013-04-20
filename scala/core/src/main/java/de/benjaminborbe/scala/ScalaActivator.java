@@ -1,6 +1,6 @@
 package de.benjaminborbe.scala;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.scala.api.ScalaService;
 import de.benjaminborbe.scala.guice.ScalaModules;
 import de.benjaminborbe.tools.guice.Modules;

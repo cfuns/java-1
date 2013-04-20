@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;

@@ -2,7 +2,7 @@ package de.benjaminborbe.search.gui.service;
 
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.osgi.service.RegistryServiceTracker;

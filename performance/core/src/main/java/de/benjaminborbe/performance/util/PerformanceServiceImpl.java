@@ -1,7 +1,7 @@
 package de.benjaminborbe.performance.util;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.performance.api.PerformanceEntry;
 import de.benjaminborbe.performance.api.PerformanceService;
 import de.benjaminborbe.tools.util.ComparatorBase;

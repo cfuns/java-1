@@ -1,6 +1,6 @@
 package de.benjaminborbe.lucene.index.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.lucene.index.gui.guice.LuceneIndexGuiModules;
 import de.benjaminborbe.lucene.index.gui.servlet.LuceneIndexGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;

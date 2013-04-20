@@ -1,6 +1,6 @@
 package de.benjaminborbe.wow.core.xmpp;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.action.Action;
 import de.benjaminborbe.tools.action.ActionChainRunner;
 import de.benjaminborbe.tools.util.ThreadResult;

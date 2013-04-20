@@ -1,7 +1,5 @@
 package de.benjaminborbe.lunch.mock;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -19,10 +17,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-@Singleton
 public class LunchServiceMock implements LunchService {
 
-	@Inject
 	public LunchServiceMock() {
 	}
 

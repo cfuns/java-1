@@ -1,6 +1,6 @@
 package de.benjaminborbe.virt.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;

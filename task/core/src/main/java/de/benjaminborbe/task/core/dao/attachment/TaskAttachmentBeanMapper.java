@@ -1,6 +1,6 @@
 package de.benjaminborbe.task.core.dao.attachment;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
 import de.benjaminborbe.task.api.TaskAttachmentIdentifier;

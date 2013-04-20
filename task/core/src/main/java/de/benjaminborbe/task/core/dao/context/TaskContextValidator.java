@@ -1,6 +1,6 @@
 package de.benjaminborbe.task.core.dao.context;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;

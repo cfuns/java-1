@@ -1,6 +1,6 @@
 package de.benjaminborbe.mail.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.mail.gui.guice.MailGuiModules;
 import de.benjaminborbe.mail.gui.service.MailGuiDashboardWidget;

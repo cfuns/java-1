@@ -1,8 +1,8 @@
 package de.benjaminborbe.monitoring.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.util.MapperMonitoringCheck;

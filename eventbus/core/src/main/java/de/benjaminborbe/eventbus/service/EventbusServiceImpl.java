@@ -1,7 +1,7 @@
 package de.benjaminborbe.eventbus.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.eventbus.api.Event;
 import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;

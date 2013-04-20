@@ -3,7 +3,7 @@ package de.benjaminborbe.scala.guice;
 import org.slf4j.Logger;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.scala.api.ScalaService;
 import de.benjaminborbe.scala.service.ScalaServiceImpl;

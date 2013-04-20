@@ -1,6 +1,6 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.util.DivWidget;

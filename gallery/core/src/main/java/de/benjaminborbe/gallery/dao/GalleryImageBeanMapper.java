@@ -1,8 +1,8 @@
 package de.benjaminborbe.gallery.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.gallery.util.MapperGalleryImageIdentifier;
 import de.benjaminborbe.tools.mapper.MapperByteArray;

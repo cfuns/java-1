@@ -1,6 +1,6 @@
 package de.benjaminborbe.websearch.core.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 

@@ -1,6 +1,6 @@
 package de.benjaminborbe.task.gui.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.tools.util.ComparatorChain;
 

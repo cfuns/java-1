@@ -2,7 +2,7 @@ package de.benjaminborbe.crawler.service;
 
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;

@@ -3,7 +3,7 @@ package de.benjaminborbe.meta.guice;
 import org.slf4j.Logger;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.meta.util.BundleResolver;
 import de.benjaminborbe.meta.util.BundleResolverImpl;

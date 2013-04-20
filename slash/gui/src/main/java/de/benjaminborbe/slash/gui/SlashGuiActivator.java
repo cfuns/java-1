@@ -1,6 +1,6 @@
 package de.benjaminborbe.slash.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.slash.gui.guice.SlashGuiModules;
 import de.benjaminborbe.slash.gui.servlet.SlashGuiLogFilter;
 import de.benjaminborbe.slash.gui.servlet.SlashGuiRobotsTxtServlet;

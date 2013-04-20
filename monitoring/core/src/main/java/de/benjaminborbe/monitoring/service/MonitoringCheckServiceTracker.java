@@ -1,6 +1,6 @@
 package de.benjaminborbe.monitoring.service;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.tools.osgi.service.RegistryServiceTracker;

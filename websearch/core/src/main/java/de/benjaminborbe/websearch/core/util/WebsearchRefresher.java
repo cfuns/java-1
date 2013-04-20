@@ -1,6 +1,6 @@
 package de.benjaminborbe.websearch.core.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;

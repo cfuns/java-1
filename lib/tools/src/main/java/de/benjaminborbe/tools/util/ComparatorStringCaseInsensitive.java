@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class ComparatorStringCaseInsensitive extends ComparatorBase<String, String> {
 

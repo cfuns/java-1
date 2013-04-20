@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 public class ServletModuleMock extends AbstractModule {
 

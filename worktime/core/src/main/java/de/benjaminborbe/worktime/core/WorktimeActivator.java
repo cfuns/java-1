@@ -1,6 +1,6 @@
 package de.benjaminborbe.worktime.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;

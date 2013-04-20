@@ -1,7 +1,7 @@
 package de.benjaminborbe.tools.jndi;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.poker.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.poker.gui.config.PokerGuiConfig;

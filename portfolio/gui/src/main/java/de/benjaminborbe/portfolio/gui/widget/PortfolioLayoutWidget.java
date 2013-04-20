@@ -1,6 +1,6 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryServiceException;

@@ -3,8 +3,8 @@ package de.benjaminborbe.message.mock;
 import java.util.Calendar;
 import java.util.Collection;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.sample.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.sample.api.SampleService;
 import de.benjaminborbe.sample.core.guice.SampleCoreModules;
 import de.benjaminborbe.tools.guice.Modules;

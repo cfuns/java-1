@@ -1,6 +1,6 @@
 package de.benjaminborbe.wiki.gui.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;

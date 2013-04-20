@@ -2,7 +2,7 @@ package de.benjaminborbe.tools.osgi;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.tools.util.ThreadRunner;

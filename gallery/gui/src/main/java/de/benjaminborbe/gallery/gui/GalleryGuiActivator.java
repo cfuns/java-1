@@ -1,6 +1,6 @@
 package de.benjaminborbe.gallery.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.gallery.gui.guice.GalleryGuiModules;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionCreateServlet;
 import de.benjaminborbe.gallery.gui.servlet.GalleryGuiCollectionDeleteServlet;

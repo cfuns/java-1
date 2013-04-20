@@ -1,6 +1,6 @@
 package de.benjaminborbe.shortener.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.shortener.gui.guice.ShortenerGuiModules;
 import de.benjaminborbe.shortener.gui.servlet.ShortenerGuiRedirectServlet;
 import de.benjaminborbe.shortener.gui.servlet.ShortenerGuiServlet;

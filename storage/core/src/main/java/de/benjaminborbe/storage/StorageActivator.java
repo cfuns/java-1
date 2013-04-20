@@ -1,6 +1,6 @@
 package de.benjaminborbe.storage;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.guice.StorageModules;
 import de.benjaminborbe.storage.util.StorageConnectionPool;

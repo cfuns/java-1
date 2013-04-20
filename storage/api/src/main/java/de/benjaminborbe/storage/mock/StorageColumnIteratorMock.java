@@ -4,7 +4,6 @@ import de.benjaminborbe.storage.api.StorageColumn;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.tools.util.ComparatorBase;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -17,15 +16,24 @@ import java.util.Map.Entry;
 
 public class StorageColumnIteratorMock implements StorageColumnIterator {
 
-	private final class StorageColumnComparator extends ComparatorBase<StorageColumn, String> implements Comparator<StorageColumn> {
+	private final class StorageColumnComparator implements Comparator<StorageColumn> {
 
-		@Override
-		public String getValue(final StorageColumn o) {
+		private String getValue(final StorageColumn o) {
 			try {
 				return o.getColumnName() != null ? o.getColumnName().getString() : null;
 			} catch (final UnsupportedEncodingException e) {
 				return null;
 			}
+		}
+
+		@Override
+		public int compare(final StorageColumn o1, final StorageColumn o2) {
+			String s1 = o1 != null ? getValue(o1) : null;
+			String s2 = o2 != null ? getValue(o2) : null;
+			if (s1!=null && s2!=null){
+				return s1.compareTo(s2);
+			}
+			return 0;
 		}
 	}
 

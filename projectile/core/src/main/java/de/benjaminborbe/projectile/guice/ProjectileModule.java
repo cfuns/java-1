@@ -3,7 +3,7 @@ package de.benjaminborbe.projectile.guice;
 import org.slf4j.Logger;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.config.ProjectileConfig;

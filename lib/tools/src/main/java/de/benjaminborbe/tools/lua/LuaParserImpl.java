@@ -2,7 +2,7 @@ package de.benjaminborbe.tools.lua;
 
 import java.io.StringWriter;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class LuaParserImpl implements LuaParser {
 

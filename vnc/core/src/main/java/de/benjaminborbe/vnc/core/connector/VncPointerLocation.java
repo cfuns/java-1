@@ -1,7 +1,7 @@
 package de.benjaminborbe.vnc.core.connector;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.vnc.api.VncLocation;
 import org.slf4j.Logger;
 

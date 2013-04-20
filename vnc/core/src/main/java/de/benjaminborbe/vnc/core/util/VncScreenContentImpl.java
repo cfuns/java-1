@@ -1,7 +1,7 @@
 package de.benjaminborbe.vnc.core.util;
 
 import com.glavsoft.drawing.Renderer;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncPixels;
 import de.benjaminborbe.vnc.api.VncScreenContent;

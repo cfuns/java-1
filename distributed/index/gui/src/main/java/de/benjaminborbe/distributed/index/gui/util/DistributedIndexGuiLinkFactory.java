@@ -1,6 +1,6 @@
 package de.benjaminborbe.distributed.index.gui.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.distributed.index.gui.DistributedIndexGuiConstants;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;

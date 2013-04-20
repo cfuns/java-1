@@ -1,6 +1,6 @@
 package de.benjaminborbe.monitoring.gui.service;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;

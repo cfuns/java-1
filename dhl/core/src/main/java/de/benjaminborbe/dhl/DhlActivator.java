@@ -1,6 +1,6 @@
 package de.benjaminborbe.dhl;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.guice.DhlModules;

@@ -1,7 +1,7 @@
 package de.benjaminborbe.index.util;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.config.IndexConfig;
 import de.benjaminborbe.index.service.IndexServiceDistributed;

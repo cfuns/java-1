@@ -2,7 +2,7 @@ package de.benjaminborbe.lunch.wikiconnector;
 
 import com.atlassian.confluence.rpc.soap.beans.RemotePage;
 import com.atlassian.confluence.rpc.soap.beans.RemotePageSummary;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.bean.LunchBean;
 import de.benjaminborbe.lunch.util.LunchParseUtil;

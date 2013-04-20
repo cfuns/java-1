@@ -1,6 +1,6 @@
 package de.benjaminborbe.dhl.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dhl.gui.guice.DhlGuiModules;
 import de.benjaminborbe.dhl.gui.service.DhlGuiNavigationEntry;
 import de.benjaminborbe.dhl.gui.servlet.DhlGuiCreateServlet;

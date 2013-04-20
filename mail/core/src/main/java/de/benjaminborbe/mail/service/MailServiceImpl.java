@@ -1,7 +1,7 @@
 package de.benjaminborbe.mail.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.mail.MailConstants;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailService;

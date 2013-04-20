@@ -1,6 +1,6 @@
 package de.benjaminborbe.index.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.index.gui.guice.IndexGuiModules;
 import de.benjaminborbe.index.gui.servlet.IndexGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;

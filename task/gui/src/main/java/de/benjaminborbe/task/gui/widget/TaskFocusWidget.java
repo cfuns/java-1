@@ -1,6 +1,6 @@
 package de.benjaminborbe.task.gui.widget;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.task.api.TaskFocus;

@@ -1,8 +1,8 @@
 package de.benjaminborbe.tools.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class DurationUtil {

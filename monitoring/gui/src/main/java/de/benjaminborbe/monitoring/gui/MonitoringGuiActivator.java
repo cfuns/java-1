@@ -1,6 +1,6 @@
 package de.benjaminborbe.monitoring.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModules;
 import de.benjaminborbe.monitoring.gui.service.MonitoringGuiNavigationEntry;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeCheckServlet;

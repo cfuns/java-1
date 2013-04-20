@@ -1,6 +1,6 @@
 package de.benjaminborbe.mail.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailDto;

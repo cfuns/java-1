@@ -1,8 +1,8 @@
 package de.benjaminborbe.task.core.dao.attachment;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.filestorage.api.FilestorageService;
 import de.benjaminborbe.filestorage.api.FilestorageServiceException;
 import de.benjaminborbe.storage.api.StorageException;

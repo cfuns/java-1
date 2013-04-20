@@ -2,7 +2,7 @@ package de.benjaminborbe.poker.card;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.poker.api.PokerCardColor;

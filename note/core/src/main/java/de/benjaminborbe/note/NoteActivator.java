@@ -1,6 +1,6 @@
 package de.benjaminborbe.note;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.note.api.NoteService;
 import de.benjaminborbe.note.guice.NoteModules;
 import de.benjaminborbe.tools.guice.Modules;

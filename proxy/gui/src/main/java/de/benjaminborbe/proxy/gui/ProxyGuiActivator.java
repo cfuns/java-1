@@ -1,6 +1,6 @@
 package de.benjaminborbe.proxy.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.proxy.gui.guice.ProxyGuiModules;
 import de.benjaminborbe.proxy.gui.service.ProxyGuiNavigationEntry;

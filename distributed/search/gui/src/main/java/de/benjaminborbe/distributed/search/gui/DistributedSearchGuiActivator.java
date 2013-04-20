@@ -1,6 +1,6 @@
 package de.benjaminborbe.distributed.search.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.distributed.search.gui.guice.DistributedSearchGuiModules;
 import de.benjaminborbe.distributed.search.gui.service.DistributedSearchGuiNavigationEntry;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiPageRebuildServlet;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.message.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.message.dao.MessageBeanMapper;
 import de.benjaminborbe.message.dao.MessageDao;

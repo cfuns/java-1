@@ -1,6 +1,6 @@
 package de.benjaminborbe.authentication.core.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.tools.password.PasswordCharacter;

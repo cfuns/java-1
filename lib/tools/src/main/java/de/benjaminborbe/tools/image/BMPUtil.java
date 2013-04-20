@@ -16,7 +16,7 @@ import javax.imageio.ImageWriter;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class BMPUtil {
 

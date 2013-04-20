@@ -3,7 +3,7 @@ package de.benjaminborbe.message.service;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.message.util.MessageConsumerRegistry;

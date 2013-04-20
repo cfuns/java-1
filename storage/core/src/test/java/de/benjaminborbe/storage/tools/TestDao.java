@@ -2,7 +2,7 @@ package de.benjaminborbe.storage.tools;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.storage.api.StorageService;

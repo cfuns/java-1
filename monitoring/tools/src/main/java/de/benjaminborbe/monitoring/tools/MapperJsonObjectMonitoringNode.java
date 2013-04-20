@@ -1,6 +1,6 @@
 package de.benjaminborbe.monitoring.tools;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.tools.date.CalendarUtil;

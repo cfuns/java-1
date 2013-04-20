@@ -1,7 +1,7 @@
 package de.benjaminborbe.confluence.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.confluence.config.ConfluenceConfig;
 import de.benjaminborbe.confluence.util.ConfluenceRefresher;
 import de.benjaminborbe.cron.api.CronJob;

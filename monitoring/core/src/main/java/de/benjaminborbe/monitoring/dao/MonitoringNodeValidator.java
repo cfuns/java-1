@@ -1,6 +1,6 @@
 package de.benjaminborbe.monitoring.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;

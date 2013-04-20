@@ -2,7 +2,7 @@ package de.benjaminborbe.microblog.conversation;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;

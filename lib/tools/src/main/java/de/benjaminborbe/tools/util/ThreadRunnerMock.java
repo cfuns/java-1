@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.util;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 @Singleton
 public class ThreadRunnerMock implements ThreadRunner {

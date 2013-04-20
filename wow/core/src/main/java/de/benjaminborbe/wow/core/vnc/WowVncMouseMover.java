@@ -1,6 +1,6 @@
 package de.benjaminborbe.wow.core.vnc;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.util.RandomUtil;
 import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncService;

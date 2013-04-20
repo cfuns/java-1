@@ -1,8 +1,8 @@
 package de.benjaminborbe.websearch.core.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.DaoCache;
 import de.benjaminborbe.storage.tools.EntityIteratorException;

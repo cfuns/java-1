@@ -1,6 +1,6 @@
 package de.benjaminborbe.xmpp.connector;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.slf4j.Logger;

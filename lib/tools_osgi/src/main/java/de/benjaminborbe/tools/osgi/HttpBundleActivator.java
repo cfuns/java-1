@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.osgi;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;

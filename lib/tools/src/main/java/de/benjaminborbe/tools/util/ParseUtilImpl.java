@@ -2,8 +2,8 @@ package de.benjaminborbe.tools.util;
 
 import java.net.URL;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class ParseUtilImpl implements ParseUtil {

@@ -1,6 +1,6 @@
 package de.benjaminborbe.shortener.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.shortener.dao.ShortenerUrlValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;

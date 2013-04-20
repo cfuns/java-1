@@ -3,7 +3,7 @@ package de.benjaminborbe.monitoring.util;
 import java.util.Calendar;
 import java.util.Map;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.search.core.service;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.tools.util.ComparatorBase;
 

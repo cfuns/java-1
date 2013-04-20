@@ -1,7 +1,7 @@
 package de.benjaminborbe.proxy.core.util;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.StreamUtil;
 import de.benjaminborbe.tools.util.ThreadRunner;

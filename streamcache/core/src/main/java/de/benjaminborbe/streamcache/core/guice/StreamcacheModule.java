@@ -1,7 +1,7 @@
 package de.benjaminborbe.streamcache.core.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.streamcache.api.StreamcacheService;
 import de.benjaminborbe.streamcache.core.service.StreamcacheServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;

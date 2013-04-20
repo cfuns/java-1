@@ -1,7 +1,7 @@
 package de.benjaminborbe.authentication.gui.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
 import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfigImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;

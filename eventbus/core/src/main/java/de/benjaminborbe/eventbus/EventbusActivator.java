@@ -1,6 +1,6 @@
 package de.benjaminborbe.eventbus;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.guice.EventbusModules;
 import de.benjaminborbe.tools.guice.Modules;

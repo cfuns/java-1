@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.osgi.mock;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.url.UrlUtil;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.Bundle;

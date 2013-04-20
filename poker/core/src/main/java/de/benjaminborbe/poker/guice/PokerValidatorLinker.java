@@ -1,6 +1,6 @@
 package de.benjaminborbe.poker.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.poker.game.PokerGameValidator;
 import de.benjaminborbe.poker.player.PokerPlayerValidator;

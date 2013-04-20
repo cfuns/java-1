@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.password;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class PasswordValidatorImpl implements PasswordValidator {
 

@@ -1,6 +1,6 @@
 package de.benjaminborbe.websearch.core.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 import de.benjaminborbe.websearch.core.dao.WebsearchConfigurationValidator;
 

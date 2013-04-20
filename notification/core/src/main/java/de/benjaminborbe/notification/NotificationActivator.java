@@ -1,6 +1,6 @@
 package de.benjaminborbe.notification;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.config.NotificationConfig;

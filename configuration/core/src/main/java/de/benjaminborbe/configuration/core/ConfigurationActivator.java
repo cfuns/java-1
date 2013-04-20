@@ -1,6 +1,6 @@
 package de.benjaminborbe.configuration.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.core.dao.ConfigurationRegistry;

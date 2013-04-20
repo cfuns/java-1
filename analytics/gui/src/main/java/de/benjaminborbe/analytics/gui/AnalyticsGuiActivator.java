@@ -1,6 +1,6 @@
 package de.benjaminborbe.analytics.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.analytics.gui.config.AnalyticsGuiConfig;
 import de.benjaminborbe.analytics.gui.guice.AnalyticsGuiModules;
 import de.benjaminborbe.analytics.gui.service.AnalyticsGuiNavigationEntry;

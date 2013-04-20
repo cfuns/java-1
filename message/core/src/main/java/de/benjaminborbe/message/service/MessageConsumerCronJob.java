@@ -2,7 +2,7 @@ package de.benjaminborbe.message.service;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.cron.api.CronJob;

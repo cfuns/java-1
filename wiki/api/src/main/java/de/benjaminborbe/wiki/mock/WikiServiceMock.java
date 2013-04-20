@@ -1,7 +1,5 @@
 package de.benjaminborbe.wiki.mock;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiService;
@@ -10,10 +8,8 @@ import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 
 import java.util.Collection;
 
-@Singleton
 public class WikiServiceMock implements WikiService {
 
-	@Inject
 	public WikiServiceMock() {
 	}
 

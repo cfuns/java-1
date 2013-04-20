@@ -1,6 +1,6 @@
 package de.benjaminborbe.filestorage;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.filestorage.api.FilestorageService;
 import de.benjaminborbe.filestorage.guice.FilestorageModules;
 import de.benjaminborbe.tools.guice.Modules;

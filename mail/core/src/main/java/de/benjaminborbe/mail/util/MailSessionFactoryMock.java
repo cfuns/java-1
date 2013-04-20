@@ -6,8 +6,8 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.naming.NamingException;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class MailSessionFactoryMock implements MailSessionFactory {

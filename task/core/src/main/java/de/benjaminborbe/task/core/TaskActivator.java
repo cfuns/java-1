@@ -1,6 +1,6 @@
 package de.benjaminborbe.task.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.core.guice.TaskModules;

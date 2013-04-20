@@ -1,7 +1,5 @@
 package de.benjaminborbe.distributed.search.mock;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import de.benjaminborbe.distributed.search.api.DistributedSearchResult;
 import de.benjaminborbe.distributed.search.api.DistributedSearchService;
 import de.benjaminborbe.distributed.search.api.DistributedSearchServiceException;
@@ -10,10 +8,8 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 
-@Singleton
 public class DistributedSearchServiceMock implements DistributedSearchService {
 
-	@Inject
 	public DistributedSearchServiceMock() {
 	}
 

@@ -1,7 +1,7 @@
 package de.benjaminborbe.worktime.core.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.worktime.api.WorktimeRecorder;
 import de.benjaminborbe.worktime.api.WorktimeRecorderException;

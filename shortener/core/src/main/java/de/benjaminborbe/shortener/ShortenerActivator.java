@@ -1,6 +1,6 @@
 package de.benjaminborbe.shortener;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.shortener.api.ShortenerService;
 import de.benjaminborbe.shortener.guice.ShortenerModules;
 import de.benjaminborbe.tools.guice.Modules;

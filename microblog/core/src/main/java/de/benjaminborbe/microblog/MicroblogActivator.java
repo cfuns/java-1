@@ -1,6 +1,6 @@
 package de.benjaminborbe.microblog;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.microblog.api.MicroblogPostListener;

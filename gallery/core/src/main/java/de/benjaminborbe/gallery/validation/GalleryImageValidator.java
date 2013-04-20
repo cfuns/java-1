@@ -1,6 +1,6 @@
 package de.benjaminborbe.gallery.validation;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.gallery.dao.GalleryImageBean;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;

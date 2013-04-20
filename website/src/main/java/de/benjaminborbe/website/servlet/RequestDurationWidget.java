@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.cache.api.CacheServiceException;

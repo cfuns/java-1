@@ -1,6 +1,6 @@
 package de.benjaminborbe.bookmark;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModules;
 import de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponent;

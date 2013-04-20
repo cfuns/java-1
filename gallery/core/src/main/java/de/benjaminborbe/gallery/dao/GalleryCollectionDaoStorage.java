@@ -1,8 +1,8 @@
 package de.benjaminborbe.gallery.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.util.SharedPredicate;
 import de.benjaminborbe.storage.api.StorageException;

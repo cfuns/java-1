@@ -2,7 +2,7 @@ package de.benjaminborbe.poker.util;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.poker.api.PokerService;

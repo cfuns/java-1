@@ -1,6 +1,6 @@
 package de.benjaminborbe.authentication.core.verifycredential;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;

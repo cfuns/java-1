@@ -1,6 +1,6 @@
 package de.benjaminborbe.dashboard.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.dashboard.api.DashboardIdentifier;
 import de.benjaminborbe.storage.api.StorageColumn;

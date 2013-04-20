@@ -1,7 +1,7 @@
 package de.benjaminborbe.xmlrpc.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.xmlrpc.api.XmlrpcService;
 import de.benjaminborbe.xmlrpc.api.XmlrpcServiceException;
 import org.apache.xmlrpc.XmlRpcException;

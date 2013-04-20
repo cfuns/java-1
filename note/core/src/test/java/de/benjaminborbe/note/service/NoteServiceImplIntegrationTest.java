@@ -1,15 +1,7 @@
 package de.benjaminborbe.note.service;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.note.api.Note;
@@ -18,6 +10,14 @@ import de.benjaminborbe.note.api.NoteIdentifier;
 import de.benjaminborbe.note.api.NoteService;
 import de.benjaminborbe.note.guice.NoteModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 public class NoteServiceImplIntegrationTest {
 
@@ -25,6 +25,11 @@ public class NoteServiceImplIntegrationTest {
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new NoteModulesMock());
 		assertNotNull(injector.getInstance(NoteService.class));
+		final AuthenticationService authenticationServiceMock = injector.getInstance(AuthenticationServiceMock.class);
+		assertThat(authenticationServiceMock, is(notNullValue()));
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		assertThat(authenticationService, is(notNullValue()));
+		assertThat(authenticationService, is(authenticationServiceMock));
 	}
 
 	@Test

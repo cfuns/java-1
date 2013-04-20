@@ -1,6 +1,6 @@
 package de.benjaminborbe.distributed.search.gui.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.distributed.search.gui.DistributedSearchGuiConstants;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;

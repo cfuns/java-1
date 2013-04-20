@@ -3,7 +3,7 @@ package de.benjaminborbe.eventbus.guice;
 import org.slf4j.Logger;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.service.EventbusServiceImpl;

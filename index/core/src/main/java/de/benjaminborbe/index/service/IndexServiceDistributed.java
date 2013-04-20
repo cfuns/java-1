@@ -1,7 +1,7 @@
 package de.benjaminborbe.index.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.distributed.search.api.DistributedSearchResult;
 import de.benjaminborbe.distributed.search.api.DistributedSearchService;
 import de.benjaminborbe.distributed.search.api.DistributedSearchServiceException;

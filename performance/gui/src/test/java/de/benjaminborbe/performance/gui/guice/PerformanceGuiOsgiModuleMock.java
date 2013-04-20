@@ -1,7 +1,7 @@
 package de.benjaminborbe.performance.gui.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.mock.AnalyticsServiceMock;
 import de.benjaminborbe.authentication.api.AuthenticationService;

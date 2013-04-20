@@ -1,7 +1,7 @@
 package de.benjaminborbe.kiosk.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.kiosk.KioskConstants;
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.api.KioskServiceException;

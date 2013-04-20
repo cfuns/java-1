@@ -3,8 +3,8 @@ package de.benjaminborbe.analytics.mock;
 import java.util.Collection;
 import java.util.List;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportDto;

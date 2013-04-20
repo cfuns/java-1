@@ -14,7 +14,7 @@ import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.tools.json.JSONArray;
 import de.benjaminborbe.tools.json.JSONObject;

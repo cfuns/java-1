@@ -1,8 +1,8 @@
 package de.benjaminborbe.projectile.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 import de.benjaminborbe.projectile.util.MapperProjectileTeamIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;

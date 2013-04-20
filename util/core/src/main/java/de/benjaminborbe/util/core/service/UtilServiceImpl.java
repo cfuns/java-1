@@ -1,7 +1,7 @@
 package de.benjaminborbe.util.core.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.util.api.UtilService;
 import de.benjaminborbe.util.api.UtilServiceException;
 import de.benjaminborbe.util.core.math.FormularParseException;

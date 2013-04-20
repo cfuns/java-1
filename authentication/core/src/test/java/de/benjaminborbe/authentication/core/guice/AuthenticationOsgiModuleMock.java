@@ -1,7 +1,7 @@
 package de.benjaminborbe.authentication.core.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
 import de.benjaminborbe.mail.api.MailService;

@@ -2,7 +2,7 @@ package de.benjaminborbe.projectile.util;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.dao.ProjectileReportBean;

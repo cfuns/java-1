@@ -1,6 +1,6 @@
 package de.benjaminborbe.analytics.gui.chart;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
 

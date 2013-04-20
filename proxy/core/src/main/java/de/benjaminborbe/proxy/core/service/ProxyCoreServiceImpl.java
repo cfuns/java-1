@@ -1,7 +1,7 @@
 package de.benjaminborbe.proxy.core.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.proxy.api.ProxyService;
 import de.benjaminborbe.proxy.api.ProxyServiceException;
 import de.benjaminborbe.proxy.core.util.ProxySocket;

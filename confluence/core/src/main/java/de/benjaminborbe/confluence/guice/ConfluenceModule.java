@@ -1,7 +1,7 @@
 package de.benjaminborbe.confluence.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.config.ConfluenceConfig;
 import de.benjaminborbe.confluence.config.ConfluenceConfigImpl;

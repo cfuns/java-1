@@ -1,6 +1,6 @@
 package de.benjaminborbe.virt.core.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
 import de.benjaminborbe.tools.util.ParseException;

@@ -1,7 +1,7 @@
 package de.benjaminborbe.imagedownloader.core.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.imagedownloader.api.ImagedownloaderService;
 import de.benjaminborbe.imagedownloader.api.ImagedownloaderServiceException;
 import org.slf4j.Logger;

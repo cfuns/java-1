@@ -1,6 +1,6 @@
 package de.benjaminborbe.vnc.core.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.vnc.core.connector.VncConnector;
 import de.benjaminborbe.vnc.core.connector.VncConnectorException;
 import org.slf4j.Logger;

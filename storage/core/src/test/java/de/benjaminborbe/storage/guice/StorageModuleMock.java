@@ -1,7 +1,7 @@
 package de.benjaminborbe.storage.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.config.StorageConfig;

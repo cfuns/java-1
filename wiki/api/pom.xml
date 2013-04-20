@@ -41,7 +41,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Bundle-Activator>de.benjaminborbe.wiki.WikiApiActivator</Bundle-Activator>
+						<Bundle-Activator></Bundle-Activator>
 						<Private-Package>de.benjaminborbe.wiki.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
@@ -63,16 +63,6 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<dependency>
-			<groupId>org.ops4j</groupId>
-			<artifactId>peaberry</artifactId>
-			<version>${peaberry.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-servlet</artifactId>
-			<version>${guice.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -98,22 +88,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>${slf4j.impl}</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>${easymock.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.api</artifactId>
 			<version>${project.version}</version>
@@ -124,16 +98,6 @@
 			<artifactId>de.benjaminborbe.html.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

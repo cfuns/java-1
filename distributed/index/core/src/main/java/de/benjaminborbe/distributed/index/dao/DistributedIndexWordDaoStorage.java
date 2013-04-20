@@ -1,6 +1,6 @@
 package de.benjaminborbe.distributed.index.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.distributed.index.DistributedIndexConstants;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.task.gui.widget;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.HttpContext;

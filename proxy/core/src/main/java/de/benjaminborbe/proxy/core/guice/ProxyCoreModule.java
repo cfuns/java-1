@@ -1,7 +1,7 @@
 package de.benjaminborbe.proxy.core.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.proxy.api.ProxyService;
 import de.benjaminborbe.proxy.core.service.ProxyCoreServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;

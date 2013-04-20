@@ -1,6 +1,6 @@
 package de.benjaminborbe.confluence.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.confluence.gui.guice.ConfluenceGuiModules;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiExpireAllServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceCreateServlet;

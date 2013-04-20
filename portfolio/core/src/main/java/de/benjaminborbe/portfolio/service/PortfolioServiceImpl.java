@@ -2,8 +2,8 @@ package de.benjaminborbe.portfolio.service;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.portfolio.api.PortfolioService;
 

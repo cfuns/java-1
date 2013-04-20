@@ -1,6 +1,6 @@
 package de.benjaminborbe.authentication.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.authentication.gui.config.AuthenticationGuiConfig;
 import de.benjaminborbe.authentication.gui.guice.AuthenticationGuiModules;
 import de.benjaminborbe.authentication.gui.service.AuthenticationGuiNavigationEntry;

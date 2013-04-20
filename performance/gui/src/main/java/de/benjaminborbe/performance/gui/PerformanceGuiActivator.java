@@ -1,6 +1,6 @@
 package de.benjaminborbe.performance.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.performance.gui.guice.PerformanceGuiModules;
 import de.benjaminborbe.performance.gui.servlet.PerformanceGuiFilter;
 import de.benjaminborbe.performance.gui.servlet.PerformanceGuiServlet;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.gallery;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.guice.GalleryModules;
 import de.benjaminborbe.tools.guice.Modules;

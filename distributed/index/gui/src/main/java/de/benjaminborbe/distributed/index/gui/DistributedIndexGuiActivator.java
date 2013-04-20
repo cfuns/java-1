@@ -1,6 +1,6 @@
 package de.benjaminborbe.distributed.index.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.distributed.index.gui.guice.DistributedIndexGuiModules;
 import de.benjaminborbe.distributed.index.gui.service.DistributedIndexGuiNavigationEntry;
 import de.benjaminborbe.distributed.index.gui.servlet.DistributedIndexGuiEntryInfoServlet;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.kiosk;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.config.KioskConfig;

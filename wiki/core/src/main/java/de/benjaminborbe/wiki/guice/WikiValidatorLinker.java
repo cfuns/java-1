@@ -1,6 +1,6 @@
 package de.benjaminborbe.wiki.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 import de.benjaminborbe.wiki.dao.WikiPageValidator;

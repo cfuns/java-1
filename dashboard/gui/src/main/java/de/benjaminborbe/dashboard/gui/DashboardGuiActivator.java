@@ -1,6 +1,6 @@
 package de.benjaminborbe.dashboard.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.dashboard.gui.guice.DashboardGuiModules;

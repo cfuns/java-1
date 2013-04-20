@@ -1,6 +1,6 @@
 package de.benjaminborbe.task.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.search.api.SearchSpecial;

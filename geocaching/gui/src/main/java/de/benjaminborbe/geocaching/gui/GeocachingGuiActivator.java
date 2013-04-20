@@ -1,6 +1,6 @@
 package de.benjaminborbe.geocaching.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.geocaching.gui.guice.GeocachingGuiModules;
 import de.benjaminborbe.geocaching.gui.servlet.GeocachingGuiCurrentLocationOnGoogleMapsServlet;
 import de.benjaminborbe.geocaching.gui.servlet.GeocachingGuiServlet;

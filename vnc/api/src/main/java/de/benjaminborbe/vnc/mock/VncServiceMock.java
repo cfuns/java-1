@@ -2,9 +2,6 @@ package de.benjaminborbe.vnc.mock;
 
 import java.util.List;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
 import de.benjaminborbe.vnc.api.VncKey;
 import de.benjaminborbe.vnc.api.VncKeyParser;
 import de.benjaminborbe.vnc.api.VncLocation;
@@ -13,10 +10,8 @@ import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
 
-@Singleton
 public class VncServiceMock implements VncService {
 
-	@Inject
 	public VncServiceMock() {
 	}
 

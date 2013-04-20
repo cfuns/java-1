@@ -1,6 +1,6 @@
 package de.benjaminborbe.dhl.gui.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.gui.DhlGuiConstants;
 import de.benjaminborbe.html.api.Widget;

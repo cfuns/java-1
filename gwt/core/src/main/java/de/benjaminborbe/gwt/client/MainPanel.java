@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.gwt.client.message.DefaultMessages;
 

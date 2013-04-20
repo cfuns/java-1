@@ -1,8 +1,8 @@
 package de.benjaminborbe.loggly.service;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.loggly.api.LogglyService;
 import de.benjaminborbe.loggly.util.LogglyConnector;

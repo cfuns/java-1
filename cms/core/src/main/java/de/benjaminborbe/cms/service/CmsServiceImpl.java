@@ -1,7 +1,7 @@
 package de.benjaminborbe.cms.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.cms.api.CmsPage;
 import de.benjaminborbe.cms.api.CmsPageIdentifier;
 import de.benjaminborbe.cms.api.CmsService;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.authorization;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.guice.AuthorizationModules;
 import de.benjaminborbe.tools.guice.Modules;

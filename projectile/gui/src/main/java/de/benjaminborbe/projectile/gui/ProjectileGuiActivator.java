@@ -1,6 +1,6 @@
 package de.benjaminborbe.projectile.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.projectile.gui.guice.ProjectileGuiModules;
 import de.benjaminborbe.projectile.gui.service.ProjectileGuiNavigationEntry;

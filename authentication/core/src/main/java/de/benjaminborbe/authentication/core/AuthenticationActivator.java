@@ -1,6 +1,6 @@
 package de.benjaminborbe.authentication.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.core.config.AuthenticationConfig;
 import de.benjaminborbe.authentication.core.guice.AuthenticationModules;

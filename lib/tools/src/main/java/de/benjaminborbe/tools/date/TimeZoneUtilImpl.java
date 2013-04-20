@@ -2,8 +2,8 @@ package de.benjaminborbe.tools.date;
 
 import java.util.TimeZone;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.tools.util.ParseException;
 

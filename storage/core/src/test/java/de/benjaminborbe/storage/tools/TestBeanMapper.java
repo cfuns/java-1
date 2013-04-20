@@ -3,7 +3,7 @@ package de.benjaminborbe.storage.tools;
 import java.util.Collection;
 import java.util.Map;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.tools.mapper.MapException;

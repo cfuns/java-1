@@ -1,14 +1,10 @@
 package de.benjaminborbe.proxy.mock;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import de.benjaminborbe.proxy.api.ProxyService;
 import de.benjaminborbe.proxy.api.ProxyServiceException;
 
-@Singleton
 public class ProxyServiceMock implements ProxyService {
 
-	@Inject
 	public ProxyServiceMock() {
 	}
 

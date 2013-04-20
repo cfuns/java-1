@@ -1,7 +1,5 @@
 package de.benjaminborbe.distributed.index.mock;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.api.DistributedIndexServiceException;
@@ -9,10 +7,8 @@ import de.benjaminborbe.distributed.index.api.DistributedIndexServiceException;
 import java.util.Collection;
 import java.util.Map;
 
-@Singleton
 public class DistributedIndexServiceMock implements DistributedIndexService {
 
-	@Inject
 	public DistributedIndexServiceMock() {
 	}
 

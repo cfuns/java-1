@@ -2,7 +2,7 @@ package de.benjaminborbe.tools.mapper;
 
 import java.net.URL;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.tools.util.ParseUtil;
 

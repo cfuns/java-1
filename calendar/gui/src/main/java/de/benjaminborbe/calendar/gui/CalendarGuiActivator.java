@@ -1,6 +1,6 @@
 package de.benjaminborbe.calendar.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.calendar.gui.guice.CalendarGuiModules;
 import de.benjaminborbe.calendar.gui.service.CalendarGuiDashboardWidget;
 import de.benjaminborbe.calendar.gui.servlet.CalendarGuiServlet;

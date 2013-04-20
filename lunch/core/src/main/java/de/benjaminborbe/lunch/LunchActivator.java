@@ -1,6 +1,6 @@
 package de.benjaminborbe.lunch;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.config.LunchConfig;

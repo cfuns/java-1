@@ -1,6 +1,6 @@
 package de.benjaminborbe.cron.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.cron.gui.guice.CronGuiModules;
 import de.benjaminborbe.cron.gui.service.CronGuiNavigationEntry;
 import de.benjaminborbe.cron.gui.servlet.CronGuiLatestExecutedServlet;

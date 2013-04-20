@@ -1,6 +1,6 @@
 package de.benjaminborbe.message.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.message.dao.MessageValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;

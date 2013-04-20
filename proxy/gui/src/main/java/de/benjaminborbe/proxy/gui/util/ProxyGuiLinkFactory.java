@@ -1,6 +1,6 @@
 package de.benjaminborbe.proxy.gui.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.proxy.gui.ProxyGuiConstants;
 import de.benjaminborbe.tools.url.MapParameter;

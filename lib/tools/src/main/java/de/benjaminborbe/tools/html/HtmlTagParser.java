@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.html;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.util.StringIterator;
 import org.slf4j.Logger;
 

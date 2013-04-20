@@ -1,7 +1,7 @@
 package de.benjaminborbe.poker.table.client.gin;
 
 import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.poker.table.client.MainPanel;
 import de.benjaminborbe.poker.table.client.Model;

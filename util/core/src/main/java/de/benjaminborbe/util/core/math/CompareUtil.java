@@ -1,6 +1,6 @@
 package de.benjaminborbe.util.core.math;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class CompareUtil {
 

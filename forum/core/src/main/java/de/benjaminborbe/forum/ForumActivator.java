@@ -1,6 +1,6 @@
 package de.benjaminborbe.forum;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.forum.api.ForumService;
 import de.benjaminborbe.forum.guice.ForumModules;
 import de.benjaminborbe.tools.guice.Modules;

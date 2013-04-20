@@ -1,6 +1,6 @@
 package de.benjaminborbe.cache;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.cache.guice.CacheModules;
 import de.benjaminborbe.tools.guice.Modules;

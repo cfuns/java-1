@@ -1,6 +1,6 @@
 package de.benjaminborbe.poker.player;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;

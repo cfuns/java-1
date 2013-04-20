@@ -1,6 +1,6 @@
 package de.benjaminborbe.dashboard;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardService;
 import de.benjaminborbe.dashboard.guice.DashboardModules;
 import de.benjaminborbe.tools.guice.Modules;

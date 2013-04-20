@@ -1,6 +1,6 @@
 package de.benjaminborbe.dns.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dns.api.DnsService;
 import de.benjaminborbe.dns.core.check.DnsServerMonitoringCheck;
 import de.benjaminborbe.dns.core.guice.DnsCoreModules;

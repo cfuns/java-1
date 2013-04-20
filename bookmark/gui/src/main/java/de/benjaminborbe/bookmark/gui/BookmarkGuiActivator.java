@@ -1,6 +1,6 @@
 package de.benjaminborbe.bookmark.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.bookmark.gui.guice.BookmarkGuiModules;
 import de.benjaminborbe.bookmark.gui.service.BookmarkGuiFavoriteDashboardWidget;
 import de.benjaminborbe.bookmark.gui.service.BookmarkGuiNavigationEntry;

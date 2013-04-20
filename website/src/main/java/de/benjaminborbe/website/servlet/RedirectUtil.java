@@ -1,7 +1,7 @@
 package de.benjaminborbe.website.servlet;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.slf4j.Logger;
 
 import javax.servlet.http.HttpServletResponse;

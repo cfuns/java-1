@@ -1,6 +1,6 @@
 package de.benjaminborbe.wiki.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.tools.mapper.MapperEnum;
 import de.benjaminborbe.tools.util.ParseUtil;

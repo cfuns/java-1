@@ -1,6 +1,6 @@
 package de.benjaminborbe.analytics.gui.chart;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;

@@ -1,7 +1,7 @@
 package de.benjaminborbe.systemstatus.core.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
 import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
 import de.benjaminborbe.systemstatus.api.SystemstatusService;

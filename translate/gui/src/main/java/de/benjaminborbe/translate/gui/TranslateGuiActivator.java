@@ -1,6 +1,6 @@
 package de.benjaminborbe.translate.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.guice.Modules;

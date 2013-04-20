@@ -1,6 +1,6 @@
 package de.benjaminborbe.microblog.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.microblog.MicroblogConstants;

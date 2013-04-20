@@ -1,7 +1,7 @@
 package de.benjaminborbe.lucene.index.util;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.lucene.index.config.LuceneIndexConfig;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;

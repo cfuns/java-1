@@ -1,6 +1,6 @@
 package de.benjaminborbe.xmpp.connector;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.tools.registry.RegistryListenerBase;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 

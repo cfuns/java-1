@@ -1,6 +1,6 @@
 package de.benjaminborbe.imagedownloader.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.imagedownloader.gui.guice.ImagedownloaderGuiModules;
 import de.benjaminborbe.imagedownloader.gui.servlet.ImagedownloaderGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;

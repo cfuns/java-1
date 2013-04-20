@@ -2,7 +2,7 @@ package de.benjaminborbe.analytics.util;
 
 import java.util.Calendar;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 

@@ -1,6 +1,6 @@
 package de.benjaminborbe.poker.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCollectionBase;

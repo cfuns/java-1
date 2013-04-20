@@ -1,7 +1,7 @@
 package de.benjaminborbe.xmpp.connector;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.xmpp.config.XmppConfig;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.dhl.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dhl.api.Dhl;
 import org.slf4j.Logger;
 

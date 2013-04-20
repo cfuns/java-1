@@ -1,6 +1,6 @@
 package de.benjaminborbe.lucene.index;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.lucene.index.api.LuceneIndexService;
 import de.benjaminborbe.lucene.index.config.LuceneIndexConfig;

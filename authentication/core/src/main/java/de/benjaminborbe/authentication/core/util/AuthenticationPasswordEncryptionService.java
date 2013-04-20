@@ -1,6 +1,6 @@
 package de.benjaminborbe.authentication.core.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

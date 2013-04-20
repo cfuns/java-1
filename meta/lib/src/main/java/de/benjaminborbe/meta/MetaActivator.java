@@ -6,7 +6,7 @@ import org.osgi.service.obr.Requirement;
 import org.osgi.service.obr.Resolver;
 import org.osgi.service.obr.Resource;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.meta.guice.MetaModules;

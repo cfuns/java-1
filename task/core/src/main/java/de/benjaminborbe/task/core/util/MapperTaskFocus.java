@@ -1,6 +1,6 @@
 package de.benjaminborbe.task.core.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.tools.mapper.MapperEnum;
 import de.benjaminborbe.tools.util.ParseUtil;

@@ -1,8 +1,8 @@
 package de.benjaminborbe.confluence.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
 import de.benjaminborbe.storage.api.StorageException;

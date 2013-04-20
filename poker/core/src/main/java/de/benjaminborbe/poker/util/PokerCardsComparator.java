@@ -2,7 +2,7 @@ package de.benjaminborbe.poker.util;
 
 import java.util.Collection;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.tools.util.ComparatorChain;

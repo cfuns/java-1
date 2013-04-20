@@ -1,6 +1,6 @@
 package de.benjaminborbe.dhl.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dhl.dao.DhlValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 

@@ -1,6 +1,6 @@
 package de.benjaminborbe.googlesearch;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.googlesearch.api.GooglesearchService;
 import de.benjaminborbe.googlesearch.guice.GooglesearchModules;
 import de.benjaminborbe.googlesearch.service.GoogleSearchServiceComponent;

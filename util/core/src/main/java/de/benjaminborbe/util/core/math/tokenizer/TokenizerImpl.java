@@ -1,6 +1,6 @@
 package de.benjaminborbe.util.core.math.tokenizer;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.util.core.math.CompareUtil;
 
 import java.util.ArrayList;

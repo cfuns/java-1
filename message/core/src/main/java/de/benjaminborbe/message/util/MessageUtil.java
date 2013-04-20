@@ -2,7 +2,7 @@ package de.benjaminborbe.message.util;
 
 import java.util.Calendar;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.message.MessageConstants;
 import de.benjaminborbe.message.dao.MessageBean;

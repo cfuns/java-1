@@ -1,7 +1,7 @@
 package de.benjaminborbe.bookmark.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.NamespaceException;

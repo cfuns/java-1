@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.osgi;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
 
 @Singleton

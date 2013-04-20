@@ -1,7 +1,7 @@
 package de.benjaminborbe.lucene.index.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.lucene.index.LuceneIndexConstants;
 import de.benjaminborbe.lucene.index.api.LuceneIndexSearchResult;
 import de.benjaminborbe.lucene.index.api.LuceneIndexService;

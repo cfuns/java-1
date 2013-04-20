@@ -1,7 +1,7 @@
 package de.benjaminborbe.wow.core.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.wow.api.WowService;
 import de.benjaminborbe.wow.core.service.WowServiceImpl;

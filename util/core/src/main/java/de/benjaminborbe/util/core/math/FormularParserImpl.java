@@ -1,6 +1,6 @@
 package de.benjaminborbe.util.core.math;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.util.core.math.constant.Constants;
 import de.benjaminborbe.util.core.math.function.Functions;
 import de.benjaminborbe.util.core.math.operation.Operations;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.vnc.core.service;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.image.BMPUtil;
 import de.benjaminborbe.vnc.api.VncPixels;

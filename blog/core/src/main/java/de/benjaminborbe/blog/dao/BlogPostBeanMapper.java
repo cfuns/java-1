@@ -1,8 +1,8 @@
 package de.benjaminborbe.blog.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
 import de.benjaminborbe.blog.util.MapperBlogPostIdentifier;

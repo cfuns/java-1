@@ -2,7 +2,7 @@ package de.benjaminborbe.tools.util;
 
 import java.util.Random;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class RandomUtil {
 

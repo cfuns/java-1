@@ -1,6 +1,6 @@
 package de.benjaminborbe.crawler;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.guice.CrawlerModules;

@@ -24,7 +24,7 @@ import com.glavsoft.viewer.swing.ConnectionParams;
 import com.glavsoft.viewer.swing.ParametersHandler;
 import com.glavsoft.viewer.swing.RendererImpl;
 import com.glavsoft.viewer.swing.UiSettings;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.thread.Assert;
 import de.benjaminborbe.tools.thread.ThreadUtil;
 import de.benjaminborbe.vnc.core.VncConstants;

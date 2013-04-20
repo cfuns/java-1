@@ -6,7 +6,7 @@ import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.search.api.SearchSpecial;

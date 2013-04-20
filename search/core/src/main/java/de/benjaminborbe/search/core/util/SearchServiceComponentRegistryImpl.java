@@ -1,6 +1,6 @@
 package de.benjaminborbe.search.core.util;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.registry.RegistryBase;
 

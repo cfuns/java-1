@@ -1,6 +1,6 @@
 package de.benjaminborbe.portfolio;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.portfolio.api.PortfolioService;
 import de.benjaminborbe.portfolio.guice.PortfolioModules;
 import de.benjaminborbe.tools.guice.Modules;

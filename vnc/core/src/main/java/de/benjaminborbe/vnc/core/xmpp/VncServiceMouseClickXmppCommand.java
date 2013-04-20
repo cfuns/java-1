@@ -1,6 +1,6 @@
 package de.benjaminborbe.vnc.core.xmpp;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.vnc.core.VncConstants;

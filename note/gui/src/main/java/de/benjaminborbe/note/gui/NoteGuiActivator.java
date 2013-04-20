@@ -1,6 +1,6 @@
 package de.benjaminborbe.note.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.note.gui.guice.NoteGuiModules;
 import de.benjaminborbe.note.gui.service.NoteGuiNavigationEntry;

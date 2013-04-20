@@ -9,7 +9,7 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class PokerConnector {
 

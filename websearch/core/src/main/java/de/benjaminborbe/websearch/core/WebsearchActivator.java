@@ -1,6 +1,6 @@
 package de.benjaminborbe.websearch.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.cron.api.CronJob;

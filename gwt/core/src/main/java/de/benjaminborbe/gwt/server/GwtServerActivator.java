@@ -1,6 +1,6 @@
 package de.benjaminborbe.gwt.server;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.gwt.server.guice.GwtServerModules;
 import de.benjaminborbe.gwt.server.servlet.GwtHomeNoCacheJsServlet;
 import de.benjaminborbe.gwt.server.servlet.GwtHomeServlet;

@@ -1,7 +1,5 @@
 package de.benjaminborbe.gallery.mock;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -20,10 +18,8 @@ import de.benjaminborbe.gallery.api.GalleryServiceException;
 import java.util.Collection;
 import java.util.List;
 
-@Singleton
 public class GalleryServiceMock implements GalleryService {
 
-	@Inject
 	public GalleryServiceMock() {
 	}
 

@@ -1,6 +1,6 @@
 package de.benjaminborbe.kiosk.booking;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.kiosk.KioskConstants;
 import de.benjaminborbe.kiosk.config.KioskConfig;
 import de.benjaminborbe.tools.http.HttpDownloadResult;

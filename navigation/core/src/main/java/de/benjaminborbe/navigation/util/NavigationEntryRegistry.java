@@ -1,6 +1,6 @@
 package de.benjaminborbe.navigation.util;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.registry.RegistryBase;

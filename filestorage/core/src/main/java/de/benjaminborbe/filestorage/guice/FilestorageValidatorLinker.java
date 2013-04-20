@@ -1,6 +1,6 @@
 package de.benjaminborbe.filestorage.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.filestorage.dao.FilestorageEntryValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 

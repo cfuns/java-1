@@ -1,6 +1,6 @@
 package de.benjaminborbe.note.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.note.api.NoteIdentifier;

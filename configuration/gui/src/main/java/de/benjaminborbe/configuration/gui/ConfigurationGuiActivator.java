@@ -1,6 +1,6 @@
 package de.benjaminborbe.configuration.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.gui.guice.ConfigurationGuiModules;
 import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiListServlet;
 import de.benjaminborbe.configuration.gui.servlet.ConfigurationGuiUpdateServlet;

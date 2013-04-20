@@ -2,8 +2,6 @@ package de.benjaminborbe.authorization.mock;
 
 import java.util.Collection;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -14,10 +12,8 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 
-@Singleton
 public class AuthorizationServiceMock implements AuthorizationService {
 
-	@Inject
 	public AuthorizationServiceMock() {
 	}
 

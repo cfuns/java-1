@@ -1,7 +1,7 @@
 package de.benjaminborbe.cache.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.cache.api.CacheServiceException;
 

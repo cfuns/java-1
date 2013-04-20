@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class ListUtil {
 

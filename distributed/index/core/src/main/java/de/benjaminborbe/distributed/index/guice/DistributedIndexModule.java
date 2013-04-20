@@ -1,7 +1,7 @@
 package de.benjaminborbe.distributed.index.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryDao;
 import de.benjaminborbe.distributed.index.dao.DistributedIndexEntryDaoStorage;

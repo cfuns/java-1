@@ -1,6 +1,6 @@
 package de.benjaminborbe.bookmark.gui.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Collections;

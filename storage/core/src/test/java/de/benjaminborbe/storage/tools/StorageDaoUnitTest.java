@@ -1,6 +1,6 @@
 package de.benjaminborbe.storage.tools;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageService;

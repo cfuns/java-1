@@ -6,7 +6,7 @@ import java.net.URL;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Injector;
 
 import de.benjaminborbe.poker.client.guice.PokerClientModules;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.bookmark.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;

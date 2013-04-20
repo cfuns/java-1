@@ -1,6 +1,6 @@
 package de.benjaminborbe.crawler.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.crawler.gui.guice.CrawlerGuiModules;
 import de.benjaminborbe.crawler.gui.service.CrawlerGuiNavigationEntry;
 import de.benjaminborbe.crawler.gui.servlet.CrawlerGuiServlet;

@@ -3,7 +3,7 @@ package de.benjaminborbe.util.gui.util;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.tools.date.CalendarUtil;
 

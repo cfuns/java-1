@@ -1,6 +1,6 @@
 package de.benjaminborbe.blog.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.blog.gui.guice.BlogGuiModules;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiAtomServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiCreatePostServlet;

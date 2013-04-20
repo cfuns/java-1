@@ -1,7 +1,7 @@
 package de.benjaminborbe.tools.password;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 

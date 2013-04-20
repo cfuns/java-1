@@ -1,7 +1,7 @@
 package de.benjaminborbe.search.core.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.core.config.SearchConfig;
 import de.benjaminborbe.search.core.config.SearchConfigImpl;

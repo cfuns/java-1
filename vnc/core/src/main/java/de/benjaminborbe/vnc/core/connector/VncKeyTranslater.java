@@ -1,7 +1,7 @@
 package de.benjaminborbe.vnc.core.connector;
 
 import com.glavsoft.utils.Keymap;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.vnc.api.VncKey;
 
 import java.util.HashMap;

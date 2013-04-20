@@ -1,7 +1,7 @@
 package de.benjaminborbe.task.core.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.core.dao.attachment.TaskAttachmentDao;
 import de.benjaminborbe.task.core.dao.attachment.TaskAttachmentDaoStorage;

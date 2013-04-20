@@ -1,6 +1,6 @@
 package de.benjaminborbe.cron.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.cron.CronConstants;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.message.CronMessage;

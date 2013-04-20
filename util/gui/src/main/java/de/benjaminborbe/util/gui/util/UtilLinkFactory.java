@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.util.gui.UtilGuiConstants;

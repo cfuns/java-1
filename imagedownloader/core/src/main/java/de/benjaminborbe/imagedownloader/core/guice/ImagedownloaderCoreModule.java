@@ -1,7 +1,7 @@
 package de.benjaminborbe.imagedownloader.core.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.imagedownloader.api.ImagedownloaderService;
 import de.benjaminborbe.imagedownloader.core.service.ImagedownloaderCoreServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;

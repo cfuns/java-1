@@ -1,6 +1,6 @@
 package de.benjaminborbe.poker.gui.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;

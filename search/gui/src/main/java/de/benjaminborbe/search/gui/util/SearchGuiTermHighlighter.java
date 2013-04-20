@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.tools.util.ComparatorLength;
 

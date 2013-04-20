@@ -1,6 +1,6 @@
 package de.benjaminborbe.systemstatus.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.systemstatus.gui.guice.SystemstatusGuiModules;
 import de.benjaminborbe.systemstatus.gui.service.SystemstatusGuiNavigationEntry;

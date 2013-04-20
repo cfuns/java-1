@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.core.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.websearch.core.config.WebsearchConfig;
 import de.benjaminborbe.websearch.core.util.WebsearchRefresher;

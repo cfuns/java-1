@@ -2,8 +2,8 @@ package de.benjaminborbe.task.gui.service;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;

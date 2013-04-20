@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.core.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.core.config.WebsearchConfig;

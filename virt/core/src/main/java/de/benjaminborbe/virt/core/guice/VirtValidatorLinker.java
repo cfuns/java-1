@@ -1,6 +1,6 @@
 package de.benjaminborbe.virt.core.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 import de.benjaminborbe.virt.core.dao.VirtNetworkValidator;
 

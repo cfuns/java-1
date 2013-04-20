@@ -1,6 +1,6 @@
 package de.benjaminborbe.portfolio.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.portfolio.gui.guice.PortfolioGuiModules;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiCacheFilter;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiContactServlet;

@@ -1,7 +1,7 @@
 package de.benjaminborbe.analytics.util;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;

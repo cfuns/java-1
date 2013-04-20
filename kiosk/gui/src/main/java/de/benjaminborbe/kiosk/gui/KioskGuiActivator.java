@@ -1,6 +1,6 @@
 package de.benjaminborbe.kiosk.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.kiosk.gui.guice.KioskGuiModules;
 import de.benjaminborbe.kiosk.gui.servlet.KioskGuiBookServlet;
 import de.benjaminborbe.kiosk.gui.servlet.KioskGuiServlet;

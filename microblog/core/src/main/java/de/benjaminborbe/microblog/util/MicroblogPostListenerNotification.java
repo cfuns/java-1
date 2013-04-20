@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPost;

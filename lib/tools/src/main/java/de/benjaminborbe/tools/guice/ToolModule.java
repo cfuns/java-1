@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.guice;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.tools.util.ThreadRunnerImpl;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.analytics.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.analytics.dao.AnalyticsReportValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;

@@ -2,9 +2,9 @@ package de.benjaminborbe.configuration.core.dao;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.storage.tools.DaoCache;

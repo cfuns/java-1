@@ -1,6 +1,6 @@
 package de.benjaminborbe.poker.card;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.poker.api.PokerCardColor;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerCardValue;

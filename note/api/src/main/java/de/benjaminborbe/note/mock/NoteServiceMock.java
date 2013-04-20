@@ -2,8 +2,6 @@ package de.benjaminborbe.note.mock;
 
 import java.util.Collection;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -15,10 +13,8 @@ import de.benjaminborbe.note.api.NoteIdentifier;
 import de.benjaminborbe.note.api.NoteService;
 import de.benjaminborbe.note.api.NoteServiceException;
 
-@Singleton
 public class NoteServiceMock implements NoteService {
 
-	@Inject
 	public NoteServiceMock() {
 	}
 

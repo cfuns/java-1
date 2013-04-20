@@ -1,7 +1,7 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.portfolio.gui.util.PortfolioGuiCacheUtil;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.http.HttpFilter;

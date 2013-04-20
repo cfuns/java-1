@@ -2,7 +2,7 @@ package de.benjaminborbe.search.gui.util;
 
 import java.util.List;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.search.gui.SearchGuiConstants;
 import de.benjaminborbe.tools.util.StringUtil;

@@ -2,7 +2,7 @@ package de.benjaminborbe.shortener.gui.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
 import de.benjaminborbe.shortener.gui.ShortenerGuiConstants;

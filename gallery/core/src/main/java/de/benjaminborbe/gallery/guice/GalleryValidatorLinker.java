@@ -1,6 +1,6 @@
 package de.benjaminborbe.gallery.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.gallery.validation.GalleryCollectionValidator;
 import de.benjaminborbe.gallery.validation.GalleryEntryValidator;

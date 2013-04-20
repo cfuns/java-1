@@ -1,14 +1,10 @@
 package de.benjaminborbe.loggly.mock;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import de.benjaminborbe.loggly.api.LogglyService;
 
-@Singleton
 public class LogglyServiceMock implements LogglyService {
 
-	@Inject
 	public LogglyServiceMock() {
 	}
 

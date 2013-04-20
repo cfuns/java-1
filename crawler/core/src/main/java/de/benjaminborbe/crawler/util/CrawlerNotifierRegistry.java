@@ -1,7 +1,7 @@
 package de.benjaminborbe.crawler.util;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.tools.registry.RegistryBase;

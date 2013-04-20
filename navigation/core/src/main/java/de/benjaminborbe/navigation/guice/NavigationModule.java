@@ -3,7 +3,7 @@ package de.benjaminborbe.navigation.guice;
 import org.slf4j.Logger;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.navigation.api.NavigationService;
 import de.benjaminborbe.navigation.service.NavigationServiceImpl;

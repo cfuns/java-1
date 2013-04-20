@@ -2,7 +2,7 @@ package de.benjaminborbe.mail.service;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.mail.MailConstants;
 import de.benjaminborbe.mail.api.Mail;

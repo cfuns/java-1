@@ -2,7 +2,7 @@ package de.benjaminborbe.storage.gui.servlet;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;

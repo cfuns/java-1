@@ -1,6 +1,6 @@
 package de.benjaminborbe.gwt.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.gwt.gui.guice.GwtGuiModules;
 import de.benjaminborbe.gwt.gui.servlet.GwtGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;

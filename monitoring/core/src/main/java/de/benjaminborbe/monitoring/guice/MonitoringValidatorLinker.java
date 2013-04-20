@@ -1,6 +1,6 @@
 package de.benjaminborbe.monitoring.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.monitoring.dao.MonitoringNodeValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.projectile.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.storage.api.StorageException;

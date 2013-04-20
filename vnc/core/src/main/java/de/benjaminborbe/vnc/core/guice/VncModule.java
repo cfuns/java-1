@@ -3,7 +3,7 @@ package de.benjaminborbe.vnc.core.guice;
 import com.glavsoft.viewer.Viewer;
 import com.glavsoft.viewer.ViewerHeadless;
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.vnc.api.VncKeyParser;
 import de.benjaminborbe.vnc.api.VncScreenContent;

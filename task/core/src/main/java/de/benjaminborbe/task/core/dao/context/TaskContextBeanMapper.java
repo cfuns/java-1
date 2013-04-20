@@ -1,6 +1,6 @@
 package de.benjaminborbe.task.core.dao.context;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.task.api.TaskContextIdentifier;

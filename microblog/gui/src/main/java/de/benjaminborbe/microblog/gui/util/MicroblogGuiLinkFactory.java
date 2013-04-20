@@ -5,8 +5,8 @@ import java.net.MalformedURLException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.Widget;

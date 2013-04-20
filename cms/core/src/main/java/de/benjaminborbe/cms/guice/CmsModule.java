@@ -3,7 +3,7 @@ package de.benjaminborbe.cms.guice;
 import org.slf4j.Logger;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.cms.api.CmsService;
 import de.benjaminborbe.cms.service.CmsServiceImpl;

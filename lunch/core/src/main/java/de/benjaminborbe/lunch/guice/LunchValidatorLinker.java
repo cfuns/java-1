@@ -1,6 +1,6 @@
 package de.benjaminborbe.lunch.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.lunch.dao.LunchUserSettingsValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;

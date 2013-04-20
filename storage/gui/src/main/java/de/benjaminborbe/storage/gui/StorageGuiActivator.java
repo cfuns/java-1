@@ -1,6 +1,6 @@
 package de.benjaminborbe.storage.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.storage.gui.guice.StorageGuiModules;
 import de.benjaminborbe.storage.gui.service.StorageGuiNavigationEntry;

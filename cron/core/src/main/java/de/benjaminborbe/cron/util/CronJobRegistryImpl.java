@@ -1,6 +1,6 @@
 package de.benjaminborbe.cron.util;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.cron.api.CronJob;
 
 import java.util.Collection;

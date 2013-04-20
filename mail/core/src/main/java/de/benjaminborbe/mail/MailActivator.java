@@ -1,6 +1,6 @@
 package de.benjaminborbe.mail;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.guice.MailModules;
 import de.benjaminborbe.mail.service.MailMessageConsumer;

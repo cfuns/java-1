@@ -1,6 +1,6 @@
 package de.benjaminborbe.checklist.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.checklist.dao.ChecklistEntryValidator;
 import de.benjaminborbe.checklist.dao.ChecklistListValidator;

@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.checklist.api.ChecklistEntryIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistListIdentifier;

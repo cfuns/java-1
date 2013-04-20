@@ -2,7 +2,7 @@ package de.benjaminborbe.configuration.core.service;
 
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.core.dao.ConfigurationRegistry;

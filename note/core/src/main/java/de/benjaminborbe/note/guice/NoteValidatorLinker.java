@@ -1,6 +1,6 @@
 package de.benjaminborbe.note.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.note.dao.NoteValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;

@@ -1,7 +1,7 @@
 package de.benjaminborbe.gwt.client.gin;
 
 import com.google.gwt.inject.client.AbstractGinModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.gwt.client.MainPanel;
 import de.benjaminborbe.gwt.client.message.DefaultMessages;

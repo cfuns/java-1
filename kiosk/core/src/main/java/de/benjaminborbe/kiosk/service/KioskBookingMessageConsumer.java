@@ -2,7 +2,7 @@ package de.benjaminborbe.kiosk.service;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.kiosk.KioskConstants;
 import de.benjaminborbe.kiosk.booking.KioskBookingConnector;

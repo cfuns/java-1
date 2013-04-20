@@ -1,6 +1,6 @@
 package de.benjaminborbe.distributed.search.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.distributed.search.dao.DistributedSearchPageValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 

@@ -1,7 +1,7 @@
 package de.benjaminborbe.filestorage.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.filestorage.api.FilestorageService;
 import de.benjaminborbe.filestorage.dao.FilestorageEntryDao;
 import de.benjaminborbe.filestorage.dao.FilestorageEntryDaoStorage;

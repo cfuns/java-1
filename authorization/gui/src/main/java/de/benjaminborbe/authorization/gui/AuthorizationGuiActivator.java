@@ -1,6 +1,6 @@
 package de.benjaminborbe.authorization.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.authorization.gui.guice.AuthorizationGuiModules;
 import de.benjaminborbe.authorization.gui.service.AuthorizationGuiNavigationPermissionsEntry;
 import de.benjaminborbe.authorization.gui.service.AuthorizationGuiNavigationRolesEntry;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.sample.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.sample.gui.guice.SampleGuiModules;
 import de.benjaminborbe.sample.gui.servlet.SampleGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;

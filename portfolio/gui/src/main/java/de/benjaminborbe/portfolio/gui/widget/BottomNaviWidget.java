@@ -1,6 +1,6 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;

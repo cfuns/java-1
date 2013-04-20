@@ -1,7 +1,7 @@
 package de.benjaminborbe.website.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.cache.mock.CacheServiceMock;

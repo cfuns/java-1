@@ -2,9 +2,9 @@ package de.benjaminborbe.authorization.dao;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.storage.api.StorageException;

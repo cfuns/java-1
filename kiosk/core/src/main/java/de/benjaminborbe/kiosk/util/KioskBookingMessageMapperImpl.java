@@ -1,6 +1,6 @@
 package de.benjaminborbe.kiosk.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.MapperLong;

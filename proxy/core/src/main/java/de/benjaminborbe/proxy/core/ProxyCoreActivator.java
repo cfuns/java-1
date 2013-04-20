@@ -1,6 +1,6 @@
 package de.benjaminborbe.proxy.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.proxy.api.ProxyService;
 import de.benjaminborbe.proxy.api.ProxyServiceException;
 import de.benjaminborbe.proxy.core.guice.ProxyCoreModules;

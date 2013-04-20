@@ -3,7 +3,7 @@ package de.benjaminborbe.blog.guice;
 import org.slf4j.Logger;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.dao.BlogPostDao;

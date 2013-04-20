@@ -1,6 +1,6 @@
 package de.benjaminborbe.message.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.message.gui.guice.MessageGuiModules;
 import de.benjaminborbe.message.gui.service.MessageGuiNavigationEntry;
 import de.benjaminborbe.message.gui.servlet.MessageGuiDeleteByTypeServlet;

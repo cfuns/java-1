@@ -1,7 +1,7 @@
 package de.benjaminborbe.performance.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.performance.api.PerformanceService;
 import de.benjaminborbe.performance.util.PerformanceServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;

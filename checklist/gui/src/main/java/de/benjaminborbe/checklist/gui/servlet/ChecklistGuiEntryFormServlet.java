@@ -1,6 +1,6 @@
 package de.benjaminborbe.checklist.gui.servlet;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;

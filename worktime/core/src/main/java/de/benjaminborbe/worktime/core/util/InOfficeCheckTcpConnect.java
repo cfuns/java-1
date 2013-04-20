@@ -1,6 +1,6 @@
 package de.benjaminborbe.worktime.core.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import org.slf4j.Logger;
 
 import java.io.IOException;

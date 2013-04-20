@@ -1,6 +1,6 @@
 package de.benjaminborbe.systemstatus.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
 import de.benjaminborbe.systemstatus.core.guice.SystemstatusModules;

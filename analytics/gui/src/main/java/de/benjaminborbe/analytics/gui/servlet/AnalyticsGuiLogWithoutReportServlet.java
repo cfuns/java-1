@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 
 import com.google.common.collect.Lists;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;

@@ -1,7 +1,7 @@
 package de.benjaminborbe.task.gui.util;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.task.api.Task;

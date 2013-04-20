@@ -3,7 +3,7 @@ package de.benjaminborbe.cron.service;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.util.CronJobRegistry;

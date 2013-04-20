@@ -1,7 +1,7 @@
 package de.benjaminborbe.crawler.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.crawler.CrawlerConstants;
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;

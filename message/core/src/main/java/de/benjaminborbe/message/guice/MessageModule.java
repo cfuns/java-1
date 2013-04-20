@@ -3,7 +3,7 @@ package de.benjaminborbe.message.guice;
 import org.slf4j.Logger;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.config.MessageConfig;

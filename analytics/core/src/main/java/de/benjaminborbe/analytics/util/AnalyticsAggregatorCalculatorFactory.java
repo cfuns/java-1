@@ -1,6 +1,6 @@
 package de.benjaminborbe.analytics.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 
 import java.util.HashMap;

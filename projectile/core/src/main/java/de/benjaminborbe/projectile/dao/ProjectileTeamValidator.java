@@ -1,6 +1,6 @@
 package de.benjaminborbe.projectile.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;

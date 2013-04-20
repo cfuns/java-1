@@ -1,6 +1,6 @@
 package de.benjaminborbe.systemstatus.core.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
 import org.slf4j.Logger;
 

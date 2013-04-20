@@ -1,6 +1,6 @@
 package de.benjaminborbe.confluence;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.config.ConfluenceConfig;

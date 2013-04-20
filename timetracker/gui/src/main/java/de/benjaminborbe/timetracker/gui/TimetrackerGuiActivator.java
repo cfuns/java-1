@@ -1,6 +1,6 @@
 package de.benjaminborbe.timetracker.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.timetracker.gui.guice.TimetrackerGuiModules;
 import de.benjaminborbe.timetracker.gui.servlet.TimetrackerGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;

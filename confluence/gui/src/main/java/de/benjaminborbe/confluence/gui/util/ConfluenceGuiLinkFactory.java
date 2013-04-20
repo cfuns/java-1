@@ -1,6 +1,6 @@
 package de.benjaminborbe.confluence.gui.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.gui.ConfluenceGuiConstants;
 import de.benjaminborbe.html.api.Widget;

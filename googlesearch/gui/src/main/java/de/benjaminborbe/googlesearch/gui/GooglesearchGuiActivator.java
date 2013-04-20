@@ -1,6 +1,6 @@
 package de.benjaminborbe.googlesearch.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.googlesearch.gui.guice.GooglesearchGuiModules;
 import de.benjaminborbe.googlesearch.gui.service.GooglesearchGuiMapSpecialSearch;
 import de.benjaminborbe.googlesearch.gui.service.GooglesearchGuiSpecialSearch;

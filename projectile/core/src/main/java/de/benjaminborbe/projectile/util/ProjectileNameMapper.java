@@ -2,7 +2,7 @@ package de.benjaminborbe.projectile.util;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 public class ProjectileNameMapper {
 

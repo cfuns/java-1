@@ -1,6 +1,6 @@
 package de.benjaminborbe.xmpp.connector;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.registry.RegistryChangeListener;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.xmpp.api.XmppCommand;

@@ -5,7 +5,7 @@ import org.osgi.service.log.LogService;
 import org.osgi.service.obr.RepositoryAdmin;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;

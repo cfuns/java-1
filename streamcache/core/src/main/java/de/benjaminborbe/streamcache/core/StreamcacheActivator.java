@@ -1,6 +1,6 @@
 package de.benjaminborbe.streamcache.core;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.streamcache.api.StreamcacheService;
 import de.benjaminborbe.streamcache.core.guice.StreamcacheModules;
 import de.benjaminborbe.tools.guice.Modules;

@@ -1,7 +1,7 @@
 package de.benjaminborbe.systemstatus.core.guice;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
 import de.benjaminborbe.systemstatus.core.service.SystemstatusServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;

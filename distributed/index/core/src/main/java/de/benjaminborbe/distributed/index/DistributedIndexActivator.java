@@ -1,6 +1,6 @@
 package de.benjaminborbe.distributed.index;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
 import de.benjaminborbe.distributed.index.guice.DistributedIndexModules;
 import de.benjaminborbe.tools.guice.Modules;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.filestorage.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
 import de.benjaminborbe.filestorage.util.MapperFilestorageEntryIdentifier;

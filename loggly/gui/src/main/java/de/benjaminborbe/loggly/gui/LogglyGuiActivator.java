@@ -1,6 +1,6 @@
 package de.benjaminborbe.loggly.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.loggly.gui.guice.LogglyGuiModules;
 import de.benjaminborbe.loggly.gui.servlet.LogglyGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;

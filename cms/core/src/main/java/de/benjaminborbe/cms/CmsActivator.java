@@ -1,6 +1,6 @@
 package de.benjaminborbe.cms;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.cms.api.CmsService;
 import de.benjaminborbe.cms.guice.CmsModules;
 import de.benjaminborbe.tools.guice.Modules;

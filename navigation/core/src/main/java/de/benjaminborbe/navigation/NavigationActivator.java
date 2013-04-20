@@ -1,6 +1,6 @@
 package de.benjaminborbe.navigation;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationService;
 import de.benjaminborbe.navigation.guice.NavigationModules;

@@ -2,8 +2,8 @@ package de.benjaminborbe.navigation.service;
 
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.util.NavigationEntryRegistry;

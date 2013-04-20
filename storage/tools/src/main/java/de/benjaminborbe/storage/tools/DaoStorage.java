@@ -1,8 +1,8 @@
 package de.benjaminborbe.storage.tools;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.api.IdentifierBuilderException;

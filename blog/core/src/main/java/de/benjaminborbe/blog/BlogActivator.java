@@ -1,6 +1,6 @@
 package de.benjaminborbe.blog;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.guice.BlogModules;
 import de.benjaminborbe.tools.guice.Modules;

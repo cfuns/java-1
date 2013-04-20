@@ -1,6 +1,6 @@
 package de.benjaminborbe.performance;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.performance.api.PerformanceService;
 import de.benjaminborbe.performance.guice.PerformanceModules;
 import de.benjaminborbe.tools.guice.Modules;

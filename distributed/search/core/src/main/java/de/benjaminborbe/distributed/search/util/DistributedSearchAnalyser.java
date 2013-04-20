@@ -2,7 +2,7 @@ package de.benjaminborbe.distributed.search.util;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.search.SearchUtil;
 import org.slf4j.Logger;
 

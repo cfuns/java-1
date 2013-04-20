@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.queue;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import org.slf4j.Logger;
 

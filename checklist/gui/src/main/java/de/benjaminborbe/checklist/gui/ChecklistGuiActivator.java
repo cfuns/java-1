@@ -1,6 +1,6 @@
 package de.benjaminborbe.checklist.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.checklist.gui.guice.ChecklistGuiModules;
 import de.benjaminborbe.checklist.gui.service.ChecklistGuiNavigationEntry;
 import de.benjaminborbe.checklist.gui.servlet.ChecklistGuiEntryCompleteServlet;

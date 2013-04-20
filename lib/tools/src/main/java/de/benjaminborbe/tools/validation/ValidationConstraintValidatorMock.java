@@ -1,6 +1,6 @@
 package de.benjaminborbe.tools.validation;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 

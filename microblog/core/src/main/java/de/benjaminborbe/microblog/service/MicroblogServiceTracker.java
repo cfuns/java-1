@@ -2,7 +2,7 @@ package de.benjaminborbe.microblog.service;
 
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.microblog.api.MicroblogPostListener;
 import de.benjaminborbe.microblog.util.MicroblogPostListenerRegistry;

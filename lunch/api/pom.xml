@@ -42,7 +42,7 @@
 					</supportedProjectTypes>
 					<instructions>
 						<Export-Package>de.benjaminborbe.lunch.api.*</Export-Package>
-						<Bundle-Activator>de.benjaminborbe.lunch.LunchApiActivator</Bundle-Activator>
+						<Bundle-Activator></Bundle-Activator>
 						<Private-Package>de.benjaminborbe.lunch.*</Private-Package>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
@@ -59,16 +59,6 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<dependency>
-			<groupId>org.ops4j</groupId>
-			<artifactId>peaberry</artifactId>
-			<version>${peaberry.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject.extensions</groupId>
-			<artifactId>guice-servlet</artifactId>
-			<version>${guice.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
@@ -92,32 +82,6 @@
 			<artifactId>org.apache.felix.http.api</artifactId>
 			<version>${felix.version.http}</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>${slf4j.impl}</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>${easymock.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

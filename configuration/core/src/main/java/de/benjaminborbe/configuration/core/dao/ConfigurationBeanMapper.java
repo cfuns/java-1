@@ -1,6 +1,6 @@
 package de.benjaminborbe.configuration.core.dao;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.core.util.MapperConfigurationIdentifier;

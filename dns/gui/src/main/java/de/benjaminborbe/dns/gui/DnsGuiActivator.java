@@ -1,6 +1,6 @@
 package de.benjaminborbe.dns.gui;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.dns.gui.guice.DnsGuiModules;
 import de.benjaminborbe.dns.gui.servlet.DnsGuiServlet;
 import de.benjaminborbe.tools.guice.Modules;

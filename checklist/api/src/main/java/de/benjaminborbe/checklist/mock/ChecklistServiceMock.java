@@ -2,9 +2,6 @@ package de.benjaminborbe.checklist.mock;
 
 import java.util.Collection;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -16,10 +13,8 @@ import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.api.ChecklistServiceException;
 
-@Singleton
 public class ChecklistServiceMock implements ChecklistService {
 
-	@Inject
 	public ChecklistServiceMock() {
 	}
 

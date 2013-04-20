@@ -2,8 +2,8 @@ package de.benjaminborbe.projectile.dao;
 
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;

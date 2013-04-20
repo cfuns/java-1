@@ -1,7 +1,7 @@
 package de.benjaminborbe.dns.core.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.dns.api.DnsService;
 import de.benjaminborbe.dns.api.DnsServiceException;
 import org.slf4j.Logger;

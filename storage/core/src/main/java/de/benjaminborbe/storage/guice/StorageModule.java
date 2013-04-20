@@ -3,7 +3,7 @@ package de.benjaminborbe.storage.guice;
 import org.slf4j.Logger;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.storage.api.StorageService;

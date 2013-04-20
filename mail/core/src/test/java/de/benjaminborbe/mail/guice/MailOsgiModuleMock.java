@@ -4,7 +4,7 @@ import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.mock.MessageServiceMock;

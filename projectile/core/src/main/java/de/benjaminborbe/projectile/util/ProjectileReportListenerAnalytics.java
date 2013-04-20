@@ -3,7 +3,7 @@ package de.benjaminborbe.projectile.util;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;

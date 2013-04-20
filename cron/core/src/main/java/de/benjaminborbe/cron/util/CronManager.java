@@ -3,7 +3,7 @@ package de.benjaminborbe.cron.util;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.tools.util.ThreadRunner;
 

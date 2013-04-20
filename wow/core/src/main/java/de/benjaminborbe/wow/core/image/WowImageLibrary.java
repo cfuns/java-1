@@ -1,6 +1,6 @@
 package de.benjaminborbe.wow.core.image;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.tools.image.Pixels;
 import de.benjaminborbe.tools.image.PixelsImpl;
 import de.benjaminborbe.tools.util.ResourceUtil;

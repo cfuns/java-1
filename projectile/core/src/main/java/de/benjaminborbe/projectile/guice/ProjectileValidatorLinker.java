@@ -1,6 +1,6 @@
 package de.benjaminborbe.projectile.guice;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 
 import de.benjaminborbe.projectile.dao.ProjectileTeamValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;

@@ -1,6 +1,6 @@
 package de.benjaminborbe.mail.util;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailServiceException;
 import org.slf4j.Logger;

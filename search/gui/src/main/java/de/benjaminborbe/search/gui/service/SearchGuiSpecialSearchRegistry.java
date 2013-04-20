@@ -1,7 +1,7 @@
 package de.benjaminborbe.search.gui.service;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.registry.RegistryBase;

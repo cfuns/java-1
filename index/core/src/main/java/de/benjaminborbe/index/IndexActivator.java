@@ -1,6 +1,6 @@
 package de.benjaminborbe.index;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.config.IndexConfig;

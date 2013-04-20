@@ -1,7 +1,7 @@
 package de.benjaminborbe.wow.core.xmpp;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import de.benjaminborbe.tools.registry.RegistryBase;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 

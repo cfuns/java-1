@@ -1,7 +1,5 @@
 package de.benjaminborbe.configuration.mock;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
@@ -11,12 +9,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@Singleton
 public class ConfigurationServiceMock implements ConfigurationService {
 
 	private final Map<ConfigurationIdentifier, String> data = new HashMap<>();
 
-	@Inject
 	public ConfigurationServiceMock() {
 	}
 

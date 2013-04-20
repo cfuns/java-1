@@ -1,6 +1,6 @@
 package de.benjaminborbe.checklist;
 
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.guice.ChecklistModules;
 import de.benjaminborbe.tools.guice.Modules;
