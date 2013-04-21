@@ -26,6 +26,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.PreWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -74,11 +75,15 @@ public class ProxyGuiConversationDetailsServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final ProxyConversationIdentifier proxyConversationIdentifier = proxyService.createProxyConversationIdentifier(request.getParameter(ProxyGuiConstants.PARAMETER_CONVERSATION_ID));
 			final ProxyConversation proxyConversation = proxyService.getProxyConversation(proxyConversationIdentifier);
-			widgets.add(new H2Widget("Request"));
-			widgets.add(new PreWidget(new String(proxyConversation.getRequest().getContent())));
-			widgets.add(new H2Widget("Response"));
-			widgets.add(new PreWidget(new String(proxyConversation.getResponse().getContent())));
-
+			if (proxyConversation != null) {
+				widgets.add(new H2Widget("Request"));
+				widgets.add(new PreWidget(new String(proxyConversation.getRequest().getContent())));
+				widgets.add(new H2Widget("Response"));
+				widgets.add(new PreWidget(new String(proxyConversation.getResponse().getContent())));
+			} else {
+				widgets.add("no data found");
+				widgets.add(new BrWidget());
+			}
 			widgets.add(proxyGuiLinkFactory.conversationList(request));
 
 			return widgets;

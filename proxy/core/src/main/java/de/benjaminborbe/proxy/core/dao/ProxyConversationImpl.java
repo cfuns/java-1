@@ -12,7 +12,10 @@ public class ProxyConversationImpl implements ProxyConversation {
 
 	private final ProxyContent request;
 
-	public ProxyConversationImpl(final ProxyConversationIdentifier id, final ProxyContent request, final ProxyContent response) {
+	public ProxyConversationImpl(
+		final ProxyConversationIdentifier id,
+		final ProxyContent request,
+		final ProxyContent response) {
 		this.id = id;
 		this.request = request;
 		this.response = response;

@@ -1,8 +1,7 @@
 package de.benjaminborbe.tools.util;
 
-import java.util.Random;
-
 import javax.inject.Inject;
+import java.util.Random;
 
 public class RandomUtil {
 
@@ -33,9 +32,12 @@ public class RandomUtil {
 		}
 		if (maxDelta > 0) {
 			return random.nextInt(maxDelta);
-		}
-		else {
+		} else {
 			return random.nextInt(maxDelta * -1) * -1;
 		}
+	}
+
+	public int getRandomInt(int minValue, int maxValue) {
+		return minValue + random.nextInt(maxValue - minValue);
 	}
 }

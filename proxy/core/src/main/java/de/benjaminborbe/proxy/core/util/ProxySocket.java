@@ -10,6 +10,7 @@ import de.benjaminborbe.tools.stream.OutputStreamCopy;
 import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.RandomUtil;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import org.slf4j.Logger;
 
@@ -25,8 +26,6 @@ import java.net.Socket;
 @Singleton
 public class ProxySocket {
 
-	private static final int PORT = 7777;
-
 	private static final String NEWLINE = "\r\n";
 
 	private static final String PROXY_NAME = "BBProxy";
@@ -41,17 +40,26 @@ public class ProxySocket {
 
 	private final ProxyCoreConversationDao proxyCoreConversationDao;
 
+	private final RandomUtil randomUtil;
+
 	private final IdGeneratorUUID idGenerator;
 
 	private ServerSocket serverSocket = null;
 
 	@Inject
-	public ProxySocket(final Logger logger, final ProxyUtil proxyUtil, final ThreadRunner threadRunner, final StreamUtil streamUtil, final ProxyCoreConversationDao proxyCoreConversationDao, final IdGeneratorUUID idGenerator) {
+	public ProxySocket(final Logger logger,
+										 final ProxyUtil proxyUtil,
+										 final ThreadRunner threadRunner,
+										 final StreamUtil streamUtil,
+										 final ProxyCoreConversationDao proxyCoreConversationDao,
+										 final RandomUtil randomUtil,
+										 final IdGeneratorUUID idGenerator) {
 		this.logger = logger;
 		this.proxyUtil = proxyUtil;
 		this.threadRunner = threadRunner;
 		this.streamUtil = streamUtil;
 		this.proxyCoreConversationDao = proxyCoreConversationDao;
+		this.randomUtil = randomUtil;
 		this.idGenerator = idGenerator;
 	}
 
@@ -119,8 +127,9 @@ public class ProxySocket {
 		@Override
 		public void run() {
 			try {
-				logger.debug("create ServerSocket on port: " + PORT);
-				serverSocket = new ServerSocket(PORT);
+				final int port = createRandomPort();
+				logger.debug("create ServerSocket on port: " + port);
+				serverSocket = new ServerSocket(port);
 				serverSocket.setReuseAddress(false);
 				// serverSocket.setSoTimeout(4000);
 				// serverSocket.bind(new InetSocketAddress("0.0.0.0", PORT));
@@ -156,7 +165,7 @@ public class ProxySocket {
 					logger.trace("start");
 					final ProxyContentImpl requestContent = new ProxyContentImpl();
 					final ProxyContentImpl responseContent = new ProxyContentImpl();
-					final ProxyConversation proxyConversation = new ProxyConversationImpl(createNewId(), requestContent, requestContent);
+					final ProxyConversation proxyConversation = new ProxyConversationImpl(createNewId(), requestContent, responseContent);
 					proxyCoreConversationDao.add(proxyConversation);
 
 					final InputStream clientInputStream = clientSocket.getInputStream();
@@ -189,6 +198,10 @@ public class ProxySocket {
 				}
 			}
 		}
+	}
+
+	private int createRandomPort() {
+		return randomUtil.getRandomInt(1024, 0xFFFF);
 	}
 
 	private ProxyConversationIdentifier createNewId() {
