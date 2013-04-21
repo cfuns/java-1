@@ -53,9 +53,10 @@ public class ProxyIntegrationTest extends TestCaseOsgi {
 		assertEquals("de.benjaminborbe.proxy.core.service.ProxyCoreServiceImpl", service.getClass().getName());
 	}
 
-	public void testCalc() throws Exception {
+	public void testGetConversations() throws Exception {
 		final ProxyService proxyService = getService(ProxyService.class);
-		assertEquals(46, proxyService.calc(23));
+		assertNotNull(proxyService.getConversations());
+		assertEquals(0, proxyService.getConversations().size());
 	}
 
 }

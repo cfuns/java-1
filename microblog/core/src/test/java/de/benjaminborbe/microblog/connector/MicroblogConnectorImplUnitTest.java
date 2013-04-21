@@ -1,14 +1,5 @@
 package de.benjaminborbe.microblog.connector;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.net.URL;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.config.MicroblogConfig;
@@ -26,10 +17,19 @@ import de.benjaminborbe.tools.html.HtmlUtilImpl;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
+import de.benjaminborbe.tools.stream.ChannelTools;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ResourceUtil;
 import de.benjaminborbe.tools.util.ResourceUtilImpl;
-import de.benjaminborbe.tools.util.StreamUtil;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.net.URL;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class MicroblogConnectorImplUnitTest {
 
@@ -70,16 +70,16 @@ public class MicroblogConnectorImplUnitTest {
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
 		final MicroblogConnector microblogConnector = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil, parseUtil,
-				htmlUtil);
+			htmlUtil);
 		assertEquals(rev, microblogConnector.getLatestRevision());
 	}
 
 	@Test
 	public void testExtractContentJoinGroup() throws Exception {
-		final StringBuffer pageContent = new StringBuffer();
+		final StringBuilder pageContent = new StringBuilder();
 		pageContent.append("<div class=\"entry-title\">");
 		pageContent
-				.append("<div class=\"join-activity\"><a href=\"https://micro.rp.seibert-media.net/bgates\">Bill Gates</a> joined the group <a href=\"https://micro.rp.seibert-media.net/group/tech\">HELL</a>.</div>");
+			.append("<div class=\"join-activity\"><a href=\"https://micro.rp.seibert-media.net/bgates\">Bill Gates</a> joined the group <a href=\"https://micro.rp.seibert-media.net/group/tech\">HELL</a>.</div>");
 		pageContent.append("</div>");
 		pageContent.append("<div class=\"entry-content\">");
 		pageContent.append("<a rel=\"bookmark\" class=\"timestamp\" href=\"https://micro.rp.seibert-media.net/notice/27693\">");
@@ -114,10 +114,10 @@ public class MicroblogConnectorImplUnitTest {
 
 		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
 		EasyMock
-				.expect(
-						htmlUtil
-								.filterHtmlTages("<a href=\"https://micro.rp.seibert-media.net/bgates\">Bill Gates</a> joined the group <a href=\"https://micro.rp.seibert-media.net/group/tech\">HELL</a>."))
-				.andReturn(result);
+			.expect(
+				htmlUtil
+					.filterHtmlTages("<a href=\"https://micro.rp.seibert-media.net/bgates\">Bill Gates</a> joined the group <a href=\"https://micro.rp.seibert-media.net/group/tech\">HELL</a>."))
+			.andReturn(result);
 		EasyMock.expect(htmlUtil.unescapeHtml(result)).andReturn(result);
 		EasyMock.replay(htmlUtil);
 
@@ -129,14 +129,14 @@ public class MicroblogConnectorImplUnitTest {
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
 		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil,
-				parseUtil, htmlUtil);
+			parseUtil, htmlUtil);
 
 		assertEquals(result, microblogConnectorImpl.extractContent(pageContent.toString()));
 	}
 
 	@Test
 	public void testExtractContent() throws Exception {
-		final StringBuffer pageContent = new StringBuffer();
+		final StringBuilder pageContent = new StringBuilder();
 		pageContent.append("<h1>Bill Gates (bgates)'s status on Thursday, 19-Jan-12 12:39:37 CET</h1>");
 		pageContent.append("<div id=\"content_inner\">");
 		pageContent.append("<ol class=\"notices xoxo\">");
@@ -203,14 +203,14 @@ public class MicroblogConnectorImplUnitTest {
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
 		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil,
-				parseUtil, htmlUtil);
+			parseUtil, htmlUtil);
 
 		assertEquals(result, microblogConnectorImpl.extractContent(pageContent.toString()));
 	}
 
 	@Test
 	public void testExtractAuthor() {
-		final StringBuffer pageContent = new StringBuffer();
+		final StringBuilder pageContent = new StringBuilder();
 		pageContent.append("<span class=\"vcard author\">");
 		pageContent.append("<a href=\"https://micro.rp.seibert-media.net/bgates\" class=\"url\" title=\"bgates\">");
 		pageContent.append("<img src=\"https://micro.rp.seibert-media.net/avatar/76-48-20110505084348.jpeg\" class=\"avatar photo\" alt=\"Bill Gates\" height=\"48\" width=\"48\">");
@@ -251,13 +251,13 @@ public class MicroblogConnectorImplUnitTest {
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
 		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil,
-				parseUtil, htmlUtil);
+			parseUtil, htmlUtil);
 		assertEquals("bgates", microblogConnectorImpl.extractAuthor(pageContent.toString()));
 	}
 
 	@Test
 	public void testExtractConversationUrl() {
-		final StringBuffer pageContent = new StringBuffer();
+		final StringBuilder pageContent = new StringBuilder();
 
 		pageContent.append("<div class=\"entry-content\">");
 		pageContent.append("<a href=\"https://micro.rp.seibert-media.net/notice/1337\" class=\"timestamp\" rel=\"bookmark\">");
@@ -300,7 +300,7 @@ public class MicroblogConnectorImplUnitTest {
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
 		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil,
-				parseUtil, htmlUtil);
+			parseUtil, htmlUtil);
 		assertEquals("https://micro.rp.seibert-media.net/conversation/42#notice-1337", microblogConnectorImpl.extractConversationUrl(pageContent.toString()));
 	}
 
@@ -328,7 +328,7 @@ public class MicroblogConnectorImplUnitTest {
 
 		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
-		final StreamUtil streamUtil = new StreamUtil();
+		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 
 		final MicroblogConfig microblogConfig = EasyMock.createMock(MicroblogConfig.class);
@@ -339,7 +339,7 @@ public class MicroblogConnectorImplUnitTest {
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
 		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil,
-				parseUtil, htmlUtil);
+			parseUtil, htmlUtil);
 		final String pageContent = resourceUtil.getResourceContentAsString("sample_conversation.txt");
 		assertNotNull(pageContent);
 		final String conversationUrl = "http://testd.de";

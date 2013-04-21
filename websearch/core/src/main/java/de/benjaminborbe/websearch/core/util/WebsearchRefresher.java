@@ -1,6 +1,5 @@
 package de.benjaminborbe.websearch.core.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
@@ -9,6 +8,8 @@ import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.websearch.core.config.WebsearchConfig;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class WebsearchRefresher {
 
@@ -25,7 +26,8 @@ public class WebsearchRefresher {
 				while (i.hasNext()) {
 					final WebsearchPageBean page = i.next();
 					try {
-						if (websearchConfig.getRefreshLimit() != null && websearchConfig.getRefreshLimit() >= 0 && counter > websearchConfig.getRefreshLimit()) {
+						final Integer refreshLimit = websearchConfig.getRefreshLimit();
+						if (refreshLimit != null && refreshLimit >= 0 && counter > refreshLimit) {
 							logger.debug("refresh pages limit reached => exit");
 							return;
 						}

@@ -1,14 +1,14 @@
 package de.benjaminborbe.tools.http;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.Encoding;
-import de.benjaminborbe.tools.util.StreamUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -117,7 +117,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			final String contentType = connection.getContentType();
 			final Map<String, List<String>> headers = connection.getHeaderFields();
 			final Encoding contentEncoding = extractEncoding(connection, contentType);
-			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding, headers);
+			final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), content, contentType, contentEncoding, headers);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
 		} finally {
@@ -209,7 +209,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			final String contentType = connection.getContentType();
 			final Map<String, List<String>> headers = connection.getHeaderFields();
 			final Encoding contentEncoding = extractEncoding(connection, contentType);
-			final HttpDownloadResult httpDownloadResult = new HttpDownloadResult(duration.getTime(), content, contentType, contentEncoding, headers);
+			final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), content, contentType, contentEncoding, headers);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
 		} catch (final IOException e) {

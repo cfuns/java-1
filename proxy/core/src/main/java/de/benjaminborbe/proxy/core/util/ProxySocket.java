@@ -1,12 +1,20 @@
 package de.benjaminborbe.proxy.core.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import de.benjaminborbe.proxy.api.ProxyConversation;
+import de.benjaminborbe.proxy.api.ProxyConversationIdentifier;
+import de.benjaminborbe.proxy.core.dao.ProxyContentImpl;
+import de.benjaminborbe.proxy.core.dao.ProxyConversationImpl;
+import de.benjaminborbe.proxy.core.dao.ProxyCoreConversationDao;
+import de.benjaminborbe.tools.stream.InputStreamCopy;
+import de.benjaminborbe.tools.stream.OutputStreamCopy;
+import de.benjaminborbe.tools.stream.StreamUtil;
+import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.tools.util.StreamUtil;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,7 +25,7 @@ import java.net.Socket;
 @Singleton
 public class ProxySocket {
 
-	private static final int PORT = 9999;
+	private static final int PORT = 7777;
 
 	private static final String NEWLINE = "\r\n";
 
@@ -31,14 +39,20 @@ public class ProxySocket {
 
 	private final StreamUtil streamUtil;
 
+	private final ProxyCoreConversationDao proxyCoreConversationDao;
+
+	private final IdGeneratorUUID idGenerator;
+
 	private ServerSocket serverSocket = null;
 
 	@Inject
-	public ProxySocket(final Logger logger, final ProxyUtil proxyUtil, final ThreadRunner threadRunner, final StreamUtil streamUtil) {
+	public ProxySocket(final Logger logger, final ProxyUtil proxyUtil, final ThreadRunner threadRunner, final StreamUtil streamUtil, final ProxyCoreConversationDao proxyCoreConversationDao, final IdGeneratorUUID idGenerator) {
 		this.logger = logger;
 		this.proxyUtil = proxyUtil;
 		this.threadRunner = threadRunner;
 		this.streamUtil = streamUtil;
+		this.proxyCoreConversationDao = proxyCoreConversationDao;
+		this.idGenerator = idGenerator;
 	}
 
 	private String readLine(final InputStream is) throws IOException {
@@ -105,10 +119,12 @@ public class ProxySocket {
 		@Override
 		public void run() {
 			try {
+				logger.debug("create ServerSocket on port: " + PORT);
 				serverSocket = new ServerSocket(PORT);
 				serverSocket.setReuseAddress(false);
 				// serverSocket.setSoTimeout(4000);
 				// serverSocket.bind(new InetSocketAddress("0.0.0.0", PORT));
+				// serverSocket.bind(new InetSocketAddress("127.0.0.1", PORT));
 				while (serverSocket != null) {
 					final Socket clientSocket = serverSocket.accept();
 					threadRunner.run("request", new ProxyRequestRunnable(clientSocket));
@@ -138,6 +154,10 @@ public class ProxySocket {
 			public void run() {
 				try {
 					logger.trace("start");
+					final ProxyContentImpl requestContent = new ProxyContentImpl();
+					final ProxyContentImpl responseContent = new ProxyContentImpl();
+					final ProxyConversation proxyConversation = new ProxyConversationImpl(createNewId(), requestContent, requestContent);
+					proxyCoreConversationDao.add(proxyConversation);
 
 					final InputStream clientInputStream = clientSocket.getInputStream();
 					final String line = readLine(clientInputStream);
@@ -146,14 +166,14 @@ public class ProxySocket {
 					logger.trace("header parsed");
 
 					final Socket remoteSocket = new Socket(proxyUtil.parseHostname(line), proxyUtil.parsePort(line));
-					final OutputStream remoteOutputStream = remoteSocket.getOutputStream();
+					final OutputStream remoteOutputStream = new OutputStreamCopy(remoteSocket.getOutputStream(), requestContent.getOutputStream());
 					remoteOutputStream.write(line.getBytes());
 					remoteOutputStream.write(NEWLINE.getBytes());
 					remoteOutputStream.write(header.getBytes());
 					remoteOutputStream.flush();
 					logger.trace("send header to remote");
 
-					final InputStream remoteInputStream = remoteSocket.getInputStream();
+					final InputStream remoteInputStream = new InputStreamCopy(remoteSocket.getInputStream(), responseContent.getOutputStream());
 					final OutputStream clientOutputStream = clientSocket.getOutputStream();
 					streamUtil.copy(remoteInputStream, clientOutputStream);
 
@@ -169,5 +189,9 @@ public class ProxySocket {
 				}
 			}
 		}
+	}
+
+	private ProxyConversationIdentifier createNewId() {
+		return new ProxyConversationIdentifier(idGenerator.nextId());
 	}
 }

@@ -1,8 +1,10 @@
 package de.benjaminborbe.tools.util;
 
-import static org.junit.Assert.assertEquals;
-
+import de.benjaminborbe.tools.stream.ChannelTools;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class ResourceUtilImplUnitTest {
 
@@ -12,14 +14,14 @@ public class ResourceUtilImplUnitTest {
 
 	@Test
 	public void testGetResourceContentAsString() throws Exception {
-		final StreamUtil streamUtil = new StreamUtil();
+		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 		assertEquals(TEST_CONTENT + "\n", resourceUtil.getResourceContentAsString(TEST_FILENAME));
 	}
 
 	@Test
 	public void testGetResourceContentAsByteArray() throws Exception {
-		final StreamUtil streamUtil = new StreamUtil();
+		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 		assertEquals(TEST_CONTENT, new String(resourceUtil.getResourceContentAsByteArray(TEST_FILENAME)));
 	}

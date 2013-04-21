@@ -1,18 +1,18 @@
 package de.benjaminborbe.projectile.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.tools.util.StreamUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.mail.BodyPart;
 import javax.mail.Flags;
 import javax.mail.Folder;

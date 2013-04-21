@@ -1,15 +1,15 @@
 package de.benjaminborbe.tools.html;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
+import de.benjaminborbe.tools.stream.ChannelTools;
+import de.benjaminborbe.tools.stream.StreamUtil;
+import de.benjaminborbe.tools.util.ResourceUtil;
+import de.benjaminborbe.tools.util.ResourceUtilImpl;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.tools.util.ResourceUtil;
-import de.benjaminborbe.tools.util.ResourceUtilImpl;
-import de.benjaminborbe.tools.util.StreamUtil;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class HtmlUtilImplUnitTest {
 
@@ -47,9 +47,9 @@ public class HtmlUtilImplUnitTest {
 		assertEquals(0, htmlUtil.parseLinks("<a rel=\"nofollow\" href=\"http://www.benjamin-borbe.de\">linkLabel</a>").size());
 		assertEquals(1, htmlUtil.parseLinks("<html><body><a href=\"http://www.benjamin-borbe.de\">linkLabel</a></body></html>").size());
 		assertEquals(0, htmlUtil.parseLinks("<html><head><meta name=\"robots\" content=\"nofollow\"></head><body><a href=\"http://www.benjamin-borbe.de\">linkLabel</a></body></html>")
-				.size());
+			.size());
 		assertEquals(0,
-				htmlUtil.parseLinks("<html><head><meta name=\"robots\" content=\"nofollow,test\"></head><body><a href=\"http://www.benjamin-borbe.de\">linkLabel</a></body></html>").size());
+			htmlUtil.parseLinks("<html><head><meta name=\"robots\" content=\"nofollow,test\"></head><body><a href=\"http://www.benjamin-borbe.de\">linkLabel</a></body></html>").size());
 	}
 
 	@Test
@@ -83,16 +83,16 @@ public class HtmlUtilImplUnitTest {
 		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		assertEquals(
-				"bin/nodetool -host 192.168.0.103 drain",
-				htmlUtil
-						.filterHtmlTages("<script type=\"syntaxhighlighter\" class=\"theme: Confluence; brush: java; gutter: false\"><![CDATA[bin/nodetool -host 192.168.0.103 drain]]></script>"));
+			"bin/nodetool -host 192.168.0.103 drain",
+			htmlUtil
+				.filterHtmlTages("<script type=\"syntaxhighlighter\" class=\"theme: Confluence; brush: java; gutter: false\"><![CDATA[bin/nodetool -host 192.168.0.103 drain]]></script>"));
 	}
 
 	@Test
 	public void testFilterHtmlTagesSample() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
-		final StreamUtil streamUtil = new StreamUtil();
+		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
@@ -115,7 +115,7 @@ public class HtmlUtilImplUnitTest {
 		assertEquals(" <a href=\"http://www.heise.de/\">http://www.heise.de/</a> ", htmlUtil.addLinks(" http://www.heise.de/ "));
 		assertEquals("\n<a href=\"http://www.heise.de/\">http://www.heise.de/</a>\n", htmlUtil.addLinks("\nhttp://www.heise.de/\n"));
 		assertEquals("<a href=\"http://www.heise.de/\">http://www.heise.de/</a> <a href=\"http://www.google.de/\">http://www.google.de/</a>",
-				htmlUtil.addLinks("http://www.heise.de/ http://www.google.de/"));
+			htmlUtil.addLinks("http://www.heise.de/ http://www.google.de/"));
 
 		// https
 		assertEquals("<a href=\"https://www.heise.de/\">https://www.heise.de/</a>", htmlUtil.addLinks("https://www.heise.de/"));

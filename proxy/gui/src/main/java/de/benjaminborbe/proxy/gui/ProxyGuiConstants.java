@@ -13,4 +13,10 @@ public interface ProxyGuiConstants {
 	String URL_STOP = "/stop";
 
 	String URL_START = "/start";
+
+	String URL_CONVERSATION_LIST = "/converation/list";
+
+	String URL_CONVERSATION_DETAILS = "/converation/details";
+
+	String PARAMETER_CONVERSATION_ID = "conversation_id";
 }

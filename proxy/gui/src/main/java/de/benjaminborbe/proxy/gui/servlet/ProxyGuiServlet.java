@@ -1,8 +1,6 @@
 package de.benjaminborbe.proxy.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -10,11 +8,13 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.util.StreamUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;

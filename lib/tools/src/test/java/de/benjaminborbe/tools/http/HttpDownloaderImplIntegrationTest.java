@@ -1,9 +1,18 @@
 package de.benjaminborbe.tools.http;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import com.google.inject.Injector;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.ToolModules;
+import de.benjaminborbe.tools.stream.ChannelTools;
+import de.benjaminborbe.tools.stream.StreamUtil;
+import de.benjaminborbe.tools.util.Base64Util;
+import de.benjaminborbe.tools.util.Base64UtilImpl;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
+import org.easymock.EasyMock;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -11,20 +20,10 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.URL;
 
-import org.easymock.EasyMock;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.slf4j.Logger;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.tools.guice.ToolModules;
-import de.benjaminborbe.tools.util.Base64Util;
-import de.benjaminborbe.tools.util.Base64UtilImpl;
-import de.benjaminborbe.tools.util.Duration;
-import de.benjaminborbe.tools.util.DurationUtil;
-import de.benjaminborbe.tools.util.StreamUtil;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class HttpDownloaderImplIntegrationTest {
 
@@ -40,15 +39,12 @@ public class HttpDownloaderImplIntegrationTest {
 			socket.connect(endpoint, 500);
 			notFound = !socket.isConnected();
 			notFound = false;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			notFound = true;
-		}
-		finally {
+		} finally {
 			try {
 				socket.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 			}
 		}
 	}
@@ -61,7 +57,7 @@ public class HttpDownloaderImplIntegrationTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final StreamUtil streamUtil = new StreamUtil();
+		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
 
 		final Duration duration = EasyMock.createMock(Duration.class);
 		EasyMock.expect(duration.getTime()).andReturn(1337l).anyTimes();
@@ -95,7 +91,7 @@ public class HttpDownloaderImplIntegrationTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final StreamUtil streamUtil = new StreamUtil();
+		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
 
 		final Duration duration = EasyMock.createMock(Duration.class);
 		EasyMock.expect(duration.getTime()).andReturn(1337l).anyTimes();
@@ -113,8 +109,7 @@ public class HttpDownloaderImplIntegrationTest {
 			try {
 				httpDownloader.getUrl(url, TIMEOUT);
 				fail("exception expected");
-			}
-			catch (final HttpDownloaderException e) {
+			} catch (final HttpDownloaderException e) {
 				assertNotNull(e);
 			}
 
@@ -129,8 +124,7 @@ public class HttpDownloaderImplIntegrationTest {
 			try {
 				httpDownloader.getUrlUnsecure(url, TIMEOUT);
 				fail("exception expected");
-			}
-			catch (final HttpDownloaderException e) {
+			} catch (final HttpDownloaderException e) {
 				assertNotNull(e);
 			}
 
@@ -150,7 +144,7 @@ public class HttpDownloaderImplIntegrationTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final StreamUtil streamUtil = new StreamUtil();
+		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
 
 		final Duration duration = EasyMock.createMock(Duration.class);
 		EasyMock.expect(duration.getTime()).andReturn(1337l).anyTimes();

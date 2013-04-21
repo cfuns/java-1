@@ -72,8 +72,8 @@ cleanup:
 	find . -name '.svn' -exec rm -rf "{}" \;
 	find . -name 'target' -exec rm -rf "{}" \;
 buildtools:
-	cd tools && make all
-	cd tools_osgi && make all 
+	cd lib/tools && make all
+	cd lib/tools_osgi && make all 
 buildwebsite:
 	cd website && make all
 buildlunch:

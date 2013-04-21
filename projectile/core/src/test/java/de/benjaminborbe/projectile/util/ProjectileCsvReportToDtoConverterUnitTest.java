@@ -1,19 +1,19 @@
 package de.benjaminborbe.projectile.util;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import java.util.Calendar;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
+import de.benjaminborbe.tools.stream.ChannelTools;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 import de.benjaminborbe.tools.util.ResourceUtil;
 import de.benjaminborbe.tools.util.ResourceUtilImpl;
-import de.benjaminborbe.tools.util.StreamUtil;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.Calendar;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class ProjectileCsvReportToDtoConverterUnitTest {
 
@@ -27,7 +27,7 @@ public class ProjectileCsvReportToDtoConverterUnitTest {
 
 		final ProjectileNameMapper projectileNameMapper = new ProjectileNameMapper(logger);
 		final ProjectileCsvReportToDtoConverter converter = new ProjectileCsvReportToDtoConverter(logger, parseUtil, projectileNameMapper);
-		final StreamUtil streamUtil = new StreamUtil();
+		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 		final String csvString = resourceUtil.getResourceContentAsString("sample_report.csv");
 		assertThat(converter.convert(calendar, null).size(), is(0));

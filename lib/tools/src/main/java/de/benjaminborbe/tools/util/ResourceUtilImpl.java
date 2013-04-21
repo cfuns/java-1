@@ -1,14 +1,15 @@
 package de.benjaminborbe.tools.util;
 
+import de.benjaminborbe.tools.stream.StreamUtil;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 @Singleton
 public class ResourceUtilImpl implements ResourceUtil {
@@ -29,8 +30,7 @@ public class ResourceUtilImpl implements ResourceUtil {
 				throw new IOException("file " + path + " not found.");
 			}
 			streamUtil.copy(is, outputStream);
-		}
-		finally {
+		} finally {
 			if (is != null) {
 				is.close();
 			}
@@ -42,7 +42,7 @@ public class ResourceUtilImpl implements ResourceUtil {
 		InputStream is = null;
 		BufferedReader br = null;
 		try {
-			final StringBuffer sb = new StringBuffer();
+			final StringBuilder sb = new StringBuilder();
 			is = getClass().getClassLoader().getResourceAsStream(path);
 			if (is == null) {
 				throw new IOException("file " + path + " not found.");
@@ -56,8 +56,7 @@ public class ResourceUtilImpl implements ResourceUtil {
 			br.close();
 			br = null;
 			return sb.toString();
-		}
-		finally {
+		} finally {
 			if (is != null) {
 				is.close();
 			}

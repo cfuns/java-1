@@ -47,6 +47,8 @@ public class ProxyGuiActivatorIntegrationTest {
 		paths.add("/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_ADMIN);
 		paths.add("/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_START);
 		paths.add("/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_STOP);
+		paths.add("/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_CONVERSATION_LIST);
+		paths.add("/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_CONVERSATION_DETAILS);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

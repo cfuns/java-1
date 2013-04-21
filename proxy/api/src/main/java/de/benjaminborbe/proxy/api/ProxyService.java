@@ -1,10 +1,16 @@
 package de.benjaminborbe.proxy.api;
 
-public interface ProxyService {
+import java.util.Collection;
 
-	long calc(long value) throws ProxyServiceException;
+public interface ProxyService {
 
 	void start() throws ProxyServiceException;
 
 	void stop() throws ProxyServiceException;
+
+	Collection<ProxyConversationIdentifier> getConversations() throws ProxyServiceException;
+
+	ProxyConversation getProxyConversation(ProxyConversationIdentifier proxyConversationIdentifier) throws ProxyServiceException;
+
+	ProxyConversationIdentifier createProxyConversationIdentifier(String id) throws ProxyServiceException;
 }

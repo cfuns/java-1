@@ -1,13 +1,13 @@
 package de.benjaminborbe.tools.file;
 
+import de.benjaminborbe.tools.stream.StreamUtil;
+
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import de.benjaminborbe.tools.util.StreamUtil;
 
 public class FileUtil {
 
@@ -31,20 +31,17 @@ public class FileUtil {
 			fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
 			bw.write(conent);
-		}
-		finally {
+		} finally {
 			if (bw != null) {
 				try {
 					bw.close();
-				}
-				catch (final IOException e) {
+				} catch (final IOException e) {
 				}
 			}
 			if (fw != null) {
 				try {
 					fw.close();
-				}
-				catch (final IOException e) {
+				} catch (final IOException e) {
 				}
 			}
 		}
