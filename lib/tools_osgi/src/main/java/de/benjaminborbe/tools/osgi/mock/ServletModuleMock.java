@@ -1,13 +1,9 @@
 package de.benjaminborbe.tools.osgi.mock;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.Principal;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
+import com.google.inject.AbstractModule;
+import com.google.inject.Provider;
 
+import javax.inject.Singleton;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletInputStream;
@@ -15,10 +11,13 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.Provider;
-import javax.inject.Singleton;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.Principal;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Map;
 
 public class ServletModuleMock extends AbstractModule {
 
@@ -309,7 +308,7 @@ public class ServletModuleMock extends AbstractModule {
 		public String toString() {
 			return "RequestProvider";
 		}
-	};
+	}
 
 	private static final class ServletContextProvider implements Provider<ServletContext> {
 

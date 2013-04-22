@@ -114,7 +114,15 @@ public class ProtocolSettings implements Serializable {
 
 	private transient final List<IChangeSettingsListener> listeners;
 
-	public transient CapabilityContainer tunnelingCapabilities, authCapabilities, serverMessagesCapabilities, clientMessagesCapabilities, encodingTypesCapabilities;
+	public final transient CapabilityContainer tunnelingCapabilities;
+
+	public final transient CapabilityContainer authCapabilities;
+
+	public final transient CapabilityContainer serverMessagesCapabilities;
+
+	public final transient CapabilityContainer clientMessagesCapabilities;
+
+	public final transient CapabilityContainer encodingTypesCapabilities;
 
 	private transient String remoteCharsetName;
 

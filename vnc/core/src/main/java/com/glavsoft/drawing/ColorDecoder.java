@@ -30,17 +30,17 @@ import com.glavsoft.transport.Reader;
 
 public class ColorDecoder {
 
-	protected byte redShift;
+	protected final byte redShift;
 
-	protected byte greenShift;
+	protected final byte greenShift;
 
-	protected byte blueShift;
+	protected final byte blueShift;
 
-	public short redMax;
+	public final short redMax;
 
-	public short greenMax;
+	public final short greenMax;
 
-	public short blueMax;
+	public final short blueMax;
 
 	private final int bytesPerPixel;
 
@@ -70,8 +70,7 @@ public class ColorDecoder {
 			startShift = 0;
 			startShiftCompact = 0;
 			addShiftItem = 8;
-		}
-		else {
+		} else {
 			startShift = pf.bitsPerPixel - 8;
 			startShiftCompact = Math.max(0, pf.depth - 8);
 			addShiftItem = -8;

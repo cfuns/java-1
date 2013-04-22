@@ -18,7 +18,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	private final java.util.Vector cachedDeserFactories = new java.util.Vector();
 
-	static org.apache.axis.description.OperationDesc[] _operations;
+	static final org.apache.axis.description.OperationDesc[] _operations;
 
 	static {
 		_operations = new org.apache.axis.description.OperationDesc[152];
@@ -3717,8 +3717,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String[] getPermissions(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String[] getPermissions(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3762,7 +3761,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] search(final java.lang.String in0, final java.lang.String in1, final int in2)
-		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3848,8 +3847,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace getSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace getSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3892,8 +3890,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteComment getComment(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteComment getComment(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3937,8 +3934,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteServerInfo getServerInfo(final java.lang.String in0) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteServerInfo getServerInfo(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -3982,8 +3978,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getChildren(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getChildren(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4027,8 +4022,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteUser getUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteUser getUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4071,8 +4065,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String login(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String login(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4116,7 +4109,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePage getPage(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2)
-		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4159,8 +4152,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemotePage getPage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemotePage getPage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4284,8 +4276,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment[] getAttachments(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment[] getAttachments(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4454,8 +4445,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet getContentPermissionSet(final java.lang.String in0, final long in1, final java.lang.String in2)
-		throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4502,8 +4492,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet[] getContentPermissionSets(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet[] getContentPermissionSets(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4550,8 +4539,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteComment[] getComments(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteComment[] getComments(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4596,8 +4584,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteComment addComment(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteComment in1)
-		throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4644,8 +4631,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeComment(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeComment(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4691,8 +4677,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getDescendents(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getDescendents(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4736,8 +4721,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getAncestors(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getAncestors(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4863,8 +4847,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4910,8 +4893,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public void addUser(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUser in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public void addUser(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUser in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4952,8 +4934,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public void addUser(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUser in1, final java.lang.String in2, final boolean in3)
-		throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -4994,7 +4975,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRelatedLabels(final java.lang.String in0, final java.lang.String in1, final int in2)
-		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5038,8 +5019,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[] getSpaces(final java.lang.String in0) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[] getSpaces(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5083,8 +5063,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getPages(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getPages(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5128,8 +5107,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String getSpaceStatus(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String getSpaceStatus(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5175,8 +5153,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String[] getGroups(final java.lang.String in0) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String[] getGroups(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5219,8 +5196,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemotePermission[] getPagePermissions(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemotePermission[] getPagePermissions(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5265,8 +5241,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean setContentPermissions(final java.lang.String in0, final long in1, final java.lang.String in2,
-																			 final com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[] in3) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+																			 final com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[] in3) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5354,8 +5329,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteComment editComment(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteComment in1)
-		throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5645,8 +5619,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeSpace(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5692,8 +5665,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean deactivateUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean deactivateUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5739,8 +5711,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean reactivateUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean reactivateUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5786,8 +5757,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeGroup(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeGroup(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5873,8 +5843,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRecentlyUsedLabels(final java.lang.String in0, final int in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRecentlyUsedLabels(final java.lang.String in0, final int in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5919,7 +5888,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRecentlyUsedLabelsInSpace(final java.lang.String in0, final java.lang.String in1, final int in2)
-		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -5963,8 +5932,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getMostPopularLabels(final java.lang.String in0, final int in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getMostPopularLabels(final java.lang.String in0, final int in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6009,7 +5977,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getMostPopularLabelsInSpace(final java.lang.String in0, final java.lang.String in1, final int in2)
-		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6053,8 +6021,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean addGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6100,8 +6067,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addUserToGroup(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean addUserToGroup(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6187,8 +6153,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup getSpaceGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup getSpaceGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6238,8 +6203,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean setSpaceStatus(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean setSpaceStatus(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6285,8 +6249,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String[] getPermissionsForUser(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String[] getPermissionsForUser(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6372,8 +6335,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup[] getSpaceGroups(final java.lang.String in0) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup[] getSpaceGroups(final java.lang.String in0) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6418,7 +6380,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRelatedLabelsInSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2,
-																																											 final int in3) throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+																																											 final int in3) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6463,7 +6425,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace[] getSpacesContainingContentWithLabel(final java.lang.String in0, final java.lang.String in1)
-		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6507,8 +6469,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace[] getSpacesWithLabel(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace[] getSpacesWithLabel(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6553,8 +6514,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getLabelsByDetail(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2,
-																																								 final java.lang.String in3, final java.lang.String in4) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+																																								 final java.lang.String in3, final java.lang.String in4) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6638,8 +6598,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String renderContent(final java.lang.String in0, final java.lang.String in1, final long in2, final java.lang.String in3) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String renderContent(final java.lang.String in0, final java.lang.String in1, final long in2, final java.lang.String in3) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6803,8 +6762,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeUserFromGroup(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeUserFromGroup(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6850,8 +6808,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean hasUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean hasUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6935,8 +6892,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addSpace(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1)
-		throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -6985,8 +6941,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String[] getUserGroups(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String[] getUserGroups(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7033,8 +6988,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePage updatePage(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemotePage in1,
-																																			 final com.atlassian.confluence.rpc.soap.beans.RemotePageUpdateOptions in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+																																			 final com.atlassian.confluence.rpc.soap.beans.RemotePageUpdateOptions in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7124,7 +7078,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary getPageSummary(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2)
-		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7168,8 +7122,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary getPageSummary(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary getPageSummary(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7213,8 +7166,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemotePageHistory[] getPageHistory(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemotePageHistory[] getPageHistory(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7298,8 +7250,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removePage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removePage(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7346,8 +7297,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemotePage storePage(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemotePage in1)
-		throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7839,8 +7789,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addSpaceWithDefaultPermissions(final java.lang.String in0,
-																																														final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+																																														final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7931,8 +7880,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup addSpaceGroup(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup in1)
-		throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -7983,8 +7931,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addPersonalSpaceWithDefaultPermissions(final java.lang.String in0,
-																																																		final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+																																																		final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8034,8 +7981,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addPersonalSpace(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1,
-																																							final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+																																							final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8165,8 +8111,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addGlobalPermissions(final java.lang.String in0, final java.lang.String[] in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean addGlobalPermissions(final java.lang.String in0, final java.lang.String[] in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8209,8 +8154,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addGlobalPermission(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean addGlobalPermission(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8455,7 +8399,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean removePermissionFromSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final java.lang.String in3)
-		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8498,8 +8442,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean editUser(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUser in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean editUser(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUser in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8545,8 +8488,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean isActiveUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean isActiveUser(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8589,8 +8531,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String[] getActiveUsers(final java.lang.String in0, final boolean in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String[] getActiveUsers(final java.lang.String in0, final boolean in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8633,8 +8574,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean changeMyPassword(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean changeMyPassword(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8677,8 +8617,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean changeUserPassword(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean changeUserPassword(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8724,8 +8663,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean setUserInformation(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean setUserInformation(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8771,8 +8709,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation getUserInformation(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation getUserInformation(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8816,8 +8753,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean setUserPreferenceBoolean(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final boolean in3) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean setUserPreferenceBoolean(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final boolean in3) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8860,8 +8796,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean getUserPreferenceBoolean(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean getUserPreferenceBoolean(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8904,8 +8839,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean setUserPreferenceLong(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final long in3) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean setUserPreferenceLong(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final long in3) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8948,8 +8882,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public long getUserPreferenceLong(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public long getUserPreferenceLong(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -8993,7 +8926,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean setUserPreferenceString(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final java.lang.String in3)
-		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9036,8 +8969,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public java.lang.String getUserPreferenceString(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public java.lang.String getUserPreferenceString(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9080,8 +9012,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean hasGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean hasGroup(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9125,8 +9056,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public boolean addProfilePicture(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2, final java.lang.String in3, final byte[] in4)
-		throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9297,8 +9227,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary[] getBlogEntries(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary[] getBlogEntries(final java.lang.String in0, final java.lang.String in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9343,8 +9272,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry storeBlogEntry(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry in1)
-		throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9635,8 +9563,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getLabelsById(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getLabelsById(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9680,8 +9607,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentById(final java.lang.String in0, final long in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentById(final java.lang.String in0, final long in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9726,7 +9652,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentByName(final java.lang.String in0, final java.lang.String in1)
-		throws java.rmi.RemoteException, com.atlassian.confluence.rpc.RemoteException {
+		throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9771,8 +9697,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 
 	@Override
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentByObject(final java.lang.String in0,
-																																															final com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+																																															final com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9816,8 +9741,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addLabelByName(final java.lang.String in0, final java.lang.String in1, final long in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean addLabelByName(final java.lang.String in0, final java.lang.String in1, final long in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9863,8 +9787,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addLabelById(final java.lang.String in0, final long in1, final long in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean addLabelById(final java.lang.String in0, final long in1, final long in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9910,8 +9833,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addLabelByObject(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1, final long in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean addLabelByObject(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1, final long in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -9957,8 +9879,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean addLabelByNameToSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean addLabelByNameToSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10004,8 +9925,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeLabelByName(final java.lang.String in0, final java.lang.String in1, final long in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeLabelByName(final java.lang.String in0, final java.lang.String in1, final long in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10051,8 +9971,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeLabelById(final java.lang.String in0, final long in1, final long in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeLabelById(final java.lang.String in0, final long in1, final long in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10098,8 +10017,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeLabelByObject(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1, final long in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeLabelByObject(final java.lang.String in0, final com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1, final long in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10145,8 +10063,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeLabelByNameFromSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeLabelByNameFromSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}
@@ -10312,8 +10229,7 @@ public class ConfluenceserviceV2SoapBindingStub extends org.apache.axis.client.S
 	}
 
 	@Override
-	public boolean removeAnonymousPermissionFromSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException,
-		com.atlassian.confluence.rpc.RemoteException {
+	public boolean removeAnonymousPermissionFromSpace(final java.lang.String in0, final java.lang.String in1, final java.lang.String in2) throws java.rmi.RemoteException {
 		if (super.cachedEndpoint == null) {
 			throw new org.apache.axis.NoEndPointException();
 		}

@@ -24,8 +24,6 @@
 
 package com.glavsoft.rfb.protocol.state;
 
-import org.slf4j.Logger;
-
 import com.glavsoft.exceptions.AuthenticationFailedException;
 import com.glavsoft.exceptions.FatalException;
 import com.glavsoft.exceptions.TransportException;
@@ -34,16 +32,17 @@ import com.glavsoft.exceptions.UnsupportedSecurityTypeException;
 import com.glavsoft.rfb.protocol.ProtocolContext;
 import com.glavsoft.transport.Reader;
 import com.glavsoft.transport.Writer;
+import org.slf4j.Logger;
 
 abstract public class ProtocolState {
 
-	protected ProtocolContext context;
+	protected final ProtocolContext context;
 
-	protected Logger logger;
+	protected final Logger logger;
 
-	protected Reader reader;
+	protected final Reader reader;
 
-	protected Writer writer;
+	protected final Writer writer;
 
 	public ProtocolState(final ProtocolContext context) {
 		this.context = context;
@@ -54,9 +53,8 @@ abstract public class ProtocolState {
 
 	/**
 	 * Change state of finite machine.
-	 * 
-	 * @param state
-	 *          state, the Finite Machine will switched to
+	 *
+	 * @param state state, the Finite Machine will switched to
 	 */
 	protected void changeStateTo(final ProtocolState state) {
 		context.changeStateTo(state);
@@ -64,7 +62,7 @@ abstract public class ProtocolState {
 
 	/**
 	 * Carry out next step of protocol flow.
-	 * 
+	 *
 	 * @return false when no next protocol steps availabe, true - when need to continue
 	 */
 	abstract public boolean next() throws UnsupportedProtocolVersionException, TransportException, UnsupportedSecurityTypeException, AuthenticationFailedException, FatalException;

@@ -1,8 +1,5 @@
 package de.benjaminborbe.lunch.service;
 
-import com.atlassian.confluence.rpc.AuthenticationFailedException;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -39,6 +36,8 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.xml.rpc.ServiceException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -210,9 +209,7 @@ public class LunchServiceImpl implements LunchService {
 				result.add(buildUser(username));
 			}
 			return result;
-		} catch (final AuthenticationFailedException | KioskServiceException | ParseException | ServiceException e) {
-			throw new LunchServiceException(e);
-		} catch (final java.rmi.RemoteException e) {
+		} catch (final KioskServiceException | ParseException | ServiceException | java.rmi.RemoteException e) {
 			throw new LunchServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)

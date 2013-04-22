@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 
 public abstract class WowActionBase implements Action {
 
-	protected String name;
+	protected final String name;
 
 	private final ThreadResult<Boolean> running;
 

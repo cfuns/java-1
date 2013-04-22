@@ -28,9 +28,9 @@ public class StorageColumnIteratorMock implements StorageColumnIterator {
 
 		@Override
 		public int compare(final StorageColumn o1, final StorageColumn o2) {
-			String s1 = o1 != null ? getValue(o1) : null;
-			String s2 = o2 != null ? getValue(o2) : null;
-			if (s1!=null && s2!=null){
+			final String s1 = o1 != null ? getValue(o1) : null;
+			final String s2 = o2 != null ? getValue(o2) : null;
+			if (s1 != null && s2 != null) {
 				return s1.compareTo(s2);
 			}
 			return 0;

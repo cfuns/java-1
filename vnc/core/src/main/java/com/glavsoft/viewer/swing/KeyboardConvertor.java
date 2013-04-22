@@ -24,7 +24,7 @@
 
 package com.glavsoft.viewer.swing;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
@@ -97,9 +97,9 @@ public class KeyboardConvertor {
 			// put(60 /* Less */, new CodePair('<' /*60*/, '>')); // 105-th key on 105-keys
 			// keyboard (less/greather/bar)
 			put(KeyEvent.VK_LESS /* Less */, new CodePair('<' /* 60 */, '>')); // 105-th key
-																																						// on 105-keys
-																																						// keyboard
-																																						// (less/greather/bar)
+			// on 105-keys
+			// keyboard
+			// (less/greather/bar)
 			// put(KeyEvent.VK_GREATER /* Greater */, new CodePair('<' /*60*/, '>')); // 105-th
 			// key on 105-keys keyboard (less/greather/bar)
 		}
@@ -111,8 +111,7 @@ public class KeyboardConvertor {
 		try {
 			Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
 			canCheckCapsWithToolkit = true;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			canCheckCapsWithToolkit = false;
 		}
 		if (isWindows) {
@@ -133,14 +132,11 @@ public class KeyboardConvertor {
 					final int scancode = Integer.parseInt(matcher.group(1));
 					if (90 == keyCode && 21 == scancode) { // deutsch z->y
 						codePair = keyMap.get(89); // y
-					}
-					else if (89 == keyCode && 44 == scancode) { // deutsch y->z
+					} else if (89 == keyCode && 44 == scancode) { // deutsch y->z
 						codePair = keyMap.get(90); // z
 					}
+				} catch (NumberFormatException e) { /* nop */
 				}
-				catch (NumberFormatException e) { /* nop */
-				}
-				;
 			}
 		}
 		boolean isCapsLock = false;
@@ -148,8 +144,7 @@ public class KeyboardConvertor {
 			if (canCheckCapsWithToolkit) {
 				try {
 					isCapsLock = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
-				}
-				catch (Exception ex) { /* nop */
+				} catch (Exception ex) { /* nop */
 				}
 			}
 		}
@@ -158,7 +153,9 @@ public class KeyboardConvertor {
 
 	private static class CodePair {
 
-		public int code, codeShifted;
+		public final int code;
+
+		public final int codeShifted;
 
 		public CodePair(final int code, final int codeShifted) {
 			this.code = code;

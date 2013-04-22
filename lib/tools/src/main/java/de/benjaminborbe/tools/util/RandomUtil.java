@@ -37,7 +37,7 @@ public class RandomUtil {
 		}
 	}
 
-	public int getRandomInt(int minValue, int maxValue) {
+	public int getRandomInt(final int minValue, final int maxValue) {
 		return minValue + random.nextInt(maxValue - minValue);
 	}
 }

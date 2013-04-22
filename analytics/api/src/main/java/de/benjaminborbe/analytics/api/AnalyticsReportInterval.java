@@ -7,6 +7,6 @@ public enum AnalyticsReportInterval {
 	DAY,
 	WEEK,
 	MONTH,
-	YEAR;
+	YEAR
 
 }

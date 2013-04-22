@@ -100,8 +100,9 @@ public class ProxySocket {
 				serverSocket.close();
 			} catch (IOException e) {
 				// nop
+			} finally {
+				serverSocket = null;
 			}
-			serverSocket = null;
 		} else {
 			logger.info("stop failed, not running");
 		}

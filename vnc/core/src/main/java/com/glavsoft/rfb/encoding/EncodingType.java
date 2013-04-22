@@ -114,7 +114,7 @@ public enum EncodingType {
 		return name;
 	}
 
-	public static LinkedHashSet<EncodingType> ordinaryEncodings = new LinkedHashSet<>();
+	public static final LinkedHashSet<EncodingType> ordinaryEncodings = new LinkedHashSet<>();
 
 	static {
 		ordinaryEncodings.add(TIGHT);
@@ -126,7 +126,7 @@ public enum EncodingType {
 		// ordinaryEncodings.add(RAW_ENCODING);
 	}
 
-	public static LinkedHashSet<EncodingType> pseudoEncodings = new LinkedHashSet<>();
+	public static final LinkedHashSet<EncodingType> pseudoEncodings = new LinkedHashSet<>();
 
 	static {
 		pseudoEncodings.add(RICH_CURSOR);
@@ -134,7 +134,7 @@ public enum EncodingType {
 		pseudoEncodings.add(DESKTOP_SIZE);
 	}
 
-	public static LinkedHashSet<EncodingType> compressionEncodings = new LinkedHashSet<>();
+	public static final LinkedHashSet<EncodingType> compressionEncodings = new LinkedHashSet<>();
 
 	static {
 		compressionEncodings.add(COMPRESS_LEVEL_0);

@@ -1,6 +1,5 @@
 package de.benjaminborbe.lucene.index;
 
-import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.lucene.index.api.LuceneIndexService;
 import de.benjaminborbe.lucene.index.config.LuceneIndexConfig;
@@ -12,6 +11,7 @@ import org.apache.lucene.codecs.Codec;
 import org.apache.lucene.util.NamedSPILoader;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,10 +19,10 @@ import java.util.Set;
 public class LuceneIndexActivator extends BaseBundleActivator {
 
 	@Inject
-	private LuceneIndexService indexerService;
+	private final LuceneIndexService indexerService;
 
 	@Inject
-	private LuceneIndexConfig indexConfig;
+	private final LuceneIndexConfig indexConfig;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {

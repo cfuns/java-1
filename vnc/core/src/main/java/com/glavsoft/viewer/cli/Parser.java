@@ -93,7 +93,11 @@ public class Parser {
 	 */
 	private static class Option {
 
-		protected String opName, desc, value;
+		protected final String opName;
+
+		protected final String desc;
+
+		protected String value;
 
 		protected boolean isSet = false;
 

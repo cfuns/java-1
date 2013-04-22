@@ -24,10 +24,10 @@
 
 package com.glavsoft.rfb.protocol.auth;
 
+import com.glavsoft.exceptions.UnsupportedSecurityTypeException;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import com.glavsoft.exceptions.UnsupportedSecurityTypeException;
 
 /**
  * Security types that implemented
@@ -54,7 +54,7 @@ public enum SecurityType {
 	}
 
 	@SuppressWarnings("serial")
-	public static Map<Integer, AuthHandler> implementedSecurityTypes = new LinkedHashMap<Integer, AuthHandler>() {
+	public static final Map<Integer, AuthHandler> implementedSecurityTypes = new LinkedHashMap<Integer, AuthHandler>() {
 
 		{
 			put(TIGHT_AUTHENTICATION.getId(), new TightAuthentication());
