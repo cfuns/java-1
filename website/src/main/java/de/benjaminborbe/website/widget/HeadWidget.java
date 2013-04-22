@@ -32,8 +32,8 @@ public class HeadWidget implements Widget {
 
 	public HeadWidget(final String title, final Collection<JavascriptResource> javascriptResources, final Collection<CssResource> cssResources) {
 		addTitle(title);
-		addJavascriptResources(javascriptResources);
 		addCssResources(cssResources);
+		addJavascriptResources(javascriptResources);
 	}
 
 	public HeadWidget addTitle(final String title) {
@@ -73,8 +73,8 @@ public class HeadWidget implements Widget {
 		list.add(new HtmlContentWidget("<meta name=\"keywords\" content=\"BB\" />"));
 		list.add(new HtmlContentWidget("<link rel=\"search\" type=\"application/opensearchdescription+xml\" title=\"BB\" href=\"" + request.getContextPath() + "/search/osd.xml\" />"));
 		list.add(new HtmlContentWidget("<link rel=\"shortcut icon\" href=\"" + request.getContextPath() + "/images/favicon.ico\" />"));
-		list.add(new JavascriptResourceWidget(javascriptResources));
 		list.add(new CssResourceWidget(cssResources));
+		list.add(new JavascriptResourceWidget(javascriptResources));
 		list.add(widgets);
 		final TagWidget widget = new TagWidget("head", list);
 		widget.render(request, response, context);
