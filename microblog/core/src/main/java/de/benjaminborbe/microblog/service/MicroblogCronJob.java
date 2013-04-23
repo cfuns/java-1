@@ -1,13 +1,12 @@
 package de.benjaminborbe.microblog.service;
 
+import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.microblog.config.MicroblogConfig;
+import de.benjaminborbe.microblog.util.MicroblogPostRefresher;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.microblog.config.MicroblogConfig;
-import de.benjaminborbe.microblog.util.MicroblogPostRefresher;
 
 @Singleton
 public class MicroblogCronJob implements CronJob {
@@ -40,11 +39,12 @@ public class MicroblogCronJob implements CronJob {
 
 	@Override
 	public void execute() {
+		logger.trace("microblog cron execute");
 		if (microblogConfig.isCronEnabled()) {
-			logger.trace("microblog refresh cron => started");
+			logger.debug("microblog refresh cron => started");
 			microblogRefresher.refresh();
-		}
-		else {
+			logger.debug("microblog refresh cron => finished");
+		} else {
 			logger.trace("microblog refresh cron => skip");
 		}
 	}

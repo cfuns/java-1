@@ -1,6 +1,5 @@
 package de.benjaminborbe.microblog.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
 import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
@@ -8,6 +7,8 @@ import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorageException;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class MicroblogPostRefresher {
 
@@ -29,14 +30,16 @@ public class MicroblogPostRefresher {
 						logger.trace("get post with revision: " + rev);
 						final MicroblogPostIdentifier microblogPostIdentifier = new MicroblogPostIdentifier(rev);
 						microblogRevisionStorage.setLastRevision(microblogPostIdentifier);
-						microblogPostUpdater.update(microblogPostIdentifier);
+						try {
+							microblogPostUpdater.update(microblogPostIdentifier);
+						} catch (MicroblogConnectorException e) {
+							logger.debug(e.getClass().getName(), e);
+						}
 					}
 				}
 				logger.trace("done");
-			} catch (final MicroblogConnectorException e) {
-				logger.trace("MicroblogConnectorException", e);
-			} catch (final MicroblogRevisionStorageException e) {
-				logger.trace("MicroblogRevisionStorageException", e);
+			} catch (final MicroblogRevisionStorageException | MicroblogConnectorException e) {
+				logger.warn(e.getClass().getName(), e);
 			}
 		}
 	}
@@ -66,12 +69,12 @@ public class MicroblogPostRefresher {
 	}
 
 	public boolean refresh() {
-		logger.trace("microblog-refresh - started");
+		logger.debug("microblog-refresh - started");
 		if (runOnlyOnceATime.run(new Action())) {
-			logger.trace("microblog-refresh - finished");
+			logger.debug("microblog-refresh - finished");
 			return true;
 		} else {
-			logger.trace("microblog-refresh - skipped");
+			logger.debug("microblog-refresh - skipped");
 			return false;
 		}
 	}

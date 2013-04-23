@@ -1,9 +1,10 @@
 package de.benjaminborbe.microblog.post;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.microblog.api.MicroblogPost;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
+import java.util.Calendar;
 
 public class MicroblogPostResult implements MicroblogPost {
 
@@ -56,5 +57,12 @@ public class MicroblogPostResult implements MicroblogPost {
 	@Override
 	public Calendar getDate() {
 		return date;
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+			.append("id", id)
+			.toString();
 	}
 }
