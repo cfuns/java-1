@@ -1,7 +1,5 @@
 package de.benjaminborbe.timetracker.connector;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
@@ -11,8 +9,12 @@ import de.benjaminborbe.tools.json.JSONArray;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParseException;
 import de.benjaminborbe.tools.json.JSONParser;
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,6 +27,8 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 
 	// 3 sec
 	private static final int TIMEOUT = 3 * 1000;
+
+	private final ParseUtil parseUtil;
 
 	private final HttpDownloader httpDownloader;
 
@@ -39,11 +43,13 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 	@Inject
 	public TimetrackerConnectorImpl(
 		final Logger logger,
+		final ParseUtil parseUtil,
 		final HttpDownloader httpDownloader,
 		final HttpDownloadUtil httpDownloadUtil,
 		final DateUtil dateUtil,
 		final JSONParser jsonParser) {
 		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 		this.dateUtil = dateUtil;
@@ -93,7 +99,7 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 	public String getSessionId(final String username, final String password) throws TimetrackerConnectorException {
 		try {
 			logger.debug("getSessionId");
-			final URL url = new URL("https://timetracker.rp.seibert-media.net/timetracker/authentication/signIn/login");
+			final URL url = parseUtil.parseURL("https://timetracker.rp.seibert-media.net/timetracker/authentication/signIn/login");
 			final Map<String, String> data = new HashMap<>();
 			data.put("username", username);
 			data.put("password", password);
@@ -107,7 +113,7 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			} else {
 				return null;
 			}
-		} catch (final MalformedURLException | UnsupportedEncodingException | HttpDownloaderException e) {
+		} catch (final ParseException | UnsupportedEncodingException | HttpDownloaderException e) {
 			logger.debug(e.getClass().getSimpleName(), e);
 			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
 		}

@@ -1,7 +1,5 @@
 package de.benjaminborbe.dhl.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.notification.api.NotificationDto;
@@ -9,9 +7,11 @@ import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import org.slf4j.Logger;
 
-import java.net.MalformedURLException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 
 @Singleton
@@ -55,8 +55,7 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 	}
 
 	protected String buildSubject(final DhlStatus status) {
-		final String subject = "DHL-Status: " + status.getDhl().getTrackingNumber();
-		return subject;
+		return "DHL-Status: " + status.getDhl().getTrackingNumber();
 	}
 
 	protected String buildContent(final DhlStatus status) {
@@ -82,7 +81,7 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 				content.append("Link: ");
 				content.append(url);
 				content.append("\n");
-			} catch (final MalformedURLException e) {
+			} catch (final ParseException e) {
 				logger.debug("build dhl-link failed!", e);
 			}
 		}

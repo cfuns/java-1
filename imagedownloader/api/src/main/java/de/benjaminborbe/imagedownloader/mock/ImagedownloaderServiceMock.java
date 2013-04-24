@@ -11,6 +11,6 @@ public class ImagedownloaderServiceMock implements ImagedownloaderService {
 	}
 
 	@Override
-	public void downloadImages(final URL url, final int depth) throws ImagedownloaderServiceException {
+	public void downloadImages(final URL url, final int depth, final int minWidth, final int minHeight) throws ImagedownloaderServiceException {
 	}
 }

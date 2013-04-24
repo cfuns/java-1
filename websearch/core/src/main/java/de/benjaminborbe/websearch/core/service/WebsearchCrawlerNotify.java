@@ -1,7 +1,5 @@
 package de.benjaminborbe.websearch.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.index.api.IndexService;
@@ -10,6 +8,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.websearch.core.WebsearchConstants;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
@@ -21,6 +20,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -46,17 +47,21 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	private final HtmlUtil htmlUtil;
 
+	private final ParseUtil parseUtil;
+
 	private final CalendarUtil calendarUtil;
 
 	@Inject
 	public WebsearchCrawlerNotify(
 		final Logger logger,
+		final ParseUtil parseUtil,
 		final CalendarUtil calendarUtil,
 		final IndexService indexerService,
 		final StringUtil stringUtil,
 		final WebsearchPageDao pageDao,
 		final HtmlUtil htmlUtil) {
 		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.calendarUtil = calendarUtil;
 		this.indexerService = indexerService;
 		this.stringUtil = stringUtil;
@@ -69,7 +74,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		logger.trace("notify " + result.getUrl());
 		try {
 			updateLastVisit(result);
-			if (isIndexAble(result)) {
+			if (isHtmlPage(result)) {
 				parseLinks(result);
 				addToIndex(result);
 			}
@@ -78,13 +83,13 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		}
 	}
 
-	protected boolean isIndexAble(final CrawlerResult result) {
+	protected boolean isHtmlPage(final CrawlerResult result) {
 		if (!result.isAvailable()) {
 			logger.warn("result not available for url: " + result.getUrl());
 			return false;
 		}
 		final String contentType = result.getContentType();
-		if (contentType == null || contentType.indexOf(CONTENT_TYPE) != 0) {
+		if (contentType == null || !contentType.startsWith(CONTENT_TYPE)) {
 			logger.trace("result has wrong contenttype for url: " + result.getUrl() + " contentType: " + contentType);
 			return false;
 		}
@@ -101,26 +106,18 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 					logger.trace("found page: " + url.toExternalForm());
 					pageDao.findOrCreate(url);
 				}
-			} catch (final MalformedURLException e) {
-				logger.debug("MalformedURLException", e);
-			} catch (final StorageException e) {
-				logger.debug("StorageException", e);
+			} catch (MalformedURLException | StorageException | ParseException e) {
+				logger.debug(e.getClass().getName(), e);
 			}
 		}
 	}
 
 	private boolean isValidLink(final String link) {
 		final String linkLower = link.toLowerCase().trim();
-		if (linkLower.startsWith("javascript:")) {
-			return false;
-		}
-		if (linkLower.startsWith("feed:")) {
-			return false;
-		}
-		return true;
+		return !linkLower.startsWith("javascript:") && !linkLower.startsWith("feed:");
 	}
 
-	protected URL buildUrl(final URL baseUrl, final String link) throws MalformedURLException {
+	protected URL buildUrl(final URL baseUrl, final String link) throws MalformedURLException, ParseException {
 		logger.trace("buildUrl url: " + baseUrl + " link: " + link);
 		final String url;
 		if (link.startsWith("http://") || link.startsWith("https://")) {
@@ -157,7 +154,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		}
 		final String result = cleanUpUrl(url);
 		logger.trace("result = " + result);
-		return new URL(result);
+		return parseUtil.parseURL(result);
 	}
 
 	protected String cleanUpUrl(final String url) {
@@ -206,7 +203,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		return StringUtils.join(p, "/");
 	}
 
-	protected void addToIndex(final CrawlerResult result) throws IndexerServiceException, ParseException {
+	private void addToIndex(final CrawlerResult result) throws IndexerServiceException, ParseException {
 		final Document document = Jsoup.parse(result.getContent());
 		for (final Element head : document.getElementsByTag("head")) {
 			for (final Element meta : head.getElementsByTag("meta")) {
@@ -226,7 +223,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		indexerService.addToIndex(WebsearchConstants.INDEX, result.getUrl(), extractTitle(result.getContent()), htmlUtil.filterHtmlTages(result.getContent()), null);
 	}
 
-	protected void updateLastVisit(final CrawlerResult result) throws StorageException {
+	private void updateLastVisit(final CrawlerResult result) throws StorageException {
 		final WebsearchPageBean page = pageDao.findOrCreate(result.getUrl());
 		page.setLastVisit(calendarUtil.now());
 		pageDao.save(page);

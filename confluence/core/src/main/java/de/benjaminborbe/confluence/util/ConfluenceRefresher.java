@@ -1,6 +1,5 @@
 package de.benjaminborbe.confluence.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.confluence.config.ConfluenceConfig;
 import de.benjaminborbe.confluence.connector.ConfluenceConnector;
 import de.benjaminborbe.confluence.connector.ConfluenceConnectorPage;
@@ -22,8 +21,10 @@ import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.list.ListUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
@@ -77,6 +78,8 @@ public class ConfluenceRefresher {
 
 	private final ConfluenceIndexUtil confluenceIndexUtil;
 
+	private final ParseUtil parseUtil;
+
 	private final RunOnlyOnceATime runOnlyOnceATime;
 
 	private final TimeZoneUtil timeZoneUtil;
@@ -90,6 +93,7 @@ public class ConfluenceRefresher {
 	@Inject
 	public ConfluenceRefresher(
 		final Logger logger,
+		final ParseUtil parseUtil,
 		final RunOnlyOnceATime runOnlyOnceATime,
 		final CalendarUtil calendarUtil,
 		final IndexService indexerService,
@@ -103,6 +107,7 @@ public class ConfluenceRefresher {
 		final ConfluenceIndexUtil confluenceIndexUtil,
 		final ConfluencePageExpiredCalculator confluencePageExpiredCalculator) {
 		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.calendarUtil = calendarUtil;
 		this.indexerService = indexerService;
@@ -117,7 +122,7 @@ public class ConfluenceRefresher {
 		this.confluencePageExpiredCalculator = confluencePageExpiredCalculator;
 	}
 
-	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, ConfluenceXmlRpcClientException {
+	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, ConfluenceXmlRpcClientException, ParseException {
 		final long delay = getDelay(confluenceInstanceBean);
 		final String indexName = confluenceIndexUtil.getIndex(confluenceInstanceBean);
 		int counter = 0;
@@ -164,7 +169,7 @@ public class ConfluenceRefresher {
 						logger.debug("refresh-counter: " + counter);
 						logger.debug("update page " + page.getTitle());
 						final String content = confluenceConnector.getRenderedContent(confluenceBaseUrl, token, page.getPageId());
-						final URL url = new URL(page.getUrl());
+						final URL url = parseUtil.parseURL(page.getUrl());
 						final String title = page.getTitle();
 
 						indexerService.addToIndex(indexName, url, title, filterContent(content), calendarUtil.getCalendar(page.getModified()));

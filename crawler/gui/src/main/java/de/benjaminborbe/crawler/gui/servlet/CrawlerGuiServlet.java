@@ -1,8 +1,6 @@
 package de.benjaminborbe.crawler.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -17,16 +15,20 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -41,6 +43,8 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 	private static final String PARAMETER_URL = "url";
 
 	private static final int TIMEOUT = 5000;
+
+	private final ParseUtil parseUtil;
 
 	private final CrawlerService crawlerService;
 
@@ -60,6 +64,7 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 		final AuthorizationService authorizationService,
 		final CacheService cacheService) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
+		this.parseUtil = parseUtil;
 		this.crawlerService = crawlerService;
 		this.logger = logger;
 	}
@@ -72,26 +77,30 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 		PermissionDeniedException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
-		if (request.getParameter(PARAMETER_URL) != null) {
-			try {
-				final String url = request.getParameter(PARAMETER_URL);
-				final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(url, TIMEOUT);
-				crawlerService.processCrawlerInstruction(crawlerInstructionBuilder);
-				widgets.add("add url successful");
-			} catch (final CrawlerException e) {
-				logger.debug(e.getClass().getName(), e);
-				widgets.add("add url failed");
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			if (request.getParameter(PARAMETER_URL) != null) {
+				try {
+					final String url = request.getParameter(PARAMETER_URL);
+					final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(parseUtil.parseURL(url), TIMEOUT);
+					crawlerService.processCrawlerInstruction(crawlerInstructionBuilder);
+					widgets.add("add url successful");
+				} catch (final CrawlerException e) {
+					logger.debug(e.getClass().getName(), e);
+					widgets.add("add url failed");
+				}
+			} else {
+				final String action = request.getContextPath() + "/crawler";
+				final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
+				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL).addPlaceholder("url...").addLabel("Url:"));
+				formWidget.addFormInputWidget(new FormInputSubmitWidget("crawle"));
+				widgets.add(formWidget);
 			}
-		} else {
-			final String action = request.getContextPath() + "/crawler";
-			final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
-			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL).addPlaceholder("url...").addLabel("Url:"));
-			formWidget.addFormInputWidget(new FormInputSubmitWidget("crawle"));
-			widgets.add(formWidget);
+			return widgets;
+		} catch (ParseException e) {
+			return new ExceptionWidget(e);
 		}
-		return widgets;
 	}
 }

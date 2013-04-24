@@ -58,7 +58,7 @@ public class ImagedownloaderIntegrationTest extends TestCaseOsgi {
 	public void testCalc() throws Exception {
 		final ImagedownloaderService imagedownloaderService = getService(ImagedownloaderService.class);
 		assertNotNull(imagedownloaderService);
-		imagedownloaderService.downloadImages(new URL("http://www.heise.de"), 0);
+		imagedownloaderService.downloadImages(new URL("http://www.heise.de"), 0, 0, 0);
 	}
 
 }

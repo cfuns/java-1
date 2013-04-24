@@ -3,6 +3,7 @@ package de.benjaminborbe.websearch.core.service;
 import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageDao;
 import org.easymock.EasyMock;
@@ -40,7 +41,10 @@ public class WebsearchCrawlerNotifyUnitTest {
 		EasyMock.expect(htmlUtil.filterHtmlTages(title)).andReturn(title);
 		EasyMock.replay(htmlUtil);
 
-		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, null, indexerService, stringUtil, pageDao, htmlUtil);
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		EasyMock.replay(parseUtil);
+
+		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, parseUtil, null, indexerService, stringUtil, pageDao, htmlUtil);
 		assertEquals(title, websearchCrawlerNotify.extractTitle(content));
 	}
 
@@ -49,7 +53,13 @@ public class WebsearchCrawlerNotifyUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, null, null, null, null, null);
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		EasyMock.expect(parseUtil.parseURL("http://www.heise.de")).andReturn(new URL("http://www.heise.de")).anyTimes();
+		EasyMock.expect(parseUtil.parseURL("http://www.rocketnews.de/index.html")).andReturn(new URL("http://www.rocketnews.de/index.html")).anyTimes();
+		EasyMock.expect(parseUtil.parseURL("http://www.rocketnews.de/app/index.html")).andReturn(new URL("http://www.rocketnews.de/app/index.html")).anyTimes();
+		EasyMock.replay(parseUtil);
+
+		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, parseUtil, null, null, null, null, null);
 
 		assertEquals("http://www.heise.de", websearchCrawlerNotify.buildUrl(new URL("http://www.rocketnews.de"), "http://www.heise.de").toExternalForm());
 		assertEquals("http://www.heise.de", websearchCrawlerNotify.buildUrl(new URL("http://www.rocketnews.de/"), "http://www.heise.de/").toExternalForm());
@@ -63,7 +73,10 @@ public class WebsearchCrawlerNotifyUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, null, null, null, null, null);
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		EasyMock.replay(parseUtil);
+
+		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, parseUtil, null, null, null, null, null);
 
 		assertEquals("http://www.heise.de", websearchCrawlerNotify.cleanUpUrl("http://www.heise.de"));
 		assertEquals("http://www.heise.de", websearchCrawlerNotify.cleanUpUrl("http://www.heise.de/"));
@@ -98,7 +111,11 @@ public class WebsearchCrawlerNotifyUnitTest {
 		EasyMock.expect(pageDao.findOrCreate(new URL("http://example.com/links"))).andReturn(null);
 		EasyMock.replay(pageDao);
 
-		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, null, null, null, pageDao, htmlUtil);
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		EasyMock.expect(parseUtil.parseURL("http://example.com/links")).andReturn(new URL("http://example.com/links")).anyTimes();
+		EasyMock.replay(parseUtil);
+
+		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, parseUtil, null, null, null, pageDao, htmlUtil);
 		websearchCrawlerNotify.parseLinks(crawlerResult);
 
 		EasyMock.verify(logger, htmlUtil, crawlerResult, pageDao);
@@ -109,14 +126,17 @@ public class WebsearchCrawlerNotifyUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, null, null, null, null, null);
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		EasyMock.replay(parseUtil);
 
-		assertTrue(websearchCrawlerNotify.isIndexAble(createCrawlerResult(true, "text/html")));
-		assertTrue(websearchCrawlerNotify.isIndexAble(createCrawlerResult(true, "text/html;charset=UTF-8")));
-		assertFalse(websearchCrawlerNotify.isIndexAble(createCrawlerResult(true, "text/plain")));
-		assertFalse(websearchCrawlerNotify.isIndexAble(createCrawlerResult(false, "text/html")));
-		assertFalse(websearchCrawlerNotify.isIndexAble(createCrawlerResult(false, "text/plain")));
-		assertFalse(websearchCrawlerNotify.isIndexAble(createCrawlerResult(true, null)));
+		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, parseUtil, null, null, null, null, null);
+
+		assertTrue(websearchCrawlerNotify.isHtmlPage(createCrawlerResult(true, "text/html")));
+		assertTrue(websearchCrawlerNotify.isHtmlPage(createCrawlerResult(true, "text/html;charset=UTF-8")));
+		assertFalse(websearchCrawlerNotify.isHtmlPage(createCrawlerResult(true, "text/plain")));
+		assertFalse(websearchCrawlerNotify.isHtmlPage(createCrawlerResult(false, "text/html")));
+		assertFalse(websearchCrawlerNotify.isHtmlPage(createCrawlerResult(false, "text/plain")));
+		assertFalse(websearchCrawlerNotify.isHtmlPage(createCrawlerResult(true, null)));
 	}
 
 	protected CrawlerResult createCrawlerResult(final boolean avaible, final String contentType) {

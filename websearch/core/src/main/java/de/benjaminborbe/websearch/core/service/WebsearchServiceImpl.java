@@ -1,7 +1,5 @@
 package de.benjaminborbe.websearch.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -23,6 +21,8 @@ import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.websearch.api.WebsearchConfiguration;
 import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
@@ -38,6 +38,8 @@ import de.benjaminborbe.websearch.core.dao.WebsearchPageDao;
 import de.benjaminborbe.websearch.core.util.WebsearchRefresher;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -66,11 +68,14 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	private final AuthenticationService authenticationService;
 
+	private final ParseUtil parseUtil;
+
 	private final WebsearchRefresher websearchRefresher;
 
 	@Inject
 	public WebsearchServiceImpl(
 		final Logger logger,
+		final ParseUtil parseUtil,
 		final WebsearchRefresher websearchRefresher,
 		final ValidationExecutor validationExecutor,
 		final WebsearchPageDao pageDao,
@@ -82,6 +87,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 		final WebsearchConfigurationDao websearchConfigurationDao,
 		final DurationUtil durationUtil) {
 		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.websearchRefresher = websearchRefresher;
 		this.validationExecutor = validationExecutor;
 		this.pageDao = pageDao;
@@ -164,9 +170,9 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 			final String url = page.getId();
 			logger.debug("trigger refresh of url " + url);
-			final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, 5000);
+			final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(parseUtil.parseURL(url), 5000);
 			crawlerService.processCrawlerInstruction(crawlerInstruction);
-		} catch (final AuthorizationServiceException | CrawlerException e) {
+		} catch (final AuthorizationServiceException | CrawlerException | ParseException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}
 	}

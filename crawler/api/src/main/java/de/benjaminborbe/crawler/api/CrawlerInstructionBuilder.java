@@ -1,18 +1,20 @@
 package de.benjaminborbe.crawler.api;
 
+import java.net.URL;
+
 public class CrawlerInstructionBuilder implements CrawlerInstruction {
 
-	private final String url;
+	private final URL url;
 
 	private final int timeout;
 
-	public CrawlerInstructionBuilder(final String url, final int timeout) {
+	public CrawlerInstructionBuilder(final URL url, final int timeout) {
 		this.url = url;
 		this.timeout = timeout;
 	}
 
 	@Override
-	public String getUrl() {
+	public URL getUrl() {
 		return url;
 	}
 

@@ -1,7 +1,5 @@
 package de.benjaminborbe.dhl.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -28,10 +26,12 @@ import de.benjaminborbe.dhl.util.DhlUrlBuilder;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
-import java.net.MalformedURLException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -146,7 +146,7 @@ public class DhlServiceImpl implements DhlService {
 
 			final Dhl dhl = dhlDao.load(dhlIdentifier);
 			return dhlUrlBuilder.buildUrl(dhl);
-		} catch (final MalformedURLException | StorageException | AuthorizationServiceException e) {
+		} catch (final ParseException | StorageException | AuthorizationServiceException e) {
 			throw new DhlServiceException(e);
 		}
 	}

@@ -8,7 +8,7 @@ public interface CrawlerResult {
 
 	String getContent();
 
-	boolean isAvailable();
-
 	String getContentType();
+
+	boolean isAvailable();
 }

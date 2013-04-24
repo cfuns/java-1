@@ -1,8 +1,6 @@
 package de.benjaminborbe.imagedownloader.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
@@ -34,6 +32,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -63,8 +63,10 @@ public class ImagedownloaderGuiServlet extends WebsiteHtmlServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService, final ImagedownloaderService imagedownloaderService) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
+		final CacheService cacheService,
+		final ImagedownloaderService imagedownloaderService) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil,
+			cacheService);
 		this.parseUtil = parseUtil;
 		this.imagedownloaderService = imagedownloaderService;
 	}
@@ -75,17 +77,19 @@ public class ImagedownloaderGuiServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
-
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
 			final String url = request.getParameter(ImagedownloaderGuiConstants.PARAMETER_URL);
 			final String depth = request.getParameter(ImagedownloaderGuiConstants.PARAMETER_DEPTH);
-			if (url != null && depth != null) {
+			final String minWidth = request.getParameter(ImagedownloaderGuiConstants.PARAMETER_MIN_WIDTH);
+			final String minHeight = request.getParameter(ImagedownloaderGuiConstants.PARAMETER_MIN_HEIGHT);
+			if (url != null && depth != null && minWidth != null && minHeight != null) {
 				try {
-					action(url, depth);
+					action(url, depth, minWidth, minHeight);
 					widgets.add("downloaded images successful");
 				} catch (ValidationException e) {
 					widgets.add("downloaded images failed!");
@@ -95,19 +99,19 @@ public class ImagedownloaderGuiServlet extends WebsiteHtmlServlet {
 
 			final FormWidget form = new FormWidget();
 			form.addFormInputWidget(new FormInputTextWidget(ImagedownloaderGuiConstants.PARAMETER_URL).addLabel("Url:"));
-			form.addFormInputWidget(new FormInputTextWidget(ImagedownloaderGuiConstants.PARAMETER_DEPTH).addLabel("Depth:"));
+			form.addFormInputWidget(new FormInputTextWidget(ImagedownloaderGuiConstants.PARAMETER_DEPTH).addLabel("Depth:").addDefaultValue("0"));
+			form.addFormInputWidget(new FormInputTextWidget(ImagedownloaderGuiConstants.PARAMETER_MIN_WIDTH).addLabel("Min-Width:").addDefaultValue("0"));
+			form.addFormInputWidget(new FormInputTextWidget(ImagedownloaderGuiConstants.PARAMETER_MIN_HEIGHT).addLabel("Min-Height:").addDefaultValue("0"));
 			form.addFormInputWidget(new FormInputSubmitWidget("download"));
 			widgets.add(form);
 
 			return widgets;
-
 		} catch (final ImagedownloaderServiceException e) {
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
+			return new ExceptionWidget(e);
 		}
 	}
 
-	private void action(final String urlString, final String depthString) throws ValidationException, ImagedownloaderServiceException {
+	private void action(final String urlString, final String depthString, final String minWidthString, final String minHeightString) throws ValidationException, ImagedownloaderServiceException {
 		final List<ValidationError> errors = new ArrayList<>();
 		URL url = null;
 		{
@@ -127,10 +131,28 @@ public class ImagedownloaderGuiServlet extends WebsiteHtmlServlet {
 			}
 		}
 
+		int minHeight = 0;
+		{
+			try {
+				minHeight = parseUtil.parseInt(minHeightString);
+			} catch (final ParseException e) {
+				errors.add(new ValidationErrorSimple("illegal min height"));
+			}
+		}
+
+		int minWidth = 0;
+		{
+			try {
+				minWidth = parseUtil.parseInt(minWidthString);
+			} catch (final ParseException e) {
+				errors.add(new ValidationErrorSimple("illegal min width"));
+			}
+		}
+
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		} else {
-			imagedownloaderService.downloadImages(url, depth);
+			imagedownloaderService.downloadImages(url, depth, minWidth, minHeight);
 		}
 	}
 }

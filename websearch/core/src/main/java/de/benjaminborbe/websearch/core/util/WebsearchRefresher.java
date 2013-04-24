@@ -10,6 +10,7 @@ import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.net.URL;
 
 public class WebsearchRefresher {
 
@@ -38,7 +39,7 @@ public class WebsearchRefresher {
 							counter++;
 
 							logger.debug("trigger refresh of url " + url);
-							final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, TIMEOUT);
+							final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(new URL(url), TIMEOUT);
 							crawlerService.processCrawlerInstruction(crawlerInstruction);
 						}
 					} catch (final Exception e) {

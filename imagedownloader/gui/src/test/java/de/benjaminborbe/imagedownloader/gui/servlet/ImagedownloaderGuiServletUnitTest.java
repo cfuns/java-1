@@ -65,6 +65,8 @@ public class ImagedownloaderGuiServletUnitTest {
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
 		EasyMock.expect(request.getParameter(ImagedownloaderGuiConstants.PARAMETER_URL)).andReturn(null).anyTimes();
 		EasyMock.expect(request.getParameter(ImagedownloaderGuiConstants.PARAMETER_DEPTH)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(ImagedownloaderGuiConstants.PARAMETER_MIN_HEIGHT)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(ImagedownloaderGuiConstants.PARAMETER_MIN_WIDTH)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);

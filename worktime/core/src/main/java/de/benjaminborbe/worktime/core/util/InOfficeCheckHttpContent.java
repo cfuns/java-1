@@ -1,14 +1,15 @@
 package de.benjaminborbe.worktime.core.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class InOfficeCheckHttpContent {
@@ -26,13 +27,16 @@ public class InOfficeCheckHttpContent {
 
 	private final Logger logger;
 
+	private final ParseUtil parseUtil;
+
 	private final HttpDownloader httpDownloader;
 
 	private final HttpDownloadUtil httpDownloadUtil;
 
 	@Inject
-	public InOfficeCheckHttpContent(final Logger logger, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil) {
+	public InOfficeCheckHttpContent(final Logger logger, final ParseUtil parseUtil, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil) {
 		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
 	}
@@ -43,7 +47,7 @@ public class InOfficeCheckHttpContent {
 
 	private boolean check(final String urlString, final String matchString) {
 		try {
-			final URL url = new URL(urlString);
+			final URL url = parseUtil.parseURL(urlString);
 			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
 			logger.trace("downloaded " + url + " in " + result.getDuration() + " ms");
 			if (result.getDuration() > TIMEOUT) {
@@ -53,11 +57,8 @@ public class InOfficeCheckHttpContent {
 			}
 			final String content = httpDownloadUtil.getContent(result);
 			return content != null && content.contains(matchString);
-		} catch (final MalformedURLException e) {
-			logger.warn("MalformedURLException");
-			return false;
-		} catch (final IOException e) {
-			logger.warn("IOException");
+		} catch (final ParseException | IOException e) {
+			logger.warn(e.getClass().getName());
 			return false;
 		} catch (final HttpDownloaderException e) {
 			logger.trace("HttpDownloaderException");
