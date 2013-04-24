@@ -41,6 +41,8 @@ push(@cmds, 'cp -R '.$from_dir.' '.$to_dir);
 push(@cmds, 'find '.$to_dir.' -type f | xargs sed -i \'\' \'s/'.$from_dir.'/'.$to_dir.'/g\'');
 push(@cmds, 'find '.$to_dir.' -type f | xargs sed -i \'\' \'s/'.$from_name.'/'.$to_name.'/g\'');
 
+push(@cmds, 'find '.$to_dir.' -name "*.iml" -exec rm -f "{}" \;');
+
 push(@cmds, 'echo '.$to_dir.'/target >> .gitignore');
 push(@cmds, 'echo '.$to_dir_core.'/target >> .gitignore');
 push(@cmds, 'echo '.$to_dir_api.'/target >> .gitignore');

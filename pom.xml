@@ -96,8 +96,9 @@
 				<module>index</module>
 				<module>distributed</module>
 				<module>proxy</module>
-				<module>wiki</module>
 				<module>imagedownloader</module>
+				<module>httpdownloader</module>
+				<module>wiki</module>
 				<module>dhl</module>
 				<module>performance</module>
 				<module>analytics</module>

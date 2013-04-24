@@ -879,3 +879,8 @@ dns/core/target
 dns/api/target
 dns/gui/target
 dns/test/target
+httpdownloader/target
+httpdownloader/core/target
+httpdownloader/api/target
+httpdownloader/gui/target
+httpdownloader/test/target
