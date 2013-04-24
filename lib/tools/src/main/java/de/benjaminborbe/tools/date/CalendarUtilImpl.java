@@ -1,11 +1,11 @@
 package de.benjaminborbe.tools.date;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Date;
@@ -469,6 +469,16 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	@Override
 	public Calendar parseSmart(final String input) throws ParseException {
+		int pos = input.lastIndexOf(' ');
+		if (pos != -1) {
+			try {
+				final TimeZone timeZone = timeZoneUtil.parseTimeZone(input.substring(pos + 1));
+				logger.debug("timeZone: " + timeZone);
+				return parseSmart(timeZone, input.substring(0, pos));
+			} catch (ParseException e) {
+				// nop
+			}
+		}
 		return parseSmart(timeZoneUtil.getUTCTimeZone(), input);
 	}
 
