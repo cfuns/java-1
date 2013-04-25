@@ -1,5 +1,7 @@
 package de.benjaminborbe.httpdownloader.test;
 
+import de.benjaminborbe.httpdownloader.api.HttpRequestDto;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -7,6 +9,8 @@ import de.benjaminborbe.tools.url.UrlUtilImpl;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
+
+import java.net.URL;
 
 public class HttpdownloaderIntegrationTest extends TestCaseOsgi {
 
@@ -53,9 +57,18 @@ public class HttpdownloaderIntegrationTest extends TestCaseOsgi {
 		assertEquals("de.benjaminborbe.httpdownloader.core.service.HttpdownloaderCoreServiceImpl", service.getClass().getName());
 	}
 
-	public void testCalc() throws Exception {
+	public void testGet() throws Exception {
 		final HttpdownloaderService httpdownloaderService = getService(HttpdownloaderService.class);
-		assertEquals(46, httpdownloaderService.calc(23));
+		HttpRequestDto httpRequest = new HttpRequestDto();
+		final URL url = new URL("http://www.google.de");
+		httpRequest.setUrl(url);
+		final HttpResponse httpResponse = httpdownloaderService.get(httpRequest);
+		assertNotNull(httpResponse);
+		assertNotNull(httpResponse.getContent());
+		assertNotNull(httpResponse.getDuration());
+		assertNotNull(httpResponse.getContent());
+		assertNotNull(httpResponse.getUrl());
+		assertEquals(url, httpResponse.getUrl());
 	}
 
 }

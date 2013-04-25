@@ -6,7 +6,7 @@ public interface HttpResponse {
 
 	URL getUrl();
 
-	long getDuration();
+	Long getDuration();
 
 	HttpHeader getHeader();
 

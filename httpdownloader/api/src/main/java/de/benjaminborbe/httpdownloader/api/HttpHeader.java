@@ -1,5 +1,6 @@
 package de.benjaminborbe.httpdownloader.api;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface HttpHeader {
@@ -8,5 +9,5 @@ public interface HttpHeader {
 
 	List<String> getValues(String name);
 
-	List<String> getKeys();
+	Collection<String> getKeys();
 }
