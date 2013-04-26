@@ -1,20 +1,20 @@
 package de.benjaminborbe.crawler.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
+import com.google.inject.AbstractModule;
+import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.message.api.MessageService;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
-import com.google.inject.AbstractModule;
-
-import de.benjaminborbe.analytics.api.AnalyticsService;
-import de.benjaminborbe.message.api.MessageService;
-import de.benjaminborbe.navigation.api.NavigationWidget;
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class CrawlerOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(HttpdownloaderService.class).toProvider(service(HttpdownloaderService.class).single());
 		bind(AnalyticsService.class).toProvider(service(AnalyticsService.class).single());
 		bind(MessageService.class).toProvider(service(MessageService.class).single());
 		bind(NavigationWidget.class).toProvider(service(NavigationWidget.class).single());

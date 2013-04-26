@@ -1,8 +1,8 @@
 package de.benjaminborbe.crawler.service;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
-import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
+import de.benjaminborbe.httpdownloader.api.HttpResponseDto;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -21,7 +21,8 @@ public class CrawlerNotifierUnitTest {
 		final URL url = new URL("http://example.com/index.html");
 		final String content = "Foo Bar";
 		final String contentType = "text/html";
-		final CrawlerResult result = new CrawlerResultImpl(url, content, contentType, true);
+
+		final HttpResponseDto result = new HttpResponseDto();
 
 		final CrawlerNotifier clientCrawlerNotifier = EasyMock.createMock(CrawlerNotifier.class);
 		clientCrawlerNotifier.notifiy(result);

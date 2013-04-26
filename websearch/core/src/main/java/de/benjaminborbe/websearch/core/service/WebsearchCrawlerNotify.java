@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.core.service;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
-import de.benjaminborbe.crawler.api.CrawlerResult;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpUtil;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
@@ -73,7 +73,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	@Override
-	public void notifiy(final CrawlerResult result) {
+	public void notifiy(final HttpResponse result) {
 		try {
 			logger.trace("notify " + result.getUrl());
 			updateLastVisit(result);
@@ -86,19 +86,19 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		}
 	}
 
-	protected boolean isHtmlPage(final CrawlerResult result) {
+	protected boolean isHtmlPage(final HttpResponse result) {
 		if (!httpUtil.isAvailable(result)) {
-			logger.warn("result not available for url: " + result.getUrl());
+			logger.warn("result not available for url: " + result.getUrl() + " returnCode: " + result.getReturnCode());
 			return false;
 		}
-		if (httpUtil.isHtml(result.getHeader())) {
+		if (!httpUtil.isHtml(result.getHeader())) {
 			logger.trace("result has wrong contenttype for url: " + result.getUrl() + " contentType: " + httpUtil.getContentType(result.getHeader()));
 			return false;
 		}
 		return true;
 	}
 
-	protected void parseLinks(final CrawlerResult result) {
+	protected void parseLinks(final HttpResponse result) {
 		final Collection<String> links = htmlUtil.parseLinks(httpUtil.getContent(result));
 		logger.trace("found " + links.size() + " links");
 		for (final String link : links) {
@@ -205,7 +205,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		return StringUtils.join(p, "/");
 	}
 
-	private void addToIndex(final CrawlerResult result) throws IndexerServiceException, ParseException {
+	private void addToIndex(final HttpResponse result) throws IndexerServiceException, ParseException {
 		final String html = httpUtil.getContent(result);
 		final Document document = Jsoup.parse(html);
 		for (final Element head : document.getElementsByTag("head")) {
@@ -226,7 +226,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		indexerService.addToIndex(WebsearchConstants.INDEX, result.getUrl(), extractTitle(html), htmlUtil.filterHtmlTages(html), null);
 	}
 
-	private void updateLastVisit(final CrawlerResult result) throws StorageException {
+	private void updateLastVisit(final HttpResponse result) throws StorageException {
 		final WebsearchPageBean page = pageDao.findOrCreate(result.getUrl());
 		page.setLastVisit(calendarUtil.now());
 		pageDao.save(page);

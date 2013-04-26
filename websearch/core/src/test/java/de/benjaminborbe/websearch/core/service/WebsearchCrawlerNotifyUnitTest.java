@@ -109,8 +109,12 @@ public class WebsearchCrawlerNotifyUnitTest {
 		EasyMock.expect(htmlUtil.parseLinks(content)).andReturn(Arrays.asList("links", "javascript:alert();", " javascript:alert(); "));
 		EasyMock.replay(htmlUtil);
 
+		final HttpContent httpContent = EasyMock.createMock(HttpContent.class);
+		EasyMock.expect(httpContent.getContent()).andReturn(content.getBytes());
+		EasyMock.replay(httpContent);
+
 		final CrawlerResult crawlerResult = EasyMock.createMock(CrawlerResult.class);
-		//EasyMock.expect(crawlerResult.getContent()).andReturn(content);
+		EasyMock.expect(crawlerResult.getContent()).andReturn(httpContent);
 		EasyMock.expect(crawlerResult.getUrl()).andReturn(new URL("http://example.com"));
 		EasyMock.replay(crawlerResult);
 
@@ -148,12 +152,12 @@ public class WebsearchCrawlerNotifyUnitTest {
 		assertFalse(websearchCrawlerNotify.isHtmlPage(createCrawlerResult(true, null)));
 	}
 
-	protected CrawlerResult createCrawlerResult(final boolean avaible, final String contentType) {
+	protected CrawlerResult createCrawlerResult(final boolean avaiable, final String contentType) {
 		return new CrawlerResult() {
 
 			@Override
 			public Integer getReturnCode() {
-				return null;
+				return avaiable ? 200 : 400;
 			}
 
 			@Override

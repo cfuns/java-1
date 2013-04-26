@@ -1,12 +1,15 @@
 package de.benjaminborbe.httpdownloader.api;
 
+import java.net.HttpURLConnection;
+
 public class HttpUtil {
 
 	public HttpUtil() {
 	}
 
 	public boolean isAvailable(HttpResponse httpResponse) {
-		return 200 == httpResponse.getReturnCode();
+		final Integer returnCode = httpResponse.getReturnCode();
+		return returnCode != null && HttpURLConnection.HTTP_OK == returnCode;
 	}
 
 	public String getContentType(HttpHeader httpHeader) {

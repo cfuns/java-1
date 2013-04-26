@@ -1,13 +1,12 @@
 package de.benjaminborbe.crawler.service;
 
+import de.benjaminborbe.crawler.api.CrawlerNotifier;
+import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.crawler.api.CrawlerNotifier;
-import de.benjaminborbe.crawler.api.CrawlerResult;
-import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
 
 @Singleton
 public class CrawlerNotifierImpl implements CrawlerNotifier {
@@ -23,13 +22,12 @@ public class CrawlerNotifierImpl implements CrawlerNotifier {
 	}
 
 	@Override
-	public void notifiy(final CrawlerResult result) {
+	public void notifiy(final HttpResponse result) {
 		logger.trace("notifiy");
 		for (final CrawlerNotifier n : crawlerNotifierRegistry.getAll()) {
 			try {
 				n.notifiy(result);
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
 			}
 		}

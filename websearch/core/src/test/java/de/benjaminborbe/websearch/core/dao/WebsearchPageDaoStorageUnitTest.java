@@ -62,8 +62,9 @@ public class WebsearchPageDaoStorageUnitTest {
 
 		final TimeZone timeZone = timeZoneUtil.getUTCTimeZone();
 		final Calendar calendar = calendarUtil.parseDateTime(timeZone, "2012-12-24 20:15:59");
+		final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler = new WebsearchPageContentUpdateHandler();
 		final WebsearchPageDaoStorage dao = new WebsearchPageDaoStorage(logger, storageService, provider, websearchPageDaoSubPagesAction, websearchPageBeanMapper,
-			websearchPageIdentifierBuilder, calendarUtil, null);
+			websearchPageIdentifierBuilder, calendarUtil, websearchPageContentUpdateHandler);
 		final URL url = new URL("http://www.heise.de");
 		final WebsearchPageIdentifier websearchPageIdentifier = new WebsearchPageIdentifier(url.toExternalForm());
 		// create
