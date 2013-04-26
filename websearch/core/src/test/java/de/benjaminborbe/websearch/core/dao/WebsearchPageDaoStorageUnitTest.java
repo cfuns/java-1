@@ -20,6 +20,7 @@ import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
+import de.benjaminborbe.websearch.core.util.MapperHttpHeader;
 import de.benjaminborbe.websearch.core.util.MapperWebsearchPageIdentifier;
 import de.benjaminborbe.websearch.core.util.WebsearchPageContentUpdateHandler;
 import org.easymock.EasyMock;
@@ -55,7 +56,8 @@ public class WebsearchPageDaoStorageUnitTest {
 		final MapperUrl mapperUrl = new MapperUrl(parseUtil);
 		final Base64Util base64Util = new Base64UtilImpl();
 		final MapperByteArray mapperByteArray = new MapperByteArray(base64Util);
-		final WebsearchPageBeanMapper websearchPageBeanMapper = new WebsearchPageBeanMapper(provider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperByteArray);
+		final MapperHttpHeader mapperHttpHeader = new MapperHttpHeader();
+		final WebsearchPageBeanMapper websearchPageBeanMapper = new WebsearchPageBeanMapper(provider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperByteArray, mapperHttpHeader);
 		final WebsearchPageIdentifierBuilder websearchPageIdentifierBuilder = null;
 
 		final TimeZone timeZone = timeZoneUtil.getUTCTimeZone();

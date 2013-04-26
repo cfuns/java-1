@@ -15,6 +15,7 @@ import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import de.benjaminborbe.websearch.core.util.MapperHttpHeader;
 import de.benjaminborbe.websearch.core.util.MapperWebsearchPageIdentifier;
 import org.apache.commons.codec.binary.Base64;
 import org.easymock.EasyMock;
@@ -54,6 +55,7 @@ public class WebsearchPageBeanMapperUnitTest {
 		result.add(new Object[]{WebsearchPageBeanMapper.CREATED, "123456"});
 		result.add(new Object[]{WebsearchPageBeanMapper.URL, "http://www.benjamin-borbe.de"});
 		result.add(new Object[]{WebsearchPageBeanMapper.CONTENT, Base64.encodeBase64String("Hello World".getBytes("UTF-8"))});
+		result.add(new Object[]{WebsearchPageBeanMapper.HEADER, "{\"keyA\":[\"valueA1\",\"valueA2\"],\"keyB\":[\"valueB1\",\"valueB2\"]}"});
 		return result;
 	}
 
@@ -77,8 +79,9 @@ public class WebsearchPageBeanMapperUnitTest {
 
 		final Base64Util base64Util = new Base64UtilImpl();
 		final MapperByteArray mapperByteArray = new MapperByteArray(base64Util);
+		final MapperHttpHeader mapperHttpHeader = new MapperHttpHeader();
 
-		return new WebsearchPageBeanMapper(beanProvider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperByteArray);
+		return new WebsearchPageBeanMapper(beanProvider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperByteArray, mapperHttpHeader);
 	}
 
 	@Test

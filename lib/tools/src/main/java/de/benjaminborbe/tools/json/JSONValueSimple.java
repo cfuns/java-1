@@ -1,6 +1,7 @@
 package de.benjaminborbe.tools.json;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 
 public class JSONValueSimple implements JSONValue {
@@ -20,12 +21,10 @@ public class JSONValueSimple implements JSONValue {
 		if (value instanceof JSONArray) {
 			final JSONArray jsonArray = (JSONArray) value;
 			jsonArray.writeJSONString(out);
-		}
-		else if (value instanceof JSONObject) {
+		} else if (value instanceof JSONObject) {
 			final JSONObject jsonObject = (JSONObject) value;
 			jsonObject.writeJSONString(out);
-		}
-		else {
+		} else {
 			org.json.simple.JSONValue.writeJSONString(ecape(value), out);
 		}
 	}
@@ -33,9 +32,19 @@ public class JSONValueSimple implements JSONValue {
 	private static Object ecape(final Object value) {
 		if (value instanceof Double || value instanceof Float || value instanceof Integer || value instanceof Long || value instanceof Boolean || value instanceof String) {
 			return value;
-		}
-		else {
+		} else {
 			return value != null ? String.valueOf(value) : null;
+		}
+	}
+
+	@Override
+	public String toString() {
+		try {
+			StringWriter writer = new StringWriter();
+			writeJSONString(writer);
+			return writer.toString();
+		} catch (IOException e) {
+			return null;
 		}
 	}
 }

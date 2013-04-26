@@ -1,6 +1,7 @@
 package de.benjaminborbe.tools.json;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -148,6 +149,17 @@ public class JSONArraySimple implements JSONArray {
 	@Override
 	public <T> T[] toArray(final T[] a) {
 		return values.toArray(a);
+	}
+
+	@Override
+	public String toString() {
+		try {
+			StringWriter writer = new StringWriter();
+			writeJSONString(writer);
+			return writer.toString();
+		} catch (IOException e) {
+			return null;
+		}
 	}
 
 }

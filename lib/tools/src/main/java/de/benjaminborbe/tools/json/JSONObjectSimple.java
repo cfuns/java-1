@@ -1,6 +1,7 @@
 package de.benjaminborbe.tools.json;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.HashMap;
@@ -98,4 +99,14 @@ public class JSONObjectSimple implements JSONObject, Map<String, Object> {
 		return data.put(key, value);
 	}
 
+	@Override
+	public String toString() {
+		try {
+			StringWriter writer = new StringWriter();
+			writeJSONString(writer);
+			return writer.toString();
+		} catch (IOException e) {
+			return null;
+		}
+	}
 }
