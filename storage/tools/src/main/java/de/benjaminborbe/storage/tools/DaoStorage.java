@@ -99,13 +99,10 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public void delete(final I id) throws StorageException {
-		try {
-			logger.trace("delete");
-			onPreDelete(id);
-			storageService.delete(getColumnFamily(), new StorageValue(id.getId(), getEncoding()));
-			onPostDelete(id);
-		} finally {
-		}
+		logger.trace("delete");
+		onPreDelete(id);
+		storageService.delete(getColumnFamily(), new StorageValue(id.getId(), getEncoding()));
+		onPostDelete(id);
 	}
 
 	public void onPostDelete(final I id) throws StorageException {
@@ -114,6 +111,14 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	public void onPreDelete(final I id) throws StorageException {
 		logger.trace("onPreDelete - id: " + id);
+	}
+
+	public void onPostSave(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
+		logger.trace("onPostSave - id: " + entity.getId() + " fieldNames: " + fieldNames);
+	}
+
+	public void onPreSave(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
+		logger.trace("onPreSave - id: " + entity.getId() + " fieldNames: " + fieldNames);
 	}
 
 	@Override
@@ -235,11 +240,14 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public void save(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
-		if (entity.getId() == null) {
-			throw new StorageException("could not save without identifier");
-		}
 		try {
+			if (entity.getId() == null) {
+				throw new StorageException("could not save without identifier");
+			}
+
 			logger.trace("save " + entity.getClass().getName() + " " + entity.getId());
+
+			onPreSave(entity, fieldNames);
 
 			if (entity instanceof HasModified) {
 				final HasModified hasModified = (HasModified) entity;
@@ -268,6 +276,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 			}
 			storageService.set(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), data);
+
+			onPostSave(entity, fieldNames);
+
 		} catch (final MapException | UnsupportedEncodingException e) {
 			throw new StorageException(e);
 		}

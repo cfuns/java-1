@@ -3,10 +3,12 @@ package de.benjaminborbe.websearch.core.dao;
 import com.google.inject.Provider;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
+import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
+import de.benjaminborbe.websearch.core.util.WebsearchPageContentUpdateHandler;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -21,6 +23,8 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 
 	private final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction;
 
+	private final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler;
+
 	@Inject
 	public WebsearchPageDaoStorage(
 		final Logger logger,
@@ -29,9 +33,10 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 		final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction,
 		final WebsearchPageBeanMapper pageBeanMapper,
 		final WebsearchPageIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil, final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler) {
 		super(logger, storageService, beanProvider, pageBeanMapper, identifierBuilder, calendarUtil);
 		this.pageDaoSubPagesAction = pageDaoSubPagesAction;
+		this.websearchPageContentUpdateHandler = websearchPageContentUpdateHandler;
 	}
 
 	@Override
@@ -76,6 +81,13 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 			return pageDaoSubPagesAction.findSubPages(url.toExternalForm(), getEntityIterator());
 		} catch (final EntityIteratorException e) {
 			throw new StorageException(e);
+		}
+	}
+
+	@Override
+	public void onPostSave(final WebsearchPageBean entity, final Collection<StorageValue> fieldNames) throws StorageException {
+		if (fieldNames == null || fieldNames.contains(new StorageValue(WebsearchPageBeanMapper.CONTENT, getEncoding()))) {
+			websearchPageContentUpdateHandler.onContentUpdated(entity);
 		}
 	}
 }
