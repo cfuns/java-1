@@ -48,7 +48,7 @@
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>${project.name}</Bundle-Name>
 						<Bundle-Description>${project.description}</Bundle-Description>
-						<Include-Resource>{maven-resources}, {maven-dependencies}</Include-Resource>
+						<Include-Resource>{maven-dependencies}</Include-Resource>
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>

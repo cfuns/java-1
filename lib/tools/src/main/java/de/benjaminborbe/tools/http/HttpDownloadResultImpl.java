@@ -22,12 +22,19 @@ public class HttpDownloadResultImpl implements HttpDownloadResult, Serializable 
 
 	private final String contentType;
 
+	private final int responseCode;
+
+	public int getResponseCode() {
+		return responseCode;
+	}
+
 	private final Map<String, List<String>> headers;
 
-	public HttpDownloadResultImpl(final URL url, final long duration, final byte[] content, final String contentType, final Encoding contentEncoding, final Map<String, List<String>> headers) {
+	public HttpDownloadResultImpl(final URL url, final long duration, final byte[] content, final String contentType, final Encoding contentEncoding, final Map<String, List<String>> headers, final int responseCode) {
 		this.url = url;
 		this.duration = duration;
 		this.contentType = contentType;
+		this.responseCode = responseCode;
 		this.content = Arrays.copyOf(content, content.length);
 		this.contentEncoding = contentEncoding;
 		this.headers = headers;

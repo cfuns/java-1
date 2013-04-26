@@ -1,14 +1,7 @@
 package de.benjaminborbe.crawler.api;
 
-import java.net.URL;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
 
-public interface CrawlerResult {
+public interface CrawlerResult extends HttpResponse {
 
-	URL getUrl();
-
-	String getContent();
-
-	String getContentType();
-
-	boolean isAvailable();
 }

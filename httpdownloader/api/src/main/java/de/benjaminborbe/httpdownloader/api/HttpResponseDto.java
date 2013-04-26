@@ -12,6 +12,12 @@ public class HttpResponseDto implements HttpResponse {
 
 	private URL url;
 
+	private Integer returnCode;
+
+	public void setReturnCode(final Integer returnCode) {
+		this.returnCode = returnCode;
+	}
+
 	public HttpContent getContent() {
 		return content;
 	}
@@ -34,6 +40,11 @@ public class HttpResponseDto implements HttpResponse {
 
 	public void setHeader(final HttpHeader header) {
 		this.header = header;
+	}
+
+	@Override
+	public Integer getReturnCode() {
+		return returnCode;
 	}
 
 	public URL getUrl() {

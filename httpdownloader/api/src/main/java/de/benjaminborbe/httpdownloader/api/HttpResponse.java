@@ -4,6 +4,8 @@ import java.net.URL;
 
 public interface HttpResponse {
 
+	Integer getReturnCode();
+
 	URL getUrl();
 
 	Long getDuration();

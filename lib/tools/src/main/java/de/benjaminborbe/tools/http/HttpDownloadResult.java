@@ -12,6 +12,8 @@ public interface HttpDownloadResult {
 
 	long getDuration();
 
+	int getResponseCode();
+
 	byte[] getContent();
 
 	Encoding getContentEncoding();

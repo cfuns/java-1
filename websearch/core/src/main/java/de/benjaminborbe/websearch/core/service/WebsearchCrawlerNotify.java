@@ -2,6 +2,7 @@ package de.benjaminborbe.websearch.core.service;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.api.CrawlerResult;
+import de.benjaminborbe.httpdownloader.api.HttpUtil;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
@@ -43,9 +44,9 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	private final WebsearchPageDao pageDao;
 
-	private final static String CONTENT_TYPE = "text/html";
-
 	private final HtmlUtil htmlUtil;
+
+	private final HttpUtil httpUtil;
 
 	private final ParseUtil parseUtil;
 
@@ -54,6 +55,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	@Inject
 	public WebsearchCrawlerNotify(
 		final Logger logger,
+		final HttpUtil httpUtil,
 		final ParseUtil parseUtil,
 		final CalendarUtil calendarUtil,
 		final IndexService indexerService,
@@ -61,6 +63,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		final WebsearchPageDao pageDao,
 		final HtmlUtil htmlUtil) {
 		this.logger = logger;
+		this.httpUtil = httpUtil;
 		this.parseUtil = parseUtil;
 		this.calendarUtil = calendarUtil;
 		this.indexerService = indexerService;
@@ -84,20 +87,19 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	protected boolean isHtmlPage(final CrawlerResult result) {
-		if (!result.isAvailable()) {
+		if (!httpUtil.isAvailable(result)) {
 			logger.warn("result not available for url: " + result.getUrl());
 			return false;
 		}
-		final String contentType = result.getContentType();
-		if (contentType == null || !contentType.startsWith(CONTENT_TYPE)) {
-			logger.trace("result has wrong contenttype for url: " + result.getUrl() + " contentType: " + contentType);
+		if (httpUtil.isHtml(result.getHeader())) {
+			logger.trace("result has wrong contenttype for url: " + result.getUrl() + " contentType: " + httpUtil.getContentType(result.getHeader()));
 			return false;
 		}
 		return true;
 	}
 
 	protected void parseLinks(final CrawlerResult result) {
-		final Collection<String> links = htmlUtil.parseLinks(result.getContent());
+		final Collection<String> links = htmlUtil.parseLinks(httpUtil.getContent(result));
 		logger.trace("found " + links.size() + " links");
 		for (final String link : links) {
 			try {
@@ -204,7 +206,8 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	private void addToIndex(final CrawlerResult result) throws IndexerServiceException, ParseException {
-		final Document document = Jsoup.parse(result.getContent());
+		final String html = httpUtil.getContent(result);
+		final Document document = Jsoup.parse(html);
 		for (final Element head : document.getElementsByTag("head")) {
 			for (final Element meta : head.getElementsByTag("meta")) {
 				// <meta name="robots" content="noindex,nofollow">
@@ -220,7 +223,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 			}
 		}
 		logger.trace("add url " + result.getUrl() + " to index");
-		indexerService.addToIndex(WebsearchConstants.INDEX, result.getUrl(), extractTitle(result.getContent()), htmlUtil.filterHtmlTages(result.getContent()), null);
+		indexerService.addToIndex(WebsearchConstants.INDEX, result.getUrl(), extractTitle(html), htmlUtil.filterHtmlTages(html), null);
 	}
 
 	private void updateLastVisit(final CrawlerResult result) throws StorageException {

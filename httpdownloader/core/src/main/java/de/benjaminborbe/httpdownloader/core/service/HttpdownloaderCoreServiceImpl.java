@@ -37,6 +37,7 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 			final HttpDownloadResult httpDownloadResult = httpDownloader.getUrl(url, httpRequest.getTimeout());
 
 			HttpResponseDto httpResponse = new HttpResponseDto();
+			httpResponse.setReturnCode(httpDownloadResult.getResponseCode());
 			httpResponse.setUrl(url);
 			httpResponse.setDuration(httpDownloadResult.getDuration());
 			httpResponse.setHeader(new HttpHeaderDto());

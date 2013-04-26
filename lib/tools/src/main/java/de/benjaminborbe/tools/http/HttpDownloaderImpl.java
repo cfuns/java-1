@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -98,7 +99,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 		InputStream inputStream = null;
 		ByteArrayOutputStream outputStream = null;
 		try {
-			final URLConnection connection = url.openConnection();
+			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			if (username != null && password != null || url.getUserInfo() != null) {
 				final String stringUserIdPassword = url.getUserInfo() != null ? url.getUserInfo() : username + ":" + password;
 				final String base64UserIdPassword = base64Util.encode(stringUserIdPassword.getBytes("ASCII"));
@@ -117,7 +118,8 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			final String contentType = connection.getContentType();
 			final Map<String, List<String>> headers = connection.getHeaderFields();
 			final Encoding contentEncoding = extractEncoding(connection, contentType);
-			final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), content, contentType, contentEncoding, headers);
+			final int responseCode = connection.getResponseCode();
+			final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), content, contentType, contentEncoding, headers, responseCode);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
 		} finally {
@@ -192,7 +194,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			}
 
 			// Send data
-			final URLConnection connection = url.openConnection();
+			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setConnectTimeout(timeout);
 			connection.setReadTimeout(timeout);
 			connection.setRequestProperty("Cookie", buildCookieString(cookies));
@@ -209,7 +211,8 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			final String contentType = connection.getContentType();
 			final Map<String, List<String>> headers = connection.getHeaderFields();
 			final Encoding contentEncoding = extractEncoding(connection, contentType);
-			final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), content, contentType, contentEncoding, headers);
+			final int responseCode = connection.getResponseCode();
+			final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), content, contentType, contentEncoding, headers, responseCode);
 			logger.trace("downloadUrl finished");
 			return httpDownloadResult;
 		} catch (final IOException e) {

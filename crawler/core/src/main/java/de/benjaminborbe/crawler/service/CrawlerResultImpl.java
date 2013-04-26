@@ -1,8 +1,10 @@
 package de.benjaminborbe.crawler.service;
 
-import java.net.URL;
-
 import de.benjaminborbe.crawler.api.CrawlerResult;
+import de.benjaminborbe.httpdownloader.api.HttpContent;
+import de.benjaminborbe.httpdownloader.api.HttpHeader;
+
+import java.net.URL;
 
 public class CrawlerResultImpl implements CrawlerResult {
 
@@ -22,23 +24,27 @@ public class CrawlerResultImpl implements CrawlerResult {
 	}
 
 	@Override
+	public Integer getReturnCode() {
+		return null;
+	}
+
+	@Override
 	public URL getUrl() {
 		return url;
 	}
 
 	@Override
-	public String getContent() {
-		return content;
+	public Long getDuration() {
+		return null;
 	}
 
 	@Override
-	public boolean isAvailable() {
-		return available;
+	public HttpHeader getHeader() {
+		return null;
 	}
 
 	@Override
-	public String getContentType() {
-		return contentType;
+	public HttpContent getContent() {
+		return null;
 	}
-
 }
