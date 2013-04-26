@@ -33,6 +33,7 @@ public class WebsearchPageDaoStorageUnitTest {
 	public void testCrud() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
+
 		final StorageService storageService = new StorageServiceMock(logger);
 		final Provider<WebsearchPageBean> provider = new ProviderMock<>(WebsearchPageBean.class);
 		final WebsearchPageDaoSubPagesAction websearchPageDaoSubPagesAction = new WebsearchPageDaoSubPagesAction();

@@ -17,7 +17,7 @@ import java.util.Collection;
 @Singleton
 public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, WebsearchPageIdentifier> implements WebsearchPageDao {
 
-	private static final String COLUMNFAMILY = "websearch_page";
+	public static final String COLUMNFAMILY = "websearch_page";
 
 	private final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction;
 
@@ -49,6 +49,7 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 		}
 		{
 			final WebsearchPageBean page = create();
+			page.setId(new WebsearchPageIdentifier(url.toExternalForm()));
 			page.setUrl(url);
 			save(page);
 			return page;

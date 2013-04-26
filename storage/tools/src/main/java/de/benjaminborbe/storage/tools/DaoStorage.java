@@ -1,8 +1,6 @@
 package de.benjaminborbe.storage.tools;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.api.IdentifierBuilderException;
@@ -17,6 +15,8 @@ import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapper;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -148,8 +148,8 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	protected List<StorageValue> getFieldNames(final E entity) throws MapException {
 		final List<StorageValue> result = new ArrayList<>();
-		for (final String f : mapper.map(entity).keySet()) {
-			result.add(new StorageValue(f, getEncoding()));
+		for (final String fieldName : mapper.map(entity).keySet()) {
+			result.add(new StorageValue(fieldName, getEncoding()));
 		}
 		return result;
 	}

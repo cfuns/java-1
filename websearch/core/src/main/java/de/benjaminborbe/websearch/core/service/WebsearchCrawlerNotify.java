@@ -71,8 +71,8 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 
 	@Override
 	public void notifiy(final CrawlerResult result) {
-		logger.trace("notify " + result.getUrl());
 		try {
+			logger.trace("notify " + result.getUrl());
 			updateLastVisit(result);
 			if (isHtmlPage(result)) {
 				parseLinks(result);
