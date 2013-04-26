@@ -21,11 +21,11 @@ import java.util.List;
 public class WebsearchPageBeanMapper extends MapObjectMapperAdapter<WebsearchPageBean> {
 
 	@Inject
-	public WebsearchPageBeanMapper(final Provider<WebsearchPageBean> provider, final MapperCalendar mapperCalendar, final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier, MapperUrl mapperUrl) {
+	public WebsearchPageBeanMapper(final Provider<WebsearchPageBean> provider, final MapperCalendar mapperCalendar, final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier, final MapperUrl mapperUrl) {
 		super(provider, buildMappings(mapperCalendar, mapperUrl, mapperWebsearchPageIdentifier));
 	}
 
-	private static Collection<StringObjectMapper<WebsearchPageBean>> buildMappings(final MapperCalendar mapperCalendar, MapperUrl mapperUrl, final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier) {
+	private static Collection<StringObjectMapper<WebsearchPageBean>> buildMappings(final MapperCalendar mapperCalendar, final MapperUrl mapperUrl, final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier) {
 		final List<StringObjectMapper<WebsearchPageBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, WebsearchPageIdentifier>("id", mapperWebsearchPageIdentifier));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, URL>("url", mapperUrl));
