@@ -1,14 +1,14 @@
 package de.benjaminborbe.websearch.core.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.DaoCache;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 import java.util.Collection;
 
@@ -33,7 +33,7 @@ public class WebsearchPageDaoCache extends DaoCache<WebsearchPageBean, Websearch
 		}
 		{
 			final WebsearchPageBean page = create();
-			page.setUrl(url.toExternalForm());
+			page.setUrl(url);
 			save(page);
 			return page;
 		}

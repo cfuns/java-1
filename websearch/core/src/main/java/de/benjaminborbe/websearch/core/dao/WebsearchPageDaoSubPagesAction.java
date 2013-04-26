@@ -1,9 +1,9 @@
 package de.benjaminborbe.websearch.core.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +18,7 @@ public class WebsearchPageDaoSubPagesAction {
 		final Set<WebsearchPageBean> result = new HashSet<>();
 		while (entityIterator.hasNext()) {
 			final WebsearchPageBean page = entityIterator.next();
-			if (page.getUrl().startsWith(urlPrefix)) {
+			if (page.getUrl().toExternalForm().startsWith(urlPrefix)) {
 				result.add(page);
 			}
 		}

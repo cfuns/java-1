@@ -1,12 +1,12 @@
 package de.benjaminborbe.websearch.core.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloadUtil;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -39,10 +39,10 @@ public class WebsearchRobotsTxtUtil {
 		this.httpDownloadUtil = httpDownloadUtil;
 	}
 
-	public boolean isAllowed(final String url) {
+	public boolean isAllowed(final URL url) {
 		logger.debug("isAllowed - url: " + url);
-		final WebsearchRobotsTxt robotsTxt = getWebsearchRobotsTxt(url);
-		final String uri = buildUri(url);
+		final WebsearchRobotsTxt robotsTxt = getWebsearchRobotsTxt(url.toExternalForm());
+		final String uri = buildUri(url.toExternalForm());
 		logger.debug("isAllowed - ua: " + HttpDownloader.USERAGENT + " uri: " + uri);
 		return robotsTxt.isAllowed(HttpDownloader.USERAGENT, uri);
 	}

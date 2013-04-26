@@ -1,5 +1,6 @@
 package de.benjaminborbe.websearch.api;
 
+import java.net.URL;
 import java.util.Calendar;
 
 public interface WebsearchPage {
@@ -8,6 +9,6 @@ public interface WebsearchPage {
 
 	Calendar getLastVisit();
 
-	String getUrl();
+	URL getUrl();
 
 }

@@ -7,6 +7,7 @@ import de.benjaminborbe.websearch.core.dao.WebsearchConfigurationBean;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
 import org.slf4j.Logger;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -85,16 +86,16 @@ public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean
 			logger.warn("parameter page is null");
 			return result;
 		}
-		final String url = page.getUrl();
+		final URL url = page.getUrl();
 		if (url == null) {
 			logger.warn("parameter url is null at page " + page.getId());
 			return result;
 		}
 		for (final WebsearchConfigurationBean configuration : configurations) {
-			if (url.startsWith(configuration.getUrl().toExternalForm())) {
+			if (url.toExternalForm().startsWith(configuration.getUrl().toExternalForm())) {
 				boolean isExcluded = false;
 				for (final String exclude : configuration.getExcludes()) {
-					if (url.contains(exclude)) {
+					if (url.toExternalForm().contains(exclude)) {
 						isExcluded = true;
 					}
 				}

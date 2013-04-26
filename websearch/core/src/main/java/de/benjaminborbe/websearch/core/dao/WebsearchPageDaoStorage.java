@@ -1,8 +1,6 @@
 package de.benjaminborbe.websearch.core.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
@@ -11,6 +9,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 import java.util.Collection;
 
@@ -49,7 +49,7 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 		}
 		{
 			final WebsearchPageBean page = create();
-			page.setUrl(url.toExternalForm());
+			page.setUrl(url);
 			save(page);
 			return page;
 		}

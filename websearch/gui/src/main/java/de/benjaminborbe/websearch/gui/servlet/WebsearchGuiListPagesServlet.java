@@ -1,8 +1,6 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -29,6 +27,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -48,7 +48,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 		@Override
 		public String getValue(final WebsearchPage o) {
-			return o.getUrl();
+			return o.getUrl() != null ? o.getUrl().toExternalForm() : null;
 		}
 	}
 
@@ -130,7 +130,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 
 	protected Widget buildPageWidget(final WebsearchPage page, final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		final ListWidget widgets = new ListWidget();
-		final String url = page.getUrl();
+		final String url = page.getUrl() != null ? page.getUrl().toExternalForm() : null;
 		widgets.add(new LinkWidget(url, url));
 		widgets.add(" ");
 		if (page.getLastVisit() != null) {

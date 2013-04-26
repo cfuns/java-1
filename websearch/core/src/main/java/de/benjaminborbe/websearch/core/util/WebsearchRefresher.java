@@ -32,14 +32,14 @@ public class WebsearchRefresher {
 							logger.debug("refresh pages limit reached => exit");
 							return;
 						}
-						final String url = page.getUrl();
+						final URL url = page.getUrl();
 						if (!websearchRobotsTxtUtil.isAllowed(url)) {
 							logger.debug("robots.txt disallow url: " + url);
 						} else {
 							counter++;
 
 							logger.debug("trigger refresh of url " + url);
-							final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(new URL(url), TIMEOUT);
+							final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, TIMEOUT);
 							crawlerService.processCrawlerInstruction(crawlerInstruction);
 						}
 					} catch (final Exception e) {

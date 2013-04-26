@@ -1,11 +1,13 @@
 package de.benjaminborbe.websearch.core.dao;
 
+import de.benjaminborbe.httpdownloader.api.HttpHeader;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.websearch.api.WebsearchPage;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 
+import java.net.URL;
 import java.util.Calendar;
 
 public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> implements WebsearchPage, HasCreated, HasModified {
@@ -14,11 +16,41 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 
 	private WebsearchPageIdentifier id;
 
+	private URL url;
+
+	public URL getUrl() {
+		return url;
+	}
+
+	public void setUrl(final URL url) {
+		this.url = url;
+	}
+
+	private HttpHeader header;
+
+	public byte[] getContent() {
+		return content;
+	}
+
+	public void setContent(final byte[] content) {
+		this.content = content;
+	}
+
+	public HttpHeader getHeader() {
+		return header;
+	}
+
+	public void setHeader(final HttpHeader header) {
+		this.header = header;
+	}
+
 	private Calendar lastVisit;
 
 	private Calendar modified;
 
 	private Calendar created;
+
+	private byte[] content;
 
 	@Override
 	public Calendar getLastVisit() {
@@ -27,15 +59,6 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 
 	public void setLastVisit(final Calendar lastVisit) {
 		this.lastVisit = lastVisit;
-	}
-
-	@Override
-	public String getUrl() {
-		return getId() != null ? getId().getId() : null;
-	}
-
-	public void setUrl(final String url) {
-		setId(new WebsearchPageIdentifier(url));
 	}
 
 	@Override
