@@ -41,10 +41,10 @@ public class WebsearchRobotsTxtUtil {
 	}
 
 	public boolean isAllowed(final URL url) {
-		logger.debug("isAllowed - url: " + url);
+		logger.debug("url: " + url);
 		final WebsearchRobotsTxt robotsTxt = getWebsearchRobotsTxt(url.toExternalForm());
 		final String uri = buildUri(url.toExternalForm());
-		logger.debug("isAllowed - ua: " + HttpDownloader.USERAGENT + " uri: " + uri);
+		logger.debug("ua: " + HttpDownloader.USERAGENT + " uri: " + uri);
 		return robotsTxt.isAllowed(HttpDownloader.USERAGENT, uri);
 	}
 

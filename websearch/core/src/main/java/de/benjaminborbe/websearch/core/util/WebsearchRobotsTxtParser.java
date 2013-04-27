@@ -23,7 +23,9 @@ public class WebsearchRobotsTxtParser {
 				if (ua != null && line.startsWith(DISALLOW_STRING)) {
 					final int pos = line.indexOf(DISALLOW_STRING);
 					final String uri = line.substring(pos + DISALLOW_STRING.length()).trim();
-					robotsTxt.add(ua, uri);
+					if (!uri.isEmpty()) {
+						robotsTxt.add(ua, uri);
+					}
 				}
 			}
 		}
