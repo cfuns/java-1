@@ -12,6 +12,7 @@ import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationDeleteSer
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiConfigurationUpdateServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiIndexClearServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiListPagesServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageContentServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireAllServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshAllServlet;
@@ -25,6 +26,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class WebsearchGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private WebsearchGuiPageContentServlet websearchGuiPageContentServlet;
 
 	@Inject
 	private WebsearchGuiServlet websearchGuiServlet;
@@ -81,6 +85,7 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(websearchGuiConfigurationCreateServlet, WebsearchGuiConstants.URL_CONFIGURATION_CREATE));
 		result.add(new ServletInfo(websearchGuiConfigurationDeleteServlet, WebsearchGuiConstants.URL_CONFIGURATION_DELETE));
 		result.add(new ServletInfo(websearchGuiConfigurationUpdateServlet, WebsearchGuiConstants.URL_CONFIGURATION_UPDATE));
+		result.add(new ServletInfo(websearchGuiPageContentServlet, WebsearchGuiConstants.URL_PAGE_CONTENT));
 		return result;
 	}
 

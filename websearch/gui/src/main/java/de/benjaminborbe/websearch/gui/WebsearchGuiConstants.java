@@ -40,4 +40,6 @@ public interface WebsearchGuiConstants {
 
 	String PARAMETER_CONFIGURATION_ACTIVATED = "configuration_activated";
 
+	String URL_PAGE_CONTENT = "/page/content";
+
 }
