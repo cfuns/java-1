@@ -1,6 +1,5 @@
 package de.benjaminborbe.cron.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.cron.CronConstants;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.message.CronMessage;
@@ -10,6 +9,8 @@ import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class CronMessageSender {
 
@@ -46,7 +47,8 @@ public class CronMessageSender {
 		final CronExecutor cronExecutor,
 		final CronJobRegistry cronJobRegistry,
 		final MessageService messageService,
-		final CronMessageMapper cronMessageMapper) {
+		final CronMessageMapper cronMessageMapper
+	) {
 		this.logger = logger;
 		this.threadRunner = threadRunner;
 		this.cronExecutor = cronExecutor;

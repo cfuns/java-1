@@ -1,6 +1,5 @@
 package de.benjaminborbe.websearch.core.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
@@ -16,6 +15,7 @@ import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
 import de.benjaminborbe.websearch.core.util.MapperUserIdentifier;
 import de.benjaminborbe.websearch.core.util.MapperWebsearchConfigurationIdentifier;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,14 +34,17 @@ public class WebsearchConfigurationBeanMapper extends MapObjectMapperAdapter<Web
 		final MapperCalendar mapperCalendar,
 		final MapperLong MapperLong,
 		final MapperInteger MapperInteger,
-		final MapperListString MapperStringList) {
+		final MapperListString MapperStringList
+	) {
 		super(provider, buildMappings(mapperWebsearchConfigurationIdentifier, mapperUserIdentifier, mapperUrl, MapperBoolean, mapperCalendar, MapperLong, MapperInteger,
 			MapperStringList));
 	}
 
-	private static Collection<StringObjectMapper<WebsearchConfigurationBean>> buildMappings(final MapperWebsearchConfigurationIdentifier mapperWebsearchConfigurationIdentifier,
-																																													final MapperUserIdentifier mapperUserIdentifier, final MapperUrl mapperUrl, final MapperBoolean MapperBoolean, final MapperCalendar mapperCalendar,
-																																													final MapperLong MapperLong, final MapperInteger MapperInteger, final MapperListString MapperStringList) {
+	private static Collection<StringObjectMapper<WebsearchConfigurationBean>> buildMappings(
+		final MapperWebsearchConfigurationIdentifier mapperWebsearchConfigurationIdentifier,
+		final MapperUserIdentifier mapperUserIdentifier, final MapperUrl mapperUrl, final MapperBoolean MapperBoolean, final MapperCalendar mapperCalendar,
+		final MapperLong MapperLong, final MapperInteger MapperInteger, final MapperListString MapperStringList
+	) {
 		final List<StringObjectMapper<WebsearchConfigurationBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, WebsearchConfigurationIdentifier>("id", mapperWebsearchConfigurationIdentifier));
 		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, UserIdentifier>("owner", mapperUserIdentifier));

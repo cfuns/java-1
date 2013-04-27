@@ -16,9 +16,8 @@ public class AES {
 
 	/**
 	 * Turns array of bytes into string
-	 * 
-	 * @param buf
-	 *          Array of bytes to convert to hex string
+	 *
+	 * @param buf Array of bytes to convert to hex string
 	 * @return Generated hex string
 	 */
 	public static String asHex(final byte buf[]) {

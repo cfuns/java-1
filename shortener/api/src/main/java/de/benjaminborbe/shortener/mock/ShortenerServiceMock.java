@@ -1,11 +1,10 @@
 package de.benjaminborbe.shortener.mock;
 
-import java.net.URL;
-
-
 import de.benjaminborbe.shortener.api.ShortenerService;
 import de.benjaminborbe.shortener.api.ShortenerServiceException;
 import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
+
+import java.net.URL;
 
 public class ShortenerServiceMock implements ShortenerService {
 

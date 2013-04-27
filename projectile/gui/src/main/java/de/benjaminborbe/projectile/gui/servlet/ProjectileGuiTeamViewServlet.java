@@ -1,8 +1,6 @@
 package de.benjaminborbe.projectile.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -41,6 +39,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,7 +79,8 @@ public class ProjectileGuiTeamViewServlet extends WebsiteHtmlServlet {
 		final ProjectileLinkFactory projectileLinkFactory,
 		final ProjectileService projectileService,
 		final UrlUtil urlUtil,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.projectileLinkFactory = projectileLinkFactory;

@@ -1,7 +1,5 @@
 package de.benjaminborbe.authentication.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
@@ -45,6 +43,8 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -103,7 +103,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		final ValidationExecutor validationExecutor,
 		final ShortenerService shortenerService,
 		final DurationUtil durationUtil,
-		final AuthenticationVerifyCredential authenticationVerifyCredential) {
+		final AuthenticationVerifyCredential authenticationVerifyCredential
+	) {
 		this.logger = logger;
 		this.authenticationConfig = authenticationConfig;
 		this.calendarUtil = calendarUtil;
@@ -138,7 +139,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean login(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String password) throws AuthenticationServiceException,
+	public boolean login(
+		final SessionIdentifier sessionIdentifier,
+		final UserIdentifier userIdentifier,
+		final String password
+	) throws AuthenticationServiceException,
 		ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -221,8 +226,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public UserIdentifier register(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, final String username, final String email,
-																 final String password) throws AuthenticationServiceException, ValidationException {
+	public UserIdentifier register(
+		final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, final String username, final String email,
+		final String password
+	) throws AuthenticationServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			if (isLoggedIn(sessionIdentifier)) {
@@ -265,7 +272,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 	}
 
-	private void sendEmailVerify(final UserBean user, final String shortenUrl, final String verifyUrl) throws MailServiceException, ShortenerServiceException, ParseException,
+	private void sendEmailVerify(
+		final UserBean user,
+		final String shortenUrl,
+		final String verifyUrl
+	) throws MailServiceException, ShortenerServiceException, ParseException,
 		ValidationException {
 		if (Boolean.TRUE.equals(user.getEmailVerified())) {
 			logger.debug("email already verified");
@@ -312,7 +323,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean changePassword(final SessionIdentifier sessionIdentifier, final String currentPassword, final String newPassword, final String newPasswordRepeat)
+	public boolean changePassword(
+		final SessionIdentifier sessionIdentifier,
+		final String currentPassword,
+		final String newPassword,
+		final String newPasswordRepeat
+	)
 		throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -456,7 +472,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void switchUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException,
+	public void switchUser(
+		final SessionIdentifier sessionIdentifier,
+		final UserIdentifier userIdentifier
+	) throws AuthenticationServiceException, LoginRequiredException,
 		SuperAdminRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -546,8 +565,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void updateUser(final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, final String email, final String fullname,
-												 final String timeZoneString) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
+	public void updateUser(
+		final SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, final String email, final String fullname,
+		final String timeZoneString
+	) throws AuthenticationServiceException, LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectLoggedIn(sessionIdentifier);
@@ -581,7 +602,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public boolean login(final SessionIdentifier sessionIdentifier, final String username, final String password) throws AuthenticationServiceException, ValidationException {
+	public boolean login(
+		final SessionIdentifier sessionIdentifier,
+		final String username,
+		final String password
+	) throws AuthenticationServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return login(sessionIdentifier, createUserIdentifier(username), password);
@@ -615,7 +640,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public UserIdentifier createUser(final SessionIdentifier sessionIdentifier, final UserDto userDto) throws AuthenticationServiceException, LoginRequiredException,
+	public UserIdentifier createUser(
+		final SessionIdentifier sessionIdentifier,
+		final UserDto userDto
+	) throws AuthenticationServiceException, LoginRequiredException,
 		ValidationException, SuperAdminRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -644,7 +672,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void deleteUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException,
+	public void deleteUser(
+		final SessionIdentifier sessionIdentifier,
+		final UserIdentifier userIdentifier
+	) throws AuthenticationServiceException, LoginRequiredException,
 		SuperAdminRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -660,8 +691,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void sendPasswordLostEmail(final String shortenUrl, final String resetUrl, final UserIdentifier userIdentifier,
-																		final String email) throws AuthenticationServiceException, ValidationException {
+	public void sendPasswordLostEmail(
+		final String shortenUrl, final String resetUrl, final UserIdentifier userIdentifier,
+		final String email
+	) throws AuthenticationServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final UserBean user = userDao.load(userIdentifier);
@@ -680,7 +713,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		}
 	}
 
-	private void sendPasswordLostEmail(final UserBean user, final String shortenUrl, final String resetUrl) throws MailServiceException, ShortenerServiceException, ParseException,
+	private void sendPasswordLostEmail(
+		final UserBean user,
+		final String shortenUrl,
+		final String resetUrl
+	) throws MailServiceException, ShortenerServiceException, ParseException,
 		ValidationException {
 		final String from = authenticationConfig.getEmailFrom();
 		final String to = user.getEmail();
@@ -692,8 +729,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
 	@Override
-	public void setNewPassword(final UserIdentifier userIdentifier, final String token, final String newPassword,
-														 final String newPasswordRepeat) throws AuthenticationServiceException, ValidationException {
+	public void setNewPassword(
+		final UserIdentifier userIdentifier, final String token, final String newPassword,
+		final String newPasswordRepeat
+	) throws AuthenticationServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			if (!newPassword.equals(newPasswordRepeat)) {

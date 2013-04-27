@@ -1,14 +1,5 @@
 package de.benjaminborbe.notification.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -34,6 +25,13 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class NotificationServiceImpl implements NotificationService {
@@ -54,13 +52,14 @@ public class NotificationServiceImpl implements NotificationService {
 
 	@Inject
 	public NotificationServiceImpl(
-			final Logger logger,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final NotificationNotifierRegistry notifcationNotifierRegistry,
-			final NotificationNotifierDeterminer notifcationNotifierDeterminer,
-			final NotificationMediaDao notificationMediaDao,
-			final NotificationTypeDao notificationTypeDao) {
+		final Logger logger,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final NotificationNotifierRegistry notifcationNotifierRegistry,
+		final NotificationNotifierDeterminer notifcationNotifierDeterminer,
+		final NotificationMediaDao notificationMediaDao,
+		final NotificationTypeDao notificationTypeDao
+	) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
@@ -94,25 +93,22 @@ public class NotificationServiceImpl implements NotificationService {
 				try {
 					logger.debug("notify via " + notifier.getNotificationMediaIdentifier());
 					notifier.notify(notification);
-				}
-				catch (final NotificationNotifierException e) {
+				} catch (final NotificationNotifierException e) {
 					logger.warn("send notification  via " + notifier.getNotificationMediaIdentifier() + " failed", e);
 				}
 			}
-		}
-		catch (final StorageException | NotificationNotifierException e1) {
+		} catch (final StorageException | NotificationNotifierException e1) {
 			throw new NotificationServiceException(e1);
 		}
 	}
 
 	@Override
 	public void notify(final SessionIdentifier sessionIdentifier, final Notification notification) throws NotificationServiceException, ValidationException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			notify(notification);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			throw new NotificationServiceException(e);
 		}
 	}
@@ -126,8 +122,7 @@ public class NotificationServiceImpl implements NotificationService {
 				result.add(i.next());
 			}
 			return result;
-		}
-		catch (final StorageException | IdentifierIteratorException e) {
+		} catch (final StorageException | IdentifierIteratorException e) {
 			throw new NotificationServiceException(e);
 		}
 	}
@@ -138,37 +133,40 @@ public class NotificationServiceImpl implements NotificationService {
 	}
 
 	@Override
-	public void add(final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
-			final NotificationTypeIdentifier notificationTypeIdentifier) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
+	public void add(
+		final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
+		final NotificationTypeIdentifier notificationTypeIdentifier
+	) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			notificationMediaDao.add(userIdentifier, notificationTypeIdentifier, notificationMediaIdentifier);
-		}
-		catch (final StorageException | AuthenticationServiceException e) {
+		} catch (final StorageException | AuthenticationServiceException e) {
 			throw new NotificationServiceException(e);
 		}
 	}
 
 	@Override
-	public void remove(final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
-			final NotificationTypeIdentifier notificationTypeIdentifier) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
+	public void remove(
+		final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
+		final NotificationTypeIdentifier notificationTypeIdentifier
+	) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			notificationMediaDao.remove(userIdentifier, notificationTypeIdentifier, notificationMediaIdentifier);
-		}
-		catch (final StorageException | AuthenticationServiceException e) {
+		} catch (final StorageException | AuthenticationServiceException e) {
 			throw new NotificationServiceException(e);
 		}
 	}
 
 	@Override
-	public boolean isActive(final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
-			final NotificationTypeIdentifier notificationTypeIdentifier) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
+	public boolean isActive(
+		final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
+		final NotificationTypeIdentifier notificationTypeIdentifier
+	) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			return notificationMediaDao.has(userIdentifier, notificationTypeIdentifier, notificationMediaIdentifier);
-		}
-		catch (final StorageException | AuthenticationServiceException e) {
+		} catch (final StorageException | AuthenticationServiceException e) {
 			throw new NotificationServiceException(e);
 		}
 	}
@@ -177,8 +175,7 @@ public class NotificationServiceImpl implements NotificationService {
 	public NotificationTypeIdentifier createNotificationTypeIdentifier(final String id) {
 		if (id != null && !id.trim().isEmpty()) {
 			return new NotificationTypeIdentifier(id);
-		}
-		else {
+		} else {
 			return null;
 		}
 	}
@@ -187,8 +184,7 @@ public class NotificationServiceImpl implements NotificationService {
 	public NotificationMediaIdentifier createNotificationMediaIdentifier(final String id) {
 		if (id != null && !id.trim().isEmpty()) {
 			return new NotificationMediaIdentifier(id);
-		}
-		else {
+		} else {
 			return null;
 		}
 	}

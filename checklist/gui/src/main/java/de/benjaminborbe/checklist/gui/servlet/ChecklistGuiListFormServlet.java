@@ -1,8 +1,6 @@
 package de.benjaminborbe.checklist.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -38,6 +36,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,7 +68,8 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtm
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final ChecklistGuiLinkFactory checklistGuiLinkFactory,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -123,7 +124,10 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtm
 		return request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_NAME) != null;
 	}
 
-	protected abstract ChecklistListIdentifier action(SessionIdentifier sessionIdentifier, ChecklistList checklistList) throws ChecklistServiceException, PermissionDeniedException,
+	protected abstract ChecklistListIdentifier action(
+		SessionIdentifier sessionIdentifier,
+		ChecklistList checklistList
+	) throws ChecklistServiceException, PermissionDeniedException,
 		ValidationException, LoginRequiredException;
 
 	private ChecklistList buildList(final HttpServletRequest request) throws ValidationException {

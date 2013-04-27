@@ -1,7 +1,5 @@
 package de.benjaminborbe.confluence.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -35,6 +33,8 @@ import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -76,7 +76,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final ValidationExecutor validationExecutor,
 		final ConfluenceRefresher confluenceRefresher,
 		final IndexService indexService,
-		final ConfluenceIndexUtil confluenceIndexUtil) {
+		final ConfluenceIndexUtil confluenceIndexUtil
+	) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.confluenceInstanceDao = confluenceInstanceDao;
@@ -91,8 +92,10 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	}
 
 	@Override
-	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
-																															final int expire, final boolean shared, final long delay, final boolean activated, final String owner) throws ConfluenceServiceException, LoginRequiredException,
+	public ConfluenceInstanceIdentifier createConfluenceIntance(
+		final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
+		final int expire, final boolean shared, final long delay, final boolean activated, final String owner
+	) throws ConfluenceServiceException, LoginRequiredException,
 		PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -128,8 +131,10 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	}
 
 	@Override
-	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
-																			final String username, final String password, final int expire, final boolean shared, final long delay, final boolean activated, final String owner)
+	public void updateConfluenceIntance(
+		final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
+		final String username, final String password, final int expire, final boolean shared, final long delay, final boolean activated, final String owner
+	)
 		throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -172,7 +177,11 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		}
 	}
 
-	private void setOwner(final SessionIdentifier sessionIdentifier, final String owner, final ConfluenceInstanceBean confluenceInstance) throws AuthenticationServiceException {
+	private void setOwner(
+		final SessionIdentifier sessionIdentifier,
+		final String owner,
+		final ConfluenceInstanceBean confluenceInstance
+	) throws AuthenticationServiceException {
 		logger.debug("setOwner " + owner);
 		if (owner != null && !owner.isEmpty()) {
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(owner);
@@ -240,7 +249,10 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	}
 
 	@Override
-	public ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws ConfluenceServiceException,
+	public ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(
+		final SessionIdentifier sessionIdentifier,
+		final String id
+	) throws ConfluenceServiceException,
 		LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -330,7 +342,10 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	}
 
 	@Override
-	public long countPages(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws ConfluenceServiceException,
+	public long countPages(
+		final SessionIdentifier sessionIdentifier,
+		final ConfluenceInstanceIdentifier confluenceInstanceIdentifier
+	) throws ConfluenceServiceException,
 		LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {

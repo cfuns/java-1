@@ -1,8 +1,6 @@
 package de.benjaminborbe.blog.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
@@ -19,6 +17,8 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteWidgetServlet;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,7 +40,8 @@ public class BlogGuiAtomServlet extends WebsiteWidgetServlet {
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
-		final AuthorizationService authorizationService) {
+		final AuthorizationService authorizationService
+	) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.urlUtil = urlUtil;
 	}

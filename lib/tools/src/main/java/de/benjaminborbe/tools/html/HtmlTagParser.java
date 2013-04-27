@@ -1,8 +1,9 @@
 package de.benjaminborbe.tools.html;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.util.StringIterator;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class HtmlTagParser {
 

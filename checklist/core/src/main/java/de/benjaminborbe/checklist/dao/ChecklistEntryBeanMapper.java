@@ -1,8 +1,6 @@
 package de.benjaminborbe.checklist.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistEntryIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
@@ -16,6 +14,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -36,13 +36,19 @@ public class ChecklistEntryBeanMapper extends MapObjectMapperAdapter<ChecklistEn
 		final MapperUserIdentifier mapperUserIdentifier,
 		final MapperString mapperString,
 		final MapperBoolean mapperBoolean,
-		final MapperCalendar mapperCalendar) {
+		final MapperCalendar mapperCalendar
+	) {
 		super(provider, buildMappings(mapperEntryIdentifier, mapperListIdentifier, mapperUserIdentifier, mapperString, mapperBoolean, mapperCalendar));
 	}
 
-	private static Collection<StringObjectMapper<ChecklistEntryBean>> buildMappings(final MapperEntryIdentifier mapperEntryIdentifier,
-																																									final MapperListIdentifier mapperListIdentifier, final MapperUserIdentifier mapperUserIdentifier, final MapperString mapperString, final MapperBoolean mapperBoolean,
-																																									final MapperCalendar mapperCalendar) {
+	private static Collection<StringObjectMapper<ChecklistEntryBean>> buildMappings(
+		final MapperEntryIdentifier mapperEntryIdentifier,
+		final MapperListIdentifier mapperListIdentifier,
+		final MapperUserIdentifier mapperUserIdentifier,
+		final MapperString mapperString,
+		final MapperBoolean mapperBoolean,
+		final MapperCalendar mapperCalendar
+	) {
 		final List<StringObjectMapper<ChecklistEntryBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, ChecklistEntryIdentifier>("id", mapperEntryIdentifier));
 		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, ChecklistListIdentifier>(LIST_ID, mapperListIdentifier));

@@ -1,18 +1,17 @@
 package de.benjaminborbe.bookmark.test;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
-
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceRegistration;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class BookmarkIntegrationTest extends TestCaseOsgi {
 
@@ -64,7 +63,7 @@ public class BookmarkIntegrationTest extends TestCaseOsgi {
 	public void testSearchServiceComponent() {
 		final Object[] serviceObjects = getServiceObjects(SearchServiceComponent.class.getName(), null);
 		final List<String> list = Arrays.asList("de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponent",
-				"de.benjaminborbe.bookmark.service.RegisteredServletSearchServiceComponent");
+			"de.benjaminborbe.bookmark.service.RegisteredServletSearchServiceComponent");
 		assertTrue(serviceObjects.length >= list.size());
 		for (final String name : list) {
 			boolean match = false;

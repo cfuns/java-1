@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -53,6 +51,8 @@ import org.slf4j.Logger;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,7 +89,8 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 		final TaskService taskService,
 		final TaskGuiLinkFactory taskGuiLinkFactory,
 		final TaskGuiUtil taskGuiUtil,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.logger = logger;
 		this.taskService = taskService;

@@ -1,6 +1,5 @@
 package de.benjaminborbe.wiki.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import de.benjaminborbe.tools.validation.ValidatorBase;
@@ -12,6 +11,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMa
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

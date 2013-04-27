@@ -3,8 +3,6 @@ package de.benjaminborbe.dashboard.gui.service;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -38,6 +36,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ClearFloatWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -104,7 +104,8 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 			final HttpContext context,
 			final DashboardContentWidget dashboardWidget,
 			final ThreadResult<String> threadResult,
-			final CalendarUtil calendarUtil) {
+			final CalendarUtil calendarUtil
+		) {
 			this.context = context;
 			this.threadResult = threadResult;
 			this.response = response;
@@ -155,7 +156,8 @@ public class DashboardGuiWidgetImpl extends CompositeWidget implements Dashboard
 		final ThreadRunner threadRunner,
 		final CalendarUtil calendarUtil,
 		final AuthenticationService authenticationService,
-		final AuthorizationService authorizationService) {
+		final AuthorizationService authorizationService
+	) {
 		this.logger = logger;
 		this.dashboardService = dashboardService;
 		this.dashboardContentWidgetComparator = dashboardContentWidgetComparator;

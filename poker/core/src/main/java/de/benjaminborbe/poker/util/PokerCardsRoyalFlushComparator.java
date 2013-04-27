@@ -1,12 +1,12 @@
 package de.benjaminborbe.poker.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.poker.api.PokerCardColor;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerCardValue;
 import de.benjaminborbe.tools.map.MapList;
 import de.benjaminborbe.tools.util.ComparatorUtil;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;

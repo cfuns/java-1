@@ -54,7 +54,8 @@ public class ProxyGuiConversationListServlet extends WebsiteHtmlServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService, final ProxyGuiLinkFactory proxyGuiLinkFactory, final ProxyService proxyService) {
+		final CacheService cacheService, final ProxyGuiLinkFactory proxyGuiLinkFactory, final ProxyService proxyService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.proxyGuiLinkFactory = proxyGuiLinkFactory;
 		this.proxyService = proxyService;
@@ -66,7 +67,11 @@ public class ProxyGuiConversationListServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createContentWidget(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws IOException, PermissionDeniedException, RedirectException, LoginRequiredException {
 
 		try {
 			final ListWidget widgets = new ListWidget();

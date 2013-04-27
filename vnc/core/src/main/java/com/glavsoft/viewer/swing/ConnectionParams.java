@@ -28,7 +28,14 @@ public class ConnectionParams {
 		this.portNumber = port;
 	}
 
-	public ConnectionParams(final String hostName, final int portNumber, final boolean useSsh, final String sshHostName, final int sshPortNumber, final String sshUserName) {
+	public ConnectionParams(
+		final String hostName,
+		final int portNumber,
+		final boolean useSsh,
+		final String sshHostName,
+		final int sshPortNumber,
+		final String sshUserName
+	) {
 		this.hostName = hostName;
 		this.portNumber = portNumber;
 		this.sshUserName = sshUserName;
@@ -59,16 +66,14 @@ public class ConnectionParams {
 	public void parseRfbPortNumber(final String port) {
 		try {
 			portNumber = Integer.parseInt(port);
-		}
-		catch (final NumberFormatException e) { /* nop */
+		} catch (final NumberFormatException e) { /* nop */
 		}
 	}
 
 	public void parseSshPortNumber(final String port) {
 		try {
 			sshPortNumber = Integer.parseInt(port);
-		}
-		catch (final NumberFormatException e) { /* nop */
+		} catch (final NumberFormatException e) { /* nop */
 		}
 	}
 
@@ -124,7 +129,7 @@ public class ConnectionParams {
 			return true;
 		final ConnectionParams o = (ConnectionParams) obj;
 		return isEqualsNullable(hostName, o.hostName) && getPortNumber() == o.getPortNumber() && useSsh == o.useSsh && isEqualsNullable(sshHostName, o.sshHostName)
-				&& getSshPortNumber() == o.getSshPortNumber() && isEqualsNullable(sshUserName, o.sshUserName);
+			&& getSshPortNumber() == o.getSshPortNumber() && isEqualsNullable(sshUserName, o.sshUserName);
 	}
 
 	private boolean isEqualsNullable(final String one, final String another) {
@@ -134,7 +139,7 @@ public class ConnectionParams {
 	@Override
 	public int hashCode() {
 		final long hash = (hostName != null ? hostName.hashCode() : 0) + portNumber * 17 + (useSsh ? 781 : 693) + (sshHostName != null ? sshHostName.hashCode() : 0) * 23
-				+ (sshUserName != null ? sshUserName.hashCode() : 0) * 37 + sshPortNumber * 41;
+			+ (sshUserName != null ? sshUserName.hashCode() : 0) * 37 + sshPortNumber * 41;
 		return (int) hash;
 	}
 }

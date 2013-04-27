@@ -1,8 +1,6 @@
 package de.benjaminborbe.bookmark.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.bookmark.util.MapperBookmarkIdentifier;
@@ -15,6 +13,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -31,12 +31,19 @@ public class BookmarkBeanMapper extends MapObjectMapperAdapter<BookmarkBean> {
 		final MapperBoolean mapperBoolean,
 		final MapperCalendar mapperCalendar,
 		final MapperUserIdentifier mapperUserIdentifier,
-		final MapperListString mapperListString) {
+		final MapperListString mapperListString
+	) {
 		super(provider, buildMappings(mapperBookmarkIdentifier, mapperString, mapperBoolean, mapperCalendar, mapperUserIdentifier, mapperListString));
 	}
 
-	private static Collection<StringObjectMapper<BookmarkBean>> buildMappings(final MapperBookmarkIdentifier mapperBookmarkIdentifier, final MapperString mapperString,
-																																						final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar, final MapperUserIdentifier mapperUserIdentifier, final MapperListString mapperListString) {
+	private static Collection<StringObjectMapper<BookmarkBean>> buildMappings(
+		final MapperBookmarkIdentifier mapperBookmarkIdentifier,
+		final MapperString mapperString,
+		final MapperBoolean mapperBoolean,
+		final MapperCalendar mapperCalendar,
+		final MapperUserIdentifier mapperUserIdentifier,
+		final MapperListString mapperListString
+	) {
 		final List<StringObjectMapper<BookmarkBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<BookmarkBean, BookmarkIdentifier>("id", mapperBookmarkIdentifier));
 		result.add(new StringObjectMapperAdapter<BookmarkBean, UserIdentifier>("owner", mapperUserIdentifier));

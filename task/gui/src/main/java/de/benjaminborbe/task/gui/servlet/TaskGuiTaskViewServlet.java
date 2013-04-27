@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -49,6 +47,8 @@ import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -106,7 +106,8 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		final ComparatorUtil comparatorUtil,
 		final TaskComparator taskComparator,
 		final Provider<TaskCache> taskCacheProvider,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.logger = logger;
 		this.taskGuiWidgetFactory = taskGuiWidgetFactory;
@@ -160,13 +161,21 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		}
 	}
 
-	private void addTask(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskCache taskCache,
-											 final HttpServletRequest request) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
+	private void addTask(
+		final ListWidget widgets, final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskCache taskCache,
+		final HttpServletRequest request
+	) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		final Task task = taskCache.get(sessionIdentifier, taskIdentifier);
 		addTask(widgets, sessionIdentifier, task, taskCache, request);
 	}
 
-	private void addTask(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final TaskCache taskCache, final HttpServletRequest request)
+	private void addTask(
+		final ListWidget widgets,
+		final SessionIdentifier sessionIdentifier,
+		final Task task,
+		final TaskCache taskCache,
+		final HttpServletRequest request
+	)
 		throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		if (task.getParentId() != null) {
 			addTask(widgets, sessionIdentifier, task.getParentId(), taskCache, request);
@@ -175,8 +184,10 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		}
 	}
 
-	private void addChilds(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request, final Task previousTask,
-												 final Task nextTask, final TaskCache taskCache) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException,
+	private void addChilds(
+		final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request, final Task previousTask,
+		final Task nextTask, final TaskCache taskCache
+	) throws TaskServiceException, LoginRequiredException, PermissionDeniedException, MalformedURLException,
 		UnsupportedEncodingException {
 		final List<Task> childTasks = comparatorUtil.sort(taskService.getTaskChilds(sessionIdentifier, task.getId()), taskComparator);
 		addTaskEntry(widgets, sessionIdentifier, task, request, hasNotCompleted(childTasks), nextTask, previousTask, taskCache);
@@ -207,8 +218,10 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		return true;
 	}
 
-	private void addTaskEntry(final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request,
-														final boolean hasNotCompletedChilds, final Task previousTask, final Task nextTask, final TaskCache taskCache) throws TaskServiceException, LoginRequiredException,
+	private void addTaskEntry(
+		final ListWidget widgets, final SessionIdentifier sessionIdentifier, final Task task, final HttpServletRequest request,
+		final boolean hasNotCompletedChilds, final Task previousTask, final Task nextTask, final TaskCache taskCache
+	) throws TaskServiceException, LoginRequiredException,
 		PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 
 		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, taskCache, task, TaskGuiConstants.PARENT_NAME_LENGTH);

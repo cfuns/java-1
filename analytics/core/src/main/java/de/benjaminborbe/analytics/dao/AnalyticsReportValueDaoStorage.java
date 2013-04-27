@@ -1,6 +1,5 @@
 package de.benjaminborbe.analytics.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
@@ -17,6 +16,7 @@ import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
+import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
@@ -67,7 +67,8 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 		final StorageService storageService,
 		final ParseUtil parseUtil,
 		final MapperCalendarFixLength mapperCalendar,
-		final AnalyticsIntervalUtil analyticsIntervalUtil) {
+		final AnalyticsIntervalUtil analyticsIntervalUtil
+	) {
 		this.storageService = storageService;
 		this.parseUtil = parseUtil;
 		this.mapperCalendar = mapperCalendar;
@@ -75,7 +76,10 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 	}
 
 	@Override
-	public AnalyticsReportValueIterator valueIterator(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval)
+	public AnalyticsReportValueIterator valueIterator(
+		final AnalyticsReportIdentifier analyticsReportIdentifier,
+		final AnalyticsReportInterval analyticsReportInterval
+	)
 		throws StorageException {
 		return valueIterator(createAnalyticsReportValueIdentifier(analyticsReportIdentifier, analyticsReportInterval));
 	}
@@ -90,13 +94,18 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 	}
 
 	@Override
-	public void setReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval,
-														 final AnalyticsReportValue reportValue) throws StorageException, UnsupportedEncodingException, ParseException {
+	public void setReportValue(
+		final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval,
+		final AnalyticsReportValue reportValue
+	) throws StorageException, UnsupportedEncodingException, ParseException {
 		setReportValue(createAnalyticsReportValueIdentifier(analyticsReportIdentifier, analyticsReportInterval), reportValue);
 	}
 
 	@Override
-	public void setReportValue(final AnalyticsReportValueIdentifier analyticsReportValueIdentifier, final AnalyticsReportValue reportValue) throws StorageException,
+	public void setReportValue(
+		final AnalyticsReportValueIdentifier analyticsReportValueIdentifier,
+		final AnalyticsReportValue reportValue
+	) throws StorageException,
 		UnsupportedEncodingException, ParseException {
 		final String encoding = storageService.getEncoding();
 		storageService.set(
@@ -130,19 +139,26 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 		storageService.delete(COLUMN_FAMILY, new StorageValue(analyticsReportValueIdentifier.getId(), encoding));
 	}
 
-	private AnalyticsReportValueIdentifier createAnalyticsReportValueIdentifier(final AnalyticsReportIdentifier analyticsReportIdentifier,
-																																							final AnalyticsReportInterval analyticsReportInterval) {
+	private AnalyticsReportValueIdentifier createAnalyticsReportValueIdentifier(
+		final AnalyticsReportIdentifier analyticsReportIdentifier,
+		final AnalyticsReportInterval analyticsReportInterval
+	) {
 		return new AnalyticsReportValueIdentifier(analyticsReportIdentifier, analyticsReportInterval);
 	}
 
 	@Override
-	public AnalyticsReportValue getReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval,
-																						 final Calendar calendar) throws StorageException, UnsupportedEncodingException, ParseException {
+	public AnalyticsReportValue getReportValue(
+		final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportInterval analyticsReportInterval,
+		final Calendar calendar
+	) throws StorageException, UnsupportedEncodingException, ParseException {
 		return getReportValue(createAnalyticsReportValueIdentifier(analyticsReportIdentifier, analyticsReportInterval), calendar);
 	}
 
 	@Override
-	public AnalyticsReportValue getReportValue(final AnalyticsReportValueIdentifier analyticsReportValueIdentifier, final Calendar calendar) throws StorageException,
+	public AnalyticsReportValue getReportValue(
+		final AnalyticsReportValueIdentifier analyticsReportValueIdentifier,
+		final Calendar calendar
+	) throws StorageException,
 		UnsupportedEncodingException, ParseException {
 		final String columnName = mapperCalendar.toString(analyticsIntervalUtil.buildIntervalCalendar(calendar, analyticsReportValueIdentifier.getReportInterval()));
 		final String encoding = storageService.getEncoding();

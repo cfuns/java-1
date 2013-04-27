@@ -1,16 +1,6 @@
 package de.benjaminborbe.website.servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -19,19 +9,27 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
+import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public abstract class WebsiteJsonServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = -2946094661494933756L;
 
 	public WebsiteJsonServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 	}
 

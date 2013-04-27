@@ -1,6 +1,5 @@
 package de.benjaminborbe.bookmark.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.bookmark.gui.guice.BookmarkGuiModules;
 import de.benjaminborbe.bookmark.gui.service.BookmarkGuiFavoriteDashboardWidget;
 import de.benjaminborbe.bookmark.gui.service.BookmarkGuiNavigationEntry;
@@ -19,6 +18,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

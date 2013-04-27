@@ -1,6 +1,5 @@
 package de.benjaminborbe.confluence.validation;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -18,6 +17,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMi
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringUrl;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,7 +41,8 @@ public class ConfluenceInstanceValidator extends ValidatorBase<ConfluenceInstanc
 		final Logger logger,
 		final UrlUtil urlUtil,
 		final ValidationConstraintValidator validationConstraintValidator,
-		final ConfluenceConnector confluenceConnector) {
+		final ConfluenceConnector confluenceConnector
+	) {
 		this.logger = logger;
 		this.urlUtil = urlUtil;
 		this.validationConstraintValidator = validationConstraintValidator;

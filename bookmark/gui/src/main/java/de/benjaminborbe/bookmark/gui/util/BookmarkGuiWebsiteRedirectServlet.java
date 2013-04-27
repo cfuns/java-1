@@ -36,7 +36,8 @@ public abstract class BookmarkGuiWebsiteRedirectServlet extends WebsiteRedirectS
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
-		final AuthorizationService authorizationService) {
+		final AuthorizationService authorizationService
+	) {
 		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider, authorizationService);
 		this.authorizationService = authorizationService;
 		this.authenticationService = authenticationService;

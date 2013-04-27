@@ -28,7 +28,8 @@ public class RemoteBlogEntry extends com.atlassian.confluence.rpc.soap.beans.Rem
 		final java.lang.String author,
 		final java.util.Calendar publishDate,
 		final java.lang.String content,
-		final int version) {
+		final int version
+	) {
 		super(id, permissions, space, title, url, author, publishDate);
 		this.content = content;
 		this.version = version;

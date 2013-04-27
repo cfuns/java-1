@@ -83,7 +83,8 @@ public class ConnectionDialog extends JDialog {
 		final WindowListener appWindowListener,
 		final ConnectionParams connectionParams,
 		final ProtocolSettings settings,
-		final boolean hasJsch) {
+		final boolean hasJsch
+	) {
 		super(owner, "New TightVNC Connection");
 		this.connectionParams = connectionParams;
 		this.hasJsch = hasJsch;

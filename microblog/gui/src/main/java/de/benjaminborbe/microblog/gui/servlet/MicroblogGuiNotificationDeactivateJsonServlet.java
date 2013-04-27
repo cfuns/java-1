@@ -1,6 +1,5 @@
 package de.benjaminborbe.microblog.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
@@ -22,6 +21,7 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,7 +49,8 @@ public class MicroblogGuiNotificationDeactivateJsonServlet extends WebsiteJsonSe
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
 		final MicroblogGuiConfig microblogGuiConfig,
-		final MicroblogService microblogService) {
+		final MicroblogService microblogService
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.microblogGuiConfig = microblogGuiConfig;
@@ -57,7 +58,11 @@ public class MicroblogGuiNotificationDeactivateJsonServlet extends WebsiteJsonSe
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException,
 		PermissionDeniedException, LoginRequiredException {
 		try {
 			final String token = request.getParameter(MicroblogGuiConstants.PARAEMTER_NOTIFICATION_TOKEN);

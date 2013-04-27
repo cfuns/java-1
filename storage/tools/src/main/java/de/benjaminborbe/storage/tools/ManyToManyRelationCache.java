@@ -1,11 +1,11 @@
 package de.benjaminborbe.storage.tools;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import org.apache.commons.lang.NotImplementedException;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

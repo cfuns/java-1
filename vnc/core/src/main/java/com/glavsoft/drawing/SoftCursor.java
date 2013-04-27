@@ -53,7 +53,7 @@ public abstract class SoftCursor {
 
 	/**
 	 * Update cursor position
-	 * 
+	 *
 	 * @param newX
 	 * @param newY
 	 */
@@ -70,7 +70,7 @@ public abstract class SoftCursor {
 
 	/**
 	 * Set new cursor dimensions and hot point position
-	 * 
+	 *
 	 * @param hotX
 	 * @param hotY
 	 * @param width

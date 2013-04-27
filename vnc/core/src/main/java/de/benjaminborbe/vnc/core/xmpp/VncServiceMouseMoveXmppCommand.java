@@ -1,6 +1,5 @@
 package de.benjaminborbe.vnc.core.xmpp;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.vnc.api.VncService;
@@ -10,6 +9,8 @@ import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class VncServiceMouseMoveXmppCommand extends VncServiceXmppCommandBase implements XmppCommand {
 

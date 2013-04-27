@@ -1,6 +1,5 @@
 package de.benjaminborbe.monitoring.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -25,6 +24,7 @@ import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -127,7 +127,8 @@ public class MonitoringNotifier {
 		final NotificationService notificationService,
 		final RunOnlyOnceATime runOnlyOnceATime,
 		final MonitoringNodeDao monitoringNodeDao,
-		final MonitoringCheckRegistry monitoringCheckRegistry) {
+		final MonitoringCheckRegistry monitoringCheckRegistry
+	) {
 		this.logger = logger;
 		this.authorizationService = authorizationService;
 		this.monitoringNodeBuilder = monitoringNodeBuilder;

@@ -47,7 +47,8 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 		final HttpDownloader httpDownloader,
 		final HttpDownloadUtil httpDownloadUtil,
 		final DateUtil dateUtil,
-		final JSONParser jsonParser) {
+		final JSONParser jsonParser
+	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.httpDownloader = httpDownloader;

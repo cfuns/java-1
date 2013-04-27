@@ -1,8 +1,6 @@
 package de.benjaminborbe.dhl.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.util.MapperDhlIdentifier;
@@ -14,6 +12,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -29,12 +29,15 @@ public class DhlBeanMapper extends MapObjectMapperAdapter<DhlBean> {
 		final MapperCalendar mapperCalendar,
 		final MapperDhlIdentifier mapperDhlIdentifier,
 		final MapperString mapperString,
-		final MapperUserIdentifier mapperUserIdentifier) {
+		final MapperUserIdentifier mapperUserIdentifier
+	) {
 		super(provider, buildMappings(mapperLong, mapperCalendar, mapperDhlIdentifier, mapperString, mapperUserIdentifier));
 	}
 
-	private static Collection<StringObjectMapper<DhlBean>> buildMappings(final MapperLong mapperLong, final MapperCalendar mapperCalendar,
-																																			 final MapperDhlIdentifier mapperDhlIdentifier, final MapperString mapperString, final MapperUserIdentifier mapperUserIdentifier) {
+	private static Collection<StringObjectMapper<DhlBean>> buildMappings(
+		final MapperLong mapperLong, final MapperCalendar mapperCalendar,
+		final MapperDhlIdentifier mapperDhlIdentifier, final MapperString mapperString, final MapperUserIdentifier mapperUserIdentifier
+	) {
 		final List<StringObjectMapper<DhlBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<DhlBean, DhlIdentifier>("id", mapperDhlIdentifier));
 		result.add(new StringObjectMapperAdapter<DhlBean, String>("trackingNumber", mapperString));

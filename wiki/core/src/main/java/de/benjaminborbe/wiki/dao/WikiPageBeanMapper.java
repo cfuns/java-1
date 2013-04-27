@@ -44,12 +44,15 @@ public class WikiPageBeanMapper extends MapObjectMapperAdapter<WikiPageBean> {
 		final MapperString mapperString,
 		final MapperWikiSpaceIdentifier mapperWikiSpaceIdentifier,
 		final MapperCalendar mapperCalendar,
-		final MapperWikiPageContentType mapperWikiPageContentType) {
+		final MapperWikiPageContentType mapperWikiPageContentType
+	) {
 		super(provider, buildMappings(mapperWikiPageIdentifier, mapperString, mapperWikiSpaceIdentifier, mapperCalendar, mapperWikiPageContentType));
 	}
 
-	private static Collection<StringObjectMapper<WikiPageBean>> buildMappings(final MapperWikiPageIdentifier mapperWikiPageIdentifier, final MapperString mapperString,
-																																						final MapperWikiSpaceIdentifier mapperWikiSpaceIdentifier, final MapperCalendar mapperCalendar, final MapperWikiPageContentType mapperWikiPageContentType) {
+	private static Collection<StringObjectMapper<WikiPageBean>> buildMappings(
+		final MapperWikiPageIdentifier mapperWikiPageIdentifier, final MapperString mapperString,
+		final MapperWikiSpaceIdentifier mapperWikiSpaceIdentifier, final MapperCalendar mapperCalendar, final MapperWikiPageContentType mapperWikiPageContentType
+	) {
 		final List<StringObjectMapper<WikiPageBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<WikiPageBean, WikiPageIdentifier>(ID, mapperWikiPageIdentifier));
 		result.add(new StringObjectMapperAdapter<WikiPageBean, WikiSpaceIdentifier>(SPACE, mapperWikiSpaceIdentifier));

@@ -1,7 +1,6 @@
 package de.benjaminborbe.confluence.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.config.ConfluenceConfig;
 import de.benjaminborbe.confluence.config.ConfluenceConfigImpl;
@@ -15,6 +14,8 @@ import de.benjaminborbe.confluence.service.ConfluenceServiceImpl;
 import de.benjaminborbe.confluence.validation.ConfluenceInstanceValidatorLinker;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class ConfluenceModule extends AbstractModule {
 

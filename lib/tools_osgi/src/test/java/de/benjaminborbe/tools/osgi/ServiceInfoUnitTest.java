@@ -1,10 +1,10 @@
 package de.benjaminborbe.tools.osgi;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.Properties;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class ServiceInfoUnitTest {
 
@@ -45,7 +45,9 @@ public class ServiceInfoUnitTest {
 }
 
 interface TestService {
+
 }
 
 class TestServiceImpl implements TestService {
+
 }

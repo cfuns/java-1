@@ -1,6 +1,5 @@
 package de.benjaminborbe.tools.osgi;
 
-import javax.inject.Inject;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -8,6 +7,7 @@ import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.NamespaceException;
 import org.osgi.util.tracker.ServiceTracker;
 
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;

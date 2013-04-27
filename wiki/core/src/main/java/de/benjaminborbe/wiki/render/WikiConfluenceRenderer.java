@@ -1,11 +1,11 @@
 package de.benjaminborbe.wiki.render;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.wiki.render.part.Part;
 import de.benjaminborbe.wiki.render.part.StringPart;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,12 +1,12 @@
 package de.benjaminborbe.microblog.api;
 
-import java.util.Collection;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+
+import java.util.Collection;
 
 public interface MicroblogService {
 
@@ -24,8 +24,11 @@ public interface MicroblogService {
 
 	void refreshPost(SessionIdentifier sessionIdentifier) throws MicroblogServiceException, PermissionDeniedException, LoginRequiredException;
 
-	void updatePost(SessionIdentifier sessionIdentifier, MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException, PermissionDeniedException,
-			LoginRequiredException;
+	void updatePost(
+		SessionIdentifier sessionIdentifier,
+		MicroblogPostIdentifier microblogPostIdentifier
+	) throws MicroblogServiceException, PermissionDeniedException,
+		LoginRequiredException;
 
 	Collection<String> listNotifications(UserIdentifier userIdentifier) throws MicroblogServiceException;
 

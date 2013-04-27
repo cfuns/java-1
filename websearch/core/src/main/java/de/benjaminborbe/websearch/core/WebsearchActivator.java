@@ -1,6 +1,5 @@
 package de.benjaminborbe.websearch.core;
 
-import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.cron.api.CronJob;
@@ -16,6 +15,7 @@ import de.benjaminborbe.websearch.core.service.WebsearchRefreshPagesCronJob;
 import de.benjaminborbe.websearch.core.service.WebsearchSearchServiceComponent;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,16 +1,6 @@
 package de.benjaminborbe.authorization.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -27,6 +17,13 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class AuthorizationGuiPermissionDeniedServlet extends WebsiteHtmlServlet {
@@ -39,16 +36,17 @@ public class AuthorizationGuiPermissionDeniedServlet extends WebsiteHtmlServlet 
 
 	@Inject
 	public AuthorizationGuiPermissionDeniedServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 	}
@@ -70,7 +68,7 @@ public class AuthorizationGuiPermissionDeniedServlet extends WebsiteHtmlServlet 
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		logger.info("AuthorizationGuiPermissionDeniedServlet");
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));

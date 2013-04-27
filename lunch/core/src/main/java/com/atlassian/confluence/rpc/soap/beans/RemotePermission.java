@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemotePermission implements java.io.Serializable {
 
 	private java.lang.String lockType;
@@ -24,7 +24,7 @@ public class RemotePermission implements java.io.Serializable {
 
 	/**
 	 * Gets the lockType value for this RemotePermission.
-	 * 
+	 *
 	 * @return lockType
 	 */
 	public java.lang.String getLockType() {
@@ -33,7 +33,7 @@ public class RemotePermission implements java.io.Serializable {
 
 	/**
 	 * Sets the lockType value for this RemotePermission.
-	 * 
+	 *
 	 * @param lockType
 	 */
 	public void setLockType(final java.lang.String lockType) {
@@ -42,7 +42,7 @@ public class RemotePermission implements java.io.Serializable {
 
 	/**
 	 * Gets the lockedBy value for this RemotePermission.
-	 * 
+	 *
 	 * @return lockedBy
 	 */
 	public java.lang.String getLockedBy() {
@@ -51,7 +51,7 @@ public class RemotePermission implements java.io.Serializable {
 
 	/**
 	 * Sets the lockedBy value for this RemotePermission.
-	 * 
+	 *
 	 * @param lockedBy
 	 */
 	public void setLockedBy(final java.lang.String lockedBy) {
@@ -75,7 +75,7 @@ public class RemotePermission implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.lockType == null && other.getLockType() == null) || (this.lockType != null && this.lockType.equals(other.getLockType())))
-				&& ((this.lockedBy == null && other.getLockedBy() == null) || (this.lockedBy != null && this.lockedBy.equals(other.getLockedBy())));
+			&& ((this.lockedBy == null && other.getLockedBy() == null) || (this.lockedBy != null && this.lockedBy.equals(other.getLockedBy())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -128,14 +128,22 @@ public class RemotePermission implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

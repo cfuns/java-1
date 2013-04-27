@@ -1,12 +1,13 @@
 package de.benjaminborbe.vnc.core.util;
 
 import com.glavsoft.drawing.Renderer;
-import javax.inject.Inject;
 import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncPixels;
 import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.core.connector.VncConnector;
 import de.benjaminborbe.vnc.core.connector.VncPointerLocation;
+
+import javax.inject.Inject;
 
 public class VncScreenContentImpl implements VncScreenContent {
 

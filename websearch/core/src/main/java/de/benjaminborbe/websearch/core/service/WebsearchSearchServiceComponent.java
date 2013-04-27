@@ -1,7 +1,5 @@
 package de.benjaminborbe.websearch.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexService;
@@ -16,6 +14,8 @@ import de.benjaminborbe.websearch.core.WebsearchConstants;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

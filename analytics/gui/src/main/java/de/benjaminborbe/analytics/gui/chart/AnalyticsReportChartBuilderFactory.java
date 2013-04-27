@@ -1,9 +1,9 @@
 package de.benjaminborbe.analytics.gui.chart;
 
-import javax.inject.Inject;
 import de.benjaminborbe.html.api.JavascriptResource;
 import de.benjaminborbe.html.api.RequireJavascriptResource;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;

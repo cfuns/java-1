@@ -1,13 +1,5 @@
 package de.benjaminborbe.tools.image;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Iterator;
-
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageTypeSpecifier;
@@ -15,8 +7,14 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
-
 import javax.inject.Inject;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Iterator;
 
 public class BMPUtil {
 
@@ -69,8 +67,7 @@ public class BMPUtil {
 							super.write(b, 46, b.length - 46);
 						baos = null;
 					}
-				}
-				else { // if baos == null
+				} else { // if baos == null
 					super.write(b, off, len);
 				}
 			}

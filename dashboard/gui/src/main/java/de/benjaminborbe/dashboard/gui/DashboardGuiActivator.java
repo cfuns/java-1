@@ -1,6 +1,5 @@
 package de.benjaminborbe.dashboard.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.dashboard.gui.guice.DashboardGuiModules;
@@ -18,6 +17,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

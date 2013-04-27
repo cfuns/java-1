@@ -1,8 +1,6 @@
 package de.benjaminborbe.filestorage.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
@@ -19,6 +17,8 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -49,7 +49,8 @@ public class FilestorageGuiDownloadServlet extends WebsiteHtmlServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService, final FilestorageService filestorageService) {
+		final CacheService cacheService, final FilestorageService filestorageService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.urlUtil = urlUtil;
@@ -62,7 +63,11 @@ public class FilestorageGuiDownloadServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException {
 		try {
 			final FilestorageEntryIdentifier filestorageEntryIdentifier = filestorageService.createFilestorageEntryIdentifier(urlUtil.parseId(request, FilestorageGuiConstants.PARAMETER_FILE_ID));
 			final FilestorageEntry filestorageEntry = filestorageService.getFilestorageEntry(filestorageEntryIdentifier);

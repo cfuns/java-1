@@ -1,7 +1,5 @@
 package de.benjaminborbe.worktime.core.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -9,6 +7,8 @@ import de.benjaminborbe.worktime.api.WorktimeRecorder;
 import de.benjaminborbe.worktime.api.WorktimeRecorderException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Calendar;
 
 @Singleton
@@ -30,7 +30,8 @@ public class WorktimeRecorderImpl implements WorktimeRecorder {
 		final WorktimeStorageService worktimeStorageService,
 		final TimeZoneUtil timeZoneUtil,
 		final CalendarUtil calendarUtil,
-		final InOfficeCheckHttpContent inOfficeCheck) {
+		final InOfficeCheckHttpContent inOfficeCheck
+	) {
 		this.logger = logger;
 		this.worktimeStorageService = worktimeStorageService;
 		this.timeZoneUtil = timeZoneUtil;

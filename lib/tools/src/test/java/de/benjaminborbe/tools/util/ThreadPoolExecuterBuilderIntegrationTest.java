@@ -1,14 +1,12 @@
 package de.benjaminborbe.tools.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.guice.ToolModules;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ThreadPoolExecuterBuilderIntegrationTest {
 
@@ -25,8 +23,7 @@ public class ThreadPoolExecuterBuilderIntegrationTest {
 			try {
 				// Thread.sleep(1);
 				counter.increase();
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 			}
 		}
 	}

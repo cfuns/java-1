@@ -1,6 +1,5 @@
 package de.benjaminborbe.slash.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.slash.gui.guice.SlashGuiModules;
 import de.benjaminborbe.slash.gui.servlet.SlashGuiLogFilter;
 import de.benjaminborbe.slash.gui.servlet.SlashGuiRobotsTxtServlet;
@@ -13,6 +12,7 @@ import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

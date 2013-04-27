@@ -1,6 +1,5 @@
 package de.benjaminborbe.task.gui.widget;
 
-import javax.inject.Inject;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.task.api.TaskFocus;
@@ -10,6 +9,7 @@ import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

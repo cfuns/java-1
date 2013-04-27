@@ -1,16 +1,5 @@
 package de.benjaminborbe.bookmark.gui.service;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -28,6 +17,15 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class BookmarkGuiSpecialSearch implements SearchSpecial {
@@ -63,8 +61,7 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 			final List<BookmarkMatch> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, 1, words);
 			if (bookmarks.size() > 0) {
 				response.sendRedirect(bookmarks.get(0).getBookmark().getUrl());
-			}
-			else {
+			} else {
 				final ListWidget widgets = new ListWidget();
 				widgets.add(new H2Widget("Bookmarksearch"));
 				widgets.add("no match");
@@ -75,8 +72,7 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 				widgets.add(new BrWidget());
 				widgets.render(request, response, context);
 			}
-		}
-		catch (final AuthenticationServiceException | BookmarkServiceException | LoginRequiredException | PermissionDeniedException e) {
+		} catch (final AuthenticationServiceException | BookmarkServiceException | LoginRequiredException | PermissionDeniedException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}

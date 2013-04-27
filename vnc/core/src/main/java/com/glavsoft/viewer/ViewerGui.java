@@ -27,13 +27,13 @@ import com.glavsoft.viewer.swing.Surface;
 import com.glavsoft.viewer.swing.UiSettings;
 import com.glavsoft.viewer.swing.gui.OptionsDialog;
 import com.glavsoft.viewer.swing.gui.PasswordDialog;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.vnc.core.config.VncConfig;
 import de.benjaminborbe.vnc.core.connector.VncHistory;
 import de.benjaminborbe.vnc.core.connector.VncPointerLocation;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Dialog.ModalityType;

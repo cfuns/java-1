@@ -1,13 +1,12 @@
 package de.benjaminborbe.analytics.service;
 
+import de.benjaminborbe.analytics.config.AnalyticsConfig;
+import de.benjaminborbe.analytics.util.AnalyticsAggregator;
+import de.benjaminborbe.cron.api.CronJob;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.analytics.config.AnalyticsConfig;
-import de.benjaminborbe.analytics.util.AnalyticsAggregator;
-import de.benjaminborbe.cron.api.CronJob;
 
 @Singleton
 public class AnalyticsAggregationCronJob implements CronJob {
@@ -38,8 +37,7 @@ public class AnalyticsAggregationCronJob implements CronJob {
 		if (Boolean.TRUE.equals(analyticsConfig.getCronActive())) {
 			logger.trace("execute");
 			analyticsAggregator.aggregate();
-		}
-		else {
+		} else {
 			logger.trace("skip execute, cron not active");
 		}
 	}

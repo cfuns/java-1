@@ -1,6 +1,5 @@
 package de.benjaminborbe.cron.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.cron.gui.guice.CronGuiModules;
 import de.benjaminborbe.cron.gui.service.CronGuiNavigationEntry;
 import de.benjaminborbe.cron.gui.servlet.CronGuiLatestExecutedServlet;
@@ -15,6 +14,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,6 +1,5 @@
 package de.benjaminborbe.sample.mock;
 
-
 import de.benjaminborbe.sample.api.SampleService;
 
 public class SampleServiceMock implements SampleService {

@@ -36,7 +36,8 @@ public class WowFindBaitLocationAction extends WowActionBase {
 		final ThreadResult<VncPixels> pixelsBeforeFishing,
 		final ThreadResult<VncPixels> pixelsAfterFishing,
 		final ThreadResult<Coordinate> wowAppIconLocation,
-		final ThreadResult<Coordinate> baitLocation) {
+		final ThreadResult<Coordinate> baitLocation
+	) {
 		super(logger, name, running);
 		this.logger = logger;
 		this.vncService = vncService;

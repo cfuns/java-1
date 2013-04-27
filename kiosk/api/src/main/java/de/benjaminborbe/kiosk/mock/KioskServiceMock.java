@@ -1,12 +1,11 @@
 package de.benjaminborbe.kiosk.mock;
 
-import java.util.Calendar;
-import java.util.Collection;
-
-
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.api.KioskServiceException;
 import de.benjaminborbe.kiosk.api.KioskUser;
+
+import java.util.Calendar;
+import java.util.Collection;
 
 public class KioskServiceMock implements KioskService {
 

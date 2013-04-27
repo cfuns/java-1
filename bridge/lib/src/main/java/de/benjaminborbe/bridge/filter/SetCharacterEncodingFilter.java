@@ -1,13 +1,12 @@
 package de.benjaminborbe.bridge.filter;
 
-import java.io.IOException;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import java.io.IOException;
 
 public class SetCharacterEncodingFilter implements Filter {
 
@@ -24,8 +23,7 @@ public class SetCharacterEncodingFilter implements Filter {
 			if (request.getCharacterEncoding() == null) {
 				request.setCharacterEncoding("UTF-8");
 			}
-		}
-		finally {
+		} finally {
 			chain.doFilter(request, response);
 		}
 	}

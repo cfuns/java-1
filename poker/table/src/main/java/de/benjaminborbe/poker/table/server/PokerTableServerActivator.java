@@ -1,6 +1,5 @@
 package de.benjaminborbe.poker.table.server;
 
-import javax.inject.Inject;
 import de.benjaminborbe.poker.table.server.guice.PokerTableServerModules;
 import de.benjaminborbe.poker.table.server.servlet.GwtHomeNoCacheJsServlet;
 import de.benjaminborbe.poker.table.server.servlet.GwtHomeServlet;
@@ -10,6 +9,7 @@ import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

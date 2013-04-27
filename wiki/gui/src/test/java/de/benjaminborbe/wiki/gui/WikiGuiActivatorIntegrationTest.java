@@ -1,19 +1,6 @@
 package de.benjaminborbe.wiki.gui;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import javax.servlet.Filter;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
@@ -21,6 +8,16 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import de.benjaminborbe.wiki.gui.guice.WikiGuiModulesMock;
+import org.junit.Test;
+
+import javax.servlet.Filter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class WikiGuiActivatorIntegrationTest {
 
@@ -45,7 +42,7 @@ public class WikiGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = Arrays.asList("/wiki", "/wiki/page/edit", "/wiki/page/list", "/wiki/page/create", "/wiki/page/delete", "/wiki/page/show", "/wiki/space/edit",
-				"/wiki/space/create", "/wiki/space/delete", "/wiki/space/list");
+			"/wiki/space/create", "/wiki/space/delete", "/wiki/space/list");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));

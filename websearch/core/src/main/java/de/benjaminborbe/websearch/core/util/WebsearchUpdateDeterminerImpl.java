@@ -1,8 +1,6 @@
 package de.benjaminborbe.websearch.core.util;
 
 import com.google.common.base.Predicate;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -14,6 +12,8 @@ import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageDao;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +29,12 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 	private final CalendarUtil calendarUtil;
 
 	@Inject
-	public WebsearchUpdateDeterminerImpl(final Logger logger, final WebsearchPageDao pageDao, final WebsearchConfigurationDao configurationDao, final CalendarUtil calendarUtil) {
+	public WebsearchUpdateDeterminerImpl(
+		final Logger logger,
+		final WebsearchPageDao pageDao,
+		final WebsearchConfigurationDao configurationDao,
+		final CalendarUtil calendarUtil
+	) {
 		this.logger = logger;
 		this.pageDao = pageDao;
 		this.configurationDao = configurationDao;

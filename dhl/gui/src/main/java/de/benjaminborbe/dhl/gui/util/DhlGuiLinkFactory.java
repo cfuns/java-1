@@ -1,6 +1,5 @@
 package de.benjaminborbe.dhl.gui.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.gui.DhlGuiConstants;
 import de.benjaminborbe.html.api.Widget;
@@ -8,6 +7,7 @@ import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;

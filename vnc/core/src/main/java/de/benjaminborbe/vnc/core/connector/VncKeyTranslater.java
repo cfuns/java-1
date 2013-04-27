@@ -1,9 +1,9 @@
 package de.benjaminborbe.vnc.core.connector;
 
 import com.glavsoft.utils.Keymap;
-import javax.inject.Inject;
 import de.benjaminborbe.vnc.api.VncKey;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 

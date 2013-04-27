@@ -1,7 +1,5 @@
 package de.benjaminborbe.shortener.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.shortener.api.ShortenerService;
@@ -17,6 +15,8 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 
 @Singleton
@@ -38,7 +38,8 @@ public class ShortenerServiceImpl implements ShortenerService {
 		final ParseUtil parseUtil,
 		final PasswordGenerator passwordGenerator,
 		final ValidationExecutor validationExecutor,
-		final ShortenerUrlDao shortenerUrlDao) {
+		final ShortenerUrlDao shortenerUrlDao
+	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.passwordGenerator = passwordGenerator;

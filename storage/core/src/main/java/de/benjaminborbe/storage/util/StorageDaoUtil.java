@@ -19,46 +19,106 @@ import java.util.Map;
 
 public interface StorageDaoUtil {
 
-	long count(String keySpace, String columnFamily) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException, TException,
+	long count(
+		String keySpace,
+		String columnFamily
+	) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException, TException,
 		NotFoundException, StorageException;
 
-	long count(String keySpace, String columnFamily, StorageValue columnName) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException,
+	long count(
+		String keySpace,
+		String columnFamily,
+		StorageValue columnName
+	) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException,
 		TException, NotFoundException, StorageException;
 
-	long count(String keySpace, String columnFamily, StorageValue columnName, StorageValue columnValue) throws UnsupportedEncodingException, InvalidRequestException,
+	long count(
+		String keySpace,
+		String columnFamily,
+		StorageValue columnName,
+		StorageValue columnValue
+	) throws UnsupportedEncodingException, InvalidRequestException,
 		UnavailableException, TimedOutException, TException, NotFoundException, StorageException, SocketException, StorageConnectionPoolException;
 
-	void delete(String keySpace, String columnFamily, final StorageValue key, final Collection<StorageValue> columnNames) throws InvalidRequestException, NotFoundException,
+	void delete(
+		String keySpace,
+		String columnFamily,
+		final StorageValue key,
+		final Collection<StorageValue> columnNames
+	) throws InvalidRequestException, NotFoundException,
 		UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
 
-	void delete(String keySpace, String columnFamily, StorageValue key, StorageValue columnName) throws InvalidRequestException, NotFoundException, UnavailableException,
+	void delete(
+		String keySpace,
+		String columnFamily,
+		StorageValue key,
+		StorageValue columnName
+	) throws InvalidRequestException, NotFoundException, UnavailableException,
 		TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
 
-	void delete(String keySpace, String columnFamily, StorageValue key) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException, TException,
+	void delete(
+		String keySpace,
+		String columnFamily,
+		StorageValue key
+	) throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException, TException,
 		UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
 
-	void insert(String keySpace, String columnFamily, final StorageValue key, final Map<StorageValue, StorageValue> data) throws InvalidRequestException, UnavailableException,
+	void insert(
+		String keySpace,
+		String columnFamily,
+		final StorageValue key,
+		final Map<StorageValue, StorageValue> data
+	) throws InvalidRequestException, UnavailableException,
 		TimedOutException, TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException;
 
-	void insert(String keySpace, String columnFamily, StorageValue id, StorageValue columnName, StorageValue columnValue) throws InvalidRequestException, UnavailableException,
+	void insert(
+		String keySpace,
+		String columnFamily,
+		StorageValue id,
+		StorageValue columnName,
+		StorageValue columnValue
+	) throws InvalidRequestException, UnavailableException,
 		TimedOutException, TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException;
 
 	StorageIterator keyIterator(String keySpace, String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
 		UnsupportedEncodingException, NotFoundException;
 
-	StorageIterator keyIterator(String keySpace, String columnFamily, Map<StorageValue, StorageValue> where) throws InvalidRequestException, UnavailableException, TimedOutException,
+	StorageIterator keyIterator(
+		String keySpace,
+		String columnFamily,
+		Map<StorageValue, StorageValue> where
+	) throws InvalidRequestException, UnavailableException, TimedOutException,
 		TException, UnsupportedEncodingException, NotFoundException, StorageConnectionPoolException;
 
-	List<StorageValue> read(String keySpace, String columnFamily, final StorageValue key, final List<StorageValue> columnNames) throws InvalidRequestException, NotFoundException,
+	List<StorageValue> read(
+		String keySpace,
+		String columnFamily,
+		final StorageValue key,
+		final List<StorageValue> columnNames
+	) throws InvalidRequestException, NotFoundException,
 		UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
 
-	StorageValue read(String keySpace, String columnFamily, StorageValue key, StorageValue columnName) throws InvalidRequestException, NotFoundException, UnavailableException,
+	StorageValue read(
+		String keySpace,
+		String columnFamily,
+		StorageValue key,
+		StorageValue columnName
+	) throws InvalidRequestException, NotFoundException, UnavailableException,
 		TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException;
 
-	StorageRowIterator rowIterator(String keySpace, String columnFamily, List<StorageValue> columnNames, Map<StorageValue, StorageValue> where) throws InvalidRequestException,
+	StorageRowIterator rowIterator(
+		String keySpace,
+		String columnFamily,
+		List<StorageValue> columnNames,
+		Map<StorageValue, StorageValue> where
+	) throws InvalidRequestException,
 		UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException;
 
-	StorageRowIterator rowIterator(String keySpace, String columnFamily, List<StorageValue> columnNames) throws InvalidRequestException, UnavailableException, TimedOutException,
+	StorageRowIterator rowIterator(
+		String keySpace,
+		String columnFamily,
+		List<StorageValue> columnNames
+	) throws InvalidRequestException, UnavailableException, TimedOutException,
 		TException, UnsupportedEncodingException, NotFoundException;
 
 	Map<StorageValue, StorageValue> read(String keySpace, String columnFamily, StorageValue id) throws NotFoundException, UnsupportedEncodingException,
@@ -66,7 +126,12 @@ public interface StorageDaoUtil {
 
 	StorageColumnIterator columnIterator(String keySpace, String columnFamily, StorageValue key) throws UnsupportedEncodingException;
 
-	Collection<List<StorageValue>> read(String keySpace, String columnFamily, Collection<StorageValue> keys, List<StorageValue> columnNames) throws UnsupportedEncodingException,
+	Collection<List<StorageValue>> read(
+		String keySpace,
+		String columnFamily,
+		Collection<StorageValue> keys,
+		List<StorageValue> columnNames
+	) throws UnsupportedEncodingException,
 		InvalidRequestException, UnavailableException, TimedOutException, TException, StorageConnectionPoolException;
 
 	StorageColumnIterator columnIteratorReversed(String keySpace, String columnFamily, StorageValue key) throws UnsupportedEncodingException;

@@ -1,6 +1,5 @@
 package de.benjaminborbe.vnc.core.service;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.image.BMPUtil;
 import de.benjaminborbe.vnc.api.VncPixels;
@@ -8,6 +7,7 @@ import de.benjaminborbe.vnc.core.connector.VncConnector;
 import de.benjaminborbe.vnc.core.connector.VncConnectorException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;

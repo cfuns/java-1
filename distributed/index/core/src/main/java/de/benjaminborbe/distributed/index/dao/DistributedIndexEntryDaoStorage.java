@@ -1,14 +1,14 @@
 package de.benjaminborbe.distributed.index.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.distributed.index.DistributedIndexConstants;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.tools.mapper.MapperInteger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,8 @@ public class DistributedIndexEntryDaoStorage implements DistributedIndexEntryDao
 		final Provider<DistributedIndexEntryBean> provider,
 		final StorageService storageService,
 		final MapperInteger mapperInteger,
-		final DistributedIndexWordDao distributedIndexWordDao) {
+		final DistributedIndexWordDao distributedIndexWordDao
+	) {
 		this.provider = provider;
 		this.storageService = storageService;
 		this.mapperInteger = mapperInteger;

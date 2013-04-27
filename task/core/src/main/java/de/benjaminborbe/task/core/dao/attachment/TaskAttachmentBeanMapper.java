@@ -1,6 +1,5 @@
 package de.benjaminborbe.task.core.dao.attachment;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.filestorage.api.FilestorageEntryIdentifier;
 import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
@@ -14,6 +13,7 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -40,12 +40,15 @@ public class TaskAttachmentBeanMapper extends MapObjectMapperAdapter<TaskAttachm
 		final MapperTaskAttachmentIdentifier mapperTaskAttachmentIdentifier,
 		final MapperString mapperString,
 		final MapperCalendar mapperCalendar,
-		final MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier) {
+		final MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier
+	) {
 		super(provider, buildMappings(mapperTaskIdentifier, mapperTaskAttachmentIdentifier, mapperString, mapperCalendar, mapperFilestorageEntryIdentifier));
 	}
 
-	private static Collection<StringObjectMapper<TaskAttachmentBean>> buildMappings(final MapperTaskIdentifier mapperTaskIdentifier, final MapperTaskAttachmentIdentifier mapperTaskAttachmentIdentifier, final MapperString mapperString,
-																																									final MapperCalendar mapperCalendar, final MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier) {
+	private static Collection<StringObjectMapper<TaskAttachmentBean>> buildMappings(
+		final MapperTaskIdentifier mapperTaskIdentifier, final MapperTaskAttachmentIdentifier mapperTaskAttachmentIdentifier, final MapperString mapperString,
+		final MapperCalendar mapperCalendar, final MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier
+	) {
 		final List<StringObjectMapper<TaskAttachmentBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, TaskAttachmentIdentifier>(ID, mapperTaskAttachmentIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, String>(NAME, mapperString));

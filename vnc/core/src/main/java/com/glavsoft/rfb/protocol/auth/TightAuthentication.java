@@ -45,8 +45,13 @@ public class TightAuthentication extends AuthHandler {
 	}
 
 	@Override
-	public boolean authenticate(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws TransportException,
-			FatalException, UnsupportedSecurityTypeException {
+	public boolean authenticate(
+		final Reader reader,
+		final Writer writer,
+		final CapabilityContainer authCaps,
+		final IPasswordRetriever passwordRetriever
+	) throws TransportException,
+		FatalException, UnsupportedSecurityTypeException {
 		initTunnelling(reader, writer);
 		initAuthorization(reader, writer, authCaps, passwordRetriever);
 		return true;
@@ -54,18 +59,18 @@ public class TightAuthentication extends AuthHandler {
 
 	/**
 	 * Negotiation of Tunneling Capabilities (protocol versions 3.7t, 3.8t)
-	 * 
+	 * <p/>
 	 * If the chosen security type is rfbSecTypeTight, the server sends a list of
 	 * supported tunneling methods ("tunneling" refers to any additional layer of
 	 * data transformation, such as encryption or external compression.)
-	 * 
+	 * <p/>
 	 * nTunnelTypes specifies the number of following rfbCapabilityInfo structures
 	 * that list all supported tunneling methods in the order of preference.
-	 * 
+	 * <p/>
 	 * NOTE: If nTunnelTypes is 0, that tells the client that no tunneling can be
 	 * used, and the client should not send a response requesting a tunneling
 	 * method.
-	 * 
+	 * <p/>
 	 * typedef struct _rfbTunnelingCapsMsg {
 	 * CARD32 nTunnelTypes;
 	 * //followed by nTunnelTypes * rfbCapabilityInfo structures
@@ -73,14 +78,13 @@ public class TightAuthentication extends AuthHandler {
 	 * #define sz_rfbTunnelingCapsMsg 4
 	 * ----------------------------------------------------------------------------
 	 * Tunneling Method Request (protocol versions 3.7t, 3.8t)
-	 * 
+	 * <p/>
 	 * If the list of tunneling capabilities sent by the server was not empty, the
 	 * client should reply with a 32-bit code specifying a particular tunneling
 	 * method. The following code should be used for no tunneling.
-	 * 
+	 * <p/>
 	 * #define rfbNoTunneling 0
 	 * #define sig_rfbNoTunneling "NOTUNNEL"
-	 * 
 	 */
 	private void initTunnelling(final Reader reader, final Writer writer) throws TransportException {
 		final long tunnelsCount;
@@ -96,31 +100,32 @@ public class TightAuthentication extends AuthHandler {
 
 	/**
 	 * Negotiation of Authentication Capabilities (protocol versions 3.7t, 3.8t)
-	 * 
+	 * <p/>
 	 * After setting up tunneling, the server sends a list of supported
 	 * authentication schemes.
-	 * 
+	 * <p/>
 	 * nAuthTypes specifies the number of following rfbCapabilityInfo structures
 	 * that list all supported authentication schemes in the order of preference.
-	 * 
+	 * <p/>
 	 * NOTE: If nAuthTypes is 0, that tells the client that no authentication is
 	 * necessary, and the client should not send a response requesting an
 	 * authentication scheme.
-	 * 
+	 * <p/>
 	 * typedef struct _rfbAuthenticationCapsMsg {
 	 * CARD32 nAuthTypes;
 	 * // followed by nAuthTypes * rfbCapabilityInfo structures
 	 * } rfbAuthenticationCapsMsg;
 	 * #define sz_rfbAuthenticationCapsMsg 4
-	 * 
+	 *
 	 * @param authCaps
 	 * @param passwordRetriever
 	 * @throws UnsupportedSecurityTypeException
+	 *
 	 * @throws TransportException
 	 * @throws FatalException
 	 */
 	private void initAuthorization(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever)
-			throws UnsupportedSecurityTypeException, TransportException, FatalException {
+		throws UnsupportedSecurityTypeException, TransportException, FatalException {
 		final int authCount;
 		authCount = reader.readInt32();
 		final byte[] cap = new byte[authCount];
@@ -139,8 +144,7 @@ public class TightAuthentication extends AuthHandler {
 					break;
 				}
 			}
-		}
-		else {
+		} else {
 			authHandler = SecurityType.getAuthHandlerById(SecurityType.NONE_AUTHENTICATION.getId());
 		}
 		// logger.info("Auth capability accepted: " + authHandler.getName());

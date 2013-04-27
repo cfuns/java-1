@@ -1,6 +1,5 @@
 package de.benjaminborbe.authentication.gui.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.html.api.Widget;
@@ -8,6 +7,7 @@ import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -70,7 +70,10 @@ public class AuthenticationGuiLinkFactory {
 		return new LinkRelativWidget(request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PASSWORD_CHANGE, "change password");
 	}
 
-	public Widget userPasswordLost(final HttpServletRequest request, final UserIdentifier userIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget userPasswordLost(
+		final HttpServletRequest request,
+		final UserIdentifier userIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthenticationGuiConstants.NAME + AuthenticationGuiConstants.URL_USER_PASSWORD_LOST_EMAIL, new MapParameter().add(
 			AuthenticationGuiConstants.PARAMETER_USER_ID, String.valueOf(userIdentifier)), "reset password");
 	}

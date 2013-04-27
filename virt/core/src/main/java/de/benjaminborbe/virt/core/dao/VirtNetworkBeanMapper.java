@@ -1,8 +1,6 @@
 package de.benjaminborbe.virt.core.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
@@ -13,6 +11,8 @@ import de.benjaminborbe.virt.api.VirtNetworkIdentifier;
 import de.benjaminborbe.virt.core.util.MapperVirtIpAddress;
 import de.benjaminborbe.virt.core.util.MapperVirtNetworkIdentifier;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -33,12 +33,21 @@ public class VirtNetworkBeanMapper extends MapObjectMapperAdapter<VirtNetworkBea
 
 	@Inject
 	public VirtNetworkBeanMapper(
-		final Provider<VirtNetworkBean> provider, final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperVirtNetworkIdentifier mapperVirtNetworkIdentifier, final MapperVirtIpAddress mapperVirtIpAddress
+		final Provider<VirtNetworkBean> provider,
+		final MapperString mapperString,
+		final MapperCalendar mapperCalendar,
+		final MapperVirtNetworkIdentifier mapperVirtNetworkIdentifier,
+		final MapperVirtIpAddress mapperVirtIpAddress
 	) {
 		super(provider, buildMappings(mapperString, mapperCalendar, mapperVirtNetworkIdentifier, mapperVirtIpAddress));
 	}
 
-	private static Collection<StringObjectMapper<VirtNetworkBean>> buildMappings(final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperVirtNetworkIdentifier mapperVirtNetworkIdentifier, final MapperVirtIpAddress mapperVirtIpAddress) {
+	private static Collection<StringObjectMapper<VirtNetworkBean>> buildMappings(
+		final MapperString mapperString,
+		final MapperCalendar mapperCalendar,
+		final MapperVirtNetworkIdentifier mapperVirtNetworkIdentifier,
+		final MapperVirtIpAddress mapperVirtIpAddress
+	) {
 		final List<StringObjectMapper<VirtNetworkBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<VirtNetworkBean, VirtNetworkIdentifier>(ID, mapperVirtNetworkIdentifier));
 		result.add(new StringObjectMapperAdapter<VirtNetworkBean, String>(NAME, mapperString));

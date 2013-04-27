@@ -1,7 +1,6 @@
 package de.benjaminborbe.task.core.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.core.dao.attachment.TaskAttachmentDao;
 import de.benjaminborbe.task.core.dao.attachment.TaskAttachmentDaoStorage;
@@ -12,6 +11,8 @@ import de.benjaminborbe.task.core.dao.task.TaskDaoStorage;
 import de.benjaminborbe.task.core.service.TaskServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class TaskModule extends AbstractModule {
 

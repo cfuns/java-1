@@ -1,6 +1,5 @@
 package de.benjaminborbe.configuration.core;
 
-import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.core.dao.ConfigurationRegistry;
@@ -12,6 +11,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

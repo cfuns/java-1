@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.AbstractRemotePageSummary implements java.io.Serializable {
 
 	private long parentId;
@@ -18,13 +18,14 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 	}
 
 	public RemotePageSummary(
-			final long id,
-			final int permissions,
-			final java.lang.String space,
-			final java.lang.String title,
-			final java.lang.String url,
-			final long parentId,
-			final int version) {
+		final long id,
+		final int permissions,
+		final java.lang.String space,
+		final java.lang.String title,
+		final java.lang.String url,
+		final long parentId,
+		final int version
+	) {
 		super(id, permissions, space, title, url);
 		this.parentId = parentId;
 		this.version = version;
@@ -32,7 +33,7 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 
 	/**
 	 * Gets the parentId value for this RemotePageSummary.
-	 * 
+	 *
 	 * @return parentId
 	 */
 	public long getParentId() {
@@ -41,7 +42,7 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 
 	/**
 	 * Sets the parentId value for this RemotePageSummary.
-	 * 
+	 *
 	 * @param parentId
 	 */
 	public void setParentId(final long parentId) {
@@ -50,7 +51,7 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 
 	/**
 	 * Gets the version value for this RemotePageSummary.
-	 * 
+	 *
 	 * @return version
 	 */
 	public int getVersion() {
@@ -59,7 +60,7 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 
 	/**
 	 * Sets the version value for this RemotePageSummary.
-	 * 
+	 *
 	 * @param version
 	 */
 	public void setVersion(final int version) {
@@ -131,14 +132,22 @@ public class RemotePageSummary extends com.atlassian.confluence.rpc.soap.beans.A
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

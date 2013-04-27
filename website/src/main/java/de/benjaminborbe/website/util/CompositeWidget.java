@@ -1,12 +1,11 @@
 package de.benjaminborbe.website.util;
 
-import java.io.IOException;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.Widget;
+import java.io.IOException;
 
 public abstract class CompositeWidget implements Widget {
 
@@ -17,8 +16,7 @@ public abstract class CompositeWidget implements Widget {
 		try {
 			final Widget widget = createWidget(request, response, context);
 			widget.render(request, response, context);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			final Widget widget = createExceptionWidget(e);
 			widget.render(request, response, context);
 		}

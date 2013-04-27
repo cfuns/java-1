@@ -20,7 +20,14 @@ public class MicroblogPostResult implements MicroblogPost {
 
 	private final Calendar date;
 
-	public MicroblogPostResult(final MicroblogPostIdentifier id, final String content, final String author, final String postUrl, final String conversationUrl, final Calendar date) {
+	public MicroblogPostResult(
+		final MicroblogPostIdentifier id,
+		final String content,
+		final String author,
+		final String postUrl,
+		final String conversationUrl,
+		final Calendar date
+	) {
 		this.id = id;
 		this.content = content;
 		this.author = author;

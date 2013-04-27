@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.mapper;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+
+import javax.inject.Inject;
 
 public abstract class MapperEnum<E extends Enum<E>> implements Mapper<E> {
 
@@ -20,8 +20,7 @@ public abstract class MapperEnum<E extends Enum<E>> implements Mapper<E> {
 	public E fromString(final String value) throws MapException {
 		try {
 			return value != null ? parseUtil.parseEnum(getEnumClass(), value) : null;
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			throw new MapException(e);
 		}
 	}

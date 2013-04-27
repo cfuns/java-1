@@ -1,7 +1,5 @@
 package de.benjaminborbe.performance.gui.servlet;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.performance.api.PerformanceService;
@@ -10,6 +8,8 @@ import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +30,12 @@ public class PerformanceGuiFilter extends HttpFilter {
 	private final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(REPORT_NAME);
 
 	@Inject
-	public PerformanceGuiFilter(final Logger logger, final DurationUtil durationUtil, final PerformanceService performanceService, final AnalyticsService analyticsService) {
+	public PerformanceGuiFilter(
+		final Logger logger,
+		final DurationUtil durationUtil,
+		final PerformanceService performanceService,
+		final AnalyticsService analyticsService
+	) {
 		super(logger);
 		this.durationUtil = durationUtil;
 		this.performanceService = performanceService;
@@ -38,7 +43,11 @@ public class PerformanceGuiFilter extends HttpFilter {
 	}
 
 	@Override
-	public void doFilter(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse, final FilterChain filterChain) throws IOException,
+	public void doFilter(
+		final HttpServletRequest httpServletRequest,
+		final HttpServletResponse httpServletResponse,
+		final FilterChain filterChain
+	) throws IOException,
 		ServletException {
 		final Duration duration = durationUtil.getDuration();
 		final String uri = httpServletRequest.getRequestURI();

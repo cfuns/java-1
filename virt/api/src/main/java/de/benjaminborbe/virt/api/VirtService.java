@@ -8,7 +8,10 @@ public interface VirtService {
 
 	VirtNetworkIdentifier createNetworkIdentifier(String id) throws VirtServiceException;
 
-	VirtNetworkIdentifier createNetwork(SessionIdentifier sessionIdentifier, VirtNetwork network) throws VirtServiceException, PermissionDeniedException, ValidationException;
+	VirtNetworkIdentifier createNetwork(
+		SessionIdentifier sessionIdentifier,
+		VirtNetwork network
+	) throws VirtServiceException, PermissionDeniedException, ValidationException;
 
 	VirtMachineIdentifier createMachineIdentifier(String id) throws VirtServiceException;
 
@@ -16,7 +19,10 @@ public interface VirtService {
 
 	VirtVirtualMachineIdentifier createVirtualMachineIdentifier(String id) throws VirtServiceException;
 
-	VirtVirtualMachineIdentifier createVirtualMachine(SessionIdentifier sessionIdentifier, VirtMachine machine) throws VirtServiceException, PermissionDeniedException;
+	VirtVirtualMachineIdentifier createVirtualMachine(
+		SessionIdentifier sessionIdentifier,
+		VirtMachine machine
+	) throws VirtServiceException, PermissionDeniedException;
 
 	VirtNetwork getNetwork(SessionIdentifier sessionIdentifier, VirtNetworkIdentifier networkIdentifier) throws VirtServiceException, PermissionDeniedException;
 }

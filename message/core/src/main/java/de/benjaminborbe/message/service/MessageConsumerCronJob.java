@@ -1,12 +1,11 @@
 package de.benjaminborbe.message.service;
 
+import com.google.inject.Provider;
+import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.message.util.MessageConsumerExchanger;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
-import com.google.inject.Provider;
-
-import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.message.util.MessageConsumerExchanger;
 
 public class MessageConsumerCronJob implements CronJob {
 

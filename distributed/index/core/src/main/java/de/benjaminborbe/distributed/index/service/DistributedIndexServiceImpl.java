@@ -1,7 +1,5 @@
 package de.benjaminborbe.distributed.index.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
 import de.benjaminborbe.distributed.index.api.DistributedIndexService;
@@ -17,6 +15,8 @@ import de.benjaminborbe.storage.api.StorageException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -33,7 +33,11 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 	private final DistributedIndexWordDao distributedIndexWordDao;
 
 	@Inject
-	public DistributedIndexServiceImpl(final Logger logger, final DistributedIndexEntryDao distributedIndexDao, final DistributedIndexWordDao distributedIndexWordDao) {
+	public DistributedIndexServiceImpl(
+		final Logger logger,
+		final DistributedIndexEntryDao distributedIndexDao,
+		final DistributedIndexWordDao distributedIndexWordDao
+	) {
 		this.logger = logger;
 		this.distributedIndexDao = distributedIndexDao;
 		this.distributedIndexWordDao = distributedIndexWordDao;

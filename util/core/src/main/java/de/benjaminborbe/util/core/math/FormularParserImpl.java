@@ -1,11 +1,11 @@
 package de.benjaminborbe.util.core.math;
 
-import javax.inject.Inject;
 import de.benjaminborbe.util.core.math.constant.Constants;
 import de.benjaminborbe.util.core.math.function.Functions;
 import de.benjaminborbe.util.core.math.operation.Operations;
 import de.benjaminborbe.util.core.math.tokenizer.Tokenizer;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class FormularParserImpl implements FormularParser {
@@ -25,7 +25,13 @@ public class FormularParserImpl implements FormularParser {
 	private final Constants constants;
 
 	@Inject
-	public FormularParserImpl(final Tokenizer tokenizer, final CompareUtil compareUtil, final Functions functions, final Operations operations, final Constants constants) {
+	public FormularParserImpl(
+		final Tokenizer tokenizer,
+		final CompareUtil compareUtil,
+		final Functions functions,
+		final Operations operations,
+		final Constants constants
+	) {
 		this.tokenizer = tokenizer;
 		this.compareUtil = compareUtil;
 		this.functions = functions;

@@ -1,7 +1,5 @@
 package de.benjaminborbe.index.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
@@ -9,6 +7,8 @@ import de.benjaminborbe.index.util.IndexServiceFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.List;

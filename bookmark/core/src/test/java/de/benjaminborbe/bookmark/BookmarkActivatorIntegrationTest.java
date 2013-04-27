@@ -1,24 +1,22 @@
 package de.benjaminborbe.bookmark;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.felix.http.api.ExtHttpService;
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModulesMock;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import org.apache.felix.http.api.ExtHttpService;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class BookmarkActivatorIntegrationTest {
 
@@ -46,7 +44,7 @@ public class BookmarkActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = Arrays.asList(ExtHttpService.class.getName(), SearchServiceComponent.class.getName(), SearchServiceComponent.class.getName(),
-				BookmarkService.class.getName());
+			BookmarkService.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

@@ -1,6 +1,5 @@
 package de.benjaminborbe.authentication.core;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.core.config.AuthenticationConfig;
 import de.benjaminborbe.authentication.core.guice.AuthenticationModules;
@@ -10,6 +9,7 @@ import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

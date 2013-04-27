@@ -1,7 +1,5 @@
 package de.benjaminborbe.analytics.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportDto;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
@@ -39,6 +37,8 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,7 +80,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		final ValidationExecutor validationExecutor,
 		final AnalyticsReportDao analyticsReportDao,
 		final AnalyticsReportLogDao analyticsReportLogDao,
-		final AnalyticsReportValueDao analyticsReportValueDao) {
+		final AnalyticsReportValueDao analyticsReportValueDao
+	) {
 		this.logger = logger;
 		this.analyticsIntervalUtil = analyticsIntervalUtil;
 		this.addValueAction = addValueAction;
@@ -106,7 +107,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws AnalyticsServiceException {
+	public void addReportValue(
+		final AnalyticsReportIdentifier analyticsReportIdentifier,
+		final AnalyticsReportValue reportValue
+	) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.trace("addReportValue");
@@ -155,7 +159,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public void createReport(final SessionIdentifier sessionIdentifier, final AnalyticsReportDto report) throws AnalyticsServiceException, PermissionDeniedException,
+	public void createReport(
+		final SessionIdentifier sessionIdentifier,
+		final AnalyticsReportDto report
+	) throws AnalyticsServiceException, PermissionDeniedException,
 		LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -228,8 +235,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public AnalyticsReportValueIterator getReportIterator(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
-																												final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+	public AnalyticsReportValueIterator getReportIterator(
+		final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
+		final AnalyticsReportInterval analyticsReportInterval
+	) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAnalyticsViewPermission(sessionIdentifier);
@@ -245,8 +254,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public AnalyticsReportValueIterator getReportIteratorFillMissing(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
-																																	 final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+	public AnalyticsReportValueIterator getReportIteratorFillMissing(
+		final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier,
+		final AnalyticsReportInterval analyticsReportInterval
+	) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAnalyticsViewPermission(sessionIdentifier);
@@ -337,8 +348,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public AnalyticsReportValueListIterator getReportListIterator(final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
-																																final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+	public AnalyticsReportValueListIterator getReportListIterator(
+		final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> analyticsReportIdentifiers,
+		final AnalyticsReportInterval analyticsReportInterval
+	) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAnalyticsViewPermission(sessionIdentifier);
@@ -356,8 +369,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public AnalyticsReportValueListIterator getReportListIteratorFillMissing(final SessionIdentifier sessionIdentifier,
-																																					 final List<AnalyticsReportIdentifier> analyticsReportIdentifiers, final AnalyticsReportInterval analyticsReportInterval) throws AnalyticsServiceException,
+	public AnalyticsReportValueListIterator getReportListIteratorFillMissing(
+		final SessionIdentifier sessionIdentifier,
+		final List<AnalyticsReportIdentifier> analyticsReportIdentifiers, final AnalyticsReportInterval analyticsReportInterval
+	) throws AnalyticsServiceException,
 		PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -381,7 +396,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public void rebuildReport(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException,
+	public void rebuildReport(
+		final SessionIdentifier sessionIdentifier,
+		final AnalyticsReportIdentifier analyticsReportIdentifier
+	) throws AnalyticsServiceException,
 		PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {

@@ -1,11 +1,12 @@
 package de.benjaminborbe.xmpp.connector;
 
-import javax.inject.Inject;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Message.Type;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class XmppDebugMessageListener implements MessageListener {
 

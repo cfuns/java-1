@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.http;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -32,7 +32,11 @@ public class HttpCacheFilter extends HttpFilter {
 	}
 
 	@Override
-	public void doFilter(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws IOException, ServletException {
+	public void doFilter(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final FilterChain filterChain
+	) throws IOException, ServletException {
 		final String identifier = buildIdentifier(request);
 		if (!cache.containsKey(identifier)) {
 			logger.trace("cache miss for " + identifier);

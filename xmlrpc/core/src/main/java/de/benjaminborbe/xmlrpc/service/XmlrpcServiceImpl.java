@@ -1,7 +1,5 @@
 package de.benjaminborbe.xmlrpc.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.xmlrpc.api.XmlrpcService;
 import de.benjaminborbe.xmlrpc.api.XmlrpcServiceException;
 import org.apache.xmlrpc.XmlRpcException;
@@ -9,6 +7,8 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 
 @Singleton

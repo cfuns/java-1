@@ -1,8 +1,8 @@
 package de.benjaminborbe.tools.url;
 
-import java.util.Collection;
-
 import de.benjaminborbe.tools.map.MapChain;
+
+import java.util.Collection;
 
 public class MapParameter extends MapChain<String, String[]> {
 
@@ -11,9 +11,8 @@ public class MapParameter extends MapChain<String, String[]> {
 	public MapParameter add(final String key, final Object value) {
 		if (value == null) {
 			add(key, new String[0]);
-		}
-		else {
-			add(key, new String[] { String.valueOf(value) });
+		} else {
+			add(key, new String[]{String.valueOf(value)});
 		}
 		return this;
 	}
@@ -21,9 +20,8 @@ public class MapParameter extends MapChain<String, String[]> {
 	public MapParameter add(final String key, final String value) {
 		if (value == null) {
 			add(key, new String[0]);
-		}
-		else {
-			add(key, new String[] { value });
+		} else {
+			add(key, new String[]{value});
 		}
 		return this;
 	}

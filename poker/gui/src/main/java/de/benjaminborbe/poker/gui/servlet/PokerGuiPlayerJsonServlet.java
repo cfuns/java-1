@@ -1,8 +1,6 @@
 package de.benjaminborbe.poker.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -19,6 +17,8 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -40,7 +40,8 @@ public abstract class PokerGuiPlayerJsonServlet extends PokerGuiJsonServlet {
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
 		final PokerService pokerService,
-		final PokerGuiConfig pokerGuiConfig) {
+		final PokerGuiConfig pokerGuiConfig
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerGuiConfig);
 		this.pokerService = pokerService;
 	}

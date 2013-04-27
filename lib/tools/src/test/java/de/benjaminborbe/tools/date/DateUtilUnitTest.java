@@ -1,14 +1,13 @@
 package de.benjaminborbe.tools.date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import de.benjaminborbe.tools.util.ParseException;
+import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import org.junit.Test;
-
-import de.benjaminborbe.tools.util.ParseException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class DateUtilUnitTest {
 
@@ -48,20 +47,17 @@ public class DateUtilUnitTest {
 		try {
 			dateUtil.parseDateTime(null);
 			fail("exception expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 		}
 		try {
 			dateUtil.parseDateTime("");
 			fail("exception expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 		}
 		try {
 			dateUtil.parseDateTime("asdf");
 			fail("exception expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 		}
 		assertEquals(createDate(), dateUtil.parseDateTime("2011-12-24 20:15:59"));
 		assertEquals(createDate().getTime(), dateUtil.parseDateTime("2011-12-24 20:15:59").getTime());

@@ -1,7 +1,5 @@
 package de.benjaminborbe.worktime.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -16,6 +14,8 @@ import de.benjaminborbe.worktime.core.util.WorktimeStorageService;
 import de.benjaminborbe.worktime.core.util.WorktimeValue;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -75,7 +75,8 @@ public class WorktimeServiceImpl implements WorktimeService {
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final ThreadRunner threadRunner,
-		final InOfficeCheckHttpContent inOfficeCheck) {
+		final InOfficeCheckHttpContent inOfficeCheck
+	) {
 		this.logger = logger;
 		this.worktimeStorageService = worktimeStorageService;
 		this.calendarUtil = calendarUtil;

@@ -1,12 +1,5 @@
 package de.benjaminborbe.microblog.conversation;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -18,6 +11,11 @@ import de.benjaminborbe.notification.api.NotificationDto;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.tools.util.StringUtil;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.List;
 
 @Singleton
 public class MicroblogConversationNotifierImpl implements MicroblogConversationNotifier {
@@ -36,11 +34,12 @@ public class MicroblogConversationNotifierImpl implements MicroblogConversationN
 
 	@Inject
 	public MicroblogConversationNotifierImpl(
-			final Logger logger,
-			final AuthenticationService authenticationService,
-			final MicroblogConnector microblogConnector,
-			final NotificationService notificationService,
-			final StringUtil stringUtil) {
+		final Logger logger,
+		final AuthenticationService authenticationService,
+		final MicroblogConnector microblogConnector,
+		final NotificationService notificationService,
+		final StringUtil stringUtil
+	) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.microblogConnector = microblogConnector;
@@ -54,15 +53,14 @@ public class MicroblogConversationNotifierImpl implements MicroblogConversationN
 			logger.debug("mailConversation with rev " + microblogConversationIdentifier);
 			final NotificationDto notification = buildNotificationDto(microblogConversationIdentifier);
 			notificationService.notify(notification);
-		}
-		catch (final MicroblogConnectorException | NotificationServiceException | ValidationException | AuthenticationServiceException e) {
+		} catch (final MicroblogConnectorException | NotificationServiceException | ValidationException | AuthenticationServiceException e) {
 			logger.error("MicroblogConnectorException", e);
 			throw new MicroblogConversationNotifierException(e.getClass().getSimpleName(), e);
 		}
 	}
 
 	private NotificationDto buildNotificationDto(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConnectorException,
-			AuthenticationServiceException {
+		AuthenticationServiceException {
 		final MicroblogConversationResult microblogConversationResult = microblogConnector.getConversation(microblogConversationIdentifier);
 
 		final List<MicroblogPostResult> posts = microblogConversationResult.getPosts();

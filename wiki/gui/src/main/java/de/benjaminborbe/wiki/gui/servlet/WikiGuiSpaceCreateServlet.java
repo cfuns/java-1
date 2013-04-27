@@ -1,8 +1,6 @@
 package de.benjaminborbe.wiki.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -30,6 +28,8 @@ import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
 import de.benjaminborbe.wiki.gui.WikiGuiConstants;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -57,7 +57,8 @@ public class WikiGuiSpaceCreateServlet extends WebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final WikiService wikiService,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.wikiService = wikiService;
 		this.logger = logger;

@@ -1,13 +1,12 @@
 package de.benjaminborbe.storage.tools;
 
-import java.util.Collection;
-import java.util.Map;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperBase;
+
+import javax.inject.Inject;
+import java.util.Collection;
+import java.util.Map;
 
 public class TestBeanMapper extends MapObjectMapperBase<TestBean> {
 

@@ -1,8 +1,6 @@
 package de.benjaminborbe.confluence.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
@@ -14,6 +12,9 @@ import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 @Singleton
 public class ConfluencePageDaoStorage extends DaoStorage<ConfluencePageBean, ConfluencePageIdentifier> implements ConfluencePageDao {
 
@@ -24,7 +25,8 @@ public class ConfluencePageDaoStorage extends DaoStorage<ConfluencePageBean, Con
 		final Provider<ConfluencePageBean> beanProvider,
 		final ConfluencePageBeanMapper mapper,
 		final ConfluencePageIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 

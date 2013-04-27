@@ -1,6 +1,5 @@
 package de.benjaminborbe.analytics.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.analytics.gui.config.AnalyticsGuiConfig;
 import de.benjaminborbe.analytics.gui.guice.AnalyticsGuiModules;
 import de.benjaminborbe.analytics.gui.service.AnalyticsGuiNavigationEntry;
@@ -23,6 +22,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

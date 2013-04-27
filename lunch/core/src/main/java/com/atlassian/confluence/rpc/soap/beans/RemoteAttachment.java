@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteAttachment implements java.io.Serializable {
 
 	private java.lang.String comment;
@@ -34,16 +34,17 @@ public class RemoteAttachment implements java.io.Serializable {
 	}
 
 	public RemoteAttachment(
-			final java.lang.String comment,
-			final java.lang.String contentType,
-			final java.util.Calendar created,
-			final java.lang.String creator,
-			final java.lang.String fileName,
-			final long fileSize,
-			final long id,
-			final long pageId,
-			final java.lang.String title,
-			final java.lang.String url) {
+		final java.lang.String comment,
+		final java.lang.String contentType,
+		final java.util.Calendar created,
+		final java.lang.String creator,
+		final java.lang.String fileName,
+		final long fileSize,
+		final long id,
+		final long pageId,
+		final java.lang.String title,
+		final java.lang.String url
+	) {
 		this.comment = comment;
 		this.contentType = contentType;
 		this.created = created;
@@ -58,7 +59,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Gets the comment value for this RemoteAttachment.
-	 * 
+	 *
 	 * @return comment
 	 */
 	public java.lang.String getComment() {
@@ -67,7 +68,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Sets the comment value for this RemoteAttachment.
-	 * 
+	 *
 	 * @param comment
 	 */
 	public void setComment(final java.lang.String comment) {
@@ -76,7 +77,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Gets the contentType value for this RemoteAttachment.
-	 * 
+	 *
 	 * @return contentType
 	 */
 	public java.lang.String getContentType() {
@@ -85,7 +86,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Sets the contentType value for this RemoteAttachment.
-	 * 
+	 *
 	 * @param contentType
 	 */
 	public void setContentType(final java.lang.String contentType) {
@@ -94,7 +95,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Gets the created value for this RemoteAttachment.
-	 * 
+	 *
 	 * @return created
 	 */
 	public java.util.Calendar getCreated() {
@@ -103,7 +104,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Sets the created value for this RemoteAttachment.
-	 * 
+	 *
 	 * @param created
 	 */
 	public void setCreated(final java.util.Calendar created) {
@@ -112,7 +113,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Gets the creator value for this RemoteAttachment.
-	 * 
+	 *
 	 * @return creator
 	 */
 	public java.lang.String getCreator() {
@@ -121,7 +122,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Sets the creator value for this RemoteAttachment.
-	 * 
+	 *
 	 * @param creator
 	 */
 	public void setCreator(final java.lang.String creator) {
@@ -130,7 +131,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Gets the fileName value for this RemoteAttachment.
-	 * 
+	 *
 	 * @return fileName
 	 */
 	public java.lang.String getFileName() {
@@ -139,7 +140,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Sets the fileName value for this RemoteAttachment.
-	 * 
+	 *
 	 * @param fileName
 	 */
 	public void setFileName(final java.lang.String fileName) {
@@ -148,7 +149,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Gets the fileSize value for this RemoteAttachment.
-	 * 
+	 *
 	 * @return fileSize
 	 */
 	public long getFileSize() {
@@ -157,7 +158,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Sets the fileSize value for this RemoteAttachment.
-	 * 
+	 *
 	 * @param fileSize
 	 */
 	public void setFileSize(final long fileSize) {
@@ -166,7 +167,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this RemoteAttachment.
-	 * 
+	 *
 	 * @return id
 	 */
 	public long getId() {
@@ -175,7 +176,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this RemoteAttachment.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(final long id) {
@@ -184,7 +185,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Gets the pageId value for this RemoteAttachment.
-	 * 
+	 *
 	 * @return pageId
 	 */
 	public long getPageId() {
@@ -193,7 +194,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Sets the pageId value for this RemoteAttachment.
-	 * 
+	 *
 	 * @param pageId
 	 */
 	public void setPageId(final long pageId) {
@@ -202,7 +203,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Gets the title value for this RemoteAttachment.
-	 * 
+	 *
 	 * @return title
 	 */
 	public java.lang.String getTitle() {
@@ -211,7 +212,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Sets the title value for this RemoteAttachment.
-	 * 
+	 *
 	 * @param title
 	 */
 	public void setTitle(final java.lang.String title) {
@@ -220,7 +221,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Gets the url value for this RemoteAttachment.
-	 * 
+	 *
 	 * @return url
 	 */
 	public java.lang.String getUrl() {
@@ -229,7 +230,7 @@ public class RemoteAttachment implements java.io.Serializable {
 
 	/**
 	 * Sets the url value for this RemoteAttachment.
-	 * 
+	 *
 	 * @param url
 	 */
 	public void setUrl(final java.lang.String url) {
@@ -253,13 +254,13 @@ public class RemoteAttachment implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.comment == null && other.getComment() == null) || (this.comment != null && this.comment.equals(other.getComment())))
-				&& ((this.contentType == null && other.getContentType() == null) || (this.contentType != null && this.contentType.equals(other.getContentType())))
-				&& ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
-				&& ((this.creator == null && other.getCreator() == null) || (this.creator != null && this.creator.equals(other.getCreator())))
-				&& ((this.fileName == null && other.getFileName() == null) || (this.fileName != null && this.fileName.equals(other.getFileName()))) && this.fileSize == other.getFileSize()
-				&& this.id == other.getId() && this.pageId == other.getPageId()
-				&& ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
-				&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
+			&& ((this.contentType == null && other.getContentType() == null) || (this.contentType != null && this.contentType.equals(other.getContentType())))
+			&& ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
+			&& ((this.creator == null && other.getCreator() == null) || (this.creator != null && this.creator.equals(other.getCreator())))
+			&& ((this.fileName == null && other.getFileName() == null) || (this.fileName != null && this.fileName.equals(other.getFileName()))) && this.fileSize == other.getFileSize()
+			&& this.id == other.getId() && this.pageId == other.getPageId()
+			&& ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
+			&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -378,14 +379,22 @@ public class RemoteAttachment implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

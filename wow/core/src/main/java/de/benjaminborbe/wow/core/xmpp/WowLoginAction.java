@@ -1,6 +1,5 @@
 package de.benjaminborbe.wow.core.xmpp;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.action.Action;
 import de.benjaminborbe.tools.action.ActionChainRunner;
 import de.benjaminborbe.tools.image.Coordinate;
@@ -18,6 +17,7 @@ import de.benjaminborbe.wow.core.xmpp.action.WowSleepAction;
 import de.benjaminborbe.xmpp.api.XmppChat;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +39,8 @@ public class WowLoginAction extends WowBaseXmppCommand {
 		final ActionChainRunner actionChainRunner,
 		final VncService vncService,
 		final PixelFinder pixelFinder,
-		final WowImageLibrary wowImageLibrary) {
+		final WowImageLibrary wowImageLibrary
+	) {
 		super(logger);
 		this.logger = logger;
 		this.actionChainRunner = actionChainRunner;

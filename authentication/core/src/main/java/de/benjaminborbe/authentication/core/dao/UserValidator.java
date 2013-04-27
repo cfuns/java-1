@@ -1,6 +1,5 @@
 package de.benjaminborbe.authentication.core.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -17,6 +16,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringEm
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

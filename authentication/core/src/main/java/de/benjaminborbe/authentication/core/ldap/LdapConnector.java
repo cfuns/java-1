@@ -1,11 +1,11 @@
 package de.benjaminborbe.authentication.core.ldap;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.core.config.AuthenticationConfig;
 import de.benjaminborbe.tools.util.ResourceUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;

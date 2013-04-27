@@ -1,7 +1,7 @@
 package de.benjaminborbe.tools.osgi.test;
 
-import java.util.Dictionary;
-
+import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.url.UrlUtilImpl;
 import org.easymock.EasyMock;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
@@ -11,8 +11,7 @@ import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 
-import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
-import de.benjaminborbe.tools.url.UrlUtilImpl;
+import java.util.Dictionary;
 
 public class BundleActivatorTestUtil {
 
@@ -35,8 +34,8 @@ public class BundleActivatorTestUtil {
 		final ServiceRegistration serviceRegistration = EasyMock.createMock(ServiceRegistration.class);
 		EasyMock.replay(serviceRegistration);
 
-		final ServiceReference[] extServiceReferences = new ServiceReference[] { extServiceReference };
-		final ServiceReference[] emptyServiceReferences = new ServiceReference[] {};
+		final ServiceReference[] extServiceReferences = new ServiceReference[]{extServiceReference};
+		final ServiceReference[] emptyServiceReferences = new ServiceReference[]{};
 
 		final BundleContext context = EasyMock.createMock(BundleContext.class);
 		context.addServiceListener(EasyMock.anyObject(ServiceListener.class), EasyMock.anyObject(String.class));
@@ -60,7 +59,7 @@ public class BundleActivatorTestUtil {
 		EasyMock.expect(context.getService(extServiceReference)).andReturn(extBundle);
 
 		EasyMock.expect(context.registerService(EasyMock.anyObject(String.class), EasyMock.anyObject(Object.class), EasyMock.anyObject(Dictionary.class)))
-				.andReturn(serviceRegistration).anyTimes();
+			.andReturn(serviceRegistration).anyTimes();
 		EasyMock.replay(context);
 
 		bundleActivator.start(context);

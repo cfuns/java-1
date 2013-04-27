@@ -48,14 +48,27 @@ public class ProxyGuiServlet extends WebsiteServlet {
 	private final StreamUtil streamUtil;
 
 	@Inject
-	public ProxyGuiServlet(final Logger logger, final UrlUtil urlUtil, final AuthenticationService authenticationService, final AuthorizationService authorizationService, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final Provider<HttpContext> httpContextProvider, final StreamUtil streamUtil) {
+	public ProxyGuiServlet(
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final StreamUtil streamUtil
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.streamUtil = streamUtil;
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
 		final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManagerAllowAll()};
 
 		final SSLSocketFactory orgSSLSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();

@@ -1,7 +1,5 @@
 package de.benjaminborbe.cron.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -19,6 +17,8 @@ import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.mapper.MapException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -42,7 +42,8 @@ public class CronServiceImpl implements CronService {
 		final CronJobRegistry cronJobRegistry,
 		final AuthorizationService authorizationService,
 		final CronExecutionHistory cronExecutionHistory,
-		final CronMessageSender cronMessageSender) {
+		final CronMessageSender cronMessageSender
+	) {
 		this.logger = logger;
 		this.cronJobRegistry = cronJobRegistry;
 		this.authorizationService = authorizationService;

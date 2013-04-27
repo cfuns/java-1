@@ -1,11 +1,12 @@
 package de.benjaminborbe.util.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.util.api.UtilService;
 import de.benjaminborbe.util.api.UtilServiceException;
 import de.benjaminborbe.util.core.math.FormularParseException;
 import de.benjaminborbe.util.core.math.FormularParser;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class UtilServiceImpl implements UtilService {

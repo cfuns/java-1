@@ -1,9 +1,8 @@
 package de.benjaminborbe.tools.util;
 
-import java.net.URL;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.net.URL;
 
 @Singleton
 public class ParseUtilImpl implements ParseUtil {
@@ -17,8 +16,7 @@ public class ParseUtilImpl implements ParseUtil {
 	public double parseDouble(final String number) throws ParseException {
 		try {
 			return Double.parseDouble(number);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new ParseException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -27,8 +25,7 @@ public class ParseUtilImpl implements ParseUtil {
 	public double parseDouble(final String number, final double defaultValue) {
 		try {
 			return Double.parseDouble(number);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return defaultValue;
 		}
 	}
@@ -37,8 +34,7 @@ public class ParseUtilImpl implements ParseUtil {
 	public float parseFloat(final String number) throws ParseException {
 		try {
 			return Float.parseFloat(number);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new ParseException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -47,8 +43,7 @@ public class ParseUtilImpl implements ParseUtil {
 	public float parseFloat(final String number, final float defaultValue) {
 		try {
 			return Float.parseFloat(number);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return defaultValue;
 		}
 	}
@@ -58,12 +53,10 @@ public class ParseUtilImpl implements ParseUtil {
 		try {
 			if (number.charAt(0) == '+') {
 				return Long.parseLong(number.substring(1));
-			}
-			else {
+			} else {
 				return Long.parseLong(number);
 			}
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new ParseException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -73,12 +66,10 @@ public class ParseUtilImpl implements ParseUtil {
 		try {
 			if (number.charAt(0) == '+') {
 				return Long.parseLong(number.substring(1));
-			}
-			else {
+			} else {
 				return Long.parseLong(number);
 			}
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return defaultValue;
 		}
 	}
@@ -88,12 +79,10 @@ public class ParseUtilImpl implements ParseUtil {
 		try {
 			if (number.charAt(0) == '+') {
 				return Integer.parseInt(number.substring(1));
-			}
-			else {
+			} else {
 				return Integer.parseInt(number);
 			}
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new ParseException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -103,12 +92,10 @@ public class ParseUtilImpl implements ParseUtil {
 		try {
 			if (number.charAt(0) == '+') {
 				return Integer.parseInt(number.substring(1));
-			}
-			else {
+			} else {
 				return Integer.parseInt(number);
 			}
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return defaultValue;
 		}
 	}
@@ -117,8 +104,7 @@ public class ParseUtilImpl implements ParseUtil {
 	public <T extends Enum<T>> T parseEnum(final Class<T> enumClazz, final String value) throws ParseException {
 		try {
 			return Enum.valueOf(enumClazz, value);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new ParseException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -127,8 +113,7 @@ public class ParseUtilImpl implements ParseUtil {
 	public <T extends Enum<T>> T parseEnum(final Class<T> enumClazz, final String value, final T defaultValue) {
 		try {
 			return Enum.valueOf(enumClazz, value);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return defaultValue;
 		}
 	}
@@ -159,8 +144,7 @@ public class ParseUtilImpl implements ParseUtil {
 	public URL parseURL(final String value) throws ParseException {
 		try {
 			return new URL(value);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new ParseException(e.getClass().getSimpleName(), e);
 		}
 	}
@@ -169,8 +153,7 @@ public class ParseUtilImpl implements ParseUtil {
 	public URL parseURL(final String value, final URL defaultValue) {
 		try {
 			return new URL(value);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return defaultValue;
 		}
 	}

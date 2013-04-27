@@ -1,8 +1,7 @@
 package de.benjaminborbe.tools.lua;
 
-import java.io.StringWriter;
-
 import javax.inject.Inject;
+import java.io.StringWriter;
 
 public class LuaParserImpl implements LuaParser {
 
@@ -23,8 +22,7 @@ public class LuaParserImpl implements LuaParser {
 		if (content.hasNext()) {
 			content.next();
 			return parseHash(content);
-		}
-		else {
+		} else {
 			return new LuaHash();
 		}
 	}
@@ -49,8 +47,7 @@ public class LuaParserImpl implements LuaParser {
 				final Lua value = parseValue(content);
 				lua.add(key, value);
 				parseSpaces(content);
-			}
-			else {
+			} else {
 				return lua;
 			}
 		}
@@ -82,8 +79,7 @@ public class LuaParserImpl implements LuaParser {
 			debug(content.getCurrentChar());
 			content.next();
 			return result;
-		}
-		else {
+		} else {
 			return parseWord(content);
 		}
 	}
@@ -92,8 +88,7 @@ public class LuaParserImpl implements LuaParser {
 		if (content.hasCurrent() && content.getCurrentChar() == '=') {
 			debug(content.getCurrentChar());
 			content.next();
-		}
-		else {
+		} else {
 			throw new LuaParseException("char '=' not found");
 		}
 	}
@@ -103,8 +98,7 @@ public class LuaParserImpl implements LuaParser {
 			debug(content.getCurrentChar());
 			content.next();
 			return parseHash(content);
-		}
-		else if (content.hasCurrent() && content.getCurrentChar() == '"') {
+		} else if (content.hasCurrent() && content.getCurrentChar() == '"') {
 			debug(content.getCurrentChar());
 			content.next();
 			final int startpos = content.getCurrentPos();
@@ -116,8 +110,7 @@ public class LuaParserImpl implements LuaParser {
 			debug(content.getCurrentChar());
 			content.next();
 			return new LuaValue(result);
-		}
-		else {
+		} else {
 			return new LuaValue(parseWord(content));
 		}
 	}

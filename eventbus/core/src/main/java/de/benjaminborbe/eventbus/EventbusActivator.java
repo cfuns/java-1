@@ -1,6 +1,5 @@
 package de.benjaminborbe.eventbus;
 
-import javax.inject.Inject;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.guice.EventbusModules;
 import de.benjaminborbe.tools.guice.Modules;
@@ -8,6 +7,7 @@ import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

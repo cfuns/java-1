@@ -62,17 +62,14 @@ public class ZRLEDecoder extends ZlibDecoder {
 				if (isRle) {
 					if (0 == paletteSize) { // subencoding == 128 (or paletteSize == 0) - Plain RLE
 						offset += decodePlainRle(bytes, offset, renderer, tileX, tileY, tileWidth, tileHeight);
-					}
-					else {
+					} else {
 						offset += decodePaletteRle(bytes, offset, renderer, palette, tileX, tileY, tileWidth, tileHeight, paletteSize);
 					}
-				}
-				else {
+				} else {
 					if (0 == paletteSize) { // subencoding == 0 (or paletteSize == 0) - raw CPIXEL
-																	// data
+						// data
 						offset += decodeRaw(bytes, offset, renderer, tileX, tileY, tileWidth, tileHeight);
-					}
-					else {
+					} else {
 						offset += decodePacked(bytes, offset, renderer, palette, paletteSize, tileX, tileY, tileWidth, tileHeight);
 					}
 				}
@@ -81,7 +78,15 @@ public class ZRLEDecoder extends ZlibDecoder {
 
 	}
 
-	private int decodePlainRle(final byte[] bytes, final int offset, final Renderer renderer, final int tileX, final int tileY, final int tileWidth, final int tileHeight) {
+	private int decodePlainRle(
+		final byte[] bytes,
+		final int offset,
+		final Renderer renderer,
+		final int tileX,
+		final int tileY,
+		final int tileWidth,
+		final int tileHeight
+	) {
 		final int bytesPerCPixel = renderer.getBytesPerPixelSignificant();
 		final int[] decodedBitmap = new int[tileWidth * tileHeight];
 		int decodedOffset = 0;
@@ -102,8 +107,10 @@ public class ZRLEDecoder extends ZlibDecoder {
 		return index - offset;
 	}
 
-	private int decodePaletteRle(final byte[] bytes, final int offset, final Renderer renderer, final int[] palette, final int tileX, final int tileY, final int tileWidth,
-			final int tileHeight, final int paletteSize) {
+	private int decodePaletteRle(
+		final byte[] bytes, final int offset, final Renderer renderer, final int[] palette, final int tileX, final int tileY, final int tileWidth,
+		final int tileHeight, final int paletteSize
+	) {
 		final int[] decodedBitmap = new int[tileWidth * tileHeight];
 		int decodedOffset = 0;
 		final int decodedEnd = tileWidth * tileHeight;
@@ -125,8 +132,10 @@ public class ZRLEDecoder extends ZlibDecoder {
 		return index - offset;
 	}
 
-	private int decodePacked(final byte[] bytes, final int offset, final Renderer renderer, final int[] palette, final int paletteSize, final int tileX, final int tileY,
-			final int tileWidth, final int tileHeight) {
+	private int decodePacked(
+		final byte[] bytes, final int offset, final Renderer renderer, final int[] palette, final int paletteSize, final int tileX, final int tileY,
+		final int tileWidth, final int tileHeight
+	) {
 		final int[] decodedBytes = new int[tileWidth * tileHeight];
 		final int bitsPerPalletedPixel = paletteSize > 16 ? 8 : paletteSize > 4 ? 4 : paletteSize > 2 ? 2 : 1;
 		int packedOffset = offset;
@@ -152,8 +161,16 @@ public class ZRLEDecoder extends ZlibDecoder {
 		return packedOffset - offset;
 	}
 
-	private int decodeRaw(final byte[] bytes, final int offset, final Renderer renderer, final int tileX, final int tileY, final int tileWidth, final int tileHeight)
-			throws TransportException {
+	private int decodeRaw(
+		final byte[] bytes,
+		final int offset,
+		final Renderer renderer,
+		final int tileX,
+		final int tileY,
+		final int tileWidth,
+		final int tileHeight
+	)
+		throws TransportException {
 		return renderer.drawCompactBytes(bytes, offset, tileX, tileY, tileWidth, tileHeight);
 	}
 

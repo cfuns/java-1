@@ -1,6 +1,5 @@
 package de.benjaminborbe.portfolio.gui.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.html.api.Widget;
@@ -8,6 +7,7 @@ import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;

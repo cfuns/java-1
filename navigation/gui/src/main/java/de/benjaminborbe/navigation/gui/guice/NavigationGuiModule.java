@@ -1,13 +1,12 @@
 package de.benjaminborbe.navigation.gui.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.gui.service.NavigationGuiWidgetImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class NavigationGuiModule extends AbstractModule {
 

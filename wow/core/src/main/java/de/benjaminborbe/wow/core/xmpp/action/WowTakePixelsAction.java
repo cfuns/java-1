@@ -19,7 +19,8 @@ public class WowTakePixelsAction extends WowActionBase {
 		final VncService vncService,
 		final String name,
 		final ThreadResult<Boolean> running,
-		final ThreadResult<VncPixels> pixelsBeforeFishing) {
+		final ThreadResult<VncPixels> pixelsBeforeFishing
+	) {
 		super(logger, name, running);
 		this.logger = logger;
 		this.vncService = vncService;

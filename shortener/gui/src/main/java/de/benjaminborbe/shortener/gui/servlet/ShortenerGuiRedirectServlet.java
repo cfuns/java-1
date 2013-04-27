@@ -1,17 +1,6 @@
 package de.benjaminborbe.shortener.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -25,6 +14,14 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class ShortenerGuiRedirectServlet extends WebsiteServlet {
@@ -37,22 +34,27 @@ public class ShortenerGuiRedirectServlet extends WebsiteServlet {
 
 	@Inject
 	public ShortenerGuiRedirectServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final ShortenerService shortenerService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final ShortenerService shortenerService
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.shortenerService = shortenerService;
 		this.logger = logger;
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final String uri = request.getRequestURI();
 			final int slashpos = uri.lastIndexOf('/');
@@ -60,8 +62,7 @@ public class ShortenerGuiRedirectServlet extends WebsiteServlet {
 			final ShortenerUrlIdentifier shortenerUrlIdentifier = new ShortenerUrlIdentifier(token);
 			final RedirectWidget widget = new RedirectWidget(shortenerService.getUrl(shortenerUrlIdentifier).toExternalForm());
 			widget.render(request, response, context);
-		}
-		catch (final ShortenerServiceException e) {
+		} catch (final ShortenerServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 	}

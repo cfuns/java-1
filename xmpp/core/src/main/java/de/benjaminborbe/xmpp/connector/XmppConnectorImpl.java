@@ -1,7 +1,5 @@
 package de.benjaminborbe.xmpp.connector;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.xmpp.config.XmppConfig;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
@@ -17,6 +15,8 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Presence;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

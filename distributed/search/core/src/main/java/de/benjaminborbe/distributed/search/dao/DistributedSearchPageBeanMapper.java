@@ -1,8 +1,6 @@
 package de.benjaminborbe.distributed.search.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.distributed.search.util.MapperDistributedSearchPageIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
@@ -10,6 +8,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -37,12 +37,15 @@ public class DistributedSearchPageBeanMapper extends MapObjectMapperAdapter<Dist
 		final Provider<DistributedSearchPageBean> provider,
 		final MapperDistributedSearchPageIdentifier mapperEntryIdentifier,
 		final MapperString mapperString,
-		final MapperCalendar mapperCalendar) {
+		final MapperCalendar mapperCalendar
+	) {
 		super(provider, buildMappings(mapperEntryIdentifier, mapperString, mapperCalendar));
 	}
 
-	private static Collection<StringObjectMapper<DistributedSearchPageBean>> buildMappings(final MapperDistributedSearchPageIdentifier mapperEntryIdentifier,
-																																												 final MapperString mapperString, final MapperCalendar mapperCalendar) {
+	private static Collection<StringObjectMapper<DistributedSearchPageBean>> buildMappings(
+		final MapperDistributedSearchPageIdentifier mapperEntryIdentifier,
+		final MapperString mapperString, final MapperCalendar mapperCalendar
+	) {
 		final List<StringObjectMapper<DistributedSearchPageBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, DistributedSearchPageIdentifier>(ID, mapperEntryIdentifier));
 		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, String>(INDEX, mapperString));

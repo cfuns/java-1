@@ -1,12 +1,11 @@
 package de.benjaminborbe.message.util;
 
-import java.util.Calendar;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.message.MessageConstants;
 import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.tools.date.CurrentTime;
+
+import javax.inject.Inject;
+import java.util.Calendar;
 
 public class MessageUtil {
 
@@ -22,8 +21,7 @@ public class MessageUtil {
 		final Calendar lockTime = bean.getLockTime();
 		if (lockName != null && lockTime != null) {
 			return currentTime.currentTimeMillis() > lockTime.getTimeInMillis() + MessageConstants.CRON_EXPIRE;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}

@@ -1,7 +1,5 @@
 package de.benjaminborbe.virt.mock;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -12,6 +10,9 @@ import de.benjaminborbe.virt.api.VirtNetworkIdentifier;
 import de.benjaminborbe.virt.api.VirtService;
 import de.benjaminborbe.virt.api.VirtServiceException;
 import de.benjaminborbe.virt.api.VirtVirtualMachineIdentifier;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class VirtServiceMock implements VirtService {
@@ -30,7 +31,10 @@ public class VirtServiceMock implements VirtService {
 	}
 
 	@Override
-	public VirtNetworkIdentifier createNetwork(final SessionIdentifier sessionIdentifier, final VirtNetwork network) throws VirtServiceException, PermissionDeniedException, ValidationException {
+	public VirtNetworkIdentifier createNetwork(
+		final SessionIdentifier sessionIdentifier,
+		final VirtNetwork network
+	) throws VirtServiceException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
@@ -40,7 +44,10 @@ public class VirtServiceMock implements VirtService {
 	}
 
 	@Override
-	public VirtMachineIdentifier createMachine(final SessionIdentifier sessionIdentifier, final VirtMachine machine) throws VirtServiceException, PermissionDeniedException {
+	public VirtMachineIdentifier createMachine(
+		final SessionIdentifier sessionIdentifier,
+		final VirtMachine machine
+	) throws VirtServiceException, PermissionDeniedException {
 		return null;
 	}
 
@@ -50,12 +57,18 @@ public class VirtServiceMock implements VirtService {
 	}
 
 	@Override
-	public VirtVirtualMachineIdentifier createVirtualMachine(final SessionIdentifier sessionIdentifier, final VirtMachine machine) throws VirtServiceException, PermissionDeniedException {
+	public VirtVirtualMachineIdentifier createVirtualMachine(
+		final SessionIdentifier sessionIdentifier,
+		final VirtMachine machine
+	) throws VirtServiceException, PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public VirtNetwork getNetwork(final SessionIdentifier sessionIdentifier, final VirtNetworkIdentifier networkIdentifier) throws VirtServiceException, PermissionDeniedException {
+	public VirtNetwork getNetwork(
+		final SessionIdentifier sessionIdentifier,
+		final VirtNetworkIdentifier networkIdentifier
+	) throws VirtServiceException, PermissionDeniedException {
 		return null;
 	}
 }

@@ -24,15 +24,15 @@
 
 package com.glavsoft.transport;
 
+import com.glavsoft.exceptions.ClosedConnectionException;
+import com.glavsoft.exceptions.TransportException;
+
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-
-import com.glavsoft.exceptions.ClosedConnectionException;
-import com.glavsoft.exceptions.TransportException;
 
 public class Reader {
 
@@ -50,11 +50,9 @@ public class Reader {
 		try {
 			final byte readByte = is.readByte();
 			return readByte;
-		}
-		catch (EOFException e) {
+		} catch (EOFException e) {
 			throw new ClosedConnectionException(e);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot read byte", e);
 		}
 
@@ -72,11 +70,9 @@ public class Reader {
 		try {
 			final short readShort = is.readShort();
 			return readShort;
-		}
-		catch (EOFException e) {
+		} catch (EOFException e) {
 			throw new ClosedConnectionException(e);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot read int16", e);
 		}
 	}
@@ -89,11 +85,9 @@ public class Reader {
 		try {
 			final int readInt = is.readInt();
 			return readInt;
-		}
-		catch (EOFException e) {
+		} catch (EOFException e) {
 			throw new ClosedConnectionException(e);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot read int32", e);
 		}
 	}
@@ -101,11 +95,9 @@ public class Reader {
 	public long readInt64() throws TransportException {
 		try {
 			return is.readLong();
-		}
-		catch (EOFException e) {
+		} catch (EOFException e) {
 			throw new ClosedConnectionException(e);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot read int32", e);
 		}
 	}
@@ -114,7 +106,7 @@ public class Reader {
 	 * Read string by it length.
 	 * Use this method only when sure no character accept ASCII will be read.
 	 * Use readBytes and character encoding conversion instead.
-	 * 
+	 *
 	 * @return String read
 	 */
 	public String readString(final int length) throws TransportException {
@@ -127,7 +119,7 @@ public class Reader {
 	 * Use readBytes and character encoding conversion instead or {@link #readUtf8String}
 	 * method
 	 * when utf-8 encoding needed.
-	 * 
+	 *
 	 * @return String read
 	 * @throws TransportException
 	 */
@@ -142,7 +134,7 @@ public class Reader {
 	/**
 	 * Read 32-bit string length and then string themself by it length
 	 * Assume UTF-8 character encoding used
-	 * 
+	 *
 	 * @return String read
 	 * @throws TransportException
 	 */
@@ -163,11 +155,9 @@ public class Reader {
 		try {
 			is.readFully(b, offset, length);
 			return b;
-		}
-		catch (EOFException e) {
+		} catch (EOFException e) {
 			throw new ClosedConnectionException(e);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot read " + length + " bytes array", e);
 		}
 	}
@@ -175,11 +165,9 @@ public class Reader {
 	public void skip(final int length) throws TransportException {
 		try {
 			is.skipBytes(length);
-		}
-		catch (EOFException e) {
+		} catch (EOFException e) {
 			throw new ClosedConnectionException(e);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot skip " + length + " bytes", e);
 		}
 	}

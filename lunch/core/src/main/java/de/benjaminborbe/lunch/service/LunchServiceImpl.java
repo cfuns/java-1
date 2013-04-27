@@ -113,7 +113,8 @@ public class LunchServiceImpl implements LunchService {
 		final DurationUtil durationUtil,
 		final CalendarUtil calendarUtil,
 		final LunchUserSettingsDao lunchUserSettingsDao,
-		final ValidationExecutor validationExecutor) {
+		final ValidationExecutor validationExecutor
+	) {
 		this.logger = logger;
 		this.notificationService = notificationService;
 		this.runOnlyOnceATime = runOnlyOnceATime;
@@ -144,7 +145,11 @@ public class LunchServiceImpl implements LunchService {
 		}
 	}
 
-	private Collection<Lunch> getLunchs(final SessionIdentifier sessionIdentifier, final String fullname, final Calendar date) throws LunchServiceException, LoginRequiredException,
+	private Collection<Lunch> getLunchs(
+		final SessionIdentifier sessionIdentifier,
+		final String fullname,
+		final Calendar date
+	) throws LunchServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -182,7 +187,10 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public Collection<Lunch> getLunchsArchiv(final SessionIdentifier sessionIdentifier, final String fullname) throws LunchServiceException, LoginRequiredException,
+	public Collection<Lunch> getLunchsArchiv(
+		final SessionIdentifier sessionIdentifier,
+		final String fullname
+	) throws LunchServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -240,7 +248,11 @@ public class LunchServiceImpl implements LunchService {
 	}
 
 	@Override
-	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<Long> users) throws LunchServiceException, LoginRequiredException,
+	public void book(
+		final SessionIdentifier sessionIdentifier,
+		final Calendar day,
+		final Collection<Long> users
+	) throws LunchServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {

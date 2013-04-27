@@ -1,11 +1,6 @@
 package de.benjaminborbe.vnc.gui.guice;
 
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.service.log.LogService;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -16,6 +11,10 @@ import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.mock.VncServiceMock;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.service.log.LogService;
+
+import javax.inject.Singleton;
 
 public class VncGuiOsgiModuleMock extends AbstractModule {
 

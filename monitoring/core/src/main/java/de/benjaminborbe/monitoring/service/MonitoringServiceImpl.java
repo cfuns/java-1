@@ -1,7 +1,5 @@
 package de.benjaminborbe.monitoring.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -34,6 +32,8 @@ import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -78,7 +78,8 @@ public class MonitoringServiceImpl implements MonitoringService {
 		final MonitoringNodeDao monitoringNodeDao,
 		final MonitoringNotifier monitoringMailer,
 		final MonitoringChecker monitoringChecker,
-		final MonitoringConfig monitoringConfig) {
+		final MonitoringConfig monitoringConfig
+	) {
 		this.logger = logger;
 		this.monitoringCheckRegistry = monitoringCheckRegistry;
 		this.monitoringNodeBuilder = monitoringNodeBuilder;
@@ -154,7 +155,10 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public MonitoringNodeIdentifier createNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeDto node) throws MonitoringServiceException, LoginRequiredException,
+	public MonitoringNodeIdentifier createNode(
+		final SessionIdentifier sessionIdentifier,
+		final MonitoringNodeDto node
+	) throws MonitoringServiceException, LoginRequiredException,
 		PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -209,7 +213,10 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public MonitoringNode getNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException,
+	public MonitoringNode getNode(
+		final SessionIdentifier sessionIdentifier,
+		final MonitoringNodeIdentifier monitoringNodeIdentifier
+	) throws MonitoringServiceException,
 		LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -226,7 +233,10 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public Collection<String> getRequireParameter(final SessionIdentifier sessionIdentifier, final MonitoringCheckIdentifier monitoringCheckType) throws MonitoringServiceException,
+	public Collection<String> getRequireParameter(
+		final SessionIdentifier sessionIdentifier,
+		final MonitoringCheckIdentifier monitoringCheckType
+	) throws MonitoringServiceException,
 		LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -420,7 +430,10 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public MonitoringNode getNode(final String token, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
+	public MonitoringNode getNode(
+		final String token,
+		final MonitoringNodeIdentifier monitoringNodeIdentifier
+	) throws MonitoringServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -455,7 +468,10 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
-	public void unsilentNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException,
+	public void unsilentNode(
+		final SessionIdentifier sessionIdentifier,
+		final MonitoringNodeIdentifier monitoringNodeIdentifier
+	) throws MonitoringServiceException,
 		LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {

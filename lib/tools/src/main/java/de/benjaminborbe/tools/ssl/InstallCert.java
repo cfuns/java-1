@@ -1,5 +1,12 @@
 package de.benjaminborbe.tools.ssl;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,14 +19,6 @@ import java.security.MessageDigest;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-
 /**
  * Class used to add the server's certificate to the KeyStore with your trusted
  * certificates.
@@ -27,7 +26,7 @@ import javax.net.ssl.X509TrustManager;
 public class InstallCert {
 
 	public static void main(final String[] a) throws Exception {
-		final String[] args = { "www.google.de:443" };
+		final String[] args = {"www.google.de:443"};
 
 		final String host;
 		final int port;
@@ -38,8 +37,7 @@ public class InstallCert {
 			port = (c.length == 1) ? 443 : Integer.parseInt(c[1]);
 			final String p = (args.length == 1) ? "changeit" : args[1];
 			passphrase = p.toCharArray();
-		}
-		else {
+		} else {
 			System.out.println("Usage: java InstallCert <host>[:port] [passphrase]");
 			return;
 		}
@@ -64,7 +62,7 @@ public class InstallCert {
 		tmf.init(ks);
 		final X509TrustManager defaultTrustManager = (X509TrustManager) tmf.getTrustManagers()[0];
 		final SavingTrustManager tm = new SavingTrustManager(defaultTrustManager);
-		context.init(null, new TrustManager[] { tm }, null);
+		context.init(null, new TrustManager[]{tm}, null);
 		final SSLSocketFactory factory = context.getSocketFactory();
 
 		System.out.println("Opening connection to " + host + ":" + port + "...");
@@ -76,8 +74,7 @@ public class InstallCert {
 			socket.close();
 			System.out.println();
 			System.out.println("No errors, certificate is already trusted");
-		}
-		catch (final SSLException e) {
+		} catch (final SSLException e) {
 			System.out.println();
 			e.printStackTrace(System.out);
 		}
@@ -114,8 +111,7 @@ public class InstallCert {
 		final int k;
 		try {
 			k = (line.length() == 0) ? 0 : Integer.parseInt(line) - 1;
-		}
-		catch (final NumberFormatException e) {
+		} catch (final NumberFormatException e) {
 			System.out.println("KeyStore not changed");
 			return;
 		}

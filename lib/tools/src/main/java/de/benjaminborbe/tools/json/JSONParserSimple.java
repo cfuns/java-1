@@ -14,8 +14,7 @@ public class JSONParserSimple implements JSONParser {
 		try {
 			final Object object = parser.parse(jsonString);
 			return handle(object);
-		}
-		catch (final org.json.simple.parser.ParseException e) {
+		} catch (final org.json.simple.parser.ParseException e) {
 			throw new JSONParseException(e);
 		}
 	}

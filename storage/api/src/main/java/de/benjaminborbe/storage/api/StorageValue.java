@@ -60,8 +60,7 @@ public class StorageValue {
 			if (s != null) {
 				return s.hashCode();
 			}
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 		}
 		return 23;
 	}
@@ -70,8 +69,7 @@ public class StorageValue {
 	public String toString() {
 		try {
 			return getString();
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			return null;
 		}
 	}
@@ -97,8 +95,7 @@ public class StorageValue {
 			final String s1 = getString();
 			final String s2 = otherValue.getString();
 			return s1 == null && s2 == null || s1 != null && s2 != null && s1.equals(s2);
-		}
-		catch (final UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			return false;
 		}
 	}

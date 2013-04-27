@@ -1,7 +1,5 @@
 package de.benjaminborbe.bookmark.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -17,6 +15,8 @@ import de.benjaminborbe.tools.util.ComparatorStringCaseInsensitive;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.util.ArrayList;

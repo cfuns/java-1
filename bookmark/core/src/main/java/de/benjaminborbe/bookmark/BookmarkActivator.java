@@ -1,6 +1,5 @@
 package de.benjaminborbe.bookmark;
 
-import javax.inject.Inject;
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.guice.BookmarkModules;
 import de.benjaminborbe.bookmark.service.BookmarkSearchServiceComponent;
@@ -13,6 +12,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

@@ -76,6 +76,6 @@ public class ServerInitMessage {
 	@Override
 	public String toString() {
 		return "ServerInitMessage: [name: " + name + ", framebuffer-width: " + String.valueOf(frameBufferWidth) + ", framebuffer-height: " + String.valueOf(frameBufferHeight)
-				+ ", server-pixel-format: " + pixelFormat + "]";
+			+ ", server-pixel-format: " + pixelFormat + "]";
 	}
 }

@@ -1,15 +1,5 @@
 package de.benjaminborbe.bookmark.gui.service;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -28,6 +18,13 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.Target;
 import de.benjaminborbe.website.util.UlWidget;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidget {
@@ -43,7 +40,12 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 	private final UrlUtil urlUtil;
 
 	@Inject
-	public BookmarkGuiFavoriteDashboardWidget(final Logger logger, final BookmarkService bookmarkService, final AuthenticationService authenticationService, final UrlUtil urlUtil) {
+	public BookmarkGuiFavoriteDashboardWidget(
+		final Logger logger,
+		final BookmarkService bookmarkService,
+		final AuthenticationService authenticationService,
+		final UrlUtil urlUtil
+	) {
 		this.logger = logger;
 		this.bookmarkService = bookmarkService;
 		this.authenticationService = authenticationService;
@@ -63,8 +65,7 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 			widgets.add(ul);
 			widgets.add(new LinkRelativWidget(request, "/bookmark", "more"));
 			widgets.render(request, response, context);
-		}
-		catch (final LoginRequiredException | AuthenticationServiceException | BookmarkServiceException | PermissionDeniedException e) {
+		} catch (final LoginRequiredException | AuthenticationServiceException | BookmarkServiceException | PermissionDeniedException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}

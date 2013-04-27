@@ -1,17 +1,15 @@
 package de.benjaminborbe.vaadin.gui.servlet;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-
+import com.google.inject.Provider;
+import com.vaadin.Application;
+import com.vaadin.terminal.gwt.server.AbstractApplicationServlet;
+import de.benjaminborbe.vaadin.gui.VaadinGuiApplication;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
-import com.google.inject.Provider;
 import javax.inject.Singleton;
-import com.vaadin.Application;
-import com.vaadin.terminal.gwt.server.AbstractApplicationServlet;
-
-import de.benjaminborbe.vaadin.gui.VaadinGuiApplication;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 
 @Singleton
 public class VaadinGuiApplicationServlet extends AbstractApplicationServlet {

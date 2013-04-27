@@ -1,7 +1,5 @@
 package de.benjaminborbe.worktime.gui.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.JavascriptResource;
@@ -20,6 +18,8 @@ import de.benjaminborbe.worktime.gui.WorktimeGuiConstants;
 import de.benjaminborbe.worktime.gui.widget.WorktimeListWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -44,7 +44,13 @@ public class WorktimeGuiDashboardWidget implements DashboardContentWidget, Requi
 	private final CalendarUtil calendarUtil;
 
 	@Inject
-	public WorktimeGuiDashboardWidget(final Logger logger, final WorktimeService worktimeService, final DateUtil dateUtil, final ParseUtil parseUtil, final CalendarUtil calendarUtil) {
+	public WorktimeGuiDashboardWidget(
+		final Logger logger,
+		final WorktimeService worktimeService,
+		final DateUtil dateUtil,
+		final ParseUtil parseUtil,
+		final CalendarUtil calendarUtil
+	) {
 		this.logger = logger;
 		this.worktimeService = worktimeService;
 		this.dateUtil = dateUtil;

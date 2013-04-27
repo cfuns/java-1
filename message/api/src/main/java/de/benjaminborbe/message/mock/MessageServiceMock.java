@@ -1,11 +1,5 @@
 package de.benjaminborbe.message.mock;
 
-import java.util.Calendar;
-import java.util.Collection;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -13,6 +7,11 @@ import de.benjaminborbe.message.api.Message;
 import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Calendar;
+import java.util.Collection;
 
 @Singleton
 public class MessageServiceMock implements MessageService {
@@ -49,8 +48,11 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	@Override
-	public void deleteById(final SessionIdentifier sessionIdentifier, final MessageIdentifier messageIdentifier) throws MessageServiceException, PermissionDeniedException,
-			LoginRequiredException {
+	public void deleteById(
+		final SessionIdentifier sessionIdentifier,
+		final MessageIdentifier messageIdentifier
+	) throws MessageServiceException, PermissionDeniedException,
+		LoginRequiredException {
 	}
 
 	@Override

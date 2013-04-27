@@ -1,15 +1,15 @@
 package de.benjaminborbe.tools.image;
 
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.Collection;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
 
 public class PixelFinderUnitTest {
 
@@ -19,7 +19,7 @@ public class PixelFinderUnitTest {
 		EasyMock.replay(logger);
 		final PixelFinder pixelFinder = new PixelFinder(logger);
 
-		final int[] rbgArray = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+		final int[] rbgArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 		final int width = 4;
 		final int height = 3;
 		final Pixels image = new PixelsImpl(rbgArray, width, height);

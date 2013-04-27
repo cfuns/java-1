@@ -1,16 +1,6 @@
 package de.benjaminborbe.storage.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -30,6 +20,13 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class StorageWriteServlet extends StorageHtmlServlet {
@@ -52,17 +49,18 @@ public class StorageWriteServlet extends StorageHtmlServlet {
 
 	@Inject
 	public StorageWriteServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final StorageService persistentStorageService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final StorageService persistentStorageService,
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.persistentStorageService = persistentStorageService;
@@ -75,7 +73,7 @@ public class StorageWriteServlet extends StorageHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -108,8 +106,7 @@ public class StorageWriteServlet extends StorageHtmlServlet {
 			}
 
 			return widgets;
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return new ExceptionWidget(e);
 		}
 	}

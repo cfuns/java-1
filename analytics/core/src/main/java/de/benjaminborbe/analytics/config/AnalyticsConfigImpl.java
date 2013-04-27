@@ -1,7 +1,5 @@
 package de.benjaminborbe.analytics.config;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.analytics.AnalyticsConstants;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
@@ -11,6 +9,8 @@ import de.benjaminborbe.configuration.tools.ConfigurationDescriptionLong;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

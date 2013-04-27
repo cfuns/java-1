@@ -1,10 +1,5 @@
 package de.benjaminborbe.cron.service;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.cron.CronConstants;
 import de.benjaminborbe.cron.message.CronMessage;
 import de.benjaminborbe.cron.message.CronMessageMapper;
@@ -12,6 +7,10 @@ import de.benjaminborbe.cron.util.CronExecutor;
 import de.benjaminborbe.message.api.Message;
 import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.mapper.MapException;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class CronMessageConsumer implements MessageConsumer {
@@ -42,8 +41,7 @@ public class CronMessageConsumer implements MessageConsumer {
 			cronExecutor.execute(cronMessage.getName());
 			logger.trace("process message: " + message.getId() + " finished");
 			return true;
-		}
-		catch (final MapException e) {
+		} catch (final MapException e) {
 			logger.warn(e.getClass().getName(), e);
 			return false;
 		}

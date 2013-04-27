@@ -1,7 +1,5 @@
 package de.benjaminborbe.calendar.gui.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.calendar.gui.CalendarGuiConstants;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.HttpContext;
@@ -10,6 +8,8 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

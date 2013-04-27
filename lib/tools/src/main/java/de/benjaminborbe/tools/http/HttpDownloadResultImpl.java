@@ -30,7 +30,15 @@ public class HttpDownloadResultImpl implements HttpDownloadResult, Serializable 
 
 	private final Map<String, List<String>> headers;
 
-	public HttpDownloadResultImpl(final URL url, final long duration, final byte[] content, final String contentType, final Encoding contentEncoding, final Map<String, List<String>> headers, final int responseCode) {
+	public HttpDownloadResultImpl(
+		final URL url,
+		final long duration,
+		final byte[] content,
+		final String contentType,
+		final Encoding contentEncoding,
+		final Map<String, List<String>> headers,
+		final int responseCode
+	) {
 		this.url = url;
 		this.duration = duration;
 		this.contentType = contentType;

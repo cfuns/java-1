@@ -14,7 +14,10 @@ public class WebsearchPageDaoSubPagesAction {
 	public WebsearchPageDaoSubPagesAction() {
 	}
 
-	public Collection<WebsearchPageBean> findSubPages(final String urlPrefix, final EntityIterator<WebsearchPageBean> entityIterator) throws EntityIteratorException {
+	public Collection<WebsearchPageBean> findSubPages(
+		final String urlPrefix,
+		final EntityIterator<WebsearchPageBean> entityIterator
+	) throws EntityIteratorException {
 		final Set<WebsearchPageBean> result = new HashSet<>();
 		while (entityIterator.hasNext()) {
 			final WebsearchPageBean page = entityIterator.next();

@@ -1,7 +1,5 @@
 package de.benjaminborbe.projectile.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -41,6 +39,8 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -88,7 +88,8 @@ public class ProjectileServiceImpl implements ProjectileService {
 		final ProjectileReportDao projectileReportDao,
 		final ProjectileTeamDao projectileTeamDao,
 		final ProjectileMailReportFetcher projectileMailReportFetcher,
-		final IdGeneratorUUID idGeneratorUUID) {
+		final IdGeneratorUUID idGeneratorUUID
+	) {
 		this.logger = logger;
 		this.projectileTeamUserManyToManyRelation = projectileTeamUserManyToManyRelation;
 		this.validationExecutor = validationExecutor;
@@ -237,7 +238,10 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public ProjectileSlacktimeReport getSlacktimeReportForUser(final String token, final UserIdentifier userIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+	public ProjectileSlacktimeReport getSlacktimeReportForUser(
+		final String token,
+		final UserIdentifier userIdentifier
+	) throws ProjectileServiceException, PermissionDeniedException {
 		try {
 			expectAuthToken(token);
 			logger.debug("getSlacktimeReportForUser");
@@ -248,7 +252,11 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public void importReport(final SessionIdentifier sessionIdentifier, final String content, final ProjectileSlacktimeReportInterval interval) throws ProjectileServiceException,
+	public void importReport(
+		final SessionIdentifier sessionIdentifier,
+		final String content,
+		final ProjectileSlacktimeReportInterval interval
+	) throws ProjectileServiceException,
 		PermissionDeniedException, LoginRequiredException, ValidationException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -323,7 +331,10 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public void updateTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException,
+	public void updateTeam(
+		final SessionIdentifier sessionIdentifier,
+		final ProjectileTeamDto teamDto
+	) throws ProjectileServiceException, PermissionDeniedException,
 		LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -347,7 +358,10 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public void deleteTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier id) throws ProjectileServiceException, PermissionDeniedException,
+	public void deleteTeam(
+		final SessionIdentifier sessionIdentifier,
+		final ProjectileTeamIdentifier id
+	) throws ProjectileServiceException, PermissionDeniedException,
 		LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -384,7 +398,10 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public ProjectileTeam getTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier) throws ProjectileServiceException,
+	public ProjectileTeam getTeam(
+		final SessionIdentifier sessionIdentifier,
+		final ProjectileTeamIdentifier projectileTeamIdentifier
+	) throws ProjectileServiceException,
 		PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -401,7 +418,11 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public void addUserToTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+	public void addUserToTeam(
+		final SessionIdentifier sessionIdentifier,
+		final UserIdentifier userIdentifier,
+		final ProjectileTeamIdentifier projectileTeamIdentifier
+	)
 		throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -419,7 +440,11 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public void removeUserFromTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+	public void removeUserFromTeam(
+		final SessionIdentifier sessionIdentifier,
+		final UserIdentifier userIdentifier,
+		final ProjectileTeamIdentifier projectileTeamIdentifier
+	)
 		throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -436,7 +461,10 @@ public class ProjectileServiceImpl implements ProjectileService {
 	}
 
 	@Override
-	public ProjectileTeamIdentifier getTeamForUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws ProjectileServiceException,
+	public ProjectileTeamIdentifier getTeamForUser(
+		final SessionIdentifier sessionIdentifier,
+		final UserIdentifier userIdentifier
+	) throws ProjectileServiceException,
 		PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {

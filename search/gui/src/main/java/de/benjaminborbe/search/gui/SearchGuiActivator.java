@@ -1,6 +1,5 @@
 package de.benjaminborbe.search.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.navigation.api.NavigationEntry;
@@ -26,6 +25,7 @@ import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

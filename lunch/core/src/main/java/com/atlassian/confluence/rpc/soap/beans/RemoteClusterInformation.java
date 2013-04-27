@@ -36,7 +36,8 @@ public class RemoteClusterInformation implements java.io.Serializable {
 		final java.lang.String multicastAddress,
 		final java.lang.String multicastPort,
 		final java.lang.String name,
-		final boolean running) {
+		final boolean running
+	) {
 		this.description = description;
 		this.memberCount = memberCount;
 		this.members = members;

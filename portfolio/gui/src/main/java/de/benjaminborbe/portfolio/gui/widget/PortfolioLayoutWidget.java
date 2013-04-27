@@ -1,6 +1,5 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.gallery.api.GalleryEntry;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -27,6 +26,7 @@ import de.benjaminborbe.website.widget.ImageWidget;
 import de.benjaminborbe.website.widget.VoidWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
@@ -54,7 +54,8 @@ public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
 		final TopWidget topWidget,
 		final BottomWidget footerWidget,
 		final PortfolioGuiLinkFactory portfolioLinkFactory,
-		final Logger logger) {
+		final Logger logger
+	) {
 		this.topWidget = topWidget;
 		this.footerWidget = footerWidget;
 		this.portfolioLinkFactory = portfolioLinkFactory;

@@ -1,17 +1,6 @@
 package de.benjaminborbe.kiosk.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -28,6 +17,14 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class KioskGuiBookServlet extends WebsiteJsonServlet {
@@ -42,15 +39,16 @@ public class KioskGuiBookServlet extends WebsiteJsonServlet {
 
 	@Inject
 	public KioskGuiBookServlet(
-			final Logger logger,
-			final KioskService kioskService,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final ParseUtil parseUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider) {
+		final Logger logger,
+		final KioskService kioskService,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final ParseUtil parseUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.kioskService = kioskService;
 		this.parseUtil = parseUtil;
@@ -58,22 +56,24 @@ public class KioskGuiBookServlet extends WebsiteJsonServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final long ean;
 			try {
 				ean = parseUtil.parseLong(request.getParameter(KioskGuiConstants.PARAMETER_EAN_NUMBER));
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				printError(response, "parameter " + KioskGuiConstants.PARAMETER_EAN_NUMBER + " missing or invalid number");
 				return;
 			}
 			final long customer;
 			try {
 				customer = parseUtil.parseLong(request.getParameter(KioskGuiConstants.PARAMETER_CUSTOMER_NUMBER));
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				printError(response, "parameter " + KioskGuiConstants.PARAMETER_CUSTOMER_NUMBER + " missing or invalid number");
 				return;
 			}
@@ -83,8 +83,7 @@ public class KioskGuiBookServlet extends WebsiteJsonServlet {
 			final JSONObject jsonObject = new JSONObjectSimple();
 			jsonObject.put("result", "success");
 			printJson(response, jsonObject);
-		}
-		catch (final KioskServiceException e) {
+		} catch (final KioskServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 			printException(response, e);
 		}

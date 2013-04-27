@@ -16,8 +16,7 @@ public class TrustStore {
 			final OutputStreamWriter o = new OutputStreamWriter(conn.getOutputStream());
 			o.write("GET /");
 			o.flush();
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}

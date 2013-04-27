@@ -1,12 +1,13 @@
 package de.benjaminborbe.search.core.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class SearchQueryHistoryDaoStorage extends DaoStorage<SearchQueryHistoryBean, SearchQueryHistoryIdentifier> implements SearchQueryHistoryDao {
@@ -18,7 +19,8 @@ public class SearchQueryHistoryDaoStorage extends DaoStorage<SearchQueryHistoryB
 		final Provider<SearchQueryHistoryBean> beanProvider,
 		final SearchQueryHistoryBeanMapper mapper,
 		final SearchQueryHistoryIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 

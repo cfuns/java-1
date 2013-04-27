@@ -1,13 +1,12 @@
 package de.benjaminborbe.poker.service;
 
+import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.poker.config.PokerConfig;
+import de.benjaminborbe.poker.util.PokerAutoFolder;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.poker.config.PokerConfig;
-import de.benjaminborbe.poker.util.PokerAutoFolder;
 
 @Singleton
 public class PokerCronJob implements CronJob {
@@ -33,8 +32,7 @@ public class PokerCronJob implements CronJob {
 		if (pokerConfig.isCronEnabled()) {
 			logger.trace("poker cron => started");
 			pokerAutoFolder.run();
-		}
-		else {
+		} else {
 			logger.trace("poker cron => skip");
 		}
 	}

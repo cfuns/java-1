@@ -1,6 +1,5 @@
 package de.benjaminborbe.xmpp;
 
-import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
@@ -17,6 +16,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

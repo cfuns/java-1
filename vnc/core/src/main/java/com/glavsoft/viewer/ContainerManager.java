@@ -24,17 +24,15 @@
 
 package com.glavsoft.viewer;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GraphicsConfiguration;
-import java.awt.Insets;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import com.glavsoft.viewer.swing.Surface;
+import com.glavsoft.viewer.swing.UiSettings;
+import com.glavsoft.viewer.swing.Utils;
+
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -48,25 +46,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JToggleButton;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-
-import com.glavsoft.viewer.swing.Surface;
-import com.glavsoft.viewer.swing.UiSettings;
-import com.glavsoft.viewer.swing.Utils;
 
 public class ContainerManager {
 
@@ -155,8 +134,7 @@ public class ContainerManager {
 			frame.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
 			Utils.setApplicationIconsForWindow(frame);
 			container = frame;
-		}
-		else {
+		} else {
 			container = viewer;
 		}
 		container.setLayout(new BorderLayout(0, 0));
@@ -207,8 +185,7 @@ public class ContainerManager {
 
 		if (null == outerPanelOldSize && workareaRectangle.contains(preferredRectangle)) {
 			((JFrame) container).pack();
-		}
-		else {
+		} else {
 			final Dimension minDimension = new Dimension(containerInsets.left + containerInsets.right, containerInsets.top + containerInsets.bottom);
 			if (buttonsBar != null && buttonsBar.isVisible) {
 				minDimension.width += buttonsBar.getWidth();
@@ -218,8 +195,7 @@ public class ContainerManager {
 			final Point location = container.getLocation();
 			if (!isWidthChangeable) {
 				dim.width = container.getWidth();
-			}
-			else {
+			} else {
 				if (isVScrollBar)
 					dim.width += scroller.getVerticalScrollBar().getWidth();
 				if (dim.width < minDimension.width)
@@ -235,8 +211,7 @@ public class ContainerManager {
 					final int dw = dim.width - w;
 					if (dw < dx) {
 						location.x -= dw;
-					}
-					else {
+					} else {
 						dim.width = workareaRectangle.width;
 						location.x = workareaRectangle.x;
 					}
@@ -244,8 +219,7 @@ public class ContainerManager {
 			}
 			if (!isHeightChangeable) {
 				dim.height = container.getHeight();
-			}
-			else {
+			} else {
 
 				if (isHScrollBar)
 					dim.height += scroller.getHorizontalScrollBar().getHeight();
@@ -262,8 +236,7 @@ public class ContainerManager {
 					final int dh = dim.height - h;
 					if (dh < dy) {
 						location.y -= dh;
-					}
-					else {
+					} else {
 						dim.height = workareaRectangle.height;
 						location.y = workareaRectangle.y;
 					}
@@ -328,8 +301,7 @@ public class ContainerManager {
 					forceResizable = true;
 					zoomToFit();
 					updateZoomButtonsState();
-				}
-				else {
+				} else {
 					viewer.setZoomToFitSelected(false);
 				}
 				viewer.setSurfaceToHandleKbdFocus();
@@ -343,8 +315,7 @@ public class ContainerManager {
 				updateZoomButtonsState();
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					svitchOnFullscreenMode();
-				}
-				else {
+				} else {
 					switchOffFullscreenMode();
 				}
 				viewer.setSurfaceToHandleKbdFocus();
@@ -374,8 +345,7 @@ public class ContainerManager {
 			oldScrollerBorder = scroller.getBorder();
 			scroller.setBorder(new EmptyBorder(0, 0, 0, 0));
 			new FullscreenBorderDetectionThread(frame).start();
-		}
-		catch (final Exception ex) {
+		} catch (final Exception ex) {
 			// nop
 		}
 	}
@@ -391,8 +361,7 @@ public class ContainerManager {
 				frame.setUndecorated(false);
 				frame.setResizable(true);
 				frame.getGraphicsConfiguration().getDevice().setFullScreenWindow(null);
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				// nop
 			}
 			scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -408,8 +377,8 @@ public class ContainerManager {
 		final Dimension scrollerSize = scroller.getSize();
 		final Insets scrollerInsets = scroller.getInsets();
 		viewer.getUiSettings().zoomToFit(scrollerSize.width - scrollerInsets.left - scrollerInsets.right,
-				scrollerSize.height - scrollerInsets.top - scrollerInsets.bottom + (isFullScreen ? buttonsBar.getHeight() : 0), viewer.getWorkingProtocol().getFbWidth(),
-				viewer.getWorkingProtocol().getFbHeight());
+			scrollerSize.height - scrollerInsets.top - scrollerInsets.bottom + (isFullScreen ? buttonsBar.getHeight() : 0), viewer.getWorkingProtocol().getFbWidth(),
+			viewer.getWorkingProtocol().getFbHeight());
 	}
 
 	void registerResizeListener(final Container container) {
@@ -443,8 +412,7 @@ public class ContainerManager {
 		if (isVisible) {
 			buttonsBar.borderOff();
 			container.add(buttonsBar.bar, BorderLayout.NORTH);
-		}
-		else {
+		} else {
 			container.remove(buttonsBar.bar);
 			buttonsBar.borderOn();
 		}
@@ -462,8 +430,7 @@ public class ContainerManager {
 					buttonsBarMouseAdapter = new EmptyButtonsBarMouseAdapter();
 				buttonsBar.bar.addMouseListener(buttonsBarMouseAdapter);
 			}
-		}
-		else {
+		} else {
 			buttonsBar.bar.removeMouseListener(buttonsBarMouseAdapter);
 			lpane.remove(buttonsBar.bar);
 			lpane.repaint(buttonsBar.bar.getBounds());
@@ -571,8 +538,7 @@ public class ContainerManager {
 				}
 				try {
 					Thread.sleep(100);
-				}
-				catch (final Exception e) {
+				} catch (final Exception e) {
 					// nop
 				}
 			}
@@ -589,8 +555,7 @@ public class ContainerManager {
 						viewPosition.x = 0;
 					return true;
 				}
-			}
-			else if (mousePoint.x > (frame.getWidth() - FS_SCROLLING_ACTIVE_BORDER)) {
+			} else if (mousePoint.x > (frame.getWidth() - FS_SCROLLING_ACTIVE_BORDER)) {
 				final Rectangle viewRect = scroller.getViewport().getViewRect();
 				final int right = viewRect.width + viewRect.x;
 				if (right < outerPanel.getSize().width) {
@@ -617,8 +582,7 @@ public class ContainerManager {
 						viewPosition.y = 0;
 					return true;
 				}
-			}
-			else if (mousePoint.y > (frame.getHeight() - FS_SCROLLING_ACTIVE_BORDER)) {
+			} else if (mousePoint.y > (frame.getHeight() - FS_SCROLLING_ACTIVE_BORDER)) {
 				final Rectangle viewRect = scroller.getViewport().getViewRect();
 				final int bottom = viewRect.height + viewRect.y;
 				if (bottom < outerPanel.getSize().height) {
@@ -647,8 +611,7 @@ public class ContainerManager {
 						}
 					}, SHOW_HIDE_BUTTONS_BAR_DELAY_IN_MILLS, TimeUnit.MILLISECONDS);
 				}
-			}
-			else {
+			} else {
 				cancelShowExecutor();
 			}
 			if (buttonsBar.isVisible && mousePoint.y <= buttonsBar.getHeight()) {

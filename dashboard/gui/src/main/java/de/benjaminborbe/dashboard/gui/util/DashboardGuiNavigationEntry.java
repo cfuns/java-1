@@ -1,7 +1,5 @@
 package de.benjaminborbe.dashboard.gui.util;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
@@ -9,6 +7,8 @@ import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.dashboard.api.DashboardService;
 import de.benjaminborbe.dashboard.gui.DashboardGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+
+import javax.inject.Inject;
 
 public class DashboardGuiNavigationEntry implements NavigationEntry {
 
@@ -34,8 +34,7 @@ public class DashboardGuiNavigationEntry implements NavigationEntry {
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(DashboardService.PERMISSION);
 			return authorizationService.hasPermission(sessionIdentifier, permissionIdentifier);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			return false;
 		}
 	}

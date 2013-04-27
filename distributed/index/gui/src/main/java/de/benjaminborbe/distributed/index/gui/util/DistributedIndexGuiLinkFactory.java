@@ -1,12 +1,12 @@
 package de.benjaminborbe.distributed.index.gui.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.distributed.index.gui.DistributedIndexGuiConstants;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -24,7 +24,12 @@ public class DistributedIndexGuiLinkFactory {
 		return new LinkRelativWidget(request, "/" + DistributedIndexGuiConstants.NAME + DistributedIndexGuiConstants.URL_ENTRY_INFO, "entry info");
 	}
 
-	public Widget entryInfo(final HttpServletRequest request, final String name, final String index, final String url) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget entryInfo(
+		final HttpServletRequest request,
+		final String name,
+		final String index,
+		final String url
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + DistributedIndexGuiConstants.NAME + DistributedIndexGuiConstants.URL_ENTRY_INFO, new MapParameter().add(
 			DistributedIndexGuiConstants.PARAMETER_INDEX, index).add(DistributedIndexGuiConstants.PARAMETER_URL, url), name);
 	}
@@ -33,7 +38,12 @@ public class DistributedIndexGuiLinkFactory {
 		return new LinkRelativWidget(request, "/" + DistributedIndexGuiConstants.NAME + DistributedIndexGuiConstants.URL_WORD_INFO, "word info");
 	}
 
-	public Widget wordInfo(final HttpServletRequest request, final String name, final String index, final String word) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget wordInfo(
+		final HttpServletRequest request,
+		final String name,
+		final String index,
+		final String word
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + DistributedIndexGuiConstants.NAME + DistributedIndexGuiConstants.URL_WORD_INFO, new MapParameter().add(
 			DistributedIndexGuiConstants.PARAMETER_INDEX, index).add(DistributedIndexGuiConstants.PARAMETER_WORD, word), name);
 	}

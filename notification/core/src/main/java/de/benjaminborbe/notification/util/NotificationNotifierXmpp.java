@@ -1,14 +1,13 @@
 package de.benjaminborbe.notification.util;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.notification.api.Notification;
 import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.api.XmppServiceException;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class NotificationNotifierXmpp implements NotificationNotifier {
 
@@ -33,15 +32,12 @@ public class NotificationNotifierXmpp implements NotificationNotifier {
 			final UserIdentifier userIdentifier = notification.getTo();
 			if (subject != null && !subject.trim().isEmpty() && message != null && !message.trim().isEmpty() && !subject.equals(message)) {
 				xmppService.send(userIdentifier, subject + "\n\n" + message);
-			}
-			else if (subject != null && !subject.trim().isEmpty()) {
+			} else if (subject != null && !subject.trim().isEmpty()) {
 				xmppService.send(userIdentifier, subject);
-			}
-			else if (message != null && !message.trim().isEmpty()) {
+			} else if (message != null && !message.trim().isEmpty()) {
 				xmppService.send(userIdentifier, message);
 			}
-		}
-		catch (final XmppServiceException e) {
+		} catch (final XmppServiceException e) {
 			throw new NotificationNotifierException(e);
 		}
 	}

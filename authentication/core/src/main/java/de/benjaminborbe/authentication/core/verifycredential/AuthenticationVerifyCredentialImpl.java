@@ -1,6 +1,5 @@
 package de.benjaminborbe.authentication.core.verifycredential;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -8,6 +7,7 @@ import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ComparatorUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Collection;
 
 public class AuthenticationVerifyCredentialImpl implements AuthenticationVerifyCredential {
@@ -35,7 +35,8 @@ public class AuthenticationVerifyCredentialImpl implements AuthenticationVerifyC
 	public AuthenticationVerifyCredentialImpl(
 		final Logger logger,
 		final ComparatorUtil comparatorUtil,
-		final AuthenticationVerifyCredentialRegistry authenticationVerifyCredentialRegistry) {
+		final AuthenticationVerifyCredentialRegistry authenticationVerifyCredentialRegistry
+	) {
 		this.logger = logger;
 		this.comparatorUtil = comparatorUtil;
 		this.authenticationVerifyCredentialRegistry = authenticationVerifyCredentialRegistry;

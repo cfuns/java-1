@@ -1,7 +1,5 @@
 package de.benjaminborbe.storage.mock;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
@@ -12,6 +10,7 @@ import de.benjaminborbe.storage.api.StorageValue;
 import org.slf4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -38,7 +37,12 @@ public class StorageServiceMock implements StorageService {
 
 		private final Map<StorageValue, StorageValue> where;
 
-		private StorageRowIteratorMock(final Iterator<StorageValue> i, final List<StorageValue> columnNames, final String columnFamily, final Map<StorageValue, StorageValue> where) {
+		private StorageRowIteratorMock(
+			final Iterator<StorageValue> i,
+			final List<StorageValue> columnNames,
+			final String columnFamily,
+			final Map<StorageValue, StorageValue> where
+		) {
 			this.i = i;
 			this.columnNames = columnNames;
 			this.columnFamily = columnFamily;
@@ -279,7 +283,11 @@ public class StorageServiceMock implements StorageService {
 	}
 
 	@Override
-	public StorageRowIterator rowIterator(final String columnFamily, final List<StorageValue> columnNames, final Map<StorageValue, StorageValue> where) throws StorageException {
+	public StorageRowIterator rowIterator(
+		final String columnFamily,
+		final List<StorageValue> columnNames,
+		final Map<StorageValue, StorageValue> where
+	) throws StorageException {
 		final Iterator<StorageValue> i;
 		if (storageData.containsKey(columnFamily)) {
 			i = storageData.get(columnFamily).keySet().iterator();
@@ -346,7 +354,11 @@ public class StorageServiceMock implements StorageService {
 	}
 
 	@Override
-	public Collection<List<StorageValue>> get(final String columnFamily, final Collection<StorageValue> keys, final List<StorageValue> columnNames) throws StorageException {
+	public Collection<List<StorageValue>> get(
+		final String columnFamily,
+		final Collection<StorageValue> keys,
+		final List<StorageValue> columnNames
+	) throws StorageException {
 		final List<List<StorageValue>> result = new ArrayList<>();
 		for (final StorageValue key : keys) {
 			result.add(get(columnFamily, key, columnNames));

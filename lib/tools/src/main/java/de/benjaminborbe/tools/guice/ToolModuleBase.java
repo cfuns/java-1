@@ -1,10 +1,6 @@
 package de.benjaminborbe.tools.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
@@ -42,6 +38,9 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.tools.validation.ValidationExecutorImpl;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 import de.benjaminborbe.tools.validation.ValidatorRegistryImpl;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public abstract class ToolModuleBase extends AbstractModule {
 

@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.iterator;
 
+import de.benjaminborbe.api.IteratorWithoutException;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import de.benjaminborbe.api.IteratorWithoutException;
 
 public abstract class IteratorWithoutExceptionBase<T> implements IteratorWithoutException<T> {
 
@@ -25,8 +25,7 @@ public abstract class IteratorWithoutExceptionBase<T> implements IteratorWithout
 			final T result = next;
 			next = null;
 			return result;
-		}
-		else {
+		} else {
 			throw new NoSuchElementException();
 		}
 	}

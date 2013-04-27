@@ -1,14 +1,15 @@
 package de.benjaminborbe.authentication.core.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class UserDaoStorage extends DaoStorage<UserBean, UserIdentifier> implements UserDao {
@@ -22,7 +23,8 @@ public class UserDaoStorage extends DaoStorage<UserBean, UserIdentifier> impleme
 		final Provider<UserBean> beanProvider,
 		final UserBeanMapper mapper,
 		final UserIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 

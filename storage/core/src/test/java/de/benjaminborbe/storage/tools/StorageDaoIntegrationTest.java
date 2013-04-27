@@ -1,24 +1,22 @@
 package de.benjaminborbe.storage.tools;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.google.inject.Injector;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.guice.StorageModulesMock;
+import de.benjaminborbe.storage.util.StorageTestUtil;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.storage.config.StorageConfig;
-import de.benjaminborbe.storage.guice.StorageModulesMock;
-import de.benjaminborbe.storage.util.StorageTestUtil;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class StorageDaoIntegrationTest {
 
@@ -36,15 +34,12 @@ public class StorageDaoIntegrationTest {
 
 			notFound = !socket.isConnected();
 			notFound = false;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			notFound = true;
-		}
-		finally {
+		} finally {
 			try {
 				socket.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 			}
 		}
 	}

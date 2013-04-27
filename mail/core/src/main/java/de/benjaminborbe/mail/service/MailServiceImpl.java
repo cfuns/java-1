@@ -1,7 +1,5 @@
 package de.benjaminborbe.mail.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.mail.MailConstants;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailService;
@@ -11,6 +9,9 @@ import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.mapper.MapException;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class MailServiceImpl implements MailService {

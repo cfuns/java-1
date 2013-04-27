@@ -1,17 +1,15 @@
 package de.benjaminborbe.website.form;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import de.benjaminborbe.html.api.HttpContext;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import de.benjaminborbe.html.api.HttpContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import static org.junit.Assert.assertEquals;
 
 public class FormSelectboxWidgetUnitTest {
 
@@ -91,7 +89,7 @@ public class FormSelectboxWidgetUnitTest {
 		field.render(request, response, context);
 
 		assertEquals("<select name=\"" + name + "\"><option value=\"value1\">name1</option><option selected=\"selected\" value=\"value2\">name2</option></select><br/>",
-				stringWriter.toString());
+			stringWriter.toString());
 	}
 
 	@Test

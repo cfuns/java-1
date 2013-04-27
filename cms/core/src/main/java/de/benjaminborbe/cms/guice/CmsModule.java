@@ -1,13 +1,12 @@
 package de.benjaminborbe.cms.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.cms.api.CmsService;
 import de.benjaminborbe.cms.service.CmsServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class CmsModule extends AbstractModule {
 

@@ -1,6 +1,5 @@
 package de.benjaminborbe.authorization.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authorization.gui.guice.AuthorizationGuiModules;
 import de.benjaminborbe.authorization.gui.service.AuthorizationGuiNavigationPermissionsEntry;
 import de.benjaminborbe.authorization.gui.service.AuthorizationGuiNavigationRolesEntry;
@@ -26,6 +25,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,7 +1,5 @@
 package de.benjaminborbe.dns.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.dns.api.DnsService;
 import de.benjaminborbe.dns.api.DnsServiceException;
 import org.slf4j.Logger;
@@ -14,6 +12,8 @@ import org.xbill.DNS.TXTRecord;
 import org.xbill.DNS.TextParseException;
 import org.xbill.DNS.Type;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;

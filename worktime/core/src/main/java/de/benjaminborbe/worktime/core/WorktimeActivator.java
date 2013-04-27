@@ -1,6 +1,5 @@
 package de.benjaminborbe.worktime.core;
 
-import javax.inject.Inject;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
@@ -10,6 +9,7 @@ import de.benjaminborbe.worktime.core.guice.WorktimeModules;
 import de.benjaminborbe.worktime.core.service.WorktimeCronJob;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

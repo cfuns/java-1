@@ -1,8 +1,6 @@
 package de.benjaminborbe.poker.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -18,6 +16,8 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +40,8 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
-		final PokerGuiConfig pokerGuiConfig) {
+		final PokerGuiConfig pokerGuiConfig
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.pokerGuiConfig = pokerGuiConfig;
 	}
@@ -54,7 +55,11 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 		ValidationException, ServletException, IOException, PermissionDeniedException, LoginRequiredException;
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException,
 		PermissionDeniedException, LoginRequiredException {
 		try {
 			doAction(request, response);

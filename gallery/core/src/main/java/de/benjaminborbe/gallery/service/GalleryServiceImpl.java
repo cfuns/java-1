@@ -1,7 +1,5 @@
 package de.benjaminborbe.gallery.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -39,6 +37,8 @@ import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -74,7 +74,8 @@ public class GalleryServiceImpl implements GalleryService {
 		final GalleryImageDao galleryImageDao,
 		final GalleryGroupDao galleryGroupDao,
 		final ValidationExecutor validationExecutor,
-		final DurationUtil durationUtil) {
+		final DurationUtil durationUtil
+	) {
 		this.logger = logger;
 		this.authorizationService = authorizationService;
 		this.galleryCollectionDao = galleryDao;
@@ -87,8 +88,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
-																											final Long priority, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
+	public GalleryCollectionIdentifier createCollection(
+		final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
+		final Long priority, final Boolean shared
+	) throws GalleryServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createGallery name: " + name);
@@ -130,9 +133,11 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
-																						final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
-																						final byte[] imageContent, final String imageContentType, final Boolean shared) throws GalleryServiceException, ValidationException, LoginRequiredException,
+	public GalleryEntryIdentifier createEntry(
+		final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName,
+		final Long priority, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
+		final byte[] imageContent, final String imageContentType, final Boolean shared
+	) throws GalleryServiceException, ValidationException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -219,7 +224,11 @@ public class GalleryServiceImpl implements GalleryService {
 		}
 	}
 
-	private GalleryImageIdentifier createImage(final String imageName, final byte[] imageContent, final String imageContentType) throws GalleryServiceException, ValidationException {
+	private GalleryImageIdentifier createImage(
+		final String imageName,
+		final byte[] imageContent,
+		final String imageContentType
+	) throws GalleryServiceException, ValidationException {
 		try {
 			logger.debug("createImage");
 			final GalleryImageBean image = galleryImageDao.create();
@@ -299,7 +308,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public void deleteGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
+	public void deleteGroup(
+		final SessionIdentifier sessionIdentifier,
+		final GalleryGroupIdentifier galleryGroupIdentifier
+	) throws GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -326,7 +338,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier) throws GalleryServiceException,
+	public GalleryCollection getCollection(
+		final SessionIdentifier sessionIdentifier,
+		final GalleryCollectionIdentifier galleryIdentifier
+	) throws GalleryServiceException,
 		LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -559,7 +574,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryEntry getEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier id) throws GalleryServiceException, LoginRequiredException,
+	public GalleryEntry getEntry(
+		final SessionIdentifier sessionIdentifier,
+		final GalleryEntryIdentifier id
+	) throws GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -612,7 +630,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryGroupIdentifier getGroupByName(final SessionIdentifier sessionIdentifier, final String groupName) throws GalleryServiceException, LoginRequiredException,
+	public GalleryGroupIdentifier getGroupByName(
+		final SessionIdentifier sessionIdentifier,
+		final String groupName
+	) throws GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -708,8 +729,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public void updateEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier,
-													final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final Boolean shared) throws GalleryServiceException,
+	public void updateEntry(
+		final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier,
+		final GalleryCollectionIdentifier galleryCollectionIdentifier, final String entryName, final Long priority, final Boolean shared
+	) throws GalleryServiceException,
 		ValidationException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -738,7 +761,12 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public void updateGroup(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String groupName, final Boolean shared)
+	public void updateGroup(
+		final SessionIdentifier sessionIdentifier,
+		final GalleryGroupIdentifier galleryGroupIdentifier,
+		final String groupName,
+		final Boolean shared
+	)
 		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -764,8 +792,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public void updateCollection(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
-															 final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName, final Long prio, final Boolean shared) throws GalleryServiceException,
+	public void updateCollection(
+		final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryCollectionIdentifier,
+		final GalleryGroupIdentifier galleryGroupIdentifier, final String collectionName, final Long prio, final Boolean shared
+	) throws GalleryServiceException,
 		LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -794,7 +824,11 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public void swapEntryPrio(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifierA, final GalleryEntryIdentifier galleryEntryIdentifierB)
+	public void swapEntryPrio(
+		final SessionIdentifier sessionIdentifier,
+		final GalleryEntryIdentifier galleryEntryIdentifierA,
+		final GalleryEntryIdentifier galleryEntryIdentifierB
+	)
 		throws PermissionDeniedException, LoginRequiredException, GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -839,7 +873,10 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public void shareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException, LoginRequiredException,
+	public void shareEntry(
+		final SessionIdentifier sessionIdentifier,
+		final GalleryEntryIdentifier galleryEntryIdentifier
+	) throws PermissionDeniedException, LoginRequiredException,
 		GalleryServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {

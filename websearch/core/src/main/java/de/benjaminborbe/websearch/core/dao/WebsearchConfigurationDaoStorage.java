@@ -1,8 +1,6 @@
 package de.benjaminborbe.websearch.core.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.DaoStorage;
@@ -12,6 +10,9 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
 import de.benjaminborbe.websearch.core.util.WebsearchConfigurationActivatedPredicate;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class WebsearchConfigurationDaoStorage extends DaoStorage<WebsearchConfigurationBean, WebsearchConfigurationIdentifier> implements WebsearchConfigurationDao {
@@ -25,7 +26,8 @@ public class WebsearchConfigurationDaoStorage extends DaoStorage<WebsearchConfig
 		final Provider<WebsearchConfigurationBean> beanProvider,
 		final WebsearchConfigurationBeanMapper pageBeanMapper,
 		final CalendarUtil calendarUtil,
-		final WebsearchConfigurationIdentifierBuilder identifierBuilder) {
+		final WebsearchConfigurationIdentifierBuilder identifierBuilder
+	) {
 		super(logger, storageService, beanProvider, pageBeanMapper, identifierBuilder, calendarUtil);
 	}
 

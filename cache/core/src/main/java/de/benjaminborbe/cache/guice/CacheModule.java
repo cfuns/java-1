@@ -1,13 +1,12 @@
 package de.benjaminborbe.cache.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.cache.service.CacheServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class CacheModule extends AbstractModule {
 

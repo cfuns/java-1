@@ -1,6 +1,5 @@
 package de.benjaminborbe.analytics.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
@@ -15,6 +14,7 @@ import de.benjaminborbe.tools.util.Counter;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
+import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -65,7 +65,12 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 	private final Counter counter;
 
 	@Inject
-	public AnalyticsReportLogDaoStorage(final StorageService storageService, final MapperCalendarFixLength mapperCalendar, final ParseUtil parseUtil, final Counter counter) {
+	public AnalyticsReportLogDaoStorage(
+		final StorageService storageService,
+		final MapperCalendarFixLength mapperCalendar,
+		final ParseUtil parseUtil,
+		final Counter counter
+	) {
 		this.storageService = storageService;
 		this.mapperCalendar = mapperCalendar;
 		this.parseUtil = parseUtil;

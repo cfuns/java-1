@@ -20,17 +20,27 @@ public interface LunchService {
 
 	String PERMISSION_NOTIFICATION = "lunchNotification";
 
-	Collection<Lunch> getLunchs(SessionIdentifier sessionIdentifier, String fullname) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
+	Collection<Lunch> getLunchs(
+		SessionIdentifier sessionIdentifier,
+		String fullname
+	) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 
 	Collection<Lunch> getLunchs(SessionIdentifier sessionIdentifier) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 
-	Collection<Lunch> getLunchsArchiv(SessionIdentifier sessionIdentifier, String fullname) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
+	Collection<Lunch> getLunchsArchiv(
+		SessionIdentifier sessionIdentifier,
+		String fullname
+	) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 
 	Collection<KioskUser> getSubscribeUser(Calendar day) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 
 	Collection<KioskUser> getBookedUser(Calendar day) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 
-	void book(SessionIdentifier sessionIdentifier, Calendar day, Collection<Long> users) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
+	void book(
+		SessionIdentifier sessionIdentifier,
+		Calendar day,
+		Collection<Long> users
+	) throws LunchServiceException, LoginRequiredException, PermissionDeniedException;
 
 	boolean isNotificationActivated(UserIdentifier userIdentifier) throws LunchServiceException;
 

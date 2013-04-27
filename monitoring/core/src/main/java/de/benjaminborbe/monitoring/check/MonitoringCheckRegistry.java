@@ -1,11 +1,11 @@
 package de.benjaminborbe.monitoring.check;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.tools.registry.RegistryBase;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +19,8 @@ public class MonitoringCheckRegistry extends RegistryBase<MonitoringCheck> {
 		final MonitoringCheckHttp monitoringCheckHttp,
 		final MonitoringCheckNop monitoringCheckNop,
 		final MonitoringCheckTcp monitoringCheckTcp,
-		final MonitoringCheckRemote monitoringCheckRemote) {
+		final MonitoringCheckRemote monitoringCheckRemote
+	) {
 		add(monitoringCheckHttp);
 		add(monitoringCheckNop);
 		add(monitoringCheckTcp);

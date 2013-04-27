@@ -23,7 +23,8 @@ public class WowMouseMoveAction extends WowActionBase {
 		final VncService vncService,
 		final String name,
 		final ThreadResult<Boolean> running,
-		final ThreadResult<Coordinate> vncLocationThreadResult) {
+		final ThreadResult<Coordinate> vncLocationThreadResult
+	) {
 		this(logger, vncService, name, running, vncLocationThreadResult, 0, 0);
 	}
 
@@ -34,7 +35,8 @@ public class WowMouseMoveAction extends WowActionBase {
 		final ThreadResult<Boolean> running,
 		final ThreadResult<Coordinate> vncLocationThreadResult,
 		final int x,
-		final int y) {
+		final int y
+	) {
 		super(logger, name, running);
 		this.vncService = vncService;
 		this.logger = logger;

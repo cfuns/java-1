@@ -1,8 +1,6 @@
 package de.benjaminborbe.note.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.note.api.NoteIdentifier;
 import de.benjaminborbe.note.util.MapperNoteIdentifier;
@@ -13,6 +11,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -39,12 +39,15 @@ public class NoteBeanMapper extends MapObjectMapperAdapter<NoteBean> {
 		final MapperNoteIdentifier mapperNoteIdentifier,
 		final MapperCalendar mapperCalendar,
 		final MapperString mapperString,
-		final MapperUserIdentifier mapperUserIdentifier) {
+		final MapperUserIdentifier mapperUserIdentifier
+	) {
 		super(provider, buildMappings(mapperUserIdentifier, mapperNoteIdentifier, mapperCalendar, mapperString));
 	}
 
-	private static Collection<StringObjectMapper<NoteBean>> buildMappings(final MapperUserIdentifier mapperUserIdentifier, final MapperNoteIdentifier mapperNoteIdentifier,
-																																				final MapperCalendar mapperCalendar, final MapperString mapperString) {
+	private static Collection<StringObjectMapper<NoteBean>> buildMappings(
+		final MapperUserIdentifier mapperUserIdentifier, final MapperNoteIdentifier mapperNoteIdentifier,
+		final MapperCalendar mapperCalendar, final MapperString mapperString
+	) {
 		final List<StringObjectMapper<NoteBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<NoteBean, NoteIdentifier>(ID, mapperNoteIdentifier));
 		result.add(new StringObjectMapperAdapter<NoteBean, UserIdentifier>(OWNER, mapperUserIdentifier));

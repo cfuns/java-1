@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.url;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.util.ComparatorBase;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;

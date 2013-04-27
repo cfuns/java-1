@@ -1,15 +1,14 @@
 package de.benjaminborbe.poker.card;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.poker.api.PokerCardColor;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerCardValue;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class PokerCardIdentifierBuilder implements IdentifierBuilder<String, PokerCardIdentifier> {
 
@@ -31,12 +30,10 @@ public class PokerCardIdentifierBuilder implements IdentifierBuilder<String, Pok
 				final PokerCardValue b = parseUtil.parseEnum(PokerCardValue.class, parts[1]);
 				final PokerCardColor a = parseUtil.parseEnum(PokerCardColor.class, parts[0]);
 				return new PokerCardIdentifier(a, b);
-			}
-			catch (final ParseException e) {
+			} catch (final ParseException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
-		}
-		else {
+		} else {
 			logger.warn("parts-lenth != 2");
 		}
 		return null;

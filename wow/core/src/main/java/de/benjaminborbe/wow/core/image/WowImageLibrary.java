@@ -1,11 +1,11 @@
 package de.benjaminborbe.wow.core.image;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.image.Pixels;
 import de.benjaminborbe.tools.image.PixelsImpl;
 import de.benjaminborbe.tools.util.ResourceUtil;
 
 import javax.imageio.ImageIO;
+import javax.inject.Inject;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;

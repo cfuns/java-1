@@ -1,22 +1,21 @@
 package de.benjaminborbe.poker.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import de.benjaminborbe.poker.api.PokerCardColor;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerCardValue;
 import de.benjaminborbe.poker.card.PokerCardIdentifierBuilder;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class MapperPokerCardIdentifierListUnitTest {
 
@@ -31,7 +30,7 @@ public class MapperPokerCardIdentifierListUnitTest {
 		assertEquals(null, mapper.toString(new ArrayList<PokerCardIdentifier>()));
 		assertEquals("SPADES_TEN", mapper.toString(Arrays.asList(new PokerCardIdentifier(PokerCardColor.SPADES, PokerCardValue.TEN))));
 		assertEquals("SPADES_TEN,HEARTS_ACE",
-				mapper.toString(Arrays.asList(new PokerCardIdentifier(PokerCardColor.SPADES, PokerCardValue.TEN), new PokerCardIdentifier(PokerCardColor.HEARTS, PokerCardValue.ACE))));
+			mapper.toString(Arrays.asList(new PokerCardIdentifier(PokerCardColor.SPADES, PokerCardValue.TEN), new PokerCardIdentifier(PokerCardColor.HEARTS, PokerCardValue.ACE))));
 	}
 
 	@Test

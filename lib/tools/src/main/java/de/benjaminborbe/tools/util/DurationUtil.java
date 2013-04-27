@@ -1,7 +1,8 @@
 package de.benjaminborbe.tools.util;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
+
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton

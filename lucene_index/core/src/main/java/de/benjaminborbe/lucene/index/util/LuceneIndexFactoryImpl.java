@@ -1,12 +1,12 @@
 package de.benjaminborbe.lucene.index.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.lucene.index.config.LuceneIndexConfig;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.MMapDirectory;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;

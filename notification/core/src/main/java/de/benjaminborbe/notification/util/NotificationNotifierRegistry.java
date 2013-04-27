@@ -1,9 +1,9 @@
 package de.benjaminborbe.notification.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
 import de.benjaminborbe.tools.registry.RegistryBase;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

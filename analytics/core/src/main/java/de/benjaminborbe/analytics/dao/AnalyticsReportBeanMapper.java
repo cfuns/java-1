@@ -1,8 +1,6 @@
 package de.benjaminborbe.analytics.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.util.MapperAnalyticsReportAggregation;
@@ -13,6 +11,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -29,12 +29,15 @@ public class AnalyticsReportBeanMapper extends MapObjectMapperAdapter<AnalyticsR
 		final MapperAnalyticsReportIdentifier mapperListIdentifier,
 		final MapperString mapperString,
 		final MapperCalendar mapperCalendar,
-		final MapperAnalyticsReportAggregation mapperAnalyticsReportAggregation) {
+		final MapperAnalyticsReportAggregation mapperAnalyticsReportAggregation
+	) {
 		super(provider, buildMappings(mapperListIdentifier, mapperString, mapperCalendar, mapperAnalyticsReportAggregation));
 	}
 
-	private static Collection<StringObjectMapper<AnalyticsReportBean>> buildMappings(final MapperAnalyticsReportIdentifier mapperListIdentifier, final MapperString mapperString,
-																																									 final MapperCalendar mapperCalendar, final MapperAnalyticsReportAggregation mapperAnalyticsReportAggregation) {
+	private static Collection<StringObjectMapper<AnalyticsReportBean>> buildMappings(
+		final MapperAnalyticsReportIdentifier mapperListIdentifier, final MapperString mapperString,
+		final MapperCalendar mapperCalendar, final MapperAnalyticsReportAggregation mapperAnalyticsReportAggregation
+	) {
 		final List<StringObjectMapper<AnalyticsReportBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, AnalyticsReportIdentifier>("id", mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, String>(NAME, mapperString));

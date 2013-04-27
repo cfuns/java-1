@@ -1,6 +1,5 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
-import javax.inject.Inject;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
@@ -11,6 +10,7 @@ import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 import de.benjaminborbe.portfolio.gui.util.PortfolioGuiGalleryCollectionComparator;
 import de.benjaminborbe.website.util.UlWidget;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

@@ -1,8 +1,6 @@
 package de.benjaminborbe.virt.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -24,6 +22,8 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -49,7 +49,8 @@ public class VirtGuiServlet extends WebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
 		final CacheService cacheService,
-		final VirtService virtService) {
+		final VirtService virtService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.virtService = virtService;
 	}
@@ -60,7 +61,11 @@ public class VirtGuiServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createContentWidget(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws IOException, PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));

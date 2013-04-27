@@ -1,6 +1,5 @@
 package de.benjaminborbe.analytics.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.api.ValidationError;
@@ -12,6 +11,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

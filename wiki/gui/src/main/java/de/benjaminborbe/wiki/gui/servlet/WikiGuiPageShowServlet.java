@@ -1,8 +1,6 @@
 package de.benjaminborbe.wiki.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -33,6 +31,8 @@ import de.benjaminborbe.wiki.api.WikiServiceException;
 import de.benjaminborbe.wiki.gui.WikiGuiConstants;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -63,7 +63,8 @@ public class WikiGuiPageShowServlet extends WebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final WikiService wikiService,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.wikiService = wikiService;
 		this.urlUtil = urlUtil;

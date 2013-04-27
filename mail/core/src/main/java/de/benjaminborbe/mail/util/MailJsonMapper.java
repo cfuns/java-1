@@ -1,6 +1,5 @@
 package de.benjaminborbe.mail.util;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailDto;
@@ -10,6 +9,7 @@ import de.benjaminborbe.tools.mapper.json.JsonObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

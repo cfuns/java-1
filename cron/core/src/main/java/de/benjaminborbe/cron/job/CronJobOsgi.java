@@ -1,7 +1,8 @@
 package de.benjaminborbe.cron.job;
 
-import java.util.Date;
-
+import de.benjaminborbe.cron.CronConstants;
+import de.benjaminborbe.cron.util.CronMessageSender;
+import de.benjaminborbe.tools.date.DateUtil;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -10,10 +11,7 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.cron.CronConstants;
-import de.benjaminborbe.cron.util.CronMessageSender;
-import de.benjaminborbe.tools.date.DateUtil;
+import java.util.Date;
 
 @Singleton
 @DisallowConcurrentExecution
@@ -39,8 +37,7 @@ public class CronJobOsgi implements Job {
 		try {
 			logger.trace("execute " + name + " at " + dateUtil.dateTimeString(fireTime));
 			cronMessageSender.send(name);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.info("execute - failed job: " + name + " exception: " + e.getClass().getSimpleName(), e);
 		}
 	}

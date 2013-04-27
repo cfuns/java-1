@@ -1,8 +1,6 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -31,6 +29,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -61,7 +61,8 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 		final UrlUtil urlUtil,
 		final AuthenticationGuiLinkFactory authenticationGuiLinkFactory,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -74,7 +75,11 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, LoginRequiredException {
+	protected Widget createContentWidget(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws IOException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();

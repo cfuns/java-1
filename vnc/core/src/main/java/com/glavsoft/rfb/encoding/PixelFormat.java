@@ -183,8 +183,8 @@ public class PixelFormat {
 	@Override
 	public String toString() {
 		return "PixelFormat: [bits-per-pixel: " + String.valueOf(0xff & bitsPerPixel) + ", depth: " + String.valueOf(0xff & depth) + ", big-endian-flag: "
-				+ String.valueOf(0xff & bigEndianFlag) + ", true-color-flag: " + String.valueOf(0xff & trueColourFlag) + ", red-max: " + String.valueOf(0xffff & redMax) + ", green-max: "
-				+ String.valueOf(0xffff & greenMax) + ", blue-max: " + String.valueOf(0xffff & blueMax) + ", red-shift: " + String.valueOf(0xff & redShift) + ", green-shift: "
-				+ String.valueOf(0xff & greenShift) + ", blue-shift: " + String.valueOf(0xff & blueShift) + "]";
+			+ String.valueOf(0xff & bigEndianFlag) + ", true-color-flag: " + String.valueOf(0xff & trueColourFlag) + ", red-max: " + String.valueOf(0xffff & redMax) + ", green-max: "
+			+ String.valueOf(0xffff & greenMax) + ", blue-max: " + String.valueOf(0xffff & blueMax) + ", red-shift: " + String.valueOf(0xff & redShift) + ", green-shift: "
+			+ String.valueOf(0xff & greenShift) + ", blue-shift: " + String.valueOf(0xff & blueShift) + "]";
 	}
 }

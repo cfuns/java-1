@@ -1,6 +1,5 @@
 package de.benjaminborbe.loggly.mock;
 
-
 import de.benjaminborbe.loggly.api.LogglyService;
 
 public class LogglyServiceMock implements LogglyService {

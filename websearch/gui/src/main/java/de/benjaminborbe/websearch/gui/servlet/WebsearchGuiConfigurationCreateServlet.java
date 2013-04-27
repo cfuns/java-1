@@ -1,8 +1,6 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
@@ -40,6 +38,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -77,7 +77,8 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 		final WebsearchService websearchService,
 		final AuthorizationService authorizationService,
 		final WebsearchGuiLinkFactory websearchGuiLinkFactory,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.websearchService = websearchService;
 		this.logger = logger;
@@ -133,8 +134,10 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final String urlString, final String excludesString,
-																															 final String expireString, final String delayString, final String activatedString) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException,
+	private WebsearchConfigurationIdentifier createConfiguration(
+		final SessionIdentifier sessionIdentifier, final String urlString, final String excludesString,
+		final String expireString, final String delayString, final String activatedString
+	) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException,
 		ValidationException {
 		final List<ValidationError> errors = new ArrayList<>();
 		URL url;

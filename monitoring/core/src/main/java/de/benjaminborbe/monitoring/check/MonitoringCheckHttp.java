@@ -1,6 +1,5 @@
 package de.benjaminborbe.monitoring.check;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -25,6 +24,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMa
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -66,7 +66,8 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		final HttpDownloader httpDownloader,
 		final HttpDownloadUtil httpDownloadUtil,
 		final ParseUtil parseUtil,
-		final ValidationConstraintValidator validationConstraintValidator) {
+		final ValidationConstraintValidator validationConstraintValidator
+	) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;
@@ -95,7 +96,14 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		return check(urlString, timeout, titleMatch, contentMatch, username, password);
 	}
 
-	private MonitoringCheckResult check(final String urlString, final int timeout, final String titleMatch, final String contentMatch, final String username, final String password) {
+	private MonitoringCheckResult check(
+		final String urlString,
+		final int timeout,
+		final String titleMatch,
+		final String contentMatch,
+		final String username,
+		final String password
+	) {
 		URL url = null;
 		try {
 			url = new URL(urlString);

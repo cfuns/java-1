@@ -1,13 +1,13 @@
 package de.benjaminborbe.monitoring.gui.service;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.api.MonitoringServiceException;
 import de.benjaminborbe.monitoring.gui.MonitoringGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+
+import javax.inject.Inject;
 
 public class MonitoringGuiNavigationEntry implements NavigationEntry {
 
@@ -32,11 +32,9 @@ public class MonitoringGuiNavigationEntry implements NavigationEntry {
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
 			return monitoringService.hasMonitoringViewOrAdminPermission(sessionIdentifier);
-		}
-		catch (final LoginRequiredException e) {
+		} catch (final LoginRequiredException e) {
 			return false;
-		}
-		catch (final MonitoringServiceException e) {
+		} catch (final MonitoringServiceException e) {
 			return false;
 		}
 	}

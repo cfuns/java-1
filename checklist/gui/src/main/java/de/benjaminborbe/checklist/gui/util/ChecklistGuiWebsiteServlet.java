@@ -36,7 +36,8 @@ public abstract class ChecklistGuiWebsiteServlet extends WebsiteServlet {
 		final AuthorizationService authorizationService,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
-		final Provider<HttpContext> httpContextProvider) {
+		final Provider<HttpContext> httpContextProvider
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.authorizationService = authorizationService;
 		this.authenticationService = authenticationService;

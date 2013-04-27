@@ -1,18 +1,5 @@
 package de.benjaminborbe.website.servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.SocketException;
-import java.util.Calendar;
-import java.util.TimeZone;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.cache.api.CacheServiceException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -21,6 +8,16 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.NetUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.SocketException;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class RequestDurationWidget implements Widget {
 
@@ -38,12 +35,13 @@ public class RequestDurationWidget implements Widget {
 
 	@Inject
 	public RequestDurationWidget(
-			final Logger logger,
-			final ParseUtil parseUtil,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final NetUtil netUtil,
-			final CacheService cacheService) {
+		final Logger logger,
+		final ParseUtil parseUtil,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final NetUtil netUtil,
+		final CacheService cacheService
+	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.calendarUtil = calendarUtil;
@@ -80,8 +78,7 @@ public class RequestDurationWidget implements Widget {
 				cacheService.set("hostname", hostname);
 				return hostname;
 			}
-		}
-		catch (final CacheServiceException e) {
+		} catch (final CacheServiceException e) {
 			return "unkown";
 		}
 	}

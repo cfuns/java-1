@@ -1,10 +1,10 @@
 package de.benjaminborbe.cache.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.cache.api.CacheServiceException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 

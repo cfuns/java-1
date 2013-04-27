@@ -1,10 +1,6 @@
 package de.benjaminborbe.projectile.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.projectile.config.ProjectileConfigImpl;
@@ -16,6 +12,9 @@ import de.benjaminborbe.projectile.dao.ProjectileTeamDao;
 import de.benjaminborbe.projectile.dao.ProjectileTeamDaoStorage;
 import de.benjaminborbe.projectile.service.ProjectileServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class ProjectileModule extends AbstractModule {
 

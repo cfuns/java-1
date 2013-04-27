@@ -27,7 +27,8 @@ public class DistributedSearchResultImpl implements DistributedSearchResult {
 		final String content,
 		final Calendar date,
 		final Calendar added,
-		final Calendar updated) {
+		final Calendar updated
+	) {
 		this.index = index;
 		this.url = url;
 		this.title = title;

@@ -1,6 +1,5 @@
 package de.benjaminborbe.vnc.core.xmpp;
 
-import javax.inject.Inject;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.vnc.core.VncConstants;
@@ -8,6 +7,8 @@ import de.benjaminborbe.xmpp.api.XmppChat;
 import de.benjaminborbe.xmpp.api.XmppChatException;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class VncServiceMouseDoubleClickXmppCommand extends VncServiceXmppCommandBase implements XmppCommand {
 

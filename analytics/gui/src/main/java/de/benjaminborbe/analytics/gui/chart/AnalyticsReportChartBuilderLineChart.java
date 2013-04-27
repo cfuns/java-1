@@ -1,6 +1,5 @@
 package de.benjaminborbe.analytics.gui.chart;
 
-import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
@@ -23,6 +22,7 @@ import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.JavascriptWidget;
 import de.benjaminborbe.website.util.ListWidget;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -47,7 +47,8 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		final AnalyticsService analyticsService,
 		final ResourceUtil resourceUtil,
 		final CalendarUtil calendarUtil,
-		final AnalyticsReportChartColorGenerator analyticsReportChartColorGenerator) {
+		final AnalyticsReportChartColorGenerator analyticsReportChartColorGenerator
+	) {
 		this.analyticsService = analyticsService;
 		this.resourceUtil = resourceUtil;
 		this.calendarUtil = calendarUtil;
@@ -55,8 +56,10 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 	}
 
 	@Override
-	public Widget buildChart(final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> reportIdentifiers,
-													 final AnalyticsReportInterval selectedAnalyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException, IOException {
+	public Widget buildChart(
+		final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> reportIdentifiers,
+		final AnalyticsReportInterval selectedAnalyticsReportInterval
+	) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException, IOException {
 		try {
 			final AnalyticsReportValueListIterator reportValueIterator = analyticsService.getReportListIteratorFillMissing(sessionIdentifier, reportIdentifiers,
 				selectedAnalyticsReportInterval);
@@ -104,7 +107,11 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		return content.replace("{colors}", colors);
 	}
 
-	private String buildContent(final List<List<String>> tooltips, final List<List<String>> values, final List<AnalyticsReportIdentifier> reportIdentifiers) throws IOException,
+	private String buildContent(
+		final List<List<String>> tooltips,
+		final List<List<String>> values,
+		final List<AnalyticsReportIdentifier> reportIdentifiers
+	) throws IOException,
 		IteratorException {
 		final String content = resourceUtil.getResourceContentAsString("chart_data.js");
 		final String tooltipString = buildTooltips(tooltips, values, reportIdentifiers);
@@ -158,7 +165,11 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		return sb.toString();
 	}
 
-	private String buildTooltip(final List<String> tooltips, final List<String> values, final AnalyticsReportIdentifier analyticsReportIdentifier) throws IteratorException {
+	private String buildTooltip(
+		final List<String> tooltips,
+		final List<String> values,
+		final AnalyticsReportIdentifier analyticsReportIdentifier
+	) throws IteratorException {
 		if (tooltips.isEmpty()) {
 			return "";
 		}

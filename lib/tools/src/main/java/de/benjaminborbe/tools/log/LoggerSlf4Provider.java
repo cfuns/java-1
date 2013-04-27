@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.log;
 
+import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.inject.Provider;
 import javax.inject.Singleton;
 
 @Singleton
@@ -17,8 +17,7 @@ public class LoggerSlf4Provider implements Provider<Logger> {
 	public Logger get() {
 		if (isConsoleLog()) {
 			return loggerConsole;
-		}
-		else {
+		} else {
 			return logger;
 		}
 	}

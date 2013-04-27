@@ -1,7 +1,5 @@
 package de.benjaminborbe.navigation.gui.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -16,6 +14,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -44,7 +44,12 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 	private final AuthenticationService authenticationService;
 
 	@Inject
-	public NavigationGuiWidgetImpl(final Logger logger, final NavigationService navigationService, final UrlUtil urlUtil, final AuthenticationService authenticationService) {
+	public NavigationGuiWidgetImpl(
+		final Logger logger,
+		final NavigationService navigationService,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService
+	) {
 		this.logger = logger;
 		this.navigationService = navigationService;
 		this.urlUtil = urlUtil;

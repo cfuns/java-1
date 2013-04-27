@@ -34,7 +34,8 @@ public class HttpdownloaderGuiServlet extends WebsiteHtmlServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 	}
 

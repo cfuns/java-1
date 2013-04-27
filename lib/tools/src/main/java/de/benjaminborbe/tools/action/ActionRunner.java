@@ -20,12 +20,10 @@ public class ActionRunner {
 			if (result) {
 				action.onSuccess();
 				return;
-			}
-			else {
+			} else {
 				action.executeOnce();
 			}
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.debug(e.getClass().getName(), e);
 			action.onFailure();
 		}
@@ -41,8 +39,7 @@ public class ActionRunner {
 					action.onSuccess();
 					return;
 				}
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				logger.debug(e.getClass().getName(), e);
 				action.onFailure();
 				return;
@@ -55,8 +52,7 @@ public class ActionRunner {
 
 			try {
 				Thread.sleep(retryDelay);
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 				return;
 			}
 

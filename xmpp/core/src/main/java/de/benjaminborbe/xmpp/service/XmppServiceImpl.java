@@ -1,7 +1,5 @@
 package de.benjaminborbe.xmpp.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -15,6 +13,9 @@ import de.benjaminborbe.xmpp.connector.XmppConnector;
 import de.benjaminborbe.xmpp.connector.XmppConnectorException;
 import de.benjaminborbe.xmpp.connector.XmppUser;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class XmppServiceImpl implements XmppService {
@@ -36,7 +37,11 @@ public class XmppServiceImpl implements XmppService {
 	}
 
 	@Override
-	public void send(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final String message) throws XmppServiceException, LoginRequiredException,
+	public void send(
+		final SessionIdentifier sessionIdentifier,
+		final UserIdentifier userIdentifier,
+		final String message
+	) throws XmppServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);

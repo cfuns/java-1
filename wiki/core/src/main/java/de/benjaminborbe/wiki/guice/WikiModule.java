@@ -1,10 +1,6 @@
 package de.benjaminborbe.wiki.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.dao.WikiPageDao;
@@ -14,6 +10,9 @@ import de.benjaminborbe.wiki.dao.WikiSpaceDaoImpl;
 import de.benjaminborbe.wiki.render.WikiRendererFactory;
 import de.benjaminborbe.wiki.render.WikiRendererFactoryImpl;
 import de.benjaminborbe.wiki.service.WikiServiceImpl;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class WikiModule extends AbstractModule {
 

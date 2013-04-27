@@ -1,15 +1,14 @@
 package de.benjaminborbe.poker.util;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.poker.api.PokerCardColor;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.tools.map.MapList;
 import de.benjaminborbe.tools.util.ComparatorUtil;
+
+import javax.inject.Inject;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 public class PokerCardsFlushComparator implements Comparator<Collection<PokerCardIdentifier>> {
 
@@ -32,11 +31,9 @@ public class PokerCardsFlushComparator implements Comparator<Collection<PokerCar
 		final List<PokerCardIdentifier> listB = buildList(cardsB);
 		if (null == null && listB == null) {
 			return 0;
-		}
-		else if (listA != null && listB == null) {
+		} else if (listA != null && listB == null) {
 			return 1;
-		}
-		else if (listA == null && listB != null) {
+		} else if (listA == null && listB != null) {
 			return -1;
 		}
 		for (int i = 1; i <= 5; ++i) {

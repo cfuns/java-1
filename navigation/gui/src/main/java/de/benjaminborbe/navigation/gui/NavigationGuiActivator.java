@@ -1,6 +1,5 @@
 package de.benjaminborbe.navigation.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.gui.guice.NavigationGuiModules;
 import de.benjaminborbe.navigation.gui.servlet.NavigationGuiServlet;
@@ -10,6 +9,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

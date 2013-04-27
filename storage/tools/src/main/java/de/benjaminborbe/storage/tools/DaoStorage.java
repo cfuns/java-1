@@ -53,7 +53,8 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		final Provider<E> beanProvider,
 		final MapObjectMapper<E> mapper,
 		final IdentifierBuilder<String, I> identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.beanProvider = beanProvider;

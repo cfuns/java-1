@@ -1,12 +1,13 @@
 package de.benjaminborbe.distributed.index.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.distributed.index.DistributedIndexConstants;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+
+import javax.inject.Inject;
 
 public class DistributedIndexSearchResultMapper implements Mapper<DistributedIndexSearchResult> {
 

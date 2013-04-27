@@ -62,7 +62,8 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 		final CrawlerService crawlerService,
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.parseUtil = parseUtil;
 		this.crawlerService = crawlerService;

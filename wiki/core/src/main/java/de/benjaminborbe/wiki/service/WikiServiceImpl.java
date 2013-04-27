@@ -1,7 +1,5 @@
 package de.benjaminborbe.wiki.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
@@ -29,6 +27,8 @@ import de.benjaminborbe.wiki.render.WikiRendererFactory;
 import de.benjaminborbe.wiki.render.WikiRendererNotFoundException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -52,7 +52,8 @@ public class WikiServiceImpl implements WikiService {
 		final WikiSpaceDao wikiSpaceDao,
 		final WikiPageDao wikiPageDao,
 		final WikiRendererFactory wikiRendererFactory,
-		final ValidationExecutor validationExecutor) {
+		final ValidationExecutor validationExecutor
+	) {
 		this.logger = logger;
 		this.wikiSpaceDao = wikiSpaceDao;
 		this.wikiPageDao = wikiPageDao;
@@ -135,7 +136,11 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public WikiPageIdentifier createPage(final WikiSpaceIdentifier wikiSpaceIdentifier, final String pageTitle, final String pageContent) throws ValidationException,
+	public WikiPageIdentifier createPage(
+		final WikiSpaceIdentifier wikiSpaceIdentifier,
+		final String pageTitle,
+		final String pageContent
+	) throws ValidationException,
 		WikiServiceException {
 		try {
 			logger.debug("createPage");
@@ -174,7 +179,11 @@ public class WikiServiceImpl implements WikiService {
 	}
 
 	@Override
-	public void updatePage(final WikiPageIdentifier wikiPageIdentifier, final String pageTitle, final String pageContent) throws WikiServiceException, ValidationException {
+	public void updatePage(
+		final WikiPageIdentifier wikiPageIdentifier,
+		final String pageTitle,
+		final String pageContent
+	) throws WikiServiceException, ValidationException {
 		try {
 			logger.trace("updatePage");
 

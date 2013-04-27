@@ -1,8 +1,9 @@
 package de.benjaminborbe.task.gui.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.task.api.Task;
 import de.benjaminborbe.tools.util.ComparatorChain;
+
+import javax.inject.Inject;
 
 public class TaskComparator extends ComparatorChain<Task> {
 

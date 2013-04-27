@@ -1,9 +1,7 @@
 package de.benjaminborbe.message.dao;
 
 import com.google.common.base.Predicate;
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.message.util.MessageUtil;
 import de.benjaminborbe.storage.api.StorageException;
@@ -15,6 +13,9 @@ import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class MessageDaoStorage extends DaoStorage<MessageBean, MessageIdentifier> implements MessageDao {
@@ -37,7 +38,8 @@ public class MessageDaoStorage extends DaoStorage<MessageBean, MessageIdentifier
 		final Provider<MessageBean> beanProvider,
 		final MessageBeanMapper mapper,
 		final MessageIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.messageUtil = messageUtil;
 	}

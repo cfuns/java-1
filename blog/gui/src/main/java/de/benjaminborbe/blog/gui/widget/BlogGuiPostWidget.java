@@ -1,10 +1,5 @@
 package de.benjaminborbe.blog.gui.widget;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
@@ -18,6 +13,10 @@ import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class BlogGuiPostWidget implements Widget {
 
@@ -52,9 +51,9 @@ public class BlogGuiPostWidget implements Widget {
 		final UlWidget options = new UlWidget();
 		options.addClass("options");
 		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_UPDATE_URL, new MapParameter().add(
-				BlogGuiConstants.PARAMETER_BLOG_POST_ID, blogPost.getId().getId()), "edit"));
+			BlogGuiConstants.PARAMETER_BLOG_POST_ID, blogPost.getId().getId()), "edit"));
 		options.add(new LinkRelativWidget(urlUtil, request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_DELETE_URL, new MapParameter().add(
-				BlogGuiConstants.PARAMETER_BLOG_POST_ID, blogPost.getId().getId()), "delete"));
+			BlogGuiConstants.PARAMETER_BLOG_POST_ID, blogPost.getId().getId()), "delete"));
 		widgets.add(options);
 
 		final DivWidget div = new DivWidget(widgets);

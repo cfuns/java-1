@@ -1,11 +1,12 @@
 package de.benjaminborbe.confluence.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.confluence.config.ConfluenceConfig;
 import de.benjaminborbe.confluence.util.ConfluenceRefresher;
 import de.benjaminborbe.cron.api.CronJob;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class ConfluenceRefreshCronJob implements CronJob {

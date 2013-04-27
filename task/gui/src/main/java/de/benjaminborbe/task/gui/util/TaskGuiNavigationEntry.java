@@ -1,6 +1,5 @@
 package de.benjaminborbe.task.gui.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
@@ -8,6 +7,8 @@ import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.gui.TaskGuiConstants;
+
+import javax.inject.Inject;
 
 public class TaskGuiNavigationEntry implements NavigationEntry {
 

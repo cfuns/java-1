@@ -1,10 +1,11 @@
 package de.benjaminborbe.dhl.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.dhl.util.DhlStatusChecker;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class DhlStatusCheckCronJob implements CronJob {

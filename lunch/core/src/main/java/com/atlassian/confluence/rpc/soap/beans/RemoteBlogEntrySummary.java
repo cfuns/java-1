@@ -26,7 +26,8 @@ public class RemoteBlogEntrySummary extends com.atlassian.confluence.rpc.soap.be
 		final java.lang.String title,
 		final java.lang.String url,
 		final java.lang.String author,
-		final java.util.Calendar publishDate) {
+		final java.util.Calendar publishDate
+	) {
 		super(id, permissions, space, title, url);
 		this.author = author;
 		this.publishDate = publishDate;

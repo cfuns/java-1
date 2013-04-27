@@ -1,6 +1,5 @@
 package de.benjaminborbe.systemstatus.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.systemstatus.gui.guice.SystemstatusGuiModules;
 import de.benjaminborbe.systemstatus.gui.service.SystemstatusGuiNavigationEntry;
@@ -11,6 +10,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

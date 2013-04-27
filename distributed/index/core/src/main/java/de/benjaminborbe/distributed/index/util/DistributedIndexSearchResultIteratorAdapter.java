@@ -16,7 +16,10 @@ public class DistributedIndexSearchResultIteratorAdapter implements DistributedI
 
 	private final DistributedIndexSearchResultMapper distributedIndexSearchResultMapper;
 
-	public DistributedIndexSearchResultIteratorAdapter(final DistributedIndexSearchResultMapper distributedIndexSearchResultMapper, final StorageColumnIterator storageColumnIterator) {
+	public DistributedIndexSearchResultIteratorAdapter(
+		final DistributedIndexSearchResultMapper distributedIndexSearchResultMapper,
+		final StorageColumnIterator storageColumnIterator
+	) {
 		this.distributedIndexSearchResultMapper = distributedIndexSearchResultMapper;
 		this.storageColumnIterator = storageColumnIterator;
 	}

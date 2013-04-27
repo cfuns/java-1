@@ -1,7 +1,5 @@
 package de.benjaminborbe.kiosk.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.kiosk.KioskConstants;
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.api.KioskServiceException;
@@ -18,6 +16,8 @@ import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.mapper.MapException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -47,7 +47,8 @@ public class KioskServiceImpl implements KioskService {
 		final CalendarUtil calendarUtil,
 		final MessageService messageService,
 		final KioskDatabaseConnector kioskDatabaseConnector,
-		final KioskBookingMessageMapper kioskBookingMessageMapper) {
+		final KioskBookingMessageMapper kioskBookingMessageMapper
+	) {
 		this.logger = logger;
 		this.currentTime = currentTime;
 		this.calendarUtil = calendarUtil;

@@ -1,8 +1,6 @@
 package de.benjaminborbe.search.core.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperString;
@@ -10,6 +8,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -26,12 +26,15 @@ public class SearchQueryHistoryBeanMapper extends MapObjectMapperAdapter<SearchQ
 		final MapperSearchQueryHistoryIdentifier mapperListIdentifier,
 		final MapperString mapperString,
 		final MapperCalendar mapperCalendar,
-		final MapperUserIdentifier mapperUserIdentifier) {
+		final MapperUserIdentifier mapperUserIdentifier
+	) {
 		super(provider, buildMappings(mapperListIdentifier, mapperString, mapperCalendar, mapperUserIdentifier));
 	}
 
-	private static Collection<StringObjectMapper<SearchQueryHistoryBean>> buildMappings(final MapperSearchQueryHistoryIdentifier mapperListIdentifier,
-																																											final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperUserIdentifier mapperUserIdentifier) {
+	private static Collection<StringObjectMapper<SearchQueryHistoryBean>> buildMappings(
+		final MapperSearchQueryHistoryIdentifier mapperListIdentifier,
+		final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperUserIdentifier mapperUserIdentifier
+	) {
 		final List<StringObjectMapper<SearchQueryHistoryBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, SearchQueryHistoryIdentifier>("id", mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, UserIdentifier>("user", mapperUserIdentifier));

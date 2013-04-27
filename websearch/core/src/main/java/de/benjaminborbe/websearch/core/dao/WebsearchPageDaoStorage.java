@@ -33,7 +33,8 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 		final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction,
 		final WebsearchPageBeanMapper pageBeanMapper,
 		final WebsearchPageIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil, final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler) {
+		final CalendarUtil calendarUtil, final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler
+	) {
 		super(logger, storageService, beanProvider, pageBeanMapper, identifierBuilder, calendarUtil);
 		this.pageDaoSubPagesAction = pageDaoSubPagesAction;
 		this.websearchPageContentUpdateHandler = websearchPageContentUpdateHandler;

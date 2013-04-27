@@ -1,7 +1,6 @@
 package de.benjaminborbe.dhl.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.dao.DhlDao;
 import de.benjaminborbe.dhl.dao.DhlDaoStorage;
@@ -12,6 +11,8 @@ import de.benjaminborbe.dhl.util.DhlStatusNotifier;
 import de.benjaminborbe.dhl.util.DhlStatusNotifierImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class DhlModule extends AbstractModule {
 

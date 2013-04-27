@@ -1,11 +1,11 @@
 package de.benjaminborbe.loggly.service;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.loggly.api.LogglyService;
 import de.benjaminborbe.loggly.util.LogglyConnector;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class LogglyServiceImpl implements LogglyService {

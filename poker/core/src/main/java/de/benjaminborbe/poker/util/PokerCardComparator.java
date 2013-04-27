@@ -1,10 +1,9 @@
 package de.benjaminborbe.poker.util;
 
-import java.util.Comparator;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
 
 import javax.inject.Inject;
-
-import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import java.util.Comparator;
 
 public class PokerCardComparator implements Comparator<PokerCardIdentifier> {
 
@@ -22,8 +21,7 @@ public class PokerCardComparator implements Comparator<PokerCardIdentifier> {
 	public int compare(final PokerCardIdentifier arg0, final PokerCardIdentifier arg1) {
 		if (value.compare(arg0.getValue(), arg1.getValue()) == 0) {
 			return color.compare(arg0.getColor(), arg1.getColor());
-		}
-		else {
+		} else {
 			return value.compare(arg0.getValue(), arg1.getValue());
 		}
 	}

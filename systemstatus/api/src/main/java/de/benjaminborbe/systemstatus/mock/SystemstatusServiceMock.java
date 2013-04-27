@@ -1,11 +1,10 @@
 package de.benjaminborbe.systemstatus.mock;
 
-import java.util.Collection;
-
-
 import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
 import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
+
+import java.util.Collection;
 
 public class SystemstatusServiceMock implements SystemstatusService {
 

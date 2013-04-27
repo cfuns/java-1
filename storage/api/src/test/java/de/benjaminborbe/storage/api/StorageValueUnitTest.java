@@ -1,10 +1,10 @@
 package de.benjaminborbe.storage.api;
 
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
 
 public class StorageValueUnitTest {
 
@@ -16,7 +16,7 @@ public class StorageValueUnitTest {
 		assertFalse(new StorageValue("", encoding).isEmpty());
 		assertFalse(new StorageValue("a", encoding).isEmpty());
 		assertFalse(new StorageValue(new byte[0], encoding).isEmpty());
-		assertFalse(new StorageValue(new byte[] { 1 }, encoding).isEmpty());
+		assertFalse(new StorageValue(new byte[]{1}, encoding).isEmpty());
 	}
 
 	@Test
@@ -25,7 +25,7 @@ public class StorageValueUnitTest {
 		assertEquals(new StorageValue("", encoding).hashCode(), new StorageValue("", encoding).hashCode());
 		assertEquals(new StorageValue("a", encoding).hashCode(), new StorageValue("a", encoding).hashCode());
 		assertEquals(new StorageValue(new byte[0], encoding).hashCode(), new StorageValue(new byte[0], encoding).hashCode());
-		assertEquals(new StorageValue(new byte[] { 1 }, encoding).hashCode(), new StorageValue(new byte[] { 1 }, encoding).hashCode());
+		assertEquals(new StorageValue(new byte[]{1}, encoding).hashCode(), new StorageValue(new byte[]{1}, encoding).hashCode());
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class StorageValueUnitTest {
 		assertTrue(new StorageValue("a", encoding).equals(new StorageValue("a", encoding)));
 		assertTrue(new StorageValue("Bäm", encoding).equals(new StorageValue("Bäm", encoding)));
 		assertTrue(new StorageValue(new byte[0], encoding).equals(new StorageValue(new byte[0], encoding)));
-		assertTrue(new StorageValue(new byte[] { 1 }, encoding).equals(new StorageValue(new byte[] { 1 }, encoding)));
+		assertTrue(new StorageValue(new byte[]{1}, encoding).equals(new StorageValue(new byte[]{1}, encoding)));
 		assertEquals(new StorageValue("Bäm", encoding), new StorageValue("Bäm", encoding));
 	}
 }

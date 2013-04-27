@@ -1,11 +1,5 @@
 package de.benjaminborbe.projectile.gui.widget;
 
-import java.text.DecimalFormat;
-import java.util.Collection;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
@@ -14,6 +8,11 @@ import de.benjaminborbe.website.table.TableCellWidget;
 import de.benjaminborbe.website.table.TableRowWidget;
 import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.CompositeWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
+import java.util.Collection;
 
 public class ProjectileMultiReport extends CompositeWidget {
 
@@ -57,8 +56,8 @@ public class ProjectileMultiReport extends CompositeWidget {
 
 	private boolean hasData(final ProjectileSlacktimeReport report) {
 		return report.getWeekIntern() != null && report.getWeekIntern() > 0 || report.getWeekExtern() != null && report.getWeekExtern() > 0 || report.getMonthIntern() != null
-				&& report.getMonthIntern() > 0 || report.getMonthExtern() != null && report.getMonthExtern() > 0 || report.getYearIntern() != null && report.getYearIntern() > 0
-				|| report.getYearExtern() != null && report.getYearExtern() > 0;
+			&& report.getMonthIntern() > 0 || report.getMonthExtern() != null && report.getMonthExtern() > 0 || report.getYearIntern() != null && report.getYearIntern() > 0
+			|| report.getYearExtern() != null && report.getYearExtern() > 0;
 	}
 
 	private void addCells(final TableRowWidget row, final Double intern, final Double extern) {
@@ -84,8 +83,7 @@ public class ProjectileMultiReport extends CompositeWidget {
 				cell.addAttribute("sorttable_customkey", df.format(intern));
 				row.addCell(cell);
 			}
-		}
-		else {
+		} else {
 			row.addCell("-");
 			row.addCell("-");
 			row.addCell("-");

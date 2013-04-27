@@ -1,13 +1,14 @@
 package de.benjaminborbe.virt.core.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.virt.api.VirtService;
 import de.benjaminborbe.virt.core.dao.VirtNetworkDao;
 import de.benjaminborbe.virt.core.dao.VirtNetworkDaoStorage;
 import de.benjaminborbe.virt.core.service.VirtCoreServiceImpl;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class VirtCoreModule extends AbstractModule {
 

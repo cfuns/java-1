@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteUser implements java.io.Serializable {
 
 	private java.lang.String email;
@@ -30,7 +30,7 @@ public class RemoteUser implements java.io.Serializable {
 
 	/**
 	 * Gets the email value for this RemoteUser.
-	 * 
+	 *
 	 * @return email
 	 */
 	public java.lang.String getEmail() {
@@ -39,7 +39,7 @@ public class RemoteUser implements java.io.Serializable {
 
 	/**
 	 * Sets the email value for this RemoteUser.
-	 * 
+	 *
 	 * @param email
 	 */
 	public void setEmail(final java.lang.String email) {
@@ -48,7 +48,7 @@ public class RemoteUser implements java.io.Serializable {
 
 	/**
 	 * Gets the fullname value for this RemoteUser.
-	 * 
+	 *
 	 * @return fullname
 	 */
 	public java.lang.String getFullname() {
@@ -57,7 +57,7 @@ public class RemoteUser implements java.io.Serializable {
 
 	/**
 	 * Sets the fullname value for this RemoteUser.
-	 * 
+	 *
 	 * @param fullname
 	 */
 	public void setFullname(final java.lang.String fullname) {
@@ -66,7 +66,7 @@ public class RemoteUser implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this RemoteUser.
-	 * 
+	 *
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -75,7 +75,7 @@ public class RemoteUser implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this RemoteUser.
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(final java.lang.String name) {
@@ -84,7 +84,7 @@ public class RemoteUser implements java.io.Serializable {
 
 	/**
 	 * Gets the url value for this RemoteUser.
-	 * 
+	 *
 	 * @return url
 	 */
 	public java.lang.String getUrl() {
@@ -93,7 +93,7 @@ public class RemoteUser implements java.io.Serializable {
 
 	/**
 	 * Sets the url value for this RemoteUser.
-	 * 
+	 *
 	 * @param url
 	 */
 	public void setUrl(final java.lang.String url) {
@@ -117,9 +117,9 @@ public class RemoteUser implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.email == null && other.getEmail() == null) || (this.email != null && this.email.equals(other.getEmail())))
-				&& ((this.fullname == null && other.getFullname() == null) || (this.fullname != null && this.fullname.equals(other.getFullname())))
-				&& ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName())))
-				&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
+			&& ((this.fullname == null && other.getFullname() == null) || (this.fullname != null && this.fullname.equals(other.getFullname())))
+			&& ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName())))
+			&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -190,14 +190,22 @@ public class RemoteUser implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

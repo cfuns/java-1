@@ -43,12 +43,11 @@ public class SecurityType33State extends SecurityType37State {
 		if (0 == type)
 			// throw exception with reason
 			throw new UnsupportedSecurityTypeException(reader.readString());
-		final AuthHandler typeSelected = selectAuthHandler(new byte[] { (byte) (0xff & type) }, context.getSettings().authCapabilities);
+		final AuthHandler typeSelected = selectAuthHandler(new byte[]{(byte) (0xff & type)}, context.getSettings().authCapabilities);
 		if (typeSelected != null) {
 			setUseSecurityResult(typeSelected);
 			logger.info("Type accepted: " + typeSelected.getName());
-		}
-		else
+		} else
 			throw new UnsupportedSecurityTypeException("No security types supported. Server sent '" + type + "' security type, but we do not support it.");
 		changeStateTo(new AuthenticationState(context, typeSelected));
 	}

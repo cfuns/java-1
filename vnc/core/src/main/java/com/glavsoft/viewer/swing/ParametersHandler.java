@@ -24,13 +24,13 @@
 
 package com.glavsoft.viewer.swing;
 
-import javax.swing.JApplet;
-
 import com.glavsoft.rfb.encoding.EncodingType;
 import com.glavsoft.rfb.protocol.LocalPointer;
 import com.glavsoft.rfb.protocol.ProtocolSettings;
 import com.glavsoft.utils.Strings;
 import com.glavsoft.viewer.cli.Parser;
+
+import javax.swing.*;
 
 public class ParametersHandler {
 
@@ -87,36 +87,41 @@ public class ParametersHandler {
 		parser.addOption(ARG_PASSWORD, null, "Password to the server.");
 		parser.addOption(ARG_SHOW_CONTROLS, null, "Set to \"No\" if you want to get rid of that " + "button panel at the top. Default: \"Yes\".");
 		parser.addOption(ARG_VIEW_ONLY, null, "When set to \"Yes\", then all keyboard and mouse " + "events in the desktop window will be silently ignored and will not be passed "
-				+ "to the remote side. Default: \"No\".");
+			+ "to the remote side. Default: \"No\".");
 		parser.addOption(ARG_ALLOW_CLIPBOARD_TRANSFER, null, "When set to \"Yes\", transfer of clipboard contents is allowed. " + "Default: \"Yes\".");
 		parser
-				.addOption(
-						ARG_REMOTE_CHARSET,
-						null,
-						"Charset encoding is used on remote system. Use this option to specify character encoding will be used for encoding clipboard text content to. Default value: local system default character encoding. Set the value to 'standard' for using 'Latin-1' charset which is only specified by rfb standard for clipboard transfers.");
+			.addOption(
+				ARG_REMOTE_CHARSET,
+				null,
+				"Charset encoding is used on remote system. Use this option to specify character encoding will be used for encoding clipboard text content to. Default value: local system default character encoding. Set the value to 'standard' for using 'Latin-1' charset which is only specified by rfb standard for clipboard transfers.");
 		parser.addOption(ARG_SHARE_DESKTOP, null, "Share the connection with other clients " + "on the same VNC server. The exact behaviour in each case depends on the server "
-				+ "configuration. Default: \"Yes\".");
+			+ "configuration. Default: \"Yes\".");
 		parser.addOption(ARG_ALLOW_COPY_RECT, null, "The \"CopyRect\" encoding saves bandwidth " + "and drawing time when parts of the remote screen are moving around. "
-				+ "Most likely, you don't want to change this setting. Default: \"Yes\".");
+			+ "Most likely, you don't want to change this setting. Default: \"Yes\".");
 		parser.addOption(ARG_ENCODING, null, "The preferred encoding. Possible values: \"Tight\", " + "\"Hextile\", \"ZRLE\", and \"Raw\". Default: \"Tight\".");
 		parser.addOption(ARG_COMPRESSION_LEVEL, null, "Use specified compression level for " + "\"Tight\" and \"Zlib\" encodings. Values: 1-9. Level 1 uses minimum of CPU "
-				+ "time on the server but achieves weak compression ratios. Level 9 offers best " + "compression but may be slow.");
+			+ "time on the server but achieves weak compression ratios. Level 9 offers best " + "compression but may be slow.");
 		parser.addOption(ARG_JPEG_IMAGE_QUALITY, null,
-				"Use the specified image quality level " + "in \"Tight\" encoding. Values: 1-9, Lossless. Default value: " + (String.valueOf(ProtocolSettings.DEFAULT_JPEG_QUALITY))
-						+ ". To prevent server of using " + "lossy JPEG compression in \"Tight\" encoding, use \"Lossless\" value here.");
+			"Use the specified image quality level " + "in \"Tight\" encoding. Values: 1-9, Lossless. Default value: " + (String.valueOf(ProtocolSettings.DEFAULT_JPEG_QUALITY))
+				+ ". To prevent server of using " + "lossy JPEG compression in \"Tight\" encoding, use \"Lossless\" value here.");
 		parser.addOption(ARG_LOCAL_POINTER, null, "Possible values: on/yes/true (draw pointer locally), off/no/false (let server draw pointer), hide). " + "Default: \"On\".");
 		parser.addOption(ARG_CONVERT_TO_ASCII, null, "Whether to convert keyboard input to ASCII ignoring locale. Possible values: yes/true, no/false). " + "Default: \"No\".");
 		parser.addOption(ARG_COLOR_DEPTH, null,
-				"Bits per pixel color format. Possible values: 3 (for 8 colors), 6 (64 colors), 8 (256 colors), 16 (65 536 colors), 24 (16 777 216 colors), 32 (same as 24).");
+			"Bits per pixel color format. Possible values: 3 (for 8 colors), 6 (64 colors), 8 (256 colors), 16 (65 536 colors), 24 (16 777 216 colors), 32 (same as 24).");
 		parser.addOption(ARG_SCALING_FACTOR, null, "Scale local representation of the remote desktop on startup. "
-				+ "The value is interpreted as scaling factor in percents. The default value of 100% " + "corresponds to the original framebuffer size.");
+			+ "The value is interpreted as scaling factor in percents. The default value of 100% " + "corresponds to the original framebuffer size.");
 		parser.addOption(ARG_SSH_HOST, null, "SSH host name.");
 		parser.addOption(ARG_SSH_PORT, "0", "SSH port number. When empty, standard SSH port number (" + ConnectionParams.DEFAULT_SSH_PORT + ") is used.");
 		parser.addOption(ARG_SSH_HOST, null, "SSH user name.");
 
 	}
 
-	public static void completeSettingsFromCLI(final Parser parser, final ConnectionParams connectionParams, final ProtocolSettings rfbSettings, final UiSettings uiSettings) {
+	public static void completeSettingsFromCLI(
+		final Parser parser,
+		final ConnectionParams connectionParams,
+		final ProtocolSettings rfbSettings,
+		final UiSettings uiSettings
+	) {
 		completeSettings(new ParamsRetriever() {
 
 			@Override
@@ -150,8 +155,7 @@ public class ParametersHandler {
 			if (splitted.length > 1) {
 				connectionParams.parseRfbPortNumber(splitted[splitted.length - 1]);
 			}
-		}
-		else {
+		} else {
 			connectionParams.hostName = host;
 		}
 	}
@@ -161,7 +165,12 @@ public class ParametersHandler {
 		String getParamByName(String name);
 	}
 
-	private static void completeSettings(final ParamsRetriever pr, final ConnectionParams connectionParams, final ProtocolSettings rfbSettings, final UiSettings uiSettings) {
+	private static void completeSettings(
+		final ParamsRetriever pr,
+		final ConnectionParams connectionParams,
+		final ProtocolSettings rfbSettings,
+		final UiSettings uiSettings
+	) {
 		final String hostName = pr.getParamByName(ARG_HOST);
 		final String portNumber = pr.getParamByName(ARG_PORT);
 		final String showControlsParam = pr.getParamByName(ARG_SHOW_CONTROLS);
@@ -213,16 +222,14 @@ public class ParametersHandler {
 			if (compLevel > 0 && compLevel <= 9) {
 				rfbSettings.setCompressionLevel(compLevel);
 			}
-		}
-		catch (final NumberFormatException e) { /* nop */
+		} catch (final NumberFormatException e) { /* nop */
 		}
 		try {
 			final int jpegQuality = Integer.parseInt(jpegQualityParam);
 			if (jpegQuality > 0 && jpegQuality <= 9) {
 				rfbSettings.setJpegQuality(jpegQuality);
 			}
-		}
-		catch (final NumberFormatException e) {
+		} catch (final NumberFormatException e) {
 			if ("lossless".equalsIgnoreCase(jpegQualityParam)) {
 				rfbSettings.setJpegQuality(-Math.abs(rfbSettings.getJpegQuality()));
 			}
@@ -230,8 +237,7 @@ public class ParametersHandler {
 		try {
 			final int colorDepth = Integer.parseInt(colorDepthParam);
 			rfbSettings.setBitsPerPixel(colorDepth);
-		}
-		catch (final NumberFormatException e) { /* nop */
+		} catch (final NumberFormatException e) { /* nop */
 		}
 		if (scaleFactorParam != null) {
 			try {
@@ -239,8 +245,7 @@ public class ParametersHandler {
 				if (scaleFactor >= 10 && scaleFactor <= 200) {
 					uiSettings.setScalePercent(scaleFactor);
 				}
-			}
-			catch (final NumberFormatException e) { /* nop */
+			} catch (final NumberFormatException e) { /* nop */
 			}
 		}
 
@@ -259,7 +264,12 @@ public class ParametersHandler {
 		return defaultValue ? !("no".equalsIgnoreCase(param) || "false".equalsIgnoreCase(param)) : "yes".equalsIgnoreCase(param) || "true".equalsIgnoreCase(param);
 	}
 
-	public static void completeSettingsFromApplet(final JApplet applet, final ConnectionParams connectionParams, final ProtocolSettings rfbSettings, final UiSettings uiSettings) {
+	public static void completeSettingsFromApplet(
+		final JApplet applet,
+		final ConnectionParams connectionParams,
+		final ProtocolSettings rfbSettings,
+		final UiSettings uiSettings
+	) {
 		completeSettings(new ParamsRetriever() {
 
 			@Override

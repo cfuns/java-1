@@ -1,11 +1,10 @@
 package de.benjaminborbe.tools.util;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 @Singleton
 public class MathUtil {
@@ -19,8 +18,7 @@ public class MathUtil {
 		for (final Long n : numbers) {
 			if (result == null) {
 				result = n;
-			}
-			else {
+			} else {
 				result = Math.max(result, n);
 			}
 		}
@@ -36,8 +34,7 @@ public class MathUtil {
 		for (final Integer n : numbers) {
 			if (result == null) {
 				result = n;
-			}
-			else {
+			} else {
 				result = Math.min(result, n);
 			}
 		}
@@ -53,8 +50,7 @@ public class MathUtil {
 		for (final Integer n : numbers) {
 			if (result == null) {
 				result = n;
-			}
-			else {
+			} else {
 				result = Math.max(result, n);
 			}
 		}

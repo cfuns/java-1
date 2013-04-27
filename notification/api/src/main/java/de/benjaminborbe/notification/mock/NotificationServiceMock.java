@@ -1,10 +1,5 @@
 package de.benjaminborbe.notification.mock;
 
-import java.util.Collection;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -15,6 +10,10 @@ import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Collection;
+
 @Singleton
 public class NotificationServiceMock implements NotificationService {
 
@@ -23,13 +22,17 @@ public class NotificationServiceMock implements NotificationService {
 	}
 
 	@Override
-	public void remove(final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
-			final NotificationTypeIdentifier notificationTypeIdentifier) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
+	public void remove(
+		final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
+		final NotificationTypeIdentifier notificationTypeIdentifier
+	) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override
-	public void add(final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
-			final NotificationTypeIdentifier notificationTypeIdentifier) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
+	public void add(
+		final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
+		final NotificationTypeIdentifier notificationTypeIdentifier
+	) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override
@@ -53,8 +56,10 @@ public class NotificationServiceMock implements NotificationService {
 	}
 
 	@Override
-	public boolean isActive(final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
-			final NotificationTypeIdentifier notificationTypeIdentifier) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
+	public boolean isActive(
+		final SessionIdentifier sessionIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier,
+		final NotificationTypeIdentifier notificationTypeIdentifier
+	) throws NotificationServiceException, PermissionDeniedException, LoginRequiredException {
 		return false;
 	}
 
@@ -64,7 +69,7 @@ public class NotificationServiceMock implements NotificationService {
 
 	@Override
 	public void notify(final SessionIdentifier sessionIdentifier, final Notification notification) throws NotificationServiceException, ValidationException,
-			PermissionDeniedException, LoginRequiredException {
+		PermissionDeniedException, LoginRequiredException {
 	}
 
 }

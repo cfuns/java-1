@@ -1,9 +1,9 @@
 package de.benjaminborbe.kiosk.database;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;

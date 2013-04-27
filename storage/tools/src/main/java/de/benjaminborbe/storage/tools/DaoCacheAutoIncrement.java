@@ -1,13 +1,12 @@
 package de.benjaminborbe.storage.tools;
 
+import com.google.inject.Provider;
+import de.benjaminborbe.api.Identifier;
+import de.benjaminborbe.tools.util.IdGenerator;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
-import com.google.inject.Provider;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.api.Identifier;
-import de.benjaminborbe.tools.util.IdGenerator;
 
 @Singleton
 public abstract class DaoCacheAutoIncrement<E extends Entity<I>, I extends Identifier<String>> extends DaoCache<E, I> {

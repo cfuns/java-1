@@ -1,12 +1,12 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.portfolio.gui.util.PortfolioGuiCacheUtil;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.http.HttpFilter;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,11 @@ public class PortfolioGuiCacheFilter extends HttpFilter {
 	}
 
 	@Override
-	public void doFilter(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws IOException, ServletException {
+	public void doFilter(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final FilterChain filterChain
+	) throws IOException, ServletException {
 		try {
 			final String uri = request.getRequestURI();
 			if (portfolioGuiCacheUtil.isCacheable(request.getContextPath(), uri)) {

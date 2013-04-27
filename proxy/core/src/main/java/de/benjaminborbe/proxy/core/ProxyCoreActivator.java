@@ -1,6 +1,5 @@
 package de.benjaminborbe.proxy.core;
 
-import javax.inject.Inject;
 import de.benjaminborbe.proxy.api.ProxyService;
 import de.benjaminborbe.proxy.api.ProxyServiceException;
 import de.benjaminborbe.proxy.core.guice.ProxyCoreModules;
@@ -10,6 +9,7 @@ import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

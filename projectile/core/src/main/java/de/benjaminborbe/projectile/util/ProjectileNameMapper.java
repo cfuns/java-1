@@ -18,8 +18,7 @@ public class ProjectileNameMapper {
 		final String result;
 		if (parts != null && parts.length > 1) {
 			result = parts[parts.length - 1].substring(0, 1) + parts[0];
-		}
-		else {
+		} else {
 			result = fullname;
 		}
 		logger.trace("fullnameToLogin - fullname: " + fullname + " => " + result);

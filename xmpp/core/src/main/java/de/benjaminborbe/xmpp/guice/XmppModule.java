@@ -1,7 +1,6 @@
 package de.benjaminborbe.xmpp.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.config.XmppConfig;
@@ -10,6 +9,8 @@ import de.benjaminborbe.xmpp.connector.XmppConnector;
 import de.benjaminborbe.xmpp.connector.XmppConnectorImpl;
 import de.benjaminborbe.xmpp.service.XmppServiceImpl;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class XmppModule extends AbstractModule {
 

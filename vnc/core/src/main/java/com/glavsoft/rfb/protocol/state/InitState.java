@@ -35,22 +35,22 @@ import com.glavsoft.rfb.protocol.ProtocolSettings;
 
 /**
  * ClientInit
- * 
+ * <p/>
  * Once the client and server are sure that they're happy to talk to one
  * another, the client sends an initialisation message. At present this
  * message onl@!,@!,y consists of a boolean indicating whether the server should try
  * to share the desktop by leaving other clients connected, or give exclusive
  * access to this client by disconnecting all other clients.
- * 
+ * <p/>
  * 1 - U8 - shared-ﬂag
- * 
+ * <p/>
  * Shared-ﬂag is non-zero (true) if the server should try to share the desktop by leaving
  * other clients connected, zero (false) if it should give exclusive access to this client
  * by
  * disconnecting all other clients.
- * 
+ * <p/>
  * ServerInit
- * 
+ * <p/>
  * After receiving the ClientInit message, the server sends a ServerInit message. This
  * tells the client the width and height of the server’s framebuffer, its pixel format and
  * the

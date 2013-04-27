@@ -24,11 +24,11 @@
 
 package com.glavsoft.transport;
 
+import com.glavsoft.exceptions.TransportException;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import com.glavsoft.exceptions.TransportException;
 
 public class Writer {
 
@@ -41,8 +41,7 @@ public class Writer {
 	public void flush() throws TransportException {
 		try {
 			os.flush();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot flush output stream", e);
 		}
 	}
@@ -54,8 +53,7 @@ public class Writer {
 	public void write(final byte b) throws TransportException {
 		try {
 			os.writeByte(b);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot write byte", e);
 		}
 	}
@@ -67,8 +65,7 @@ public class Writer {
 	public void write(final short sh) throws TransportException {
 		try {
 			os.writeShort(sh);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot write short", e);
 		}
 	}
@@ -80,8 +77,7 @@ public class Writer {
 	public void writeInt64(final long i) throws TransportException {
 		try {
 			os.writeLong(i);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot write long", e);
 		}
 	}
@@ -89,8 +85,7 @@ public class Writer {
 	public void write(final int i) throws TransportException {
 		try {
 			os.writeInt(i);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot write int", e);
 		}
 	}
@@ -106,8 +101,7 @@ public class Writer {
 	public void write(final byte[] b, final int offset, final int length) throws TransportException {
 		try {
 			os.write(b, offset, length <= b.length ? length : b.length);
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			throw new TransportException("Cannot write " + length + " bytes", e);
 		}
 	}

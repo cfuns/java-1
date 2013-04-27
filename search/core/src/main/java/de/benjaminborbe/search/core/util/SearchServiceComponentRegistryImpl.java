@@ -1,9 +1,9 @@
 package de.benjaminborbe.search.core.util;
 
-import javax.inject.Singleton;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.registry.RegistryBase;
 
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -24,7 +24,6 @@ import com.glavsoft.viewer.swing.ConnectionParams;
 import com.glavsoft.viewer.swing.ParametersHandler;
 import com.glavsoft.viewer.swing.RendererImpl;
 import com.glavsoft.viewer.swing.UiSettings;
-import javax.inject.Inject;
 import de.benjaminborbe.tools.thread.Assert;
 import de.benjaminborbe.tools.thread.ThreadUtil;
 import de.benjaminborbe.vnc.core.VncConstants;
@@ -32,6 +31,7 @@ import de.benjaminborbe.vnc.core.config.VncConfig;
 import de.benjaminborbe.vnc.core.connector.VncHistory;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;

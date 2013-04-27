@@ -2,8 +2,6 @@ package de.benjaminborbe.task.gui.service;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -39,6 +37,8 @@ import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -81,7 +81,8 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 		final AuthenticationService authenticationService,
 		final TaskGuiWidgetFactory taskGuiWidgetFactory,
 		final TaskGuiLinkFactory taskGuiLinkFactory,
-		final StringUtil stringUtil) {
+		final StringUtil stringUtil
+	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.taskComparator = taskComparator;

@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteSpaceSummary implements java.io.Serializable {
 
 	private java.lang.String key;
@@ -30,7 +30,7 @@ public class RemoteSpaceSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the key value for this RemoteSpaceSummary.
-	 * 
+	 *
 	 * @return key
 	 */
 	public java.lang.String getKey() {
@@ -39,7 +39,7 @@ public class RemoteSpaceSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the key value for this RemoteSpaceSummary.
-	 * 
+	 *
 	 * @param key
 	 */
 	public void setKey(final java.lang.String key) {
@@ -48,7 +48,7 @@ public class RemoteSpaceSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this RemoteSpaceSummary.
-	 * 
+	 *
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -57,7 +57,7 @@ public class RemoteSpaceSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this RemoteSpaceSummary.
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(final java.lang.String name) {
@@ -66,7 +66,7 @@ public class RemoteSpaceSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the type value for this RemoteSpaceSummary.
-	 * 
+	 *
 	 * @return type
 	 */
 	public java.lang.String getType() {
@@ -75,7 +75,7 @@ public class RemoteSpaceSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the type value for this RemoteSpaceSummary.
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setType(final java.lang.String type) {
@@ -84,7 +84,7 @@ public class RemoteSpaceSummary implements java.io.Serializable {
 
 	/**
 	 * Gets the url value for this RemoteSpaceSummary.
-	 * 
+	 *
 	 * @return url
 	 */
 	public java.lang.String getUrl() {
@@ -93,7 +93,7 @@ public class RemoteSpaceSummary implements java.io.Serializable {
 
 	/**
 	 * Sets the url value for this RemoteSpaceSummary.
-	 * 
+	 *
 	 * @param url
 	 */
 	public void setUrl(final java.lang.String url) {
@@ -117,9 +117,9 @@ public class RemoteSpaceSummary implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.key == null && other.getKey() == null) || (this.key != null && this.key.equals(other.getKey())))
-				&& ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName())))
-				&& ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())))
-				&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
+			&& ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName())))
+			&& ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())))
+			&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -190,14 +190,22 @@ public class RemoteSpaceSummary implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

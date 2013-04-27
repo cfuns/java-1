@@ -1,9 +1,10 @@
 package de.benjaminborbe.sample.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.sample.api.SampleService;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class SampleCoreServiceImpl implements SampleService {

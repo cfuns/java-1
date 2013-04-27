@@ -1,12 +1,5 @@
 package de.benjaminborbe.projectile.gui.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-
-import javax.servlet.http.HttpServletRequest;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
@@ -14,6 +7,11 @@ import de.benjaminborbe.projectile.gui.ProjectileGuiConstants;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 
 public class ProjectileLinkFactory {
 
@@ -26,12 +24,12 @@ public class ProjectileLinkFactory {
 
 	public Widget updateTeam(final HttpServletRequest request, final ProjectileTeamIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_UPDATE, new MapParameter().add(
-				ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(id)), "rename");
+			ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(id)), "rename");
 	}
 
 	public Widget deleteTeam(final HttpServletRequest request, final ProjectileTeamIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_DELETE, new MapParameter().add(
-				ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(id)), "delete");
+			ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(id)), "delete");
 	}
 
 	public Widget createTeam(final HttpServletRequest request) throws MalformedURLException {
@@ -70,19 +68,23 @@ public class ProjectileLinkFactory {
 		return request.getContextPath() + "/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_LIST;
 	}
 
-	public Widget viewTeam(final HttpServletRequest request, final ProjectileTeamIdentifier id, final String name) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget viewTeam(
+		final HttpServletRequest request,
+		final ProjectileTeamIdentifier id,
+		final String name
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_VIEW, new MapParameter().add(
-				ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(id)), name);
+			ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(id)), name);
 	}
 
 	public Widget removeUserFromTeam(final HttpServletRequest request, final ProjectileTeamIdentifier projectileTeamIdentifier, final UserIdentifier user)
-			throws MalformedURLException, UnsupportedEncodingException {
+		throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_USER_REMOVE, new MapParameter().add(
-				ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(projectileTeamIdentifier)).add(ProjectileGuiConstants.PARAMETER_USER_ID, String.valueOf(user)), "remove");
+			ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(projectileTeamIdentifier)).add(ProjectileGuiConstants.PARAMETER_USER_ID, String.valueOf(user)), "remove");
 	}
 
 	public String viewTeamUrl(final HttpServletRequest request, final ProjectileTeamIdentifier projectileTeamIdentifier) throws UnsupportedEncodingException {
 		return urlUtil.buildUrl(request.getContextPath() + "/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_TEAM_VIEW,
-				new MapParameter().add(ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(projectileTeamIdentifier)));
+			new MapParameter().add(ProjectileGuiConstants.PARAMETER_TEAM_ID, String.valueOf(projectileTeamIdentifier)));
 	}
 }

@@ -85,7 +85,8 @@ public class WebsearchServiceImpl implements WebsearchService {
 		final IndexService indexerService,
 		final CrawlerService crawlerService,
 		final WebsearchConfigurationDao websearchConfigurationDao,
-		final DurationUtil durationUtil) {
+		final DurationUtil durationUtil
+	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.websearchRefresher = websearchRefresher;
@@ -131,7 +132,10 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public void expirePage(final SessionIdentifier sessionIdentifier, final WebsearchPageIdentifier pageIdentifier) throws WebsearchServiceException, PermissionDeniedException {
+	public void expirePage(
+		final SessionIdentifier sessionIdentifier,
+		final WebsearchPageIdentifier pageIdentifier
+	) throws WebsearchServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.expirePage"));
 
@@ -164,7 +168,10 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public void refreshPage(final SessionIdentifier sessionIdentifier, final WebsearchPageIdentifier page) throws WebsearchServiceException, PermissionDeniedException {
+	public void refreshPage(
+		final SessionIdentifier sessionIdentifier,
+		final WebsearchPageIdentifier page
+	) throws WebsearchServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.refreshPage"));
 
@@ -188,7 +195,10 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public WebsearchConfiguration getConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier)
+	public WebsearchConfiguration getConfiguration(
+		final SessionIdentifier sessionIdentifier,
+		final WebsearchConfigurationIdentifier websearchConfigurationIdentifier
+	)
 		throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -242,8 +252,10 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public WebsearchConfigurationIdentifier createConfiguration(final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes, final int expire,
-																															final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	public WebsearchConfigurationIdentifier createConfiguration(
+		final SessionIdentifier sessionIdentifier, final URL url, final List<String> excludes, final int expire,
+		final long delay, final boolean activated
+	) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
@@ -275,8 +287,10 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public void updateConfiguration(final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final URL url,
-																	final List<String> excludes, final int expire, final long delay, final boolean activated) throws WebsearchServiceException, LoginRequiredException,
+	public void updateConfiguration(
+		final SessionIdentifier sessionIdentifier, final WebsearchConfigurationIdentifier websearchConfigurationIdentifier, final URL url,
+		final List<String> excludes, final int expire, final long delay, final boolean activated
+	) throws WebsearchServiceException, LoginRequiredException,
 		PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {

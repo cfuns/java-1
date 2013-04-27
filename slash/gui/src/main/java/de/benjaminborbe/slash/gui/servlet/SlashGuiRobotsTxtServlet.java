@@ -1,8 +1,6 @@
 package de.benjaminborbe.slash.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -14,6 +12,8 @@ import de.benjaminborbe.website.servlet.WebsiteTextServlet;
 import de.benjaminborbe.website.util.ListWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
@@ -29,7 +29,8 @@ public class SlashGuiRobotsTxtServlet extends WebsiteTextServlet {
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
-		final AuthorizationService authorizationService) {
+		final AuthorizationService authorizationService
+	) {
 		super(logger, urlUtil, authenticationService, calendarUtil, timeZoneUtil, httpContextProvider, authorizationService);
 	}
 

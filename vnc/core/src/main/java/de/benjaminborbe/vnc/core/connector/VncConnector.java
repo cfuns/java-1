@@ -9,13 +9,13 @@ import com.glavsoft.rfb.client.ClientToServerMessage;
 import com.glavsoft.rfb.client.KeyEventMessage;
 import com.glavsoft.rfb.client.PointerEventMessage;
 import com.glavsoft.viewer.Viewer;
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.vnc.api.VncKey;
 import de.benjaminborbe.vnc.api.VncScreenContent;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
@@ -41,7 +41,8 @@ public class VncConnector {
 		final Provider<Viewer> viewerProvider,
 		final VncKeyTranslater vncKeyTranslater,
 		final Provider<VncScreenContent> vncScreenContentProvider,
-		final VncPointerLocation vncPointerLocation) {
+		final VncPointerLocation vncPointerLocation
+	) {
 		this.logger = logger;
 		this.viewerProvider = viewerProvider;
 		this.vncKeyTranslater = vncKeyTranslater;

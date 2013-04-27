@@ -1,18 +1,16 @@
 package de.benjaminborbe.message.gui.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-
-import javax.servlet.http.HttpServletRequest;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.message.gui.MessageGuiConstants;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 
 public class MessageGuiLinkFactory {
 
@@ -27,9 +25,12 @@ public class MessageGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_DELETE, new MapParameter(), "delete by type");
 	}
 
-	public Widget deleteMessage(final HttpServletRequest request, final MessageIdentifier messageIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget deleteMessage(
+		final HttpServletRequest request,
+		final MessageIdentifier messageIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_DELETE, new MapParameter().add(
-				MessageGuiConstants.PARAMETER_MESSAGE_ID, messageIdentifier), "delete").addConfirm("delete?");
+			MessageGuiConstants.PARAMETER_MESSAGE_ID, messageIdentifier), "delete").addConfirm("delete?");
 	}
 
 	public Widget unlockExpiredMessage(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {

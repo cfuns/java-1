@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteSpaceGroup implements java.io.Serializable {
 
 	private java.lang.String creatorName;
@@ -30,7 +30,7 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 
 	/**
 	 * Gets the creatorName value for this RemoteSpaceGroup.
-	 * 
+	 *
 	 * @return creatorName
 	 */
 	public java.lang.String getCreatorName() {
@@ -39,7 +39,7 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 
 	/**
 	 * Sets the creatorName value for this RemoteSpaceGroup.
-	 * 
+	 *
 	 * @param creatorName
 	 */
 	public void setCreatorName(final java.lang.String creatorName) {
@@ -48,7 +48,7 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 
 	/**
 	 * Gets the key value for this RemoteSpaceGroup.
-	 * 
+	 *
 	 * @return key
 	 */
 	public java.lang.String getKey() {
@@ -57,7 +57,7 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 
 	/**
 	 * Sets the key value for this RemoteSpaceGroup.
-	 * 
+	 *
 	 * @param key
 	 */
 	public void setKey(final java.lang.String key) {
@@ -66,7 +66,7 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 
 	/**
 	 * Gets the licenseKey value for this RemoteSpaceGroup.
-	 * 
+	 *
 	 * @return licenseKey
 	 */
 	public java.lang.String getLicenseKey() {
@@ -75,7 +75,7 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 
 	/**
 	 * Sets the licenseKey value for this RemoteSpaceGroup.
-	 * 
+	 *
 	 * @param licenseKey
 	 */
 	public void setLicenseKey(final java.lang.String licenseKey) {
@@ -84,7 +84,7 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this RemoteSpaceGroup.
-	 * 
+	 *
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -93,7 +93,7 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this RemoteSpaceGroup.
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(final java.lang.String name) {
@@ -117,9 +117,9 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.creatorName == null && other.getCreatorName() == null) || (this.creatorName != null && this.creatorName.equals(other.getCreatorName())))
-				&& ((this.key == null && other.getKey() == null) || (this.key != null && this.key.equals(other.getKey())))
-				&& ((this.licenseKey == null && other.getLicenseKey() == null) || (this.licenseKey != null && this.licenseKey.equals(other.getLicenseKey())))
-				&& ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName())));
+			&& ((this.key == null && other.getKey() == null) || (this.key != null && this.key.equals(other.getKey())))
+			&& ((this.licenseKey == null && other.getLicenseKey() == null) || (this.licenseKey != null && this.licenseKey.equals(other.getLicenseKey())))
+			&& ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -190,14 +190,22 @@ public class RemoteSpaceGroup implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

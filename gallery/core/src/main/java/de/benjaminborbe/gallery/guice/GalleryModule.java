@@ -1,10 +1,6 @@
 package de.benjaminborbe.gallery.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.dao.GalleryCollectionDao;
 import de.benjaminborbe.gallery.dao.GalleryCollectionDaoStorage;
@@ -16,6 +12,9 @@ import de.benjaminborbe.gallery.dao.GalleryImageDao;
 import de.benjaminborbe.gallery.dao.GalleryImageDaoStorage;
 import de.benjaminborbe.gallery.service.GalleryServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class GalleryModule extends AbstractModule {
 

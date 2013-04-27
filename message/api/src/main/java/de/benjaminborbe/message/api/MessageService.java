@@ -1,17 +1,20 @@
 package de.benjaminborbe.message.api;
 
-import java.util.Calendar;
-import java.util.Collection;
-
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+
+import java.util.Calendar;
+import java.util.Collection;
 
 public interface MessageService {
 
 	MessageIdentifier createMessageIdentifier(String id) throws MessageServiceException;
 
-	void deleteById(SessionIdentifier sessionIdentifier, MessageIdentifier messageIdentifier) throws MessageServiceException, PermissionDeniedException, LoginRequiredException;
+	void deleteById(
+		SessionIdentifier sessionIdentifier,
+		MessageIdentifier messageIdentifier
+	) throws MessageServiceException, PermissionDeniedException, LoginRequiredException;
 
 	void deleteByType(SessionIdentifier sessionIdentifier, String type) throws MessageServiceException, PermissionDeniedException, LoginRequiredException;
 

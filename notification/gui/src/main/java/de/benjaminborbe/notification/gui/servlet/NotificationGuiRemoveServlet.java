@@ -1,17 +1,6 @@
 package de.benjaminborbe.notification.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -29,6 +18,14 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class NotificationGuiRemoveServlet extends WebsiteServlet {
@@ -43,14 +40,15 @@ public class NotificationGuiRemoveServlet extends WebsiteServlet {
 
 	@Inject
 	public NotificationGuiRemoveServlet(
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final NotificationService notificationService) {
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final NotificationService notificationService
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -58,18 +56,21 @@ public class NotificationGuiRemoveServlet extends WebsiteServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
-			PermissionDeniedException, LoginRequiredException {
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final NotificationMediaIdentifier notificationMediaIdentifier = notificationService.createNotificationMediaIdentifier(request
-					.getParameter(NotificationGuiConstants.PARAMETER_MEDIA));
+				.getParameter(NotificationGuiConstants.PARAMETER_MEDIA));
 			final NotificationTypeIdentifier notificationTypeIdentifier = notificationService.createNotificationTypeIdentifier(request
-					.getParameter(NotificationGuiConstants.PARAMETER_TYPE));
+				.getParameter(NotificationGuiConstants.PARAMETER_TYPE));
 			logger.info("deactive media " + notificationMediaIdentifier + " for type " + notificationTypeIdentifier);
 			notificationService.remove(sessionIdentifier, notificationMediaIdentifier, notificationTypeIdentifier);
-		}
-		catch (final AuthenticationServiceException | NotificationServiceException e) {
+		} catch (final AuthenticationServiceException | NotificationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

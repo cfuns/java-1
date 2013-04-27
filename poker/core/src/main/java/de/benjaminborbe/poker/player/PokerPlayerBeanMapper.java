@@ -1,8 +1,6 @@
 package de.benjaminborbe.poker.player;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
@@ -18,6 +16,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -55,14 +55,21 @@ public class PokerPlayerBeanMapper extends MapObjectMapperAdapter<PokerPlayerBea
 		final MapperCalendar mapperCalendar,
 		final MapperString mapperString,
 		final MapperLong mapperLong,
-		final MapperPokerCardIdentifierList mapperPokerCardIdentifierList) {
+		final MapperPokerCardIdentifierList mapperPokerCardIdentifierList
+	) {
 		super(provider, buildMappings(mapperPokerPlayerIdentifier, mapperPokerGameIdentifier, mapperCalendar, mapperString, mapperLong, mapperPokerCardIdentifierList,
 			mapperUserIdentifierCollection));
 	}
 
-	private static Collection<StringObjectMapper<PokerPlayerBean>> buildMappings(final MapperPokerPlayerIdentifier mapperPokerPlayerIdentifier,
-																																							 final MapperPokerGameIdentifier mapperPokerGameIdentifier, final MapperCalendar mapperCalendar, final MapperString mapperString, final MapperLong mapperLong,
-																																							 final MapperPokerCardIdentifierList mapperPokerCardIdentifierList, final MapperUserIdentifierCollection mapperUserIdentifierCollection) {
+	private static Collection<StringObjectMapper<PokerPlayerBean>> buildMappings(
+		final MapperPokerPlayerIdentifier mapperPokerPlayerIdentifier,
+		final MapperPokerGameIdentifier mapperPokerGameIdentifier,
+		final MapperCalendar mapperCalendar,
+		final MapperString mapperString,
+		final MapperLong mapperLong,
+		final MapperPokerCardIdentifierList mapperPokerCardIdentifierList,
+		final MapperUserIdentifierCollection mapperUserIdentifierCollection
+	) {
 		final List<StringObjectMapper<PokerPlayerBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, PokerPlayerIdentifier>(ID, mapperPokerPlayerIdentifier));
 		result.add(new StringObjectMapperAdapter<PokerPlayerBean, PokerGameIdentifier>(GAME_ID, mapperPokerGameIdentifier));

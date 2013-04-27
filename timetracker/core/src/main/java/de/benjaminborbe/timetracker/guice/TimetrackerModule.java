@@ -1,13 +1,12 @@
 package de.benjaminborbe.timetracker.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.timetracker.connector.TimetrackerConnector;
 import de.benjaminborbe.timetracker.connector.TimetrackerConnectorImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class TimetrackerModule extends AbstractModule {
 

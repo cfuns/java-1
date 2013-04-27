@@ -1,17 +1,15 @@
 package de.benjaminborbe.website.form;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import de.benjaminborbe.html.api.HttpContext;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import de.benjaminborbe.html.api.HttpContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import static org.junit.Assert.assertEquals;
 
 public class FormCheckboxWidgetUnitTest {
 
@@ -30,7 +28,7 @@ public class FormCheckboxWidgetUnitTest {
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getParameter(name)).andReturn("").anyTimes();
-		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[] { "" }).anyTimes();
+		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[]{""}).anyTimes();
 		EasyMock.replay(request);
 
 		final FormCheckboxWidget checkbox = new FormCheckboxWidget(name);
@@ -56,7 +54,7 @@ public class FormCheckboxWidgetUnitTest {
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getParameter(name)).andReturn("").anyTimes();
-		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[] { "" }).anyTimes();
+		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[]{""}).anyTimes();
 		EasyMock.replay(request);
 
 		final FormCheckboxWidget checkbox = new FormCheckboxWidget(name);
@@ -81,7 +79,7 @@ public class FormCheckboxWidgetUnitTest {
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getParameter(name)).andReturn(value).anyTimes();
-		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[] { value }).anyTimes();
+		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[]{value}).anyTimes();
 		EasyMock.replay(request);
 
 		final FormCheckboxWidget checkbox = new FormCheckboxWidget(name);
@@ -131,7 +129,7 @@ public class FormCheckboxWidgetUnitTest {
 
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getParameter(name)).andReturn(value).anyTimes();
-		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[] { value }).anyTimes();
+		EasyMock.expect(request.getParameterValues(name)).andReturn(new String[]{value}).anyTimes();
 		EasyMock.replay(request);
 
 		final FormCheckboxWidget checkbox = new FormCheckboxWidget(name);

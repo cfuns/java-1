@@ -1,7 +1,5 @@
 package de.benjaminborbe.search.gui.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -26,6 +24,8 @@ import de.benjaminborbe.website.util.Target;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -83,7 +83,8 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		final UrlUtil urlUtil,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
-		final SearchGuiShortener searchGuiShortener) {
+		final SearchGuiShortener searchGuiShortener
+	) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.searchService = searchService;
@@ -144,8 +145,10 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		return searchDashboardWidget.getCssResource(request, response);
 	}
 
-	protected void printSearchResults(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final List<SearchResult> results,
-																		final List<String> words) throws IOException {
+	protected void printSearchResults(
+		final HttpServletRequest request, final HttpServletResponse response, final HttpContext context, final List<SearchResult> results,
+		final List<String> words
+	) throws IOException {
 		final PrintWriter out = response.getWriter();
 		out.println("<div class=\"resultcounter\">");
 		final long now = getNowAsLong();
@@ -168,7 +171,12 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 		searchDashboardWidget.render(request, response, context);
 	}
 
-	protected void printSearchResult(final HttpServletRequest request, final HttpServletResponse response, final SearchResult result, final List<String> words) throws IOException {
+	protected void printSearchResult(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final SearchResult result,
+		final List<String> words
+	) throws IOException {
 		try {
 			final List<String> escapedWords = buildEscapedWords(words);
 

@@ -1,7 +1,5 @@
 package de.benjaminborbe.index.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.distributed.search.api.DistributedSearchResult;
 import de.benjaminborbe.distributed.search.api.DistributedSearchService;
 import de.benjaminborbe.distributed.search.api.DistributedSearchServiceException;
@@ -9,6 +7,8 @@ import de.benjaminborbe.index.api.IndexSearchResult;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;

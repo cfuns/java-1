@@ -1,10 +1,6 @@
 package de.benjaminborbe.lunch.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.config.LunchConfigImpl;
@@ -14,6 +10,9 @@ import de.benjaminborbe.lunch.service.LunchServiceImpl;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnector;
 import de.benjaminborbe.lunch.wikiconnector.LunchWikiConnectorImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class LunchModule extends AbstractModule {
 

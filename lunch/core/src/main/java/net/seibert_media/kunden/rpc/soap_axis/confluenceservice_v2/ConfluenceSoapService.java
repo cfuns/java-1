@@ -12,7 +12,11 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public java.lang.String[] getPermissions(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] search(java.lang.String in0, java.lang.String in1, int in2) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] search(
+		java.lang.String in0,
+		java.lang.String in1,
+		int in2
+	) throws java.rmi.RemoteException;
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] search(java.lang.String in0, java.lang.String in1, java.util.HashMap in2, int in3)
 		throws java.rmi.RemoteException;
@@ -29,7 +33,11 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public java.lang.String login(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemotePage getPage(java.lang.String in0, java.lang.String in1, java.lang.String in2) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemotePage getPage(
+		java.lang.String in0,
+		java.lang.String in1,
+		java.lang.String in2
+	) throws java.rmi.RemoteException;
 
 	public com.atlassian.confluence.rpc.soap.beans.RemotePage getPage(java.lang.String in0, long in1) throws java.rmi.RemoteException;
 
@@ -39,10 +47,16 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment[] getAttachments(java.lang.String in0, long in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment addAttachment(java.lang.String in0, long in1, com.atlassian.confluence.rpc.soap.beans.RemoteAttachment in2,
-																																								byte[] in3) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment addAttachment(
+		java.lang.String in0, long in1, com.atlassian.confluence.rpc.soap.beans.RemoteAttachment in2,
+		byte[] in3
+	) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment addAttachment(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteAttachment in1, byte[] in2)
+	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment addAttachment(
+		java.lang.String in0,
+		com.atlassian.confluence.rpc.soap.beans.RemoteAttachment in1,
+		byte[] in2
+	)
 		throws java.rmi.RemoteException;
 
 	public boolean removeAttachment(java.lang.String in0, long in1, java.lang.String in2) throws java.rmi.RemoteException;
@@ -50,7 +64,10 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 	public com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet getContentPermissionSet(java.lang.String in0, long in1, java.lang.String in2)
 		throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet[] getContentPermissionSets(java.lang.String in0, long in1) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteContentPermissionSet[] getContentPermissionSets(
+		java.lang.String in0,
+		long in1
+	) throws java.rmi.RemoteException;
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteComment[] getComments(java.lang.String in0, long in1) throws java.rmi.RemoteException;
 
@@ -65,15 +82,29 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public boolean logout(java.lang.String in0) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment getAttachment(java.lang.String in0, long in1, java.lang.String in2, int in3) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteAttachment getAttachment(
+		java.lang.String in0,
+		long in1,
+		java.lang.String in2,
+		int in3
+	) throws java.rmi.RemoteException;
 
 	public boolean removeUser(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
 
 	public void addUser(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteUser in1, java.lang.String in2) throws java.rmi.RemoteException;
 
-	public void addUser(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteUser in1, java.lang.String in2, boolean in3) throws java.rmi.RemoteException;
+	public void addUser(
+		java.lang.String in0,
+		com.atlassian.confluence.rpc.soap.beans.RemoteUser in1,
+		java.lang.String in2,
+		boolean in3
+	) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRelatedLabels(java.lang.String in0, java.lang.String in1, int in2) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRelatedLabels(
+		java.lang.String in0,
+		java.lang.String in1,
+		int in2
+	) throws java.rmi.RemoteException;
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[] getSpaces(java.lang.String in0) throws java.rmi.RemoteException;
 
@@ -85,7 +116,12 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public com.atlassian.confluence.rpc.soap.beans.RemotePermission[] getPagePermissions(java.lang.String in0, long in1) throws java.rmi.RemoteException;
 
-	public boolean setContentPermissions(java.lang.String in0, long in1, java.lang.String in2, com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[] in3)
+	public boolean setContentPermissions(
+		java.lang.String in0,
+		long in1,
+		java.lang.String in2,
+		com.atlassian.confluence.rpc.soap.beans.RemoteContentPermission[] in3
+	)
 		throws java.rmi.RemoteException;
 
 	public boolean moveAttachment(java.lang.String in0, long in1, java.lang.String in2, long in3, java.lang.String in4) throws java.rmi.RemoteException;
@@ -93,7 +129,10 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 	public com.atlassian.confluence.rpc.soap.beans.RemoteComment editComment(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteComment in1)
 		throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getTopLevelPages(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemotePageSummary[] getTopLevelPages(
+		java.lang.String in0,
+		java.lang.String in1
+	) throws java.rmi.RemoteException;
 
 	public byte[] getAttachmentData(java.lang.String in0, long in1, java.lang.String in2, int in3) throws java.rmi.RemoteException;
 
@@ -118,11 +157,19 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRecentlyUsedLabels(java.lang.String in0, int in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRecentlyUsedLabelsInSpace(java.lang.String in0, java.lang.String in1, int in2) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRecentlyUsedLabelsInSpace(
+		java.lang.String in0,
+		java.lang.String in1,
+		int in2
+	) throws java.rmi.RemoteException;
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getMostPopularLabels(java.lang.String in0, int in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getMostPopularLabelsInSpace(java.lang.String in0, java.lang.String in1, int in2) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getMostPopularLabelsInSpace(
+		java.lang.String in0,
+		java.lang.String in1,
+		int in2
+	) throws java.rmi.RemoteException;
 
 	public boolean addGroup(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
 
@@ -140,21 +187,37 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup[] getSpaceGroups(java.lang.String in0) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRelatedLabelsInSpace(java.lang.String in0, java.lang.String in1, java.lang.String in2, int in3)
+	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getRelatedLabelsInSpace(
+		java.lang.String in0,
+		java.lang.String in1,
+		java.lang.String in2,
+		int in3
+	)
 		throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace[] getSpacesContainingContentWithLabel(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace[] getSpacesContainingContentWithLabel(
+		java.lang.String in0,
+		java.lang.String in1
+	) throws java.rmi.RemoteException;
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace[] getSpacesWithLabel(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getLabelsByDetail(java.lang.String in0, java.lang.String in1, java.lang.String in2, java.lang.String in3,
-																																								 java.lang.String in4) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteLabel[] getLabelsByDetail(
+		java.lang.String in0, java.lang.String in1, java.lang.String in2, java.lang.String in3,
+		java.lang.String in4
+	) throws java.rmi.RemoteException;
 
 	public boolean movePageToTopLevel(java.lang.String in0, long in1, java.lang.String in2) throws java.rmi.RemoteException;
 
 	public java.lang.String renderContent(java.lang.String in0, java.lang.String in1, long in2, java.lang.String in3) throws java.rmi.RemoteException;
 
-	public java.lang.String renderContent(java.lang.String in0, java.lang.String in1, long in2, java.lang.String in3, java.util.HashMap in4) throws java.rmi.RemoteException;
+	public java.lang.String renderContent(
+		java.lang.String in0,
+		java.lang.String in1,
+		long in2,
+		java.lang.String in3,
+		java.util.HashMap in4
+	) throws java.rmi.RemoteException;
 
 	public java.lang.String exportSpace(java.lang.String in0, java.lang.String in1, java.lang.String in2) throws java.rmi.RemoteException;
 
@@ -171,8 +234,10 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public java.lang.String[] getUserGroups(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemotePage updatePage(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemotePage in1,
-																																			 com.atlassian.confluence.rpc.soap.beans.RemotePageUpdateOptions in2) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemotePage updatePage(
+		java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemotePage in1,
+		com.atlassian.confluence.rpc.soap.beans.RemotePageUpdateOptions in2
+	) throws java.rmi.RemoteException;
 
 	public boolean isPluginInstalled(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
 
@@ -210,21 +275,36 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteUser[] getWatchersForSpace(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[] getSpacesInGroup(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary[] getSpacesInGroup(
+		java.lang.String in0,
+		java.lang.String in1
+	) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addSpaceWithDefaultPermissions(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1)
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addSpaceWithDefaultPermissions(
+		java.lang.String in0,
+		com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1
+	)
 		throws java.rmi.RemoteException;
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace storeSpace(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1)
 		throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup addSpaceGroup(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup in1)
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup addSpaceGroup(
+		java.lang.String in0,
+		com.atlassian.confluence.rpc.soap.beans.RemoteSpaceGroup in1
+	)
 		throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addPersonalSpaceWithDefaultPermissions(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1,
-																																																		java.lang.String in2) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addPersonalSpaceWithDefaultPermissions(
+		java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1,
+		java.lang.String in2
+	) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addPersonalSpace(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1, java.lang.String in2)
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSpace addPersonalSpace(
+		java.lang.String in0,
+		com.atlassian.confluence.rpc.soap.beans.RemoteSpace in1,
+		java.lang.String in2
+	)
 		throws java.rmi.RemoteException;
 
 	public java.lang.String[] getSpaceLevelPermissions(java.lang.String in0) throws java.rmi.RemoteException;
@@ -243,9 +323,19 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public boolean removeGlobalPermission(java.lang.String in0, java.lang.String in1, java.lang.String in2) throws java.rmi.RemoteException;
 
-	public boolean addPermissionsToSpace(java.lang.String in0, java.lang.String[] in1, java.lang.String in2, java.lang.String in3) throws java.rmi.RemoteException;
+	public boolean addPermissionsToSpace(
+		java.lang.String in0,
+		java.lang.String[] in1,
+		java.lang.String in2,
+		java.lang.String in3
+	) throws java.rmi.RemoteException;
 
-	public boolean removePermissionFromSpace(java.lang.String in0, java.lang.String in1, java.lang.String in2, java.lang.String in3) throws java.rmi.RemoteException;
+	public boolean removePermissionFromSpace(
+		java.lang.String in0,
+		java.lang.String in1,
+		java.lang.String in2,
+		java.lang.String in3
+	) throws java.rmi.RemoteException;
 
 	public boolean editUser(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteUser in1) throws java.rmi.RemoteException;
 
@@ -259,7 +349,10 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public boolean setUserInformation(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation getUserInformation(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteUserInformation getUserInformation(
+		java.lang.String in0,
+		java.lang.String in1
+	) throws java.rmi.RemoteException;
 
 	public boolean setUserPreferenceBoolean(java.lang.String in0, java.lang.String in1, java.lang.String in2, boolean in3) throws java.rmi.RemoteException;
 
@@ -269,25 +362,49 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public long getUserPreferenceLong(java.lang.String in0, java.lang.String in1, java.lang.String in2) throws java.rmi.RemoteException;
 
-	public boolean setUserPreferenceString(java.lang.String in0, java.lang.String in1, java.lang.String in2, java.lang.String in3) throws java.rmi.RemoteException;
+	public boolean setUserPreferenceString(
+		java.lang.String in0,
+		java.lang.String in1,
+		java.lang.String in2,
+		java.lang.String in3
+	) throws java.rmi.RemoteException;
 
 	public java.lang.String getUserPreferenceString(java.lang.String in0, java.lang.String in1, java.lang.String in2) throws java.rmi.RemoteException;
 
 	public boolean hasGroup(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
 
-	public boolean addProfilePicture(java.lang.String in0, java.lang.String in1, java.lang.String in2, java.lang.String in3, byte[] in4) throws java.rmi.RemoteException;
+	public boolean addProfilePicture(
+		java.lang.String in0,
+		java.lang.String in1,
+		java.lang.String in2,
+		java.lang.String in3,
+		byte[] in4
+	) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry getBlogEntryByDayAndTitle(java.lang.String in0, java.lang.String in1, int in2, java.lang.String in3)
+	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry getBlogEntryByDayAndTitle(
+		java.lang.String in0,
+		java.lang.String in1,
+		int in2,
+		java.lang.String in3
+	)
 		throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry getBlogEntryByDateAndTitle(java.lang.String in0, java.lang.String in1, int in2, int in3, int in4,
-																																														java.lang.String in5) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry getBlogEntryByDateAndTitle(
+		java.lang.String in0, java.lang.String in1, int in2, int in3, int in4,
+		java.lang.String in5
+	) throws java.rmi.RemoteException;
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry getBlogEntry(java.lang.String in0, long in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary[] getBlogEntries(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntrySummary[] getBlogEntries(
+		java.lang.String in0,
+		java.lang.String in1
+	) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry storeBlogEntry(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry in1)
+	public com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry storeBlogEntry(
+		java.lang.String in0,
+		com.atlassian.confluence.rpc.soap.beans.RemoteBlogEntry in1
+	)
 		throws java.rmi.RemoteException;
 
 	public java.lang.String exportSite(java.lang.String in0, boolean in1) throws java.rmi.RemoteException;
@@ -306,9 +423,15 @@ public interface ConfluenceSoapService extends java.rmi.Remote {
 
 	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentById(java.lang.String in0, long in1) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentByName(java.lang.String in0, java.lang.String in1) throws java.rmi.RemoteException;
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentByName(
+		java.lang.String in0,
+		java.lang.String in1
+	) throws java.rmi.RemoteException;
 
-	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentByObject(java.lang.String in0, com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1)
+	public com.atlassian.confluence.rpc.soap.beans.RemoteSearchResult[] getLabelContentByObject(
+		java.lang.String in0,
+		com.atlassian.confluence.rpc.soap.beans.RemoteLabel in1
+	)
 		throws java.rmi.RemoteException;
 
 	public boolean addLabelByName(java.lang.String in0, java.lang.String in1, long in2) throws java.rmi.RemoteException;

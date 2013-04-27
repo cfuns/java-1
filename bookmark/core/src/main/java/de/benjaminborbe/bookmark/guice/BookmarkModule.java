@@ -1,15 +1,14 @@
 package de.benjaminborbe.bookmark.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.dao.BookmarkDao;
 import de.benjaminborbe.bookmark.dao.BookmarkDaoStorage;
 import de.benjaminborbe.bookmark.service.BookmarkServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class BookmarkModule extends AbstractModule {
 

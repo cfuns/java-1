@@ -1,8 +1,5 @@
 package de.benjaminborbe.website.form;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.util.CompositeWidget;
@@ -11,8 +8,11 @@ import de.benjaminborbe.website.util.SingleTagWidget;
 import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public class FormCheckboxWidget extends CompositeWidget implements FormElementWidget, HasLabel<FormCheckboxWidget>, HasName<FormCheckboxWidget>, HasValue<FormCheckboxWidget>,
-		HasOnClick<FormCheckboxWidget> {
+	HasOnClick<FormCheckboxWidget> {
 
 	private String name;
 

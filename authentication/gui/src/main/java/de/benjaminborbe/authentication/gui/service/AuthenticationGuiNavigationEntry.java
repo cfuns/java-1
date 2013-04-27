@@ -1,11 +1,12 @@
 package de.benjaminborbe.authentication.gui.service;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+
+import javax.inject.Inject;
 
 public class AuthenticationGuiNavigationEntry implements NavigationEntry {
 

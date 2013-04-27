@@ -1,6 +1,5 @@
 package de.benjaminborbe.monitoring.check;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -26,6 +25,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringUrl;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +63,8 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 		final HttpDownloadUtil httpDownloadUtil,
 		final JSONParser jsonParser,
 		final ValidationConstraintValidator validationConstraintValidator,
-		final UrlUtil urlUtil) {
+		final UrlUtil urlUtil
+	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.httpDownloader = httpDownloader;

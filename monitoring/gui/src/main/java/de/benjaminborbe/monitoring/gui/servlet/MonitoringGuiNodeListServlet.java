@@ -1,8 +1,6 @@
 package de.benjaminborbe.monitoring.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -34,6 +32,8 @@ import de.benjaminborbe.website.widget.TooltipWidget;
 import de.benjaminborbe.website.widget.VoidWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -72,7 +72,8 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 		final MonitoringService monitoringService,
 		final UrlUtil urlUtil,
 		final MonitoringGuiLinkFactory monitoringGuiLinkFactory,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.monitoringService = monitoringService;
@@ -116,8 +117,10 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 		}
 	}
 
-	private Widget buildRows(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final MonitoringNodeTree<MonitoringNode> tree,
-													 final List<MonitoringNode> nodes) throws LoginRequiredException, MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
+	private Widget buildRows(
+		final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final MonitoringNodeTree<MonitoringNode> tree,
+		final List<MonitoringNode> nodes
+	) throws LoginRequiredException, MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
 		if (nodes.isEmpty()) {
 			return new VoidWidget();
 		}
@@ -134,7 +137,11 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 		return ul;
 	}
 
-	private Widget buildRow(final HttpServletRequest request, final SessionIdentifier sessionIdentifier, final MonitoringNode result) throws LoginRequiredException,
+	private Widget buildRow(
+		final HttpServletRequest request,
+		final SessionIdentifier sessionIdentifier,
+		final MonitoringNode result
+	) throws LoginRequiredException,
 		MonitoringServiceException, MalformedURLException, UnsupportedEncodingException {
 		final boolean isSilent = Boolean.TRUE.equals(result.getSilent());
 

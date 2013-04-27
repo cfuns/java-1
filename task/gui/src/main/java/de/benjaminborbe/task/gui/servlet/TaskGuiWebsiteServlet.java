@@ -21,7 +21,8 @@ public abstract class TaskGuiWebsiteServlet extends WebsiteServlet {
 		final AuthorizationService authorizationService,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
-		final Provider<HttpContext> httpContextProvider) {
+		final Provider<HttpContext> httpContextProvider
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 	}
 

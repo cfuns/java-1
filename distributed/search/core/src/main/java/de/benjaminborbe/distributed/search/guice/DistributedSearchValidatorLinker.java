@@ -1,8 +1,9 @@
 package de.benjaminborbe.distributed.search.guice;
 
-import javax.inject.Inject;
 import de.benjaminborbe.distributed.search.dao.DistributedSearchPageValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
+
+import javax.inject.Inject;
 
 public class DistributedSearchValidatorLinker {
 

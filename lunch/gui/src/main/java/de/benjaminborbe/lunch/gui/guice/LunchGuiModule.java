@@ -1,13 +1,12 @@
 package de.benjaminborbe.lunch.gui.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.lunch.gui.config.LunchGuiConfig;
 import de.benjaminborbe.lunch.gui.config.LunchGuiConfigImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class LunchGuiModule extends AbstractModule {
 

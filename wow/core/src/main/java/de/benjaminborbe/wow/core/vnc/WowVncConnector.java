@@ -1,11 +1,12 @@
 package de.benjaminborbe.wow.core.vnc;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceAdapter;
 import de.benjaminborbe.vnc.api.VncServiceException;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class WowVncConnector extends VncServiceAdapter {

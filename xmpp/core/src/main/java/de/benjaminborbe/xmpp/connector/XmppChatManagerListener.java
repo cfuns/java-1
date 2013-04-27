@@ -1,9 +1,10 @@
 package de.benjaminborbe.xmpp.connector;
 
-import javax.inject.Inject;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class XmppChatManagerListener implements ChatManagerListener {
 
@@ -20,7 +21,8 @@ public class XmppChatManagerListener implements ChatManagerListener {
 		final Logger logger,
 		final XmppHelpMessageListener xmppHelpMessageListener,
 		final XmppDebugMessageListener xmppDebugMessageListener,
-		final XmppExecuteMessageListener xmppExecuteMessageListener) {
+		final XmppExecuteMessageListener xmppExecuteMessageListener
+	) {
 		this.logger = logger;
 		this.xmppHelpMessageListener = xmppHelpMessageListener;
 		this.xmppDebugMessageListener = xmppDebugMessageListener;

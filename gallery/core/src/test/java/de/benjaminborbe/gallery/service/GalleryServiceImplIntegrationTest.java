@@ -1,18 +1,16 @@
 package de.benjaminborbe.gallery.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.guice.GalleryModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class GalleryServiceImplIntegrationTest {
 
@@ -34,8 +32,7 @@ public class GalleryServiceImplIntegrationTest {
 			final SessionIdentifier sessionIdentifier = null;
 			galleryService.createGroup(sessionIdentifier, groupName, false);
 			fail("ValidationException expected");
-		}
-		catch (final ValidationException e) {
+		} catch (final ValidationException e) {
 			assertNotNull(e);
 		}
 

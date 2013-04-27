@@ -1,7 +1,6 @@
 package de.benjaminborbe.performance.gui.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.mock.AnalyticsServiceMock;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -16,6 +15,8 @@ import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
+
+import javax.inject.Singleton;
 
 public class PerformanceGuiOsgiModuleMock extends AbstractModule {
 

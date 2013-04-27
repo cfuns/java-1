@@ -1,8 +1,6 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -17,6 +15,8 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +46,8 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 		final TimeZoneUtil timeZoneUtil,
 		final AuthenticationService authenticationService,
 		final Provider<HttpContext> httpContextProvider,
-		final AuthorizationService authorizationService) {
+		final AuthorizationService authorizationService
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.galleryService = galleryService;
@@ -55,7 +56,11 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException {
 		try {
 			// load image
 			final String imageId = urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_IMAGE_ID);

@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.mapper;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+
+import javax.inject.Inject;
 
 public class MapperBoolean implements Mapper<Boolean> {
 
@@ -23,8 +23,7 @@ public class MapperBoolean implements Mapper<Boolean> {
 	public Boolean fromString(final String value) {
 		try {
 			return parseUtil.parseBoolean(value);
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			return null;
 		}
 	}

@@ -1,6 +1,5 @@
 package de.benjaminborbe.systemstatus.core.service;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -18,6 +17,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintLongLE;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +44,8 @@ public class SystemstatusNonHeapMemoryFreePercentMonitoringCheck implements Moni
 		final Logger logger,
 		final SystemstatusMemoryUtil systemstatusMemoryUtil,
 		final ValidationConstraintValidator validationConstraintValidator,
-		final ParseUtil parseUtil) {
+		final ParseUtil parseUtil
+	) {
 		this.logger = logger;
 		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
 		this.validationConstraintValidator = validationConstraintValidator;

@@ -1,7 +1,5 @@
 package de.benjaminborbe.task.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -16,6 +14,8 @@ import de.benjaminborbe.tools.search.SearchUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;

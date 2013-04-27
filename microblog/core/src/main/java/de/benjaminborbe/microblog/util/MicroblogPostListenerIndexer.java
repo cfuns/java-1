@@ -1,6 +1,5 @@
 package de.benjaminborbe.microblog.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.microblog.MicroblogConstants;
@@ -10,6 +9,7 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Calendar;
 
 public class MicroblogPostListenerIndexer implements MicroblogPostListener {

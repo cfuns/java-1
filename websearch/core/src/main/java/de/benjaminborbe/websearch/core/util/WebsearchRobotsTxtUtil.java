@@ -32,7 +32,8 @@ public class WebsearchRobotsTxtUtil {
 		final Logger logger,
 		final WebsearchRobotsTxtParser websearchRobotsTxtParser,
 		final HttpDownloader httpDownloader,
-		final HttpDownloadUtil httpDownloadUtil) {
+		final HttpDownloadUtil httpDownloadUtil
+	) {
 		this.logger = logger;
 		this.websearchRobotsTxtParser = websearchRobotsTxtParser;
 		this.httpDownloader = httpDownloader;

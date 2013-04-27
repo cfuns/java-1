@@ -62,13 +62,12 @@ public class SecurityTypeState extends ProtocolState {
 
 	/**
 	 * Select apropriate security type we supporded from types which server sent
-	 * 
-	 * @param secTypes
-	 *          - byte array with security types server supported
+	 *
+	 * @param secTypes         - byte array with security types server supported
 	 * @param authCapabilities
 	 * @return {@link AuthHandler} of selected type
 	 * @throws UnsupportedSecurityTypeException
-	 *           when no security types server sent we support
+	 *          when no security types server sent we support
 	 */
 	public static AuthHandler selectAuthHandler(final byte[] secTypes, final CapabilityContainer authCapabilities) throws UnsupportedSecurityTypeException {
 		AuthHandler typeSelected = null;

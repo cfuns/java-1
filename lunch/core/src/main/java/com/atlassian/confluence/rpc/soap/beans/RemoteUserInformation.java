@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteUserInformation implements java.io.Serializable {
 
 	private java.lang.String content;
@@ -30,14 +30,15 @@ public class RemoteUserInformation implements java.io.Serializable {
 	}
 
 	public RemoteUserInformation(
-			final java.lang.String content,
-			final java.util.Calendar creationDate,
-			final java.lang.String creatorName,
-			final long id,
-			final java.util.Calendar lastModificationDate,
-			final java.lang.String lastModifierName,
-			final java.lang.String username,
-			final int version) {
+		final java.lang.String content,
+		final java.util.Calendar creationDate,
+		final java.lang.String creatorName,
+		final long id,
+		final java.util.Calendar lastModificationDate,
+		final java.lang.String lastModifierName,
+		final java.lang.String username,
+		final int version
+	) {
 		this.content = content;
 		this.creationDate = creationDate;
 		this.creatorName = creatorName;
@@ -50,7 +51,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the content value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @return content
 	 */
 	public java.lang.String getContent() {
@@ -59,7 +60,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the content value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @param content
 	 */
 	public void setContent(final java.lang.String content) {
@@ -68,7 +69,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the creationDate value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @return creationDate
 	 */
 	public java.util.Calendar getCreationDate() {
@@ -77,7 +78,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the creationDate value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @param creationDate
 	 */
 	public void setCreationDate(final java.util.Calendar creationDate) {
@@ -86,7 +87,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the creatorName value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @return creatorName
 	 */
 	public java.lang.String getCreatorName() {
@@ -95,7 +96,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the creatorName value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @param creatorName
 	 */
 	public void setCreatorName(final java.lang.String creatorName) {
@@ -104,7 +105,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @return id
 	 */
 	public long getId() {
@@ -113,7 +114,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(final long id) {
@@ -122,7 +123,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the lastModificationDate value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @return lastModificationDate
 	 */
 	public java.util.Calendar getLastModificationDate() {
@@ -131,7 +132,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the lastModificationDate value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @param lastModificationDate
 	 */
 	public void setLastModificationDate(final java.util.Calendar lastModificationDate) {
@@ -140,7 +141,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the lastModifierName value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @return lastModifierName
 	 */
 	public java.lang.String getLastModifierName() {
@@ -149,7 +150,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the lastModifierName value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @param lastModifierName
 	 */
 	public void setLastModifierName(final java.lang.String lastModifierName) {
@@ -158,7 +159,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the username value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @return username
 	 */
 	public java.lang.String getUsername() {
@@ -167,7 +168,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the username value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @param username
 	 */
 	public void setUsername(final java.lang.String username) {
@@ -176,7 +177,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Gets the version value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @return version
 	 */
 	public int getVersion() {
@@ -185,7 +186,7 @@ public class RemoteUserInformation implements java.io.Serializable {
 
 	/**
 	 * Sets the version value for this RemoteUserInformation.
-	 * 
+	 *
 	 * @param version
 	 */
 	public void setVersion(final int version) {
@@ -209,14 +210,14 @@ public class RemoteUserInformation implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true
-				&& ((this.content == null && other.getContent() == null) || (this.content != null && this.content.equals(other.getContent())))
-				&& ((this.creationDate == null && other.getCreationDate() == null) || (this.creationDate != null && this.creationDate.equals(other.getCreationDate())))
-				&& ((this.creatorName == null && other.getCreatorName() == null) || (this.creatorName != null && this.creatorName.equals(other.getCreatorName())))
-				&& this.id == other.getId()
-				&& ((this.lastModificationDate == null && other.getLastModificationDate() == null) || (this.lastModificationDate != null && this.lastModificationDate.equals(other
-						.getLastModificationDate())))
-				&& ((this.lastModifierName == null && other.getLastModifierName() == null) || (this.lastModifierName != null && this.lastModifierName.equals(other.getLastModifierName())))
-				&& ((this.username == null && other.getUsername() == null) || (this.username != null && this.username.equals(other.getUsername()))) && this.version == other.getVersion();
+			&& ((this.content == null && other.getContent() == null) || (this.content != null && this.content.equals(other.getContent())))
+			&& ((this.creationDate == null && other.getCreationDate() == null) || (this.creationDate != null && this.creationDate.equals(other.getCreationDate())))
+			&& ((this.creatorName == null && other.getCreatorName() == null) || (this.creatorName != null && this.creatorName.equals(other.getCreatorName())))
+			&& this.id == other.getId()
+			&& ((this.lastModificationDate == null && other.getLastModificationDate() == null) || (this.lastModificationDate != null && this.lastModificationDate.equals(other
+			.getLastModificationDate())))
+			&& ((this.lastModifierName == null && other.getLastModifierName() == null) || (this.lastModifierName != null && this.lastModifierName.equals(other.getLastModifierName())))
+			&& ((this.username == null && other.getUsername() == null) || (this.username != null && this.username.equals(other.getUsername()))) && this.version == other.getVersion();
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -319,14 +320,22 @@ public class RemoteUserInformation implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

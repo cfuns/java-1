@@ -1,8 +1,6 @@
 package de.benjaminborbe.monitoring.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -46,6 +44,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -91,7 +91,8 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 		final MonitoringGuiLinkFactory monitoringGuiLinkFactory,
 		final StringUtil stringUtil,
 		final ComparatorUtil comparatorUtil,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authenticationService = authenticationService;
 		this.monitoringService = monitoringService;
@@ -197,9 +198,11 @@ public class MonitoringGuiNodeUpdateServlet extends MonitoringWebsiteHtmlServlet
 		}
 	}
 
-	private void updateNode(final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier,
-													final MonitoringNodeIdentifier monitoringNodeParentIdentifier, final String name, final String checkTypeString, final Map<String, String> parameter,
-													final String activeString, final String silentString) throws ValidationException, MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+	private void updateNode(
+		final SessionIdentifier sessionIdentifier, final MonitoringNodeIdentifier monitoringNodeIdentifier,
+		final MonitoringNodeIdentifier monitoringNodeParentIdentifier, final String name, final String checkTypeString, final Map<String, String> parameter,
+		final String activeString, final String silentString
+	) throws ValidationException, MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<>();
 		final MonitoringCheckIdentifier checkType = new MonitoringCheckIdentifier(checkTypeString);
 		final boolean active = parseUtil.parseBoolean(activeString, false);

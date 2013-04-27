@@ -1,6 +1,5 @@
 package de.benjaminborbe.lunch.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -13,6 +12,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,7 +54,11 @@ public class LunchUserSettingsValidator extends ValidatorBase<LunchUserSettingsB
 	private final Logger logger;
 
 	@Inject
-	public LunchUserSettingsValidator(final Logger logger, final ValidationConstraintValidator validationConstraintValidator, final AuthenticationService authenticationService) {
+	public LunchUserSettingsValidator(
+		final Logger logger,
+		final ValidationConstraintValidator validationConstraintValidator,
+		final AuthenticationService authenticationService
+	) {
 		this.logger = logger;
 		this.validationConstraintValidator = validationConstraintValidator;
 		this.authenticationService = authenticationService;

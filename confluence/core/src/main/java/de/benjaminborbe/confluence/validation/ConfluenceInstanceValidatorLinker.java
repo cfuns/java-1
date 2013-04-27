@@ -1,7 +1,8 @@
 package de.benjaminborbe.confluence.validation;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
+
+import javax.inject.Inject;
 
 public class ConfluenceInstanceValidatorLinker {
 

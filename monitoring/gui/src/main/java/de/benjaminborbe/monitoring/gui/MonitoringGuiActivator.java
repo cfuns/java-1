@@ -1,6 +1,5 @@
 package de.benjaminborbe.monitoring.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.monitoring.gui.guice.MonitoringGuiModules;
 import de.benjaminborbe.monitoring.gui.service.MonitoringGuiNavigationEntry;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeCheckServlet;
@@ -24,6 +23,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,10 +1,6 @@
 package de.benjaminborbe.message.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.config.MessageConfig;
 import de.benjaminborbe.message.config.MessageConfigImpl;
@@ -12,6 +8,9 @@ import de.benjaminborbe.message.dao.MessageDao;
 import de.benjaminborbe.message.dao.MessageDaoStorage;
 import de.benjaminborbe.message.service.MessageServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class MessageModule extends AbstractModule {
 

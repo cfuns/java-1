@@ -78,7 +78,11 @@ public class LunchServiceMock implements LunchService {
 	}
 
 	@Override
-	public void book(final SessionIdentifier sessionIdentifier, final Calendar day, final Collection<Long> users) throws LunchServiceException, LoginRequiredException,
+	public void book(
+		final SessionIdentifier sessionIdentifier,
+		final Calendar day,
+		final Collection<Long> users
+	) throws LunchServiceException, LoginRequiredException,
 		PermissionDeniedException {
 	}
 

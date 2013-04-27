@@ -1,8 +1,6 @@
 package de.benjaminborbe.gallery.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.util.SharedPredicate;
 import de.benjaminborbe.storage.api.StorageException;
@@ -12,6 +10,9 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class GalleryCollectionDaoStorage extends DaoStorage<GalleryCollectionBean, GalleryCollectionIdentifier> implements GalleryCollectionDao {
@@ -23,7 +24,8 @@ public class GalleryCollectionDaoStorage extends DaoStorage<GalleryCollectionBea
 		final Provider<GalleryCollectionBean> beanProvider,
 		final GalleryCollectionBeanMapper mapper,
 		final GalleryCollectionIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 

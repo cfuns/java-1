@@ -1,8 +1,6 @@
 package de.benjaminborbe.confluence.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
@@ -42,6 +40,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -78,7 +78,8 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 		final ConfluenceService confluenceService,
 		final AuthorizationService authorizationService,
 		final ConfluenceGuiLinkFactory confluenceGuiLinkFactory,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.confluenceService = confluenceService;
 		this.logger = logger;
@@ -140,8 +141,10 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
-																															 final String expireString, final String sharedString, final String delayString, final String activatedString, final String owner) throws ValidationException,
+	private ConfluenceInstanceIdentifier createConfluenceIntance(
+		final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
+		final String expireString, final String sharedString, final String delayString, final String activatedString, final String owner
+	) throws ValidationException,
 		ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<ValidationError> errors = new ArrayList<>();
 		int expire = 0;

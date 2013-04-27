@@ -1,14 +1,14 @@
 package de.benjaminborbe.storage.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.config.StorageConfig;
 import de.benjaminborbe.storage.config.StorageConfigImpl;
 import de.benjaminborbe.storage.service.StorageServiceImpl;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 import de.benjaminborbe.storage.util.StorageDaoUtilImpl;
+
+import javax.inject.Singleton;
 
 public class StorageModuleMock extends AbstractModule {
 

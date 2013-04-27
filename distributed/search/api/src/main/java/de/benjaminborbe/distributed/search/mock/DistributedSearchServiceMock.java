@@ -14,7 +14,13 @@ public class DistributedSearchServiceMock implements DistributedSearchService {
 	}
 
 	@Override
-	public void addToIndex(final String index, final URL url, final String title, final String content, final Calendar date) throws DistributedSearchServiceException {
+	public void addToIndex(
+		final String index,
+		final URL url,
+		final String title,
+		final String content,
+		final Calendar date
+	) throws DistributedSearchServiceException {
 	}
 
 	@Override

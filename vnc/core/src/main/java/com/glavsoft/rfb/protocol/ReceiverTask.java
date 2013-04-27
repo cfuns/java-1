@@ -24,11 +24,6 @@
 
 package com.glavsoft.rfb.protocol;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import org.slf4j.Logger;
-
 import com.glavsoft.drawing.Renderer;
 import com.glavsoft.exceptions.CommonException;
 import com.glavsoft.exceptions.ProtocolException;
@@ -44,6 +39,10 @@ import com.glavsoft.rfb.encoding.decoder.DecodersContainer;
 import com.glavsoft.rfb.encoding.decoder.FramebufferUpdateRectangle;
 import com.glavsoft.rfb.encoding.decoder.RichCursorDecoder;
 import com.glavsoft.transport.Reader;
+import org.slf4j.Logger;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class ReceiverTask implements Runnable {
 
@@ -78,12 +77,13 @@ public class ReceiverTask implements Runnable {
 	private final Logger logger;
 
 	public ReceiverTask(
-			final Logger logger,
-			final Reader reader,
-			final IRepaintController repaintController,
-			final ClipboardController clipboardController,
-			final DecodersContainer decoders,
-			final ProtocolContext context) {
+		final Logger logger,
+		final Reader reader,
+		final IRepaintController repaintController,
+		final ClipboardController clipboardController,
+		final DecodersContainer decoders,
+		final ProtocolContext context
+	) {
 		this.logger = logger;
 		this.reader = reader;
 		this.repaintController = repaintController;
@@ -101,49 +101,45 @@ public class ReceiverTask implements Runnable {
 			try {
 				final byte messageId = reader.readByte();
 				switch (messageId) {
-				case FRAMEBUFFER_UPDATE:
-					// logger.trace("Server message: FramebufferUpdate (0)");
-					framebufferUpdateMessage();
-					break;
-				case SET_COLOR_MAP_ENTRIES:
-					logger.debug("Server message SetColorMapEntries is not implemented. Skip.");
-					setColorMapEntries();
-					break;
-				case BELL:
-					logger.trace("Server message: Bell");
-					System.out.print("\0007");
-					System.out.flush();
-					break;
-				case SERVER_CUT_TEXT:
-					logger.trace("Server message: CutText (3)");
-					serverCutText();
-					break;
-				default:
-					logger.debug("Unsupported server message. Id = " + messageId);
+					case FRAMEBUFFER_UPDATE:
+						// logger.trace("Server message: FramebufferUpdate (0)");
+						framebufferUpdateMessage();
+						break;
+					case SET_COLOR_MAP_ENTRIES:
+						logger.debug("Server message SetColorMapEntries is not implemented. Skip.");
+						setColorMapEntries();
+						break;
+					case BELL:
+						logger.trace("Server message: Bell");
+						System.out.print("\0007");
+						System.out.flush();
+						break;
+					case SERVER_CUT_TEXT:
+						logger.trace("Server message: CutText (3)");
+						serverCutText();
+						break;
+					default:
+						logger.debug("Unsupported server message. Id = " + messageId);
 				}
-			}
-			catch (final TransportException e) {
+			} catch (final TransportException e) {
 				logger.debug("Close session: " + e.getMessage());
 				if (isRunning) {
 					context.cleanUpSession("Connection closed.");
 				}
 				stopTask();
-			}
-			catch (final ProtocolException e) {
+			} catch (final ProtocolException e) {
 				logger.debug(e.getMessage());
 				if (isRunning) {
 					context.cleanUpSession(e.getMessage() + "\nConnection closed.");
 				}
 				stopTask();
-			}
-			catch (final CommonException e) {
+			} catch (final CommonException e) {
 				logger.debug(e.getMessage());
 				if (isRunning) {
 					context.cleanUpSession("Connection closed.");
 				}
 				stopTask();
-			}
-			catch (final Throwable te) {
+			} catch (final Throwable te) {
 				final StringWriter sw = new StringWriter();
 				final PrintWriter pw = new PrintWriter(sw);
 				te.printStackTrace(pw);
@@ -185,24 +181,20 @@ public class ReceiverTask implements Runnable {
 			if (decoder != null) {
 				decoder.decode(reader, renderer, rect);
 				repaintController.repaintBitmap(rect);
-			}
-			else if (rect.getEncodingType() == EncodingType.RICH_CURSOR) {
+			} else if (rect.getEncodingType() == EncodingType.RICH_CURSOR) {
 				RichCursorDecoder.getInstance().decode(reader, renderer, rect);
 				repaintController.repaintCursor();
-			}
-			else if (rect.getEncodingType() == EncodingType.CURSOR_POS) {
+			} else if (rect.getEncodingType() == EncodingType.CURSOR_POS) {
 				renderer.decodeCursorPosition(rect);
 				repaintController.repaintCursor();
-			}
-			else if (rect.getEncodingType() == EncodingType.DESKTOP_SIZE) {
+			} else if (rect.getEncodingType() == EncodingType.DESKTOP_SIZE) {
 				fullscreenFbUpdateIncrementalRequest = new FramebufferUpdateRequestMessage(0, 0, rect.width, rect.height, true);
 				synchronized (renderer) {
 					renderer = repaintController.createRenderer(reader, rect.width, rect.height, context.getPixelFormat());
 				}
 				context.sendMessage(new FramebufferUpdateRequestMessage(0, 0, rect.width, rect.height, false));
 				// repaintController.repaintCursor();
-			}
-			else
+			} else
 				throw new CommonException("Unprocessed encoding: " + rect.toString());
 		}
 		synchronized (this) {
@@ -213,8 +205,7 @@ public class ReceiverTask implements Runnable {
 				logger.trace("sent: " + pixelFormat);
 				context.sendRefreshMessage();
 				logger.trace("sent: nonincremental fb update");
-			}
-			else {
+			} else {
 				context.sendMessage(fullscreenFbUpdateIncrementalRequest);
 			}
 		}

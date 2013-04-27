@@ -1,11 +1,12 @@
 package de.benjaminborbe.dns.core.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.dns.api.DnsService;
 import de.benjaminborbe.dns.core.service.DnsCoreServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class DnsCoreModule extends AbstractModule {
 

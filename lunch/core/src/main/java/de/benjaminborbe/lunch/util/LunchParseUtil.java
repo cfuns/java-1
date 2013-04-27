@@ -1,6 +1,5 @@
 package de.benjaminborbe.lunch.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -10,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

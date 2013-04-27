@@ -51,8 +51,7 @@ public class ConfigurationDescriptionLong implements ConfigurationDescription {
 		try {
 			Long.parseLong(value);
 			return value != null;
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}

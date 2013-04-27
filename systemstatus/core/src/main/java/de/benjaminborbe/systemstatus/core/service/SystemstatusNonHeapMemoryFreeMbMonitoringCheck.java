@@ -1,6 +1,5 @@
 package de.benjaminborbe.systemstatus.core.service;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -16,6 +15,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintLongGE;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -38,7 +38,8 @@ public class SystemstatusNonHeapMemoryFreeMbMonitoringCheck implements Monitorin
 	public SystemstatusNonHeapMemoryFreeMbMonitoringCheck(
 		final SystemstatusMemoryUtil systemstatusMemoryUtil,
 		final ValidationConstraintValidator validationConstraintValidator,
-		final ParseUtil parseUtil) {
+		final ParseUtil parseUtil
+	) {
 		this.systemstatusMemoryUtil = systemstatusMemoryUtil;
 		this.validationConstraintValidator = validationConstraintValidator;
 		this.parseUtil = parseUtil;

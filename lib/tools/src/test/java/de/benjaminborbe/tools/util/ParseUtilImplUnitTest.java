@@ -1,13 +1,13 @@
 package de.benjaminborbe.tools.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import org.junit.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 public class ParseUtilImplUnitTest {
 
@@ -49,8 +49,7 @@ public class ParseUtilImplUnitTest {
 		try {
 			parseUtil.parseBoolean("doerteIstDerBeste");
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			assertNotNull(e);
 		}
 	}
@@ -78,16 +77,14 @@ public class ParseUtilImplUnitTest {
 		try {
 			parseUtil.parseEnum(TestEnum.class, "D");
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			assertNotNull(e);
 		}
 
 		try {
 			parseUtil.parseEnum(TestEnum.class, null);
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			assertNotNull(e);
 		}
 	}
@@ -109,20 +106,17 @@ public class ParseUtilImplUnitTest {
 		try {
 			parseUtil.parseURL(null);
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 		}
 		try {
 			parseUtil.parseURL("");
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 		}
 		try {
 			parseUtil.parseURL("www.google.de");
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 		}
 	}
 
@@ -150,15 +144,13 @@ public class ParseUtilImplUnitTest {
 		try {
 			parseUtil.indexOf(content, "foo");
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			assertNotNull(e);
 		}
 		try {
 			parseUtil.indexOf(content, "abc", 1);
 			fail("ParseException expected");
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			assertNotNull(e);
 		}
 	}

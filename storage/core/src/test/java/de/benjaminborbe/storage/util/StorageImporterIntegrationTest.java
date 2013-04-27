@@ -1,6 +1,13 @@
 package de.benjaminborbe.storage.util;
 
-import static org.junit.Assert.assertEquals;
+import com.google.inject.Injector;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.guice.StorageModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -8,16 +15,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.storage.config.StorageConfig;
-import de.benjaminborbe.storage.guice.StorageModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import static org.junit.Assert.assertEquals;
 
 public class StorageImporterIntegrationTest {
 
@@ -35,15 +33,12 @@ public class StorageImporterIntegrationTest {
 
 			notFound = !socket.isConnected();
 			notFound = false;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			notFound = true;
-		}
-		finally {
+		} finally {
 			try {
 				socket.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 			}
 		}
 	}
@@ -77,9 +72,9 @@ public class StorageImporterIntegrationTest {
 		final StringWriter jsonContent = new StringWriter();
 		jsonContent.append("{\n");
 		jsonContent
-				.append("\"63623334663430632d343930372d343661392d626636652d333765366635633735376338\": [[\"created\",\"1352884792199\",1352884792199], [\"id\",\"cb34f40c-4907-46a9-bf6e-37e6f5c757c8\",1352884792199], [\"modified\",\"1352884792199\",1352884792199], [\"name\",\"someday\",1352884856172000], [\"owner\",\"bborbe\",1352884792199]],\n");
+			.append("\"63623334663430632d343930372d343661392d626636652d333765366635633735376338\": [[\"created\",\"1352884792199\",1352884792199], [\"id\",\"cb34f40c-4907-46a9-bf6e-37e6f5c757c8\",1352884792199], [\"modified\",\"1352884792199\",1352884792199], [\"name\",\"someday\",1352884856172000], [\"owner\",\"bborbe\",1352884792199]],\n");
 		jsonContent
-				.append("\"62636564633435302d663834382d336538392d623134342d353036396163646333646439\": [[\"created\",\"1352312862914\",1352312862916], [\"id\",\"bcedc450-f848-3e89-b144-5069acdc3dd9\",1352312862915], [\"modified\",\"1352312862914\",1352312862921], [\"name\",\"wow\",1352312862918], [\"owner\",\"bborbe\",1352312862919]]\n");
+			.append("\"62636564633435302d663834382d336538392d623134342d353036396163646333646439\": [[\"created\",\"1352312862914\",1352312862916], [\"id\",\"bcedc450-f848-3e89-b144-5069acdc3dd9\",1352312862915], [\"modified\",\"1352312862914\",1352312862921], [\"name\",\"wow\",1352312862918], [\"owner\",\"bborbe\",1352312862919]]\n");
 		jsonContent.append("}\n");
 
 		importer.importJson(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, jsonContent.toString());

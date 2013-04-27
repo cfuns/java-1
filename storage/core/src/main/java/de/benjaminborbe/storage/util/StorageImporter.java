@@ -1,9 +1,9 @@
 package de.benjaminborbe.storage.util;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.util.Map.Entry;
-
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONParseException;
+import de.benjaminborbe.tools.json.JSONParser;
 import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ColumnParent;
@@ -15,11 +15,9 @@ import org.apache.thrift.TException;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
-
-import de.benjaminborbe.tools.json.JSONArray;
-import de.benjaminborbe.tools.json.JSONObject;
-import de.benjaminborbe.tools.json.JSONParseException;
-import de.benjaminborbe.tools.json.JSONParser;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.util.Map.Entry;
 
 public class StorageImporter {
 
@@ -36,8 +34,12 @@ public class StorageImporter {
 		this.jsonParser = jsonParser;
 	}
 
-	public void importJson(final String keySpace, final String columnFamily, final String jsonContent) throws StorageConnectionPoolException, InvalidRequestException, TException,
-			UnsupportedEncodingException, UnavailableException, TimedOutException, JSONParseException {
+	public void importJson(
+		final String keySpace,
+		final String columnFamily,
+		final String jsonContent
+	) throws StorageConnectionPoolException, InvalidRequestException, TException,
+		UnsupportedEncodingException, UnavailableException, TimedOutException, JSONParseException {
 		StorageConnection connection = null;
 		try {
 			connection = storageConnectionPool.getConnection();
@@ -79,8 +81,7 @@ public class StorageImporter {
 				}
 			}
 
-		}
-		finally {
+		} finally {
 			storageConnectionPool.releaseConnection(connection);
 		}
 	}

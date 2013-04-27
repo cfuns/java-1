@@ -1,8 +1,9 @@
 package de.benjaminborbe.websearch.core.guice;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
 import de.benjaminborbe.websearch.core.dao.WebsearchConfigurationValidator;
+
+import javax.inject.Inject;
 
 public class WebsearchValidatorLinker {
 

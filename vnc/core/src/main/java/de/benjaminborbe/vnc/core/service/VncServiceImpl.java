@@ -1,7 +1,5 @@
 package de.benjaminborbe.vnc.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.vnc.api.VncKey;
 import de.benjaminborbe.vnc.api.VncKeyParseException;
 import de.benjaminborbe.vnc.api.VncKeyParser;
@@ -16,6 +14,8 @@ import de.benjaminborbe.vnc.core.connector.VncKeyTranslaterException;
 import de.benjaminborbe.vnc.core.util.VncAutoConnector;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 
@@ -38,7 +38,8 @@ public class VncServiceImpl implements VncService {
 		final VncConnector vncConnector,
 		final VncAutoConnector vncAutoConnector,
 		final VncStoreImageContentAction vncStoreImageContentAction,
-		final VncKeyParser vncKeyParser) {
+		final VncKeyParser vncKeyParser
+	) {
 		this.logger = logger;
 		this.vncConnector = vncConnector;
 		this.vncAutoConnector = vncAutoConnector;

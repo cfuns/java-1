@@ -1,19 +1,6 @@
 package de.benjaminborbe.poker.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.List;
-
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
@@ -28,6 +15,17 @@ import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.config.PokerConfig;
 import de.benjaminborbe.poker.guice.PokerModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class PokerServiceImplIntegrationTest {
 
@@ -135,8 +133,7 @@ public class PokerServiceImplIntegrationTest {
 		try {
 			service.startGame(gameIdentifier);
 			fail("ValidationException expected");
-		}
-		catch (final ValidationException e) {
+		} catch (final ValidationException e) {
 			assertNotNull(e);
 		}
 
@@ -150,8 +147,7 @@ public class PokerServiceImplIntegrationTest {
 		try {
 			service.startGame(gameIdentifier);
 			fail("ValidationException expected");
-		}
-		catch (final ValidationException e) {
+		} catch (final ValidationException e) {
 			assertNotNull(e);
 		}
 
@@ -452,8 +448,7 @@ public class PokerServiceImplIntegrationTest {
 			try {
 				service.raise(gameIdentifier, activePlayer, 1001l);
 				fail("ValidationException expected");
-			}
-			catch (final ValidationException e) {
+			} catch (final ValidationException e) {
 				assertNotNull(e);
 			}
 		}

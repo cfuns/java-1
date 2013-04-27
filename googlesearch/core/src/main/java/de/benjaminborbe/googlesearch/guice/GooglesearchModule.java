@@ -1,13 +1,12 @@
 package de.benjaminborbe.googlesearch.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.googlesearch.api.GooglesearchService;
 import de.benjaminborbe.googlesearch.service.GooglesearchServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class GooglesearchModule extends AbstractModule {
 

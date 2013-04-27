@@ -63,7 +63,8 @@ public class MouseEventListener extends MouseInputAdapter implements MouseWheelL
 		final VncPointerLocation vncPointerLocation,
 		final IRepaintController repaintController,
 		final ProtocolContext context,
-		final double scaleFactor) {
+		final double scaleFactor
+	) {
 		this.logger = logger;
 		this.vncPointerLocation = vncPointerLocation;
 		this.repaintController = repaintController;

@@ -50,7 +50,8 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 		final String columnFamily,
 		final String encoding,
 		final StorageValue id,
-		final boolean reversed) throws UnsupportedEncodingException {
+		final boolean reversed
+	) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.encoding = encoding;

@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>de.benjaminborbe</groupId>
@@ -10,8 +11,11 @@
 	<description>Benjamin Borbe - Bridge - War - Devel</description>
 	<packaging>war</packaging>
 	<properties>
-		<includeArtifactIds> org.apache.felix.http.bridge, org.apache.felix.metatype, org.apache.felix.webconsole, org.apache.felix.prefs, org.apache.felix.scr, org.apache.felix.configadmin,
-			org.apache.felix.log, org.apache.felix.shell.remote, org.apache.felix.shell, org.apache.felix.bundlerepository, org.osgi.service.obr, de.benjaminborbe.meta.devel</includeArtifactIds>
+		<includeArtifactIds>org.apache.felix.http.bridge, org.apache.felix.metatype, org.apache.felix.webconsole, org.apache.felix.prefs, org.apache.felix.scr,
+			org.apache.felix.configadmin,
+			org.apache.felix.log, org.apache.felix.shell.remote, org.apache.felix.shell, org.apache.felix.bundlerepository, org.osgi.service.obr,
+			de.benjaminborbe.meta.devel
+		</includeArtifactIds>
 	</properties>
 	<build>
 		<finalName>bridge</finalName>

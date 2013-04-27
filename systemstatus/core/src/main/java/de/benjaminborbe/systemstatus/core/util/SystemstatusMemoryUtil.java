@@ -1,9 +1,9 @@
 package de.benjaminborbe.systemstatus.core.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.systemstatus.api.SystemstatusMemoryUsage;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;

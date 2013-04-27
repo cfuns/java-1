@@ -9,6 +9,7 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Window;
+
 import javax.inject.Inject;
 
 public class PokerConnector {
@@ -41,14 +42,12 @@ public class PokerConnector {
 							final JSONValue value = jsonObject.get("gameActivePlayer");
 							Window.alert("ActivePlayer: " + value.isString().stringValue());
 						}
-					}
-					else {
+					} else {
 						Window.alert("Received HTTP status code other than 200 : " + response.getStatusText());
 					}
 				}
 			});
-		}
-		catch (final RequestException e) {
+		} catch (final RequestException e) {
 			// Couldn't connect to server
 			Window.alert(e.getMessage());
 		}

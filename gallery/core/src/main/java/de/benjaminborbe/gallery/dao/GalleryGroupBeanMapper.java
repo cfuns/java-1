@@ -1,8 +1,6 @@
 package de.benjaminborbe.gallery.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.util.MapperGalleryGroupIdentifier;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
@@ -12,6 +10,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -26,12 +26,15 @@ public class GalleryGroupBeanMapper extends MapObjectMapperAdapter<GalleryGroupB
 		final MapperGalleryGroupIdentifier mapperGalleryGroupIdentifier,
 		final MapperString mapperString,
 		final MapperBoolean mapperBoolean,
-		final MapperCalendar mapperCalendar) {
+		final MapperCalendar mapperCalendar
+	) {
 		super(provider, buildMappings(mapperGalleryGroupIdentifier, mapperString, mapperBoolean, mapperCalendar));
 	}
 
-	private static Collection<StringObjectMapper<GalleryGroupBean>> buildMappings(final MapperGalleryGroupIdentifier mapperGalleryGroupIdentifier, final MapperString mapperString,
-																																								final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar) {
+	private static Collection<StringObjectMapper<GalleryGroupBean>> buildMappings(
+		final MapperGalleryGroupIdentifier mapperGalleryGroupIdentifier, final MapperString mapperString,
+		final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar
+	) {
 		final List<StringObjectMapper<GalleryGroupBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<GalleryGroupBean, GalleryGroupIdentifier>("id", mapperGalleryGroupIdentifier));
 		result.add(new StringObjectMapperAdapter<GalleryGroupBean, String>("name", mapperString));

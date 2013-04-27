@@ -31,14 +31,14 @@ import com.glavsoft.rfb.protocol.ProtocolSettings;
 
 /**
  * Server Interaction Capabilities Message (protocol versions 3.7t, 3.8t)
- * 
+ * <p/>
  * If TightVNC protocol extensions are enabled, the server informs the client
  * what message types it supports in addition to ones defined in the standard
  * RFB protocol.
  * Also, the server sends the list of all supported encodings (note that it's
  * not necessary to advertise the "raw" encoding sinse it MUST be supported in
  * RFB 3.x protocols).
- * 
+ * <p/>
  * This data immediately follows the server initialisation message.
  */
 public class InitTightState extends InitState {

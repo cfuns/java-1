@@ -1,20 +1,18 @@
 package com.glavsoft.viewer.swing.gui;
 
+import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.PlainDocument;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.PlainDocument;
-
 /**
  * @author dime at tightvnc.com
- * 
+ *         <p/>
  *         Using idea by Thomas Bierhance from http://www.orbital-computer.de/JComboBox/
  */
 public class AutoCompletionComboEditorDocument extends PlainDocument {
@@ -87,8 +85,7 @@ public class AutoCompletionComboEditorDocument extends PlainDocument {
 		try {
 			super.remove(0, getLength());
 			super.insertString(0, text, null);
-		}
-		catch (final BadLocationException e) {
+		} catch (final BadLocationException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -109,8 +106,7 @@ public class AutoCompletionComboEditorDocument extends PlainDocument {
 		final Object selectedItem = model.getSelectedItem();
 		if (selectedItem != null && startsWithIgnoreCase(selectedItem, pattern)) {
 			return selectedItem;
-		}
-		else {
+		} else {
 			for (int i = 0, n = model.getSize(); i < n; i++) {
 				final Object currentItem = model.getElementAt(i);
 				if (startsWithIgnoreCase(currentItem, pattern)) {

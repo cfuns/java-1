@@ -1,6 +1,5 @@
 package de.benjaminborbe.crawler.message;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.MapperInteger;
@@ -9,6 +8,7 @@ import de.benjaminborbe.tools.mapper.json.JsonObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;

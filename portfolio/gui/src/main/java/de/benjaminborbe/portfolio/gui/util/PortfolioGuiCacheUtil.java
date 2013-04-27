@@ -1,8 +1,8 @@
 package de.benjaminborbe.portfolio.gui.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.portfolio.gui.PortfolioGuiConstants;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 

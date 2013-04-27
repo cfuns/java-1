@@ -45,7 +45,8 @@ public class RemoteComment implements java.io.Serializable {
 		final long pageId,
 		final long parentId,
 		final java.lang.String title,
-		final java.lang.String url) {
+		final java.lang.String url
+	) {
 		this.content = content;
 		this.created = created;
 		this.creator = creator;

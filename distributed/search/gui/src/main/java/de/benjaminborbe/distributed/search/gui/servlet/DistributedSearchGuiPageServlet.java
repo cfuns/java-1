@@ -1,8 +1,6 @@
 package de.benjaminborbe.distributed.search.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -32,6 +30,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -65,7 +65,8 @@ public class DistributedSearchGuiPageServlet extends WebsiteHtmlServlet {
 		final AuthorizationService authorizationService,
 		final DistributedSearchService distributedSearchService,
 		final CacheService cacheService,
-		final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory) {
+		final DistributedSearchGuiLinkFactory distributedSearchGuiLinkFactory
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.distributedSearchService = distributedSearchService;

@@ -9,17 +9,32 @@ import java.util.Collection;
 
 public interface GalleryServiceGroup {
 
-	GalleryGroupIdentifier getGroupByName(SessionIdentifier sessionIdentifier, String groupName) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException;
+	GalleryGroupIdentifier getGroupByName(
+		SessionIdentifier sessionIdentifier,
+		String groupName
+	) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException;
 
 	GalleryGroupIdentifier getGroupByNameShared(String groupName) throws GalleryServiceException;
 
-	void deleteGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
+	void deleteGroup(
+		final SessionIdentifier sessionIdentifier,
+		GalleryGroupIdentifier galleryGroupIdentifier
+	) throws GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException;
 
-	GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, String groupName, Boolean shared) throws GalleryServiceException, LoginRequiredException,
+	GalleryGroupIdentifier createGroup(
+		final SessionIdentifier sessionIdentifier,
+		String groupName,
+		Boolean shared
+	) throws GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException, ValidationException;
 
-	void updateGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier, String groupName, Boolean shared) throws GalleryServiceException,
+	void updateGroup(
+		final SessionIdentifier sessionIdentifier,
+		GalleryGroupIdentifier galleryGroupIdentifier,
+		String groupName,
+		Boolean shared
+	) throws GalleryServiceException,
 		LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	Collection<GalleryGroupIdentifier> getGroupIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
@@ -29,6 +44,9 @@ public interface GalleryServiceGroup {
 
 	GalleryGroupIdentifier createGroupIdentifier(String id) throws GalleryServiceException;
 
-	GalleryGroup getGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException, LoginRequiredException,
+	GalleryGroup getGroup(
+		final SessionIdentifier sessionIdentifier,
+		GalleryGroupIdentifier galleryGroupIdentifier
+	) throws GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException;
 }

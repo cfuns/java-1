@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteNodeStatus implements java.io.Serializable {
 
 	private java.util.HashMap JVMstats;
@@ -30,7 +30,7 @@ public class RemoteNodeStatus implements java.io.Serializable {
 
 	/**
 	 * Gets the JVMstats value for this RemoteNodeStatus.
-	 * 
+	 *
 	 * @return JVMstats
 	 */
 	public java.util.HashMap getJVMstats() {
@@ -39,7 +39,7 @@ public class RemoteNodeStatus implements java.io.Serializable {
 
 	/**
 	 * Sets the JVMstats value for this RemoteNodeStatus.
-	 * 
+	 *
 	 * @param JVMstats
 	 */
 	public void setJVMstats(final java.util.HashMap JVMstats) {
@@ -48,7 +48,7 @@ public class RemoteNodeStatus implements java.io.Serializable {
 
 	/**
 	 * Gets the buildStats value for this RemoteNodeStatus.
-	 * 
+	 *
 	 * @return buildStats
 	 */
 	public java.util.HashMap getBuildStats() {
@@ -57,7 +57,7 @@ public class RemoteNodeStatus implements java.io.Serializable {
 
 	/**
 	 * Sets the buildStats value for this RemoteNodeStatus.
-	 * 
+	 *
 	 * @param buildStats
 	 */
 	public void setBuildStats(final java.util.HashMap buildStats) {
@@ -66,7 +66,7 @@ public class RemoteNodeStatus implements java.io.Serializable {
 
 	/**
 	 * Gets the nodeId value for this RemoteNodeStatus.
-	 * 
+	 *
 	 * @return nodeId
 	 */
 	public int getNodeId() {
@@ -75,7 +75,7 @@ public class RemoteNodeStatus implements java.io.Serializable {
 
 	/**
 	 * Sets the nodeId value for this RemoteNodeStatus.
-	 * 
+	 *
 	 * @param nodeId
 	 */
 	public void setNodeId(final int nodeId) {
@@ -84,7 +84,7 @@ public class RemoteNodeStatus implements java.io.Serializable {
 
 	/**
 	 * Gets the props value for this RemoteNodeStatus.
-	 * 
+	 *
 	 * @return props
 	 */
 	public java.util.HashMap getProps() {
@@ -93,7 +93,7 @@ public class RemoteNodeStatus implements java.io.Serializable {
 
 	/**
 	 * Sets the props value for this RemoteNodeStatus.
-	 * 
+	 *
 	 * @param props
 	 */
 	public void setProps(final java.util.HashMap props) {
@@ -117,8 +117,8 @@ public class RemoteNodeStatus implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.JVMstats == null && other.getJVMstats() == null) || (this.JVMstats != null && this.JVMstats.equals(other.getJVMstats())))
-				&& ((this.buildStats == null && other.getBuildStats() == null) || (this.buildStats != null && this.buildStats.equals(other.getBuildStats())))
-				&& this.nodeId == other.getNodeId() && ((this.props == null && other.getProps() == null) || (this.props != null && this.props.equals(other.getProps())));
+			&& ((this.buildStats == null && other.getBuildStats() == null) || (this.buildStats != null && this.buildStats.equals(other.getBuildStats())))
+			&& this.nodeId == other.getNodeId() && ((this.props == null && other.getProps() == null) || (this.props != null && this.props.equals(other.getProps())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -187,14 +187,22 @@ public class RemoteNodeStatus implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

@@ -1,6 +1,5 @@
 package de.benjaminborbe.task.gui.widget;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -10,6 +9,7 @@ import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.api.TaskServiceException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -42,7 +42,10 @@ public class TaskCache {
 		tasks.put(task.getId(), task);
 	}
 
-	public Task getParent(final SessionIdentifier sessionIdentifier, final Task task) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public Task getParent(
+		final SessionIdentifier sessionIdentifier,
+		final Task task
+	) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		logger.trace("find parent for: " + task.getId());
 		if (task.getParentId() != null) {
 			return get(sessionIdentifier, task.getParentId());
@@ -50,7 +53,10 @@ public class TaskCache {
 		return null;
 	}
 
-	public Task get(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public Task get(
+		final SessionIdentifier sessionIdentifier,
+		final TaskIdentifier taskIdentifier
+	) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		if (tasks.containsKey(taskIdentifier)) {
 			return tasks.get(taskIdentifier);
 		} else {

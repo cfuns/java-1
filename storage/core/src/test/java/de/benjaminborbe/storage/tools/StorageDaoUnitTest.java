@@ -1,6 +1,5 @@
 package de.benjaminborbe.storage.tools;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageService;
@@ -13,6 +12,7 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
 
@@ -101,7 +101,8 @@ public class StorageDaoUnitTest {
 			final Provider<TestBean> beanProvider,
 			final MapObjectMapper<TestBean> mapper,
 			final IdentifierBuilder<String, TestIdentifier> identifierBuilder,
-			final CalendarUtil calendarUtil) {
+			final CalendarUtil calendarUtil
+		) {
 			super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		}
 

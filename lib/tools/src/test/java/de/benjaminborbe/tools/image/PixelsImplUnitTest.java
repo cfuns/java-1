@@ -1,15 +1,15 @@
 package de.benjaminborbe.tools.image;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class PixelsImplUnitTest {
 
 	@Test
 	public void testPixel() throws Exception {
 		{
-			final int[] data = { 0xFFFFFF };
+			final int[] data = {0xFFFFFF};
 			final PixelsImpl pixels = new PixelsImpl(data, 1, 1);
 			assertEquals(1, pixels.getWidth());
 			assertEquals(1, pixels.getHeight());
@@ -18,7 +18,7 @@ public class PixelsImplUnitTest {
 			assertEquals(0xFFFFFF, pixels.getPixel(1, 1));
 		}
 		{
-			final int[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+			final int[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 			final PixelsImpl pixels = new PixelsImpl(data, 4, 3);
 			assertEquals(4, pixels.getWidth());
 			assertEquals(3, pixels.getHeight());
@@ -35,7 +35,7 @@ public class PixelsImplUnitTest {
 
 	@Test
 	public void testCopy() {
-		final int[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+		final int[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 		final PixelsImpl pixels = new PixelsImpl(data, 4, 3);
 		final Pixels copy = pixels.getCopy();
 		assertEquals(copy.getWidth(), pixels.getWidth());
@@ -48,7 +48,7 @@ public class PixelsImplUnitTest {
 
 	@Test
 	public void testSubPixel() throws Exception {
-		final int[] data = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+		final int[] data = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 		{
 			final Pixels pixels = new PixelsImpl(data, 4, 3).getSubPixel(1, 1, 2, 2);
 			assertEquals(2, pixels.getWidth());

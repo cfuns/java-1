@@ -1,8 +1,6 @@
 package de.benjaminborbe.authorization.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.authorization.util.MapperRoleIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
@@ -10,6 +8,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;

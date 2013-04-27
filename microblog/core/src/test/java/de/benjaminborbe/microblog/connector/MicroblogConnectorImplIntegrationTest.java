@@ -1,23 +1,21 @@
 package de.benjaminborbe.microblog.connector;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.google.inject.Injector;
+import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
+import de.benjaminborbe.microblog.guice.MicroblogModulesMock;
+import de.benjaminborbe.microblog.post.MicroblogPostResult;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
-import de.benjaminborbe.microblog.guice.MicroblogModulesMock;
-import de.benjaminborbe.microblog.post.MicroblogPostResult;
-import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class MicroblogConnectorImplIntegrationTest {
 
@@ -32,15 +30,12 @@ public class MicroblogConnectorImplIntegrationTest {
 
 			notFound = !socket.isConnected();
 			notFound = false;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			notFound = true;
-		}
-		finally {
+		} finally {
 			try {
 				socket.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 			}
 		}
 	}

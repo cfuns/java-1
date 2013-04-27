@@ -1,6 +1,5 @@
 package de.benjaminborbe.task.core.dao.context;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -13,6 +12,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMa
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringNot;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

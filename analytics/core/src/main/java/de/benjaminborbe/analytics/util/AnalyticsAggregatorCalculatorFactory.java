@@ -1,8 +1,8 @@
 package de.benjaminborbe.analytics.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +17,8 @@ public class AnalyticsAggregatorCalculatorFactory {
 		final AnalyticsAggregatorCalculatorLatest analyticsAggregatorCalculatorLatest,
 		final AnalyticsAggregatorCalculatorMax analyticsAggregatorCalculatorMax,
 		final AnalyticsAggregatorCalculatorMin analyticsAggregatorCalculatorMin,
-		final AnalyticsAggregatorCalculatorOldest analyticsAggregatorCalculatorOldest) {
+		final AnalyticsAggregatorCalculatorOldest analyticsAggregatorCalculatorOldest
+	) {
 		data.put(AnalyticsReportAggregation.AVG, analyticsAggregatorCalculatorAvg);
 		data.put(AnalyticsReportAggregation.SUM, analyticsAggregatorCalculatorSum);
 		data.put(AnalyticsReportAggregation.LATEST, analyticsAggregatorCalculatorLatest);

@@ -1,6 +1,5 @@
 package de.benjaminborbe.dhl.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -13,6 +12,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,7 +33,13 @@ public class DhlStatusParser {
 	private final HtmlUtil htmlUtil;
 
 	@Inject
-	public DhlStatusParser(final Logger logger, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil, final ParseUtil parseUtil, final HtmlUtil htmlUtil) {
+	public DhlStatusParser(
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final HtmlUtil htmlUtil
+	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;

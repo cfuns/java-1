@@ -1,8 +1,6 @@
 package de.benjaminborbe.gallery.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
@@ -17,6 +15,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -34,14 +34,21 @@ public class GalleryEntryBeanMapper extends MapObjectMapperAdapter<GalleryEntryB
 		final MapperString mapperString,
 		final MapperLong mapperLong,
 		final MapperBoolean mapperBoolean,
-		final MapperCalendar mapperCalendar) {
+		final MapperCalendar mapperCalendar
+	) {
 		super(provider, buildMappings(mapperGalleryEntryIdentifier, mapperGalleryCollectionIdentifier, mapperGalleryImageIdentifier, mapperString, mapperLong, mapperBoolean,
 			mapperCalendar));
 	}
 
-	private static Collection<StringObjectMapper<GalleryEntryBean>> buildMappings(final MapperGalleryEntryIdentifier mapperGalleryEntryIdentifier,
-																																								final MapperGalleryCollectionIdentifier mapperGalleryCollectionIdentifier, final MapperGalleryImageIdentifier mapperGalleryImageIdentifier, final MapperString mapperString,
-																																								final MapperLong mapperLong, final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar) {
+	private static Collection<StringObjectMapper<GalleryEntryBean>> buildMappings(
+		final MapperGalleryEntryIdentifier mapperGalleryEntryIdentifier,
+		final MapperGalleryCollectionIdentifier mapperGalleryCollectionIdentifier,
+		final MapperGalleryImageIdentifier mapperGalleryImageIdentifier,
+		final MapperString mapperString,
+		final MapperLong mapperLong,
+		final MapperBoolean mapperBoolean,
+		final MapperCalendar mapperCalendar
+	) {
 		final List<StringObjectMapper<GalleryEntryBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<GalleryEntryBean, GalleryEntryIdentifier>("id", mapperGalleryEntryIdentifier));
 		result.add(new StringObjectMapperAdapter<GalleryEntryBean, GalleryCollectionIdentifier>("collectionId", mapperGalleryCollectionIdentifier));

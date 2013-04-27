@@ -1,9 +1,5 @@
 package de.benjaminborbe.analytics.util;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
@@ -14,6 +10,9 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.queue.Queue;
 import de.benjaminborbe.tools.queue.QueueBuilder;
 import de.benjaminborbe.tools.queue.QueueConsumer;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class AddValueAction {
 
@@ -43,8 +42,7 @@ public class AddValueAction {
 		public void consume(final AddMessage message) {
 			try {
 				analyticsReportLogDao.addReportValue(message.getReportIdentifier(), message.getReportValue());
-			}
-			catch (final StorageException e) {
+			} catch (final StorageException e) {
 				logger.warn(e.getClass().getName());
 			}
 		}
@@ -59,7 +57,12 @@ public class AddValueAction {
 	private final AnalyticsReportLogDao analyticsReportLogDao;
 
 	@Inject
-	public AddValueAction(final Logger logger, final CalendarUtil calendarUtil, final QueueBuilder queueBuilder, final AnalyticsReportLogDao analyticsReportLogDao) {
+	public AddValueAction(
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final QueueBuilder queueBuilder,
+		final AnalyticsReportLogDao analyticsReportLogDao
+	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.analyticsReportLogDao = analyticsReportLogDao;
@@ -79,7 +82,10 @@ public class AddValueAction {
 		addReportValue(analyticsReportIdentifier, new AnalyticsReportValueDto(calendarUtil.now(), new Long(value).doubleValue(), 1l));
 	}
 
-	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final AnalyticsReportValue reportValue) throws AnalyticsServiceException {
+	public void addReportValue(
+		final AnalyticsReportIdentifier analyticsReportIdentifier,
+		final AnalyticsReportValue reportValue
+	) throws AnalyticsServiceException {
 		logger.trace("addReportValue " + analyticsReportIdentifier);
 		queue.put(new AddMessage(analyticsReportIdentifier, reportValue));
 	}

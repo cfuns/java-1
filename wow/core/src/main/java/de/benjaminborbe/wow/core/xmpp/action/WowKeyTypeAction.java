@@ -27,7 +27,13 @@ public class WowKeyTypeAction extends WowActionBase {
 		this.keys = keys;
 	}
 
-	public WowKeyTypeAction(final Logger logger, final VncService vncService, final String name, final ThreadResult<Boolean> running, final String keys) throws VncKeyParseException {
+	public WowKeyTypeAction(
+		final Logger logger,
+		final VncService vncService,
+		final String name,
+		final ThreadResult<Boolean> running,
+		final String keys
+	) throws VncKeyParseException {
 		this(logger, vncService, name, running, vncService.getVncKeyParser().parseKeys(keys));
 	}
 

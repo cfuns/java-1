@@ -36,7 +36,8 @@ public class WowFindPixelsLocationAction extends WowActionBase {
 		final ThreadResult<Boolean> running,
 		final ThreadResult<Coordinate> location,
 		final Collection<Pixels> pixels,
-		final int matchPercent) {
+		final int matchPercent
+	) {
 		super(logger, name, running);
 		this.logger = logger;
 		this.vncService = vncService;
@@ -54,7 +55,8 @@ public class WowFindPixelsLocationAction extends WowActionBase {
 		final ThreadResult<Boolean> running,
 		final ThreadResult<Coordinate> location,
 		final Pixels pixels,
-		final int matchPercent) {
+		final int matchPercent
+	) {
 		this(logger, vncService, pixelFinder, name, running, location, Arrays.asList(pixels), matchPercent);
 	}
 

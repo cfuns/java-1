@@ -1,6 +1,5 @@
 package de.benjaminborbe.task.core.dao.context;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
@@ -12,6 +11,7 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -29,12 +29,15 @@ public class TaskContextBeanMapper extends MapObjectMapperAdapter<TaskContextBea
 		final MapperTaskContextIdentifier mapperTaskContextIdentifier,
 		final MapperString mapperString,
 		final MapperUserIdentifier mapperUserIdentifier,
-		final MapperCalendar mapperCalendar) {
+		final MapperCalendar mapperCalendar
+	) {
 		super(provider, buildMappings(mapperTaskContextIdentifier, mapperString, mapperUserIdentifier, mapperCalendar));
 	}
 
-	private static Collection<StringObjectMapper<TaskContextBean>> buildMappings(final MapperTaskContextIdentifier mapperTaskContextIdentifier, final MapperString mapperString,
-																																							 final MapperUserIdentifier mapperUserIdentifier, final MapperCalendar mapperCalendar) {
+	private static Collection<StringObjectMapper<TaskContextBean>> buildMappings(
+		final MapperTaskContextIdentifier mapperTaskContextIdentifier, final MapperString mapperString,
+		final MapperUserIdentifier mapperUserIdentifier, final MapperCalendar mapperCalendar
+	) {
 		final List<StringObjectMapper<TaskContextBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<TaskContextBean, TaskContextIdentifier>("id", mapperTaskContextIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskContextBean, String>(NAME, mapperString));

@@ -1,7 +1,5 @@
 package de.benjaminborbe.distributed.search.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
@@ -25,6 +23,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,7 +55,8 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 		final ValidationExecutor validationExecutor,
 		final DistributedSearchPageDao distributedSearchPageDao,
 		final DistributedIndexService distributedIndexService,
-		final DistributedSearchAnalyser distributedSearchAnalyser) {
+		final DistributedSearchAnalyser distributedSearchAnalyser
+	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.validationExecutor = validationExecutor;
@@ -65,7 +66,13 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	}
 
 	@Override
-	public void addToIndex(final String index, final URL url, final String title, final String content, final Calendar date) throws DistributedSearchServiceException {
+	public void addToIndex(
+		final String index,
+		final URL url,
+		final String title,
+		final String content,
+		final Calendar date
+	) throws DistributedSearchServiceException {
 		try {
 			logger
 				.debug("addToIndex - index: " + index + " url: " + url.toExternalForm() + " date: " + calendarUtil.toDateTimeString(date) + " title: " + title + " content: " + content);

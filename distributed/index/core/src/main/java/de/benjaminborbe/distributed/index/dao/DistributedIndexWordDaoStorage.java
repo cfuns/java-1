@@ -1,6 +1,5 @@
 package de.benjaminborbe.distributed.index.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.distributed.index.DistributedIndexConstants;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResult;
 import de.benjaminborbe.distributed.index.api.DistributedIndexSearchResultIterator;
@@ -12,6 +11,7 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Map.Entry;
 
 public class DistributedIndexWordDaoStorage implements DistributedIndexWordDao {
@@ -25,7 +25,11 @@ public class DistributedIndexWordDaoStorage implements DistributedIndexWordDao {
 	private final Logger logger;
 
 	@Inject
-	public DistributedIndexWordDaoStorage(final Logger logger, final StorageService storageService, final DistributedIndexSearchResultMapper distributedIndexSearchResultMapper) {
+	public DistributedIndexWordDaoStorage(
+		final Logger logger,
+		final StorageService storageService,
+		final DistributedIndexSearchResultMapper distributedIndexSearchResultMapper
+	) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.distributedIndexSearchResultMapper = distributedIndexSearchResultMapper;

@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemotePageUpdateOptions implements java.io.Serializable {
 
 	private boolean minorEdit;
@@ -24,7 +24,7 @@ public class RemotePageUpdateOptions implements java.io.Serializable {
 
 	/**
 	 * Gets the minorEdit value for this RemotePageUpdateOptions.
-	 * 
+	 *
 	 * @return minorEdit
 	 */
 	public boolean isMinorEdit() {
@@ -33,7 +33,7 @@ public class RemotePageUpdateOptions implements java.io.Serializable {
 
 	/**
 	 * Sets the minorEdit value for this RemotePageUpdateOptions.
-	 * 
+	 *
 	 * @param minorEdit
 	 */
 	public void setMinorEdit(final boolean minorEdit) {
@@ -42,7 +42,7 @@ public class RemotePageUpdateOptions implements java.io.Serializable {
 
 	/**
 	 * Gets the versionComment value for this RemotePageUpdateOptions.
-	 * 
+	 *
 	 * @return versionComment
 	 */
 	public java.lang.String getVersionComment() {
@@ -51,7 +51,7 @@ public class RemotePageUpdateOptions implements java.io.Serializable {
 
 	/**
 	 * Sets the versionComment value for this RemotePageUpdateOptions.
-	 * 
+	 *
 	 * @param versionComment
 	 */
 	public void setVersionComment(final java.lang.String versionComment) {
@@ -75,7 +75,7 @@ public class RemotePageUpdateOptions implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && this.minorEdit == other.isMinorEdit()
-				&& ((this.versionComment == null && other.getVersionComment() == null) || (this.versionComment != null && this.versionComment.equals(other.getVersionComment())));
+			&& ((this.versionComment == null && other.getVersionComment() == null) || (this.versionComment != null && this.versionComment.equals(other.getVersionComment())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -126,14 +126,22 @@ public class RemotePageUpdateOptions implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

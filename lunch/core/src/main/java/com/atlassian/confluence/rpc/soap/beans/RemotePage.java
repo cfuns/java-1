@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePageSummary implements java.io.Serializable {
 
 	private java.lang.String content;
@@ -30,21 +30,22 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 	}
 
 	public RemotePage(
-			final long id,
-			final int permissions,
-			final java.lang.String space,
-			final java.lang.String title,
-			final java.lang.String url,
-			final long parentId,
-			final int version,
-			final java.lang.String content,
-			final java.lang.String contentStatus,
-			final java.util.Calendar created,
-			final java.lang.String creator,
-			final boolean current,
-			final boolean homePage,
-			final java.util.Calendar modified,
-			final java.lang.String modifier) {
+		final long id,
+		final int permissions,
+		final java.lang.String space,
+		final java.lang.String title,
+		final java.lang.String url,
+		final long parentId,
+		final int version,
+		final java.lang.String content,
+		final java.lang.String contentStatus,
+		final java.util.Calendar created,
+		final java.lang.String creator,
+		final boolean current,
+		final boolean homePage,
+		final java.util.Calendar modified,
+		final java.lang.String modifier
+	) {
 		super(id, permissions, space, title, url, parentId, version);
 		this.content = content;
 		this.contentStatus = contentStatus;
@@ -58,7 +59,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Gets the content value for this RemotePage.
-	 * 
+	 *
 	 * @return content
 	 */
 	public java.lang.String getContent() {
@@ -67,7 +68,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Sets the content value for this RemotePage.
-	 * 
+	 *
 	 * @param content
 	 */
 	public void setContent(final java.lang.String content) {
@@ -76,7 +77,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Gets the contentStatus value for this RemotePage.
-	 * 
+	 *
 	 * @return contentStatus
 	 */
 	public java.lang.String getContentStatus() {
@@ -85,7 +86,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Sets the contentStatus value for this RemotePage.
-	 * 
+	 *
 	 * @param contentStatus
 	 */
 	public void setContentStatus(final java.lang.String contentStatus) {
@@ -94,7 +95,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Gets the created value for this RemotePage.
-	 * 
+	 *
 	 * @return created
 	 */
 	public java.util.Calendar getCreated() {
@@ -103,7 +104,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Sets the created value for this RemotePage.
-	 * 
+	 *
 	 * @param created
 	 */
 	public void setCreated(final java.util.Calendar created) {
@@ -112,7 +113,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Gets the creator value for this RemotePage.
-	 * 
+	 *
 	 * @return creator
 	 */
 	public java.lang.String getCreator() {
@@ -121,7 +122,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Sets the creator value for this RemotePage.
-	 * 
+	 *
 	 * @param creator
 	 */
 	public void setCreator(final java.lang.String creator) {
@@ -130,7 +131,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Gets the current value for this RemotePage.
-	 * 
+	 *
 	 * @return current
 	 */
 	public boolean isCurrent() {
@@ -139,7 +140,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Sets the current value for this RemotePage.
-	 * 
+	 *
 	 * @param current
 	 */
 	public void setCurrent(final boolean current) {
@@ -148,7 +149,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Gets the homePage value for this RemotePage.
-	 * 
+	 *
 	 * @return homePage
 	 */
 	public boolean isHomePage() {
@@ -157,7 +158,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Sets the homePage value for this RemotePage.
-	 * 
+	 *
 	 * @param homePage
 	 */
 	public void setHomePage(final boolean homePage) {
@@ -166,7 +167,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Gets the modified value for this RemotePage.
-	 * 
+	 *
 	 * @return modified
 	 */
 	public java.util.Calendar getModified() {
@@ -175,7 +176,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Sets the modified value for this RemotePage.
-	 * 
+	 *
 	 * @param modified
 	 */
 	public void setModified(final java.util.Calendar modified) {
@@ -184,7 +185,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Gets the modifier value for this RemotePage.
-	 * 
+	 *
 	 * @return modifier
 	 */
 	public java.lang.String getModifier() {
@@ -193,7 +194,7 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 
 	/**
 	 * Sets the modifier value for this RemotePage.
-	 * 
+	 *
 	 * @param modifier
 	 */
 	public void setModifier(final java.lang.String modifier) {
@@ -217,11 +218,11 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = super.equals(obj) && ((this.content == null && other.getContent() == null) || (this.content != null && this.content.equals(other.getContent())))
-				&& ((this.contentStatus == null && other.getContentStatus() == null) || (this.contentStatus != null && this.contentStatus.equals(other.getContentStatus())))
-				&& ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
-				&& ((this.creator == null && other.getCreator() == null) || (this.creator != null && this.creator.equals(other.getCreator()))) && this.current == other.isCurrent()
-				&& this.homePage == other.isHomePage() && ((this.modified == null && other.getModified() == null) || (this.modified != null && this.modified.equals(other.getModified())))
-				&& ((this.modifier == null && other.getModifier() == null) || (this.modifier != null && this.modifier.equals(other.getModifier())));
+			&& ((this.contentStatus == null && other.getContentStatus() == null) || (this.contentStatus != null && this.contentStatus.equals(other.getContentStatus())))
+			&& ((this.created == null && other.getCreated() == null) || (this.created != null && this.created.equals(other.getCreated())))
+			&& ((this.creator == null && other.getCreator() == null) || (this.creator != null && this.creator.equals(other.getCreator()))) && this.current == other.isCurrent()
+			&& this.homePage == other.isHomePage() && ((this.modified == null && other.getModified() == null) || (this.modified != null && this.modified.equals(other.getModified())))
+			&& ((this.modifier == null && other.getModifier() == null) || (this.modifier != null && this.modifier.equals(other.getModifier())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -324,14 +325,22 @@ public class RemotePage extends com.atlassian.confluence.rpc.soap.beans.RemotePa
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

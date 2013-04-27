@@ -1,6 +1,5 @@
 package de.benjaminborbe.storage.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
@@ -25,6 +24,7 @@ import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
@@ -47,7 +47,12 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	private final StorageConnectionPool storageConnectionPool;
 
 	@Inject
-	public StorageDaoUtilImpl(final StorageConnectionPool storageConnectionPool, final StorageConfig config, final Logger logger, final CalendarUtil calendarUtil) {
+	public StorageDaoUtilImpl(
+		final StorageConnectionPool storageConnectionPool,
+		final StorageConfig config,
+		final Logger logger,
+		final CalendarUtil calendarUtil
+	) {
 		this.storageConnectionPool = storageConnectionPool;
 		this.config = config;
 		this.logger = logger;
@@ -55,7 +60,10 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public long count(final String keySpace, final String columnFamily) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException,
+	public long count(
+		final String keySpace,
+		final String columnFamily
+	) throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException,
 		TException, NotFoundException, StorageException {
 		long result = 0;
 		final StorageIterator i = keyIterator(keySpace, columnFamily);
@@ -67,7 +75,11 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public long count(final String keySpace, final String columnFamily, final StorageValue columnName) throws UnsupportedEncodingException, InvalidRequestException,
+	public long count(
+		final String keySpace,
+		final String columnFamily,
+		final StorageValue columnName
+	) throws UnsupportedEncodingException, InvalidRequestException,
 		UnavailableException, TimedOutException, TException, NotFoundException, StorageException {
 		long result = 0;
 		final StorageRowIterator i = rowIterator(keySpace, columnFamily, Arrays.asList(columnName));
@@ -82,7 +94,12 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public long count(final String keySpace, final String columnFamily, final StorageValue columnName, final StorageValue columnValue) throws UnsupportedEncodingException,
+	public long count(
+		final String keySpace,
+		final String columnFamily,
+		final StorageValue columnName,
+		final StorageValue columnValue
+	) throws UnsupportedEncodingException,
 		InvalidRequestException, UnavailableException, TimedOutException, TException, NotFoundException, StorageException, SocketException, StorageConnectionPoolException {
 		long result = 0;
 		final StorageRowIterator i = rowIterator(keySpace, columnFamily, Arrays.asList(columnName));
@@ -97,7 +114,12 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public void delete(final String keySpace, final String columnFamily, final StorageValue id, final Collection<StorageValue> columnNames) throws InvalidRequestException,
+	public void delete(
+		final String keySpace,
+		final String columnFamily,
+		final StorageValue id,
+		final Collection<StorageValue> columnNames
+	) throws InvalidRequestException,
 		NotFoundException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 		StorageConnection connection = null;
 		try {
@@ -121,7 +143,12 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public void delete(final String keySpace, final String columnFamily, final StorageValue key, final StorageValue columnName) throws InvalidRequestException, NotFoundException,
+	public void delete(
+		final String keySpace,
+		final String columnFamily,
+		final StorageValue key,
+		final StorageValue columnName
+	) throws InvalidRequestException, NotFoundException,
 		UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 		delete(keySpace, columnFamily, key, Arrays.asList(columnName));
 	}
@@ -134,7 +161,12 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public void insert(final String keySpace, final String columnFamily, final StorageValue key, final Map<StorageValue, StorageValue> data) throws InvalidRequestException,
+	public void insert(
+		final String keySpace,
+		final String columnFamily,
+		final StorageValue key,
+		final Map<StorageValue, StorageValue> data
+	) throws InvalidRequestException,
 		UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException, SocketException, StorageConnectionPoolException {
 
 		StorageConnection connection = null;
@@ -178,19 +210,31 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public StorageIterator keyIterator(final String keySpace, final String columnFamily) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
+	public StorageIterator keyIterator(
+		final String keySpace,
+		final String columnFamily
+	) throws InvalidRequestException, UnavailableException, TimedOutException, TException,
 		UnsupportedEncodingException, NotFoundException {
 		return new StorageKeyIteratorImpl(storageConnectionPool, keySpace, columnFamily, config.getEncoding());
 	}
 
 	@Override
-	public StorageIterator keyIterator(final String keySpace, final String columnFamily, final Map<StorageValue, StorageValue> where) throws InvalidRequestException,
+	public StorageIterator keyIterator(
+		final String keySpace,
+		final String columnFamily,
+		final Map<StorageValue, StorageValue> where
+	) throws InvalidRequestException,
 		UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException, StorageConnectionPoolException {
 		return new StorageKeyIteratorWhere(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), where);
 	}
 
 	@Override
-	public List<StorageValue> read(final String keySpace, final String columnFamily, final StorageValue key, final List<StorageValue> columnNames) throws InvalidRequestException,
+	public List<StorageValue> read(
+		final String keySpace,
+		final String columnFamily,
+		final StorageValue key,
+		final List<StorageValue> columnNames
+	) throws InvalidRequestException,
 		NotFoundException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 
 		if (key == null || key.isEmpty()) {
@@ -245,7 +289,12 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public StorageValue read(final String keySpace, final String columnFamily, final StorageValue key, final StorageValue columnName) throws InvalidRequestException,
+	public StorageValue read(
+		final String keySpace,
+		final String columnFamily,
+		final StorageValue key,
+		final StorageValue columnName
+	) throws InvalidRequestException,
 		NotFoundException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 
 		if (key == null || key.isEmpty()) {
@@ -280,13 +329,22 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public StorageRowIterator rowIterator(final String keySpace, final String columnFamily, final List<StorageValue> columnNames, final Map<StorageValue, StorageValue> where)
+	public StorageRowIterator rowIterator(
+		final String keySpace,
+		final String columnFamily,
+		final List<StorageValue> columnNames,
+		final Map<StorageValue, StorageValue> where
+	)
 		throws InvalidRequestException, UnavailableException, TimedOutException, TException, UnsupportedEncodingException, NotFoundException {
 		return new StorageRowIteratorWhere(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), columnNames, where);
 	}
 
 	@Override
-	public void delete(final String keySpace, final String columnFamily, final StorageValue key) throws InvalidRequestException, NotFoundException, UnavailableException,
+	public void delete(
+		final String keySpace,
+		final String columnFamily,
+		final StorageValue key
+	) throws InvalidRequestException, NotFoundException, UnavailableException,
 		TimedOutException, TException, UnsupportedEncodingException, SocketException, StorageConnectionPoolException {
 
 		StorageConnection connection = null;
@@ -306,7 +364,11 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public Map<StorageValue, StorageValue> read(final String keySpace, final String columnFamily, final StorageValue id) throws NotFoundException, StorageConnectionPoolException,
+	public Map<StorageValue, StorageValue> read(
+		final String keySpace,
+		final String columnFamily,
+		final StorageValue id
+	) throws NotFoundException, StorageConnectionPoolException,
 		InvalidRequestException, TException, UnavailableException, TimedOutException, UnsupportedEncodingException {
 		StorageConnection connection = null;
 		try {
@@ -355,12 +417,21 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	@Override
-	public StorageColumnIterator columnIteratorReversed(final String keySpace, final String columnFamily, final StorageValue key) throws UnsupportedEncodingException {
+	public StorageColumnIterator columnIteratorReversed(
+		final String keySpace,
+		final String columnFamily,
+		final StorageValue key
+	) throws UnsupportedEncodingException {
 		return new StorageColumnIteratorImpl(storageConnectionPool, keySpace, columnFamily, config.getEncoding(), key, true);
 	}
 
 	@Override
-	public Collection<List<StorageValue>> read(final String keySpace, final String columnFamily, final Collection<StorageValue> keys, final List<StorageValue> columnNames)
+	public Collection<List<StorageValue>> read(
+		final String keySpace,
+		final String columnFamily,
+		final Collection<StorageValue> keys,
+		final List<StorageValue> columnNames
+	)
 		throws UnsupportedEncodingException, InvalidRequestException, UnavailableException, TimedOutException, TException, StorageConnectionPoolException {
 		StorageConnection connection = null;
 		try {

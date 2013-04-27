@@ -1,6 +1,5 @@
 package de.benjaminborbe.vaadin.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -9,6 +8,7 @@ import de.benjaminborbe.vaadin.gui.guice.VaadinGuiModules;
 import de.benjaminborbe.vaadin.gui.servlet.VaadinGuiApplicationServlet;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

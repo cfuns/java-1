@@ -1,11 +1,10 @@
 package de.benjaminborbe.cron.util;
 
+import de.benjaminborbe.tools.util.ThreadRunner;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
-
-import de.benjaminborbe.tools.util.ThreadRunner;
 
 public class CronManager {
 
@@ -16,8 +15,7 @@ public class CronManager {
 			// cron stoppen
 			try {
 				quartz.start();
-			}
-			catch (final SchedulerException e) {
+			} catch (final SchedulerException e) {
 				logger.error("SchedulerException", e);
 			}
 		}
@@ -47,8 +45,7 @@ public class CronManager {
 		try {
 			logger.debug("stop cron");
 			quartz.stop();
-		}
-		catch (final SchedulerException e) {
+		} catch (final SchedulerException e) {
 			logger.trace("SchedulerException", e);
 		}
 	}

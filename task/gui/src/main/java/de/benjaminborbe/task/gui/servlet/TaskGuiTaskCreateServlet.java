@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -45,6 +43,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,7 +86,8 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 		final TaskService taskService,
 		final TaskGuiLinkFactory taskGuiLinkFactory,
 		final TaskGuiUtil taskGuiUtil,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -222,9 +223,19 @@ public class TaskGuiTaskCreateServlet extends TaskGuiWebsiteHtmlServlet {
 		}
 	}
 
-	private TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final String name, final String description, final String url,
-																		final TaskIdentifier taskParentIdentifier, final Calendar start, final Calendar due, final Long repeatStart, final Long repeatDue, final TaskContextIdentifier context,
-																		final String focusString) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
+	private TaskIdentifier createTask(
+		final SessionIdentifier sessionIdentifier,
+		final String name,
+		final String description,
+		final String url,
+		final TaskIdentifier taskParentIdentifier,
+		final Calendar start,
+		final Calendar due,
+		final Long repeatStart,
+		final Long repeatDue,
+		final TaskContextIdentifier context,
+		final String focusString
+	) throws TaskServiceException, PermissionDeniedException, LoginRequiredException, ValidationException {
 
 		final TaskDto taskDto = new TaskDto();
 		taskDto.setName(name);

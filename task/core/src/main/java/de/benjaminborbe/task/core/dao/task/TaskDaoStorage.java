@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.core.dao.task;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
@@ -16,6 +14,9 @@ import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.core.dao.attachment.TaskAttachmentDao;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> implements TaskDao {
@@ -34,7 +35,8 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 		final Provider<TaskBean> beanProvider,
 		final TaskBeanMapper mapper,
 		final TaskIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.logger = logger;
 		this.taskAttachmentDao = taskAttachmentDao;
@@ -85,7 +87,11 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	}
 
 	@Override
-	public EntityIterator<TaskBean> getTasks(final TaskContextIdentifier taskContextIdentifier, final TaskFocus taskFocus, final boolean completed) throws StorageException {
+	public EntityIterator<TaskBean> getTasks(
+		final TaskContextIdentifier taskContextIdentifier,
+		final TaskFocus taskFocus,
+		final boolean completed
+	) throws StorageException {
 		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.CONTEXT, String.valueOf(taskContextIdentifier))
 			.add(TaskBeanMapper.COMPLETED, String.valueOf(completed)).add(TaskBeanMapper.FOCUS, String.valueOf(taskFocus)));
 	}

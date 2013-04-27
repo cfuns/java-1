@@ -105,7 +105,8 @@ public class ConfluenceRefresher {
 		final TimeZoneUtil timeZoneUtil,
 		final ConfluenceConfig confluenceConfig,
 		final ConfluenceIndexUtil confluenceIndexUtil,
-		final ConfluencePageExpiredCalculator confluencePageExpiredCalculator) {
+		final ConfluencePageExpiredCalculator confluencePageExpiredCalculator
+	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.runOnlyOnceATime = runOnlyOnceATime;

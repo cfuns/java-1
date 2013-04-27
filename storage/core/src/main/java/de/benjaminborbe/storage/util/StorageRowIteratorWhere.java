@@ -55,7 +55,8 @@ public class StorageRowIteratorWhere implements StorageRowIterator {
 		final String columnFamily,
 		final String encoding,
 		final List<StorageValue> columnNames,
-		final Map<StorageValue, StorageValue> where) throws UnsupportedEncodingException {
+		final Map<StorageValue, StorageValue> where
+	) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.column_parent = new ColumnParent(columnFamily);

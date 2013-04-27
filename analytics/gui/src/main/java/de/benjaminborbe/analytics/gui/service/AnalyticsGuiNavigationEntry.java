@@ -1,13 +1,13 @@
 package de.benjaminborbe.analytics.gui.service;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+
+import javax.inject.Inject;
 
 public class AnalyticsGuiNavigationEntry implements NavigationEntry {
 
@@ -32,11 +32,9 @@ public class AnalyticsGuiNavigationEntry implements NavigationEntry {
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
 			return analyticsService.hasAnalyticsViewOrAdminPermission(sessionIdentifier);
-		}
-		catch (final LoginRequiredException e) {
+		} catch (final LoginRequiredException e) {
 			return false;
-		}
-		catch (final AnalyticsServiceException e) {
+		} catch (final AnalyticsServiceException e) {
 			return false;
 		}
 	}

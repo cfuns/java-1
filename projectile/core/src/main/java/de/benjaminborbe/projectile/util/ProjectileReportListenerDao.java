@@ -1,13 +1,12 @@
 package de.benjaminborbe.projectile.util;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
 import de.benjaminborbe.projectile.dao.ProjectileReportBean;
 import de.benjaminborbe.projectile.dao.ProjectileReportDao;
 import de.benjaminborbe.storage.api.StorageException;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class ProjectileReportListenerDao implements ProjectileReportListener {
 
@@ -47,8 +46,7 @@ public class ProjectileReportListenerDao implements ProjectileReportListener {
 				bean.setYearUpdateDate(dto.getUpdateDate());
 			}
 			projectileReportDao.save(bean);
-		}
-		catch (final StorageException e) {
+		} catch (final StorageException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 	}

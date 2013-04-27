@@ -1,7 +1,5 @@
 package de.benjaminborbe.poker.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
@@ -44,6 +42,8 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -92,7 +92,8 @@ public class PokerServiceImpl implements PokerService {
 		final PokerGameDao pokerGameDao,
 		final IdGeneratorUUID idGeneratorUUID,
 		final ValidationExecutor validationExecutor,
-		final PokerPlayerDao pokerPlayerDao) {
+		final PokerPlayerDao pokerPlayerDao
+	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.analyticsService = analyticsService;
@@ -335,7 +336,10 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public void joinGame(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+	public void joinGame(
+		final PokerGameIdentifier gameIdentifier,
+		final PokerPlayerIdentifier playerIdentifier
+	) throws PokerServiceException, ValidationException {
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			if (Boolean.TRUE.equals(game.getRunning())) {
@@ -363,7 +367,10 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public void leaveGame(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+	public void leaveGame(
+		final PokerGameIdentifier gameIdentifier,
+		final PokerPlayerIdentifier playerIdentifier
+	) throws PokerServiceException, ValidationException {
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			if (Boolean.TRUE.equals(game.getRunning())) {
@@ -634,7 +641,11 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public void raise(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier, final long amount) throws PokerServiceException, ValidationException {
+	public void raise(
+		final PokerGameIdentifier gameIdentifier,
+		final PokerPlayerIdentifier playerIdentifier,
+		final long amount
+	) throws PokerServiceException, ValidationException {
 		try {
 			logger.debug("raise - game: " + gameIdentifier + " player: " + playerIdentifier + " amount: " + amount);
 			if (!getActivePlayer(gameIdentifier).equals(playerIdentifier)) {

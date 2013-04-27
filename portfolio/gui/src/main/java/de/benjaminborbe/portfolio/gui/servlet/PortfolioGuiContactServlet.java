@@ -1,8 +1,6 @@
 package de.benjaminborbe.portfolio.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -28,6 +26,8 @@ import de.benjaminborbe.website.widget.BrWidget;
 import de.benjaminborbe.website.widget.ImageWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -55,7 +55,8 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 		final AuthenticationService authenticationService,
 		final PortfolioLayoutWidget portfolioWidget,
 		final GalleryService galleryService,
-		final AuthorizationService authorizationService) {
+		final AuthorizationService authorizationService
+	) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.portfolioWidget = portfolioWidget;
 		this.authenticationService = authenticationService;

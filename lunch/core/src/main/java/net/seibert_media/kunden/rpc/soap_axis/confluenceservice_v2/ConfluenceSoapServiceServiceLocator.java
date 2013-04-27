@@ -7,9 +7,9 @@
 
 package net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2;
 
-@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
+@SuppressWarnings({"serial", "rawtypes", "unchecked"})
 public class ConfluenceSoapServiceServiceLocator extends org.apache.axis.client.Service implements
-		net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapServiceService {
+	net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapServiceService {
 
 	public ConfluenceSoapServiceServiceLocator() {
 	}
@@ -46,8 +46,7 @@ public class ConfluenceSoapServiceServiceLocator extends org.apache.axis.client.
 		final java.net.URL endpoint;
 		try {
 			endpoint = new java.net.URL(ConfluenceserviceV2_address);
-		}
-		catch (final java.net.MalformedURLException e) {
+		} catch (final java.net.MalformedURLException e) {
 			throw new javax.xml.rpc.ServiceException(e);
 		}
 		return getConfluenceserviceV2(endpoint);
@@ -55,14 +54,13 @@ public class ConfluenceSoapServiceServiceLocator extends org.apache.axis.client.
 
 	@Override
 	public net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapService getConfluenceserviceV2(final java.net.URL portAddress)
-			throws javax.xml.rpc.ServiceException {
+		throws javax.xml.rpc.ServiceException {
 		try {
 			final net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceserviceV2SoapBindingStub _stub = new net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceserviceV2SoapBindingStub(
-					portAddress, this);
+				portAddress, this);
 			_stub.setPortName(getConfluenceserviceV2WSDDServiceName());
 			return _stub;
-		}
-		catch (final org.apache.axis.AxisFault e) {
+		} catch (final org.apache.axis.AxisFault e) {
 			return null;
 		}
 	}
@@ -81,16 +79,15 @@ public class ConfluenceSoapServiceServiceLocator extends org.apache.axis.client.
 		try {
 			if (net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapService.class.isAssignableFrom(serviceEndpointInterface)) {
 				final net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceserviceV2SoapBindingStub _stub = new net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceserviceV2SoapBindingStub(
-						new java.net.URL(ConfluenceserviceV2_address), this);
+					new java.net.URL(ConfluenceserviceV2_address), this);
 				_stub.setPortName(getConfluenceserviceV2WSDDServiceName());
 				return _stub;
 			}
-		}
-		catch (final java.lang.Throwable t) {
+		} catch (final java.lang.Throwable t) {
 			throw new javax.xml.rpc.ServiceException(t);
 		}
 		throw new javax.xml.rpc.ServiceException("There is no stub implementation for the interface:  "
-				+ (serviceEndpointInterface == null ? "null" : serviceEndpointInterface.getName()));
+			+ (serviceEndpointInterface == null ? "null" : serviceEndpointInterface.getName()));
 	}
 
 	/**
@@ -106,8 +103,7 @@ public class ConfluenceSoapServiceServiceLocator extends org.apache.axis.client.
 		final java.lang.String inputPortName = portName.getLocalPart();
 		if ("confluenceservice-v2".equals(inputPortName)) {
 			return getConfluenceserviceV2();
-		}
-		else {
+		} else {
 			final java.rmi.Remote _stub = getPort(serviceEndpointInterface);
 			((org.apache.axis.client.Stub) _stub).setPortName(portName);
 			return _stub;
@@ -137,8 +133,7 @@ public class ConfluenceSoapServiceServiceLocator extends org.apache.axis.client.
 
 		if ("ConfluenceserviceV2".equals(portName)) {
 			setConfluenceserviceV2EndpointAddress(address);
-		}
-		else { // Unknown Port Name
+		} else { // Unknown Port Name
 			throw new javax.xml.rpc.ServiceException(" Cannot set Endpoint Address for Unknown Port" + portName);
 		}
 	}

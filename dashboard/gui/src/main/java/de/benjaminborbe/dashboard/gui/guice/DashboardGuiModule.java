@@ -1,15 +1,14 @@
 package de.benjaminborbe.dashboard.gui.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.dashboard.api.DashboardWidget;
 import de.benjaminborbe.dashboard.gui.service.DashboardGuiWidgetImpl;
 import de.benjaminborbe.dashboard.gui.service.DashboardGuiWidgetRegistry;
 import de.benjaminborbe.dashboard.gui.service.DashboardGuiWidgetRegistryImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class DashboardGuiModule extends AbstractModule {
 

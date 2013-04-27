@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteServerInfo implements java.io.Serializable {
 
 	private java.lang.String baseUrl;
@@ -26,12 +26,13 @@ public class RemoteServerInfo implements java.io.Serializable {
 	}
 
 	public RemoteServerInfo(
-			final java.lang.String baseUrl,
-			final java.lang.String buildId,
-			final boolean developmentBuild,
-			final int majorVersion,
-			final int minorVersion,
-			final int patchLevel) {
+		final java.lang.String baseUrl,
+		final java.lang.String buildId,
+		final boolean developmentBuild,
+		final int majorVersion,
+		final int minorVersion,
+		final int patchLevel
+	) {
 		this.baseUrl = baseUrl;
 		this.buildId = buildId;
 		this.developmentBuild = developmentBuild;
@@ -42,7 +43,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Gets the baseUrl value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @return baseUrl
 	 */
 	public java.lang.String getBaseUrl() {
@@ -51,7 +52,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Sets the baseUrl value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @param baseUrl
 	 */
 	public void setBaseUrl(final java.lang.String baseUrl) {
@@ -60,7 +61,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Gets the buildId value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @return buildId
 	 */
 	public java.lang.String getBuildId() {
@@ -69,7 +70,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Sets the buildId value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @param buildId
 	 */
 	public void setBuildId(final java.lang.String buildId) {
@@ -78,7 +79,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Gets the developmentBuild value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @return developmentBuild
 	 */
 	public boolean isDevelopmentBuild() {
@@ -87,7 +88,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Sets the developmentBuild value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @param developmentBuild
 	 */
 	public void setDevelopmentBuild(final boolean developmentBuild) {
@@ -96,7 +97,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Gets the majorVersion value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @return majorVersion
 	 */
 	public int getMajorVersion() {
@@ -105,7 +106,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Sets the majorVersion value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @param majorVersion
 	 */
 	public void setMajorVersion(final int majorVersion) {
@@ -114,7 +115,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Gets the minorVersion value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @return minorVersion
 	 */
 	public int getMinorVersion() {
@@ -123,7 +124,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Sets the minorVersion value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @param minorVersion
 	 */
 	public void setMinorVersion(final int minorVersion) {
@@ -132,7 +133,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Gets the patchLevel value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @return patchLevel
 	 */
 	public int getPatchLevel() {
@@ -141,7 +142,7 @@ public class RemoteServerInfo implements java.io.Serializable {
 
 	/**
 	 * Sets the patchLevel value for this RemoteServerInfo.
-	 * 
+	 *
 	 * @param patchLevel
 	 */
 	public void setPatchLevel(final int patchLevel) {
@@ -165,9 +166,9 @@ public class RemoteServerInfo implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.baseUrl == null && other.getBaseUrl() == null) || (this.baseUrl != null && this.baseUrl.equals(other.getBaseUrl())))
-				&& ((this.buildId == null && other.getBuildId() == null) || (this.buildId != null && this.buildId.equals(other.getBuildId())))
-				&& this.developmentBuild == other.isDevelopmentBuild() && this.majorVersion == other.getMajorVersion() && this.minorVersion == other.getMinorVersion()
-				&& this.patchLevel == other.getPatchLevel();
+			&& ((this.buildId == null && other.getBuildId() == null) || (this.buildId != null && this.buildId.equals(other.getBuildId())))
+			&& this.developmentBuild == other.isDevelopmentBuild() && this.majorVersion == other.getMajorVersion() && this.minorVersion == other.getMinorVersion()
+			&& this.patchLevel == other.getPatchLevel();
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -248,14 +249,22 @@ public class RemoteServerInfo implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

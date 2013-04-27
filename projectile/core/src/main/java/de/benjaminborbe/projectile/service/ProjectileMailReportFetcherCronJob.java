@@ -1,13 +1,12 @@
 package de.benjaminborbe.projectile.service;
 
+import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.projectile.config.ProjectileConfig;
+import de.benjaminborbe.projectile.util.ProjectileMailReportFetcher;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.projectile.config.ProjectileConfig;
-import de.benjaminborbe.projectile.util.ProjectileMailReportFetcher;
 
 @Singleton
 public class ProjectileMailReportFetcherCronJob implements CronJob {
@@ -22,7 +21,11 @@ public class ProjectileMailReportFetcherCronJob implements CronJob {
 	private final ProjectileConfig projectileConfig;
 
 	@Inject
-	public ProjectileMailReportFetcherCronJob(final Logger logger, final ProjectileConfig projectileConfig, final ProjectileMailReportFetcher projectileMailReportFetcher) {
+	public ProjectileMailReportFetcherCronJob(
+		final Logger logger,
+		final ProjectileConfig projectileConfig,
+		final ProjectileMailReportFetcher projectileMailReportFetcher
+	) {
 		this.logger = logger;
 		this.projectileConfig = projectileConfig;
 		this.projectileMailReportFetcher = projectileMailReportFetcher;
@@ -38,8 +41,7 @@ public class ProjectileMailReportFetcherCronJob implements CronJob {
 		if (Boolean.TRUE.equals(projectileConfig.getCronActive())) {
 			logger.trace("execute");
 			projectileMailReportFetcher.fetch();
-		}
-		else {
+		} else {
 			logger.trace("skip execute, cron not active");
 		}
 	}

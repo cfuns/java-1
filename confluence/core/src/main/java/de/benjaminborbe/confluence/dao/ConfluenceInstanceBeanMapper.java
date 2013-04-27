@@ -1,8 +1,6 @@
 package de.benjaminborbe.confluence.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.util.MapperConfluenceInstanceIdentifier;
@@ -16,6 +14,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -34,13 +34,16 @@ public class ConfluenceInstanceBeanMapper extends MapObjectMapperAdapter<Conflue
 		final MapperLong mapperLong,
 		final MapperBoolean mapperBoolean,
 		final MapperInteger mapperInteger,
-		final MapperCalendar mapperCalendar) {
+		final MapperCalendar mapperCalendar
+	) {
 		super(provider, buildMappings(mapperConfluenceInstanceIdentifier, mapperUserIdentifier, mapperString, mapperLong, mapperBoolean, mapperInteger, mapperCalendar));
 	}
 
-	private static Collection<StringObjectMapper<ConfluenceInstanceBean>> buildMappings(final MapperConfluenceInstanceIdentifier mapperConfluenceInstanceIdentifier,
-																																											final MapperUserIdentifier mapperUserIdentifier, final MapperString mapperString, final MapperLong mapperLong, final MapperBoolean mapperBoolean,
-																																											final MapperInteger mapperInteger, final MapperCalendar mapperCalendar) {
+	private static Collection<StringObjectMapper<ConfluenceInstanceBean>> buildMappings(
+		final MapperConfluenceInstanceIdentifier mapperConfluenceInstanceIdentifier,
+		final MapperUserIdentifier mapperUserIdentifier, final MapperString mapperString, final MapperLong mapperLong, final MapperBoolean mapperBoolean,
+		final MapperInteger mapperInteger, final MapperCalendar mapperCalendar
+	) {
 		final List<StringObjectMapper<ConfluenceInstanceBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, ConfluenceInstanceIdentifier>("id", mapperConfluenceInstanceIdentifier));
 		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, UserIdentifier>("owner", mapperUserIdentifier));

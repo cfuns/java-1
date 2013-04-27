@@ -1,9 +1,10 @@
 package de.benjaminborbe.xmlrpc.gui.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class XmlrpcGuiModule extends AbstractModule {
 

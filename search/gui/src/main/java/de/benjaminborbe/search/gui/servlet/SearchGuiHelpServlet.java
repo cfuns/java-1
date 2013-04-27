@@ -1,8 +1,6 @@
 package de.benjaminborbe.search.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -27,6 +25,8 @@ import de.benjaminborbe.website.widget.BrWidget;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,7 +56,8 @@ public class SearchGuiHelpServlet extends SearchGuiWebsiteHtmlServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final SearchGuiSpecialSearchRegistry searchGuiSpecialSearchRegistry,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.urlUtil = urlUtil;
 		this.searchGuiSpecialSearchRegistry = searchGuiSpecialSearchRegistry;

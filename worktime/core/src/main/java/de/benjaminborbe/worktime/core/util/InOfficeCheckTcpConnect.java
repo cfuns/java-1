@@ -1,8 +1,8 @@
 package de.benjaminborbe.worktime.core.util;
 
-import javax.inject.Inject;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;

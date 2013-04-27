@@ -1,8 +1,6 @@
 package de.benjaminborbe.cron.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.cron.message.CronMessageMapper;
@@ -13,6 +11,8 @@ import de.benjaminborbe.cron.util.CronJobRegistry;
 import de.benjaminborbe.cron.util.CronJobRegistryImpl;
 import de.benjaminborbe.cron.util.Quartz;
 import de.benjaminborbe.cron.util.QuartzImpl;
+
+import javax.inject.Singleton;
 
 public class CronModule extends AbstractModule {
 

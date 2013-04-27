@@ -1,10 +1,6 @@
 package de.benjaminborbe.mail.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.service.MailServiceImpl;
 import de.benjaminborbe.mail.util.MailSender;
@@ -12,6 +8,9 @@ import de.benjaminborbe.mail.util.MailSenderUTF8;
 import de.benjaminborbe.mail.util.MailSessionFactory;
 import de.benjaminborbe.mail.util.MailSessionFactoryImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class MailModule extends AbstractModule {
 

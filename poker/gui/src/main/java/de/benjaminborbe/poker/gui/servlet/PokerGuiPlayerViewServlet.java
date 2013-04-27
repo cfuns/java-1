@@ -1,8 +1,6 @@
 package de.benjaminborbe.poker.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -37,6 +35,8 @@ import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -73,7 +73,8 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 		final CacheService cacheService,
 		final PokerService pokerService,
 		final PokerGuiLinkFactory pokerGuiLinkFactory,
-		final ComparatorUtil comparatorUtil) {
+		final ComparatorUtil comparatorUtil
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;

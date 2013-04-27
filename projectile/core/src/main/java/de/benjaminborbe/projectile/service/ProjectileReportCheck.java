@@ -1,6 +1,5 @@
 package de.benjaminborbe.projectile.service;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -13,6 +12,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CurrentTime;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;

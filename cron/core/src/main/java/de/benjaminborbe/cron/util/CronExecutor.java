@@ -1,10 +1,9 @@
 package de.benjaminborbe.cron.util;
 
+import de.benjaminborbe.cron.api.CronJob;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
-
-import de.benjaminborbe.cron.api.CronJob;
 
 public class CronExecutor {
 
@@ -28,8 +27,7 @@ public class CronExecutor {
 			cronJob.execute();
 			cronExecutionHistory.add(name);
 			logger.trace("execute - finished job: " + name);
-		}
-		else {
+		} else {
 			logger.error("execute - found no cronJob for name: " + name);
 		}
 	}

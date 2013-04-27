@@ -1,19 +1,16 @@
 package de.benjaminborbe.tools.http;
 
-import java.io.IOException;
+import de.benjaminborbe.tools.date.CalendarUtil;
+import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import de.benjaminborbe.tools.date.CalendarUtil;
+import java.io.IOException;
 
 @Singleton
 public class HttpLastModifiedFilter extends HttpFilter {
@@ -38,12 +35,15 @@ public class HttpLastModifiedFilter extends HttpFilter {
 	}
 
 	@Override
-	public void doFilter(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws IOException, ServletException {
+	public void doFilter(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final FilterChain filterChain
+	) throws IOException, ServletException {
 		try {
 			response.setHeader("Cache-Control", "public, max-age=300");
 			response.setDateHeader("Expires", calendarUtil.getTime() + TIMEOUT);
-		}
-		finally {
+		} finally {
 			filterChain.doFilter(request, response);
 		}
 	}

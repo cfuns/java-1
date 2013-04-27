@@ -1,9 +1,10 @@
 package de.benjaminborbe.wow.core.xmpp;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.registry.RegistryBase;
 import de.benjaminborbe.xmpp.api.XmppCommand;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class WowXmppCommandRegistry extends RegistryBase<XmppCommand> {

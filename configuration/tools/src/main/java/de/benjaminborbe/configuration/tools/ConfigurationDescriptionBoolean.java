@@ -50,8 +50,7 @@ public class ConfigurationDescriptionBoolean implements ConfigurationDescription
 	public boolean validateValue(final String value) {
 		try {
 			return value != null && ("true".equals(value) || "false".equals(value));
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}

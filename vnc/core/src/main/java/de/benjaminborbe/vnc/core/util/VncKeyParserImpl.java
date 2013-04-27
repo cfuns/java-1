@@ -1,6 +1,5 @@
 package de.benjaminborbe.vnc.core.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.vnc.api.VncKey;
@@ -8,6 +7,7 @@ import de.benjaminborbe.vnc.api.VncKeyParseException;
 import de.benjaminborbe.vnc.api.VncKeyParser;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 

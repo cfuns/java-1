@@ -1,12 +1,12 @@
 package de.benjaminborbe.confluence.connector;
 
-import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.xmlrpc.api.XmlrpcService;
 import de.benjaminborbe.xmlrpc.api.XmlrpcServiceException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.net.URL;
 
 public class ConfluenceXmlRpcClient {

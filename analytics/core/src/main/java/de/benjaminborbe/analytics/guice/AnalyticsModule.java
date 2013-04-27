@@ -1,10 +1,6 @@
 package de.benjaminborbe.analytics.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.config.AnalyticsConfig;
 import de.benjaminborbe.analytics.config.AnalyticsConfigImpl;
@@ -16,6 +12,9 @@ import de.benjaminborbe.analytics.dao.AnalyticsReportValueDao;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDaoStorage;
 import de.benjaminborbe.analytics.service.AnalyticsServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class AnalyticsModule extends AbstractModule {
 

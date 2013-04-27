@@ -1,11 +1,11 @@
 package de.benjaminborbe.projectile.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.util.LineIterator;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -55,7 +55,14 @@ public class ProjectileCsvReportToDtoConverter {
 		return result;
 	}
 
-	private ProjectileCsvReportToDto buildBean(final String username, final String target, final String extern, final String intern, final String billable, final Calendar updateDate)
+	private ProjectileCsvReportToDto buildBean(
+		final String username,
+		final String target,
+		final String extern,
+		final String intern,
+		final String billable,
+		final Calendar updateDate
+	)
 		throws ParseException {
 		final ProjectileCsvReportToDto projectileReport = new ProjectileCsvReportToDto();
 		projectileReport.setUsername(projectileNameMapper.fullnameToLogin(username));

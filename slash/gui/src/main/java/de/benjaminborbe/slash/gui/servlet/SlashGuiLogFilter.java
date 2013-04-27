@@ -1,11 +1,11 @@
 package de.benjaminborbe.slash.gui.servlet;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -33,7 +33,11 @@ public class SlashGuiLogFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(final ServletRequest servletRequest, final ServletResponse servletResponse, final FilterChain filterChain) throws IOException, ServletException {
+	public void doFilter(
+		final ServletRequest servletRequest,
+		final ServletResponse servletResponse,
+		final FilterChain filterChain
+	) throws IOException, ServletException {
 		try {
 			// log cookies
 			if (servletRequest instanceof HttpServletRequest) {

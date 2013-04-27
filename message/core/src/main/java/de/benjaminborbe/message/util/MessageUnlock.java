@@ -1,6 +1,5 @@
 package de.benjaminborbe.message.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.message.dao.MessageBean;
 import de.benjaminborbe.message.dao.MessageBeanMapper;
 import de.benjaminborbe.message.dao.MessageDao;
@@ -11,6 +10,7 @@ import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Calendar;
 
 public class MessageUnlock {

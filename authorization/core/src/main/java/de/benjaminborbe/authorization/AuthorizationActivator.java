@@ -1,6 +1,5 @@
 package de.benjaminborbe.authorization;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.guice.AuthorizationModules;
 import de.benjaminborbe.tools.guice.Modules;
@@ -9,6 +8,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,14 +1,13 @@
 package de.benjaminborbe.configuration.tools;
 
-import java.util.Collection;
-
-import org.slf4j.Logger;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import java.util.Collection;
 
 public abstract class ConfigurationBase {
 
@@ -27,8 +26,7 @@ public abstract class ConfigurationBase {
 	protected String getValueString(final ConfigurationDescription configuration) {
 		try {
 			return configurationService.getConfigurationValue(configuration);
-		}
-		catch (final ConfigurationServiceException e) {
+		} catch (final ConfigurationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return configuration.getDefaultValueAsString();
 		}
@@ -37,12 +35,10 @@ public abstract class ConfigurationBase {
 	protected Long getValueLong(final ConfigurationDescriptionLong configuration) {
 		try {
 			return parseUtil.parseLong(configurationService.getConfigurationValue(configuration));
-		}
-		catch (final ConfigurationServiceException e) {
+		} catch (final ConfigurationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			logger.trace(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
 		}
@@ -51,12 +47,10 @@ public abstract class ConfigurationBase {
 	protected Integer getValueInteger(final ConfigurationDescriptionInteger configuration) {
 		try {
 			return parseUtil.parseInt(configurationService.getConfigurationValue(configuration));
-		}
-		catch (final ConfigurationServiceException e) {
+		} catch (final ConfigurationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			logger.trace(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
 		}
@@ -65,12 +59,10 @@ public abstract class ConfigurationBase {
 	protected Boolean getValueBoolean(final ConfigurationDescriptionBoolean configuration) {
 		try {
 			return parseUtil.parseBoolean(configurationService.getConfigurationValue(configuration));
-		}
-		catch (final ConfigurationServiceException e) {
+		} catch (final ConfigurationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			logger.trace(e.getClass().getName(), e);
 			return configuration.getDefaultValue();
 		}

@@ -1,8 +1,8 @@
 package de.benjaminborbe.meta.util;
 
-import javax.inject.Inject;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;

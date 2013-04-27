@@ -1,18 +1,6 @@
 package de.benjaminborbe.microblog.gui.servlet;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Comparator;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -46,6 +34,15 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Comparator;
 
 @Singleton
 public class MicroblogGuiNotificationListServlet extends WebsiteHtmlServlet {
@@ -68,20 +65,21 @@ public class MicroblogGuiNotificationListServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public MicroblogGuiNotificationListServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final CacheService cacheService,
-			final MicroblogService microblogService,
-			final ComparatorUtil comparatorUtil,
-			final ComparatorStringCaseInsensitive comparatorStringCaseInsensitive,
-			final MicroblogGuiLinkFactory microblogGuiLinkFactory) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final CacheService cacheService,
+		final MicroblogService microblogService,
+		final ComparatorUtil comparatorUtil,
+		final ComparatorStringCaseInsensitive comparatorStringCaseInsensitive,
+		final MicroblogGuiLinkFactory microblogGuiLinkFactory
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -98,7 +96,7 @@ public class MicroblogGuiNotificationListServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 
 		try {
 			final ListWidget widgets = new ListWidget();
@@ -111,8 +109,7 @@ public class MicroblogGuiNotificationListServlet extends WebsiteHtmlServlet {
 				if (keyword != null && !keyword.isEmpty()) {
 					try {
 						microblogService.activateNotification(userIdentifier, keyword);
-					}
-					catch (final ValidationException e) {
+					} catch (final ValidationException e) {
 						widgets.add("add keyword failed");
 						widgets.add(new ValidationExceptionWidget(e));
 					}
@@ -136,13 +133,11 @@ public class MicroblogGuiNotificationListServlet extends WebsiteHtmlServlet {
 			widgets.add(form);
 
 			return widgets;
-		}
-		catch (final MicroblogServiceException e) {
+		} catch (final MicroblogServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

@@ -1,6 +1,5 @@
 package de.benjaminborbe.blog.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.blog.gui.guice.BlogGuiModules;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiAtomServlet;
 import de.benjaminborbe.blog.gui.servlet.BlogGuiCreatePostServlet;
@@ -16,6 +15,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

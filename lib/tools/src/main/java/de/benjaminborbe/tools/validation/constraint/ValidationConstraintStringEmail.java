@@ -10,8 +10,7 @@ public class ValidationConstraintStringEmail implements ValidationConstraint<Str
 		try {
 			InternetAddress.parse(object);
 			return object.indexOf('@') != -1;
-		}
-		catch (final AddressException e) {
+		} catch (final AddressException e) {
 			return false;
 		}
 	}

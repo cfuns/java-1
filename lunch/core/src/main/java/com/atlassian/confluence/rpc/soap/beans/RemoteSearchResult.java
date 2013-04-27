@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteSearchResult implements java.io.Serializable {
 
 	private java.lang.String excerpt;
@@ -23,7 +23,13 @@ public class RemoteSearchResult implements java.io.Serializable {
 	public RemoteSearchResult() {
 	}
 
-	public RemoteSearchResult(final java.lang.String excerpt, final long id, final java.lang.String title, final java.lang.String type, final java.lang.String url) {
+	public RemoteSearchResult(
+		final java.lang.String excerpt,
+		final long id,
+		final java.lang.String title,
+		final java.lang.String type,
+		final java.lang.String url
+	) {
 		this.excerpt = excerpt;
 		this.id = id;
 		this.title = title;
@@ -33,7 +39,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 
 	/**
 	 * Gets the excerpt value for this RemoteSearchResult.
-	 * 
+	 *
 	 * @return excerpt
 	 */
 	public java.lang.String getExcerpt() {
@@ -42,7 +48,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 
 	/**
 	 * Sets the excerpt value for this RemoteSearchResult.
-	 * 
+	 *
 	 * @param excerpt
 	 */
 	public void setExcerpt(final java.lang.String excerpt) {
@@ -51,7 +57,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this RemoteSearchResult.
-	 * 
+	 *
 	 * @return id
 	 */
 	public long getId() {
@@ -60,7 +66,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this RemoteSearchResult.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(final long id) {
@@ -69,7 +75,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 
 	/**
 	 * Gets the title value for this RemoteSearchResult.
-	 * 
+	 *
 	 * @return title
 	 */
 	public java.lang.String getTitle() {
@@ -78,7 +84,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 
 	/**
 	 * Sets the title value for this RemoteSearchResult.
-	 * 
+	 *
 	 * @param title
 	 */
 	public void setTitle(final java.lang.String title) {
@@ -87,7 +93,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 
 	/**
 	 * Gets the type value for this RemoteSearchResult.
-	 * 
+	 *
 	 * @return type
 	 */
 	public java.lang.String getType() {
@@ -96,7 +102,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 
 	/**
 	 * Sets the type value for this RemoteSearchResult.
-	 * 
+	 *
 	 * @param type
 	 */
 	public void setType(final java.lang.String type) {
@@ -105,7 +111,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 
 	/**
 	 * Gets the url value for this RemoteSearchResult.
-	 * 
+	 *
 	 * @return url
 	 */
 	public java.lang.String getUrl() {
@@ -114,7 +120,7 @@ public class RemoteSearchResult implements java.io.Serializable {
 
 	/**
 	 * Sets the url value for this RemoteSearchResult.
-	 * 
+	 *
 	 * @param url
 	 */
 	public void setUrl(final java.lang.String url) {
@@ -138,9 +144,9 @@ public class RemoteSearchResult implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && ((this.excerpt == null && other.getExcerpt() == null) || (this.excerpt != null && this.excerpt.equals(other.getExcerpt()))) && this.id == other.getId()
-				&& ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
-				&& ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())))
-				&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
+			&& ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
+			&& ((this.type == null && other.getType() == null) || (this.type != null && this.type.equals(other.getType())))
+			&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -218,14 +224,22 @@ public class RemoteSearchResult implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

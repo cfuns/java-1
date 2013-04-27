@@ -45,7 +45,8 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 		final HttpUtil httpUtil,
 		HttpdownloaderService httpdownloaderService,
 		final CrawlerNotifier crawlerNotifier,
-		final CrawlerMessageMapper crawlerMessageMapper) {
+		final CrawlerMessageMapper crawlerMessageMapper
+	) {
 		this.logger = logger;
 		this.analyticsService = analyticsService;
 		this.httpUtil = httpUtil;

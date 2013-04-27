@@ -1,12 +1,12 @@
 package de.benjaminborbe.performance.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.performance.api.PerformanceEntry;
 import de.benjaminborbe.performance.api.PerformanceService;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

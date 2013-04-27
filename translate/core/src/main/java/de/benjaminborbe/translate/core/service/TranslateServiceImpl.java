@@ -1,9 +1,10 @@
 package de.benjaminborbe.translate.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.translate.api.TranslateService;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class TranslateServiceImpl implements TranslateService {

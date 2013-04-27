@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemotePageHistory implements java.io.Serializable {
 
 	private long id;
@@ -30,7 +30,7 @@ public class RemotePageHistory implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this RemotePageHistory.
-	 * 
+	 *
 	 * @return id
 	 */
 	public long getId() {
@@ -39,7 +39,7 @@ public class RemotePageHistory implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this RemotePageHistory.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(final long id) {
@@ -48,7 +48,7 @@ public class RemotePageHistory implements java.io.Serializable {
 
 	/**
 	 * Gets the modified value for this RemotePageHistory.
-	 * 
+	 *
 	 * @return modified
 	 */
 	public java.util.Calendar getModified() {
@@ -57,7 +57,7 @@ public class RemotePageHistory implements java.io.Serializable {
 
 	/**
 	 * Sets the modified value for this RemotePageHistory.
-	 * 
+	 *
 	 * @param modified
 	 */
 	public void setModified(final java.util.Calendar modified) {
@@ -66,7 +66,7 @@ public class RemotePageHistory implements java.io.Serializable {
 
 	/**
 	 * Gets the modifier value for this RemotePageHistory.
-	 * 
+	 *
 	 * @return modifier
 	 */
 	public java.lang.String getModifier() {
@@ -75,7 +75,7 @@ public class RemotePageHistory implements java.io.Serializable {
 
 	/**
 	 * Sets the modifier value for this RemotePageHistory.
-	 * 
+	 *
 	 * @param modifier
 	 */
 	public void setModifier(final java.lang.String modifier) {
@@ -84,7 +84,7 @@ public class RemotePageHistory implements java.io.Serializable {
 
 	/**
 	 * Gets the version value for this RemotePageHistory.
-	 * 
+	 *
 	 * @return version
 	 */
 	public int getVersion() {
@@ -93,7 +93,7 @@ public class RemotePageHistory implements java.io.Serializable {
 
 	/**
 	 * Sets the version value for this RemotePageHistory.
-	 * 
+	 *
 	 * @param version
 	 */
 	public void setVersion(final int version) {
@@ -117,7 +117,7 @@ public class RemotePageHistory implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && this.id == other.getId() && ((this.modified == null && other.getModified() == null) || (this.modified != null && this.modified.equals(other.getModified())))
-				&& ((this.modifier == null && other.getModifier() == null) || (this.modifier != null && this.modifier.equals(other.getModifier()))) && this.version == other.getVersion();
+			&& ((this.modifier == null && other.getModifier() == null) || (this.modifier != null && this.modifier.equals(other.getModifier()))) && this.version == other.getVersion();
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -184,14 +184,22 @@ public class RemotePageHistory implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

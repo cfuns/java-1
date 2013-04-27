@@ -1,8 +1,6 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportDto;
 import de.benjaminborbe.analytics.api.AnalyticsService;
@@ -44,6 +42,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,7 +81,8 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 		final AuthorizationService authorizationService,
 		final AnalyticsService analyticsService,
 		final AnalyticsGuiLinkFactory analyticsGuiLinkFactory,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.parseUtil = parseUtil;
 		this.analyticsService = analyticsService;
@@ -146,7 +147,11 @@ public class AnalyticsGuiReportCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private void addData(final SessionIdentifier sessionIdentifier, final String name, final String aggregationString) throws AnalyticsServiceException, ValidationException,
+	private void addData(
+		final SessionIdentifier sessionIdentifier,
+		final String name,
+		final String aggregationString
+	) throws AnalyticsServiceException, ValidationException,
 		PermissionDeniedException, LoginRequiredException {
 		final List<ValidationError> errors = new ArrayList<>();
 		AnalyticsReportAggregation aggregation = null;

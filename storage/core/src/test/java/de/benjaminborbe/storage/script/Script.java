@@ -1,9 +1,6 @@
 package de.benjaminborbe.storage.script;
 
-import java.util.Arrays;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.storage.api.StorageRow;
 import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageValue;
@@ -11,6 +8,8 @@ import de.benjaminborbe.storage.guice.StorageModulesMock;
 import de.benjaminborbe.storage.util.StorageConfigMock;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+
+import java.util.Arrays;
 
 public class Script {
 
@@ -40,8 +39,7 @@ public class Script {
 				}
 			}
 			System.out.println("finished");
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}

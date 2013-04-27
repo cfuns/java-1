@@ -1,6 +1,5 @@
 package de.benjaminborbe.websearch.core.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -13,6 +12,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintLongGE;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintLongLE;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;

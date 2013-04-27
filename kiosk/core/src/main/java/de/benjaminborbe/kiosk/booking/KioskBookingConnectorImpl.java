@@ -1,6 +1,5 @@
 package de.benjaminborbe.kiosk.booking;
 
-import javax.inject.Inject;
 import de.benjaminborbe.kiosk.KioskConstants;
 import de.benjaminborbe.kiosk.config.KioskConfig;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
@@ -14,6 +13,7 @@ import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -47,7 +47,8 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 		final HttpDownloader httpDownloader,
 		final HttpDownloadUtil httpDownloadUtil,
 		final UrlUtil urlUtil,
-		final DurationUtil durationUtil) {
+		final DurationUtil durationUtil
+	) {
 		this.logger = logger;
 		this.kioskConfig = kioskConfig;
 		this.httpDownloader = httpDownloader;
@@ -194,7 +195,12 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 		return null;
 	}
 
-	private HttpDownloadResult postUrl(final URL url, final MapChain<String, String> data, final MapChain<String, String> cookies, final int timeout) throws HttpDownloaderException {
+	private HttpDownloadResult postUrl(
+		final URL url,
+		final MapChain<String, String> data,
+		final MapChain<String, String> cookies,
+		final int timeout
+	) throws HttpDownloaderException {
 		try {
 			Thread.sleep(DELAY);
 		} catch (final InterruptedException e) {

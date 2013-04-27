@@ -1,10 +1,6 @@
 package de.benjaminborbe.kiosk.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.booking.KioskBookingConnector;
 import de.benjaminborbe.kiosk.booking.KioskBookingConnectorImpl;
@@ -16,6 +12,9 @@ import de.benjaminborbe.kiosk.service.KioskServiceImpl;
 import de.benjaminborbe.kiosk.util.KioskBookingMessageMapper;
 import de.benjaminborbe.kiosk.util.KioskBookingMessageMapperImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class KioskModule extends AbstractModule {
 

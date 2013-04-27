@@ -1,6 +1,5 @@
 package de.benjaminborbe.dhl.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.dhl.dao.DhlBean;
 import de.benjaminborbe.dhl.dao.DhlDao;
 import de.benjaminborbe.storage.api.StorageException;
@@ -8,6 +7,8 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueList;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class DhlStatusChecker {
 

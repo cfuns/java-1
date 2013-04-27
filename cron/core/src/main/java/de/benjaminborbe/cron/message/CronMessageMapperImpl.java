@@ -1,6 +1,5 @@
 package de.benjaminborbe.cron.message;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.MapperString;
@@ -8,6 +7,7 @@ import de.benjaminborbe.tools.mapper.json.JsonObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

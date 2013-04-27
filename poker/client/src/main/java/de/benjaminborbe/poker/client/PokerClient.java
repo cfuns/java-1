@@ -1,14 +1,6 @@
 package de.benjaminborbe.poker.client;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Injector;
-
 import de.benjaminborbe.poker.client.guice.PokerClientModules;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
@@ -22,6 +14,12 @@ import de.benjaminborbe.tools.json.JSONParserSimple;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ThreadRunner;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class PokerClient {
 
@@ -80,8 +78,7 @@ public class PokerClient {
 		try {
 			// 30 sec
 			Thread.sleep(30 * 1000);
-		}
-		catch (final InterruptedException e) {
+		} catch (final InterruptedException e) {
 		}
 
 		running = false;
@@ -107,27 +104,22 @@ public class PokerClient {
 								final JSONObject callJsonObject = (JSONObject) callObject;
 								if ("true".equals(String.valueOf(callJsonObject.get("success")))) {
 									logger.debug("call success");
-								}
-								else {
+								} else {
 									logger.debug("call failed: " + callJsonObject.get("error"));
 								}
 							}
-						}
-						else {
+						} else {
 							logger.debug("not active player");
 						}
-					}
-					else {
+					} else {
 						logger.debug("game not running");
 					}
 				}
 				try {
 					Thread.sleep(DELAY);
+				} catch (final InterruptedException e) {
 				}
-				catch (final InterruptedException e) {
-				}
-			}
-			catch (MalformedURLException | UnsupportedEncodingException | HttpDownloaderException | JSONParseException e) {
+			} catch (MalformedURLException | UnsupportedEncodingException | HttpDownloaderException | JSONParseException e) {
 				logger.warn(e.getClass().getSimpleName(), e);
 			}
 		}

@@ -1,6 +1,5 @@
 package de.benjaminborbe.analytics.gui.chart;
 
-import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
@@ -19,6 +18,7 @@ import de.benjaminborbe.website.table.TableRowWidget;
 import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.DecimalFormat;
@@ -40,8 +40,10 @@ public class AnalyticsReportChartBuilderTable implements AnalyticsReportChartBui
 	}
 
 	@Override
-	public Widget buildChart(final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> reportIdentifiers,
-													 final AnalyticsReportInterval selectedAnalyticsReportInterval) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+	public Widget buildChart(
+		final SessionIdentifier sessionIdentifier, final List<AnalyticsReportIdentifier> reportIdentifiers,
+		final AnalyticsReportInterval selectedAnalyticsReportInterval
+	) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		final AnalyticsReportValueListIterator reportValueIterator = analyticsService.getReportListIterator(sessionIdentifier, reportIdentifiers, selectedAnalyticsReportInterval);
 		final DecimalFormat df = new DecimalFormat("#####0.0");
 

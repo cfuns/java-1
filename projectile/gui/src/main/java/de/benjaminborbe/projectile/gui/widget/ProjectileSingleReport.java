@@ -1,16 +1,15 @@
 package de.benjaminborbe.projectile.gui.widget;
 
-import java.text.DecimalFormat;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
 
 public class ProjectileSingleReport extends CompositeWidget {
 
@@ -27,8 +26,7 @@ public class ProjectileSingleReport extends CompositeWidget {
 			widgets.add(createBlock("Week", report.getWeekIntern(), report.getWeekExtern(), report.getWeekBillable(), report.getWeekTarget()));
 			widgets.add(createBlock("Month", report.getMonthIntern(), report.getMonthExtern(), report.getMonthBillable(), report.getMonthTarget()));
 			widgets.add(createBlock("Year", report.getYearIntern(), report.getYearExtern(), report.getYearBillable(), report.getYearTarget()));
-		}
-		else {
+		} else {
 			widgets.add("no data found");
 		}
 		return widgets;
@@ -61,8 +59,7 @@ public class ProjectileSingleReport extends CompositeWidget {
 			widgets.add("target: ");
 			widgets.add(target != null ? df.format(target) : "~");
 			widgets.add(")");
-		}
-		else {
+		} else {
 			widgets.add("-");
 		}
 		return widgets;

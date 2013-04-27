@@ -1,11 +1,12 @@
 package de.benjaminborbe.distributed.search.gui.service;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.distributed.search.gui.DistributedSearchGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+
+import javax.inject.Inject;
 
 public class DistributedSearchGuiNavigationEntry implements NavigationEntry {
 

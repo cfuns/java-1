@@ -1,10 +1,9 @@
 package de.benjaminborbe.tools.iterator;
 
-import java.util.NoSuchElementException;
-
 import com.google.common.base.Predicate;
-
 import de.benjaminborbe.api.IteratorWithException;
+
+import java.util.NoSuchElementException;
 
 public class IteratorFilter<T, E extends Exception> implements IteratorWithException<T, E> {
 
@@ -40,8 +39,7 @@ public class IteratorFilter<T, E extends Exception> implements IteratorWithExcep
 			final T result = next;
 			next = null;
 			return result;
-		}
-		else {
+		} else {
 			throw new NoSuchElementException();
 		}
 	}

@@ -1,8 +1,9 @@
 package de.benjaminborbe.dhl.guice;
 
-import javax.inject.Inject;
 import de.benjaminborbe.dhl.dao.DhlValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
+
+import javax.inject.Inject;
 
 public class DhlValidatorLinker {
 

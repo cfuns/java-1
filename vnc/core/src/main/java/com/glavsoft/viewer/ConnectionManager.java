@@ -24,21 +24,17 @@
 
 package com.glavsoft.viewer;
 
-import java.awt.event.WindowListener;
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
-import org.slf4j.Logger;
-
 import com.glavsoft.rfb.protocol.ProtocolSettings;
 import com.glavsoft.viewer.swing.ConnectionParams;
 import com.glavsoft.viewer.swing.Utils;
 import com.glavsoft.viewer.swing.gui.ConnectionDialog;
+import org.slf4j.Logger;
+
+import javax.swing.*;
+import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class ConnectionManager {
 
@@ -88,13 +84,11 @@ public class ConnectionManager {
 			try {
 				socket = new Socket(host, port);
 				wasError = false;
-			}
-			catch (final UnknownHostException e) {
+			} catch (final UnknownHostException e) {
 				logger.warn("Unknown host: " + connectionParams.hostName);
 				showConnectionErrorDialog("Unknown host: '" + connectionParams.hostName + "'");
 				wasError = true;
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 				logger.warn("Couldn't connect to: " + connectionParams.hostName + ":" + connectionParams.getPortNumber() + ": " + e.getMessage());
 				showConnectionErrorDialog("Couldn't connect to: '" + connectionParams.hostName + ":" + connectionParams.getPortNumber() + "'\n" + e.getMessage());
 				wasError = true;

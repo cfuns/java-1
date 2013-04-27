@@ -1,9 +1,9 @@
 package de.benjaminborbe.search.core.service;
 
-import javax.inject.Inject;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.tools.util.ComparatorBase;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 

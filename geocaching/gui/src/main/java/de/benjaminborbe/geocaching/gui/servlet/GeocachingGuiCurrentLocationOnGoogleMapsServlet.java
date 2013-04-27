@@ -1,17 +1,6 @@
 package de.benjaminborbe.geocaching.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -20,6 +9,14 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ResourceUtil;
 import de.benjaminborbe.website.servlet.WebsiteServlet;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class GeocachingGuiCurrentLocationOnGoogleMapsServlet extends WebsiteServlet {
@@ -30,20 +27,25 @@ public class GeocachingGuiCurrentLocationOnGoogleMapsServlet extends WebsiteServ
 
 	@Inject
 	public GeocachingGuiCurrentLocationOnGoogleMapsServlet(
-			final ResourceUtil resourceUtil,
-			final Logger logger,
-			final UrlUtil urlUtil,
-			final AuthenticationService authenticationService,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final Provider<HttpContext> httpContextProvider,
-			final AuthorizationService authorizationService) {
+		final ResourceUtil resourceUtil,
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final AuthenticationService authenticationService,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final Provider<HttpContext> httpContextProvider,
+		final AuthorizationService authorizationService
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.resourceUtil = resourceUtil;
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException {
 		response.setContentType("text/html");
 		resourceUtil.copyResourceToOutputStream("geo.html", response.getOutputStream());
 	}

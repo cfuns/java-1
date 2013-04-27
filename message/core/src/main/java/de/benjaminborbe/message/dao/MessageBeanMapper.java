@@ -1,8 +1,6 @@
 package de.benjaminborbe.message.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperLong;
@@ -11,6 +9,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -43,12 +43,15 @@ public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
 		final MapperMessageIdentifier mapperMessageIdentifier,
 		final MapperString mapperString,
 		final MapperCalendar mapperCalendar,
-		final MapperLong mapperLong) {
+		final MapperLong mapperLong
+	) {
 		super(provider, buildMappings(mapperMessageIdentifier, mapperString, mapperCalendar, mapperLong));
 	}
 
-	private static Collection<StringObjectMapper<MessageBean>> buildMappings(final MapperMessageIdentifier mapperMessageIdentifier, final MapperString mapperString,
-																																					 final MapperCalendar mapperCalendar, final MapperLong mapperLong) {
+	private static Collection<StringObjectMapper<MessageBean>> buildMappings(
+		final MapperMessageIdentifier mapperMessageIdentifier, final MapperString mapperString,
+		final MapperCalendar mapperCalendar, final MapperLong mapperLong
+	) {
 		final List<StringObjectMapper<MessageBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<MessageBean, MessageIdentifier>(ID, mapperMessageIdentifier));
 		result.add(new StringObjectMapperAdapter<MessageBean, String>(CONTENT, mapperString));

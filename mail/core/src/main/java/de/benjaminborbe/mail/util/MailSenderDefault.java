@@ -1,10 +1,10 @@
 package de.benjaminborbe.mail.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailServiceException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.mail.Message;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;

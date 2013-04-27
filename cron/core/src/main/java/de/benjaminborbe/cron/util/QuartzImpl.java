@@ -1,7 +1,5 @@
 package de.benjaminborbe.cron.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.cron.CronConstants;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.job.CronJobOsgi;
@@ -13,6 +11,8 @@ import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 

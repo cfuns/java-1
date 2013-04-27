@@ -1,7 +1,5 @@
 package de.benjaminborbe.confluence.search;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -20,6 +18,8 @@ import de.benjaminborbe.tools.search.SearchUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -75,7 +75,8 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 		final SearchUtil searchUtil,
 		final IndexService indexService,
 		final AuthenticationService authenticationService,
-		final ConfluenceIndexUtil confluenceIndexUtil) {
+		final ConfluenceIndexUtil confluenceIndexUtil
+	) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.indexService = indexService;

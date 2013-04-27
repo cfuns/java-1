@@ -1,11 +1,12 @@
 package de.benjaminborbe.virt.core.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.virt.api.VirtIpAddress;
+
+import javax.inject.Inject;
 
 public class MapperVirtIpAddress implements Mapper<VirtIpAddress> {
 

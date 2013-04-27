@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.gui.util;
 
 import com.google.common.collect.Collections2;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -21,6 +19,8 @@ import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.ImageWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -48,7 +48,8 @@ public class TaskGuiWidgetFactory {
 		final TaskGuiLinkFactory taskGuiLinkFactory,
 		final TaskGuiUtil taskGuiUtil,
 		final CalendarUtil calendarUtil,
-		final TaskComparator taskComparator) {
+		final TaskComparator taskComparator
+	) {
 		this.logger = logger;
 		this.taskGuiLinkFactory = taskGuiLinkFactory;
 		this.taskGuiUtil = taskGuiUtil;
@@ -71,8 +72,10 @@ public class TaskGuiWidgetFactory {
 		return result;
 	}
 
-	public Widget taskListWithChilds(final SessionIdentifier sessionIdentifier, final TaskCache taskCache, final TaskIdentifier parentId, final HttpServletRequest request,
-																	 final TimeZone timeZone) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public Widget taskListWithChilds(
+		final SessionIdentifier sessionIdentifier, final TaskCache taskCache, final TaskIdentifier parentId, final HttpServletRequest request,
+		final TimeZone timeZone
+	) throws MalformedURLException, UnsupportedEncodingException, TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final List<Task> tasks = taskCache.getChildTasks(parentId);
 		if (tasks.isEmpty()) {
 			return null;
@@ -92,7 +95,12 @@ public class TaskGuiWidgetFactory {
 		return ul;
 	}
 
-	public Widget buildTaskName(final SessionIdentifier sessionIdentifier, final HttpServletRequest request, final Task task, final TaskCache taskCache) throws TaskServiceException,
+	public Widget buildTaskName(
+		final SessionIdentifier sessionIdentifier,
+		final HttpServletRequest request,
+		final Task task,
+		final TaskCache taskCache
+	) throws TaskServiceException,
 		LoginRequiredException, PermissionDeniedException, MalformedURLException, UnsupportedEncodingException {
 		final String taskName = taskGuiUtil.buildCompleteName(sessionIdentifier, taskCache, task, TaskGuiConstants.PARENT_NAME_LENGTH);
 		return new SpanWidget(taskGuiLinkFactory.taskView(request, new StringWidget(taskName), task)).addAttribute("class", "taskTitle");

@@ -1,7 +1,5 @@
 package de.benjaminborbe.note.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -26,6 +24,8 @@ import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -52,7 +52,8 @@ public class NoteServiceImpl implements NoteService {
 		final AuthenticationService authenticationService,
 		final AuthorizationService authorizationService,
 		final NoteDao noteDao,
-		final IdGeneratorUUID idGeneratorUUID) {
+		final IdGeneratorUUID idGeneratorUUID
+	) {
 		this.logger = logger;
 		this.validationExecutor = validationExecutor;
 		this.authenticationService = authenticationService;
@@ -109,7 +110,10 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public void updateNote(final SessionIdentifier sessionIdentifier, final NoteDto noteDto) throws PermissionDeniedException, LoginRequiredException, NoteServiceException,
+	public void updateNote(
+		final SessionIdentifier sessionIdentifier,
+		final NoteDto noteDto
+	) throws PermissionDeniedException, LoginRequiredException, NoteServiceException,
 		ValidationException {
 		try {
 			authorizationService.existsPermission(authorizationService.createPermissionIdentifier(PERMISSION));
@@ -133,7 +137,10 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public void deleteNote(final SessionIdentifier sessionIdentifier, final NoteIdentifier noteIdentifier) throws PermissionDeniedException, LoginRequiredException,
+	public void deleteNote(
+		final SessionIdentifier sessionIdentifier,
+		final NoteIdentifier noteIdentifier
+	) throws PermissionDeniedException, LoginRequiredException,
 		NoteServiceException {
 		try {
 			authorizationService.existsPermission(authorizationService.createPermissionIdentifier(PERMISSION));

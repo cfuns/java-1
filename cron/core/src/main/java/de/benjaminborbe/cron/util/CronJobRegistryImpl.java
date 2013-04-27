@@ -1,8 +1,8 @@
 package de.benjaminborbe.cron.util;
 
-import javax.inject.Singleton;
 import de.benjaminborbe.cron.api.CronJob;
 
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;

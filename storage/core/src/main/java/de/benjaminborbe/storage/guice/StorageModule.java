@@ -1,10 +1,6 @@
 package de.benjaminborbe.storage.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.config.ConfigurationServiceJndi;
@@ -14,6 +10,9 @@ import de.benjaminborbe.storage.util.StorageConnectionPoolImpl;
 import de.benjaminborbe.storage.util.StorageDaoUtil;
 import de.benjaminborbe.storage.util.StorageDaoUtilImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class StorageModule extends AbstractModule {
 

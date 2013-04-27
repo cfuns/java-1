@@ -1,6 +1,5 @@
 package de.benjaminborbe.monitoring.check;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
@@ -18,6 +17,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMa
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;

@@ -1,12 +1,12 @@
 package de.benjaminborbe.microblog.gui.service;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.microblog.gui.MicroblogGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+
+import javax.inject.Inject;
 
 public class MicroblogGuiNavigationEntry implements NavigationEntry {
 
@@ -31,8 +31,7 @@ public class MicroblogGuiNavigationEntry implements NavigationEntry {
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
 			return authorizationService.hasAdminRole(sessionIdentifier);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			return false;
 		}
 	}

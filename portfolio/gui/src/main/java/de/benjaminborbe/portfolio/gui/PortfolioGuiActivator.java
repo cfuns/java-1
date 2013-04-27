@@ -1,6 +1,5 @@
 package de.benjaminborbe.portfolio.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.portfolio.gui.guice.PortfolioGuiModules;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiCacheFilter;
 import de.benjaminborbe.portfolio.gui.servlet.PortfolioGuiContactServlet;
@@ -14,6 +13,7 @@ import de.benjaminborbe.tools.osgi.ResourceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

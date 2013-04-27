@@ -1,12 +1,12 @@
 package de.benjaminborbe.index.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.config.IndexConfig;
 import de.benjaminborbe.index.service.IndexServiceDistributed;
 import de.benjaminborbe.index.service.IndexServiceLucene;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,11 @@ public class IndexServiceFactory {
 	private final IndexConfig indexConfig;
 
 	@Inject
-	public IndexServiceFactory(final IndexConfig indexConfig, final IndexServiceDistributed indexServiceDistributed, final IndexServiceLucene indexServiceLucene) {
+	public IndexServiceFactory(
+		final IndexConfig indexConfig,
+		final IndexServiceDistributed indexServiceDistributed,
+		final IndexServiceLucene indexServiceLucene
+	) {
 		this.indexConfig = indexConfig;
 		this.indexServiceDistributed = indexServiceDistributed;
 		this.indexServiceLucene = indexServiceLucene;

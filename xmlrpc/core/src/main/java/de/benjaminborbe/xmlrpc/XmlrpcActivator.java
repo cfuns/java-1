@@ -1,6 +1,5 @@
 package de.benjaminborbe.xmlrpc;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -8,6 +7,7 @@ import de.benjaminborbe.xmlrpc.api.XmlrpcService;
 import de.benjaminborbe.xmlrpc.guice.XmlrpcModules;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

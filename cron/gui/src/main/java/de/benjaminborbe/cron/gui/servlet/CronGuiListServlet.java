@@ -1,9 +1,7 @@
 package de.benjaminborbe.cron.gui.servlet;
 
 import com.google.common.collect.Lists;
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -30,6 +28,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -62,7 +62,8 @@ public class CronGuiListServlet extends WebsiteHtmlServlet {
 		final AuthorizationService authorizationService,
 		final CacheService cacheService,
 		final CronService cronService,
-		final CronGuiLinkFactory cronGuiLinkFactory) {
+		final CronGuiLinkFactory cronGuiLinkFactory
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authenticationService = authenticationService;
 		this.cronService = cronService;
@@ -70,7 +71,11 @@ public class CronGuiListServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, LoginRequiredException,
+	protected Widget createContentWidget(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws IOException, LoginRequiredException,
 		PermissionDeniedException {
 		try {
 			final ListWidget widgets = new ListWidget();

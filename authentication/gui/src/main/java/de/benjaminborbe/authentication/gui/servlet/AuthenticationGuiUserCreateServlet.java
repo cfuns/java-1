@@ -1,8 +1,6 @@
 package de.benjaminborbe.authentication.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -35,6 +33,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -64,7 +64,8 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
 		final CacheService cacheService,
-		final AuthenticationGuiLinkFactory authenticationGuiLinkFactory) {
+		final AuthenticationGuiLinkFactory authenticationGuiLinkFactory
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -119,7 +120,11 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private void createUser(final SessionIdentifier sessionId, final String username, final String email) throws ValidationException, AuthenticationServiceException,
+	private void createUser(
+		final SessionIdentifier sessionId,
+		final String username,
+		final String email
+	) throws ValidationException, AuthenticationServiceException,
 		LoginRequiredException, SuperAdminRequiredException {
 		final UserDto userDto = new UserDto();
 		userDto.setEmail(email);

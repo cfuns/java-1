@@ -1,10 +1,6 @@
 package de.benjaminborbe.notification.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.config.NotificationConfig;
 import de.benjaminborbe.notification.config.NotificationConfigImpl;
@@ -14,6 +10,9 @@ import de.benjaminborbe.notification.dao.NotificationTypeDao;
 import de.benjaminborbe.notification.dao.NotificationTypeDaoStorage;
 import de.benjaminborbe.notification.service.NotificationServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class NotificationModule extends AbstractModule {
 

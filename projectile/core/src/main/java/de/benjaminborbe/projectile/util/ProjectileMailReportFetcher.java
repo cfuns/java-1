@@ -157,7 +157,8 @@ public class ProjectileMailReportFetcher {
 		final ProjectileConfig projectileConfig,
 		final RunOnlyOnceATime runOnlyOnceATime,
 		final StreamUtil streamUtil,
-		final ProjectileCsvReportImporter projectileCsvReportImporter) {
+		final ProjectileCsvReportImporter projectileCsvReportImporter
+	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;

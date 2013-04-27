@@ -1,9 +1,8 @@
 package de.benjaminborbe.authentication.core.util;
 
-import javax.inject.Inject;
-
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import javax.inject.Inject;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -16,7 +15,11 @@ public class AuthenticationPasswordEncryptionService {
 	public AuthenticationPasswordEncryptionService() {
 	}
 
-	public boolean authenticate(final String attemptedPassword, final byte[] encryptedPassword, final byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	public boolean authenticate(
+		final String attemptedPassword,
+		final byte[] encryptedPassword,
+		final byte[] salt
+	) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		// Encrypt the clear-text password using the same salt that was used to
 		// encrypt the original password
 		final byte[] encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, salt);

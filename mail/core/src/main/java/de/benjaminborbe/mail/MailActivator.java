@@ -1,6 +1,5 @@
 package de.benjaminborbe.mail;
 
-import javax.inject.Inject;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.guice.MailModules;
 import de.benjaminborbe.mail.service.MailMessageConsumer;
@@ -10,6 +9,7 @@ import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

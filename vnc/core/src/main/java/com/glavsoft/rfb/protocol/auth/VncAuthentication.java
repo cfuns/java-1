@@ -51,7 +51,12 @@ public class VncAuthentication extends AuthHandler {
 	}
 
 	@Override
-	public boolean authenticate(final Reader reader, final Writer writer, final CapabilityContainer authCaps, final IPasswordRetriever passwordRetriever) throws TransportException,
+	public boolean authenticate(
+		final Reader reader,
+		final Writer writer,
+		final CapabilityContainer authCaps,
+		final IPasswordRetriever passwordRetriever
+	) throws TransportException,
 		FatalException {
 		final byte[] challenge = reader.readBytes(16);
 		final String password = passwordRetriever.getPassword();

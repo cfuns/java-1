@@ -20,14 +20,12 @@ public class RunOnlyOnceATime {
 		if (isNotRunning()) {
 			try {
 				runnable.run();
-			}
-			finally {
+			} finally {
 				finished();
 			}
 			logger.trace("finished");
 			return true;
-		}
-		else {
+		} else {
 			logger.trace("skipped");
 			return false;
 		}

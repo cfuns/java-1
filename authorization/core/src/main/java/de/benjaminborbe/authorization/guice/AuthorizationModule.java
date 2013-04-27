@@ -1,10 +1,6 @@
 package de.benjaminborbe.authorization.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.dao.PermissionDao;
 import de.benjaminborbe.authorization.dao.PermissionDaoImpl;
@@ -12,6 +8,9 @@ import de.benjaminborbe.authorization.dao.RoleDao;
 import de.benjaminborbe.authorization.dao.RoleDaoImpl;
 import de.benjaminborbe.authorization.service.AuthorizationServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class AuthorizationModule extends AbstractModule {
 

@@ -78,7 +78,13 @@ public class Surface extends JPanel implements IRepaintController, IChangeSettin
 		return false;
 	}
 
-	public Surface(final Logger logger, final VncPointerLocation vncPointerLocation, final ProtocolContext context, final ViewerGui viewer, final double scaleFactor) {
+	public Surface(
+		final Logger logger,
+		final VncPointerLocation vncPointerLocation,
+		final ProtocolContext context,
+		final ViewerGui viewer,
+		final double scaleFactor
+	) {
 		this.logger = logger;
 		this.vncPointerLocation = vncPointerLocation;
 		this.context = context;

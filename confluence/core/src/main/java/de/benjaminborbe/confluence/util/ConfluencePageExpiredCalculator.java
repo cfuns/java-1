@@ -1,9 +1,9 @@
 package de.benjaminborbe.confluence.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Calendar;
 
 public class ConfluencePageExpiredCalculator {

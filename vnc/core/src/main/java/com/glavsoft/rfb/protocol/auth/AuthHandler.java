@@ -36,22 +36,25 @@ public abstract class AuthHandler {
 
 	/**
 	 * Authenticate using apropriate auth scheme
-	 * 
+	 *
 	 * @param reader
 	 * @param writer
-	 * @param passwordRetriever
-	 *          interface that realise callback function for password retrieving,
-	 *          ex. by asking user with dialog frame etc.
-	 * @param authCaps
-	 *          authentication capabilities
-	 * 
+	 * @param passwordRetriever interface that realise callback function for password retrieving,
+	 *                          ex. by asking user with dialog frame etc.
+	 * @param authCaps          authentication capabilities
 	 * @return true if there was Tight protocol extention used, false - in the other way
 	 * @throws TransportException
 	 * @throws FatalException
 	 * @throws UnsupportedSecurityTypeException
+	 *
 	 */
-	public abstract boolean authenticate(Reader reader, Writer writer, CapabilityContainer authCaps, IPasswordRetriever passwordRetriever) throws TransportException, FatalException,
-			UnsupportedSecurityTypeException;
+	public abstract boolean authenticate(
+		Reader reader,
+		Writer writer,
+		CapabilityContainer authCaps,
+		IPasswordRetriever passwordRetriever
+	) throws TransportException, FatalException,
+		UnsupportedSecurityTypeException;
 
 	protected boolean useSecurityResult = true;
 

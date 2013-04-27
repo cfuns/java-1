@@ -24,19 +24,18 @@
 
 package com.glavsoft.drawing;
 
-import java.awt.image.BufferedImage;
-import java.util.Arrays;
-
-import org.slf4j.Logger;
-
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.rfb.encoding.PixelFormat;
 import com.glavsoft.rfb.encoding.decoder.FramebufferUpdateRectangle;
 import com.glavsoft.transport.Reader;
+import org.slf4j.Logger;
+
+import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 /**
  * Render bitmap data
- * 
+ *
  * @author dime @ tightvnc.com
  */
 public abstract class Renderer {
@@ -85,17 +84,12 @@ public abstract class Renderer {
 
 	/**
 	 * Draw byte array bitmap data
-	 * 
-	 * @param bytes
-	 *          bitmap data
-	 * @param x
-	 *          bitmap x position
-	 * @param y
-	 *          bitmap y position
-	 * @param width
-	 *          bitmap width
-	 * @param height
-	 *          bitmap height
+	 *
+	 * @param bytes  bitmap data
+	 * @param x      bitmap x position
+	 * @param y      bitmap y position
+	 * @param width  bitmap width
+	 * @param height bitmap height
 	 */
 	public void drawBytes(final byte[] bytes, final int x, final int y, final int width, final int height) {
 		int i = 0;
@@ -159,23 +153,20 @@ public abstract class Renderer {
 		final int end = y * this.width + x + width;
 		for (int i = 3, pixelsOffset = y * this.width + x; pixelsOffset < end; ++pixelsOffset) {
 			pixels[pixelsOffset] =
-			// (0xff & bytes[i++]) << 16 |
-			// (0xff & bytes[i++]) << 8 |
-			// 0xff & bytes[i++];
-			(0xff & 255 * (colorDecoder.redMax & bytes[i++]) / colorDecoder.redMax) << 16 | (0xff & 255 * (colorDecoder.greenMax & bytes[i++]) / colorDecoder.greenMax) << 8 | 0xff & 255
+				// (0xff & bytes[i++]) << 16 |
+				// (0xff & bytes[i++]) << 8 |
+				// 0xff & bytes[i++];
+				(0xff & 255 * (colorDecoder.redMax & bytes[i++]) / colorDecoder.redMax) << 16 | (0xff & 255 * (colorDecoder.greenMax & bytes[i++]) / colorDecoder.greenMax) << 8 | 0xff & 255
 					* (colorDecoder.blueMax & bytes[i++]) / colorDecoder.blueMax;
 		}
 	}
 
 	/**
 	 * Draw paletted byte array bitmap data
-	 * 
-	 * @param buffer
-	 *          bitmap data
-	 * @param rect
-	 *          bitmap location and dimensions
-	 * @param palette
-	 *          colour palette
+	 *
+	 * @param buffer  bitmap data
+	 * @param rect    bitmap location and dimensions
+	 * @param palette colour palette
 	 */
 	public synchronized void drawBytesWithPalette(final byte[] buffer, final FramebufferUpdateRectangle rect, final int[] palette) {
 		// 2 colors
@@ -197,8 +188,7 @@ public abstract class Renderer {
 				}
 				i += this.width - rect.width;
 			}
-		}
-		else {
+		} else {
 			// 3..255 colors (assuming bytesPixel == 4).
 			int i = 0;
 			for (int ly = rect.y; ly < rect.y + rect.height; ++ly) {
@@ -213,13 +203,10 @@ public abstract class Renderer {
 
 	/**
 	 * Copy rectangle region from one position to another. Regions may be overlapped.
-	 * 
-	 * @param srcX
-	 *          source rectangle x position
-	 * @param srcY
-	 *          source rectangle y position
-	 * @param dstRect
-	 *          destination rectangle
+	 *
+	 * @param srcX    source rectangle x position
+	 * @param srcY    source rectangle y position
+	 * @param dstRect destination rectangle
 	 */
 	public synchronized void copyRect(final int srcX, final int srcY, final FramebufferUpdateRectangle dstRect) {
 		final int startSrcY;
@@ -231,8 +218,7 @@ public abstract class Renderer {
 			endSrcY = srcY + dstRect.height;
 			dstY = dstRect.y;
 			deltaY = +1;
-		}
-		else {
+		} else {
 			startSrcY = srcY + dstRect.height - 1;
 			endSrcY = srcY - 1;
 			dstY = dstRect.y + dstRect.height - 1;
@@ -246,11 +232,9 @@ public abstract class Renderer {
 
 	/**
 	 * Fill rectangle region with specified colour
-	 * 
-	 * @param color
-	 *          colour to fill with
-	 * @param rect
-	 *          rectangle region posions and dimensions
+	 *
+	 * @param color colour to fill with
+	 * @param rect  rectangle region posions and dimensions
 	 */
 	public void fillRect(final int color, final FramebufferUpdateRectangle rect) {
 		fillRect(color, rect.x, rect.y, rect.width, rect.height);
@@ -258,17 +242,12 @@ public abstract class Renderer {
 
 	/**
 	 * Fill rectangle region with specified colour
-	 * 
-	 * @param color
-	 *          colour to fill with
-	 * @param x
-	 *          rectangle x position
-	 * @param y
-	 *          rectangle y position
-	 * @param width
-	 *          rectangle width
-	 * @param height
-	 *          rectangle height
+	 *
+	 * @param color  colour to fill with
+	 * @param x      rectangle x position
+	 * @param y      rectangle y position
+	 * @param width  rectangle width
+	 * @param height rectangle height
 	 */
 	public synchronized void fillRect(final int color, final int x, final int y, final int width, final int height) {
 		logger.trace("fillRect");
@@ -321,7 +300,7 @@ public abstract class Renderer {
 
 	/**
 	 * Width of rendered image
-	 * 
+	 *
 	 * @return width
 	 */
 	public int getWidth() {
@@ -330,7 +309,7 @@ public abstract class Renderer {
 
 	/**
 	 * Height of rendered image
-	 * 
+	 *
 	 * @return height
 	 */
 	public int getHeight() {
@@ -339,9 +318,8 @@ public abstract class Renderer {
 
 	/**
 	 * Read and decode cursor image
-	 * 
-	 * @param rect
-	 *          new cursor hot point position and cursor dimensions
+	 *
+	 * @param rect new cursor hot point position and cursor dimensions
 	 * @throws TransportException
 	 */
 	public void createCursor(final int[] cursorPixels, final FramebufferUpdateRectangle rect) throws TransportException {
@@ -352,9 +330,8 @@ public abstract class Renderer {
 
 	/**
 	 * Read and decode new cursor position
-	 * 
-	 * @param rect
-	 *          cursor position
+	 *
+	 * @param rect cursor position
 	 */
 	public void decodeCursorPosition(final FramebufferUpdateRectangle rect) {
 		synchronized (cursor) {

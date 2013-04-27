@@ -1,7 +1,6 @@
 package de.benjaminborbe.websearch.core.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.core.config.WebsearchConfig;
@@ -14,6 +13,8 @@ import de.benjaminborbe.websearch.core.service.WebsearchServiceImpl;
 import de.benjaminborbe.websearch.core.util.WebsearchUpdateDeterminer;
 import de.benjaminborbe.websearch.core.util.WebsearchUpdateDeterminerImpl;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class WebsearchModule extends AbstractModule {
 

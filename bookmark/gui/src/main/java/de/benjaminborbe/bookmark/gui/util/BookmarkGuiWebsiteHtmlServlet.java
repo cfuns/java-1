@@ -42,7 +42,8 @@ public abstract class BookmarkGuiWebsiteHtmlServlet extends WebsiteHtmlServlet {
 		final AuthorizationService authorizationService,
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.authorizationService = authorizationService;
 		this.authenticationService = authenticationService;

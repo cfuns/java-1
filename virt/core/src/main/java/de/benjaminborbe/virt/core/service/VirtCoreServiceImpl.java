@@ -1,7 +1,5 @@
 package de.benjaminborbe.virt.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -24,6 +22,9 @@ import de.benjaminborbe.virt.core.dao.VirtNetworkBean;
 import de.benjaminborbe.virt.core.dao.VirtNetworkDao;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 @Singleton
 public class VirtCoreServiceImpl implements VirtService {
 
@@ -38,7 +39,13 @@ public class VirtCoreServiceImpl implements VirtService {
 	private final AuthorizationService authorizationService;
 
 	@Inject
-	public VirtCoreServiceImpl(final Logger logger, final ValidationExecutor validationExecutor, final VirtNetworkDao virtNetworkDao, final IdGeneratorUUID iIdGeneratorUUID, final AuthorizationService authorizationService) {
+	public VirtCoreServiceImpl(
+		final Logger logger,
+		final ValidationExecutor validationExecutor,
+		final VirtNetworkDao virtNetworkDao,
+		final IdGeneratorUUID iIdGeneratorUUID,
+		final AuthorizationService authorizationService
+	) {
 		this.logger = logger;
 		this.validationExecutor = validationExecutor;
 		this.virtNetworkDao = virtNetworkDao;
@@ -56,7 +63,10 @@ public class VirtCoreServiceImpl implements VirtService {
 	}
 
 	@Override
-	public VirtNetworkIdentifier createNetwork(final SessionIdentifier sessionIdentifier, final VirtNetwork network) throws VirtServiceException, PermissionDeniedException, ValidationException {
+	public VirtNetworkIdentifier createNetwork(
+		final SessionIdentifier sessionIdentifier,
+		final VirtNetwork network
+	) throws VirtServiceException, PermissionDeniedException, ValidationException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, getDefaultPermission());
 
@@ -94,7 +104,10 @@ public class VirtCoreServiceImpl implements VirtService {
 	}
 
 	@Override
-	public VirtMachineIdentifier createMachine(final SessionIdentifier sessionIdentifier, final VirtMachine machine) throws VirtServiceException, PermissionDeniedException {
+	public VirtMachineIdentifier createMachine(
+		final SessionIdentifier sessionIdentifier,
+		final VirtMachine machine
+	) throws VirtServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, getDefaultPermission());
 			return new VirtMachineIdentifier("1337");
@@ -113,7 +126,10 @@ public class VirtCoreServiceImpl implements VirtService {
 	}
 
 	@Override
-	public VirtVirtualMachineIdentifier createVirtualMachine(final SessionIdentifier sessionIdentifier, final VirtMachine machine) throws VirtServiceException, PermissionDeniedException {
+	public VirtVirtualMachineIdentifier createVirtualMachine(
+		final SessionIdentifier sessionIdentifier,
+		final VirtMachine machine
+	) throws VirtServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, getDefaultPermission());
 			return new VirtVirtualMachineIdentifier("1337");
@@ -123,7 +139,10 @@ public class VirtCoreServiceImpl implements VirtService {
 	}
 
 	@Override
-	public VirtNetwork getNetwork(final SessionIdentifier sessionIdentifier, final VirtNetworkIdentifier networkIdentifier) throws VirtServiceException, PermissionDeniedException {
+	public VirtNetwork getNetwork(
+		final SessionIdentifier sessionIdentifier,
+		final VirtNetworkIdentifier networkIdentifier
+	) throws VirtServiceException, PermissionDeniedException {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, getDefaultPermission());
 			return virtNetworkDao.load(networkIdentifier);

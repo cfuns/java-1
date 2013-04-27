@@ -102,13 +102,23 @@ public class CalendarUtilImpl implements CalendarUtil {
 	}
 
 	@Override
-	public Calendar getCalendar(final TimeZone timeZone, final int year, final int month, final int date, final int hourOfDay, final int minute, final int second) {
+	public Calendar getCalendar(
+		final TimeZone timeZone,
+		final int year,
+		final int month,
+		final int date,
+		final int hourOfDay,
+		final int minute,
+		final int second
+	) {
 		return getCalendar(timeZone, year, month, date, hourOfDay, minute, second, 0);
 	}
 
 	@Override
-	public Calendar getCalendar(final TimeZone timeZone, final int year, final int month, final int date, final int hourOfDay, final int minute, final int second,
-															final int millisecond) {
+	public Calendar getCalendar(
+		final TimeZone timeZone, final int year, final int month, final int date, final int hourOfDay, final int minute, final int second,
+		final int millisecond
+	) {
 		final Calendar calendar = getCalendar(timeZone);
 		calendar.set(Calendar.YEAR, year);
 		calendar.set(Calendar.MONTH, month);

@@ -1,9 +1,10 @@
 package de.benjaminborbe.streamcache.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.streamcache.api.StreamcacheService;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class StreamcacheServiceImpl implements StreamcacheService {

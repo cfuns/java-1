@@ -1,13 +1,13 @@
 package de.benjaminborbe.poker.gui.service;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.PokerGuiConstants;
+
+import javax.inject.Inject;
 
 public class PokerGuiNavigationEntry implements NavigationEntry {
 
@@ -32,11 +32,9 @@ public class PokerGuiNavigationEntry implements NavigationEntry {
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
 			return pokerService.hasPokerPlayerOrAdminPermission(sessionIdentifier);
-		}
-		catch (final LoginRequiredException e) {
+		} catch (final LoginRequiredException e) {
 			return false;
-		}
-		catch (final PokerServiceException e) {
+		} catch (final PokerServiceException e) {
 			return false;
 		}
 	}

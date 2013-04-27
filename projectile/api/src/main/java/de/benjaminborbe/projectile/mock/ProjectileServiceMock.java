@@ -1,7 +1,5 @@
 package de.benjaminborbe.projectile.mock;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -15,6 +13,8 @@ import de.benjaminborbe.projectile.api.ProjectileTeam;
 import de.benjaminborbe.projectile.api.ProjectileTeamDto;
 import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collection;
 
 @Singleton
@@ -34,7 +34,11 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public void importReport(final SessionIdentifier sessionIdentifier, final String content, final ProjectileSlacktimeReportInterval interval) throws ProjectileServiceException,
+	public void importReport(
+		final SessionIdentifier sessionIdentifier,
+		final String content,
+		final ProjectileSlacktimeReportInterval interval
+	) throws ProjectileServiceException,
 		PermissionDeniedException, LoginRequiredException, ValidationException {
 	}
 
@@ -45,7 +49,10 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public ProjectileSlacktimeReport getSlacktimeReportForUser(final String token, final UserIdentifier userIdentifier) throws ProjectileServiceException, PermissionDeniedException {
+	public ProjectileSlacktimeReport getSlacktimeReportForUser(
+		final String token,
+		final UserIdentifier userIdentifier
+	) throws ProjectileServiceException, PermissionDeniedException {
 		return null;
 	}
 
@@ -66,11 +73,17 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public void deleteTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier id) throws ProjectileServiceException, PermissionDeniedException {
+	public void deleteTeam(
+		final SessionIdentifier sessionIdentifier,
+		final ProjectileTeamIdentifier id
+	) throws ProjectileServiceException, PermissionDeniedException {
 	}
 
 	@Override
-	public void updateTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamDto teamDto) throws ProjectileServiceException, PermissionDeniedException {
+	public void updateTeam(
+		final SessionIdentifier sessionIdentifier,
+		final ProjectileTeamDto teamDto
+	) throws ProjectileServiceException, PermissionDeniedException {
 	}
 
 	@Override
@@ -90,23 +103,37 @@ public class ProjectileServiceMock implements ProjectileService {
 	}
 
 	@Override
-	public ProjectileTeam getTeam(final SessionIdentifier sessionIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier) throws ProjectileServiceException,
+	public ProjectileTeam getTeam(
+		final SessionIdentifier sessionIdentifier,
+		final ProjectileTeamIdentifier projectileTeamIdentifier
+	) throws ProjectileServiceException,
 		PermissionDeniedException {
 		return null;
 	}
 
 	@Override
-	public void addUserToTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+	public void addUserToTeam(
+		final SessionIdentifier sessionIdentifier,
+		final UserIdentifier userIdentifier,
+		final ProjectileTeamIdentifier projectileTeamIdentifier
+	)
 		throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override
-	public void removeUserFromTeam(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final ProjectileTeamIdentifier projectileTeamIdentifier)
+	public void removeUserFromTeam(
+		final SessionIdentifier sessionIdentifier,
+		final UserIdentifier userIdentifier,
+		final ProjectileTeamIdentifier projectileTeamIdentifier
+	)
 		throws ProjectileServiceException, PermissionDeniedException, LoginRequiredException {
 	}
 
 	@Override
-	public ProjectileTeamIdentifier getTeamForUser(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws ProjectileServiceException,
+	public ProjectileTeamIdentifier getTeamForUser(
+		final SessionIdentifier sessionIdentifier,
+		final UserIdentifier userIdentifier
+	) throws ProjectileServiceException,
 		PermissionDeniedException, LoginRequiredException {
 		return null;
 	}

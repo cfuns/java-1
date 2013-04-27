@@ -1,12 +1,5 @@
 package de.benjaminborbe.message.util;
 
-import java.util.Calendar;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.message.MessageConstants;
@@ -23,6 +16,11 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATimeByType;
 import de.benjaminborbe.tools.util.RandomUtil;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Calendar;
 
 @Singleton
 public class MessageConsumerExchanger {
@@ -48,8 +46,7 @@ public class MessageConsumerExchanger {
 
 					exchange(message);
 				}
-			}
-			catch (final StorageException e) {
+			} catch (final StorageException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}
@@ -84,15 +81,16 @@ public class MessageConsumerExchanger {
 
 	@Inject
 	public MessageConsumerExchanger(
-			final Logger logger,
-			final RunOnlyOnceATimeByType runOnlyOnceATimeByType,
-			final AnalyticsService analyticsService,
-			final RandomUtil randomUtil,
-			final CalendarUtil calendarUtil,
-			final MessageConsumerRegistry messageConsumerRegistry,
-			final MessageDao messageDao,
-			final TimeZoneUtil timeZoneUtil,
-			final MessageLock messageLock) {
+		final Logger logger,
+		final RunOnlyOnceATimeByType runOnlyOnceATimeByType,
+		final AnalyticsService analyticsService,
+		final RandomUtil randomUtil,
+		final CalendarUtil calendarUtil,
+		final MessageConsumerRegistry messageConsumerRegistry,
+		final MessageDao messageDao,
+		final TimeZoneUtil timeZoneUtil,
+		final MessageLock messageLock
+	) {
 		this.logger = logger;
 		this.runOnlyOnceATimeByType = runOnlyOnceATimeByType;
 		this.analyticsService = analyticsService;
@@ -115,8 +113,7 @@ public class MessageConsumerExchanger {
 			}
 			logger.debug("exchange message - finished");
 			return true;
-		}
-		catch (final StorageException | IdentifierIteratorException e) {
+		} catch (final StorageException | IdentifierIteratorException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		return false;
@@ -130,12 +127,10 @@ public class MessageConsumerExchanger {
 				if (startTime.getTimeInMillis() > now.getTimeInMillis()) {
 					logger.debug("startTime not reached " + startTime.getTimeInMillis() + " > " + now.getTimeInMillis() + " => skip");
 					return;
-				}
-				else {
+				} else {
 					logger.debug("startTime reached " + startTime.getTimeInMillis() + " <= " + now.getTimeInMillis());
 				}
-			}
-			else {
+			} else {
 				logger.debug("startTime not defined");
 			}
 		}
@@ -145,13 +140,11 @@ public class MessageConsumerExchanger {
 			if (lock(message)) {
 				logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
 				result = messageConsumer.process(message);
-			}
-			else {
+			} else {
 				logger.debug("lock message failed => skip");
 				return;
 			}
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.warn("process message failed", e);
 			result = false;
 		}
@@ -162,14 +155,12 @@ public class MessageConsumerExchanger {
 			messageDao.delete(message);
 			logger.debug("result success => delete message");
 			track(analyticsReportIdentifierSuccess);
-		}
-		else if (counter >= maxRetry) {
+		} else if (counter >= maxRetry) {
 			logger.info("delete message reached maxRetryCounter - type: " + message.getType() + " id: " + message.getId());
 			messageDao.delete(message);
 			logger.debug("message reached maxRetryCounter => delete message");
 			track(analyticsReportIdentifierMaxRetry);
-		}
-		else {
+		} else {
 			final long increasedCounter = counter + 1;
 			logger.debug("process message failed, increase retryCounter to " + increasedCounter);
 			message.setRetryCounter(increasedCounter);
@@ -178,9 +169,9 @@ public class MessageConsumerExchanger {
 			message.setLockTime(null);
 			logger.info("unlock and increaseRetry for failed message - type: " + message.getType() + " id: " + message.getId());
 			messageDao.save(
-					message,
-					new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME).add(MessageBeanMapper.LOCK_NAME).add(MessageBeanMapper.RETRY_COUNTER)
-							.add(MessageBeanMapper.START_TIME));
+				message,
+				new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME).add(MessageBeanMapper.LOCK_NAME).add(MessageBeanMapper.RETRY_COUNTER)
+					.add(MessageBeanMapper.START_TIME));
 			track(analyticsReportIdentifierRetry);
 		}
 		logger.debug("process message done");
@@ -194,8 +185,7 @@ public class MessageConsumerExchanger {
 	private void track(final AnalyticsReportIdentifier id) {
 		try {
 			analyticsService.addReportValue(id);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.warn("track " + id + " failed", e);
 		}
 	}
@@ -211,8 +201,7 @@ public class MessageConsumerExchanger {
 
 			try {
 				Thread.sleep(randomUtil.getRandomized(10000, 50));
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 				// nop
 			}
 
@@ -221,21 +210,18 @@ public class MessageConsumerExchanger {
 			if (messageLock.getLockName().equals(message.getLockName())) {
 				logger.debug("lock message success - id: " + message.getId());
 				return true;
-			}
-			else {
+			} else {
 				logger.debug("lock message failed - id: " + message.getId());
 				return false;
 			}
-		}
-		else if (messageLock.getLockName().equals(message.getLockName())) {
+		} else if (messageLock.getLockName().equals(message.getLockName())) {
 			final Calendar now = calendarUtil.now();
 			logger.debug("update message lock - id: " + message.getId() + " lockName: " + messageLock.getLockName() + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockTime(now);
 			logger.debug("extend message lockTime - type: " + message.getType() + " id: " + message.getId());
 			messageDao.save(message, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME).add(MessageBeanMapper.LOCK_NAME));
 			return false;
-		}
-		else {
+		} else {
 			logger.debug("lock message failed - id: " + message.getId());
 			return false;
 		}
@@ -250,8 +236,7 @@ public class MessageConsumerExchanger {
 		if (messageConsumer != null) {
 			logger.debug("messageConsumer found for type: " + message.getType());
 			exchange(message, messageConsumer);
-		}
-		else {
+		} else {
 			logger.warn("no messageConsumer found for type: " + message.getType());
 		}
 	}

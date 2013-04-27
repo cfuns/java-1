@@ -1,8 +1,6 @@
 package de.benjaminborbe.confluence.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
@@ -16,6 +14,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,13 +33,19 @@ public class ConfluencePageBeanMapper extends MapObjectMapperAdapter<ConfluenceP
 		final MapperConfluenceInstanceIdentifier mapperConfluenceInstanceIdentifier,
 		final MapperString mapperString,
 		final MapperCalendar mapperCalendar,
-		final MapperUrl mapperUrl) {
+		final MapperUrl mapperUrl
+	) {
 		super(provider, buildMappings(mapperConfluencePageIdentifier, mapperUserIdentifier, mapperConfluenceInstanceIdentifier, mapperString, mapperCalendar, mapperUrl));
 	}
 
-	private static Collection<StringObjectMapper<ConfluencePageBean>> buildMappings(final MapperConfluencePageIdentifier mapperConfluencePageIdentifier,
-																																									final MapperUserIdentifier mapperUserIdentifier, final MapperConfluenceInstanceIdentifier mapperConfluenceInstanceIdentifier, final MapperString mapperString,
-																																									final MapperCalendar mapperCalendar, final MapperUrl mapperUrl) {
+	private static Collection<StringObjectMapper<ConfluencePageBean>> buildMappings(
+		final MapperConfluencePageIdentifier mapperConfluencePageIdentifier,
+		final MapperUserIdentifier mapperUserIdentifier,
+		final MapperConfluenceInstanceIdentifier mapperConfluenceInstanceIdentifier,
+		final MapperString mapperString,
+		final MapperCalendar mapperCalendar,
+		final MapperUrl mapperUrl
+	) {
 		final List<StringObjectMapper<ConfluencePageBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<ConfluencePageBean, ConfluencePageIdentifier>("id", mapperConfluencePageIdentifier));
 		result.add(new StringObjectMapperAdapter<ConfluencePageBean, UserIdentifier>("owner", mapperUserIdentifier));

@@ -1,6 +1,5 @@
 package de.benjaminborbe.shortener.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.shortener.gui.guice.ShortenerGuiModules;
 import de.benjaminborbe.shortener.gui.servlet.ShortenerGuiRedirectServlet;
 import de.benjaminborbe.shortener.gui.servlet.ShortenerGuiServlet;
@@ -9,6 +8,7 @@ import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

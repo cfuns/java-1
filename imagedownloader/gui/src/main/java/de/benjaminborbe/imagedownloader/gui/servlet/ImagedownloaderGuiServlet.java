@@ -64,7 +64,8 @@ public class ImagedownloaderGuiServlet extends WebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
 		final CacheService cacheService,
-		final ImagedownloaderService imagedownloaderService) {
+		final ImagedownloaderService imagedownloaderService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil,
 			cacheService);
 		this.parseUtil = parseUtil;
@@ -111,7 +112,12 @@ public class ImagedownloaderGuiServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private void action(final String urlString, final String depthString, final String minWidthString, final String minHeightString) throws ValidationException, ImagedownloaderServiceException {
+	private void action(
+		final String urlString,
+		final String depthString,
+		final String minWidthString,
+		final String minHeightString
+	) throws ValidationException, ImagedownloaderServiceException {
 		final List<ValidationError> errors = new ArrayList<>();
 		URL url = null;
 		{

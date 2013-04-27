@@ -1,7 +1,6 @@
 package de.benjaminborbe.search.core.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.core.config.SearchConfig;
 import de.benjaminborbe.search.core.config.SearchConfigImpl;
@@ -12,6 +11,8 @@ import de.benjaminborbe.search.core.util.SearchServiceComponentRegistry;
 import de.benjaminborbe.search.core.util.SearchServiceComponentRegistryImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class SearchModule extends AbstractModule {
 

@@ -1,9 +1,7 @@
 package de.benjaminborbe.websearch.gui.servlet;
 
 import com.google.common.collect.Lists;
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -36,6 +34,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -70,7 +70,8 @@ public class WebsearchGuiServlet extends WebsiteHtmlServlet {
 		final AuthorizationService authorizationService,
 		final WebsearchGuiLinkFactory websearchGuiLinkFactory,
 		final WebsearchService websearchService,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.websearchGuiLinkFactory = websearchGuiLinkFactory;

@@ -1,6 +1,5 @@
 package de.benjaminborbe.lunch.service;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.dao.LunchUserSettingsDao;
@@ -15,6 +14,7 @@ import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Calendar;
 import java.util.List;
 
@@ -38,7 +38,8 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 		final CalendarUtil calendarUtil,
 		final LunchUserNotifierRegistry lunchUserNotifierRegistry,
 		final LunchUserSettingsDao lunchUserSettingsDao,
-		final LunchConfig lunchConfig) {
+		final LunchConfig lunchConfig
+	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.lunchUserNotifierRegistry = lunchUserNotifierRegistry;

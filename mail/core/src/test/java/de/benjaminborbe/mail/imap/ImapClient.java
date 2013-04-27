@@ -1,12 +1,11 @@
 package de.benjaminborbe.mail.imap;
 
-import java.util.Properties;
-
 import javax.mail.Folder;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
+import java.util.Properties;
 
 public class ImapClient {
 
@@ -39,12 +38,10 @@ public class ImapClient {
 			// final Flags flags = msg.getFlags();
 			// System.err.println("flag = " + flags.toString());
 			// }
-		}
-		catch (final NoSuchProviderException e) {
+		} catch (final NoSuchProviderException e) {
 			e.printStackTrace();
 			System.exit(1);
-		}
-		catch (final MessagingException e) {
+		} catch (final MessagingException e) {
 			e.printStackTrace();
 			System.exit(2);
 		}

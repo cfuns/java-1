@@ -1,7 +1,5 @@
 package de.benjaminborbe.microblog.connector;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.config.MicroblogConfig;
@@ -18,6 +16,8 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -61,7 +61,8 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		final HttpDownloader httpDownloader,
 		final HttpDownloadUtil httpDownloadUtil,
 		final ParseUtil parseUtil,
-		final HtmlUtil htmlUtil) {
+		final HtmlUtil htmlUtil
+	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.timeZoneUtil = timeZoneUtil;

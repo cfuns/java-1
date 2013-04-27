@@ -1,7 +1,5 @@
 package de.benjaminborbe.worktime.core.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
@@ -14,6 +12,8 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Collection;
@@ -48,7 +48,8 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 		final StorageService storageService,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
-		final ParseUtil parseUtil) {
+		final ParseUtil parseUtil
+	) {
 		this.logger = logger;
 		this.storageService = storageService;
 		this.calendarUtil = calendarUtil;

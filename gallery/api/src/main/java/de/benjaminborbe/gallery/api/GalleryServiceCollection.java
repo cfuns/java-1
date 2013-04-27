@@ -9,12 +9,18 @@ import java.util.Collection;
 
 public interface GalleryServiceCollection {
 
-	GalleryCollectionIdentifier getCollectionIdentifierByName(SessionIdentifier sessionIdentifier, String name) throws GalleryServiceException, LoginRequiredException,
+	GalleryCollectionIdentifier getCollectionIdentifierByName(
+		SessionIdentifier sessionIdentifier,
+		String name
+	) throws GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException;
 
 	GalleryCollectionIdentifier getCollectionIdentifierByNameShared(String name) throws GalleryServiceException;
 
-	Collection<GalleryCollection> getCollectionsWithGroup(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier) throws GalleryServiceException,
+	Collection<GalleryCollection> getCollectionsWithGroup(
+		final SessionIdentifier sessionIdentifier,
+		GalleryGroupIdentifier galleryGroupIdentifier
+	) throws GalleryServiceException,
 		LoginRequiredException, PermissionDeniedException;
 
 	Collection<GalleryCollection> getCollectionsWithGroupShared(GalleryGroupIdentifier galleryGroupIdentifier)
@@ -24,21 +30,31 @@ public interface GalleryServiceCollection {
 
 	Collection<GalleryCollection> getCollectionsShared() throws GalleryServiceException;
 
-	void deleteCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException, LoginRequiredException,
+	void deleteCollection(
+		final SessionIdentifier sessionIdentifier,
+		GalleryCollectionIdentifier galleryCollectionIdentifier
+	) throws GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException;
 
-	GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier, String collectionName, Long prio,
-																							 Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
+	GalleryCollectionIdentifier createCollection(
+		final SessionIdentifier sessionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier, String collectionName, Long prio,
+		Boolean shared
+	) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
-	void updateCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier,
-												String collectionName, Long prio, Boolean shared) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
+	void updateCollection(
+		final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier, GalleryGroupIdentifier galleryGroupIdentifier,
+		String collectionName, Long prio, Boolean shared
+	) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	Collection<GalleryCollectionIdentifier> getCollectionIdentifiers(final SessionIdentifier sessionIdentifier) throws GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException;
 
 	GalleryCollectionIdentifier createCollectionIdentifier(String id) throws GalleryServiceException;
 
-	GalleryCollection getCollection(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException,
+	GalleryCollection getCollection(
+		final SessionIdentifier sessionIdentifier,
+		GalleryCollectionIdentifier galleryCollectionIdentifier
+	) throws GalleryServiceException,
 		LoginRequiredException, PermissionDeniedException;
 
 	GalleryCollection getCollectionShared(GalleryCollectionIdentifier galleryCollectionIdentifier) throws GalleryServiceException;

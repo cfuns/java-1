@@ -1,7 +1,5 @@
 package de.benjaminborbe.bookmark.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
@@ -13,6 +11,8 @@ import de.benjaminborbe.tools.search.SearchUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

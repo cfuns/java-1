@@ -1,15 +1,14 @@
 package de.benjaminborbe.projectile.gui.util;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
+import de.benjaminborbe.tools.json.JSONObject;
+import org.easymock.EasyMock;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
 
-import org.easymock.EasyMock;
-import org.junit.Test;
-
-import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
-import de.benjaminborbe.tools.json.JSONObject;
+import static org.junit.Assert.assertEquals;
 
 public class ProjectileReportToJsonConverterUnitTest {
 
@@ -32,8 +31,8 @@ public class ProjectileReportToJsonConverterUnitTest {
 			EasyMock.replay(report);
 
 			assertEquals(
-					"{\"username\":\"foobar\",\"month\":{\"updateTime\":null,\"extern\":null,\"intern\":null,\"updateDate\":null},\"year\":{\"updateTime\":null,\"extern\":null,\"intern\":null,\"updateDate\":null},\"week\":{\"updateTime\":null,\"extern\":null,\"intern\":null,\"updateDate\":null}}",
-					toString(converter, report));
+				"{\"username\":\"foobar\",\"month\":{\"updateTime\":null,\"extern\":null,\"intern\":null,\"updateDate\":null},\"year\":{\"updateTime\":null,\"extern\":null,\"intern\":null,\"updateDate\":null},\"week\":{\"updateTime\":null,\"extern\":null,\"intern\":null,\"updateDate\":null}}",
+				toString(converter, report));
 		}
 
 		{
@@ -51,8 +50,8 @@ public class ProjectileReportToJsonConverterUnitTest {
 			EasyMock.replay(report);
 
 			assertEquals(
-					"{\"username\":\"foobar\",\"month\":{\"updateTime\":null,\"extern\":3.3,\"intern\":4.4,\"updateDate\":null},\"year\":{\"updateTime\":null,\"extern\":5.5,\"intern\":6.6,\"updateDate\":null},\"week\":{\"updateTime\":null,\"extern\":1.1,\"intern\":2.2,\"updateDate\":null}}",
-					toString(converter, report));
+				"{\"username\":\"foobar\",\"month\":{\"updateTime\":null,\"extern\":3.3,\"intern\":4.4,\"updateDate\":null},\"year\":{\"updateTime\":null,\"extern\":5.5,\"intern\":6.6,\"updateDate\":null},\"week\":{\"updateTime\":null,\"extern\":1.1,\"intern\":2.2,\"updateDate\":null}}",
+				toString(converter, report));
 		}
 	}
 

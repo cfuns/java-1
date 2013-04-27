@@ -1,7 +1,5 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -17,6 +15,8 @@ import de.benjaminborbe.portfolio.gui.util.PortfolioGuiLinkFactory;
 import de.benjaminborbe.website.util.UlWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -43,7 +43,8 @@ public class TopNaviWidget implements Widget {
 		final GalleryService galleryService,
 		final AuthenticationService authenticationService,
 		final PortfolioGuiGalleryCollectionComparator galleryComparator,
-		final PortfolioGuiLinkFactory portfolioLinkFactory) {
+		final PortfolioGuiLinkFactory portfolioLinkFactory
+	) {
 		this.logger = logger;
 		this.galleryService = galleryService;
 		this.authenticationService = authenticationService;

@@ -1,7 +1,5 @@
 package de.benjaminborbe.microblog.revision;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
@@ -10,6 +8,8 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 
 @Singleton

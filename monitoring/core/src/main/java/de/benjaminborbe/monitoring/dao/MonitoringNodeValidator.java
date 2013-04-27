@@ -1,6 +1,5 @@
 package de.benjaminborbe.monitoring.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
@@ -19,6 +18,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintOr;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -73,7 +73,8 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 	public MonitoringNodeValidator(
 		final ValidationConstraintValidator validationConstraintValidator,
 		final MonitoringNodeDao monitoringNodeDao,
-		final MonitoringCheckRegistry monitoringCheckRegistry) {
+		final MonitoringCheckRegistry monitoringCheckRegistry
+	) {
 		this.validationConstraintValidator = validationConstraintValidator;
 		this.monitoringNodeDao = monitoringNodeDao;
 		this.monitoringCheckRegistry = monitoringCheckRegistry;

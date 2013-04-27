@@ -1,9 +1,5 @@
 package de.benjaminborbe.notification.util;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.User;
@@ -13,6 +9,9 @@ import de.benjaminborbe.mail.api.MailServiceException;
 import de.benjaminborbe.notification.api.Notification;
 import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
 import de.benjaminborbe.notification.config.NotificationConfig;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class NotificationNotifierMail implements NotificationNotifier {
 
@@ -27,7 +26,12 @@ public class NotificationNotifierMail implements NotificationNotifier {
 	private final NotificationConfig notificationConfig;
 
 	@Inject
-	public NotificationNotifierMail(final Logger logger, final MailService mailService, final AuthenticationService authenticationService, final NotificationConfig notificationConfig) {
+	public NotificationNotifierMail(
+		final Logger logger,
+		final MailService mailService,
+		final AuthenticationService authenticationService,
+		final NotificationConfig notificationConfig
+	) {
 		this.logger = logger;
 		this.mailService = mailService;
 		this.authenticationService = authenticationService;
@@ -43,8 +47,7 @@ public class NotificationNotifierMail implements NotificationNotifier {
 			final String contentType = "text/plain";
 			final MailDto mail = new MailDto(from, to, buildSubject(notification), buildMessage(notification), contentType);
 			mailService.send(mail);
-		}
-		catch (final MailServiceException | AuthenticationServiceException e) {
+		} catch (final MailServiceException | AuthenticationServiceException e) {
 			throw new NotificationNotifierException(e);
 		}
 	}
@@ -67,8 +70,7 @@ public class NotificationNotifierMail implements NotificationNotifier {
 	private String buildSubject(final Notification notification) {
 		if (notification.getSubject() != null && !notification.getSubject().trim().isEmpty()) {
 			return notification.getSubject();
-		}
-		else {
+		} else {
 			return notification.getMessage();
 		}
 	}
@@ -76,8 +78,7 @@ public class NotificationNotifierMail implements NotificationNotifier {
 	private String buildMessage(final Notification notification) {
 		if (notification.getMessage() != null && !notification.getMessage().trim().isEmpty()) {
 			return notification.getMessage();
-		}
-		else {
+		} else {
 			return notification.getSubject();
 		}
 	}

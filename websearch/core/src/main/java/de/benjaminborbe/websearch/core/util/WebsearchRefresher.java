@@ -72,7 +72,8 @@ public class WebsearchRefresher {
 		final WebsearchUpdateDeterminer updateDeterminer,
 		final CrawlerService crawlerService,
 		final RunOnlyOnceATime runOnlyOnceATime,
-		final WebsearchRobotsTxtUtil websearchRobotsTxtUtil) {
+		final WebsearchRobotsTxtUtil websearchRobotsTxtUtil
+	) {
 		this.logger = logger;
 		this.websearchConfig = websearchConfig;
 		this.updateDeterminer = updateDeterminer;

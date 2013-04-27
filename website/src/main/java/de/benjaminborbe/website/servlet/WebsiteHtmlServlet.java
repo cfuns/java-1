@@ -1,8 +1,6 @@
 package de.benjaminborbe.website.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -36,6 +34,8 @@ import de.benjaminborbe.website.widget.HeadWidget;
 import de.benjaminborbe.website.widget.HtmlWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,7 +76,8 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		final AuthorizationService authorizationService,
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -99,7 +100,11 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, ServletException {
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws IOException, ServletException {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		super.doService(request, response, context);
@@ -122,7 +127,11 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		}
 	}
 
-	private Widget createHtmlWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, RedirectException,
+	private Widget createHtmlWidget(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws IOException, RedirectException,
 		PermissionDeniedException, LoginRequiredException {
 		final ListWidget widgets = new ListWidget();
 		logger.trace("printHtml");
@@ -131,7 +140,11 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 		return new TagWidget("html", widgets);
 	}
 
-	private Widget createBodyWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException, PermissionDeniedException,
+	private Widget createBodyWidget(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws IOException, PermissionDeniedException,
 		RedirectException, LoginRequiredException {
 		logger.trace("printBody");
 		final ListWidget widgets = new ListWidget();

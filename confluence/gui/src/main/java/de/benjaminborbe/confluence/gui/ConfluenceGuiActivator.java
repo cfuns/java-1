@@ -1,6 +1,5 @@
 package de.benjaminborbe.confluence.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.confluence.gui.guice.ConfluenceGuiModules;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiExpireAllServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceCreateServlet;
@@ -16,6 +15,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

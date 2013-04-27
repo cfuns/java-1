@@ -28,7 +28,12 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 	private final NotificationService notificationService;
 
 	@Inject
-	public DhlStatusNotifierImpl(final Logger logger, final CalendarUtil calendarUtil, final DhlUrlBuilder dhlUrlBuilder, final NotificationService notificationService) {
+	public DhlStatusNotifierImpl(
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final DhlUrlBuilder dhlUrlBuilder,
+		final NotificationService notificationService
+	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.dhlUrlBuilder = dhlUrlBuilder;

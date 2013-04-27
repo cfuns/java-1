@@ -1,6 +1,5 @@
 package de.benjaminborbe.tools.osgi.mock;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.url.UrlUtil;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.Bundle;
@@ -9,6 +8,7 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.NamespaceException;
 
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -70,7 +70,13 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 	}
 
 	@Override
-	public void registerFilter(final Filter filter, final String pattern, @SuppressWarnings("rawtypes") final Dictionary initParams, final int ranking, final HttpContext context)
+	public void registerFilter(
+		final Filter filter,
+		final String pattern,
+		@SuppressWarnings("rawtypes") final Dictionary initParams,
+		final int ranking,
+		final HttpContext context
+	)
 		throws ServletException {
 		filterAlias.put(filter, pattern);
 		registerFilterCallCounter++;

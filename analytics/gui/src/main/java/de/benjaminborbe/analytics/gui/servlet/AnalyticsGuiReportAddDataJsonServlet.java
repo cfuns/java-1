@@ -1,8 +1,6 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
@@ -29,6 +27,8 @@ import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,7 +62,8 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final AnalyticsGuiConfig analyticsGuiConfig,
 		final AnalyticsService analyticsService,
-		final ParseUtil parseUtil) {
+		final ParseUtil parseUtil
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.analyticsGuiConfig = analyticsGuiConfig;
@@ -72,7 +73,11 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException,
 		PermissionDeniedException, LoginRequiredException {
 		try {
 			if (logger.isTraceEnabled())

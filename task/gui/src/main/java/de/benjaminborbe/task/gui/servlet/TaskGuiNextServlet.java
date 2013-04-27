@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -23,6 +21,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ClearFloatWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -51,7 +51,8 @@ public class TaskGuiNextServlet extends TaskGuiWebsiteHtmlServlet {
 		final TaskGuiUtil taskGuiUtil,
 		final TaskFocusWidget taskFocusWidget,
 		final TaskNextWidget taskNextWidget,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.taskFocusWidget = taskFocusWidget;
 		this.taskNextWidget = taskNextWidget;

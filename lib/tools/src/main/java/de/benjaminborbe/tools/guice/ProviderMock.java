@@ -1,8 +1,8 @@
 package de.benjaminborbe.tools.guice;
 
-import java.lang.reflect.Constructor;
-
 import com.google.inject.Provider;
+
+import java.lang.reflect.Constructor;
 
 public class ProviderMock<T> implements Provider<T> {
 
@@ -18,8 +18,7 @@ public class ProviderMock<T> implements Provider<T> {
 			final Constructor<T> c;
 			c = clazz.getDeclaredConstructor();
 			return c.newInstance();
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
 	}

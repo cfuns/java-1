@@ -67,7 +67,7 @@ public class AuthenticationState extends ProtocolState {
 	 * May be:
 	 * * 0 - OK
 	 * * 1 - Failed
-	 * 
+	 *
 	 * @throws TransportException
 	 * @throws AuthenticationFailedException
 	 */
@@ -76,8 +76,7 @@ public class AuthenticationState extends ProtocolState {
 			try {
 				final String reason = reader.readString();
 				throw new AuthenticationFailedException(reason);
-			}
-			catch (ClosedConnectionException e) {
+			} catch (ClosedConnectionException e) {
 				// protocol version 3.3 and 3.7 does not send reason string,
 				// but silently closes the connection
 				throw new AuthenticationFailedException("Authentication failed");

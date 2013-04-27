@@ -1,7 +1,5 @@
 package de.benjaminborbe.microblog.gui.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.html.api.CssResource;
 import de.benjaminborbe.html.api.HttpContext;
@@ -12,6 +10,8 @@ import de.benjaminborbe.microblog.gui.MicroblogGuiConstants;
 import de.benjaminborbe.website.util.Target;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

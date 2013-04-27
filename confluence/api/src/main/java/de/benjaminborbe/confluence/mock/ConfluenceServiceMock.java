@@ -1,7 +1,5 @@
 package de.benjaminborbe.confluence.mock;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -11,6 +9,8 @@ import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.api.ConfluenceServiceException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -37,7 +37,10 @@ public class ConfluenceServiceMock implements ConfluenceService {
 	}
 
 	@Override
-	public ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(final SessionIdentifier sessionIdentifier, final String id) throws ConfluenceServiceException {
+	public ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(
+		final SessionIdentifier sessionIdentifier,
+		final String id
+	) throws ConfluenceServiceException {
 		return null;
 	}
 
@@ -56,20 +59,27 @@ public class ConfluenceServiceMock implements ConfluenceService {
 	}
 
 	@Override
-	public ConfluenceInstanceIdentifier createConfluenceIntance(final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
-																															final int expire, final boolean shared, final long delay, final boolean activated, final String owner) throws ConfluenceServiceException, LoginRequiredException,
+	public ConfluenceInstanceIdentifier createConfluenceIntance(
+		final SessionIdentifier sessionIdentifier, final String url, final String username, final String password,
+		final int expire, final boolean shared, final long delay, final boolean activated, final String owner
+	) throws ConfluenceServiceException, LoginRequiredException,
 		PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
-	public void updateConfluenceIntance(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
-																			final String username, final String password, final int expire, final boolean shared, final long delay, final boolean activated, final String owner)
+	public void updateConfluenceIntance(
+		final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String url,
+		final String username, final String password, final int expire, final boolean shared, final long delay, final boolean activated, final String owner
+	)
 		throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 	}
 
 	@Override
-	public long countPages(final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws ConfluenceServiceException,
+	public long countPages(
+		final SessionIdentifier sessionIdentifier,
+		final ConfluenceInstanceIdentifier confluenceInstanceIdentifier
+	) throws ConfluenceServiceException,
 		LoginRequiredException, PermissionDeniedException {
 		return 0;
 	}

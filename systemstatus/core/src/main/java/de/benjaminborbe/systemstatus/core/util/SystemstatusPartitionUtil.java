@@ -1,9 +1,9 @@
 package de.benjaminborbe.systemstatus.core.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;

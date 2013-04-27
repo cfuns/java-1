@@ -1,12 +1,5 @@
 package de.benjaminborbe.authorization.gui.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-
-import javax.servlet.http.HttpServletRequest;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
@@ -15,6 +8,11 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 
 public class AuthorizationGuiLinkFactory {
 
@@ -25,24 +23,27 @@ public class AuthorizationGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
-	public Widget roleAddPermission(final HttpServletRequest request, final RoleIdentifier roleIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget roleAddPermission(
+		final HttpServletRequest request,
+		final RoleIdentifier roleIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_PERMISSION_ADD, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()), "add permission");
+			AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()), "add permission");
 	}
 
 	public Widget roleAddUser(final HttpServletRequest request, final RoleIdentifier roleIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ADD_ROLE, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()), "add user");
+			AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()), "add user");
 	}
 
 	public Widget userAddRole(final HttpServletRequest request, final UserIdentifier userIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ADD_ROLE, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_USER_ID, userIdentifier.getId()), "add role");
+			AuthorizationGuiConstants.PARAMETER_USER_ID, userIdentifier.getId()), "add role");
 	}
 
 	public Widget roleInfo(final HttpServletRequest request, final RoleIdentifier roleIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_INFO, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_ROLE_ID, String.valueOf(roleIdentifier)), roleIdentifier.getId());
+			AuthorizationGuiConstants.PARAMETER_ROLE_ID, String.valueOf(roleIdentifier)), roleIdentifier.getId());
 	}
 
 	public Widget roleCreate(final HttpServletRequest request) throws MalformedURLException {
@@ -51,18 +52,22 @@ public class AuthorizationGuiLinkFactory {
 
 	public Widget roleDelete(final HttpServletRequest request, final RoleIdentifier roleIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_DELETE, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_ROLE_ID, String.valueOf(roleIdentifier)), "delete");
+			AuthorizationGuiConstants.PARAMETER_ROLE_ID, String.valueOf(roleIdentifier)), "delete");
 	}
 
 	public Widget userInfo(final HttpServletRequest request, final UserIdentifier userIdentifier) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER_INFO, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_USER_ID, userIdentifier.getId()), userIdentifier.getId());
+			AuthorizationGuiConstants.PARAMETER_USER_ID, userIdentifier.getId()), userIdentifier.getId());
 	}
 
-	public Widget roleRemoveUser(final HttpServletRequest request, final RoleIdentifier roleIdentifier, final UserIdentifier userIdentifier) throws MalformedURLException,
-			UnsupportedEncodingException {
+	public Widget roleRemoveUser(
+		final HttpServletRequest request,
+		final RoleIdentifier roleIdentifier,
+		final UserIdentifier userIdentifier
+	) throws MalformedURLException,
+		UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_USER_REMOVE_ROLE, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()).add(AuthorizationGuiConstants.PARAMETER_USER_ID, userIdentifier.getId()), "remove");
+			AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()).add(AuthorizationGuiConstants.PARAMETER_USER_ID, userIdentifier.getId()), "remove");
 	}
 
 	public Widget permissionList(final HttpServletRequest request) throws MalformedURLException {
@@ -78,23 +83,32 @@ public class AuthorizationGuiLinkFactory {
 	}
 
 	public Widget roleRemovePermission(final HttpServletRequest request, final RoleIdentifier roleIdentifier, final PermissionIdentifier permissionIdentifier)
-			throws MalformedURLException, UnsupportedEncodingException {
+		throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_PERMISSION_REMOVE, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()).add(AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier), "remove");
+			AuthorizationGuiConstants.PARAMETER_ROLE_ID, roleIdentifier.getId()).add(AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier), "remove");
 	}
 
-	public Widget permissionDelete(final HttpServletRequest request, final PermissionIdentifier permissionIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget permissionDelete(
+		final HttpServletRequest request,
+		final PermissionIdentifier permissionIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_DELETE, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier), "delete").addConfirm("delete " + permissionIdentifier + "?");
+			AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier), "delete").addConfirm("delete " + permissionIdentifier + "?");
 	}
 
-	public Widget permissionAddRole(final HttpServletRequest request, final PermissionIdentifier permissionIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget permissionAddRole(
+		final HttpServletRequest request,
+		final PermissionIdentifier permissionIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_ROLE_PERMISSION_ADD, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier.getId()), "add role");
+			AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier.getId()), "add role");
 	}
 
-	public Widget permissionInfo(final HttpServletRequest request, final PermissionIdentifier permissionIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget permissionInfo(
+		final HttpServletRequest request,
+		final PermissionIdentifier permissionIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AuthorizationGuiConstants.NAME + AuthorizationGuiConstants.URL_PERMISSION_INFO, new MapParameter().add(
-				AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier.getId()), permissionIdentifier.getId());
+			AuthorizationGuiConstants.PARAMETER_PERMISSION_ID, permissionIdentifier.getId()), permissionIdentifier.getId());
 	}
 }

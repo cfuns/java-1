@@ -50,7 +50,8 @@ public class WebsearchGuiPageRefreshServlet extends WebsiteServlet {
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
 		final WebsearchService websearchService,
-		final AuthorizationService authorizationService) {
+		final AuthorizationService authorizationService
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.parseUtil = parseUtil;
 		this.websearchService = websearchService;
@@ -59,7 +60,11 @@ public class WebsearchGuiPageRefreshServlet extends WebsiteServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException,
 		PermissionDeniedException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);

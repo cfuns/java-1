@@ -68,7 +68,8 @@ public class DhlServiceImpl implements DhlService {
 		final DhlStatusFetcher dhlStatusFetcher,
 		final DhlStatusNotifier dhlStatusNotifier,
 		final DhlUrlBuilder dhlUrlBuilder,
-		final DhlDao dhlDao) {
+		final DhlDao dhlDao
+	) {
 		this.logger = logger;
 		this.dhlStatusChecker = dhlStatusChecker;
 		this.validationExecutor = validationExecutor;

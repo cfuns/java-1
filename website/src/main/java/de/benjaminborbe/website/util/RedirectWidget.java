@@ -1,12 +1,11 @@
 package de.benjaminborbe.website.util;
 
-import java.io.IOException;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.Widget;
+import java.io.IOException;
 
 public class RedirectWidget implements Widget {
 
@@ -22,8 +21,7 @@ public class RedirectWidget implements Widget {
 		final String[] parts = target.split(s, 2);
 		if (parts.length == 2) {
 			response.sendRedirect(parts[0] + s + parts[1].replaceAll("//", "/"));
-		}
-		else {
+		} else {
 			response.sendRedirect(target.replaceAll("//", "/"));
 		}
 	}

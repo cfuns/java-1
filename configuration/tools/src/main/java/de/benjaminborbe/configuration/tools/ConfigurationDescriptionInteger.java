@@ -51,8 +51,7 @@ public class ConfigurationDescriptionInteger implements ConfigurationDescription
 		try {
 			Integer.parseInt(value);
 			return value != null;
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return false;
 		}
 	}

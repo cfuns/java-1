@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.date;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.util.ParseException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

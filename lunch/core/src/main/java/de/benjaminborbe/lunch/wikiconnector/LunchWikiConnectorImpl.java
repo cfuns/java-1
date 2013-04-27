@@ -2,7 +2,6 @@ package de.benjaminborbe.lunch.wikiconnector;
 
 import com.atlassian.confluence.rpc.soap.beans.RemotePage;
 import com.atlassian.confluence.rpc.soap.beans.RemotePageSummary;
-import javax.inject.Inject;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.bean.LunchBean;
 import de.benjaminborbe.lunch.util.LunchParseUtil;
@@ -14,6 +13,7 @@ import net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoa
 import net.seibert_media.kunden.rpc.soap_axis.confluenceservice_v2.ConfluenceSoapServiceServiceLocator;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.xml.rpc.ServiceException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,7 +36,13 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 
 	// https://developer.atlassian.com/display/CONFDEV/Confluence+XML-RPC+and+SOAP+APIs
 	@Inject
-	public LunchWikiConnectorImpl(final Logger logger, final LunchParseUtil lunchParseUtil, final HtmlUtil htmlUtil, final CalendarUtil calendarUtil, final TimeZoneUtil timeZoneUtil) {
+	public LunchWikiConnectorImpl(
+		final Logger logger,
+		final LunchParseUtil lunchParseUtil,
+		final HtmlUtil htmlUtil,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil
+	) {
 		this.logger = logger;
 		this.lunchParseUtil = lunchParseUtil;
 		this.htmlUtil = htmlUtil;
@@ -45,7 +51,13 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 	}
 
 	@Override
-	public Collection<Lunch> extractLunchs(final String spaceKey, final String username, final String password, final String fullname, final Calendar date) throws ServiceException,
+	public Collection<Lunch> extractLunchs(
+		final String spaceKey,
+		final String username,
+		final String password,
+		final String fullname,
+		final Calendar date
+	) throws ServiceException,
 		java.rmi.RemoteException, ParseException {
 
 		final ConfluenceSoapService service = getService();
@@ -87,7 +99,12 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 		return date.compareTo(pageDate) == 0;
 	}
 
-	protected Lunch createLunch(final ConfluenceSoapService service, final String token, final RemotePageSummary remotePageSummary, final String fullname) throws ParseException,
+	protected Lunch createLunch(
+		final ConfluenceSoapService service,
+		final String token,
+		final RemotePageSummary remotePageSummary,
+		final String fullname
+	) throws ParseException,
 		java.rmi.RemoteException {
 		final RemotePage page = service.getPage(token, remotePageSummary.getId());
 		final String htmlContent = htmlUtil.unescapeHtml(service.renderContent(token, page.getSpace(), page.getId(), page.getContent()));
@@ -118,7 +135,12 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 	}
 
 	@Override
-	public Collection<String> extractSubscriptions(final String spaceKey, final String username, final String password, final Calendar date) throws ServiceException,
+	public Collection<String> extractSubscriptions(
+		final String spaceKey,
+		final String username,
+		final String password,
+		final Calendar date
+	) throws ServiceException,
 		java.rmi.RemoteException, ParseException {
 
 		final ConfluenceSoapService service = getService();

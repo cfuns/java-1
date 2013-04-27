@@ -1,8 +1,6 @@
 package de.benjaminborbe.message.service;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.api.ValidationException;
@@ -32,6 +30,8 @@ import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -73,7 +73,8 @@ public class MessageServiceImpl implements MessageService {
 		final IdGeneratorUUID idGeneratorUUID,
 		final MessageUnlock messageUnlock,
 		final AuthorizationService authorizationService,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		this.logger = logger;
 		this.messageLock = messageLock;
 		this.messageConsumerExchangerProvider = messageConsumerExchangerProvider;
@@ -157,7 +158,10 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public void deleteByType(final SessionIdentifier sessionIdentifier, final String type) throws MessageServiceException, PermissionDeniedException, LoginRequiredException {
+	public void deleteByType(
+		final SessionIdentifier sessionIdentifier,
+		final String type
+	) throws MessageServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
@@ -189,7 +193,10 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public void deleteById(final SessionIdentifier sessionIdentifier, final MessageIdentifier messageIdentifier) throws MessageServiceException, PermissionDeniedException,
+	public void deleteById(
+		final SessionIdentifier sessionIdentifier,
+		final MessageIdentifier messageIdentifier
+	) throws MessageServiceException, PermissionDeniedException,
 		LoginRequiredException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);

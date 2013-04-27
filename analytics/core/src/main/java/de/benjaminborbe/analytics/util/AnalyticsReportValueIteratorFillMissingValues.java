@@ -1,14 +1,14 @@
 package de.benjaminborbe.analytics.util;
 
-import java.util.Calendar;
-import java.util.NoSuchElementException;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
 import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
+
+import java.util.Calendar;
+import java.util.NoSuchElementException;
 
 public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsReportValueIterator {
 
@@ -25,10 +25,11 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 	private AnalyticsReportValue next;
 
 	public AnalyticsReportValueIteratorFillMissingValues(
-			final AnalyticsIntervalUtil analyticsIntervalUtil,
-			final AnalyticsReportValueIterator analyticsReportValueIterator,
-			final AnalyticsReportAggregation analyticsReportAggregation,
-			final AnalyticsReportInterval analyticsReportInterval) {
+		final AnalyticsIntervalUtil analyticsIntervalUtil,
+		final AnalyticsReportValueIterator analyticsReportValueIterator,
+		final AnalyticsReportAggregation analyticsReportAggregation,
+		final AnalyticsReportInterval analyticsReportInterval
+	) {
 		this.analyticsIntervalUtil = analyticsIntervalUtil;
 		this.analyticsReportValueIterator = new AnalyticsReportValueIteratorCurrent(analyticsReportValueIterator);
 		this.analyticsReportAggregation = analyticsReportAggregation;
@@ -41,8 +42,7 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 			if (analyticsReportValueIterator.getCurrent() == null) {
 				if (analyticsReportValueIterator.hasNext()) {
 					analyticsReportValueIterator.next();
-				}
-				else {
+				} else {
 					return false;
 				}
 			}
@@ -51,12 +51,10 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 			}
 			if (analyticsReportValueIterator.getCurrent().getDate().before(nextDate)) {
 				next = buildDefaultValue();
-			}
-			else if (analyticsReportValueIterator.getCurrent().getDate().equals(nextDate)) {
+			} else if (analyticsReportValueIterator.getCurrent().getDate().equals(nextDate)) {
 				next = analyticsReportValueIterator.getCurrent();
 				analyticsReportValueIterator.setCurrent(null);
-			}
-			else {
+			} else {
 				analyticsReportValueIterator.setCurrent(null);
 			}
 		}
@@ -70,8 +68,7 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 			next = null;
 			nextDate = analyticsIntervalUtil.buildIntervalCalendarNext(nextDate, analyticsReportInterval);
 			return result;
-		}
-		else {
+		} else {
 			throw new NoSuchElementException();
 		}
 	}
@@ -79,8 +76,7 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 	private AnalyticsReportValue buildDefaultValue() {
 		if (AnalyticsReportAggregation.SUM.equals(analyticsReportAggregation)) {
 			return new AnalyticsReportValueDto(nextDate, new Double(0), 0l);
-		}
-		else {
+		} else {
 			return new AnalyticsReportValueDto(nextDate, null, 0l);
 		}
 	}

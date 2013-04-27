@@ -16,7 +16,13 @@ public class WowTakeScreenshotAction extends WowActionBase {
 
 	private boolean executed = false;
 
-	public WowTakeScreenshotAction(final Logger logger, final VncService vncService, final String name, final String filename, final ThreadResult<Boolean> running) {
+	public WowTakeScreenshotAction(
+		final Logger logger,
+		final VncService vncService,
+		final String name,
+		final String filename,
+		final ThreadResult<Boolean> running
+	) {
 		super(logger, name, running);
 		this.logger = logger;
 		this.vncService = vncService;

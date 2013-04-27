@@ -1,18 +1,16 @@
 package de.benjaminborbe.cron.gui.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-
-import javax.servlet.http.HttpServletRequest;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.cron.api.CronIdentifier;
 import de.benjaminborbe.cron.gui.CronGuiConstants;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 
 public class CronGuiLinkFactory {
 
@@ -25,12 +23,12 @@ public class CronGuiLinkFactory {
 
 	public Widget cronStart(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + CronGuiConstants.NAME + CronGuiConstants.URL_MANAGE, new MapParameter().add(CronGuiConstants.PARAMETER_ACTION,
-				CronGuiConstants.ACTION_START), "start");
+			CronGuiConstants.ACTION_START), "start");
 	}
 
 	public Widget cronStop(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + CronGuiConstants.NAME + CronGuiConstants.URL_MANAGE, new MapParameter().add(CronGuiConstants.PARAMETER_ACTION,
-				CronGuiConstants.ACTION_STOP), "stop");
+			CronGuiConstants.ACTION_STOP), "stop");
 	}
 
 	public Widget history(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
@@ -47,6 +45,6 @@ public class CronGuiLinkFactory {
 
 	public Widget triggerCron(final HttpServletRequest request, final CronIdentifier cron) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + CronGuiConstants.NAME + CronGuiConstants.URL_CRON_TRIGGER,
-				new MapParameter().add(CronGuiConstants.PARAMETER_CRON_ID, cron), "trigger");
+			new MapParameter().add(CronGuiConstants.PARAMETER_CRON_ID, cron), "trigger");
 	}
 }

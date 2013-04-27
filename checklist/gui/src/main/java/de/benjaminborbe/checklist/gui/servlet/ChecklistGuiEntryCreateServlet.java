@@ -1,8 +1,6 @@
 package de.benjaminborbe.checklist.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -25,6 +23,8 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 
 @Singleton
@@ -49,7 +49,8 @@ public class ChecklistGuiEntryCreateServlet extends ChecklistGuiEntryFormServlet
 		final UrlUtil urlUtil,
 		final ChecklistService checklistService,
 		final ChecklistGuiLinkFactory checklistGuiLinkFactory,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil,
 			checklistGuiLinkFactory, cacheService);
 		this.checklistService = checklistService;

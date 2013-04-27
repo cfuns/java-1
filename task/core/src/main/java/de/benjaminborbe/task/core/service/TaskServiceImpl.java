@@ -1,7 +1,5 @@
 package de.benjaminborbe.task.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
@@ -55,6 +53,8 @@ import de.benjaminborbe.tools.validation.ValidationExecutor;
 import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -107,7 +107,8 @@ public class TaskServiceImpl implements TaskService {
 		final ValidationExecutor validationExecutor,
 		final TaskContextToUserManyToManyRelation taskContextToUserManyToManyRelation,
 		final CalendarUtil calendarUtil,
-		final DurationUtil durationUtil) {
+		final DurationUtil durationUtil
+	) {
 		this.logger = logger;
 		this.filestorageService = filestorageService;
 		this.taskAttachmentDao = taskAttachmentDao;
@@ -123,7 +124,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void addUserToContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+	public void addUserToContext(
+		final SessionIdentifier sessionIdentifier,
+		final TaskContextIdentifier taskContextIdentifier,
+		final UserIdentifier userIdentifier
+	)
 		throws TaskServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -200,7 +205,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskIdentifier createTask(final SessionIdentifier sessionIdentifier, final Task taskDto) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
+	public TaskIdentifier createTask(
+		final SessionIdentifier sessionIdentifier,
+		final Task taskDto
+	) throws TaskServiceException, LoginRequiredException, PermissionDeniedException,
 		ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -252,7 +260,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskContextIdentifier createTaskContext(final SessionIdentifier sessionIdentifier, final String name) throws TaskServiceException, LoginRequiredException,
+	public TaskContextIdentifier createTaskContext(
+		final SessionIdentifier sessionIdentifier,
+		final String name
+	) throws TaskServiceException, LoginRequiredException,
 		ValidationException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -314,7 +325,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void deleteContextTask(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws LoginRequiredException, TaskServiceException,
+	public void deleteContextTask(
+		final SessionIdentifier sessionIdentifier,
+		final TaskContextIdentifier taskContextIdentifier
+	) throws LoginRequiredException, TaskServiceException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -365,7 +379,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final Task task) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	public void expectOwner(
+		final SessionIdentifier sessionIdentifier,
+		final Task task
+	) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
 		try {
 			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
 			if (currentUser == null) {
@@ -397,7 +414,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContext taskContext) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	public void expectOwner(
+		final SessionIdentifier sessionIdentifier,
+		final TaskContext taskContext
+	) throws PermissionDeniedException, LoginRequiredException, TaskServiceException {
 		try {
 			logger.debug("expectOwner");
 			if (taskContext != null) {
@@ -410,7 +430,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier) throws PermissionDeniedException, LoginRequiredException,
+	public void expectOwner(
+		final SessionIdentifier sessionIdentifier,
+		final TaskContextIdentifier taskContextIdentifier
+	) throws PermissionDeniedException, LoginRequiredException,
 		TaskServiceException {
 		try {
 			logger.debug("expectOwner");
@@ -423,7 +446,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void expectOwner(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws PermissionDeniedException, LoginRequiredException,
+	public void expectOwner(
+		final SessionIdentifier sessionIdentifier,
+		final TaskIdentifier taskIdentifier
+	) throws PermissionDeniedException, LoginRequiredException,
 		TaskServiceException {
 		try {
 			logger.debug("expectOwner");
@@ -461,7 +487,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTaskChilds(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+	public Collection<Task> getTaskChilds(
+		final SessionIdentifier sessionIdentifier,
+		final TaskIdentifier taskIdentifier
+	) throws TaskServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -508,7 +537,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskContext getTaskContextByName(final SessionIdentifier sessionIdentifier, final String taskContextName) throws TaskServiceException, LoginRequiredException,
+	public TaskContext getTaskContextByName(
+		final SessionIdentifier sessionIdentifier,
+		final String taskContextName
+	) throws TaskServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -598,7 +630,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final Collection<TaskContextIdentifier> taskContextIdentifiers)
+	public Collection<Task> getTasks(
+		final SessionIdentifier sessionIdentifier,
+		final boolean completed,
+		final Collection<TaskContextIdentifier> taskContextIdentifiers
+	)
 		throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -623,8 +659,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus,
-																	 final Collection<TaskContextIdentifier> taskContextIdentifiers) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public Collection<Task> getTasks(
+		final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus,
+		final Collection<TaskContextIdentifier> taskContextIdentifiers
+	) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);
@@ -650,7 +688,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void removeUserFromContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final UserIdentifier userIdentifier)
+	public void removeUserFromContext(
+		final SessionIdentifier sessionIdentifier,
+		final TaskContextIdentifier taskContextIdentifier,
+		final UserIdentifier userIdentifier
+	)
 		throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -694,7 +736,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public List<TaskMatch> searchTasks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws TaskServiceException, LoginRequiredException,
+	public List<TaskMatch> searchTasks(
+		final SessionIdentifier sessionIdentifier,
+		final int limit,
+		final List<String> words
+	) throws TaskServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Collection<Task> beans = getTasks(sessionIdentifier, false);
 		final BeanSearcher<Task> beanSearch = new TaskSearcher();
@@ -707,7 +753,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void swapPrio(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifierA, final TaskIdentifier taskIdentifierB) throws PermissionDeniedException,
+	public void swapPrio(
+		final SessionIdentifier sessionIdentifier,
+		final TaskIdentifier taskIdentifierA,
+		final TaskIdentifier taskIdentifierB
+	) throws PermissionDeniedException,
 		LoginRequiredException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -737,7 +787,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void uncompleteTask(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws TaskServiceException, LoginRequiredException,
+	public void uncompleteTask(
+		final SessionIdentifier sessionIdentifier,
+		final TaskIdentifier taskIdentifier
+	) throws TaskServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -763,7 +816,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void updateTask(final SessionIdentifier sessionIdentifier, final Task taskDto) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
+	public void updateTask(
+		final SessionIdentifier sessionIdentifier,
+		final Task taskDto
+	) throws TaskServiceException, PermissionDeniedException, LoginRequiredException,
 		ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -807,7 +863,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void updateTaskContext(final SessionIdentifier sessionIdentifier, final TaskContextIdentifier taskContextIdentifier, final String name) throws TaskServiceException,
+	public void updateTaskContext(
+		final SessionIdentifier sessionIdentifier,
+		final TaskContextIdentifier taskContextIdentifier,
+		final String name
+	) throws TaskServiceException,
 		PermissionDeniedException, LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -939,7 +999,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasksWithoutContext(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus) throws LoginRequiredException,
+	public Collection<Task> getTasksWithoutContext(
+		final SessionIdentifier sessionIdentifier,
+		final boolean completed,
+		final TaskFocus taskFocus
+	) throws LoginRequiredException,
 		TaskServiceException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -965,7 +1029,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<Task> getTasksWithoutContext(final SessionIdentifier sessionIdentifier, final boolean completed) throws LoginRequiredException, TaskServiceException, PermissionDeniedException {
+	public Collection<Task> getTasksWithoutContext(
+		final SessionIdentifier sessionIdentifier,
+		final boolean completed
+	) throws LoginRequiredException, TaskServiceException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);
@@ -990,7 +1057,11 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void taskSelectTaskContext(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier, final TaskContextIdentifier taskContextIdentifier)
+	public void taskSelectTaskContext(
+		final SessionIdentifier sessionIdentifier,
+		final TaskIdentifier taskIdentifier,
+		final TaskContextIdentifier taskContextIdentifier
+	)
 		throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -1016,7 +1087,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskAttachmentIdentifier addAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentWithContent taskAttachment) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
+	public TaskAttachmentIdentifier addAttachment(
+		final SessionIdentifier sessionIdentifier,
+		final TaskAttachmentWithContent taskAttachment
+	) throws LoginRequiredException, PermissionDeniedException, ValidationException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);
@@ -1053,7 +1127,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public Collection<TaskAttachmentIdentifier> getAttachmentIdentifiers(
+		final SessionIdentifier sessionIdentifier,
+		final TaskIdentifier taskIdentifier
+	) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);
@@ -1075,7 +1152,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Collection<TaskAttachment> getAttachments(final SessionIdentifier sessionIdentifier, final TaskIdentifier taskIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public Collection<TaskAttachment> getAttachments(
+		final SessionIdentifier sessionIdentifier,
+		final TaskIdentifier taskIdentifier
+	) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);
@@ -1097,7 +1177,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void deleteAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public void deleteAttachment(
+		final SessionIdentifier sessionIdentifier,
+		final TaskAttachmentIdentifier taskAttachmentIdentifier
+	) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);
@@ -1115,7 +1198,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public TaskAttachment getAttachment(final SessionIdentifier sessionIdentifier, final TaskAttachmentIdentifier taskAttachmentIdentifier) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
+	public TaskAttachment getAttachment(
+		final SessionIdentifier sessionIdentifier,
+		final TaskAttachmentIdentifier taskAttachmentIdentifier
+	) throws LoginRequiredException, PermissionDeniedException, TaskServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);

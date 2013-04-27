@@ -1,6 +1,5 @@
 package de.benjaminborbe.task.gui.widget;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.html.api.HttpContext;
@@ -13,6 +12,7 @@ import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;

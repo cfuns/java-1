@@ -1,7 +1,5 @@
 package de.benjaminborbe.dhl.mock;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -10,6 +8,8 @@ import de.benjaminborbe.dhl.api.DhlIdentifier;
 import de.benjaminborbe.dhl.api.DhlService;
 import de.benjaminborbe.dhl.api.DhlServiceException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.net.URL;
 import java.util.Collection;
 

@@ -1,6 +1,5 @@
 package de.benjaminborbe.dns.core;
 
-import javax.inject.Inject;
 import de.benjaminborbe.dns.api.DnsService;
 import de.benjaminborbe.dns.core.check.DnsServerMonitoringCheck;
 import de.benjaminborbe.dns.core.guice.DnsCoreModules;
@@ -10,6 +9,7 @@ import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,15 +1,14 @@
 package de.benjaminborbe.configuration.core.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.core.dao.ConfigurationDao;
 import de.benjaminborbe.configuration.core.dao.ConfigurationDaoStorage;
 import de.benjaminborbe.configuration.core.service.ConfigurationServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class ConfigurationModule extends AbstractModule {
 

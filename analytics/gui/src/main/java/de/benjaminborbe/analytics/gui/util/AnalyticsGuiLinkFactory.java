@@ -1,6 +1,5 @@
 package de.benjaminborbe.analytics.gui.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
@@ -10,6 +9,7 @@ import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -25,8 +25,10 @@ public class AnalyticsGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
-	public Widget reportView(final HttpServletRequest request, final List<AnalyticsReportIdentifier> reportIdentifiers, final AnalyticsReportInterval analyticsReportInterval,
-													 final AnalyticsReportChartType type, final Widget widget) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget reportView(
+		final HttpServletRequest request, final List<AnalyticsReportIdentifier> reportIdentifiers, final AnalyticsReportInterval analyticsReportInterval,
+		final AnalyticsReportChartType type, final Widget widget
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_VIEW, new MapParameter()
 			.add(AnalyticsGuiConstants.PARAMETER_REPORT_ID, toArray(reportIdentifiers)).add(AnalyticsGuiConstants.PARAMETER_REPORT_INTERVAL, String.valueOf(analyticsReportInterval))
 			.add(AnalyticsGuiConstants.PARAMETER_CHART_TYPE, String.valueOf(type)), widget);

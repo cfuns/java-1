@@ -29,7 +29,10 @@ public class ProxyGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_STOP, new MapParameter(), "stop");
 	}
 
-	public Widget conversationDetails(final HttpServletRequest request, final ProxyConversationIdentifier proxyConversationIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget conversationDetails(
+		final HttpServletRequest request,
+		final ProxyConversationIdentifier proxyConversationIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + ProxyGuiConstants.NAME + ProxyGuiConstants.URL_CONVERSATION_DETAILS, new MapParameter().add(ProxyGuiConstants.PARAMETER_CONVERSATION_ID, proxyConversationIdentifier.getId()), proxyConversationIdentifier.getId());
 	}
 

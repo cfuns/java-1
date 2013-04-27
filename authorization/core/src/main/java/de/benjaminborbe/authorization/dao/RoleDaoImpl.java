@@ -1,11 +1,6 @@
 package de.benjaminborbe.authorization.dao;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
@@ -13,6 +8,10 @@ import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class RoleDaoImpl extends DaoStorage<RoleBean, RoleIdentifier> implements RoleDao {
@@ -25,14 +24,15 @@ public class RoleDaoImpl extends DaoStorage<RoleBean, RoleIdentifier> implements
 
 	@Inject
 	public RoleDaoImpl(
-			final Logger logger,
-			final StorageService storageService,
-			final Provider<RoleBean> beanProvider,
-			final RoleBeanMapper mapper,
-			final RoleIdentifierBuilder identifierBuilder,
-			final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation,
-			final UserRoleManyToManyRelation userRoleManyToManyRelation,
-			final CalendarUtil calendarUtil) {
+		final Logger logger,
+		final StorageService storageService,
+		final Provider<RoleBean> beanProvider,
+		final RoleBeanMapper mapper,
+		final RoleIdentifierBuilder identifierBuilder,
+		final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation,
+		final UserRoleManyToManyRelation userRoleManyToManyRelation,
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.permissionRoleManyToManyRelation = permissionRoleManyToManyRelation;
 		this.userRoleManyToManyRelation = userRoleManyToManyRelation;
@@ -49,8 +49,7 @@ public class RoleDaoImpl extends DaoStorage<RoleBean, RoleIdentifier> implements
 				}
 			}
 			return null;
-		}
-		catch (final EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
 			throw new StorageException(e);
 		}
 	}

@@ -1,6 +1,5 @@
 package de.benjaminborbe.dhl.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.dhl.gui.guice.DhlGuiModules;
 import de.benjaminborbe.dhl.gui.service.DhlGuiNavigationEntry;
 import de.benjaminborbe.dhl.gui.servlet.DhlGuiCreateServlet;
@@ -16,6 +15,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,11 +1,11 @@
 package de.benjaminborbe.tools.url;
 
-import static org.junit.Assert.assertEquals;
+import org.easymock.EasyMock;
+import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.easymock.EasyMock;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class UrlUtilImplUnitTest {
 
@@ -35,9 +35,9 @@ public class UrlUtilImplUnitTest {
 	@Test
 	public void testBuildUrlNull() throws Exception {
 		final UrlUtil urlUtil = new UrlUtilImpl();
-		assertEquals("/path", urlUtil.buildUrl("/path", new MapParameter().add("a", new String[] { null })));
+		assertEquals("/path", urlUtil.buildUrl("/path", new MapParameter().add("a", new String[]{null})));
 		assertEquals("/path", urlUtil.buildUrl("/path", new MapParameter().add(null, "b")));
-		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapParameter().add("a", new String[] { null }).add("b", "c")));
+		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapParameter().add("a", new String[]{null}).add("b", "c")));
 		assertEquals("/path?b=c", urlUtil.buildUrl("/path", new MapParameter().add(null, "b").add("b", "c")));
 	}
 

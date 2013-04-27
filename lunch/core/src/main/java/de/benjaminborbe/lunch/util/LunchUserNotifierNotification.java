@@ -1,15 +1,14 @@
 package de.benjaminborbe.lunch.util;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.notification.api.NotificationDto;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class LunchUserNotifierNotification implements LunchUserNotifier {
 
@@ -41,8 +40,7 @@ public class LunchUserNotifierNotification implements LunchUserNotifier {
 			notification.setSubject(subject);
 			notification.setMessage(sb.toString());
 			notificationService.notify(notification);
-		}
-		catch (NotificationServiceException | ValidationException e) {
+		} catch (NotificationServiceException | ValidationException e) {
 			throw new LunchUserNotifierException(e);
 		}
 	}

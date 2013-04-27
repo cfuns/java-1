@@ -1,6 +1,5 @@
 package de.benjaminborbe.websearch.core.config;
 
-import javax.inject.Inject;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
@@ -9,6 +8,7 @@ import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

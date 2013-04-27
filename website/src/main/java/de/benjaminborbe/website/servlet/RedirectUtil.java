@@ -1,9 +1,9 @@
 package de.benjaminborbe.website.servlet;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 

@@ -1,8 +1,6 @@
 package de.benjaminborbe.dhl.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -33,6 +31,8 @@ import de.benjaminborbe.website.util.Target;
 import de.benjaminborbe.website.util.UlWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -67,7 +67,8 @@ public class DhlGuiListServlet extends DhlWebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final DhlService dhlService,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService, final DhlGuiLinkFactory dhlGuiLinkFactory) {
+		final CacheService cacheService, final DhlGuiLinkFactory dhlGuiLinkFactory
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.dhlService = dhlService;

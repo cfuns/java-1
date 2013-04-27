@@ -1,13 +1,12 @@
 package de.benjaminborbe.monitoring.service;
 
+import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.monitoring.config.MonitoringConfig;
+import de.benjaminborbe.monitoring.util.MonitoringNotifier;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.monitoring.config.MonitoringConfig;
-import de.benjaminborbe.monitoring.util.MonitoringNotifier;
 
 @Singleton
 public class MonitoringMailCronJob implements CronJob {
@@ -39,8 +38,7 @@ public class MonitoringMailCronJob implements CronJob {
 			logger.trace("monitoring cron => started");
 			monitoringMailer.mail();
 			logger.trace("monitoring cron => finished");
-		}
-		else {
+		} else {
 			logger.trace("monitoring cron => skipped");
 		}
 	}

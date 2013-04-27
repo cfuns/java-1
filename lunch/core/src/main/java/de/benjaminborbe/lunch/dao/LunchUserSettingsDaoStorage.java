@@ -1,11 +1,6 @@
 package de.benjaminborbe.lunch.dao;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
@@ -15,6 +10,10 @@ import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.map.MapChain;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class LunchUserSettingsDaoStorage extends DaoStorage<LunchUserSettingsBean, LunchUserSettingsIdentifier> implements LunchUserSettingsDao {
@@ -40,12 +39,13 @@ public class LunchUserSettingsDaoStorage extends DaoStorage<LunchUserSettingsBea
 
 	@Inject
 	public LunchUserSettingsDaoStorage(
-			final Logger logger,
-			final StorageService storageService,
-			final Provider<LunchUserSettingsBean> beanProvider,
-			final LunchUserSettingsBeanMapper mapper,
-			final LunchUserSettingsIdentifierBuilder identifierBuilder,
-			final CalendarUtil calendarUtil) {
+		final Logger logger,
+		final StorageService storageService,
+		final Provider<LunchUserSettingsBean> beanProvider,
+		final LunchUserSettingsBeanMapper mapper,
+		final LunchUserSettingsIdentifierBuilder identifierBuilder,
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 

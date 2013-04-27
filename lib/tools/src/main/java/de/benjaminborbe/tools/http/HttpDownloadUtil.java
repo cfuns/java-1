@@ -1,7 +1,5 @@
 package de.benjaminborbe.tools.http;
 
-import java.io.UnsupportedEncodingException;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,6 +8,7 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.UnsupportedEncodingException;
 
 @Singleton
 public class HttpDownloadUtil {
@@ -27,12 +26,10 @@ public class HttpDownloadUtil {
 		if (result.getContent() == null) {
 			logger.debug("content is null => return null");
 			return null;
-		}
-		else if (result.getContentEncoding() != null && result.getContentEncoding().getEncoding() != null) {
+		} else if (result.getContentEncoding() != null && result.getContentEncoding().getEncoding() != null) {
 			logger.trace("use encoding from result: " + result.getContentEncoding().getEncoding());
 			return new String(result.getContent(), result.getContentEncoding().getEncoding());
-		}
-		else {
+		} else {
 			final String htmlContent = new String(result.getContent());
 			final Document document = Jsoup.parse(htmlContent);
 			final Elements heads = document.getElementsByTag("head");

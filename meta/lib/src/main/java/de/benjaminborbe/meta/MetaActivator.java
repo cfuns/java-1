@@ -1,5 +1,12 @@
 package de.benjaminborbe.meta;
 
+import com.google.inject.Provider;
+import de.benjaminborbe.meta.guice.MetaModules;
+import de.benjaminborbe.meta.util.BundleResolver;
+import de.benjaminborbe.tools.guice.Modules;
+import de.benjaminborbe.tools.osgi.BaseBundleActivator;
+import de.benjaminborbe.tools.util.ThreadPoolExecuter;
+import de.benjaminborbe.tools.util.ThreadPoolExecuterBuilder;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.obr.RepositoryAdmin;
 import org.osgi.service.obr.Requirement;
@@ -7,14 +14,6 @@ import org.osgi.service.obr.Resolver;
 import org.osgi.service.obr.Resource;
 
 import javax.inject.Inject;
-import com.google.inject.Provider;
-
-import de.benjaminborbe.meta.guice.MetaModules;
-import de.benjaminborbe.meta.util.BundleResolver;
-import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.osgi.BaseBundleActivator;
-import de.benjaminborbe.tools.util.ThreadPoolExecuter;
-import de.benjaminborbe.tools.util.ThreadPoolExecuterBuilder;
 
 public class MetaActivator extends BaseBundleActivator {
 
@@ -65,8 +64,7 @@ public class MetaActivator extends BaseBundleActivator {
 			}
 
 			threadPoolExecuter.shutDown();
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.warn("deploy bunldes failed!", e);
 		}
 		logger.info("onStarted - end");
@@ -81,8 +79,7 @@ public class MetaActivator extends BaseBundleActivator {
 			resolver.add(resource);
 			if (resolver.resolve()) {
 				resolver.deploy(true);
-			}
-			else {
+			} else {
 				final Requirement[] reqs = resolver.getUnsatisfiedRequirements();
 				for (int i = 0; i < reqs.length; i++) {
 					logger.warn("Unable to resolve: " + reqs[i]);

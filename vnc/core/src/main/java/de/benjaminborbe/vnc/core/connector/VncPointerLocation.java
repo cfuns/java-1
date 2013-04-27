@@ -1,9 +1,10 @@
 package de.benjaminborbe.vnc.core.connector;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.vnc.api.VncLocation;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class VncPointerLocation implements VncLocation {

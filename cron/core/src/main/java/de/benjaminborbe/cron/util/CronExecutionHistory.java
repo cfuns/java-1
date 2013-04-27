@@ -1,7 +1,5 @@
 package de.benjaminborbe.cron.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.cron.api.CronExecutionInfo;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -10,6 +8,8 @@ import de.benjaminborbe.tools.fifo.FifoIndexOutOfBoundsException;
 import de.benjaminborbe.tools.util.MathUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;

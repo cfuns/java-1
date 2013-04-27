@@ -1,8 +1,6 @@
 package de.benjaminborbe.blog.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
 import de.benjaminborbe.blog.util.MapperBlogPostIdentifier;
@@ -13,6 +11,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -27,12 +27,15 @@ public class BlogPostBeanMapper extends MapObjectMapperAdapter<BlogPostBean> {
 		final MapperBlogPostIdentifier mapperBlogPostIdentifier,
 		final MapperCalendar mapperCalendar,
 		final MapperString mapperString,
-		final MapperUserIdentifier mapperUserIdentifier) {
+		final MapperUserIdentifier mapperUserIdentifier
+	) {
 		super(provider, buildMappings(mapperUserIdentifier, mapperBlogPostIdentifier, mapperCalendar, mapperString));
 	}
 
-	private static Collection<StringObjectMapper<BlogPostBean>> buildMappings(final MapperUserIdentifier mapperUserIdentifier,
-																																						final MapperBlogPostIdentifier mapperBlogPostIdentifier, final MapperCalendar mapperCalendar, final MapperString mapperString) {
+	private static Collection<StringObjectMapper<BlogPostBean>> buildMappings(
+		final MapperUserIdentifier mapperUserIdentifier,
+		final MapperBlogPostIdentifier mapperBlogPostIdentifier, final MapperCalendar mapperCalendar, final MapperString mapperString
+	) {
 		final List<StringObjectMapper<BlogPostBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<BlogPostBean, BlogPostIdentifier>("id", mapperBlogPostIdentifier));
 		result.add(new StringObjectMapperAdapter<BlogPostBean, UserIdentifier>("creator", mapperUserIdentifier));

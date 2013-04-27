@@ -1,7 +1,6 @@
 package de.benjaminborbe.authentication.core.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.core.config.AuthenticationConfig;
 import de.benjaminborbe.authentication.core.config.AuthenticationConfigImpl;
@@ -14,6 +13,8 @@ import de.benjaminborbe.authentication.core.verifycredential.AuthenticationVerif
 import de.benjaminborbe.authentication.core.verifycredential.AuthenticationVerifyCredentialImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class AuthenticationModule extends AbstractModule {
 

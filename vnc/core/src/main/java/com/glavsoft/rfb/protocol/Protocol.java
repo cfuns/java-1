@@ -101,7 +101,8 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 		final Reader reader,
 		final Writer writer,
 		final IPasswordRetriever passwordRetriever,
-		final ProtocolSettings settings) {
+		final ProtocolSettings settings
+	) {
 		this.logger = logger;
 		this.history = history;
 		this.reader = reader;
@@ -205,7 +206,11 @@ public class Protocol implements ProtocolContext, IChangeSettingsListener {
 	 * With a fast client, the rate at which FramebufferUpdateRequests are sent
 	 * should be regulated to avoid hogging the network.
 	 */
-	public void startNormalHandling(final IRfbSessionListener rfbSessionListener, final IRepaintController repaintController, final ClipboardController clipboardController) {
+	public void startNormalHandling(
+		final IRfbSessionListener rfbSessionListener,
+		final IRepaintController repaintController,
+		final ClipboardController clipboardController
+	) {
 		logger.debug("startNormalHandling");
 		this.rfbSessionListener = rfbSessionListener;
 		this.repaintController = repaintController;

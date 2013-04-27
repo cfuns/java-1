@@ -1,13 +1,14 @@
 package de.benjaminborbe.index.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.config.IndexConfig;
 import de.benjaminborbe.index.config.IndexConfigImpl;
 import de.benjaminborbe.index.service.IndexServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class IndexModule extends AbstractModule {
 

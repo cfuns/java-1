@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteSpaceSummary implements java.io.Serializable {
 
 	private java.lang.String description;
@@ -20,13 +20,14 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 	}
 
 	public RemoteSpace(
-			final java.lang.String key,
-			final java.lang.String name,
-			final java.lang.String type,
-			final java.lang.String url,
-			final java.lang.String description,
-			final long homePage,
-			final java.lang.String spaceGroup) {
+		final java.lang.String key,
+		final java.lang.String name,
+		final java.lang.String type,
+		final java.lang.String url,
+		final java.lang.String description,
+		final long homePage,
+		final java.lang.String spaceGroup
+	) {
 		super(key, name, type, url);
 		this.description = description;
 		this.homePage = homePage;
@@ -35,7 +36,7 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 
 	/**
 	 * Gets the description value for this RemoteSpace.
-	 * 
+	 *
 	 * @return description
 	 */
 	public java.lang.String getDescription() {
@@ -44,7 +45,7 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 
 	/**
 	 * Sets the description value for this RemoteSpace.
-	 * 
+	 *
 	 * @param description
 	 */
 	public void setDescription(final java.lang.String description) {
@@ -53,7 +54,7 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 
 	/**
 	 * Gets the homePage value for this RemoteSpace.
-	 * 
+	 *
 	 * @return homePage
 	 */
 	public long getHomePage() {
@@ -62,7 +63,7 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 
 	/**
 	 * Sets the homePage value for this RemoteSpace.
-	 * 
+	 *
 	 * @param homePage
 	 */
 	public void setHomePage(final long homePage) {
@@ -71,7 +72,7 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 
 	/**
 	 * Gets the spaceGroup value for this RemoteSpace.
-	 * 
+	 *
 	 * @return spaceGroup
 	 */
 	public java.lang.String getSpaceGroup() {
@@ -80,7 +81,7 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 
 	/**
 	 * Sets the spaceGroup value for this RemoteSpace.
-	 * 
+	 *
 	 * @param spaceGroup
 	 */
 	public void setSpaceGroup(final java.lang.String spaceGroup) {
@@ -104,8 +105,8 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = super.equals(obj) && ((this.description == null && other.getDescription() == null) || (this.description != null && this.description.equals(other.getDescription())))
-				&& this.homePage == other.getHomePage()
-				&& ((this.spaceGroup == null && other.getSpaceGroup() == null) || (this.spaceGroup != null && this.spaceGroup.equals(other.getSpaceGroup())));
+			&& this.homePage == other.getHomePage()
+			&& ((this.spaceGroup == null && other.getSpaceGroup() == null) || (this.spaceGroup != null && this.spaceGroup.equals(other.getSpaceGroup())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -165,14 +166,22 @@ public class RemoteSpace extends com.atlassian.confluence.rpc.soap.beans.RemoteS
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

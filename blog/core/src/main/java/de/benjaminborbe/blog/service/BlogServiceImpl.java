@@ -1,7 +1,5 @@
 package de.benjaminborbe.blog.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -27,6 +25,8 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -53,7 +53,8 @@ public class BlogServiceImpl implements BlogService {
 		final BlogPostDao blogPostDao,
 		final AuthenticationService authenticationService,
 		final ValidationExecutor validationExecutor,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		this.logger = logger;
 		this.authorizationService = authorizationService;
 		this.blogPostDao = blogPostDao;
@@ -63,7 +64,11 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public BlogPostIdentifier createBlogPost(final SessionIdentifier sessionIdentifier, final String title, final String content) throws BlogServiceException, ValidationException,
+	public BlogPostIdentifier createBlogPost(
+		final SessionIdentifier sessionIdentifier,
+		final String title,
+		final String content
+	) throws BlogServiceException, ValidationException,
 		LoginRequiredException {
 		try {
 			expectPermission();
@@ -157,7 +162,10 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public BlogPost getBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostNotFoundException,
+	public BlogPost getBlogPost(
+		final SessionIdentifier sessionIdentifier,
+		final BlogPostIdentifier blogPostIdentifier
+	) throws BlogServiceException, BlogPostNotFoundException,
 		LoginRequiredException {
 		try {
 			expectPermission();
@@ -174,7 +182,10 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public void deleteBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, ValidationException,
+	public void deleteBlogPost(
+		final SessionIdentifier sessionIdentifier,
+		final BlogPostIdentifier blogPostIdentifier
+	) throws BlogServiceException, ValidationException,
 		LoginRequiredException {
 		try {
 			expectPermission();

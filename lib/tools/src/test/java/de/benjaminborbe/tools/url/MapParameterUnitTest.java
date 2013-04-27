@@ -1,11 +1,11 @@
 package de.benjaminborbe.tools.url;
 
+import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-
-import org.junit.Test;
 
 public class MapParameterUnitTest {
 
@@ -22,7 +22,7 @@ public class MapParameterUnitTest {
 	public void testValues() throws Exception {
 		final MapParameter mapParameter = new MapParameter();
 		assertThat(mapParameter.get("a"), is(nullValue()));
-		mapParameter.add("a", new String[] { "b", "c" });
+		mapParameter.add("a", new String[]{"b", "c"});
 		assertThat(mapParameter.get("a"), is(not(nullValue())));
 		assertThat(mapParameter.get("a").length, is(2));
 	}

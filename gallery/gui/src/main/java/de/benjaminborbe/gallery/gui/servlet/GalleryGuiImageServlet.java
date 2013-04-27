@@ -53,7 +53,8 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 		final TimeZoneUtil timeZoneUtil,
 		final AuthenticationService authenticationService,
 		final Provider<HttpContext> httpContextProvider,
-		final AuthorizationService authorizationService) {
+		final AuthorizationService authorizationService
+	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.galleryService = galleryService;
@@ -64,7 +65,11 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException {
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException {
 		try {
 			// load image
 			final String imageId = urlUtil.parseId(request, GalleryGuiConstants.PARAMETER_IMAGE_ID);

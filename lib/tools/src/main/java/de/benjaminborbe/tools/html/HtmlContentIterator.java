@@ -1,11 +1,10 @@
 package de.benjaminborbe.tools.html;
 
-import java.util.NoSuchElementException;
-
-import org.apache.commons.lang.StringEscapeUtils;
-
 import de.benjaminborbe.api.IteratorWithException;
 import de.benjaminborbe.tools.util.ParseException;
+import org.apache.commons.lang.StringEscapeUtils;
+
+import java.util.NoSuchElementException;
 
 public class HtmlContentIterator implements IteratorWithException<String, ParseException> {
 
@@ -32,26 +31,21 @@ public class HtmlContentIterator implements IteratorWithException<String, ParseE
 			final String token = tokens.next();
 			if (isCDATA(token)) {
 				nextContent = token.substring(9, token.length() - 3);
-			}
-			else if (isTag(token)) {
+			} else if (isTag(token)) {
 				final HtmlTag htmlTag = htmlTagParser.parse(token);
 				if (!script && htmlTag.isOpening() && !htmlTag.isClosing() && "script".equals(htmlTag.getName())) {
 					final String type = htmlTag.getAttribute("type");
 					if (type == null || type.contains("script")) {
 						script = true;
 					}
-				}
-				else if (!style && htmlTag.isOpening() && !htmlTag.isClosing() && "style".equals(htmlTag.getName())) {
+				} else if (!style && htmlTag.isOpening() && !htmlTag.isClosing() && "style".equals(htmlTag.getName())) {
 					style = true;
-				}
-				else if (script && htmlTag.isClosing() && "script".equals(htmlTag.getName())) {
+				} else if (script && htmlTag.isClosing() && "script".equals(htmlTag.getName())) {
 					script = false;
-				}
-				else if (style && htmlTag.isClosing() && "style".equals(htmlTag.getName())) {
+				} else if (style && htmlTag.isClosing() && "style".equals(htmlTag.getName())) {
 					style = false;
 				}
-			}
-			else if (!script && !style) {
+			} else if (!script && !style) {
 				nextContent = token;
 			}
 		}
@@ -72,8 +66,7 @@ public class HtmlContentIterator implements IteratorWithException<String, ParseE
 			final String result = nextContent;
 			nextContent = null;
 			return StringEscapeUtils.unescapeHtml(result);
-		}
-		else {
+		} else {
 			throw new NoSuchElementException();
 		}
 	}

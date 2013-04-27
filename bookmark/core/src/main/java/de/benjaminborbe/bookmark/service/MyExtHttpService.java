@@ -1,11 +1,11 @@
 package de.benjaminborbe.bookmark.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.NamespaceException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -47,7 +47,13 @@ public class MyExtHttpService implements ExtHttpService {
 	}
 
 	@Override
-	public void registerFilter(final Filter filter, final String pattern, @SuppressWarnings("rawtypes") final Dictionary initParams, final int ranking, final HttpContext context)
+	public void registerFilter(
+		final Filter filter,
+		final String pattern,
+		@SuppressWarnings("rawtypes") final Dictionary initParams,
+		final int ranking,
+		final HttpContext context
+	)
 		throws ServletException {
 	}
 

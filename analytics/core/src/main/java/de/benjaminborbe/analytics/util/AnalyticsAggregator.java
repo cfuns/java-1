@@ -1,7 +1,6 @@
 package de.benjaminborbe.analytics.util;
 
 import com.google.common.collect.Lists;
-import javax.inject.Inject;
 import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
@@ -22,6 +21,7 @@ import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ParseException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -85,7 +85,8 @@ public class AnalyticsAggregator {
 		final RunOnlyOnceATime runOnlyOnceATime,
 		final AnalyticsReportDao analyticsReportDao,
 		final AnalyticsReportValueDao analyticsReportValueDao,
-		final AnalyticsReportLogDao analyticsReportLogDao) {
+		final AnalyticsReportLogDao analyticsReportLogDao
+	) {
 		this.logger = logger;
 		this.analyticsAggregatorCalculatorFactory = analyticsAggregatorCalculatorFactory;
 		this.analyticsIntervalUtil = analyticsIntervalUtil;
@@ -143,8 +144,10 @@ public class AnalyticsAggregator {
 		}
 	}
 
-	private AnalyticsReportValue buildAggregatedValue(final AnalyticsReportAggregation aggregation, final AnalyticsReportValue oldValue, final Calendar calendar,
-																										final List<AnalyticsReportValue> list) {
+	private AnalyticsReportValue buildAggregatedValue(
+		final AnalyticsReportAggregation aggregation, final AnalyticsReportValue oldValue, final Calendar calendar,
+		final List<AnalyticsReportValue> list
+	) {
 
 		final List<AnalyticsReportValue> values = Lists.newArrayList(list);
 		if (oldValue != null) {
@@ -155,7 +158,10 @@ public class AnalyticsAggregator {
 		return analyticsAggregatorCalculator.aggregate(calendar, values);
 	}
 
-	private Map<String, List<AnalyticsReportValue>> groupByInterval(final List<AnalyticsReportValue> values, final AnalyticsReportInterval analyticsReportInterval) {
+	private Map<String, List<AnalyticsReportValue>> groupByInterval(
+		final List<AnalyticsReportValue> values,
+		final AnalyticsReportInterval analyticsReportInterval
+	) {
 		final Map<String, List<AnalyticsReportValue>> data = new HashMap<>();
 		for (final AnalyticsReportValue value : values) {
 			final String key = buildKey(analyticsReportInterval, value.getDate());
@@ -174,7 +180,10 @@ public class AnalyticsAggregator {
 		return String.valueOf(calendar.getTimeInMillis());
 	}
 
-	public void rebuildReport(final AnalyticsReport analyticsReport, final List<AnalyticsReportValue> values) throws StorageException, UnsupportedEncodingException, ParseException {
+	public void rebuildReport(
+		final AnalyticsReport analyticsReport,
+		final List<AnalyticsReportValue> values
+	) throws StorageException, UnsupportedEncodingException, ParseException {
 		logger.debug("rebuildReport - id: " + analyticsReport.getId() + " values: " + values.size());
 		for (final AnalyticsReportInterval analyticsReportInterval : AnalyticsReportInterval.values()) {
 			logger.debug("rebuild interval " + analyticsReportInterval);

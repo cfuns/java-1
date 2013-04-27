@@ -53,7 +53,6 @@ public class SampleIntegrationTest extends TestCaseOsgi {
 		assertEquals("de.benjaminborbe.sample.core.service.SampleCoreServiceImpl", service.getClass().getName());
 	}
 
-
 	public void testCalc() throws Exception {
 		final SampleService sampleService = getService(SampleService.class);
 		assertEquals(46, sampleService.calc(23));

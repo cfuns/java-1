@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.core.dao.attachment;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.filestorage.api.FilestorageService;
 import de.benjaminborbe.filestorage.api.FilestorageServiceException;
 import de.benjaminborbe.storage.api.StorageException;
@@ -16,6 +14,9 @@ import de.benjaminborbe.task.api.TaskAttachmentIdentifier;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class TaskAttachmentDaoStorage extends DaoStorage<TaskAttachmentBean, TaskAttachmentIdentifier> implements TaskAttachmentDao {
@@ -34,7 +35,8 @@ public class TaskAttachmentDaoStorage extends DaoStorage<TaskAttachmentBean, Tas
 		final Provider<TaskAttachmentBean> beanProvider,
 		final TaskAttachmentBeanMapper mapper,
 		final TaskAttachmentIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.logger = logger;
 		this.filestorageService = filestorageService;

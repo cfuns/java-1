@@ -1,8 +1,5 @@
 package de.benjaminborbe.note.mock;
 
-import java.util.Collection;
-
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -13,6 +10,8 @@ import de.benjaminborbe.note.api.NoteIdentifier;
 import de.benjaminborbe.note.api.NoteService;
 import de.benjaminborbe.note.api.NoteServiceException;
 
+import java.util.Collection;
+
 public class NoteServiceMock implements NoteService {
 
 	public NoteServiceMock() {
@@ -20,18 +19,24 @@ public class NoteServiceMock implements NoteService {
 
 	@Override
 	public NoteIdentifier createNote(final SessionIdentifier sessionIdentifier, final NoteDto noteDto) throws PermissionDeniedException, LoginRequiredException,
-			NoteServiceException, ValidationException {
+		NoteServiceException, ValidationException {
 		return null;
 	}
 
 	@Override
-	public void updateNote(final SessionIdentifier sessionIdentifier, final NoteDto noteDto) throws PermissionDeniedException, LoginRequiredException, NoteServiceException,
-			ValidationException {
+	public void updateNote(
+		final SessionIdentifier sessionIdentifier,
+		final NoteDto noteDto
+	) throws PermissionDeniedException, LoginRequiredException, NoteServiceException,
+		ValidationException {
 	}
 
 	@Override
-	public void deleteNote(final SessionIdentifier sessionIdentifier, final NoteIdentifier noteIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			NoteServiceException {
+	public void deleteNote(
+		final SessionIdentifier sessionIdentifier,
+		final NoteIdentifier noteIdentifier
+	) throws PermissionDeniedException, LoginRequiredException,
+		NoteServiceException {
 	}
 
 	@Override
@@ -46,7 +51,7 @@ public class NoteServiceMock implements NoteService {
 
 	@Override
 	public Note getNote(final SessionIdentifier sessionIdentifier, final NoteIdentifier noteIdentifier) throws PermissionDeniedException, LoginRequiredException,
-			NoteServiceException {
+		NoteServiceException {
 		return null;
 	}
 }

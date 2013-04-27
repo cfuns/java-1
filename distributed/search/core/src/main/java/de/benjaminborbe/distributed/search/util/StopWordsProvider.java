@@ -1,8 +1,8 @@
 package de.benjaminborbe.distributed.search.util;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
 
+import javax.inject.Inject;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 

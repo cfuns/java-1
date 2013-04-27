@@ -1,16 +1,6 @@
 package de.benjaminborbe.projectile.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -34,6 +24,13 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class ProjectileGuiReportUserCurrentServlet extends WebsiteHtmlServlet {
@@ -50,17 +47,18 @@ public class ProjectileGuiReportUserCurrentServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public ProjectileGuiReportUserCurrentServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final ProjectileService projectileService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final ProjectileService projectileService,
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.projectileService = projectileService;
 		this.logger = logger;
@@ -79,7 +77,7 @@ public class ProjectileGuiReportUserCurrentServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 
@@ -90,18 +88,15 @@ public class ProjectileGuiReportUserCurrentServlet extends WebsiteHtmlServlet {
 			if (report != null) {
 				widgets.add(new H1Widget(getTitle() + " " + report.getName()));
 				widgets.add(new ProjectileSingleReport(report));
-			}
-			else {
+			} else {
 				widgets.add("no data found");
 			}
 			return widgets;
-		}
-		catch (final ProjectileServiceException e) {
+		} catch (final ProjectileServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

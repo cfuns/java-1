@@ -1,6 +1,5 @@
 package de.benjaminborbe.distributed.search.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.distributed.search.gui.guice.DistributedSearchGuiModules;
 import de.benjaminborbe.distributed.search.gui.service.DistributedSearchGuiNavigationEntry;
 import de.benjaminborbe.distributed.search.gui.servlet.DistributedSearchGuiPageRebuildServlet;
@@ -15,6 +14,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

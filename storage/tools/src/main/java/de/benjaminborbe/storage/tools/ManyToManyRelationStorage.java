@@ -1,6 +1,5 @@
 package de.benjaminborbe.storage.tools;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
@@ -11,6 +10,7 @@ import de.benjaminborbe.storage.api.StorageValue;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 

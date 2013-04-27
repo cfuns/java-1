@@ -1,10 +1,5 @@
 package de.benjaminborbe.microblog.post;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -14,6 +9,10 @@ import de.benjaminborbe.notification.api.NotificationDto;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.api.NotificationServiceException;
 import de.benjaminborbe.tools.util.StringUtil;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class MicroblogPostNotifierImpl implements MicroblogPostNotifier {
@@ -30,10 +29,11 @@ public class MicroblogPostNotifierImpl implements MicroblogPostNotifier {
 
 	@Inject
 	public MicroblogPostNotifierImpl(
-			final Logger logger,
-			final AuthenticationService authenticationService,
-			final NotificationService notificationService,
-			final StringUtil stringUtil) {
+		final Logger logger,
+		final AuthenticationService authenticationService,
+		final NotificationService notificationService,
+		final StringUtil stringUtil
+	) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.notificationService = notificationService;
@@ -46,8 +46,7 @@ public class MicroblogPostNotifierImpl implements MicroblogPostNotifier {
 			logger.debug("mailConversation with rev " + rev);
 			final NotificationDto notificationDto = buildNotificationDto(rev);
 			notificationService.notify(notificationDto);
-		}
-		catch (final NotificationServiceException | MicroblogConnectorException | ValidationException | AuthenticationServiceException e) {
+		} catch (final NotificationServiceException | MicroblogConnectorException | ValidationException | AuthenticationServiceException e) {
 			throw new MicroblogPostNotifierException("MailSendException", e);
 		}
 	}

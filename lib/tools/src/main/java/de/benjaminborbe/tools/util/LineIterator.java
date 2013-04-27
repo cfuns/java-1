@@ -28,8 +28,7 @@ public class LineIterator implements Iterator<String> {
 			line = content.substring(end);
 			end = -1;
 			return true;
-		}
-		else {
+		} else {
 			line = content.substring(end, newEnd);
 			end = newEnd + 1;
 			return true;
@@ -42,8 +41,7 @@ public class LineIterator implements Iterator<String> {
 			final String result = line;
 			line = null;
 			return result;
-		}
-		else {
+		} else {
 			throw new NoSuchElementException();
 		}
 	}

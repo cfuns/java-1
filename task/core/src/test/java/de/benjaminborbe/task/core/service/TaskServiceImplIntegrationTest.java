@@ -65,7 +65,10 @@ public class TaskServiceImplIntegrationTest {
 		assertEquals(TaskServiceImpl.class, taskService.getClass());
 	}
 
-	private SessionIdentifier getLoginSession(final AuthenticationService authenticationService, final String username) throws AuthenticationServiceException, ValidationException {
+	private SessionIdentifier getLoginSession(
+		final AuthenticationService authenticationService,
+		final String username
+	) throws AuthenticationServiceException, ValidationException {
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.replay(request);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
@@ -845,7 +848,10 @@ public class TaskServiceImplIntegrationTest {
 		assertThat(taskIdentifier, is(not(nullValue())));
 	}
 
-	private TaskIdentifier getTask(final SessionIdentifier sessionIdentifier, final TaskService taskService) throws ValidationException, PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	private TaskIdentifier getTask(
+		final SessionIdentifier sessionIdentifier,
+		final TaskService taskService
+	) throws ValidationException, PermissionDeniedException, LoginRequiredException, TaskServiceException {
 		final TaskDto task = new TaskDto();
 		task.setFocus(TaskFocus.INBOX);
 		task.setName(TASK_NAME);

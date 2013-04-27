@@ -1,5 +1,6 @@
 package de.benjaminborbe.cron.util;
 
+import com.google.inject.Injector;
 import org.quartz.Job;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -7,7 +8,6 @@ import org.quartz.spi.JobFactory;
 import org.quartz.spi.TriggerFiredBundle;
 
 import javax.inject.Inject;
-import com.google.inject.Injector;
 
 public class GuiceJobFactory implements JobFactory {
 
@@ -24,8 +24,7 @@ public class GuiceJobFactory implements JobFactory {
 		try {
 			// job = (Job) triggerFiredBundle.getJobDetail().getJobClass().newInstance();
 			job = injector.getInstance(triggerFiredBundle.getJobDetail().getJobClass());
-		}
-		catch (final Exception ex) {
+		} catch (final Exception ex) {
 			throw new SchedulerException(ex);
 		}
 

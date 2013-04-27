@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public abstract class AbstractRemotePageSummary implements java.io.Serializable {
 
 	private long id;
@@ -23,7 +23,13 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 	public AbstractRemotePageSummary() {
 	}
 
-	public AbstractRemotePageSummary(final long id, final int permissions, final java.lang.String space, final java.lang.String title, final java.lang.String url) {
+	public AbstractRemotePageSummary(
+		final long id,
+		final int permissions,
+		final java.lang.String space,
+		final java.lang.String title,
+		final java.lang.String url
+	) {
 		this.id = id;
 		this.permissions = permissions;
 		this.space = space;
@@ -33,7 +39,7 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 
 	/**
 	 * Gets the id value for this AbstractRemotePageSummary.
-	 * 
+	 *
 	 * @return id
 	 */
 	public long getId() {
@@ -42,7 +48,7 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 
 	/**
 	 * Sets the id value for this AbstractRemotePageSummary.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(final long id) {
@@ -51,7 +57,7 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 
 	/**
 	 * Gets the permissions value for this AbstractRemotePageSummary.
-	 * 
+	 *
 	 * @return permissions
 	 */
 	public int getPermissions() {
@@ -60,7 +66,7 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 
 	/**
 	 * Sets the permissions value for this AbstractRemotePageSummary.
-	 * 
+	 *
 	 * @param permissions
 	 */
 	public void setPermissions(final int permissions) {
@@ -69,7 +75,7 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 
 	/**
 	 * Gets the space value for this AbstractRemotePageSummary.
-	 * 
+	 *
 	 * @return space
 	 */
 	public java.lang.String getSpace() {
@@ -78,7 +84,7 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 
 	/**
 	 * Sets the space value for this AbstractRemotePageSummary.
-	 * 
+	 *
 	 * @param space
 	 */
 	public void setSpace(final java.lang.String space) {
@@ -87,7 +93,7 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 
 	/**
 	 * Gets the title value for this AbstractRemotePageSummary.
-	 * 
+	 *
 	 * @return title
 	 */
 	public java.lang.String getTitle() {
@@ -96,7 +102,7 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 
 	/**
 	 * Sets the title value for this AbstractRemotePageSummary.
-	 * 
+	 *
 	 * @param title
 	 */
 	public void setTitle(final java.lang.String title) {
@@ -105,7 +111,7 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 
 	/**
 	 * Gets the url value for this AbstractRemotePageSummary.
-	 * 
+	 *
 	 * @return url
 	 */
 	public java.lang.String getUrl() {
@@ -114,7 +120,7 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 
 	/**
 	 * Sets the url value for this AbstractRemotePageSummary.
-	 * 
+	 *
 	 * @param url
 	 */
 	public void setUrl(final java.lang.String url) {
@@ -138,9 +144,9 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && this.id == other.getId() && this.permissions == other.getPermissions()
-				&& ((this.space == null && other.getSpace() == null) || (this.space != null && this.space.equals(other.getSpace())))
-				&& ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
-				&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
+			&& ((this.space == null && other.getSpace() == null) || (this.space != null && this.space.equals(other.getSpace())))
+			&& ((this.title == null && other.getTitle() == null) || (this.title != null && this.title.equals(other.getTitle())))
+			&& ((this.url == null && other.getUrl() == null) || (this.url != null && this.url.equals(other.getUrl())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -216,14 +222,22 @@ public abstract class AbstractRemotePageSummary implements java.io.Serializable 
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

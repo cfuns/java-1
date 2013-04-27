@@ -1,6 +1,5 @@
 package de.benjaminborbe.projectile.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -11,6 +10,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

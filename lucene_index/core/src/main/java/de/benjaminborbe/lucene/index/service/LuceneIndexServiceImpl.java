@@ -1,7 +1,5 @@
 package de.benjaminborbe.lucene.index.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.lucene.index.LuceneIndexConstants;
 import de.benjaminborbe.lucene.index.api.LuceneIndexSearchResult;
 import de.benjaminborbe.lucene.index.api.LuceneIndexService;
@@ -33,6 +31,8 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;

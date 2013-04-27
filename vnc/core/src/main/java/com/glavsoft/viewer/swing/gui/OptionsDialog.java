@@ -426,8 +426,10 @@ public class OptionsDialog extends JDialog {
 
 	}
 
-	private <T> JRadioButton addRadioButton(final String text, final T state, final RadioButtonSelectedState<T> selected, final Map<T, JRadioButton> state2buttonMap,
-																					final JComponent component, final ButtonGroup group) {
+	private <T> JRadioButton addRadioButton(
+		final String text, final T state, final RadioButtonSelectedState<T> selected, final Map<T, JRadioButton> state2buttonMap,
+		final JComponent component, final ButtonGroup group
+	) {
 		final JRadioButton radio = new JRadioButton(text);
 		radio.addActionListener(new ActionListener() {
 

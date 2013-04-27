@@ -1,13 +1,5 @@
 package de.benjaminborbe.gallery.gui.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-
-import javax.servlet.http.HttpServletRequest;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
@@ -20,6 +12,12 @@ import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.website.link.LinkRelativWidget;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+
 @Singleton
 public class GalleryGuiLinkFactory {
 
@@ -30,9 +28,12 @@ public class GalleryGuiLinkFactory {
 		this.urlUtil = urlUtil;
 	}
 
-	public Widget deleteGroup(final HttpServletRequest request, final GalleryGroupIdentifier galleryGroupIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget deleteGroup(
+		final HttpServletRequest request,
+		final GalleryGroupIdentifier galleryGroupIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GROUP_DELETE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)), "delete").addConfirm("delete?");
+			GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)), "delete").addConfirm("delete?");
 	}
 
 	public Widget createGroup(final HttpServletRequest request) throws MalformedURLException {
@@ -44,50 +45,65 @@ public class GalleryGuiLinkFactory {
 	}
 
 	public Widget deleteCollection(final HttpServletRequest request, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws MalformedURLException,
-			UnsupportedEncodingException {
+		UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_DELETE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "delete");
+			GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "delete");
 	}
 
-	public Widget createCollection(final HttpServletRequest request, final GalleryGroupIdentifier galleryGroupIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget createCollection(
+		final HttpServletRequest request,
+		final GalleryGroupIdentifier galleryGroupIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_CREATE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)), "create collection");
+			GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)), "create collection");
 	}
 
 	public Widget listCollections(final HttpServletRequest request, final GalleryGroup galleryGroup) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_LIST, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroup.getId())), galleryGroup.getName());
+			GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroup.getId())), galleryGroup.getName());
 	}
 
-	public Widget listCollections(final HttpServletRequest request, final GalleryGroupIdentifier galleryGroupIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget listCollections(
+		final HttpServletRequest request,
+		final GalleryGroupIdentifier galleryGroupIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_LIST, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)), "collections");
+			GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)), "collections");
 	}
 
-	public Widget deleteEntry(final HttpServletRequest request, final GalleryEntryIdentifier galleryEntryIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget deleteEntry(
+		final HttpServletRequest request,
+		final GalleryEntryIdentifier galleryEntryIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_DELETE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(galleryEntryIdentifier)), "delete").addConfirm("delete?");
+			GalleryGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(galleryEntryIdentifier)), "delete").addConfirm("delete?");
 	}
 
 	public Widget createEntry(final HttpServletRequest request, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws MalformedURLException,
-			UnsupportedEncodingException {
+		UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_CREATE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "create entry");
+			GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "create entry");
 	}
 
-	public Widget listEntries(final HttpServletRequest request, final GalleryCollection galleryCollection) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget listEntries(
+		final HttpServletRequest request,
+		final GalleryCollection galleryCollection
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_LIST, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollection.getId())), galleryCollection.getName());
+			GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollection.getId())), galleryCollection.getName());
 	}
 
 	public String collectionListUrl(final HttpServletRequest request, final GalleryGroupIdentifier galleryGroupIdentifier) throws UnsupportedEncodingException {
 		return urlUtil.buildUrl(request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_LIST,
-				new MapParameter().add(GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)));
+			new MapParameter().add(GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)));
 	}
 
-	public String entryListUrl(final HttpServletRequest request, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws UnsupportedEncodingException {
+	public String entryListUrl(
+		final HttpServletRequest request,
+		final GalleryCollectionIdentifier galleryCollectionIdentifier
+	) throws UnsupportedEncodingException {
 		return urlUtil.buildUrl(request.getContextPath() + "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_LIST,
-				new MapParameter().add(GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)));
+			new MapParameter().add(GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)));
 	}
 
 	public String createImage(final HttpServletRequest request, final GalleryImageIdentifier imageIdentifier) throws UnsupportedEncodingException {
@@ -99,41 +115,55 @@ public class GalleryGuiLinkFactory {
 	}
 
 	public Widget updateCollection(final HttpServletRequest request, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws MalformedURLException,
-			UnsupportedEncodingException {
+		UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_COLLECTION_UPDATE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "edit");
+			GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "edit");
 	}
 
-	public Widget updateGroup(final HttpServletRequest request, final GalleryGroupIdentifier galleryGroupIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget updateGroup(
+		final HttpServletRequest request,
+		final GalleryGroupIdentifier galleryGroupIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GROUP_UPDATE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)), "edit");
+			GalleryGuiConstants.PARAMETER_GROUP_ID, String.valueOf(galleryGroupIdentifier)), "edit");
 	}
 
-	public Widget updateEntry(final HttpServletRequest request, final GalleryEntryIdentifier galleryEntryIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget updateEntry(
+		final HttpServletRequest request,
+		final GalleryEntryIdentifier galleryEntryIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_UPDATE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(galleryEntryIdentifier)), "edit");
+			GalleryGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(galleryEntryIdentifier)), "edit");
 	}
 
-	public Widget swapEntryPrio(final HttpServletRequest request, final GalleryEntryIdentifier galleryEntryIdentifierA, final GalleryEntryIdentifier galleryEntryIdentifierB,
-			final String name) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget swapEntryPrio(
+		final HttpServletRequest request, final GalleryEntryIdentifier galleryEntryIdentifierA, final GalleryEntryIdentifier galleryEntryIdentifierB,
+		final String name
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_SWAP_PRIO, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_ENTRY_ID_A, String.valueOf(galleryEntryIdentifierA)).add(GalleryGuiConstants.PARAMETER_ENTRY_ID_B, String.valueOf(galleryEntryIdentifierB)),
-				name);
+			GalleryGuiConstants.PARAMETER_ENTRY_ID_A, String.valueOf(galleryEntryIdentifierA)).add(GalleryGuiConstants.PARAMETER_ENTRY_ID_B, String.valueOf(galleryEntryIdentifierB)),
+			name);
 	}
 
 	public Widget listEntries(final HttpServletRequest request, final GalleryCollectionIdentifier galleryCollectionIdentifier) throws MalformedURLException,
-			UnsupportedEncodingException {
+		UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_LIST, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "entries");
+			GalleryGuiConstants.PARAMETER_COLLECTION_ID, String.valueOf(galleryCollectionIdentifier)), "entries");
 	}
 
-	public Widget shareEntry(final HttpServletRequest request, final GalleryEntryIdentifier galleryEntryIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget shareEntry(
+		final HttpServletRequest request,
+		final GalleryEntryIdentifier galleryEntryIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_SHARE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(galleryEntryIdentifier)), "shared");
+			GalleryGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(galleryEntryIdentifier)), "shared");
 	}
 
-	public Widget unshareEntry(final HttpServletRequest request, final GalleryEntryIdentifier galleryEntryIdentifier) throws MalformedURLException, UnsupportedEncodingException {
+	public Widget unshareEntry(
+		final HttpServletRequest request,
+		final GalleryEntryIdentifier galleryEntryIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_ENTRY_UNSHARE, new MapParameter().add(
-				GalleryGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(galleryEntryIdentifier)), "unshare");
+			GalleryGuiConstants.PARAMETER_ENTRY_ID, String.valueOf(galleryEntryIdentifier)), "unshare");
 	}
 }

@@ -79,7 +79,8 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
 		final WebsearchGuiLinkFactory websearchGuiLinkFactory,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.calendarUtil = calendarUtil;
 		this.websearchService = websearchService;

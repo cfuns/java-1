@@ -1,11 +1,6 @@
 package de.benjaminborbe.slash.gui.guice;
 
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.service.log.LogService;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.mock.AnalyticsServiceMock;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -16,6 +11,10 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.service.log.LogService;
+
+import javax.inject.Singleton;
 
 public class SlashGuiOsgiModuleMock extends AbstractModule {
 

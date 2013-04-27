@@ -3,7 +3,6 @@ package de.benjaminborbe.vnc.core.guice;
 import com.glavsoft.viewer.Viewer;
 import com.glavsoft.viewer.ViewerHeadless;
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.vnc.api.VncKeyParser;
 import de.benjaminborbe.vnc.api.VncScreenContent;
@@ -12,6 +11,8 @@ import de.benjaminborbe.vnc.core.service.VncServiceImpl;
 import de.benjaminborbe.vnc.core.util.VncKeyParserImpl;
 import de.benjaminborbe.vnc.core.util.VncScreenContentImpl;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class VncModule extends AbstractModule {
 

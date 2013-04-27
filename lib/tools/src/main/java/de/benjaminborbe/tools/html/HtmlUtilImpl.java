@@ -1,7 +1,5 @@
 package de.benjaminborbe.tools.html;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.util.LineIterator;
 import de.benjaminborbe.tools.util.ParseException;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -12,6 +10,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

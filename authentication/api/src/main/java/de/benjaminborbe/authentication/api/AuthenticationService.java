@@ -24,11 +24,23 @@ public interface AuthenticationService {
 
 	String getFullname(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
-	UserIdentifier register(SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrl, String username, String email, String password) throws AuthenticationServiceException, ValidationException;
+	UserIdentifier register(
+		SessionIdentifier sessionIdentifier,
+		final String shortenUrl,
+		final String validateEmailUrl,
+		String username,
+		String email,
+		String password
+	) throws AuthenticationServiceException, ValidationException;
 
 	boolean unregister(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
-	boolean changePassword(SessionIdentifier sessionIdentifier, String currentPassword, String newPassword, String newPasswordRepeat) throws AuthenticationServiceException,
+	boolean changePassword(
+		SessionIdentifier sessionIdentifier,
+		String currentPassword,
+		String newPassword,
+		String newPasswordRepeat
+	) throws AuthenticationServiceException,
 		LoginRequiredException, ValidationException;
 
 	UserIdentifier createUserIdentifier(String username) throws AuthenticationServiceException;
@@ -41,13 +53,23 @@ public interface AuthenticationService {
 
 	boolean existsSession(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
-	void switchUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
+	void switchUser(
+		SessionIdentifier sessionIdentifier,
+		UserIdentifier userIdentifier
+	) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
 
 	boolean isSuperAdmin(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
 	boolean isSuperAdmin(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
-	void updateUser(SessionIdentifier sessionIdentifier, final String shortenUrl, final String validateEmailUrlString, String email, String fullname, String timeZone)
+	void updateUser(
+		SessionIdentifier sessionIdentifier,
+		final String shortenUrl,
+		final String validateEmailUrlString,
+		String email,
+		String fullname,
+		String timeZone
+	)
 		throws AuthenticationServiceException, LoginRequiredException, ValidationException;
 
 	TimeZone getTimeZone(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
@@ -59,7 +81,10 @@ public interface AuthenticationService {
 	UserIdentifier createUser(SessionIdentifier sessionId, UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException,
 		SuperAdminRequiredException;
 
-	void deleteUser(SessionIdentifier sessionIdentifier, UserIdentifier userIdentifier) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
+	void deleteUser(
+		SessionIdentifier sessionIdentifier,
+		UserIdentifier userIdentifier
+	) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
 
 	void sendPasswordLostEmail(String shortenUrl, String resetUrl, UserIdentifier userIdentifier, String email)
 		throws AuthenticationServiceException, ValidationException;

@@ -1,15 +1,14 @@
 package de.benjaminborbe.meta.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.meta.util.BundleResolver;
 import de.benjaminborbe.meta.util.BundleResolverImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class MetaModule extends AbstractModule {
 

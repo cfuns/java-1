@@ -34,7 +34,12 @@ public class InOfficeCheckHttpContent {
 	private final HttpDownloadUtil httpDownloadUtil;
 
 	@Inject
-	public InOfficeCheckHttpContent(final Logger logger, final ParseUtil parseUtil, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil) {
+	public InOfficeCheckHttpContent(
+		final Logger logger,
+		final ParseUtil parseUtil,
+		final HttpDownloader httpDownloader,
+		final HttpDownloadUtil httpDownloadUtil
+	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 		this.httpDownloader = httpDownloader;

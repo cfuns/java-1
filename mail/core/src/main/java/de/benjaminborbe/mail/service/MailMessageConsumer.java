@@ -1,9 +1,5 @@
 package de.benjaminborbe.mail.service;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.mail.MailConstants;
 import de.benjaminborbe.mail.api.Mail;
 import de.benjaminborbe.mail.api.MailServiceException;
@@ -12,6 +8,9 @@ import de.benjaminborbe.mail.util.MailSender;
 import de.benjaminborbe.message.api.Message;
 import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.mapper.MapException;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class MailMessageConsumer implements MessageConsumer {
 
@@ -40,12 +39,10 @@ public class MailMessageConsumer implements MessageConsumer {
 			final Mail mail = mailJsonMapper.map(message.getContent());
 			mailSender.send(mail);
 			return true;
-		}
-		catch (final MailServiceException e) {
+		} catch (final MailServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 			return false;
-		}
-		catch (final MapException e) {
+		} catch (final MapException e) {
 			logger.warn(e.getClass().getName(), e);
 			return false;
 		}

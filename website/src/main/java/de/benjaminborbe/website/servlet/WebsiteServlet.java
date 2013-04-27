@@ -1,8 +1,6 @@
 package de.benjaminborbe.website.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -28,6 +26,8 @@ import org.apache.commons.lang.StringUtils;
 import org.ops4j.peaberry.ServiceUnavailableException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +68,8 @@ public abstract class WebsiteServlet extends HttpServlet {
 		final AuthorizationService authorizationService,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
-		final Provider<HttpContext> httpContextProvider) {
+		final Provider<HttpContext> httpContextProvider
+	) {
 		this.logger = logger;
 		this.urlUtil = urlUtil;
 		this.authenticationService = authenticationService;
@@ -147,7 +148,11 @@ public abstract class WebsiteServlet extends HttpServlet {
 		return buildRedirectUrl(request, "/authorization/permissionDenied");
 	}
 
-	protected abstract void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException, IOException,
+	protected abstract void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException,
 		PermissionDeniedException, LoginRequiredException;
 
 	private String getNowAsString() {

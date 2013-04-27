@@ -1,6 +1,5 @@
 package de.benjaminborbe.task.gui.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -22,6 +21,7 @@ import de.benjaminborbe.tools.util.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -54,7 +54,8 @@ public class TaskGuiUtil {
 		final StringUtil stringUtil,
 		final CalendarUtil calendarUtil,
 		final UrlUtil urlUtil,
-		final ParseUtil parseUtil) {
+		final ParseUtil parseUtil
+	) {
 		this.logger = logger;
 		this.taskService = taskService;
 		this.stringUtil = stringUtil;
@@ -63,7 +64,12 @@ public class TaskGuiUtil {
 		this.parseUtil = parseUtil;
 	}
 
-	public String buildCompleteName(final SessionIdentifier sessionIdentifier, final TaskCache taskCache, final Task task, final int nameLength) throws TaskServiceException,
+	public String buildCompleteName(
+		final SessionIdentifier sessionIdentifier,
+		final TaskCache taskCache,
+		final Task task,
+		final int nameLength
+	) throws TaskServiceException,
 		LoginRequiredException, PermissionDeniedException {
 		final List<String> names = new ArrayList<>();
 		Task parent = taskCache.getParent(sessionIdentifier, task);
@@ -85,7 +91,12 @@ public class TaskGuiUtil {
 		return false;
 	}
 
-	public Collection<Task> getTasksWithFocus(final SessionIdentifier sessionIdentifier, final boolean completed, final TaskFocus taskFocus, final List<String> taskContextIds)
+	public Collection<Task> getTasksWithFocus(
+		final SessionIdentifier sessionIdentifier,
+		final boolean completed,
+		final TaskFocus taskFocus,
+		final List<String> taskContextIds
+	)
 		throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		logger.debug("task list for context: " + taskContextIds);
 		if (taskContextIds.size() == 1 && TaskGuiConstants.ALL.equals(taskContextIds.get(0))) {
@@ -138,7 +149,11 @@ public class TaskGuiUtil {
 		return result;
 	}
 
-	public Collection<Task> getTasks(final SessionIdentifier sessionIdentifier, final boolean completed, final List<String> taskContextIds) throws TaskServiceException,
+	public Collection<Task> getTasks(
+		final SessionIdentifier sessionIdentifier,
+		final boolean completed,
+		final List<String> taskContextIds
+	) throws TaskServiceException,
 		LoginRequiredException, PermissionDeniedException {
 		logger.debug("get completed tasks for context: " + taskContextIds);
 		if (taskContextIds.size() == 1 && TaskGuiConstants.ALL.equals(taskContextIds.get(0))) {
@@ -154,7 +169,10 @@ public class TaskGuiUtil {
 
 	}
 
-	public TaskDto quickStringToTask(final SessionIdentifier sessionIdentifier, final String text) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
+	public TaskDto quickStringToTask(
+		final SessionIdentifier sessionIdentifier,
+		final String text
+	) throws TaskServiceException, LoginRequiredException, PermissionDeniedException {
 		final TaskDto task = new TaskDto();
 		if (text == null) {
 			return task;

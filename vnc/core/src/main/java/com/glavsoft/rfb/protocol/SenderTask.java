@@ -24,14 +24,13 @@
 
 package com.glavsoft.rfb.protocol;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import org.slf4j.Logger;
-
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.rfb.client.ClientToServerMessage;
 import com.glavsoft.transport.Writer;
+import org.slf4j.Logger;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class SenderTask implements Runnable {
 
@@ -50,11 +49,9 @@ public class SenderTask implements Runnable {
 	 * Task runs as thread, receive messages from queue and sends them to writer.
 	 * When no messages appears in queue longer than timeout period, sends FramebufferUpdate
 	 * request
-	 * 
-	 * @param messageQueue
-	 *          queue to poll messages
-	 * @param writer
-	 *          writer to send messages out
+	 *
+	 * @param messageQueue    queue to poll messages
+	 * @param writer          writer to send messages out
 	 * @param protocolContext
 	 */
 	public SenderTask(final Logger logger, final MessageQueue messageQueue, final Writer writer, final ProtocolContext protocolContext) {
@@ -74,18 +71,15 @@ public class SenderTask implements Runnable {
 				if (message != null) {
 					message.send(writer);
 				}
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 				// nop
-			}
-			catch (final TransportException e) {
+			} catch (final TransportException e) {
 				logger.debug("Close session: " + e.getMessage());
 				if (isRunning) {
 					protocolContext.cleanUpSession("Connection closed");
 				}
 				stopTask();
-			}
-			catch (final Throwable te) {
+			} catch (final Throwable te) {
 				final StringWriter sw = new StringWriter();
 				final PrintWriter pw = new PrintWriter(sw);
 				te.printStackTrace(pw);

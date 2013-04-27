@@ -2,7 +2,6 @@ package de.benjaminborbe.tools.osgi;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.tools.util.ThreadRunner;
@@ -15,6 +14,7 @@ import org.osgi.framework.ServiceListener;
 import org.osgi.framework.ServiceReference;
 import org.slf4j.Logger;
 
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Properties;

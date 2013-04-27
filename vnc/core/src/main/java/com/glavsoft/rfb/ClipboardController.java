@@ -36,7 +36,7 @@ public interface ClipboardController extends IChangeSettingsListener {
 	 * Implement this method such a way in swing context, because swing's clipboard
 	 * update listener invoked only on DataFlavor changes not content changes.
 	 * Implement as returned null on systems where clipboard listeners work correctly.
-	 * 
+	 *
 	 * @return clipboad string contents if it is changed from last method call
 	 *         or null when clipboard contains non text object or clipboard contents didn't
 	 *         changed
@@ -46,14 +46,14 @@ public interface ClipboardController extends IChangeSettingsListener {
 	/**
 	 * Returns clipboard text content previously retrieved frim system clipboard by
 	 * updateSavedClippoardContent()
-	 * 
+	 *
 	 * @return clipboard text content
 	 */
 	String getClipboardText();
 
 	/**
 	 * Enable/disable clipboard transfer
-	 * 
+	 *
 	 * @param enable
 	 */
 	void setEnabled(boolean enable);

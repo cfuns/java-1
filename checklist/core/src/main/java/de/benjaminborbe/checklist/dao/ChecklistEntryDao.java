@@ -9,6 +9,9 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 
 public interface ChecklistEntryDao extends Dao<ChecklistEntryBean, ChecklistEntryIdentifier> {
 
-	EntityIterator<ChecklistEntryBean> getEntityIteratorForListAndUser(ChecklistListIdentifier checklistListIdentifier, UserIdentifier currentUser) throws StorageException;
+	EntityIterator<ChecklistEntryBean> getEntityIteratorForListAndUser(
+		ChecklistListIdentifier checklistListIdentifier,
+		UserIdentifier currentUser
+	) throws StorageException;
 
 }

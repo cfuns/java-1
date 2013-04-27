@@ -22,8 +22,7 @@ public class ThreadRunnerImpl implements ThreadRunner {
 			try {
 				Thread.sleep(time);
 				runInternal("delayedExecute", runnable);
-			}
-			catch (final InterruptedException e) {
+			} catch (final InterruptedException e) {
 			}
 		}
 	}

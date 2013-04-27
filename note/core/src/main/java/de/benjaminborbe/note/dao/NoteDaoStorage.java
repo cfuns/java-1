@@ -1,11 +1,6 @@
 package de.benjaminborbe.note.dao;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.note.api.NoteIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
@@ -14,6 +9,10 @@ import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class NoteDaoStorage extends DaoStorage<NoteBean, NoteIdentifier> implements NoteDao {
@@ -22,12 +21,13 @@ public class NoteDaoStorage extends DaoStorage<NoteBean, NoteIdentifier> impleme
 
 	@Inject
 	public NoteDaoStorage(
-			final Logger logger,
-			final StorageService storageService,
-			final Provider<NoteBean> beanProvider,
-			final NoteBeanMapper mapper,
-			final NoteIdentifierBuilder identifierBuilder,
-			final CalendarUtil calendarUtil) {
+		final Logger logger,
+		final StorageService storageService,
+		final Provider<NoteBean> beanProvider,
+		final NoteBeanMapper mapper,
+		final NoteIdentifierBuilder identifierBuilder,
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 

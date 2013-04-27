@@ -1,7 +1,5 @@
 package de.benjaminborbe.authentication.core.verifycredential;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -11,6 +9,8 @@ import de.benjaminborbe.authentication.core.util.AuthenticationPasswordEncryptio
 import de.benjaminborbe.storage.api.StorageException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -24,7 +24,11 @@ public class AuthenticationVerifyCredentialStorage implements AuthenticationVeri
 	private final AuthenticationPasswordEncryptionService passwordEncryptionService;
 
 	@Inject
-	public AuthenticationVerifyCredentialStorage(final Logger logger, final UserDao userDao, final AuthenticationPasswordEncryptionService passwordEncryptionService) {
+	public AuthenticationVerifyCredentialStorage(
+		final Logger logger,
+		final UserDao userDao,
+		final AuthenticationPasswordEncryptionService passwordEncryptionService
+	) {
 		this.logger = logger;
 		this.userDao = userDao;
 		this.passwordEncryptionService = passwordEncryptionService;

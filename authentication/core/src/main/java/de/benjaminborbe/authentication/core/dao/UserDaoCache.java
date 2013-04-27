@@ -1,11 +1,12 @@
 package de.benjaminborbe.authentication.core.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.DaoCache;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class UserDaoCache extends DaoCache<UserBean, UserIdentifier> implements UserDao {

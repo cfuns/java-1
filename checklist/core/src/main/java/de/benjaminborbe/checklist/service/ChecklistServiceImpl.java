@@ -1,7 +1,5 @@
 package de.benjaminborbe.checklist.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.AuthenticationService;
@@ -32,6 +30,8 @@ import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -66,7 +66,8 @@ public class ChecklistServiceImpl implements ChecklistService {
 		final ChecklistEntryDao checklistEntryDao,
 		final ChecklistListDao checklistListDao,
 		final IdGeneratorUUID idGeneratorUUID,
-		final ValidationExecutor validationExecutor) {
+		final ValidationExecutor validationExecutor
+	) {
 		this.logger = logger;
 		this.durationUtil = durationUtil;
 		this.authenticationService = authenticationService;
@@ -109,7 +110,10 @@ public class ChecklistServiceImpl implements ChecklistService {
 	}
 
 	@Override
-	public ChecklistList read(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier id) throws ChecklistServiceException, PermissionDeniedException,
+	public ChecklistList read(
+		final SessionIdentifier sessionIdentifier,
+		final ChecklistListIdentifier id
+	) throws ChecklistServiceException, PermissionDeniedException,
 		LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -135,7 +139,10 @@ public class ChecklistServiceImpl implements ChecklistService {
 	}
 
 	@Override
-	public ChecklistListIdentifier create(final SessionIdentifier sessionIdentifier, final ChecklistList checklistList) throws ChecklistServiceException, PermissionDeniedException,
+	public ChecklistListIdentifier create(
+		final SessionIdentifier sessionIdentifier,
+		final ChecklistList checklistList
+	) throws ChecklistServiceException, PermissionDeniedException,
 		ValidationException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -224,7 +231,10 @@ public class ChecklistServiceImpl implements ChecklistService {
 	}
 
 	@Override
-	public ChecklistEntry read(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier id) throws ChecklistServiceException, PermissionDeniedException,
+	public ChecklistEntry read(
+		final SessionIdentifier sessionIdentifier,
+		final ChecklistEntryIdentifier id
+	) throws ChecklistServiceException, PermissionDeniedException,
 		LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -288,7 +298,10 @@ public class ChecklistServiceImpl implements ChecklistService {
 	}
 
 	@Override
-	public void update(final SessionIdentifier sessionIdentifier, final ChecklistEntry checklistEntry) throws ChecklistServiceException, PermissionDeniedException,
+	public void update(
+		final SessionIdentifier sessionIdentifier,
+		final ChecklistEntry checklistEntry
+	) throws ChecklistServiceException, PermissionDeniedException,
 		ValidationException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -339,7 +352,10 @@ public class ChecklistServiceImpl implements ChecklistService {
 	}
 
 	@Override
-	public Collection<ChecklistEntry> getEntries(final SessionIdentifier sessionIdentifier, final ChecklistListIdentifier checklistListIdentifier) throws ChecklistServiceException,
+	public Collection<ChecklistEntry> getEntries(
+		final SessionIdentifier sessionIdentifier,
+		final ChecklistListIdentifier checklistListIdentifier
+	) throws ChecklistServiceException,
 		PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -363,7 +379,10 @@ public class ChecklistServiceImpl implements ChecklistService {
 	}
 
 	@Override
-	public void uncomplete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier identifier) throws ChecklistServiceException, PermissionDeniedException,
+	public void uncomplete(
+		final SessionIdentifier sessionIdentifier,
+		final ChecklistEntryIdentifier identifier
+	) throws ChecklistServiceException, PermissionDeniedException,
 		LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
@@ -392,7 +411,10 @@ public class ChecklistServiceImpl implements ChecklistService {
 	}
 
 	@Override
-	public void complete(final SessionIdentifier sessionIdentifier, final ChecklistEntryIdentifier identifier) throws ChecklistServiceException, PermissionDeniedException,
+	public void complete(
+		final SessionIdentifier sessionIdentifier,
+		final ChecklistEntryIdentifier identifier
+	) throws ChecklistServiceException, PermissionDeniedException,
 		LoginRequiredException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {

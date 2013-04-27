@@ -93,7 +93,12 @@ public class HttpDownloaderImpl implements HttpDownloader {
 		return getUrl(url, timeout, username, password, new HashMap<String, String>());
 	}
 
-	protected HttpDownloadResult doDownloadUrl(final URL url, final String username, final String password, final Map<String, String> cookies) throws IOException {
+	protected HttpDownloadResult doDownloadUrl(
+		final URL url,
+		final String username,
+		final String password,
+		final Map<String, String> cookies
+	) throws IOException {
 		logger.trace("downloadUrl started");
 		final Duration duration = durationUtil.getDuration();
 		InputStream inputStream = null;
@@ -175,7 +180,12 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult postUrl(final URL url, final Map<String, String> parameter, final Map<String, String> cookies, final int timeout) throws HttpDownloaderException {
+	public HttpDownloadResult postUrl(
+		final URL url,
+		final Map<String, String> parameter,
+		final Map<String, String> cookies,
+		final int timeout
+	) throws HttpDownloaderException {
 		try {
 			final Duration duration = durationUtil.getDuration();
 

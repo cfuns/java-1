@@ -1,9 +1,10 @@
 package de.benjaminborbe.proxy.gui.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class ProxyGuiModule extends AbstractModule {
 

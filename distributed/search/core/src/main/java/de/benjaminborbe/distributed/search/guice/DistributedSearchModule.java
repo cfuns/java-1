@@ -1,7 +1,6 @@
 package de.benjaminborbe.distributed.search.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.distributed.search.api.DistributedSearchService;
 import de.benjaminborbe.distributed.search.dao.DistributedSearchPageDao;
 import de.benjaminborbe.distributed.search.dao.DistributedSearchPageDaoStorage;
@@ -10,6 +9,8 @@ import de.benjaminborbe.distributed.search.util.StopWords;
 import de.benjaminborbe.distributed.search.util.StopWordsProvider;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class DistributedSearchModule extends AbstractModule {
 

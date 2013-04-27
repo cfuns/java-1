@@ -60,7 +60,8 @@ public class MicroblogPostRefresher {
 		final MicroblogPostUpdater microblogPostUpdater,
 		final MicroblogConnector microblogConnector,
 		final MicroblogRevisionStorage microblogRevisionStorage,
-		final RunOnlyOnceATime runOnlyOnceATime) {
+		final RunOnlyOnceATime runOnlyOnceATime
+	) {
 		this.logger = logger;
 		this.microblogPostUpdater = microblogPostUpdater;
 		this.microblogConnector = microblogConnector;

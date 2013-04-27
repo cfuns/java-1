@@ -1,10 +1,5 @@
 package de.benjaminborbe.poker.mock;
 
-import java.util.Collection;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -18,6 +13,10 @@ import de.benjaminborbe.poker.api.PokerPlayerDto;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Collection;
 
 @Singleton
 public class PokerServiceMock implements PokerService {
@@ -71,11 +70,17 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public void joinGame(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+	public void joinGame(
+		final PokerGameIdentifier gameIdentifier,
+		final PokerPlayerIdentifier playerIdentifier
+	) throws PokerServiceException, ValidationException {
 	}
 
 	@Override
-	public void leaveGame(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+	public void leaveGame(
+		final PokerGameIdentifier gameIdentifier,
+		final PokerPlayerIdentifier playerIdentifier
+	) throws PokerServiceException, ValidationException {
 	}
 
 	@Override
@@ -92,7 +97,11 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public void raise(final PokerGameIdentifier pokerGameIdentifier, final PokerPlayerIdentifier playerIdentifier, final long amount) throws PokerServiceException {
+	public void raise(
+		final PokerGameIdentifier pokerGameIdentifier,
+		final PokerPlayerIdentifier playerIdentifier,
+		final long amount
+	) throws PokerServiceException {
 	}
 
 	@Override

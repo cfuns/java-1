@@ -42,7 +42,8 @@ public class RemoteContentSummary implements java.io.Serializable {
 		final java.lang.String space,
 		final java.lang.String status,
 		final java.lang.String title,
-		final java.lang.String type) {
+		final java.lang.String type
+	) {
 		this.created = created;
 		this.creator = creator;
 		this.id = id;

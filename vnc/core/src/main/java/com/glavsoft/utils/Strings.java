@@ -32,8 +32,7 @@ public class Strings {
 		for (final byte b : byteArray) {
 			if (notFirst) {
 				sb.append(", ");
-			}
-			else {
+			} else {
 				notFirst = true;
 			}
 			sb.append(b);

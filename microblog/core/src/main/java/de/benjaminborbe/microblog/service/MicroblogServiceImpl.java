@@ -1,7 +1,5 @@
 package de.benjaminborbe.microblog.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -30,6 +28,8 @@ import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collection;
 
 @Singleton
@@ -71,7 +71,8 @@ public class MicroblogServiceImpl implements MicroblogService {
 		final MicroblogPostNotifier microblogPostMailer,
 		final MicroblogConversationFinder microblogConversationFinder,
 		final MicroblogConversationNotifier microblogConversationMailer,
-		final MicroblogNotification microblogNotification) {
+		final MicroblogNotification microblogNotification
+	) {
 		this.logger = logger;
 		this.durationUtil = durationUtil;
 		this.microblogConnector = microblogConnector;

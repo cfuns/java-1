@@ -24,12 +24,12 @@
 
 package com.glavsoft.rfb.protocol.state;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.exceptions.UnsupportedProtocolVersionException;
 import com.glavsoft.rfb.protocol.ProtocolContext;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HandshakeState extends ProtocolState {
 
@@ -81,18 +81,15 @@ public class HandshakeState extends ProtocolState {
 			changeStateTo(new SecurityType33State(context));
 			context.setProtocolVersion(PROTOCOL_VERSION_3_3);
 			minor = 3;
-		}
-		else if (7 == minor) {
+		} else if (7 == minor) {
 			changeStateTo(new SecurityType37State(context));
 			context.setProtocolVersion(PROTOCOL_VERSION_3_7);
 			minor = 7;
-		}
-		else if (minor >= MAX_SUPPORTED_VERSION_MINOR) {
+		} else if (minor >= MAX_SUPPORTED_VERSION_MINOR) {
 			changeStateTo(new SecurityTypeState(context));
 			context.setProtocolVersion(PROTOCOL_VERSION_3_8);
 			minor = 8;
-		}
-		else
+		} else
 			throw new UnsupportedProtocolVersionException("Unsupported protocol version: " + protocolString);
 		writer.write(("RFB 00" + major + ".00" + minor + "\n").getBytes());
 		logger.info("Set protocol version to: " + context.getProtocolVersion());

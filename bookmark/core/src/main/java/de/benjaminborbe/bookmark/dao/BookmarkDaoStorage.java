@@ -1,8 +1,6 @@
 package de.benjaminborbe.bookmark.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
@@ -12,6 +10,9 @@ import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorFilter;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class BookmarkDaoStorage extends DaoStorage<BookmarkBean, BookmarkIdentifier> implements BookmarkDao {
@@ -25,7 +26,8 @@ public class BookmarkDaoStorage extends DaoStorage<BookmarkBean, BookmarkIdentif
 		final Provider<BookmarkBean> beanProvider,
 		final BookmarkBeanMapper mapper,
 		final BookmarkIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
 

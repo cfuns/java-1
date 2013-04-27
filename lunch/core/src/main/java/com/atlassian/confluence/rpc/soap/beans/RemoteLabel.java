@@ -7,7 +7,7 @@
 
 package com.atlassian.confluence.rpc.soap.beans;
 
-@SuppressWarnings({ "unused", "serial", "rawtypes" })
+@SuppressWarnings({"unused", "serial", "rawtypes"})
 public class RemoteLabel implements java.io.Serializable {
 
 	private long id;
@@ -30,7 +30,7 @@ public class RemoteLabel implements java.io.Serializable {
 
 	/**
 	 * Gets the id value for this RemoteLabel.
-	 * 
+	 *
 	 * @return id
 	 */
 	public long getId() {
@@ -39,7 +39,7 @@ public class RemoteLabel implements java.io.Serializable {
 
 	/**
 	 * Sets the id value for this RemoteLabel.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void setId(final long id) {
@@ -48,7 +48,7 @@ public class RemoteLabel implements java.io.Serializable {
 
 	/**
 	 * Gets the name value for this RemoteLabel.
-	 * 
+	 *
 	 * @return name
 	 */
 	public java.lang.String getName() {
@@ -57,7 +57,7 @@ public class RemoteLabel implements java.io.Serializable {
 
 	/**
 	 * Sets the name value for this RemoteLabel.
-	 * 
+	 *
 	 * @param name
 	 */
 	public void setName(final java.lang.String name) {
@@ -66,7 +66,7 @@ public class RemoteLabel implements java.io.Serializable {
 
 	/**
 	 * Gets the namespace value for this RemoteLabel.
-	 * 
+	 *
 	 * @return namespace
 	 */
 	public java.lang.String getNamespace() {
@@ -75,7 +75,7 @@ public class RemoteLabel implements java.io.Serializable {
 
 	/**
 	 * Sets the namespace value for this RemoteLabel.
-	 * 
+	 *
 	 * @param namespace
 	 */
 	public void setNamespace(final java.lang.String namespace) {
@@ -84,7 +84,7 @@ public class RemoteLabel implements java.io.Serializable {
 
 	/**
 	 * Gets the owner value for this RemoteLabel.
-	 * 
+	 *
 	 * @return owner
 	 */
 	public java.lang.String getOwner() {
@@ -93,7 +93,7 @@ public class RemoteLabel implements java.io.Serializable {
 
 	/**
 	 * Sets the owner value for this RemoteLabel.
-	 * 
+	 *
 	 * @param owner
 	 */
 	public void setOwner(final java.lang.String owner) {
@@ -117,8 +117,8 @@ public class RemoteLabel implements java.io.Serializable {
 		__equalsCalc = obj;
 		final boolean _equals;
 		_equals = true && this.id == other.getId() && ((this.name == null && other.getName() == null) || (this.name != null && this.name.equals(other.getName())))
-				&& ((this.namespace == null && other.getNamespace() == null) || (this.namespace != null && this.namespace.equals(other.getNamespace())))
-				&& ((this.owner == null && other.getOwner() == null) || (this.owner != null && this.owner.equals(other.getOwner())));
+			&& ((this.namespace == null && other.getNamespace() == null) || (this.namespace != null && this.namespace.equals(other.getNamespace())))
+			&& ((this.owner == null && other.getOwner() == null) || (this.owner != null && this.owner.equals(other.getOwner())));
 		__equalsCalc = null;
 		return _equals;
 	}
@@ -187,14 +187,22 @@ public class RemoteLabel implements java.io.Serializable {
 	/**
 	 * Get Custom Serializer
 	 */
-	public static org.apache.axis.encoding.Serializer getSerializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Serializer getSerializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanSerializer(_javaType, _xmlType, typeDesc);
 	}
 
 	/**
 	 * Get Custom Deserializer
 	 */
-	public static org.apache.axis.encoding.Deserializer getDeserializer(final java.lang.String mechType, final java.lang.Class _javaType, final javax.xml.namespace.QName _xmlType) {
+	public static org.apache.axis.encoding.Deserializer getDeserializer(
+		final java.lang.String mechType,
+		final java.lang.Class _javaType,
+		final javax.xml.namespace.QName _xmlType
+	) {
 		return new org.apache.axis.encoding.ser.BeanDeserializer(_javaType, _xmlType, typeDesc);
 	}
 

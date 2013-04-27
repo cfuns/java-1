@@ -18,16 +18,27 @@ public class BookmarkServiceMock implements BookmarkService {
 	}
 
 	@Override
-	public void createBookmark(final SessionIdentifier sessionIdentifier, final String url, final String name, final String description, final List<String> keywords) throws BookmarkServiceException, LoginRequiredException, ValidationException {
+	public void createBookmark(
+		final SessionIdentifier sessionIdentifier,
+		final String url,
+		final String name,
+		final String description,
+		final List<String> keywords
+	) throws BookmarkServiceException, LoginRequiredException, ValidationException {
 	}
 
 	@Override
-	public void updateBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
-														 final List<String> keywords, final boolean favorite) throws BookmarkServiceException, LoginRequiredException, ValidationException {
+	public void updateBookmark(
+		final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier, final String url, final String name, final String description,
+		final List<String> keywords, final boolean favorite
+	) throws BookmarkServiceException, LoginRequiredException, ValidationException {
 	}
 
 	@Override
-	public void deleteBookmark(final SessionIdentifier sessionIdentifier, final BookmarkIdentifier bookmarkIdentifier) throws BookmarkServiceException, BookmarkDeletionException {
+	public void deleteBookmark(
+		final SessionIdentifier sessionIdentifier,
+		final BookmarkIdentifier bookmarkIdentifier
+	) throws BookmarkServiceException, BookmarkDeletionException {
 	}
 
 	@Override
@@ -51,7 +62,11 @@ public class BookmarkServiceMock implements BookmarkService {
 	}
 
 	@Override
-	public List<BookmarkMatch> searchBookmarks(final SessionIdentifier sessionIdentifier, final int limit, final List<String> words) throws BookmarkServiceException,
+	public List<BookmarkMatch> searchBookmarks(
+		final SessionIdentifier sessionIdentifier,
+		final int limit,
+		final List<String> words
+	) throws BookmarkServiceException,
 		LoginRequiredException {
 		return null;
 	}

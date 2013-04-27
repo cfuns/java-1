@@ -1,7 +1,5 @@
 package de.benjaminborbe.googlesearch.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
@@ -23,6 +21,8 @@ import de.benjaminborbe.tools.util.ParseException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -91,7 +91,8 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 		final HttpDownloadUtil httpDownloadUtil,
 		final HtmlUtil htmlUtil,
 		final UrlUtil urlUtil,
-		final JSONParser jsonParser) {
+		final JSONParser jsonParser
+	) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
 		this.httpDownloader = httpDownloader;

@@ -26,7 +26,7 @@ public class HtmlWidget implements Widget {
 		addHeadWidget(headWidget);
 	}
 
-	public HtmlWidget( final BodyWidget bodyWidget) {
+	public HtmlWidget(final BodyWidget bodyWidget) {
 		addBodyWidget(bodyWidget);
 	}
 

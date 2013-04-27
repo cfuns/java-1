@@ -1,7 +1,5 @@
 package de.benjaminborbe.blog.mock;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -11,6 +9,8 @@ import de.benjaminborbe.blog.api.BlogPostNotFoundException;
 import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.api.BlogServiceException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.List;
 
@@ -37,7 +37,10 @@ public class BlogServiceMock implements BlogService {
 	}
 
 	@Override
-	public void deleteBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, ValidationException,
+	public void deleteBlogPost(
+		final SessionIdentifier sessionIdentifier,
+		final BlogPostIdentifier blogPostIdentifier
+	) throws BlogServiceException, ValidationException,
 		LoginRequiredException {
 	}
 
@@ -47,7 +50,10 @@ public class BlogServiceMock implements BlogService {
 	}
 
 	@Override
-	public BlogPost getBlogPost(final SessionIdentifier sessionIdentifier, final BlogPostIdentifier blogPostIdentifier) throws BlogServiceException, BlogPostNotFoundException {
+	public BlogPost getBlogPost(
+		final SessionIdentifier sessionIdentifier,
+		final BlogPostIdentifier blogPostIdentifier
+	) throws BlogServiceException, BlogPostNotFoundException {
 		return null;
 	}
 

@@ -19,7 +19,13 @@ public class WowWaitOnFishAction extends WowActionBase {
 
 	private boolean found = false;
 
-	public WowWaitOnFishAction(final Logger logger, final VncService vncService, final String name, final ThreadResult<Boolean> running, final ThreadResult<Coordinate> baitLocation) {
+	public WowWaitOnFishAction(
+		final Logger logger,
+		final VncService vncService,
+		final String name,
+		final ThreadResult<Boolean> running,
+		final ThreadResult<Coordinate> baitLocation
+	) {
 		super(logger, name, running);
 		this.logger = logger;
 		this.vncService = vncService;

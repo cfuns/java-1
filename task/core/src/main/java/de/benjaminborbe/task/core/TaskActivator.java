@@ -1,6 +1,5 @@
 package de.benjaminborbe.task.core;
 
-import javax.inject.Inject;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.task.api.TaskService;
 import de.benjaminborbe.task.core.guice.TaskModules;
@@ -11,6 +10,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

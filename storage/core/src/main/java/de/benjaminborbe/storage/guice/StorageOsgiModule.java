@@ -1,15 +1,14 @@
 package de.benjaminborbe.storage.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
+import com.google.inject.AbstractModule;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.config.StorageConfigImpl;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
-import com.google.inject.AbstractModule;
 import javax.inject.Singleton;
 
-import de.benjaminborbe.storage.config.StorageConfig;
-import de.benjaminborbe.storage.config.StorageConfigImpl;
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class StorageOsgiModule extends AbstractModule {
 

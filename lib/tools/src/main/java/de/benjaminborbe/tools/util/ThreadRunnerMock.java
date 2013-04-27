@@ -12,8 +12,7 @@ public class ThreadRunnerMock implements ThreadRunner {
 			thread.start();
 			thread.join();
 			return thread;
-		}
-		catch (final InterruptedException e) {
+		} catch (final InterruptedException e) {
 			throw new RuntimeException("InterruptedException", e);
 		}
 	}

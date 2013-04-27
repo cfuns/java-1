@@ -1,7 +1,5 @@
 package de.benjaminborbe.search.core.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -18,6 +16,8 @@ import de.benjaminborbe.tools.util.ThreadResult;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -74,7 +74,8 @@ public class SearchServiceImpl implements SearchService {
 			final ThreadResult<List<SearchResult>> threadResult,
 			final SessionIdentifier sessionIdentifier,
 			final String query,
-			final int maxResults) {
+			final int maxResults
+		) {
 			this.searchServiceComponent = searchServiceComponent;
 			this.threadResult = threadResult;
 			this.sessionIdentifier = sessionIdentifier;
@@ -114,7 +115,8 @@ public class SearchServiceImpl implements SearchService {
 		final IdGeneratorUUID idGeneratorUUID,
 		final SearchServiceComponentRegistry searchServiceComponentRegistry,
 		final ThreadRunner threadRunner,
-		final SearchServiceSearchResultComparator searchServiceComponentComparator) {
+		final SearchServiceSearchResultComparator searchServiceComponentComparator
+	) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.searchQueryHistoryDao = searchQueryHistoryDao;
@@ -145,7 +147,12 @@ public class SearchServiceImpl implements SearchService {
 		return search(searchServiceComponents, query, sessionIdentifier, maxResults);
 	}
 
-	private List<SearchResult> search(final List<SearchServiceComponent> searchServiceComponents, final String query, final SessionIdentifier sessionIdentifier, final int maxResults) {
+	private List<SearchResult> search(
+		final List<SearchServiceComponent> searchServiceComponents,
+		final String query,
+		final SessionIdentifier sessionIdentifier,
+		final int maxResults
+	) {
 
 		final List<Thread> threads = new ArrayList<>();
 		final List<ThreadResult<List<SearchResult>>> threadResults = new ArrayList<>();

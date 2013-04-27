@@ -1,6 +1,5 @@
 package de.benjaminborbe.wow.core.xmpp;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.action.Action;
 import de.benjaminborbe.tools.action.ActionChainRunner;
 import de.benjaminborbe.tools.image.Coordinate;
@@ -25,6 +24,7 @@ import de.benjaminborbe.wow.core.xmpp.action.WowTakeScreenshotAction;
 import de.benjaminborbe.wow.core.xmpp.action.WowWaitOnFishAction;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,8 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 		final WowVncConnector vncService,
 		final ActionChainRunner actionChainRunner,
 		final ThreadRunner threadRunner,
-		final WowImageLibrary wowImageLibrary) {
+		final WowImageLibrary wowImageLibrary
+	) {
 		super(logger, threadRunner);
 		this.logger = logger;
 		this.pixelFinder = pixelFinder;

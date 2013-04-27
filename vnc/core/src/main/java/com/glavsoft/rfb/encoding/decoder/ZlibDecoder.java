@@ -24,13 +24,13 @@
 
 package com.glavsoft.rfb.encoding.decoder;
 
-import java.io.ByteArrayInputStream;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
-
 import com.glavsoft.drawing.Renderer;
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.transport.Reader;
+
+import java.io.ByteArrayInputStream;
+import java.util.zip.DataFormatException;
+import java.util.zip.Inflater;
 
 public class ZlibDecoder extends Decoder {
 
@@ -56,8 +56,7 @@ public class ZlibDecoder extends Decoder {
 		decoder.setInput(bytes, 0, zippedLength);
 		try {
 			decoder.inflate(bytes, zippedLength, length);
-		}
-		catch (DataFormatException e) {
+		} catch (DataFormatException e) {
 			throw new TransportException("cannot inflate Zlib data", e);
 		}
 		return bytes;

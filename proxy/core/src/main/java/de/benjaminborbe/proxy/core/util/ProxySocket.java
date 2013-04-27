@@ -47,13 +47,15 @@ public class ProxySocket {
 	private ServerSocket serverSocket = null;
 
 	@Inject
-	public ProxySocket(final Logger logger,
-										 final ProxyUtil proxyUtil,
-										 final ThreadRunner threadRunner,
-										 final StreamUtil streamUtil,
-										 final ProxyCoreConversationDao proxyCoreConversationDao,
-										 final RandomUtil randomUtil,
-										 final IdGeneratorUUID idGenerator) {
+	public ProxySocket(
+		final Logger logger,
+		final ProxyUtil proxyUtil,
+		final ThreadRunner threadRunner,
+		final StreamUtil streamUtil,
+		final ProxyCoreConversationDao proxyCoreConversationDao,
+		final RandomUtil randomUtil,
+		final IdGeneratorUUID idGenerator
+	) {
 		this.logger = logger;
 		this.proxyUtil = proxyUtil;
 		this.threadRunner = threadRunner;

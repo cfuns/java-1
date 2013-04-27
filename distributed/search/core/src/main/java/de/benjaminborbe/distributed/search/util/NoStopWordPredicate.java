@@ -1,6 +1,7 @@
 package de.benjaminborbe.distributed.search.util;
 
 import com.google.common.base.Predicate;
+
 import javax.inject.Inject;
 
 public class NoStopWordPredicate implements Predicate<String> {

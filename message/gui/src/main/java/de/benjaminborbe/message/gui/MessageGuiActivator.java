@@ -1,6 +1,5 @@
 package de.benjaminborbe.message.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.message.gui.guice.MessageGuiModules;
 import de.benjaminborbe.message.gui.service.MessageGuiNavigationEntry;
 import de.benjaminborbe.message.gui.servlet.MessageGuiDeleteByTypeServlet;
@@ -16,6 +15,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

@@ -61,7 +61,8 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		final IndexService indexerService,
 		final StringUtil stringUtil,
 		final WebsearchPageDao pageDao,
-		final HtmlUtil htmlUtil) {
+		final HtmlUtil htmlUtil
+	) {
 		this.logger = logger;
 		this.httpUtil = httpUtil;
 		this.parseUtil = parseUtil;

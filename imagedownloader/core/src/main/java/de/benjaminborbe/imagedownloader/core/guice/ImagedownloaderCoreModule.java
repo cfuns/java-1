@@ -1,11 +1,12 @@
 package de.benjaminborbe.imagedownloader.core.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.imagedownloader.api.ImagedownloaderService;
 import de.benjaminborbe.imagedownloader.core.service.ImagedownloaderCoreServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class ImagedownloaderCoreModule extends AbstractModule {
 

@@ -1,7 +1,5 @@
 package de.benjaminborbe.checklist.gui.service;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
@@ -9,6 +7,8 @@ import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.gui.ChecklistGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
+
+import javax.inject.Inject;
 
 public class ChecklistGuiNavigationEntry implements NavigationEntry {
 
@@ -34,8 +34,7 @@ public class ChecklistGuiNavigationEntry implements NavigationEntry {
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ChecklistService.PERMISSION);
 			return authorizationService.hasPermission(sessionIdentifier, permissionIdentifier);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			return false;
 		}
 	}

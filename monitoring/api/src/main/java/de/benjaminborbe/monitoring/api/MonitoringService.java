@@ -1,11 +1,11 @@
 package de.benjaminborbe.monitoring.api;
 
-import java.util.Collection;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+
+import java.util.Collection;
 
 public interface MonitoringService {
 
@@ -21,30 +21,51 @@ public interface MonitoringService {
 
 	MonitoringNodeIdentifier createNodeIdentifier(String id) throws MonitoringServiceException;
 
-	void deleteNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
-			PermissionDeniedException;
+	void deleteNode(
+		SessionIdentifier sessionIdentifier,
+		MonitoringNodeIdentifier monitoringNodeIdentifier
+	) throws MonitoringServiceException, LoginRequiredException,
+		PermissionDeniedException;
 
-	void updateNode(SessionIdentifier sessionIdentifier, MonitoringNodeDto node) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException,
-			ValidationException;
+	void updateNode(
+		SessionIdentifier sessionIdentifier,
+		MonitoringNodeDto node
+	) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException,
+		ValidationException;
 
 	MonitoringNodeIdentifier createNode(SessionIdentifier sessionIdentifier, MonitoringNodeDto node) throws MonitoringServiceException, LoginRequiredException,
-			PermissionDeniedException, ValidationException;
+		PermissionDeniedException, ValidationException;
 
 	Collection<MonitoringNode> listNodes(SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
 
-	MonitoringNode getNode(String token, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
+	MonitoringNode getNode(
+		String token,
+		MonitoringNodeIdentifier monitoringNodeIdentifier
+	) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
 
-	MonitoringNode getNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
-			PermissionDeniedException;
+	MonitoringNode getNode(
+		SessionIdentifier sessionIdentifier,
+		MonitoringNodeIdentifier monitoringNodeIdentifier
+	) throws MonitoringServiceException, LoginRequiredException,
+		PermissionDeniedException;
 
-	Collection<String> getRequireParameter(SessionIdentifier sessionIdentifier, MonitoringCheckIdentifier monitoringCheckIdentifier) throws MonitoringServiceException,
-			LoginRequiredException, PermissionDeniedException;
+	Collection<String> getRequireParameter(
+		SessionIdentifier sessionIdentifier,
+		MonitoringCheckIdentifier monitoringCheckIdentifier
+	) throws MonitoringServiceException,
+		LoginRequiredException, PermissionDeniedException;
 
-	void silentNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
-			PermissionDeniedException;
+	void silentNode(
+		SessionIdentifier sessionIdentifier,
+		MonitoringNodeIdentifier monitoringNodeIdentifier
+	) throws MonitoringServiceException, LoginRequiredException,
+		PermissionDeniedException;
 
-	void unsilentNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
-			PermissionDeniedException;
+	void unsilentNode(
+		SessionIdentifier sessionIdentifier,
+		MonitoringNodeIdentifier monitoringNodeIdentifier
+	) throws MonitoringServiceException, LoginRequiredException,
+		PermissionDeniedException;
 
 	void expectMonitoringAdminPermission(SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MonitoringServiceException;
 
@@ -68,7 +89,10 @@ public interface MonitoringService {
 
 	Collection<MonitoringNode> getCheckResults(String token) throws MonitoringServiceException, PermissionDeniedException;
 
-	void checkNode(SessionIdentifier sessionIdentifier, MonitoringNodeIdentifier monitoringNodeIdentifier) throws MonitoringServiceException, LoginRequiredException,
-			PermissionDeniedException;
+	void checkNode(
+		SessionIdentifier sessionIdentifier,
+		MonitoringNodeIdentifier monitoringNodeIdentifier
+	) throws MonitoringServiceException, LoginRequiredException,
+		PermissionDeniedException;
 
 }

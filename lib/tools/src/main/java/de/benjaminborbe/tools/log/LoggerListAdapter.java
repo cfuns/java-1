@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.log;
 
-import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 

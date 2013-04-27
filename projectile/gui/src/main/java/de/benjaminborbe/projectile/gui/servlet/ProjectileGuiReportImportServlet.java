@@ -1,16 +1,6 @@
 package de.benjaminborbe.projectile.gui.servlet;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -42,6 +32,13 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class ProjectileGuiReportImportServlet extends WebsiteHtmlServlet {
@@ -60,17 +57,18 @@ public class ProjectileGuiReportImportServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public ProjectileGuiReportImportServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final ProjectileService projectileService,
-			final CacheService cacheService) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final ProjectileService projectileService,
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -85,7 +83,7 @@ public class ProjectileGuiReportImportServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
@@ -100,8 +98,7 @@ public class ProjectileGuiReportImportServlet extends WebsiteHtmlServlet {
 					logger.debug("report imported");
 					widgets.add("import completed");
 					return widgets;
-				}
-				catch (final ValidationException e) {
+				} catch (final ValidationException e) {
 					widgets.add("import report failed!");
 					widgets.add(new ValidationExceptionWidget(e));
 				}
@@ -116,18 +113,15 @@ public class ProjectileGuiReportImportServlet extends WebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("import"));
 			widgets.add(formWidget);
 			return widgets;
-		}
-		catch (final ProjectileServiceException e) {
+		} catch (final ProjectileServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final ParseException e) {
+		} catch (final ParseException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

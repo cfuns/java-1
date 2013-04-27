@@ -1,8 +1,6 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
@@ -39,6 +37,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.ValidationExceptionWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,7 +74,8 @@ public class GalleryGuiCollectionCreateServlet extends GalleryGuiHtmlServlet {
 		final GalleryService galleryService,
 		final AuthorizationService authorizationService,
 		final GalleryGuiLinkFactory galleryGuiLinkFactory,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.galleryService = galleryService;
 		this.logger = logger;
@@ -129,8 +130,10 @@ public class GalleryGuiCollectionCreateServlet extends GalleryGuiHtmlServlet {
 		}
 	}
 
-	private GalleryCollectionIdentifier createCollection(final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
-																											 final String prioString, final String sharedString) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+	private GalleryCollectionIdentifier createCollection(
+		final SessionIdentifier sessionIdentifier, final GalleryGroupIdentifier galleryGroupIdentifier, final String name,
+		final String prioString, final String sharedString
+	) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 
 		Long prio;
 		Boolean shared;

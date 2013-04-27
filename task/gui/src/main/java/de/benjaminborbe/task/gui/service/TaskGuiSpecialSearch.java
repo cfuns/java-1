@@ -1,7 +1,5 @@
 package de.benjaminborbe.task.gui.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -23,6 +21,8 @@ import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -60,7 +60,8 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 		final AuthenticationService authenticationService,
 		final TaskService taskService,
 		final TaskGuiLinkFactory taskGuiLinkFactory,
-		final SearchUtil searchUtil) {
+		final SearchUtil searchUtil
+	) {
 		this.logger = logger;
 		this.taskGuiUtil = taskGuiUtil;
 		this.authenticationService = authenticationService;

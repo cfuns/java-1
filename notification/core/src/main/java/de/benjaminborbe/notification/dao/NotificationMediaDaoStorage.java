@@ -1,7 +1,5 @@
 package de.benjaminborbe.notification.dao;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
@@ -11,6 +9,8 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,7 +80,11 @@ public class NotificationMediaDaoStorage implements NotificationMediaDao {
 	}
 
 	@Override
-	public boolean has(final UserIdentifier userIdentifier, final NotificationTypeIdentifier notificationTypeIdentifier, final NotificationMediaIdentifier notificationMediaIdentifier)
+	public boolean has(
+		final UserIdentifier userIdentifier,
+		final NotificationTypeIdentifier notificationTypeIdentifier,
+		final NotificationMediaIdentifier notificationMediaIdentifier
+	)
 		throws StorageException {
 		try {
 			return has(storageService.get(COLUMN_FAMILY, getKey(userIdentifier, notificationTypeIdentifier), getValue(notificationMediaIdentifier.getId())));

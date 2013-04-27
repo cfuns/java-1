@@ -11,6 +11,7 @@ public class Hex {
 
 	// package protected for use by ByteBufferUtil. Do not modify this array !!
 	static final char[] byteToChar = new char[16];
+
 	static {
 		for (char c = 0; c < charToByte.length; ++c) {
 			if (c >= '0' && c <= '9')
@@ -57,7 +58,7 @@ public class Hex {
 	/**
 	 * Create a String from a char array with zero-copy (if available), using reflection to
 	 * access a package-protected constructor of String.
-	 * */
+	 */
 	public static String wrapCharArray(final char[] c) {
 		if (c == null)
 			return null;
@@ -67,8 +68,7 @@ public class Hex {
 		if (stringConstructor != null) {
 			try {
 				s = stringConstructor.newInstance(0, c.length, c);
-			}
-			catch (final Exception e) {
+			} catch (final Exception e) {
 				// Swallowing as we'll just use a copying constructor
 			}
 		}
@@ -77,23 +77,20 @@ public class Hex {
 
 	/**
 	 * Used to get access to protected/private constructor of the specified class
-	 * 
-	 * @param klass
-	 *          - name of the class
-	 * @param paramTypes
-	 *          - types of the constructor parameters
+	 *
+	 * @param klass      - name of the class
+	 * @param paramTypes - types of the constructor parameters
 	 * @return Constructor if successful, null if the constructor cannot be
 	 *         accessed
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public static Constructor getProtectedConstructor(final Class klass, final Class... paramTypes) {
 		final Constructor c;
 		try {
 			c = klass.getDeclaredConstructor(paramTypes);
 			c.setAccessible(true);
 			return c;
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			return null;
 		}
 	}

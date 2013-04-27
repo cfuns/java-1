@@ -1,8 +1,9 @@
 package de.benjaminborbe.filestorage.guice;
 
-import javax.inject.Inject;
 import de.benjaminborbe.filestorage.dao.FilestorageEntryValidator;
 import de.benjaminborbe.tools.validation.ValidatorRegistry;
+
+import javax.inject.Inject;
 
 public class FilestorageValidatorLinker {
 

@@ -1,6 +1,5 @@
 package de.benjaminborbe.dashboard.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.dashboard.api.DashboardIdentifier;
 import de.benjaminborbe.storage.api.StorageColumn;
@@ -9,6 +8,7 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 
+import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;

@@ -1,8 +1,6 @@
 package de.benjaminborbe.authentication.core.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.core.util.MapperUserIdentifier;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
@@ -15,6 +13,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -61,12 +61,20 @@ public class UserBeanMapper extends MapObjectMapperAdapter<UserBean> {
 		final MapperBoolean mapperBoolean,
 		final MapperString mapperString,
 		final MapperLong mapperLong,
-		final MapperCalendar mapperCalendar) {
+		final MapperCalendar mapperCalendar
+	) {
 		super(provider, buildMappings(mapperUserIdentifier, mapperTimeZone, mapperByteArray, mapperBoolean, mapperString, mapperCalendar, mapperLong));
 	}
 
-	private static Collection<StringObjectMapper<UserBean>> buildMappings(final MapperUserIdentifier mapperUserIdentifier, final MapperTimeZone mapperTimeZone,
-																																				final MapperByteArray mapperByteArray, final MapperBoolean mapperBoolean, final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperLong mapperLong) {
+	private static Collection<StringObjectMapper<UserBean>> buildMappings(
+		final MapperUserIdentifier mapperUserIdentifier,
+		final MapperTimeZone mapperTimeZone,
+		final MapperByteArray mapperByteArray,
+		final MapperBoolean mapperBoolean,
+		final MapperString mapperString,
+		final MapperCalendar mapperCalendar,
+		final MapperLong mapperLong
+	) {
 		final List<StringObjectMapper<UserBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<UserBean, UserIdentifier>(ID, mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<UserBean, byte[]>(PASSWORD, mapperByteArray));

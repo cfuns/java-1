@@ -1,10 +1,10 @@
 package de.benjaminborbe.microblog.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.tools.map.MapList;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collection;
 
 @Singleton

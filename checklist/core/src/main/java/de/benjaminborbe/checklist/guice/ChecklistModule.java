@@ -1,10 +1,6 @@
 package de.benjaminborbe.checklist.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.checklist.api.ChecklistService;
 import de.benjaminborbe.checklist.dao.ChecklistEntryDao;
 import de.benjaminborbe.checklist.dao.ChecklistEntryDaoStorage;
@@ -12,6 +8,9 @@ import de.benjaminborbe.checklist.dao.ChecklistListDao;
 import de.benjaminborbe.checklist.dao.ChecklistListDaoStorage;
 import de.benjaminborbe.checklist.service.ChecklistServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class ChecklistModule extends AbstractModule {
 

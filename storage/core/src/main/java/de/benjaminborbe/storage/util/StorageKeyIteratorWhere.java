@@ -50,7 +50,8 @@ public class StorageKeyIteratorWhere implements StorageIterator {
 		final String keySpace,
 		final String columnFamily,
 		final String encoding,
-		final Map<StorageValue, StorageValue> where) throws UnsupportedEncodingException {
+		final Map<StorageValue, StorageValue> where
+	) throws UnsupportedEncodingException {
 		this.storageConnectionPool = storageConnectionPool;
 		this.keySpace = keySpace;
 		this.column_parent = new ColumnParent(columnFamily);

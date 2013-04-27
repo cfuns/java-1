@@ -1,16 +1,15 @@
 package de.benjaminborbe.monitoring.util;
 
-import java.util.Calendar;
-import java.util.Map;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.monitoring.dao.MonitoringNodeBean;
+
+import javax.inject.Inject;
+import java.util.Calendar;
+import java.util.Map;
 
 public class MonitoringNodeBuilder {
 
@@ -49,8 +48,7 @@ public class MonitoringNodeBuilder {
 			final MonitoringCheck check = monitoringCheckRegistry.get(node.getCheckType());
 			if (check != null) {
 				return check.getDescription(node.getParameter());
-			}
-			else {
+			} else {
 				return null;
 			}
 		}

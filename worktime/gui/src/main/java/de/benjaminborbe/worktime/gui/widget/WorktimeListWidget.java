@@ -1,17 +1,16 @@
 package de.benjaminborbe.worktime.gui.widget;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.worktime.api.Workday;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 public class WorktimeListWidget implements Widget {
 
@@ -73,8 +72,7 @@ public class WorktimeListWidget implements Widget {
 		}
 		if (workday.getStart() != null) {
 			out.println(dateUtil.timeString(workday.getStart().getTime()));
-		}
-		else {
+		} else {
 			out.println("-");
 		}
 		if (isToday) {
@@ -87,8 +85,7 @@ public class WorktimeListWidget implements Widget {
 		}
 		if (workday.getEnd() != null) {
 			out.println(dateUtil.timeString(workday.getEnd().getTime()));
-		}
-		else {
+		} else {
 			out.println("-");
 		}
 		if (isToday) {

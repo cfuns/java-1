@@ -1,6 +1,5 @@
 package de.benjaminborbe.bookmark.dao;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -12,6 +11,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMa
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringUrl;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

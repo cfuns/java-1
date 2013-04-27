@@ -1,10 +1,11 @@
 package de.benjaminborbe.monitoring.service;
 
-import javax.inject.Singleton;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.tools.osgi.service.RegistryServiceTracker;
 import org.osgi.framework.BundleContext;
+
+import javax.inject.Singleton;
 
 @Singleton
 public class MonitoringCheckServiceTracker extends RegistryServiceTracker<MonitoringCheck> {

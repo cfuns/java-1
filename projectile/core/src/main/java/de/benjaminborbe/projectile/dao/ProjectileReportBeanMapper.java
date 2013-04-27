@@ -1,8 +1,6 @@
 package de.benjaminborbe.projectile.dao;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.projectile.util.MapperProjectileReportIdentifier;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperDouble;
@@ -11,6 +9,8 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -27,12 +27,15 @@ public class ProjectileReportBeanMapper extends MapObjectMapperAdapter<Projectil
 		final MapperProjectileReportIdentifier mapperListIdentifier,
 		final MapperString mapperString,
 		final MapperCalendar mapperCalendar,
-		final MapperDouble mapperDouble) {
+		final MapperDouble mapperDouble
+	) {
 		super(provider, buildMappings(mapperListIdentifier, mapperString, mapperCalendar, mapperDouble));
 	}
 
-	private static Collection<StringObjectMapper<ProjectileReportBean>> buildMappings(final MapperProjectileReportIdentifier mapperListIdentifier, final MapperString mapperString,
-																																										final MapperCalendar mapperCalendar, final MapperDouble mapperDouble) {
+	private static Collection<StringObjectMapper<ProjectileReportBean>> buildMappings(
+		final MapperProjectileReportIdentifier mapperListIdentifier, final MapperString mapperString,
+		final MapperCalendar mapperCalendar, final MapperDouble mapperDouble
+	) {
 		final List<StringObjectMapper<ProjectileReportBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, ProjectileReportIdentifier>("id", mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, String>(USERNAME, mapperString));

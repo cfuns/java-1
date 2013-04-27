@@ -1,6 +1,5 @@
 package de.benjaminborbe.crawler.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.crawler.gui.guice.CrawlerGuiModules;
 import de.benjaminborbe.crawler.gui.service.CrawlerGuiNavigationEntry;
 import de.benjaminborbe.crawler.gui.servlet.CrawlerGuiServlet;
@@ -11,6 +10,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

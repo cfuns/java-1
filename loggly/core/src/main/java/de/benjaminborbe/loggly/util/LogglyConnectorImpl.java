@@ -1,7 +1,5 @@
 package de.benjaminborbe.loggly.util;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.loggly.config.LogglyConfig;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
@@ -21,6 +19,8 @@ import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.HttpParams;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;

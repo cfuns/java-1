@@ -34,7 +34,8 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 		final HttpDownloader httpDownloader,
 		final HttpDownloadUtil httpDownloadUtil,
 		final DhlStatusParser dhlStatusParser,
-		final DhlUrlBuilder dhlUrlBuilder) {
+		final DhlUrlBuilder dhlUrlBuilder
+	) {
 		this.logger = logger;
 		this.httpDownloader = httpDownloader;
 		this.httpDownloadUtil = httpDownloadUtil;

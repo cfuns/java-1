@@ -1,14 +1,13 @@
 package de.benjaminborbe.projectile.util;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReportInterval;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class ProjectileReportListenerAnalytics implements ProjectileReportListener {
 
@@ -45,8 +44,7 @@ public class ProjectileReportListenerAnalytics implements ProjectileReportListen
 					analyticsService.addReportValue(analyticsReportIdentifier, report.getTarget());
 				}
 			}
-		}
-		catch (final AnalyticsServiceException e) {
+		} catch (final AnalyticsServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 	}

@@ -1,6 +1,5 @@
 package de.benjaminborbe.monitoring.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
@@ -16,6 +15,7 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -41,7 +41,8 @@ public class MonitoringChecker {
 		final CalendarUtil calendarUtil,
 		final RunOnlyOnceATime runOnlyOnceATime,
 		final MonitoringNodeDao monitoringNodeDao,
-		final MonitoringCheckRegistry monitoringCheckRegistry) {
+		final MonitoringCheckRegistry monitoringCheckRegistry
+	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.runOnlyOnceATime = runOnlyOnceATime;

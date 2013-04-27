@@ -1,10 +1,10 @@
 package de.benjaminborbe.tools.password;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

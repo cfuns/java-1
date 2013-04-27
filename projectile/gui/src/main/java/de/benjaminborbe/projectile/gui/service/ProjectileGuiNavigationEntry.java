@@ -1,7 +1,5 @@
 package de.benjaminborbe.projectile.gui.service;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
@@ -9,6 +7,8 @@ import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.gui.ProjectileGuiConstants;
+
+import javax.inject.Inject;
 
 public class ProjectileGuiNavigationEntry implements NavigationEntry {
 
@@ -34,8 +34,7 @@ public class ProjectileGuiNavigationEntry implements NavigationEntry {
 		try {
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(ProjectileService.PERMISSION_VIEW);
 			return authorizationService.hasPermission(sessionIdentifier, permissionIdentifier);
-		}
-		catch (final AuthorizationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			return false;
 		}
 	}

@@ -1,9 +1,9 @@
 package de.benjaminborbe.vnc.core.connector;
 
 import com.glavsoft.rfb.client.ClientToServerMessage;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.List;
 

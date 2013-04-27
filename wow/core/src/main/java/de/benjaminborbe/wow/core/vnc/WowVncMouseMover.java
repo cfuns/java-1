@@ -1,12 +1,13 @@
 package de.benjaminborbe.wow.core.vnc;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.util.RandomUtil;
 import de.benjaminborbe.vnc.api.VncLocation;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
 import de.benjaminborbe.wow.core.WowConstants;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class WowVncMouseMover {
 

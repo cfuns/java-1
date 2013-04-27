@@ -1,6 +1,5 @@
 package de.benjaminborbe.dns.core.check;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.dns.api.DnsService;
 import de.benjaminborbe.dns.api.DnsServiceException;
@@ -14,6 +13,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,7 +34,8 @@ public class DnsServerMonitoringCheck implements MonitoringCheck {
 
 	@Inject
 	public DnsServerMonitoringCheck(
-		final ValidationConstraintValidator validationConstraintValidator, final DnsService dnsService) {
+		final ValidationConstraintValidator validationConstraintValidator, final DnsService dnsService
+	) {
 		this.validationConstraintValidator = validationConstraintValidator;
 		this.dnsService = dnsService;
 	}

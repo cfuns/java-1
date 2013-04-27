@@ -1,8 +1,6 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
@@ -47,6 +45,8 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,7 +85,8 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 		final GalleryService galleryService,
 		final AuthorizationService authorizationService,
 		final GalleryGuiLinkFactory galleryGuiLinkFactory,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.galleryService = galleryService;
 		this.logger = logger;
@@ -216,9 +217,11 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiHtmlServlet {
 		return true;
 	}
 
-	private GalleryEntryIdentifier createEntry(final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier, final String name,
-																						 final String prioString, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
-																						 final byte[] imageContent, final String imageContentType, final String sharedString) throws ValidationException, GalleryServiceException, LoginRequiredException,
+	private GalleryEntryIdentifier createEntry(
+		final SessionIdentifier sessionIdentifier, final GalleryCollectionIdentifier galleryIdentifier, final String name,
+		final String prioString, final String imagePreviewName, final byte[] imagePreviewContent, final String imagePreviewContentType, final String imageName,
+		final byte[] imageContent, final String imageContentType, final String sharedString
+	) throws ValidationException, GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException {
 
 		Long prio;

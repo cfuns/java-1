@@ -21,8 +21,7 @@ public class SearchTermIterator extends IteratorWithoutExceptionBase<String> {
 					startPos = stringIterator.getCurrentPosition();
 				}
 				stringIterator.next();
-			}
-			else {
+			} else {
 				stringIterator.next();
 				if (startPos != -1) {
 					return stringIterator.substring(startPos, stringIterator.getCurrentPosition() - 1);
@@ -31,8 +30,7 @@ public class SearchTermIterator extends IteratorWithoutExceptionBase<String> {
 		}
 		if (startPos != -1) {
 			return stringIterator.substring(startPos, stringIterator.getCurrentPosition());
-		}
-		else {
+		} else {
 			return null;
 		}
 	}

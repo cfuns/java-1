@@ -1,7 +1,5 @@
 package de.benjaminborbe.authentication.core.verifycredential;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.User;
 import de.benjaminborbe.authentication.api.UserDto;
@@ -10,6 +8,9 @@ import de.benjaminborbe.authentication.core.config.AuthenticationConfig;
 import de.benjaminborbe.authentication.core.ldap.LdapConnector;
 import de.benjaminborbe.authentication.core.ldap.LdapException;
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class AuthenticationVerifyCredentialLdap implements AuthenticationVerifyCredential {

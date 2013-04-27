@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.gui.servlet;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -32,6 +30,8 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
@@ -81,7 +81,8 @@ public class TaskGuiTasksUncompletedServlet extends TaskGuiWebsiteHtmlServlet {
 		final ComparatorUtil comparatorUtil,
 		final TaskComparator taskComparator,
 		final Provider<TaskCache> taskCacheProvider,
-		final CacheService cacheService) {
+		final CacheService cacheService
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, taskGuiUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;

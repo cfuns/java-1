@@ -1,8 +1,8 @@
 package de.benjaminborbe.distributed.search.util;
 
-import javax.inject.Inject;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

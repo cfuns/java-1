@@ -1,9 +1,9 @@
 package de.benjaminborbe.message.util;
 
-import javax.inject.Singleton;
 import de.benjaminborbe.message.api.MessageConsumer;
 import de.benjaminborbe.tools.registry.RegistryBase;
 
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 

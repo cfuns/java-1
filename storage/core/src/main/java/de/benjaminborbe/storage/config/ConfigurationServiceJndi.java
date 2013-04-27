@@ -1,6 +1,5 @@
 package de.benjaminborbe.storage.config;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
@@ -9,6 +8,7 @@ import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.tools.jndi.JndiContext;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 import javax.naming.NoInitialContextException;
@@ -49,7 +49,10 @@ public class ConfigurationServiceJndi implements ConfigurationService {
 	}
 
 	@Override
-	public void setConfigurationValue(final ConfigurationIdentifier configurationIdentifier, final String value) throws ConfigurationServiceException, ValidationException {
+	public void setConfigurationValue(
+		final ConfigurationIdentifier configurationIdentifier,
+		final String value
+	) throws ConfigurationServiceException, ValidationException {
 	}
 
 	@Override

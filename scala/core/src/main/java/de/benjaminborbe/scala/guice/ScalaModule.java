@@ -1,13 +1,12 @@
 package de.benjaminborbe.scala.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.scala.api.ScalaService;
 import de.benjaminborbe.scala.service.ScalaServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class ScalaModule extends AbstractModule {
 

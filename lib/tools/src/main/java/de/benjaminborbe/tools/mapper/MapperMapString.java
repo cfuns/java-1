@@ -1,11 +1,11 @@
 package de.benjaminborbe.tools.mapper;
 
-import javax.inject.Inject;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.json.JSONParseException;
 import de.benjaminborbe.tools.json.JSONParser;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;

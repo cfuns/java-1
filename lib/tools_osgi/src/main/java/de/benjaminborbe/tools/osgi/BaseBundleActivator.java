@@ -1,6 +1,5 @@
 package de.benjaminborbe.tools.osgi;
 
-import javax.inject.Inject;
 import com.google.inject.Injector;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.guice.Modules;
@@ -10,6 +9,7 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Properties;

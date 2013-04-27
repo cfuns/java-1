@@ -1,8 +1,6 @@
 package de.benjaminborbe.task.core.dao.context;
 
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
@@ -19,6 +17,8 @@ import de.benjaminborbe.task.core.dao.task.TaskDao;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,7 +41,8 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 		final TaskContextBeanMapper mapper,
 		final TaskDao taskDao,
 		final TaskContextIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil) {
+		final CalendarUtil calendarUtil
+	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 		this.taskDao = taskDao;
 		this.logger = logger;

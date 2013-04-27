@@ -1,6 +1,5 @@
 package de.benjaminborbe.cron;
 
-import javax.inject.Inject;
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.api.CronService;
@@ -17,6 +16,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

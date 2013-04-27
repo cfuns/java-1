@@ -1,6 +1,5 @@
 package de.benjaminborbe.worktime.gui;
 
-import javax.inject.Inject;
 import de.benjaminborbe.dashboard.api.DashboardContentWidget;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
@@ -12,6 +11,7 @@ import de.benjaminborbe.worktime.gui.servlet.WorktimeGuiInOfficeServlet;
 import de.benjaminborbe.worktime.gui.servlet.WorktimeGuiServlet;
 import org.osgi.framework.BundleContext;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

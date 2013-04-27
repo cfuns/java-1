@@ -27,24 +27,19 @@ public abstract class ComparatorBase<E, T extends Comparable<T>> implements Comp
 		if (arg0 != null && arg1 != null) {
 			if (inverted()) {
 				return arg1.compareTo(arg0);
-			}
-			else {
+			} else {
 				return arg0.compareTo(arg1);
 			}
-		}
-		else if (arg0 != null && arg1 == null) {
+		} else if (arg0 != null && arg1 == null) {
 			if (nullFirst()) {
 				return 1;
-			}
-			else {
+			} else {
 				return -1;
 			}
-		}
-		else if (arg0 == null && arg1 != null) {
+		} else if (arg0 == null && arg1 != null) {
 			if (nullFirst()) {
 				return -1;
-			}
-			else {
+			} else {
 				return 1;
 			}
 		}

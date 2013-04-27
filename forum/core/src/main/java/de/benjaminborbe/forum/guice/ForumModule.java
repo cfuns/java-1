@@ -1,13 +1,12 @@
 package de.benjaminborbe.forum.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.forum.api.ForumService;
 import de.benjaminborbe.forum.service.ForumServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class ForumModule extends AbstractModule {
 

@@ -1,19 +1,7 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.common.collect.Lists;
-import javax.inject.Inject;
 import com.google.inject.Provider;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
@@ -39,6 +27,15 @@ import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 @Singleton
 public class AnalyticsGuiLogWithoutReportServlet extends WebsiteHtmlServlet {
@@ -57,18 +54,19 @@ public class AnalyticsGuiLogWithoutReportServlet extends WebsiteHtmlServlet {
 
 	@Inject
 	public AnalyticsGuiLogWithoutReportServlet(
-			final Logger logger,
-			final CalendarUtil calendarUtil,
-			final TimeZoneUtil timeZoneUtil,
-			final ParseUtil parseUtil,
-			final NavigationWidget navigationWidget,
-			final AuthenticationService authenticationService,
-			final AuthorizationService authorizationService,
-			final Provider<HttpContext> httpContextProvider,
-			final UrlUtil urlUtil,
-			final CacheService cacheService,
-			final AnalyticsService analyticsService,
-			final AnalyticsGuiLinkFactory analyticsGuiLinkFactory) {
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final CacheService cacheService,
+		final AnalyticsService analyticsService,
+		final AnalyticsGuiLinkFactory analyticsGuiLinkFactory
+	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -83,7 +81,7 @@ public class AnalyticsGuiLogWithoutReportServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-			PermissionDeniedException, RedirectException, LoginRequiredException {
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
@@ -95,8 +93,7 @@ public class AnalyticsGuiLogWithoutReportServlet extends WebsiteHtmlServlet {
 
 			if (list.isEmpty()) {
 				widgets.add("nothing found");
-			}
-			else {
+			} else {
 				final TableWidget table = new TableWidget();
 				table.addClass("sortable");
 				final TableHeadWidget head = new TableHeadWidget();
@@ -112,13 +109,11 @@ public class AnalyticsGuiLogWithoutReportServlet extends WebsiteHtmlServlet {
 			}
 
 			return widgets;
-		}
-		catch (final AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
-		}
-		catch (final AnalyticsServiceException e) {
+		} catch (final AnalyticsServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

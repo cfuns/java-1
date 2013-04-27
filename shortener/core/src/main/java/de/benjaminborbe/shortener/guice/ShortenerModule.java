@@ -1,15 +1,14 @@
 package de.benjaminborbe.shortener.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.shortener.api.ShortenerService;
 import de.benjaminborbe.shortener.dao.ShortenerUrlDao;
 import de.benjaminborbe.shortener.dao.ShortenerUrlDaoStorage;
 import de.benjaminborbe.shortener.service.ShortenerServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class ShortenerModule extends AbstractModule {
 

@@ -1,6 +1,5 @@
 package de.benjaminborbe.navigation;
 
-import javax.inject.Inject;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationService;
 import de.benjaminborbe.navigation.guice.NavigationModules;
@@ -12,6 +11,7 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
 
+import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

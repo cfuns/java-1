@@ -1,7 +1,5 @@
 package de.benjaminborbe.storage.service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
@@ -18,6 +16,8 @@ import de.benjaminborbe.tools.util.DurationUtil;
 import org.apache.cassandra.thrift.NotFoundException;
 import org.slf4j.Logger;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -52,7 +52,8 @@ public class StorageServiceImpl implements StorageService {
 		final StorageConnectionPool storageConnectionPool,
 		final StorageExporter storageExporter,
 		final StorageImporter storageImporter,
-		final DurationUtil durationUtil) {
+		final DurationUtil durationUtil
+	) {
 		this.logger = logger;
 		this.config = config;
 		this.storageDaoUtil = storageDaoUtil;
@@ -247,7 +248,11 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public StorageRowIterator rowIterator(final String columnFamily, final List<StorageValue> columnNames, final Map<StorageValue, StorageValue> where) throws StorageException {
+	public StorageRowIterator rowIterator(
+		final String columnFamily,
+		final List<StorageValue> columnNames,
+		final Map<StorageValue, StorageValue> where
+	) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.rowIterator(config.getKeySpace(), columnFamily, columnNames, where);
@@ -360,7 +365,11 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public Collection<List<StorageValue>> get(final String columnFamily, final Collection<StorageValue> keys, final List<StorageValue> columnNames) throws StorageException {
+	public Collection<List<StorageValue>> get(
+		final String columnFamily,
+		final Collection<StorageValue> keys,
+		final List<StorageValue> columnNames
+	) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return storageDaoUtil.read(config.getKeySpace(), columnFamily, keys, columnNames);

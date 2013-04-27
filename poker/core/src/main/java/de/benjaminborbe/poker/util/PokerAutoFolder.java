@@ -1,9 +1,5 @@
 package de.benjaminborbe.poker.util;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
@@ -13,6 +9,9 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CurrentTime;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class PokerAutoFolder {
 
@@ -39,8 +38,7 @@ public class PokerAutoFolder {
 				final PokerGameBean game = i.next();
 				handle(game);
 			}
-		}
-		catch (final EntityIteratorException | StorageException e) {
+		} catch (final EntityIteratorException | StorageException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
@@ -51,8 +49,7 @@ public class PokerAutoFolder {
 			if ((currentTime.currentTimeMillis() - game.getActivePositionTime().getTimeInMillis()) > timeout) {
 				try {
 					pokerService.fold(game.getId(), pokerService.getActivePlayer(game.getId()));
-				}
-				catch (PokerServiceException | ValidationException e) {
+				} catch (PokerServiceException | ValidationException e) {
 					logger.debug(e.getClass().getName(), e);
 				}
 			}

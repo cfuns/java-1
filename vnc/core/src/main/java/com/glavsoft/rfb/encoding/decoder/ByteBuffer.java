@@ -43,7 +43,7 @@ public class ByteBuffer {
 
 	/**
 	 * Checks for buffer capacity is enougth ( < length) and enlarge it if not
-	 * 
+	 *
 	 * @param length
 	 */
 	public void correctBufferCapacity(final int length) {

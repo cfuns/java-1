@@ -1,7 +1,6 @@
 package de.benjaminborbe.xmpp.gui.guice;
 
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -14,6 +13,8 @@ import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.mock.XmppServiceMock;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
+
+import javax.inject.Singleton;
 
 public class XmppGuiOsgiModuleMock extends AbstractModule {
 

@@ -1,10 +1,6 @@
 package de.benjaminborbe.microblog.guice;
 
-import org.slf4j.Logger;
-
 import com.google.inject.AbstractModule;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.config.MicroblogConfig;
 import de.benjaminborbe.microblog.config.MicroblogConfigImpl;
@@ -20,6 +16,9 @@ import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorageImpl;
 import de.benjaminborbe.microblog.service.MicroblogServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 public class MicroblogModule extends AbstractModule {
 

@@ -50,7 +50,7 @@ public class HextileDecoder extends Decoder {
 	public void decode(final Reader reader, final Renderer renderer, final FramebufferUpdateRectangle rect) throws TransportException {
 		if (rect.width == 0 || rect.height == 0)
 			return;
-		final int[] colors = new int[] { -1, -1 };
+		final int[] colors = new int[]{-1, -1};
 		final int maxX = rect.x + rect.width;
 		final int maxY = rect.y + rect.height;
 		for (int tileY = rect.y; tileY < maxY; tileY += DEFAULT_TILE_SIZE) {
@@ -63,8 +63,10 @@ public class HextileDecoder extends Decoder {
 
 	}
 
-	private void decodeHextileSubrectangle(final Reader reader, final Renderer renderer, final int[] colors, final int tileX, final int tileY, final int tileWidth,
-			final int tileHeight) throws TransportException {
+	private void decodeHextileSubrectangle(
+		final Reader reader, final Renderer renderer, final int[] colors, final int tileX, final int tileY, final int tileWidth,
+		final int tileHeight
+	) throws TransportException {
 
 		final int subencoding = reader.readUInt8();
 

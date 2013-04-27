@@ -1,12 +1,12 @@
 package de.benjaminborbe.authentication.core.util;
 
-import javax.inject.Inject;
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.tools.password.PasswordCharacter;
 import de.benjaminborbe.tools.password.PasswordGenerator;
 import de.benjaminborbe.tools.password.PasswordValidator;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
