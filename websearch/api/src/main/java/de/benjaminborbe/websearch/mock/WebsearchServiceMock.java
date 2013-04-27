@@ -33,6 +33,13 @@ public class WebsearchServiceMock implements WebsearchService {
 	}
 
 	@Override
+	public WebsearchPage getPage(
+		final SessionIdentifier sessionIdentifier, final WebsearchPageIdentifier websearchPageIdentifier
+	) throws WebsearchServiceException, PermissionDeniedException {
+		return null;
+	}
+
+	@Override
 	public void refreshPage(
 		final SessionIdentifier sessionIdentifier,
 		final WebsearchPageIdentifier page
@@ -42,6 +49,11 @@ public class WebsearchServiceMock implements WebsearchService {
 	@Override
 	public WebsearchPageIdentifier createPageIdentifier(final URL id) throws WebsearchServiceException {
 		return new WebsearchPageIdentifier(id.toExternalForm());
+	}
+
+	@Override
+	public WebsearchPageIdentifier createPageIdentifier(final String id) throws WebsearchServiceException {
+		return null;
 	}
 
 	@Override

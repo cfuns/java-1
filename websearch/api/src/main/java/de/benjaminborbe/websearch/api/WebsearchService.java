@@ -9,5 +9,8 @@ public interface WebsearchService extends WebsearchServicePage, WebsearchService
 
 	void clearIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
 
-	WebsearchPage getPage(WebsearchPageIdentifier websearchPageIdentifier) throws WebsearchServiceException, PermissionDeniedException;
+	WebsearchPage getPage(
+		SessionIdentifier sessionIdentifier,
+		WebsearchPageIdentifier websearchPageIdentifier
+	) throws WebsearchServiceException, PermissionDeniedException;
 }

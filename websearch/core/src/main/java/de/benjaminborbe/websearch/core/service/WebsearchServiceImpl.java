@@ -168,6 +168,20 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
+	public WebsearchPage getPage(
+		final SessionIdentifier sessionIdentifier,
+		final WebsearchPageIdentifier websearchPageIdentifier
+	) throws WebsearchServiceException, PermissionDeniedException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.expirePage"));
+
+			return pageDao.load(websearchPageIdentifier);
+		} catch (final StorageException | AuthorizationServiceException e) {
+			throw new WebsearchServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
 	public void refreshPage(
 		final SessionIdentifier sessionIdentifier,
 		final WebsearchPageIdentifier page
@@ -185,8 +199,17 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public WebsearchPageIdentifier createPageIdentifier(final URL id) throws WebsearchServiceException {
-		return new WebsearchPageIdentifier(id.toExternalForm());
+	public WebsearchPageIdentifier createPageIdentifier(final URL url) throws WebsearchServiceException {
+		return createPageIdentifier(url != null ? url.toExternalForm() : null);
+	}
+
+	@Override
+	public WebsearchPageIdentifier createPageIdentifier(final String id) throws WebsearchServiceException {
+		if (id != null && !id.trim().isEmpty()) {
+			return new WebsearchPageIdentifier(id);
+		} else {
+			return null;
+		}
 	}
 
 	@Override

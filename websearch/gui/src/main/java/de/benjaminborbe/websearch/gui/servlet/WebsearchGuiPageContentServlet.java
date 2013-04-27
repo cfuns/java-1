@@ -2,7 +2,9 @@ package de.benjaminborbe.websearch.gui.servlet;
 
 import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
@@ -42,6 +44,8 @@ public class WebsearchGuiPageContentServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final AuthenticationService authenticationService;
+
 	private final WebsearchService webseachService;
 
 	@Inject
@@ -60,6 +64,7 @@ public class WebsearchGuiPageContentServlet extends WebsiteHtmlServlet {
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 		this.webseachService = webseachService;
 	}
 
@@ -79,10 +84,12 @@ public class WebsearchGuiPageContentServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
+			SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 			String url = request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID);
 			if (url != null) {
 				WebsearchPageIdentifier websearchPageIdentifier = webseachService.createPageIdentifier(url);
-				WebsearchPage websearchPage = webseachService.getPage(websearchPageIdentifier);
+				WebsearchPage websearchPage = webseachService.getPage(sessionIdentifier, websearchPageIdentifier);
 				widgets.add(new PreWidget(new String(websearchPage.getContent())));
 			}
 
@@ -92,7 +99,7 @@ public class WebsearchGuiPageContentServlet extends WebsiteHtmlServlet {
 			widgets.add(formWidget);
 
 			return widgets;
-		} catch (WebsearchServiceException e) {
+		} catch (WebsearchServiceException | AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}
