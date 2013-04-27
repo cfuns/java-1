@@ -11,6 +11,8 @@ public interface WebsearchServicePage {
 
 	WebsearchPageIdentifier createPageIdentifier(URL id) throws WebsearchServiceException;
 
+	WebsearchPageIdentifier createPageIdentifier(String id) throws WebsearchServiceException;
+
 	Collection<WebsearchPage> getPages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
 
 	void refreshPage(final SessionIdentifier sessionIdentifier, WebsearchPageIdentifier page) throws WebsearchServiceException, PermissionDeniedException;

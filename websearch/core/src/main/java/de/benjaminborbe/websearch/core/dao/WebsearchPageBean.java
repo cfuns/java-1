@@ -30,6 +30,7 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 
 	private Integer returnCode;
 
+	@Override
 	public URL getUrl() {
 		return url;
 	}
@@ -38,6 +39,7 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 		this.url = url;
 	}
 
+	@Override
 	public byte[] getContent() {
 		return content;
 	}
@@ -46,6 +48,7 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 		this.content = content;
 	}
 
+	@Override
 	public HttpHeader getHeader() {
 		return header;
 	}
@@ -97,6 +100,7 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 		this.returnCode = returnCode;
 	}
 
+	@Override
 	public Integer getReturnCode() {
 		return returnCode;
 	}
