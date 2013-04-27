@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
 public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
@@ -40,8 +42,13 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 			httpResponse.setReturnCode(httpDownloadResult.getResponseCode());
 			httpResponse.setUrl(url);
 			httpResponse.setDuration(httpDownloadResult.getDuration());
-			httpResponse.setHeader(new HttpHeaderDto());
 			httpResponse.setContent(new HttpContentByteArray(httpDownloadResult.getContent()));
+			final HttpHeaderDto header = new HttpHeaderDto();
+			for (Map.Entry<String, List<String>> e : httpDownloadResult.getHeaders().entrySet()) {
+				header.setHeader(e.getKey(), e.getValue());
+			}
+			httpResponse.setHeader(header);
+
 			return httpResponse;
 		} catch (HttpDownloaderException e) {
 			throw new HttpdownloaderServiceException(e);

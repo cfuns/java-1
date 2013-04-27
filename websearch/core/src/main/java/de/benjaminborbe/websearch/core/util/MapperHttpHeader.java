@@ -55,11 +55,13 @@ public class MapperHttpHeader implements Mapper<HttpHeader> {
 		}
 		JSONObjectSimple jsonObjectSimple = new JSONObjectSimple();
 		for (String key : httpHeader.getKeys()) {
-			JSONArraySimple jsonArraySimple = new JSONArraySimple();
-			for (String value : httpHeader.getValues(key)) {
-				jsonArraySimple.add(value);
+			if (key != null) {
+				JSONArraySimple jsonArraySimple = new JSONArraySimple();
+				for (String value : httpHeader.getValues(key)) {
+					jsonArraySimple.add(value);
+				}
+				jsonObjectSimple.put(key, jsonArraySimple);
 			}
-			jsonObjectSimple.put(key, jsonArraySimple);
 		}
 		return jsonObjectSimple.toString();
 	}

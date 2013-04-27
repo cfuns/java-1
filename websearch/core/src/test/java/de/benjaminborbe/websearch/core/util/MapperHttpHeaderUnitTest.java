@@ -29,6 +29,21 @@ public class MapperHttpHeaderUnitTest {
 	}
 
 	@Test
+	public void testToStringNullKey() throws Exception {
+		MapperHttpHeader mapper = new MapperHttpHeader();
+
+		HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
+		EasyMock.expect(httpHeader.getKeys()).andReturn(Arrays.asList("keyA", null, "keyB"));
+		EasyMock.expect(httpHeader.getValues("keyA")).andReturn(Arrays.asList("valueA1", "valueA2"));
+		EasyMock.expect(httpHeader.getValues("keyB")).andReturn(Arrays.asList("valueB1", "valueB2"));
+		EasyMock.replay(httpHeader);
+
+		final String string = mapper.toString(httpHeader);
+		assertThat(string, is(notNullValue()));
+		assertThat(string, is("{\"keyA\":[\"valueA1\",\"valueA2\"],\"keyB\":[\"valueB1\",\"valueB2\"]}"));
+	}
+
+	@Test
 	public void testFromString() throws Exception {
 		MapperHttpHeader mapper = new MapperHttpHeader();
 
@@ -51,4 +66,5 @@ public class MapperHttpHeaderUnitTest {
 		assertThat(httpHeader.getValues("keyB"), is(hasItem("valueB1")));
 		assertThat(httpHeader.getValues("keyB"), is(hasItem("valueB2")));
 	}
+
 }

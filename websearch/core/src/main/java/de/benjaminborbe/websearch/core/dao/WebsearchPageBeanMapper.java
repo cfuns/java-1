@@ -4,6 +4,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
 import de.benjaminborbe.tools.mapper.MapperByteArray;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperInteger;
 import de.benjaminborbe.tools.mapper.MapperUrl;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
@@ -37,6 +38,8 @@ public class WebsearchPageBeanMapper extends MapObjectMapperAdapter<WebsearchPag
 
 	public static final String HEADER = "header";
 
+	public static final String RETURN_CODE = "returnCode";
+
 	@Inject
 	public WebsearchPageBeanMapper(
 		final Provider<WebsearchPageBean> provider,
@@ -44,9 +47,10 @@ public class WebsearchPageBeanMapper extends MapObjectMapperAdapter<WebsearchPag
 		final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier,
 		final MapperUrl mapperUrl,
 		final MapperByteArray mapperByteArray,
-		final MapperHttpHeader mapperHttpHeader
+		final MapperHttpHeader mapperHttpHeader,
+		final MapperInteger mapperInteger
 	) {
-		super(provider, buildMappings(mapperCalendar, mapperUrl, mapperWebsearchPageIdentifier, mapperByteArray, mapperHttpHeader));
+		super(provider, buildMappings(mapperCalendar, mapperUrl, mapperWebsearchPageIdentifier, mapperByteArray, mapperHttpHeader, mapperInteger));
 	}
 
 	private static Collection<StringObjectMapper<WebsearchPageBean>> buildMappings(
@@ -54,7 +58,8 @@ public class WebsearchPageBeanMapper extends MapObjectMapperAdapter<WebsearchPag
 		final MapperUrl mapperUrl,
 		final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier,
 		final MapperByteArray mapperByteArray,
-		final MapperHttpHeader mapperHttpHeader
+		final MapperHttpHeader mapperHttpHeader,
+		final MapperInteger mapperInteger
 	) {
 		final List<StringObjectMapper<WebsearchPageBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, WebsearchPageIdentifier>(ID, mapperWebsearchPageIdentifier));
@@ -64,6 +69,7 @@ public class WebsearchPageBeanMapper extends MapObjectMapperAdapter<WebsearchPag
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Calendar>(MODIFIED, mapperCalendar));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, byte[]>(CONTENT, mapperByteArray));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, HttpHeader>(HEADER, mapperHttpHeader));
+		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Integer>(RETURN_CODE, mapperInteger));
 		return result;
 	}
 }

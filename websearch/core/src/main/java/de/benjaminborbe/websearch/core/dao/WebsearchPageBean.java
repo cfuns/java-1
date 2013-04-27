@@ -18,6 +18,18 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 
 	private URL url;
 
+	private Calendar lastVisit;
+
+	private Calendar modified;
+
+	private Calendar created;
+
+	private HttpHeader header;
+
+	private byte[] content;
+
+	private Integer returnCode;
+
 	public URL getUrl() {
 		return url;
 	}
@@ -25,8 +37,6 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 	public void setUrl(final URL url) {
 		this.url = url;
 	}
-
-	private HttpHeader header;
 
 	public byte[] getContent() {
 		return content;
@@ -43,14 +53,6 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 	public void setHeader(final HttpHeader header) {
 		this.header = header;
 	}
-
-	private Calendar lastVisit;
-
-	private Calendar modified;
-
-	private Calendar created;
-
-	private byte[] content;
 
 	@Override
 	public Calendar getLastVisit() {
@@ -91,4 +93,11 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 		this.id = id;
 	}
 
+	public void setReturnCode(final Integer returnCode) {
+		this.returnCode = returnCode;
+	}
+
+	public Integer getReturnCode() {
+		return returnCode;
+	}
 }

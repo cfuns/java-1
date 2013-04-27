@@ -9,6 +9,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperByteArray;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperInteger;
 import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.MapperUrl;
 import de.benjaminborbe.tools.util.Base64Util;
@@ -80,8 +81,9 @@ public class WebsearchPageBeanMapperUnitTest {
 		final Base64Util base64Util = new Base64UtilImpl();
 		final MapperByteArray mapperByteArray = new MapperByteArray(base64Util);
 		final MapperHttpHeader mapperHttpHeader = new MapperHttpHeader();
+		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
 
-		return new WebsearchPageBeanMapper(beanProvider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperByteArray, mapperHttpHeader);
+		return new WebsearchPageBeanMapper(beanProvider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperByteArray, mapperHttpHeader, mapperInteger);
 	}
 
 	@Test
