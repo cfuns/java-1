@@ -4,6 +4,7 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
+import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.search.core.SearchConstants;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
@@ -18,8 +19,13 @@ public class SearchConfigImpl extends ConfigurationBase implements SearchConfig 
 	private final ConfigurationDescriptionBoolean isUrlSearchActive = new ConfigurationDescriptionBoolean(false, SearchConstants.CONFIG_URL_SEARCH_ACTIVE, "Search Url Active");
 
 	@Inject
-	public SearchConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
-		super(logger, configurationService, parseUtil);
+	public SearchConfigImpl(
+		final Logger logger,
+		final ConfigurationService configurationService,
+		final ParseUtil parseUtil,
+		final ConfigurationServiceCache configurationServiceCache
+	) {
+		super(logger, configurationService, parseUtil, configurationServiceCache);
 	}
 
 	@Override

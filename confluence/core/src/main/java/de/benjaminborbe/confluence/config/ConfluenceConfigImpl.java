@@ -5,6 +5,7 @@ import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
+import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
@@ -20,8 +21,13 @@ public class ConfluenceConfigImpl extends ConfigurationBase implements Confluenc
 	private final ConfigurationDescriptionBoolean cronEnabled = new ConfigurationDescriptionBoolean(false, "ConfluenceCronEnabled", "Confluence Cron Enabled");
 
 	@Inject
-	public ConfluenceConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
-		super(logger, configurationService, parseUtil);
+	public ConfluenceConfigImpl(
+		final Logger logger,
+		final ConfigurationService configurationService,
+		final ParseUtil parseUtil,
+		final ConfigurationServiceCache configurationServiceCache
+	) {
+		super(logger, configurationService, parseUtil, configurationServiceCache);
 	}
 
 	@Override

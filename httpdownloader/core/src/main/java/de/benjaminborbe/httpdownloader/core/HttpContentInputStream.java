@@ -1,4 +1,4 @@
-package de.benjaminborbe.httpdownloader.core.util;
+package de.benjaminborbe.httpdownloader.core;
 
 import de.benjaminborbe.httpdownloader.api.HttpContent;
 import de.benjaminborbe.tools.stream.ChannelTools;
@@ -19,8 +19,8 @@ public class HttpContentInputStream implements HttpContent {
 	@Override
 	public byte[] getContent() {
 		try {
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			StreamUtil streamUtil = new StreamUtil(new ChannelTools());
+			final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
 			streamUtil.copy(inputStream, byteArrayOutputStream);
 			return byteArrayOutputStream.toByteArray();
 		} catch (IOException e) {

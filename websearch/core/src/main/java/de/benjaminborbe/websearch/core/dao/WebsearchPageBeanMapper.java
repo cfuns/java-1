@@ -1,8 +1,8 @@
 package de.benjaminborbe.websearch.core.dao;
 
 import com.google.inject.Provider;
+import de.benjaminborbe.httpdownloader.api.HttpContent;
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
-import de.benjaminborbe.tools.mapper.MapperByteArray;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperInteger;
 import de.benjaminborbe.tools.mapper.MapperUrl;
@@ -10,6 +10,7 @@ import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapperAdapter;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapperAdapter;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
+import de.benjaminborbe.websearch.core.util.MapperHttpContent;
 import de.benjaminborbe.websearch.core.util.MapperHttpHeader;
 import de.benjaminborbe.websearch.core.util.MapperWebsearchPageIdentifier;
 
@@ -46,20 +47,19 @@ public class WebsearchPageBeanMapper extends MapObjectMapperAdapter<WebsearchPag
 		final MapperCalendar mapperCalendar,
 		final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier,
 		final MapperUrl mapperUrl,
-		final MapperByteArray mapperByteArray,
 		final MapperHttpHeader mapperHttpHeader,
-		final MapperInteger mapperInteger
+		final MapperInteger mapperInteger, final MapperHttpContent mapperHttpContent
 	) {
-		super(provider, buildMappings(mapperCalendar, mapperUrl, mapperWebsearchPageIdentifier, mapperByteArray, mapperHttpHeader, mapperInteger));
+		super(provider, buildMappings(mapperCalendar, mapperUrl, mapperWebsearchPageIdentifier, mapperHttpHeader, mapperInteger, mapperHttpContent));
 	}
 
 	private static Collection<StringObjectMapper<WebsearchPageBean>> buildMappings(
 		final MapperCalendar mapperCalendar,
 		final MapperUrl mapperUrl,
 		final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier,
-		final MapperByteArray mapperByteArray,
 		final MapperHttpHeader mapperHttpHeader,
-		final MapperInteger mapperInteger
+		final MapperInteger mapperInteger,
+		final MapperHttpContent mapperHttpContent
 	) {
 		final List<StringObjectMapper<WebsearchPageBean>> result = new ArrayList<>();
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, WebsearchPageIdentifier>(ID, mapperWebsearchPageIdentifier));
@@ -67,7 +67,7 @@ public class WebsearchPageBeanMapper extends MapObjectMapperAdapter<WebsearchPag
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Calendar>(LAST_VISIT, mapperCalendar));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Calendar>(CREATED, mapperCalendar));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Calendar>(MODIFIED, mapperCalendar));
-		result.add(new StringObjectMapperAdapter<WebsearchPageBean, byte[]>(CONTENT, mapperByteArray));
+		result.add(new StringObjectMapperAdapter<WebsearchPageBean, HttpContent>(CONTENT, mapperHttpContent));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, HttpHeader>(HEADER, mapperHttpHeader));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Integer>(RETURN_CODE, mapperInteger));
 		return result;

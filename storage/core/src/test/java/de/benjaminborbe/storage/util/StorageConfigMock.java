@@ -1,17 +1,19 @@
 package de.benjaminborbe.storage.util;
 
+import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
+import de.benjaminborbe.storage.config.StorageConfig;
+import de.benjaminborbe.storage.config.StorageConfigImpl;
+import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import de.benjaminborbe.configuration.api.ConfigurationService;
-import de.benjaminborbe.storage.config.StorageConfig;
-import de.benjaminborbe.storage.config.StorageConfigImpl;
-import de.benjaminborbe.tools.util.ParseUtil;
-
 @Singleton
 public class StorageConfigMock extends StorageConfigImpl implements StorageConfig {
+
+	private static final String CASSANDRA_KEYSPACE = "test";
 
 	private int readLimit;
 
@@ -19,11 +21,14 @@ public class StorageConfigMock extends StorageConfigImpl implements StorageConfi
 
 	private String host;
 
-	private static final String CASSANDRA_KEYSPACE = "test";
-
 	@Inject
-	public StorageConfigMock(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
-		super(logger, configurationService, parseUtil);
+	public StorageConfigMock(
+		final Logger logger,
+		final ConfigurationService configurationService,
+		final ParseUtil parseUtil,
+		final ConfigurationServiceCache configurationServiceCache
+	) {
+		super(logger, configurationService, parseUtil, configurationServiceCache);
 	}
 
 	@Override

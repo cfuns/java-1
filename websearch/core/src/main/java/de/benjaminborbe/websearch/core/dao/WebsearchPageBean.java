@@ -1,6 +1,8 @@
 package de.benjaminborbe.websearch.core.dao;
 
+import de.benjaminborbe.httpdownloader.api.HttpContent;
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
@@ -10,7 +12,7 @@ import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import java.net.URL;
 import java.util.Calendar;
 
-public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> implements WebsearchPage, HasCreated, HasModified {
+public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> implements WebsearchPage, HttpResponse, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -7689141287266279351L;
 
@@ -26,9 +28,19 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 
 	private HttpHeader header;
 
-	private byte[] content;
-
 	private Integer returnCode;
+
+	private Long duration;
+
+	private HttpContent content;
+
+	public Long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(final Long duration) {
+		this.duration = duration;
+	}
 
 	@Override
 	public URL getUrl() {
@@ -40,17 +52,13 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 	}
 
 	@Override
-	public byte[] getContent() {
-		return content;
-	}
-
-	public void setContent(final byte[] content) {
-		this.content = content;
+	public HttpHeader getHeader() {
+		return header;
 	}
 
 	@Override
-	public HttpHeader getHeader() {
-		return header;
+	public HttpContent getContent() {
+		return content;
 	}
 
 	public void setHeader(final HttpHeader header) {
@@ -96,12 +104,16 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 		this.id = id;
 	}
 
+	@Override
+	public Integer getReturnCode() {
+		return returnCode;
+	}
+
 	public void setReturnCode(final Integer returnCode) {
 		this.returnCode = returnCode;
 	}
 
-	@Override
-	public Integer getReturnCode() {
-		return returnCode;
+	public void setContent(final HttpContent content) {
+		this.content = content;
 	}
 }

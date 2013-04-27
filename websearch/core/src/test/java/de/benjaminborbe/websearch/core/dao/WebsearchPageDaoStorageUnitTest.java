@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.core.dao;
 
 import com.google.inject.Provider;
-import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.httpdownloader.api.HttpUtil;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
@@ -21,9 +21,12 @@ import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
+import de.benjaminborbe.websearch.core.util.MapperHttpContent;
 import de.benjaminborbe.websearch.core.util.MapperHttpHeader;
 import de.benjaminborbe.websearch.core.util.MapperWebsearchPageIdentifier;
+import de.benjaminborbe.websearch.core.util.WebsearchAddToSearchIndex;
 import de.benjaminborbe.websearch.core.util.WebsearchPageContentUpdateHandler;
+import de.benjaminborbe.websearch.core.util.WebsearchParseLinks;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -59,12 +62,19 @@ public class WebsearchPageDaoStorageUnitTest {
 		final MapperByteArray mapperByteArray = new MapperByteArray(base64Util);
 		final MapperHttpHeader mapperHttpHeader = new MapperHttpHeader();
 		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
-		final WebsearchPageBeanMapper websearchPageBeanMapper = new WebsearchPageBeanMapper(provider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperByteArray, mapperHttpHeader, mapperInteger);
+		final MapperHttpContent mapperHttpContent = new MapperHttpContent(mapperByteArray);
+		final WebsearchPageBeanMapper websearchPageBeanMapper = new WebsearchPageBeanMapper(provider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperHttpHeader, mapperInteger, mapperHttpContent);
 		final WebsearchPageIdentifierBuilder websearchPageIdentifierBuilder = null;
 
 		final TimeZone timeZone = timeZoneUtil.getUTCTimeZone();
 		final Calendar calendar = calendarUtil.parseDateTime(timeZone, "2012-12-24 20:15:59");
-		final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler = new WebsearchPageContentUpdateHandler();
+		final HttpUtil httpUtil = new HttpUtil();
+		final WebsearchAddToSearchIndex websearchAddToSearchIndex = EasyMock.createMock(WebsearchAddToSearchIndex.class);
+		EasyMock.replay(websearchAddToSearchIndex);
+		final WebsearchParseLinks websearchParseLinks = EasyMock.createMock(WebsearchParseLinks.class);
+		EasyMock.replay(websearchParseLinks);
+
+		final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler = new WebsearchPageContentUpdateHandler(logger, httpUtil, websearchAddToSearchIndex, websearchParseLinks);
 		final WebsearchPageDaoStorage dao = new WebsearchPageDaoStorage(logger, storageService, provider, websearchPageDaoSubPagesAction, websearchPageBeanMapper,
 			websearchPageIdentifierBuilder, calendarUtil, websearchPageContentUpdateHandler);
 		final URL url = new URL("http://www.heise.de");
@@ -98,10 +108,10 @@ public class WebsearchPageDaoStorageUnitTest {
 	}
 
 	@Test
-	public void testOnPostSave() throws StorageException {
+	public void testOnPostSave() throws Exception {
 		final String encoding = "UTF8";
 
-		StorageService storageService = EasyMock.createMock(StorageService.class);
+		final StorageService storageService = EasyMock.createMock(StorageService.class);
 		EasyMock.expect(storageService.getEncoding()).andReturn(encoding).anyTimes();
 		EasyMock.replay(storageService);
 

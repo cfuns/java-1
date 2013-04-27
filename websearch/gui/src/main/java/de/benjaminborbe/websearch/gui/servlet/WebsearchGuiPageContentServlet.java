@@ -10,6 +10,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.httpdownloader.api.HttpUtil;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -44,6 +45,8 @@ public class WebsearchGuiPageContentServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
+	private final HttpUtil httpUtil;
+
 	private final AuthenticationService authenticationService;
 
 	private final WebsearchService webseachService;
@@ -51,6 +54,7 @@ public class WebsearchGuiPageContentServlet extends WebsiteHtmlServlet {
 	@Inject
 	public WebsearchGuiPageContentServlet(
 		final Logger logger,
+		final HttpUtil httpUtil,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final ParseUtil parseUtil,
@@ -64,6 +68,7 @@ public class WebsearchGuiPageContentServlet extends WebsiteHtmlServlet {
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
+		this.httpUtil = httpUtil;
 		this.authenticationService = authenticationService;
 		this.webseachService = webseachService;
 	}
@@ -84,16 +89,17 @@ public class WebsearchGuiPageContentServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-			String url = request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID);
+			final String url = request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID);
 			if (url != null) {
-				WebsearchPageIdentifier websearchPageIdentifier = webseachService.createPageIdentifier(url);
-				WebsearchPage websearchPage = webseachService.getPage(sessionIdentifier, websearchPageIdentifier);
-				widgets.add(new PreWidget(new String(websearchPage.getContent())));
+				final WebsearchPageIdentifier websearchPageIdentifier = webseachService.createPageIdentifier(url);
+				final WebsearchPage websearchPage = webseachService.getPage(sessionIdentifier, websearchPageIdentifier);
+				final String content = httpUtil.getContent(websearchPage);
+				widgets.add(new PreWidget(content));
 			}
 
-			FormWidget formWidget = new FormWidget();
+			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputTextWidget(WebsearchGuiConstants.PARAMETER_PAGE_ID).addLabel("Url:"));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("show"));
 			widgets.add(formWidget);

@@ -1,6 +1,4 @@
-package de.benjaminborbe.httpdownloader.core.util;
-
-import de.benjaminborbe.httpdownloader.api.HttpContent;
+package de.benjaminborbe.httpdownloader.api;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

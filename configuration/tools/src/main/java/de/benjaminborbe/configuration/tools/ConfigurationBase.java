@@ -17,54 +17,73 @@ public abstract class ConfigurationBase {
 
 	private final ParseUtil parseUtil;
 
-	public ConfigurationBase(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
+	private final ConfigurationServiceCache configurationServiceCache;
+
+	public ConfigurationBase(
+		final Logger logger,
+		final ConfigurationService configurationService,
+		final ParseUtil parseUtil,
+		final ConfigurationServiceCache configurationServiceCache
+	) {
 		this.logger = logger;
 		this.configurationService = configurationService;
 		this.parseUtil = parseUtil;
+		this.configurationServiceCache = configurationServiceCache;
 	}
 
-	protected String getValueString(final ConfigurationDescription configuration) {
-		try {
-			return configurationService.getConfigurationValue(configuration);
-		} catch (final ConfigurationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			return configuration.getDefaultValueAsString();
+	private String getConfigurationValue(final ConfigurationDescription configurationDescription) throws ConfigurationServiceException {
+		final String value = configurationServiceCache.get(configurationDescription);
+		if (value != null) {
+			return value;
+		} else {
+			final String configurationValue = configurationService.getConfigurationValue(configurationDescription);
+			configurationServiceCache.put(configurationDescription, configurationValue);
+			return configurationValue;
 		}
 	}
 
-	protected Long getValueLong(final ConfigurationDescriptionLong configuration) {
+	protected String getValueString(final ConfigurationDescription configurationDescription) {
 		try {
-			return parseUtil.parseLong(configurationService.getConfigurationValue(configuration));
+			return getConfigurationValue(configurationDescription);
 		} catch (final ConfigurationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
-			return configuration.getDefaultValue();
-		} catch (final ParseException e) {
-			logger.trace(e.getClass().getName(), e);
-			return configuration.getDefaultValue();
+			return configurationDescription.getDefaultValueAsString();
 		}
 	}
 
-	protected Integer getValueInteger(final ConfigurationDescriptionInteger configuration) {
+	protected Long getValueLong(final ConfigurationDescriptionLong configurationDescriptionLong) {
 		try {
-			return parseUtil.parseInt(configurationService.getConfigurationValue(configuration));
+			return parseUtil.parseLong(getConfigurationValue(configurationDescriptionLong));
 		} catch (final ConfigurationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
-			return configuration.getDefaultValue();
+			return configurationDescriptionLong.getDefaultValue();
 		} catch (final ParseException e) {
 			logger.trace(e.getClass().getName(), e);
-			return configuration.getDefaultValue();
+			return configurationDescriptionLong.getDefaultValue();
 		}
 	}
 
-	protected Boolean getValueBoolean(final ConfigurationDescriptionBoolean configuration) {
+	protected Integer getValueInteger(final ConfigurationDescriptionInteger configurationDescriptionInteger) {
 		try {
-			return parseUtil.parseBoolean(configurationService.getConfigurationValue(configuration));
+			return parseUtil.parseInt(getConfigurationValue(configurationDescriptionInteger));
 		} catch (final ConfigurationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
-			return configuration.getDefaultValue();
+			return configurationDescriptionInteger.getDefaultValue();
 		} catch (final ParseException e) {
 			logger.trace(e.getClass().getName(), e);
-			return configuration.getDefaultValue();
+			return configurationDescriptionInteger.getDefaultValue();
+		}
+	}
+
+	protected Boolean getValueBoolean(final ConfigurationDescriptionBoolean configurationDescriptionBoolean) {
+		try {
+			return parseUtil.parseBoolean(getConfigurationValue(configurationDescriptionBoolean));
+		} catch (final ConfigurationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return configurationDescriptionBoolean.getDefaultValue();
+		} catch (final ParseException e) {
+			logger.trace(e.getClass().getName(), e);
+			return configurationDescriptionBoolean.getDefaultValue();
 		}
 	}
 

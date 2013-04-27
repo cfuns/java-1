@@ -4,6 +4,7 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
+import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
@@ -17,8 +18,13 @@ public class MessageConfigImpl extends ConfigurationBase implements MessageConfi
 	private final ConfigurationDescriptionInteger consumerAmount = new ConfigurationDescriptionInteger(10, "MessageConsumerAmount", "Message Consumer Amount");
 
 	@Inject
-	public MessageConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
-		super(logger, configurationService, parseUtil);
+	public MessageConfigImpl(
+		final Logger logger,
+		final ConfigurationService configurationService,
+		final ParseUtil parseUtil,
+		final ConfigurationServiceCache configurationServiceCache
+	) {
+		super(logger, configurationService, parseUtil, configurationServiceCache);
 	}
 
 	@Override

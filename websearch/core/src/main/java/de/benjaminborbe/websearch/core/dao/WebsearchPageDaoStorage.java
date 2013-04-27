@@ -1,12 +1,14 @@
 package de.benjaminborbe.websearch.core.dao;
 
 import com.google.inject.Provider;
+import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import de.benjaminborbe.websearch.core.util.WebsearchPageContentUpdateHandler;
 import org.slf4j.Logger;
@@ -87,8 +89,12 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 
 	@Override
 	public void onPostSave(final WebsearchPageBean entity, final Collection<StorageValue> fieldNames) throws StorageException {
-		if (fieldNames == null || fieldNames.contains(new StorageValue(WebsearchPageBeanMapper.CONTENT, getEncoding()))) {
-			websearchPageContentUpdateHandler.onContentUpdated(entity);
+		try {
+			if (fieldNames == null || fieldNames.contains(new StorageValue(WebsearchPageBeanMapper.CONTENT, getEncoding()))) {
+				websearchPageContentUpdateHandler.onContentUpdated(entity);
+			}
+		} catch (ParseException | IndexerServiceException e) {
+			throw new StorageException(e);
 		}
 	}
 }

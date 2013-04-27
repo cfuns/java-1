@@ -5,6 +5,7 @@ import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
+import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
@@ -20,8 +21,13 @@ public class WebsearchConfigImpl extends ConfigurationBase implements WebsearchC
 	private final ConfigurationDescriptionBoolean cronEnabled = new ConfigurationDescriptionBoolean(false, "WebsearchCronEnabled", "Websearch Cron Enabled");
 
 	@Inject
-	public WebsearchConfigImpl(final Logger logger, final ConfigurationService configurationService, final ParseUtil parseUtil) {
-		super(logger, configurationService, parseUtil);
+	public WebsearchConfigImpl(
+		final Logger logger,
+		final ConfigurationService configurationService,
+		final ParseUtil parseUtil,
+		final ConfigurationServiceCache configurationServiceCache
+	) {
+		super(logger, configurationService, parseUtil, configurationServiceCache);
 	}
 
 	@Override

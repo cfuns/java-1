@@ -39,7 +39,7 @@ public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean
 			// handle only pages configuration exists for
 			if (!pageConfigurations.isEmpty()) {
 
-				logger.debug("url " + page.getId() + " is subpage");
+				logger.trace("url " + page.getId() + " is subpage");
 				// check age > EXPIRE
 				if (isExpired(time, page, pageConfigurations)) {
 					logger.debug("url " + page.getId() + " is expired");
@@ -54,7 +54,7 @@ public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean
 
 					return true;
 				} else {
-					logger.debug("url " + page.getId() + " is not expired");
+					logger.trace("url " + page.getId() + " is not expired");
 				}
 			} else {
 				logger.trace("url " + page.getId() + " is not subpage");

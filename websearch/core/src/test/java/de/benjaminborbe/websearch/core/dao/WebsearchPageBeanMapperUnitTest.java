@@ -10,12 +10,12 @@ import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperByteArray;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperInteger;
-import de.benjaminborbe.tools.mapper.MapperString;
 import de.benjaminborbe.tools.mapper.MapperUrl;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import de.benjaminborbe.websearch.core.util.MapperHttpContent;
 import de.benjaminborbe.websearch.core.util.MapperHttpHeader;
 import de.benjaminborbe.websearch.core.util.MapperWebsearchPageIdentifier;
 import org.apache.commons.codec.binary.Base64;
@@ -64,26 +64,20 @@ public class WebsearchPageBeanMapperUnitTest {
 		final Provider<WebsearchPageBean> beanProvider = new ProviderMock<>(WebsearchPageBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
-
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
-
 		final CurrentTime currentTime = EasyMock.createMock(CurrentTime.class);
 		EasyMock.replay(currentTime);
-
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final MapperCalendar mapperCalendar = new MapperCalendar(timeZoneUtil, calendarUtil, parseUtil);
-		final MapperString mapperString = new MapperString();
-
 		final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier = new MapperWebsearchPageIdentifier();
 		final MapperUrl mapperUrl = new MapperUrl(parseUtil);
-
 		final Base64Util base64Util = new Base64UtilImpl();
 		final MapperByteArray mapperByteArray = new MapperByteArray(base64Util);
 		final MapperHttpHeader mapperHttpHeader = new MapperHttpHeader();
 		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
-
-		return new WebsearchPageBeanMapper(beanProvider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperByteArray, mapperHttpHeader, mapperInteger);
+		final MapperHttpContent mapperHttpContent = new MapperHttpContent(mapperByteArray);
+		return new WebsearchPageBeanMapper(beanProvider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperHttpHeader, mapperInteger, mapperHttpContent);
 	}
 
 	@Test

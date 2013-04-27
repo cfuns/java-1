@@ -1,12 +1,12 @@
 package de.benjaminborbe.httpdownloader.core.service;
 
+import de.benjaminborbe.httpdownloader.api.HttpContentByteArray;
 import de.benjaminborbe.httpdownloader.api.HttpHeaderDto;
 import de.benjaminborbe.httpdownloader.api.HttpRequest;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpResponseDto;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
-import de.benjaminborbe.httpdownloader.core.util.HttpContentByteArray;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
@@ -38,13 +38,13 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 			final URL url = httpRequest.getUrl();
 			final HttpDownloadResult httpDownloadResult = httpDownloader.getUrl(url, httpRequest.getTimeout());
 
-			HttpResponseDto httpResponse = new HttpResponseDto();
+			final HttpResponseDto httpResponse = new HttpResponseDto();
 			httpResponse.setReturnCode(httpDownloadResult.getResponseCode());
 			httpResponse.setUrl(url);
 			httpResponse.setDuration(httpDownloadResult.getDuration());
 			httpResponse.setContent(new HttpContentByteArray(httpDownloadResult.getContent()));
 			final HttpHeaderDto header = new HttpHeaderDto();
-			for (Map.Entry<String, List<String>> e : httpDownloadResult.getHeaders().entrySet()) {
+			for (final Map.Entry<String, List<String>> e : httpDownloadResult.getHeaders().entrySet()) {
 				header.setHeader(e.getKey(), e.getValue());
 			}
 			httpResponse.setHeader(header);

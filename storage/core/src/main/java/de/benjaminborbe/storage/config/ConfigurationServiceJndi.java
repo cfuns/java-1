@@ -35,13 +35,14 @@ public class ConfigurationServiceJndi implements ConfigurationService {
 	public String getConfigurationValue(final ConfigurationDescription configuration) throws ConfigurationServiceException {
 		try {
 			final String name = configuration.getId().getId();
-			logger.trace("getConfigurationValue - name: " + name);
+			logger.trace("name: " + name);
 			final Object value = jndiContext.lookup(name);
 			if (value != null) {
-				logger.trace("getConfigurationValue - name: " + name + " value: " + value);
+				logger.trace("name: " + name + " value: " + value);
 				return String.valueOf(value);
 			}
 		} catch (final NameNotFoundException | NoInitialContextException e) {
+			// nop
 		} catch (final NamingException e) {
 			logger.debug(e.getClass().getName(), e);
 		}

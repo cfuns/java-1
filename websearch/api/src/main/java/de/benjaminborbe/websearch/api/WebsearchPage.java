@@ -1,21 +1,12 @@
 package de.benjaminborbe.websearch.api;
 
-import de.benjaminborbe.httpdownloader.api.HttpHeader;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
 
-import java.net.URL;
 import java.util.Calendar;
 
-public interface WebsearchPage {
+public interface WebsearchPage extends HttpResponse {
 
 	WebsearchPageIdentifier getId();
 
 	Calendar getLastVisit();
-
-	URL getUrl();
-
-	byte[] getContent();
-
-	HttpHeader getHeader();
-
-	Integer getReturnCode();
 }
