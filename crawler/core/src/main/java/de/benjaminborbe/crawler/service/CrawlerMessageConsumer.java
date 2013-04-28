@@ -43,7 +43,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 		final Logger logger,
 		final AnalyticsService analyticsService,
 		final HttpUtil httpUtil,
-		HttpdownloaderService httpdownloaderService,
+		final HttpdownloaderService httpdownloaderService,
 		final CrawlerNotifier crawlerNotifier,
 		final CrawlerMessageMapper crawlerMessageMapper
 	) {

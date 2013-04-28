@@ -59,7 +59,7 @@ public class HttpdownloaderIntegrationTest extends TestCaseOsgi {
 
 	public void testGet() throws Exception {
 		final HttpdownloaderService httpdownloaderService = getService(HttpdownloaderService.class);
-		HttpRequestDto httpRequest = new HttpRequestDto();
+		final HttpRequestDto httpRequest = new HttpRequestDto();
 		final URL url = new URL("http://www.google.de");
 		httpRequest.setUrl(url);
 		final HttpResponse httpResponse = httpdownloaderService.get(httpRequest);

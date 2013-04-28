@@ -10,7 +10,7 @@ public class HttpUtilUnitTest {
 
 	@Test
 	public void testIsAvailable() {
-		HttpUtil httpUtil = new HttpUtil();
+		final HttpUtil httpUtil = new HttpUtil();
 		{
 			final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
 			EasyMock.expect(httpResponse.getReturnCode()).andReturn(null);
@@ -33,7 +33,7 @@ public class HttpUtilUnitTest {
 
 	@Test
 	public void testIsHtml() throws Exception {
-		HttpUtil httpUtil = new HttpUtil();
+		final HttpUtil httpUtil = new HttpUtil();
 		{
 			final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
 			EasyMock.expect(httpHeader.getValue("Content-Type")).andReturn(null);

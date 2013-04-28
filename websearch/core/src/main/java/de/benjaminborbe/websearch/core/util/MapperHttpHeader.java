@@ -22,18 +22,18 @@ public class MapperHttpHeader implements Mapper<HttpHeader> {
 				return null;
 			}
 
-			HttpHeaderDto httpHeader = new HttpHeaderDto();
+			final HttpHeaderDto httpHeader = new HttpHeaderDto();
 
-			JSONParserSimple jsonParserSimple = new JSONParserSimple();
+			final JSONParserSimple jsonParserSimple = new JSONParserSimple();
 			final Object object = jsonParserSimple.parse(string);
 			if (object instanceof JSONObjectSimple) {
-				JSONObjectSimple jsonObjectSimple = (JSONObjectSimple) object;
-				for (String key : jsonObjectSimple.keySet()) {
-					List<String> vs = new ArrayList<>();
-					Object values = jsonObjectSimple.get(key);
+				final JSONObjectSimple jsonObjectSimple = (JSONObjectSimple) object;
+				for (final String key : jsonObjectSimple.keySet()) {
+					final List<String> vs = new ArrayList<>();
+					final Object values = jsonObjectSimple.get(key);
 					if (values instanceof JSONArraySimple) {
-						JSONArraySimple jsonArraySimple = (JSONArraySimple) values;
-						Iterator<Object> i = jsonArraySimple.iterator();
+						final JSONArraySimple jsonArraySimple = (JSONArraySimple) values;
+						final Iterator<Object> i = jsonArraySimple.iterator();
 						while (i.hasNext()) {
 							final Object value = i.next();
 							vs.add((String) value);
@@ -53,11 +53,11 @@ public class MapperHttpHeader implements Mapper<HttpHeader> {
 		if (httpHeader == null) {
 			return null;
 		}
-		JSONObjectSimple jsonObjectSimple = new JSONObjectSimple();
-		for (String key : httpHeader.getKeys()) {
+		final JSONObjectSimple jsonObjectSimple = new JSONObjectSimple();
+		for (final String key : httpHeader.getKeys()) {
 			if (key != null) {
-				JSONArraySimple jsonArraySimple = new JSONArraySimple();
-				for (String value : httpHeader.getValues(key)) {
+				final JSONArraySimple jsonArraySimple = new JSONArraySimple();
+				for (final String value : httpHeader.getValues(key)) {
 					jsonArraySimple.add(value);
 				}
 				jsonObjectSimple.put(key, jsonArraySimple);

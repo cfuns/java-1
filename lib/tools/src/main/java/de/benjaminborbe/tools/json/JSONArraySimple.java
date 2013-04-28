@@ -154,7 +154,7 @@ public class JSONArraySimple implements JSONArray {
 	@Override
 	public String toString() {
 		try {
-			StringWriter writer = new StringWriter();
+			final StringWriter writer = new StringWriter();
 			writeJSONString(writer);
 			return writer.toString();
 		} catch (IOException e) {

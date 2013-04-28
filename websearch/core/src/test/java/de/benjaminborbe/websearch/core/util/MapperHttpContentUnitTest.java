@@ -17,7 +17,7 @@ public class MapperHttpContentUnitTest {
 	public void testToString() throws Exception {
 		final Base64Util base64Util = new Base64UtilImpl();
 		final MapperByteArray mapperByteArray = new MapperByteArray(base64Util);
-		MapperHttpContent mapper = new MapperHttpContent(mapperByteArray);
+		final MapperHttpContent mapper = new MapperHttpContent(mapperByteArray);
 
 		final byte[] content = "Hello World".getBytes();
 		final HttpContent httpContent = EasyMock.createMock(HttpContent.class);
@@ -33,7 +33,7 @@ public class MapperHttpContentUnitTest {
 	public void testFromString() throws Exception {
 		final Base64Util base64Util = new Base64UtilImpl();
 		final MapperByteArray mapperByteArray = new MapperByteArray(base64Util);
-		MapperHttpContent mapper = new MapperHttpContent(mapperByteArray);
+		final MapperHttpContent mapper = new MapperHttpContent(mapperByteArray);
 		final byte[] content = "Hello World".getBytes();
 		final HttpContent httpContent = mapper.fromString("SGVsbG8gV29ybGQ=");
 		assertThat(httpContent, is(notNullValue()));

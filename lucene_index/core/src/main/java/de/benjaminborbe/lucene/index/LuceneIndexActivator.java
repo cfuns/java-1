@@ -19,10 +19,10 @@ import java.util.Set;
 public class LuceneIndexActivator extends BaseBundleActivator {
 
 	@Inject
-	private LuceneIndexService indexerService;
+	private final LuceneIndexService indexerService;
 
 	@Inject
-	private LuceneIndexConfig indexConfig;
+	private final LuceneIndexConfig indexConfig;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {

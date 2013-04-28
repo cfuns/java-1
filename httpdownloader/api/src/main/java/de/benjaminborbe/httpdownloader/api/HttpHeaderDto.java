@@ -8,12 +8,12 @@ import java.util.Map;
 
 public class HttpHeaderDto implements HttpHeader {
 
-	private Map<String, List<String>> header = new HashMap<>();
+	private final Map<String, List<String>> header = new HashMap<>();
 
 	@Override
 	public String getValue(final String name) {
 		if (header.containsKey(name)) {
-			List<String> values = header.get(name);
+			final List<String> values = header.get(name);
 			if (!values.isEmpty()) {
 				return values.iterator().next();
 			}
@@ -34,11 +34,11 @@ public class HttpHeaderDto implements HttpHeader {
 		return header.keySet();
 	}
 
-	public void setHeader(String name, String value) {
+	public void setHeader(final String name, final String value) {
 		header.put(name, Arrays.asList(value));
 	}
 
-	public void setHeader(String name, List<String> values) {
+	public void setHeader(final String name, final List<String> values) {
 		header.put(name, values);
 	}
 }

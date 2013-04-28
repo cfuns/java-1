@@ -479,7 +479,7 @@ public class CalendarUtilImpl implements CalendarUtil {
 
 	@Override
 	public Calendar parseSmart(final String input) throws ParseException {
-		int pos = input.lastIndexOf(' ');
+		final int pos = input.lastIndexOf(' ');
 		if (pos != -1) {
 			try {
 				final TimeZone timeZone = timeZoneUtil.parseTimeZone(input.substring(pos + 1));

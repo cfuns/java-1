@@ -6,7 +6,7 @@ public class CacheEntry<Value> {
 
 	private final long expire;
 
-	public CacheEntry(Value value, long expire) {
+	public CacheEntry(final Value value, final long expire) {
 		this.value = value;
 		this.expire = expire;
 	}

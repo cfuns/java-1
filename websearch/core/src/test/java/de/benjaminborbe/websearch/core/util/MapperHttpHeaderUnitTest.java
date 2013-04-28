@@ -15,9 +15,9 @@ public class MapperHttpHeaderUnitTest {
 
 	@Test
 	public void testToString() throws Exception {
-		MapperHttpHeader mapper = new MapperHttpHeader();
+		final MapperHttpHeader mapper = new MapperHttpHeader();
 
-		HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
+		final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
 		EasyMock.expect(httpHeader.getKeys()).andReturn(Arrays.asList("keyA", "keyB"));
 		EasyMock.expect(httpHeader.getValues("keyA")).andReturn(Arrays.asList("valueA1", "valueA2"));
 		EasyMock.expect(httpHeader.getValues("keyB")).andReturn(Arrays.asList("valueB1", "valueB2"));
@@ -30,9 +30,9 @@ public class MapperHttpHeaderUnitTest {
 
 	@Test
 	public void testToStringNullKey() throws Exception {
-		MapperHttpHeader mapper = new MapperHttpHeader();
+		final MapperHttpHeader mapper = new MapperHttpHeader();
 
-		HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
+		final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
 		EasyMock.expect(httpHeader.getKeys()).andReturn(Arrays.asList("keyA", null, "keyB"));
 		EasyMock.expect(httpHeader.getValues("keyA")).andReturn(Arrays.asList("valueA1", "valueA2"));
 		EasyMock.expect(httpHeader.getValues("keyB")).andReturn(Arrays.asList("valueB1", "valueB2"));
@@ -45,9 +45,9 @@ public class MapperHttpHeaderUnitTest {
 
 	@Test
 	public void testFromString() throws Exception {
-		MapperHttpHeader mapper = new MapperHttpHeader();
+		final MapperHttpHeader mapper = new MapperHttpHeader();
 
-		String string = "{\"keyA\":[\"valueA1\",\"valueA2\"],\"keyB\":[\"valueB1\",\"valueB2\"]}";
+		final String string = "{\"keyA\":[\"valueA1\",\"valueA2\"],\"keyB\":[\"valueB1\",\"valueB2\"]}";
 		final HttpHeader httpHeader = mapper.fromString(string);
 		assertThat(httpHeader, is(notNullValue()));
 		assertThat(httpHeader.getKeys(), is(notNullValue()));

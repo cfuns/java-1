@@ -17,7 +17,7 @@ public class ConfigurationServiceCache implements ConfigurationService {
 	private final Cache<ConfigurationDescription, String> cache;
 
 	@Inject
-	public ConfigurationServiceCache(final ConfigurationService configurationService, ConfigurationCache configurationCache) {
+	public ConfigurationServiceCache(final ConfigurationService configurationService, final ConfigurationCache configurationCache) {
 		this.configurationService = configurationService;
 		this.cache = configurationCache;
 	}
@@ -29,7 +29,7 @@ public class ConfigurationServiceCache implements ConfigurationService {
 
 	@Override
 	public String getConfigurationValue(final ConfigurationDescription configurationDescription) throws ConfigurationServiceException {
-		String value = cache.get(configurationDescription);
+		final String value = cache.get(configurationDescription);
 		if (value != null) {
 			return value;
 		}

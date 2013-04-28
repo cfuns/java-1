@@ -10,12 +10,12 @@ public class WebsearchRobotsTxtParserUnitTest {
 
 	@Test
 	public void testAllow() throws Exception {
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		sb.append("User-agent: *\n");
 		sb.append("Disallow:\n");
 		sb.append("\n");
 		sb.append("Sitemap: http://www.benjamin-borbe.de/sitemap.xml.gz\n");
-		WebsearchRobotsTxtParser websearchRobotsTxtParser = new WebsearchRobotsTxtParser();
+		final WebsearchRobotsTxtParser websearchRobotsTxtParser = new WebsearchRobotsTxtParser();
 		final WebsearchRobotsTxt websearchRobotsTxt = websearchRobotsTxtParser.parseRobotsTxt(sb.toString());
 		assertThat(websearchRobotsTxt.isAllowed("Yet Another Bot", "/"), is(true));
 	}

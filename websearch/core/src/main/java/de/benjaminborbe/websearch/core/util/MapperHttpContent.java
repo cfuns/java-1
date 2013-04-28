@@ -19,7 +19,7 @@ public class MapperHttpContent implements Mapper<HttpContent> {
 
 	@Override
 	public HttpContent fromString(final String string) throws MapException {
-		byte[] content = mapperByteArray.fromString(string);
+		final byte[] content = mapperByteArray.fromString(string);
 		if (content != null) {
 			return new HttpContentByteArray(content);
 		} else {
