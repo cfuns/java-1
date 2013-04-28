@@ -34,7 +34,7 @@ public class XmppConfigImpl extends ConfigurationBase implements XmppConfig {
 		final ParseUtil parseUtil,
 		final ConfigurationServiceCache configurationServiceCache
 	) {
-		super(logger, configurationService, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationServiceCache);
 	}
 
 	@Override

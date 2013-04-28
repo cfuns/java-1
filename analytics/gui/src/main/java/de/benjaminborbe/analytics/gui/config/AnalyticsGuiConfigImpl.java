@@ -25,7 +25,7 @@ public class AnalyticsGuiConfigImpl extends ConfigurationBase implements Analyti
 		final ParseUtil parseUtil,
 		final ConfigurationServiceCache configurationServiceCache
 	) {
-		super(logger, configurationService, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationServiceCache);
 	}
 
 	@Override

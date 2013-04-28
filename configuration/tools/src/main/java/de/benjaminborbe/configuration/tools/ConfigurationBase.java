@@ -1,7 +1,6 @@
 package de.benjaminborbe.configuration.tools;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
-import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -11,8 +10,6 @@ import java.util.Collection;
 
 public abstract class ConfigurationBase {
 
-	private final ConfigurationService configurationService;
-
 	private final Logger logger;
 
 	private final ParseUtil parseUtil;
@@ -21,25 +18,16 @@ public abstract class ConfigurationBase {
 
 	public ConfigurationBase(
 		final Logger logger,
-		final ConfigurationService configurationService,
 		final ParseUtil parseUtil,
 		final ConfigurationServiceCache configurationServiceCache
 	) {
 		this.logger = logger;
-		this.configurationService = configurationService;
 		this.parseUtil = parseUtil;
 		this.configurationServiceCache = configurationServiceCache;
 	}
 
 	private String getConfigurationValue(final ConfigurationDescription configurationDescription) throws ConfigurationServiceException {
-		final String value = configurationServiceCache.get(configurationDescription);
-		if (value != null) {
-			return value;
-		} else {
-			final String configurationValue = configurationService.getConfigurationValue(configurationDescription);
-			configurationServiceCache.put(configurationDescription, configurationValue);
-			return configurationValue;
-		}
+		return configurationServiceCache.getConfigurationValue(configurationDescription);
 	}
 
 	protected String getValueString(final ConfigurationDescription configurationDescription) {

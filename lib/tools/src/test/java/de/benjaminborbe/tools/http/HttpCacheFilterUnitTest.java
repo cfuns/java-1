@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.http;
 
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
 
 public class HttpCacheFilterUnitTest {
 
@@ -12,7 +12,7 @@ public class HttpCacheFilterUnitTest {
 		final String contentType = "contentTyp";
 		final String writerContent = "writer";
 		final byte[] streamContent = new byte[10];
-		final CacheEntry cacheEntry = new CacheEntry(contentType, writerContent, streamContent);
+		final HttpCacheEntry cacheEntry = new HttpCacheEntry(contentType, writerContent, streamContent);
 		assertEquals(contentType, cacheEntry.getContentType());
 		assertEquals(writerContent, cacheEntry.getWriterContent());
 		assertEquals(streamContent.length, cacheEntry.getStreamContent().length);

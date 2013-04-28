@@ -2,7 +2,7 @@ package de.benjaminborbe.tools.http;
 
 import java.util.Arrays;
 
-public class CacheEntry {
+public class HttpCacheEntry {
 
 	private final String contentType;
 
@@ -10,7 +10,7 @@ public class CacheEntry {
 
 	private final byte[] streamContent;
 
-	public CacheEntry(final String contentType, final String writerContent, final byte[] streamContent) {
+	public HttpCacheEntry(final String contentType, final String writerContent, final byte[] streamContent) {
 		this.contentType = contentType;
 		this.writerContent = writerContent;
 		this.streamContent = Arrays.copyOf(streamContent, streamContent.length);

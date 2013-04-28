@@ -28,7 +28,7 @@ public class NotificationConfigImpl extends ConfigurationBase implements Notific
 		final ParseUtil parseUtil,
 		final ConfigurationServiceCache configurationServiceCache
 	) {
-		super(logger, configurationService, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationServiceCache);
 	}
 
 	@Override

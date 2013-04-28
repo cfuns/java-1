@@ -27,7 +27,7 @@ public class LunchGuiConfigImpl extends ConfigurationBase implements LunchGuiCon
 		final ParseUtil parseUtil,
 		final ConfigurationServiceCache configurationServiceCache
 	) {
-		super(logger, configurationService, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationServiceCache);
 	}
 
 	@Override

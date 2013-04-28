@@ -24,7 +24,7 @@ public class PokerGuiConfigImpl extends ConfigurationBase implements PokerGuiCon
 		final ParseUtil parseUtil,
 		final ConfigurationServiceCache configurationServiceCache
 	) {
-		super(logger, configurationService, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationServiceCache);
 	}
 
 	@Override

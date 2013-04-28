@@ -30,7 +30,7 @@ public class IndexConfigImpl extends ConfigurationBase implements IndexConfig {
 		final ParseUtil parseUtil,
 		final ConfigurationServiceCache configurationServiceCache
 	) {
-		super(logger, configurationService, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationServiceCache);
 	}
 
 	@Override

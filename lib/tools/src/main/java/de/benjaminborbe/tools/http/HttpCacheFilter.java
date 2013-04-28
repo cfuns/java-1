@@ -16,7 +16,7 @@ import java.util.Map;
 @Singleton
 public class HttpCacheFilter extends HttpFilter {
 
-	private final Map<String, CacheEntry> cache = new HashMap<>();
+	private final Map<String, HttpCacheEntry> cache = new HashMap<>();
 
 	@Inject
 	public HttpCacheFilter(final Logger logger) {
@@ -43,11 +43,11 @@ public class HttpCacheFilter extends HttpFilter {
 			final HttpServletResponseBuffer httpServletResponseAdapter = new HttpServletResponseBuffer(response);
 			filterChain.doFilter(request, httpServletResponseAdapter);
 			cache.put(identifier,
-				new CacheEntry(httpServletResponseAdapter.getContentType(), httpServletResponseAdapter.getWriterContent(), httpServletResponseAdapter.getOutputStreamContent()));
+				new HttpCacheEntry(httpServletResponseAdapter.getContentType(), httpServletResponseAdapter.getWriterContent(), httpServletResponseAdapter.getOutputStreamContent()));
 		} else {
 			logger.trace("cache hit for " + identifier);
 		}
-		final CacheEntry cacheEntry = cache.get(identifier);
+		final HttpCacheEntry cacheEntry = cache.get(identifier);
 		response.setContentType(cacheEntry.getContentType());
 		if (cacheEntry.getStreamContent().length > 0) {
 			response.getOutputStream().write(cacheEntry.getStreamContent());
