@@ -1,6 +1,8 @@
 package de.benjaminborbe.microblog.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.configuration.tools.ConfigurationCache;
+import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.config.MicroblogConfig;
 import de.benjaminborbe.microblog.config.MicroblogConfigImpl;
@@ -24,6 +26,7 @@ public class MicroblogModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
 		bind(MicroblogConfig.class).to(MicroblogConfigImpl.class).in(Singleton.class);
 		bind(MicroblogConversationFinder.class).to(MicroblogConversationFinderImpl.class).in(Singleton.class);
 		bind(MicroblogService.class).to(MicroblogServiceImpl.class).in(Singleton.class);

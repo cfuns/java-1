@@ -1,6 +1,7 @@
 package de.benjaminborbe.lunch.config;
 
 import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.tools.ConfigurationCache;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -17,17 +18,20 @@ public class LunchConfigImplUnitTest {
 	@Test
 	public void testKeywords() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
-		EasyMock.replay(logger);
 
 		final ConfigurationService configurationService = EasyMock.createMock(ConfigurationService.class);
-		EasyMock.expect(configurationService.getConfigurationValue(EasyMock.anyObject(ConfigurationDescriptionString.class))).andReturn("Essen").anyTimes();
-		EasyMock.replay(configurationService);
+		final ConfigurationCache configurationCache = EasyMock.createMock(ConfigurationCache.class);
+		EasyMock.expect(configurationCache.get(EasyMock.anyObject(ConfigurationDescriptionString.class))).andReturn("Essen").anyTimes();
+		final Object[] mocks = {logger, configurationService, configurationCache};
+		EasyMock.replay(mocks);
 
-		final ConfigurationServiceCache configurationServiceCache = new ConfigurationServiceCache();
+		final ConfigurationServiceCache configurationServiceCache = new ConfigurationServiceCache(configurationService, configurationCache);
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final LunchConfigImpl config = new LunchConfigImpl(logger, configurationService, parseUtil, configurationServiceCache);
 		assertNotNull(config.getMittagNotifyKeywords());
 		assertEquals(1, config.getMittagNotifyKeywords().size());
 		assertEquals("Essen", config.getMittagNotifyKeywords().get(0));
+
+		EasyMock.verify(mocks);
 	}
 }

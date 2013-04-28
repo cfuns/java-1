@@ -1,6 +1,8 @@
 package de.benjaminborbe.search.core.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.configuration.tools.ConfigurationCache;
+import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.core.config.SearchConfig;
 import de.benjaminborbe.search.core.config.SearchConfigImpl;
@@ -18,6 +20,7 @@ public class SearchModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
 		bind(SearchConfig.class).to(SearchConfigImpl.class).in(Singleton.class);
 		bind(SearchQueryHistoryDao.class).to(SearchQueryHistoryDaoStorage.class).in(Singleton.class);
 		bind(SearchServiceComponentRegistry.class).to(SearchServiceComponentRegistryImpl.class).in(Singleton.class);

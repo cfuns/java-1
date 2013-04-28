@@ -17,45 +17,42 @@ public class ConfigurationServiceCacheUnitTest {
 
 	@Test
 	public void testCreateConfigurationIdentifier() throws ConfigurationServiceException {
-		// setup
 		final String id = "1337";
 		final ConfigurationIdentifier configurationIdentifier = EasyMock.createMock(ConfigurationIdentifier.class);
 		ConfigurationService configurationService = EasyMock.createMock(ConfigurationService.class);
 		EasyMock.expect(configurationService.createConfigurationIdentifier(id)).andReturn(configurationIdentifier);
-		EasyMock.replay(configurationService, configurationIdentifier);
-
-		// test
-		ConfigurationServiceCache configurationServiceCache = new ConfigurationServiceCache(configurationService);
+		final ConfigurationCache configurationCache = EasyMock.createMock(ConfigurationCache.class);
+		final Object[] mocks = {configurationService, configurationCache, configurationIdentifier};
+		EasyMock.replay(mocks);
+		ConfigurationServiceCache configurationServiceCache = new ConfigurationServiceCache(configurationService, configurationCache);
 		assertThat(configurationServiceCache.createConfigurationIdentifier(id), is(configurationIdentifier));
-		EasyMock.verify(configurationService, configurationIdentifier);
+		EasyMock.verify(mocks);
 	}
 
 	@Test
 	public void testListConfigurations() throws ConfigurationServiceException {
-		// setup
 		final Collection<ConfigurationDescription> list = Arrays.asList();
 		ConfigurationService configurationService = EasyMock.createMock(ConfigurationService.class);
 		EasyMock.expect(configurationService.listConfigurations()).andReturn(list);
-		EasyMock.replay(configurationService);
-
-		// test
-		ConfigurationServiceCache configurationServiceCache = new ConfigurationServiceCache(configurationService);
+		final ConfigurationCache configurationCache = EasyMock.createMock(ConfigurationCache.class);
+		final Object[] mocks = {configurationService, configurationCache};
+		EasyMock.replay(mocks);
+		ConfigurationServiceCache configurationServiceCache = new ConfigurationServiceCache(configurationService, configurationCache);
 		assertThat(configurationServiceCache.listConfigurations(), is(list));
-		EasyMock.verify(configurationService);
+		EasyMock.verify(mocks);
 	}
 
 	@Test
 	public void testGetConfiguration() throws ConfigurationServiceException {
-		// setup
 		final ConfigurationIdentifier configurationIdentifier = EasyMock.createMock(ConfigurationIdentifier.class);
 		final ConfigurationDescription configurationDescription = EasyMock.createMock(ConfigurationDescription.class);
 		ConfigurationService configurationService = EasyMock.createMock(ConfigurationService.class);
 		EasyMock.expect(configurationService.getConfiguration(configurationIdentifier)).andReturn(configurationDescription);
-		EasyMock.replay(configurationIdentifier, configurationDescription, configurationService);
-
-		// test
-		ConfigurationServiceCache configurationServiceCache = new ConfigurationServiceCache(configurationService);
+		final ConfigurationCache configurationCache = EasyMock.createMock(ConfigurationCache.class);
+		final Object[] mocks = {configurationIdentifier, configurationDescription, configurationService, configurationCache};
+		EasyMock.replay(mocks);
+		ConfigurationServiceCache configurationServiceCache = new ConfigurationServiceCache(configurationService, configurationCache);
 		assertThat(configurationServiceCache.getConfiguration(configurationIdentifier), is(configurationDescription));
-		EasyMock.verify(configurationIdentifier, configurationDescription, configurationService);
+		EasyMock.verify(mocks);
 	}
 }

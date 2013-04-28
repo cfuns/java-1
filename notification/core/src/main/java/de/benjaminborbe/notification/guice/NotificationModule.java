@@ -1,6 +1,8 @@
 package de.benjaminborbe.notification.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.configuration.tools.ConfigurationCache;
+import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.config.NotificationConfig;
 import de.benjaminborbe.notification.config.NotificationConfigImpl;
@@ -18,6 +20,7 @@ public class NotificationModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
 		bind(NotificationMediaDao.class).to(NotificationMediaDaoStorage.class).in(Singleton.class);
 		bind(NotificationTypeDao.class).to(NotificationTypeDaoStorage.class).in(Singleton.class);
 		bind(NotificationConfig.class).to(NotificationConfigImpl.class).in(Singleton.class);

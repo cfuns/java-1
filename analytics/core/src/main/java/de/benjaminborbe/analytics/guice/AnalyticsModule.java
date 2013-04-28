@@ -11,6 +11,8 @@ import de.benjaminborbe.analytics.dao.AnalyticsReportLogDaoStorage;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDao;
 import de.benjaminborbe.analytics.dao.AnalyticsReportValueDaoStorage;
 import de.benjaminborbe.analytics.service.AnalyticsServiceImpl;
+import de.benjaminborbe.configuration.tools.ConfigurationCache;
+import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
 
@@ -20,7 +22,7 @@ public class AnalyticsModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-
+		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
 		bind(AnalyticsConfig.class).to(AnalyticsConfigImpl.class).in(Singleton.class);
 		bind(AnalyticsReportLogDao.class).to(AnalyticsReportLogDaoStorage.class).in(Singleton.class);
 		bind(AnalyticsReportValueDao.class).to(AnalyticsReportValueDaoStorage.class).in(Singleton.class);

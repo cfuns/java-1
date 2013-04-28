@@ -1,6 +1,8 @@
 package de.benjaminborbe.confluence.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.configuration.tools.ConfigurationCache;
+import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.config.ConfluenceConfig;
 import de.benjaminborbe.confluence.config.ConfluenceConfigImpl;
@@ -21,6 +23,7 @@ public class ConfluenceModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
 		bind(ConfluenceConfig.class).to(ConfluenceConfigImpl.class).in(Singleton.class);
 		bind(ConfluencePageDao.class).to(ConfluencePageDaoStorage.class).in(Singleton.class);
 		bind(ConfluenceInstanceDao.class).to(ConfluenceInstanceDaoStorage.class).in(Singleton.class);

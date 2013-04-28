@@ -1,6 +1,8 @@
 package de.benjaminborbe.lunch.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.configuration.tools.ConfigurationCache;
+import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.lunch.api.LunchService;
 import de.benjaminborbe.lunch.config.LunchConfig;
 import de.benjaminborbe.lunch.config.LunchConfigImpl;
@@ -18,6 +20,7 @@ public class LunchModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
 		bind(LunchUserSettingsDao.class).to(LunchUserSettingsDaoStorage.class).in(Singleton.class);
 		bind(LunchWikiConnector.class).to(LunchWikiConnectorImpl.class).in(Singleton.class);
 		bind(LunchConfig.class).to(LunchConfigImpl.class).in(Singleton.class);

@@ -1,6 +1,8 @@
 package de.benjaminborbe.message.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.configuration.tools.ConfigurationCache;
+import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.config.MessageConfig;
 import de.benjaminborbe.message.config.MessageConfigImpl;
@@ -16,6 +18,7 @@ public class MessageModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
 		bind(MessageConfig.class).to(MessageConfigImpl.class).in(Singleton.class);
 		bind(MessageDao.class).to(MessageDaoStorage.class).in(Singleton.class);
 		bind(MessageService.class).to(MessageServiceImpl.class).in(Singleton.class);

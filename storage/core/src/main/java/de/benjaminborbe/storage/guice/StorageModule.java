@@ -2,6 +2,8 @@ package de.benjaminborbe.storage.guice;
 
 import com.google.inject.AbstractModule;
 import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.tools.ConfigurationCache;
+import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.config.ConfigurationServiceJndi;
 import de.benjaminborbe.storage.service.StorageServiceImpl;
@@ -18,6 +20,7 @@ public class StorageModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
 		bind(ConfigurationService.class).to(ConfigurationServiceJndi.class).in(Singleton.class);
 		bind(StorageConnectionPool.class).to(StorageConnectionPoolImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);

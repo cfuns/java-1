@@ -5,7 +5,7 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
-import de.benjaminborbe.lib.cache.CacheSimple;
+import de.benjaminborbe.lib.cache.Cache;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -14,11 +14,12 @@ public class ConfigurationServiceCache implements ConfigurationService {
 
 	private final ConfigurationService configurationService;
 
-	private final CacheSimple<ConfigurationDescription, String> cache = new CacheSimple<ConfigurationDescription, String>();
+	private final Cache<ConfigurationDescription, String> cache;
 
 	@Inject
-	public ConfigurationServiceCache(final ConfigurationService configurationService) {
+	public ConfigurationServiceCache(final ConfigurationService configurationService, ConfigurationCache configurationCache) {
 		this.configurationService = configurationService;
+		this.cache = configurationCache;
 	}
 
 	@Override

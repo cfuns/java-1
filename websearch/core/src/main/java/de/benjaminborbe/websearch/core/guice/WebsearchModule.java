@@ -1,6 +1,8 @@
 package de.benjaminborbe.websearch.core.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.configuration.tools.ConfigurationCache;
+import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.core.config.WebsearchConfig;
@@ -20,6 +22,7 @@ public class WebsearchModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
 		bind(WebsearchConfig.class).to(WebsearchConfigImpl.class).in(Singleton.class);
 		bind(WebsearchService.class).to(WebsearchServiceImpl.class).in(Singleton.class);
 		bind(WebsearchUpdateDeterminer.class).to(WebsearchUpdateDeterminerImpl.class).in(Singleton.class);
