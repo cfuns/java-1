@@ -151,9 +151,9 @@ public class MessageConsumerExchanger {
 		final long counter = message.getRetryCounter() != null ? message.getRetryCounter() : 0;
 		final long maxRetry = message.getMaxRetryCounter() != null ? message.getMaxRetryCounter() : MessageConstants.MAX_RETRY;
 		if (result) {
-			logger.debug("delete success processed message - type: " + message.getType() + " id: " + message.getId());
+			logger.trace("delete success processed message - type: " + message.getType() + " id: " + message.getId());
 			messageDao.delete(message);
-			logger.debug("result success => delete message");
+			logger.trace("result success => delete message");
 			track(analyticsReportIdentifierSuccess);
 		} else if (counter >= maxRetry) {
 			logger.info("delete message reached maxRetryCounter - type: " + message.getType() + " id: " + message.getId());
@@ -193,10 +193,10 @@ public class MessageConsumerExchanger {
 	private boolean lock(final MessageBean message) throws StorageException {
 		if (message.getLockTime() == null) {
 			final Calendar now = calendarUtil.now();
-			logger.debug("try lock message - lockName: " + messageLock.getLockName() + " lockTime: " + calendarUtil.toDateTimeString(now));
+			logger.trace("try lock message - lockName: " + messageLock.getLockName() + " lockTime: " + calendarUtil.toDateTimeString(now));
 			message.setLockName(messageLock.getLockName());
 			message.setLockTime(now);
-			logger.debug("lock message - type: " + message.getType() + " id: " + message.getId());
+			logger.trace("lock message - type: " + message.getType() + " id: " + message.getId());
 			messageDao.save(message, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME).add(MessageBeanMapper.LOCK_NAME));
 
 			try {
@@ -208,7 +208,7 @@ public class MessageConsumerExchanger {
 			messageDao.load(message, new StorageValueList(getEncoding()).add(MessageBeanMapper.LOCK_TIME));
 
 			if (messageLock.getLockName().equals(message.getLockName())) {
-				logger.debug("lock message success - id: " + message.getId());
+				logger.trace("lock message success - id: " + message.getId());
 				return true;
 			} else {
 				logger.debug("lock message failed - id: " + message.getId());
@@ -234,7 +234,7 @@ public class MessageConsumerExchanger {
 	private void exchange(final MessageBean message) throws StorageException {
 		final MessageConsumer messageConsumer = messageConsumerRegistry.get(message.getType());
 		if (messageConsumer != null) {
-			logger.debug("messageConsumer found for type: " + message.getType());
+			logger.trace("messageConsumer found for type: " + message.getType());
 			exchange(message, messageConsumer);
 		} else {
 			logger.warn("no messageConsumer found for type: " + message.getType());

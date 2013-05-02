@@ -42,11 +42,11 @@ public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean
 				logger.trace("url " + page.getId() + " is subpage");
 				// check age > EXPIRE
 				if (isExpired(time, page, pageConfigurations)) {
-					logger.debug("url " + page.getId() + " is expired");
+					logger.trace("url " + page.getId() + " is expired");
 
 					final long delay = getDelay(pageConfigurations);
 					try {
-						logger.debug("sleep: " + delay);
+						logger.trace("sleep: " + delay);
 						Thread.sleep(delay);
 					} catch (final InterruptedException e) {
 						// nop

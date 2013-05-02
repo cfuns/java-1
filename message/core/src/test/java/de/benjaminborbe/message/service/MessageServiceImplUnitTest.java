@@ -1,14 +1,14 @@
 package de.benjaminborbe.message.service;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.message.util.MessageLock;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 public class MessageServiceImplUnitTest {
 
@@ -16,16 +16,19 @@ public class MessageServiceImplUnitTest {
 	public void testGetLockName() throws Exception {
 		final String lockName = "testLock";
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier("sid");
-
-		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
-		authorizationService.expectAdminRole(sessionIdentifier);
-		EasyMock.replay(authorizationService);
-
 		final MessageLock messageLock = EasyMock.createMock(MessageLock.class);
-		EasyMock.expect(messageLock.getLockName()).andReturn(lockName);
-		EasyMock.replay(messageLock);
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
 
-		final MessageServiceImpl messageServiceImpl = new MessageServiceImpl(null, messageLock, null, null, null, null, null, null, authorizationService, null);
+		authorizationService.expectAdminRole(sessionIdentifier);
+		EasyMock.expect(messageLock.getLockName()).andReturn(lockName);
+
+		final Object[] mocks = new Object[]{logger, messageLock, authorizationService};
+		EasyMock.replay(mocks);
+
+		final MessageServiceImpl messageServiceImpl = new MessageServiceImpl(logger, messageLock, null, null, null, null, null, null, authorizationService, null);
 		assertThat(messageServiceImpl.getLockName(sessionIdentifier), is(lockName));
+
+		EasyMock.verify(mocks);
 	}
 }

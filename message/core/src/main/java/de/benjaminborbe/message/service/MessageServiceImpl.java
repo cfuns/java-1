@@ -95,6 +95,8 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public void sendMessage(final String type, final String id, final String content, final Calendar startTime) throws MessageServiceException {
 		try {
+			logger.debug("sendMessage with type: " + type + " and id: " + id);
+
 			final MessageIdentifier messageIdentifier = new MessageIdentifier(type + "_" + id);
 			if (messageDao.exists(messageIdentifier)) {
 				logger.trace("message already exists => skip");
@@ -141,6 +143,9 @@ public class MessageServiceImpl implements MessageService {
 	public boolean unlockExpiredMessages(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, MessageServiceException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+
+			logger.debug("unlock expired messages");
+
 			return messageUnlock.execute();
 		} catch (final AuthorizationServiceException e) {
 			throw new MessageServiceException(e);
@@ -151,6 +156,9 @@ public class MessageServiceImpl implements MessageService {
 	public String getLockName(final SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+
+			logger.debug("get lockName");
+
 			return messageLock.getLockName();
 		} catch (final AuthorizationServiceException e) {
 			throw new MessageServiceException(e);
@@ -164,6 +172,8 @@ public class MessageServiceImpl implements MessageService {
 	) throws MessageServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+
+			logger.debug("delete message with type: " + type);
 
 			final IdentifierIterator<MessageIdentifier> i = messageDao.getIdentifierIteratorForUser(type);
 			while (i.hasNext()) {
@@ -179,6 +189,8 @@ public class MessageServiceImpl implements MessageService {
 	public Collection<Message> getMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+
+			logger.debug("getMessages");
 
 			final List<Message> result = new ArrayList<>();
 			final EntityIterator<MessageBean> i = messageDao.getEntityIterator();
@@ -201,6 +213,8 @@ public class MessageServiceImpl implements MessageService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
+			logger.debug("deleteById - message: " + messageIdentifier);
+
 			messageDao.delete(messageIdentifier);
 		} catch (final AuthorizationServiceException | StorageException e) {
 			throw new MessageServiceException(e);
@@ -216,6 +230,7 @@ public class MessageServiceImpl implements MessageService {
 	public boolean exchangeMessages(final SessionIdentifier sessionIdentifier) throws MessageServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
+			logger.debug("exchangeMessages");
 
 			messageConsumerExchangerProvider.get().exchange();
 			return true;

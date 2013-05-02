@@ -46,9 +46,10 @@ public class WebsearchParseLinks {
 		for (final String link : links) {
 			try {
 				if (isValidLink(link)) {
-					final URL url = buildUrl(result.getUrl(), link.trim());
-					logger.trace("found link to: " + url.toExternalForm() + " in " + result.getUrl());
-					pageDao.findOrCreate(url);
+					final URL resultUrl = result.getUrl();
+					final URL targetUrl = buildUrl(resultUrl, link.trim());
+					logger.trace("found link to: " + targetUrl.toExternalForm() + " in " + resultUrl);
+					pageDao.findOrCreate(targetUrl);
 				}
 			} catch (MalformedURLException | StorageException | ParseException e) {
 				logger.debug(e.getClass().getName(), e);
