@@ -42,7 +42,7 @@ public class WebsearchPageContentUpdateHandler {
 
 	protected boolean isHtmlPage(final HttpResponse result) {
 		if (result.getReturnCode() == null || result.getReturnCode() != HttpURLConnection.HTTP_OK) {
-			logger.warn("result not available for url: " + result.getUrl() + " returnCode: " + result.getReturnCode());
+			logger.trace("result not available for url: " + result.getUrl() + " returnCode: " + result.getReturnCode());
 			return false;
 		}
 		if (!httpUtil.isHtml(result.getHeader())) {

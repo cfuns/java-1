@@ -21,7 +21,7 @@ public class WebsearchRefresher {
 		@Override
 		public void run() {
 			try {
-				logger.debug("refresh pages started");
+				logger.trace("refresh pages started");
 				final EntityIterator<WebsearchPageBean> i = updateDeterminer.determineExpiredPages();
 				int counter = 0;
 				while (i.hasNext()) {
@@ -46,7 +46,7 @@ public class WebsearchRefresher {
 						logger.error(e.getClass().getSimpleName(), e);
 					}
 				}
-				logger.debug("refresh pages finished");
+				logger.trace("refresh pages finished");
 			} catch (final Exception e) {
 				logger.error(e.getClass().getSimpleName(), e);
 			}
@@ -83,12 +83,12 @@ public class WebsearchRefresher {
 	}
 
 	public boolean refresh() {
-		logger.debug("websearch refresh - started");
+		logger.trace("websearch refresh - started");
 		if (runOnlyOnceATime.run(new RefreshPages())) {
-			logger.debug("websearch refresh - finished");
+			logger.trace("websearch refresh - finished");
 			return true;
 		} else {
-			logger.debug("websearch refresh - skipped");
+			logger.trace("websearch refresh - skipped");
 			return false;
 		}
 	}
