@@ -41,10 +41,8 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Export-Package>de.benjaminborbe.crawler.api.*</Export-Package>
 						<Bundle-Activator></Bundle-Activator>
 						<Private-Package>de.benjaminborbe.crawler.*</Private-Package>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
 						<Bundle-Name>${project.name}</Bundle-Name>
@@ -53,6 +51,10 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
+						<Import-Package>${felix_plugin_imports}</Import-Package>
+						<Import-Service></Import-Service>
+						<Export-Package>de.benjaminborbe.crawler.api.*</Export-Package>
+						<Export-Service></Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>
