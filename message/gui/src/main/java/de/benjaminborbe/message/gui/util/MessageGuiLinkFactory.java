@@ -22,7 +22,7 @@ public class MessageGuiLinkFactory {
 	}
 
 	public Widget deleteByType(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
-		return new LinkRelativWidget(urlUtil, request, "/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_DELETE, new MapParameter(), "delete by type");
+		return new LinkRelativWidget(urlUtil, request, "/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_DELETE_BY_TYPE, new MapParameter(), "delete by type");
 	}
 
 	public Widget deleteMessage(

@@ -34,8 +34,8 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 	@Override
 	public HttpResponse get(final HttpRequest httpRequest) throws HttpdownloaderServiceException {
 		try {
-			logger.debug("execute");
 			final URL url = httpRequest.getUrl();
+			logger.debug("get url: " + url);
 			final HttpDownloadResult httpDownloadResult = httpDownloader.getUrl(url, httpRequest.getTimeout());
 
 			final HttpResponseDto httpResponse = new HttpResponseDto();

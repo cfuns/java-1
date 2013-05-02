@@ -15,6 +15,7 @@ import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperByteArray;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperInteger;
+import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperUrl;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
@@ -62,8 +63,9 @@ public class WebsearchPageDaoStorageUnitTest {
 		final MapperByteArray mapperByteArray = new MapperByteArray(base64Util);
 		final MapperHttpHeader mapperHttpHeader = new MapperHttpHeader();
 		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
+		final MapperLong mapperLong = new MapperLong(parseUtil);
 		final MapperHttpContent mapperHttpContent = new MapperHttpContent(mapperByteArray);
-		final WebsearchPageBeanMapper websearchPageBeanMapper = new WebsearchPageBeanMapper(provider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperHttpHeader, mapperInteger, mapperHttpContent);
+		final WebsearchPageBeanMapper websearchPageBeanMapper = new WebsearchPageBeanMapper(provider, mapperCalendar, mapperWebsearchPageIdentifier, mapperUrl, mapperHttpHeader, mapperInteger, mapperHttpContent, mapperLong);
 		final WebsearchPageIdentifierBuilder websearchPageIdentifierBuilder = null;
 
 		final TimeZone timeZone = timeZoneUtil.getUTCTimeZone();

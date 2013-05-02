@@ -57,7 +57,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 
 	protected void crawleDomain(final URL url, final int timeout) throws CrawlerException {
 		try {
-			logger.debug("crawle domain: " + url + " started");
+			logger.trace("crawle domain: " + url + " started");
 
 			final HttpRequestDto httpRequestDto = new HttpRequestDto();
 			httpRequestDto.setUrl(url);
@@ -67,7 +67,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 
 			logger.debug("url: " + url + " contentType: " + httpUtil.getContentType(httpResponse.getHeader()) + " returnCode: " + httpResponse.getReturnCode());
 			crawlerNotifier.notifiy(httpResponse);
-			logger.debug("crawle domain: " + url + " finished");
+			logger.trace("crawle domain: " + url + " finished");
 			track();
 		} catch (HttpdownloaderServiceException e) {
 			throw new CrawlerException(e);

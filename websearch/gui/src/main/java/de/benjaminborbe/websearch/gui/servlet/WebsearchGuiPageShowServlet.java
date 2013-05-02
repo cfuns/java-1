@@ -16,6 +16,7 @@ import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.api.WebsearchPage;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
@@ -33,6 +34,7 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
@@ -59,6 +61,8 @@ public class WebsearchGuiPageShowServlet extends WebsiteHtmlServlet {
 
 	private final WebsearchGuiLinkFactory websearchGuiLinkFactory;
 
+	private final ComparatorUtil comparatorUtil;
+
 	@Inject
 	public WebsearchGuiPageShowServlet(
 		final Logger logger,
@@ -73,7 +77,8 @@ public class WebsearchGuiPageShowServlet extends WebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final CacheService cacheService,
 		final WebsearchService webseachService,
-		final WebsearchGuiLinkFactory websearchGuiLinkFactory
+		final WebsearchGuiLinkFactory websearchGuiLinkFactory,
+		final ComparatorUtil comparatorUtil
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
@@ -82,6 +87,7 @@ public class WebsearchGuiPageShowServlet extends WebsiteHtmlServlet {
 		this.authenticationService = authenticationService;
 		this.webseachService = webseachService;
 		this.websearchGuiLinkFactory = websearchGuiLinkFactory;
+		this.comparatorUtil = comparatorUtil;
 	}
 
 	@Override
@@ -108,27 +114,35 @@ public class WebsearchGuiPageShowServlet extends WebsiteHtmlServlet {
 
 				{
 					widgets.add(new H2Widget("Infos:"));
-					UlWidget ul = new UlWidget();
+					final UlWidget ul = new UlWidget();
 					ul.add("Url: " + websearchPage.getUrl());
 					ul.add("ReturnCode: " + websearchPage.getReturnCode());
 					ul.add("LastVisit: " + calendarUtil.toDateTimeString(websearchPage.getLastVisit()));
 					ul.add("Duration: " + websearchPage.getDuration());
 					widgets.add(ul);
 				}
-
-				widgets.add(new H2Widget("Headers:"));
-				HttpHeader header = websearchPage.getHeader();
-				if (header == null) {
-					widgets.add("-");
-				} else {
-					UlWidget ul = new UlWidget();
-					for (String key : header.getKeys()) {
-						ul.add(key + " = " + StringUtils.join(header.getValues(key), ","));
+				{
+					widgets.add(new H2Widget("Headers:"));
+					final HttpHeader header = websearchPage.getHeader();
+					if (header == null) {
+						widgets.add("-");
+					} else {
+						final UlWidget ul = new UlWidget();
+						for (final String key : comparatorUtil.sort(header.getKeys())) {
+							ul.add(key + " = " + StringUtils.join(header.getValues(key), ","));
+						}
+						widgets.add(ul);
 					}
-					widgets.add(ul);
 				}
-
-				widgets.add(websearchGuiLinkFactory.pageContent(request, websearchPageIdentifier));
+				{
+					widgets.add(new H2Widget("Options:"));
+					widgets.add(websearchGuiLinkFactory.pageContent(request, websearchPageIdentifier));
+					widgets.add(new BrWidget());
+					widgets.add(websearchGuiLinkFactory.pageExpire(request, websearchPageIdentifier));
+					widgets.add(new BrWidget());
+					widgets.add(websearchGuiLinkFactory.pageRefresh(request, websearchPageIdentifier));
+					widgets.add(new BrWidget());
+				}
 			}
 
 			final FormWidget formWidget = new FormWidget();

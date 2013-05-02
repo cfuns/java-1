@@ -6,17 +6,15 @@ public interface MessageGuiConstants {
 
 	String URL_UNLOCK = "/unlock";
 
-	String URL_HOME = "/";
-
 	String PARAMETER_MESSAGE_TYPE = "message_type";
 
-	String URL_DELETE = "/delete";
+	String URL_MESSAGE_LIST = "/";
 
-	String URL_MESSAGE_LIST = "/message/list";
-
-	String URL_MESSAGE_DELETE = "/message/delete";
+	String URL_MESSAGE_DELETE = "/delete";
 
 	String PARAMETER_MESSAGE_ID = "message_id";
 
-	String URL_MESSAGE_EXCHANGE = "/message/exchange";
+	String URL_MESSAGE_EXCHANGE = "/exchange";
+
+	String URL_DELETE_BY_TYPE = "/deleteByType";
 }

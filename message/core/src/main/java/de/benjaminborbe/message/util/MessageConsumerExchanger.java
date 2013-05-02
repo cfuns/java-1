@@ -104,14 +104,14 @@ public class MessageConsumerExchanger {
 
 	public boolean exchange() {
 		try {
-			logger.debug("exchange message - started");
+			logger.trace("exchange message - started");
 			final IdentifierIterator<MessageIdentifier> i = messageDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				final MessageIdentifier messageIdentifier = i.next();
-				logger.debug("exchange message - id: " + messageIdentifier);
+				logger.trace("exchange message - id: " + messageIdentifier);
 				runOnlyOnceATimeByType.run(String.valueOf(messageIdentifier), new ExchangeMessage(messageIdentifier));
 			}
-			logger.debug("exchange message - finished");
+			logger.trace("exchange message - finished");
 			return true;
 		} catch (final StorageException | IdentifierIteratorException e) {
 			logger.warn(e.getClass().getName(), e);
@@ -125,20 +125,20 @@ public class MessageConsumerExchanger {
 			if (startTime != null) {
 				final Calendar now = calendarUtil.now();
 				if (startTime.getTimeInMillis() > now.getTimeInMillis()) {
-					logger.debug("startTime not reached " + startTime.getTimeInMillis() + " > " + now.getTimeInMillis() + " => skip");
+					logger.trace("startTime not reached " + startTime.getTimeInMillis() + " > " + now.getTimeInMillis() + " => skip");
 					return;
 				} else {
-					logger.debug("startTime reached " + startTime.getTimeInMillis() + " <= " + now.getTimeInMillis());
+					logger.trace("startTime reached " + startTime.getTimeInMillis() + " <= " + now.getTimeInMillis());
 				}
 			} else {
-				logger.debug("startTime not defined");
+				logger.trace("startTime not defined");
 			}
 		}
 
 		boolean result;
 		try {
 			if (lock(message)) {
-				logger.debug("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
+				logger.trace("process message - type: " + message.getType() + " retryCounter: " + message.getRetryCounter());
 				result = messageConsumer.process(message);
 			} else {
 				logger.debug("lock message failed => skip");
@@ -174,7 +174,7 @@ public class MessageConsumerExchanger {
 					.add(MessageBeanMapper.START_TIME));
 			track(analyticsReportIdentifierRetry);
 		}
-		logger.debug("process message done");
+		logger.trace("process message done");
 	}
 
 	private Calendar calcStartTime(final long retryCounter) {

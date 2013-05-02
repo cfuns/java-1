@@ -28,8 +28,10 @@ import de.benjaminborbe.website.table.TableRowWidget;
 import de.benjaminborbe.website.table.TableWidget;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.JavascriptResourceImpl;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
 import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
@@ -46,7 +48,7 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Message - List";
+	private static final String TITLE = "Messages";
 
 	private final MessageService messageService;
 
@@ -121,6 +123,13 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 					table.addRow(row);
 				}
 				widgets.add(table);
+
+				widgets.add(new H2Widget("Options"));
+				final UlWidget ul = new UlWidget();
+				ul.add(messageGuiLinkFactory.deleteByType(request));
+				ul.add(messageGuiLinkFactory.unlockExpiredMessage(request));
+				ul.add(messageGuiLinkFactory.exchangeMessages(request));
+				widgets.add(ul);
 
 			}
 			return widgets;

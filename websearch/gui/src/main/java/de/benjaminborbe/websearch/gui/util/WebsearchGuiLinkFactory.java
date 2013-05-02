@@ -7,6 +7,7 @@ import de.benjaminborbe.websearch.api.WebsearchConfigurationIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import de.benjaminborbe.websearch.gui.WebsearchGuiConstants;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+import de.benjaminborbe.website.util.Target;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -89,12 +90,12 @@ public class WebsearchGuiLinkFactory {
 			new MapParameter(), "show");
 	}
 
-	public LinkRelativWidget pageContent(
+	public Widget pageContent(
 		final HttpServletRequest request,
 		final WebsearchPageIdentifier websearchPageIdentifier
 	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_PAGE_CONTENT,
 			new MapParameter().add(WebsearchGuiConstants.PARAMETER_PAGE_ID, String.valueOf(websearchPageIdentifier)),
-			"show page " + websearchPageIdentifier.getId());
+			"page content").addTarget(Target.BLANK);
 	}
 }

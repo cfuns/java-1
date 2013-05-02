@@ -16,48 +16,46 @@ import java.util.Calendar;
 public class WebsearchCrawlerNotifyUnitTest {
 
 	@Test
-	public void testNotify() throws Exception {
-		final String urlString = "http://www.benjamin-borbe.de";
-		final URL url = new URL(urlString);
-
-		final Calendar calendar = EasyMock.createMock(Calendar.class);
-		EasyMock.replay(calendar);
-
-		final Logger logger = EasyMock.createNiceMock(Logger.class);
-		EasyMock.replay(logger);
-
-		final CalendarUtil calendarUtil = EasyMock.createMock(CalendarUtil.class);
-		EasyMock.expect(calendarUtil.now()).andReturn(calendar);
-		EasyMock.replay(calendarUtil);
-
-		final HttpHeader header = EasyMock.createMock(HttpHeader.class);
-		EasyMock.replay(header);
-
-		final HttpContent content = EasyMock.createMock(HttpContent.class);
-		EasyMock.replay(content);
-
+	public void testPageAttributes() throws Exception {
+		final URL url = new URL("http://www.benjamin-borbe.de");
 		final Integer returnCode = 1337;
-
-		final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
-		EasyMock.expect(httpResponse.getUrl()).andReturn(url).anyTimes();
-		EasyMock.expect(httpResponse.getHeader()).andReturn(header).anyTimes();
-		EasyMock.expect(httpResponse.getContent()).andReturn(content).anyTimes();
-		EasyMock.expect(httpResponse.getReturnCode()).andReturn(returnCode).anyTimes();
-		EasyMock.replay(httpResponse);
-
-		final WebsearchPageBean websearchPageBean = EasyMock.createMock(WebsearchPageBean.class);
-		websearchPageBean.setLastVisit(calendar);
-		websearchPageBean.setHeader(header);
-		websearchPageBean.setContent(content);
-		websearchPageBean.setReturnCode(1337);
-		EasyMock.replay(websearchPageBean);
-
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		final CalendarUtil calendarUtil = EasyMock.createMock(CalendarUtil.class);
 		final WebsearchPageDao websearchPageDao = EasyMock.createMock(WebsearchPageDao.class);
+		final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
+		final WebsearchPageBean websearchPageBean = EasyMock.createMock(WebsearchPageBean.class);
+		final Calendar calendar = EasyMock.createMock(Calendar.class);
+		final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
+		final HttpContent httpContent = EasyMock.createMock(HttpContent.class);
+		final Long duration = 23L;
+
 		EasyMock.expect(websearchPageDao.findOrCreate(url)).andReturn(websearchPageBean);
+		EasyMock.expect(httpResponse.getUrl()).andReturn(url).times(2);
+
+		EasyMock.expect(httpResponse.getReturnCode()).andReturn(returnCode);
+		websearchPageBean.setReturnCode(returnCode);
+
+		EasyMock.expect(httpResponse.getHeader()).andReturn(httpHeader);
+		websearchPageBean.setHeader(httpHeader);
+
+		EasyMock.expect(httpResponse.getContent()).andReturn(httpContent);
+		websearchPageBean.setContent(httpContent);
+
+		EasyMock.expect(httpResponse.getDuration()).andReturn(duration);
+		websearchPageBean.setDuration(duration);
+
+		EasyMock.expect(calendarUtil.now()).andReturn(calendar);
+		websearchPageBean.setLastVisit(calendar);
+
 		websearchPageDao.save(websearchPageBean);
-		EasyMock.replay(websearchPageDao);
+
+		final Object[] mocks = new Object[]{logger, calendarUtil, websearchPageDao, httpResponse, websearchPageBean, calendar, httpHeader};
+
+		EasyMock.replay(mocks);
 
 		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, calendarUtil, websearchPageDao);
 		websearchCrawlerNotify.notifiy(httpResponse);
+
+		EasyMock.verify(mocks);
 	}
 }

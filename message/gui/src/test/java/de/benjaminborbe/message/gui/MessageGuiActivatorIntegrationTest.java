@@ -43,9 +43,8 @@ public class MessageGuiActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		final List<String> paths = new ArrayList<>();
-		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_HOME);
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_UNLOCK);
-		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_DELETE);
+		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_DELETE_BY_TYPE);
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_LIST);
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_DELETE);
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_EXCHANGE);

@@ -32,21 +32,22 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	@Override
-	public void notifiy(final HttpResponse result) {
+	public void notifiy(final HttpResponse httpResponse) {
 		try {
-			logger.trace("notify " + result.getUrl());
-			updateLastVisit(result);
+			logger.trace("notify " + httpResponse.getUrl());
+			updateLastVisit(httpResponse);
 		} catch (final StorageException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
 
-	private void updateLastVisit(final HttpResponse result) throws StorageException {
-		final WebsearchPageBean page = pageDao.findOrCreate(result.getUrl());
+	private void updateLastVisit(final HttpResponse httpResponse) throws StorageException {
+		final WebsearchPageBean page = pageDao.findOrCreate(httpResponse.getUrl());
 		page.setLastVisit(calendarUtil.now());
-		page.setHeader(result.getHeader());
-		page.setContent(result.getContent());
-		page.setReturnCode(result.getReturnCode());
+		page.setHeader(httpResponse.getHeader());
+		page.setContent(httpResponse.getContent());
+		page.setReturnCode(httpResponse.getReturnCode());
+		page.setDuration(httpResponse.getDuration());
 		pageDao.save(page);
 	}
 }
