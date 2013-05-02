@@ -40,4 +40,9 @@ public class ProxyLineParser {
 			return parseUtil.parseInt(line.substring(pos2 + 1));
 		}
 	}
+
+	public String parseUrl(final String line) {
+		int pos = line.indexOf(" ");
+		return line.substring(pos + 1);
+	}
 }

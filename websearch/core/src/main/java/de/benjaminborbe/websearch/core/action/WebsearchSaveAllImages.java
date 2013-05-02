@@ -25,7 +25,7 @@ public class WebsearchSaveAllImages {
 	private final Md5Util md5Util;
 
 	@Inject
-	public WebsearchSaveAllImages(Logger logger, final WebsearchPageDao websearchPageDao, Md5Util md5Util) {
+	public WebsearchSaveAllImages(final Logger logger, final WebsearchPageDao websearchPageDao, final Md5Util md5Util) {
 		this.logger = logger;
 		this.websearchPageDao = websearchPageDao;
 		this.md5Util = md5Util;
@@ -49,19 +49,19 @@ public class WebsearchSaveAllImages {
 	private void saveImage(final WebsearchPageBean websearchPageBean) throws NoSuchAlgorithmException, IOException {
 		if (isJpeg(websearchPageBean)) {
 			logger.debug("save image of page " + websearchPageBean.getUrl());
-			byte[] content = websearchPageBean.getContent().getContent();
-			File filename = buildFile(content);
+			final byte[] content = websearchPageBean.getContent().getContent();
+			final File filename = buildFile(content);
 			saveJpeg(filename, content);
 		}
 	}
 
-	private void saveJpeg(File file, final byte[] content) throws NoSuchAlgorithmException, IOException {
+	private void saveJpeg(final File file, final byte[] content) throws NoSuchAlgorithmException, IOException {
 		final FileOutputStream outputStream = new FileOutputStream(file);
 		outputStream.write(content);
 		outputStream.close();
 	}
 
-	private File buildFile(byte[] content) throws NoSuchAlgorithmException {
+	private File buildFile(final byte[] content) throws NoSuchAlgorithmException {
 		return new File("/tmp/" + new String(Hex.encodeHex(md5Util.getMd5(content))) + ".jpg");
 	}
 

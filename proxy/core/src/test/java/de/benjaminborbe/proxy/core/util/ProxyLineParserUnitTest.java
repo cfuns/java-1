@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ProxyUtilUnitTest {
+public class ProxyLineParserUnitTest {
 
 	@Test
 	public void testParseHostname() throws Exception {
@@ -27,6 +27,13 @@ public class ProxyUtilUnitTest {
 		assertThat(proxyLineParser.parsePort("GET http://www.benjamin-borbe.de"), is(80));
 		assertThat(proxyLineParser.parsePort("GET http://www.benjamin-borbe.de:81/bb"), is(81));
 		assertThat(proxyLineParser.parsePort("GET http://www.benjamin-borbe.de:81"), is(81));
+	}
+
+	@Test
+	public void testGetUrl() {
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final ProxyLineParser proxyLineParser = new ProxyLineParser(parseUtil);
+		assertThat(proxyLineParser.parseUrl("GET http://www.benjamin-borbe.de/bb"), is("http://www.benjamin-borbe.de/bb"));
 	}
 
 }

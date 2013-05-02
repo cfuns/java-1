@@ -426,7 +426,7 @@ public class PokerServiceImplIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
 		final PokerConfig config = injector.getInstance(PokerConfig.class);
-		ConfigurationServiceCache configurationServiceCache = injector.getInstance(ConfigurationServiceCache.class);
+		final ConfigurationServiceCache configurationServiceCache = injector.getInstance(ConfigurationServiceCache.class);
 		final PokerService service = injector.getInstance(PokerService.class);
 
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
@@ -471,7 +471,7 @@ public class PokerServiceImplIntegrationTest {
 	public void testBidNegativeCredits() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final PokerService service = injector.getInstance(PokerService.class);
-		ConfigurationServiceCache configurationServiceCache = injector.getInstance(ConfigurationServiceCache.class);
+		final ConfigurationServiceCache configurationServiceCache = injector.getInstance(ConfigurationServiceCache.class);
 		final PokerConfig config = injector.getInstance(PokerConfig.class);
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
 

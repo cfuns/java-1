@@ -51,7 +51,7 @@ public class WebsearchGuiPageContentServlet extends WebsiteServlet {
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
-		final WebsearchService websearchService, StreamUtil streamUtil
+		final WebsearchService websearchService, final StreamUtil streamUtil
 	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;

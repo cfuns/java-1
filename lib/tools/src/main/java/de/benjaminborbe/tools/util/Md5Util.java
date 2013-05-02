@@ -10,8 +10,8 @@ public class Md5Util {
 	public Md5Util() {
 	}
 
-	public byte[] getMd5(byte[] content) throws NoSuchAlgorithmException {
-		MessageDigest md = MessageDigest.getInstance("MD5");
+	public byte[] getMd5(final byte[] content) throws NoSuchAlgorithmException {
+		final MessageDigest md = MessageDigest.getInstance("MD5");
 		return md.digest(content);
 	}
 }

@@ -89,7 +89,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 		final CrawlerService crawlerService,
 		final WebsearchConfigurationDao websearchConfigurationDao,
 		final DurationUtil durationUtil,
-		WebsearchSaveAllImages saveAllImages
+		final WebsearchSaveAllImages saveAllImages
 	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;

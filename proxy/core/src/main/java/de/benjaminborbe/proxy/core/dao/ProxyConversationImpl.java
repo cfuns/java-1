@@ -4,6 +4,8 @@ import de.benjaminborbe.proxy.api.ProxyContent;
 import de.benjaminborbe.proxy.api.ProxyConversation;
 import de.benjaminborbe.proxy.api.ProxyConversationIdentifier;
 
+import java.net.URL;
+
 public class ProxyConversationImpl implements ProxyConversation {
 
 	private final ProxyConversationIdentifier id;
@@ -11,6 +13,8 @@ public class ProxyConversationImpl implements ProxyConversation {
 	private final ProxyContent response;
 
 	private final ProxyContent request;
+
+	private URL url;
 
 	public ProxyConversationImpl(
 		final ProxyConversationIdentifier id,
@@ -35,5 +39,13 @@ public class ProxyConversationImpl implements ProxyConversation {
 	@Override
 	public ProxyConversationIdentifier getId() {
 		return id;
+	}
+
+	public void setUrl(final URL url) {
+		this.url = url;
+	}
+
+	public URL getUrl() {
+		return url;
 	}
 }

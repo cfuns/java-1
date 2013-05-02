@@ -60,7 +60,7 @@ public class ConfigurationServiceCacheUnitTest {
 	public void testgetConfigurationValue() throws Exception {
 		final String value = "value";
 		final ConfigurationService configurationService = EasyMock.createMock(ConfigurationService.class);
-		ConfigurationDescription configurationDescription = EasyMock.createMock(ConfigurationDescription.class);
+		final ConfigurationDescription configurationDescription = EasyMock.createMock(ConfigurationDescription.class);
 		final ConfigurationCache configurationCache = EasyMock.createMock(ConfigurationCache.class);
 		EasyMock.expect(configurationCache.get(configurationDescription)).andReturn(null);
 		EasyMock.expect(configurationService.getConfigurationValue(configurationDescription)).andReturn(value);

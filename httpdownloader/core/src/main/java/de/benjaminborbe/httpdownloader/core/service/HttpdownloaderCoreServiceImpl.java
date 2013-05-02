@@ -49,7 +49,7 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 		return download(httpRequest, httpdownloaderGetSecure);
 	}
 
-	private HttpResponse download(HttpRequest httpRequest, HttpdownloaderGet httpdownloaderGet) throws HttpdownloaderServiceException {
+	private HttpResponse download(final HttpRequest httpRequest, final HttpdownloaderGet httpdownloaderGet) throws HttpdownloaderServiceException {
 		try {
 			final URL url = httpRequest.getUrl();
 			logger.debug("download url: " + url);

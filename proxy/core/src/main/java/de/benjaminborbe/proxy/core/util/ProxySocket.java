@@ -1,15 +1,14 @@
 package de.benjaminborbe.proxy.core.util;
 
-import de.benjaminborbe.proxy.api.ProxyConversation;
 import de.benjaminborbe.proxy.api.ProxyConversationIdentifier;
 import de.benjaminborbe.proxy.core.dao.ProxyContentImpl;
 import de.benjaminborbe.proxy.core.dao.ProxyConversationImpl;
-import de.benjaminborbe.proxy.core.dao.ProxyCoreConversationDao;
 import de.benjaminborbe.tools.stream.InputStreamCopy;
 import de.benjaminborbe.tools.stream.OutputStreamCopy;
 import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.RandomUtil;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import org.slf4j.Logger;
@@ -32,6 +31,8 @@ public class ProxySocket {
 
 	private final Logger logger;
 
+	private final ParseUtil parseUtil;
+
 	private final ProxyLineReader proxyLineReader;
 
 	private final ProxyLineParser proxyLineParser;
@@ -40,33 +41,34 @@ public class ProxySocket {
 
 	private final StreamUtil streamUtil;
 
-	private final ProxyCoreConversationDao proxyCoreConversationDao;
-
 	private final RandomUtil randomUtil;
 
 	private final IdGeneratorUUID idGenerator;
+
+	private final ProxyConversationNotifier proxyConversationNotifier;
 
 	private ServerSocket serverSocket = null;
 
 	@Inject
 	public ProxySocket(
 		final Logger logger,
+		final ParseUtil parseUtil,
 		final ProxyLineReader proxyLineReader,
 		final ProxyLineParser proxyLineParser,
 		final ThreadRunner threadRunner,
 		final StreamUtil streamUtil,
-		final ProxyCoreConversationDao proxyCoreConversationDao,
 		final RandomUtil randomUtil,
-		final IdGeneratorUUID idGenerator
+		final IdGeneratorUUID idGenerator, final ProxyConversationNotifier proxyConversationNotifier
 	) {
 		this.logger = logger;
+		this.parseUtil = parseUtil;
 		this.proxyLineReader = proxyLineReader;
 		this.proxyLineParser = proxyLineParser;
 		this.threadRunner = threadRunner;
 		this.streamUtil = streamUtil;
-		this.proxyCoreConversationDao = proxyCoreConversationDao;
 		this.randomUtil = randomUtil;
 		this.idGenerator = idGenerator;
+		this.proxyConversationNotifier = proxyConversationNotifier;
 	}
 
 	public void start() {
@@ -159,14 +161,14 @@ public class ProxySocket {
 					logger.trace("start");
 					final ProxyContentImpl requestContent = new ProxyContentImpl();
 					final ProxyContentImpl responseContent = new ProxyContentImpl();
-					final ProxyConversation proxyConversation = new ProxyConversationImpl(createNewId(), requestContent, responseContent);
-					proxyCoreConversationDao.add(proxyConversation);
+					final ProxyConversationImpl proxyConversation = new ProxyConversationImpl(createNewId(), requestContent, responseContent);
 
 					final InputStream clientInputStream = clientSocket.getInputStream();
 					final String line = proxyLineReader.readLine(clientInputStream);
 					logger.info("proxy-request: " + line);
 					final String header = readHeader(clientInputStream);
 					logger.trace("header parsed");
+					proxyConversation.setUrl(parseUtil.parseURL(proxyLineParser.parseUrl(line)));
 
 					final Socket remoteSocket = new Socket(proxyLineParser.parseHostname(line), proxyLineParser.parsePort(line));
 					final OutputStream remoteOutputStream = new OutputStreamCopy(remoteSocket.getOutputStream(), requestContent.getOutputStream());
@@ -180,9 +182,10 @@ public class ProxySocket {
 					final OutputStream clientOutputStream = clientSocket.getOutputStream();
 					streamUtil.copy(remoteInputStream, clientOutputStream);
 
+					proxyConversationNotifier.onProxyConversationCompleted(proxyConversation);
 					logger.trace("done");
 				} catch (IOException | ParseException e) {
-					logger.trace(e.getClass().getName(), e);
+					logger.debug(e.getClass().getName(), e);
 				} finally {
 					try {
 						clientSocket.close();
