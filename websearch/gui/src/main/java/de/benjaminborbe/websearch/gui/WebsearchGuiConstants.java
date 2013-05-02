@@ -43,4 +43,6 @@ public interface WebsearchGuiConstants {
 	String URL_PAGE_SHOW = "/page/show";
 
 	String URL_PAGE_CONTENT = "/page/content";
+
+	String URL_SAVE_ALL_IMAGES = "/page/images/save";
 }

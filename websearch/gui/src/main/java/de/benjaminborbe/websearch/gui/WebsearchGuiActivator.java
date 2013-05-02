@@ -18,6 +18,7 @@ import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshAllServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageShowServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiSaveAllImagesServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
 import org.osgi.framework.BundleContext;
 
@@ -27,6 +28,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class WebsearchGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private WebsearchGuiSaveAllImagesServlet websearchGuiSaveAllImagesServlet;
 
 	@Inject
 	private WebsearchGuiPageContentServlet websearchGuiPageContentServlet;
@@ -91,6 +95,7 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(websearchGuiConfigurationUpdateServlet, WebsearchGuiConstants.URL_CONFIGURATION_UPDATE));
 		result.add(new ServletInfo(websearchGuiPageContentServlet, WebsearchGuiConstants.URL_PAGE_CONTENT));
 		result.add(new ServletInfo(websearchGuiPageShowServlet, WebsearchGuiConstants.URL_PAGE_SHOW));
+		result.add(new ServletInfo(websearchGuiSaveAllImagesServlet, WebsearchGuiConstants.URL_SAVE_ALL_IMAGES));
 		return result;
 	}
 

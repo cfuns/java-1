@@ -5,6 +5,8 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 
 public interface WebsearchService extends WebsearchServicePage, WebsearchServiceConfiguration {
 
+	void saveImages(SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
+
 	void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
 
 	void clearIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;

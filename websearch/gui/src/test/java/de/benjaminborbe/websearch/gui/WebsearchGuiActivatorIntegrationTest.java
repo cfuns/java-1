@@ -55,6 +55,7 @@ public class WebsearchGuiActivatorIntegrationTest {
 		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_UPDATE);
 		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_PAGE_SHOW);
 		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_PAGE_CONTENT);
+		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_SAVE_ALL_IMAGES);
 
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {

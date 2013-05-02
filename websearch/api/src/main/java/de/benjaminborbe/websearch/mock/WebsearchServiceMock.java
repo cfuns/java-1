@@ -18,6 +18,10 @@ import java.util.List;
 public class WebsearchServiceMock implements WebsearchService {
 
 	@Override
+	public void saveImages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
+	}
+
+	@Override
 	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
 	}
 

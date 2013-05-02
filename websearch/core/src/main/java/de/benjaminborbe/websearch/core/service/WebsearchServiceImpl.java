@@ -31,6 +31,7 @@ import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.api.WebsearchServiceException;
 import de.benjaminborbe.websearch.core.WebsearchConstants;
+import de.benjaminborbe.websearch.core.action.WebsearchSaveAllImages;
 import de.benjaminborbe.websearch.core.dao.WebsearchConfigurationBean;
 import de.benjaminborbe.websearch.core.dao.WebsearchConfigurationDao;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
@@ -60,6 +61,8 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 	private final DurationUtil durationUtil;
 
+	private final WebsearchSaveAllImages saveAllImages;
+
 	private final WebsearchConfigurationDao websearchConfigurationDao;
 
 	private final IdGeneratorUUID idGeneratorUUID;
@@ -85,7 +88,8 @@ public class WebsearchServiceImpl implements WebsearchService {
 		final IndexService indexerService,
 		final CrawlerService crawlerService,
 		final WebsearchConfigurationDao websearchConfigurationDao,
-		final DurationUtil durationUtil
+		final DurationUtil durationUtil,
+		WebsearchSaveAllImages saveAllImages
 	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
@@ -99,6 +103,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 		this.crawlerService = crawlerService;
 		this.websearchConfigurationDao = websearchConfigurationDao;
 		this.durationUtil = durationUtil;
+		this.saveAllImages = saveAllImages;
 	}
 
 	@Override
@@ -116,6 +121,21 @@ public class WebsearchServiceImpl implements WebsearchService {
 			return result;
 		} catch (final AuthorizationServiceException | EntityIteratorException | StorageException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
+		}
+	}
+
+	@Override
+	public void saveImages(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.saveImages"));
+
+			logger.debug("saveImages");
+			saveAllImages.saveImages();
+		} catch (final AuthorizationServiceException | EntityIteratorException | StorageException e) {
+			throw new WebsearchServiceException(e.getClass().getName(), e);
+		} finally {
+			logger.debug("duration " + duration.getTime());
 		}
 	}
 
