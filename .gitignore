@@ -884,3 +884,9 @@ httpdownloader/core/target
 httpdownloader/api/target
 httpdownloader/gui/target
 httpdownloader/test/target
+httpdownloader/api/de.benjaminborbe.httpdownloader.api.iml
+httpdownloader/core/de.benjaminborbe.httpdownloader.core.iml
+httpdownloader/de.benjaminborbe.httpdownloader.iml
+httpdownloader/gui/de.benjaminborbe.httpdownloader.gui.iml
+httpdownloader/test/de.benjaminborbe.httpdownloader.test.iml
+lib/cache/de.benjaminborbe.lib.cache.iml

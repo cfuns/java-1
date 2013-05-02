@@ -93,11 +93,8 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 			final CrawlerMessage crawlerMessage = crawlerMessageMapper.map(message.getContent());
 			crawleDomain(crawlerMessage.getUrl(), crawlerMessage.getTimeout());
 			return true;
-		} catch (final MapException e) {
-			logger.warn(e.getClass().getName());
-			return false;
-		} catch (final CrawlerException e) {
-			logger.warn(e.getClass().getName());
+		} catch (final CrawlerException | MapException e) {
+			logger.warn("process crawlerMessage failed!", e);
 			return false;
 		}
 	}

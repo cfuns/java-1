@@ -32,7 +32,9 @@ public class ProxySocket {
 
 	private final Logger logger;
 
-	private final ProxyUtil proxyUtil;
+	private final ProxyLineReader proxyLineReader;
+
+	private final ProxyLineParser proxyLineParser;
 
 	private final ThreadRunner threadRunner;
 
@@ -49,7 +51,8 @@ public class ProxySocket {
 	@Inject
 	public ProxySocket(
 		final Logger logger,
-		final ProxyUtil proxyUtil,
+		final ProxyLineReader proxyLineReader,
+		final ProxyLineParser proxyLineParser,
 		final ThreadRunner threadRunner,
 		final StreamUtil streamUtil,
 		final ProxyCoreConversationDao proxyCoreConversationDao,
@@ -57,33 +60,13 @@ public class ProxySocket {
 		final IdGeneratorUUID idGenerator
 	) {
 		this.logger = logger;
-		this.proxyUtil = proxyUtil;
+		this.proxyLineReader = proxyLineReader;
+		this.proxyLineParser = proxyLineParser;
 		this.threadRunner = threadRunner;
 		this.streamUtil = streamUtil;
 		this.proxyCoreConversationDao = proxyCoreConversationDao;
 		this.randomUtil = randomUtil;
 		this.idGenerator = idGenerator;
-	}
-
-	private String readLine(final InputStream is) throws IOException {
-
-		StringBuffer line = new StringBuffer();
-		int i;
-		char c = 0x00;
-		i = is.read();
-		if (i == -1)
-			return null;
-		while (i > -1 && i != 10 && i != 13) {
-			// Convert the int to a char
-			c = (char) (i & 0xFF);
-			line = line.append(c);
-			i = is.read();
-		}
-		if (i == 13) { // 10 is unix LF, but DOS does 13+10, so read the 10 if we got 13
-			i = is.read();
-		}
-
-		return line.toString();
 	}
 
 	public void start() {
@@ -114,7 +97,7 @@ public class ProxySocket {
 		final StringWriter stringWriter = new StringWriter();
 		String line;
 		do {
-			line = readLine(is);
+			line = proxyLineReader.readLine(is);
 			stringWriter.append(line);
 			stringWriter.append(NEWLINE);
 		} while (line != null && line.length() > 1);
@@ -123,6 +106,14 @@ public class ProxySocket {
 			stringWriter.append(NEWLINE);
 		}
 		return stringWriter.toString();
+	}
+
+	private int createRandomPort() {
+		return randomUtil.getRandomInt(1024, 0xFFFF);
+	}
+
+	private ProxyConversationIdentifier createNewId() {
+		return new ProxyConversationIdentifier(idGenerator.nextId());
 	}
 
 	private class ProxyRunnable implements Runnable {
@@ -149,7 +140,7 @@ public class ProxySocket {
 						serverSocket.close();
 						serverSocket = null;
 					} catch (IOException e) {
-
+						// nop
 					}
 			}
 		}
@@ -172,12 +163,12 @@ public class ProxySocket {
 					proxyCoreConversationDao.add(proxyConversation);
 
 					final InputStream clientInputStream = clientSocket.getInputStream();
-					final String line = readLine(clientInputStream);
+					final String line = proxyLineReader.readLine(clientInputStream);
 					logger.info("proxy-request: " + line);
 					final String header = readHeader(clientInputStream);
 					logger.trace("header parsed");
 
-					final Socket remoteSocket = new Socket(proxyUtil.parseHostname(line), proxyUtil.parsePort(line));
+					final Socket remoteSocket = new Socket(proxyLineParser.parseHostname(line), proxyLineParser.parsePort(line));
 					final OutputStream remoteOutputStream = new OutputStreamCopy(remoteSocket.getOutputStream(), requestContent.getOutputStream());
 					remoteOutputStream.write(line.getBytes());
 					remoteOutputStream.write(NEWLINE.getBytes());
@@ -201,13 +192,5 @@ public class ProxySocket {
 				}
 			}
 		}
-	}
-
-	private int createRandomPort() {
-		return randomUtil.getRandomInt(1024, 0xFFFF);
-	}
-
-	private ProxyConversationIdentifier createNewId() {
-		return new ProxyConversationIdentifier(idGenerator.nextId());
 	}
 }

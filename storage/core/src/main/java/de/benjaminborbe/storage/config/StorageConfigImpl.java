@@ -1,7 +1,6 @@
 package de.benjaminborbe.storage.config;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
-import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
@@ -35,7 +34,6 @@ public class StorageConfigImpl extends ConfigurationBase implements StorageConfi
 	@Inject
 	public StorageConfigImpl(
 		final Logger logger,
-		final ConfigurationService configurationService,
 		final ParseUtil parseUtil,
 		final ConfigurationServiceCache configurationServiceCache
 	) {

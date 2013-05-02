@@ -29,11 +29,15 @@ public class ConfigurationServiceCache implements ConfigurationService {
 
 	@Override
 	public String getConfigurationValue(final ConfigurationDescription configurationDescription) throws ConfigurationServiceException {
-		final String value = cache.get(configurationDescription);
-		if (value != null) {
-			return value;
+		{
+			final String value = cache.get(configurationDescription);
+			if (value != null) {
+				return value;
+			}
 		}
-		return configurationService.getConfigurationValue(configurationDescription);
+		final String value = configurationService.getConfigurationValue(configurationDescription);
+		cache.put(configurationDescription, value);
+		return value;
 	}
 
 	@Override

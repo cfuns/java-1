@@ -5,12 +5,12 @@ import de.benjaminborbe.tools.util.ParseUtil;
 
 import javax.inject.Inject;
 
-public class ProxyUtil {
+public class ProxyLineParser {
 
 	private final ParseUtil parseUtil;
 
 	@Inject
-	public ProxyUtil(final ParseUtil parseUtil) {
+	public ProxyLineParser(final ParseUtil parseUtil) {
 		this.parseUtil = parseUtil;
 	}
 

@@ -55,4 +55,22 @@ public class ConfigurationServiceCacheUnitTest {
 		assertThat(configurationServiceCache.getConfiguration(configurationIdentifier), is(configurationDescription));
 		EasyMock.verify(mocks);
 	}
+
+	@Test
+	public void testgetConfigurationValue() throws Exception {
+		final String value = "value";
+		final ConfigurationService configurationService = EasyMock.createMock(ConfigurationService.class);
+		ConfigurationDescription configurationDescription = EasyMock.createMock(ConfigurationDescription.class);
+		final ConfigurationCache configurationCache = EasyMock.createMock(ConfigurationCache.class);
+		EasyMock.expect(configurationCache.get(configurationDescription)).andReturn(null);
+		EasyMock.expect(configurationService.getConfigurationValue(configurationDescription)).andReturn(value);
+		configurationCache.put(configurationDescription, value);
+		EasyMock.expect(configurationCache.get(configurationDescription)).andReturn(value);
+		final Object[] mocks = {configurationDescription, configurationService, configurationCache};
+		EasyMock.replay(mocks);
+		final ConfigurationServiceCache configurationServiceCache = new ConfigurationServiceCache(configurationService, configurationCache);
+		assertThat(configurationServiceCache.getConfigurationValue(configurationDescription), is(value));
+		assertThat(configurationServiceCache.getConfigurationValue(configurationDescription), is(value));
+		EasyMock.verify(mocks);
+	}
 }
