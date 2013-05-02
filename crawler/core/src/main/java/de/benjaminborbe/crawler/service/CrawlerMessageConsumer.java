@@ -63,7 +63,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 			httpRequestDto.setUrl(url);
 			httpRequestDto.setTimeout(timeout);
 
-			final HttpResponse httpResponse = httpdownloaderService.get(httpRequestDto);
+			final HttpResponse httpResponse = httpdownloaderService.getUnsecure(httpRequestDto);
 
 			logger.debug("url: " + url + " contentType: " + httpUtil.getContentType(httpResponse.getHeader()) + " returnCode: " + httpResponse.getReturnCode());
 			crawlerNotifier.notifiy(httpResponse);

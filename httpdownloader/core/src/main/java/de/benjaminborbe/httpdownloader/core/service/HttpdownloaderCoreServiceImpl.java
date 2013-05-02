@@ -7,8 +7,10 @@ import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpResponseDto;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
+import de.benjaminborbe.httpdownloader.core.util.HttpdownloaderGet;
+import de.benjaminborbe.httpdownloader.core.util.HttpdownloaderGetSecure;
+import de.benjaminborbe.httpdownloader.core.util.HttpdownloaderGetUnsecure;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
-import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
 import org.slf4j.Logger;
 
@@ -23,20 +25,35 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 
 	private final Logger logger;
 
-	private final HttpDownloader httpDownloader;
+	private final HttpdownloaderGetSecure httpdownloaderGetSecure;
+
+	private final HttpdownloaderGetUnsecure httpdownloaderGetUnsecure;
 
 	@Inject
-	public HttpdownloaderCoreServiceImpl(final Logger logger, final HttpDownloader httpDownloader) {
+	public HttpdownloaderCoreServiceImpl(
+		final Logger logger,
+		final HttpdownloaderGetSecure httpdownloaderGetSecure,
+		final HttpdownloaderGetUnsecure httpdownloaderGetUnsecure
+	) {
 		this.logger = logger;
-		this.httpDownloader = httpDownloader;
+		this.httpdownloaderGetSecure = httpdownloaderGetSecure;
+		this.httpdownloaderGetUnsecure = httpdownloaderGetUnsecure;
+	}
+
+	public HttpResponse getUnsecure(final HttpRequest httpRequest) throws HttpdownloaderServiceException {
+		return download(httpRequest, httpdownloaderGetUnsecure);
 	}
 
 	@Override
-	public HttpResponse get(final HttpRequest httpRequest) throws HttpdownloaderServiceException {
+	public HttpResponse getSecure(final HttpRequest httpRequest) throws HttpdownloaderServiceException {
+		return download(httpRequest, httpdownloaderGetSecure);
+	}
+
+	private HttpResponse download(HttpRequest httpRequest, HttpdownloaderGet httpdownloaderGet) throws HttpdownloaderServiceException {
 		try {
 			final URL url = httpRequest.getUrl();
-			logger.debug("get url: " + url);
-			final HttpDownloadResult httpDownloadResult = httpDownloader.getUrl(url, httpRequest.getTimeout());
+			logger.debug("download url: " + url);
+			final HttpDownloadResult httpDownloadResult = httpdownloaderGet.getUrl(url, httpRequest.getTimeout());
 
 			final HttpResponseDto httpResponse = new HttpResponseDto();
 			httpResponse.setReturnCode(httpDownloadResult.getResponseCode());
@@ -55,3 +72,4 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 		}
 	}
 }
+
