@@ -17,6 +17,7 @@ import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireAllServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageExpireServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshAllServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageRefreshServlet;
+import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiPageShowServlet;
 import de.benjaminborbe.websearch.gui.servlet.WebsearchGuiServlet;
 import org.osgi.framework.BundleContext;
 
@@ -29,6 +30,9 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private WebsearchGuiPageContentServlet websearchGuiPageContentServlet;
+
+	@Inject
+	private WebsearchGuiPageShowServlet websearchGuiPageShowServlet;
 
 	@Inject
 	private WebsearchGuiServlet websearchGuiServlet;
@@ -86,6 +90,7 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(websearchGuiConfigurationDeleteServlet, WebsearchGuiConstants.URL_CONFIGURATION_DELETE));
 		result.add(new ServletInfo(websearchGuiConfigurationUpdateServlet, WebsearchGuiConstants.URL_CONFIGURATION_UPDATE));
 		result.add(new ServletInfo(websearchGuiPageContentServlet, WebsearchGuiConstants.URL_PAGE_CONTENT));
+		result.add(new ServletInfo(websearchGuiPageShowServlet, WebsearchGuiConstants.URL_PAGE_SHOW));
 		return result;
 	}
 

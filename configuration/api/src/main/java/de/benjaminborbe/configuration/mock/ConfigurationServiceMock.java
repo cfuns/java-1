@@ -18,6 +18,7 @@ public class ConfigurationServiceMock implements ConfigurationService {
 
 	@Inject
 	public ConfigurationServiceMock() {
+
 	}
 
 	@Override

@@ -53,6 +53,7 @@ public class WebsearchGuiActivatorIntegrationTest {
 		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_CREATE);
 		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_DELETE);
 		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_CONFIGURATION_UPDATE);
+		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_PAGE_SHOW);
 		paths.add("/" + WebsearchGuiConstants.NAME + WebsearchGuiConstants.URL_PAGE_CONTENT);
 
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());

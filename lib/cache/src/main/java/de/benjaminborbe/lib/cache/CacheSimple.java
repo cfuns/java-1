@@ -25,7 +25,7 @@ public class CacheSimple<Key, Value> implements Cache<Key, Value> {
 	}
 
 	@Override
-	public void clear() {
+	public void flush() {
 		data.clear();
 	}
 

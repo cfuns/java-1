@@ -8,8 +8,10 @@ import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.lib.cache.Cache;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collection;
 
+@Singleton
 public class ConfigurationServiceCache implements ConfigurationService {
 
 	private final ConfigurationService configurationService;
@@ -62,5 +64,9 @@ public class ConfigurationServiceCache implements ConfigurationService {
 	@Override
 	public ConfigurationDescription getConfiguration(final ConfigurationIdentifier configurationIdentifier) throws ConfigurationServiceException {
 		return configurationService.getConfiguration(configurationIdentifier);
+	}
+
+	public void flush() {
+		cache.flush();
 	}
 }

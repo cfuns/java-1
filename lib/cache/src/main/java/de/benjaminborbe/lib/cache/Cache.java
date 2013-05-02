@@ -6,5 +6,5 @@ public interface Cache<Key, Value> {
 
 	void put(Key configurationDescription, Value value);
 
-	void clear();
+	void flush();
 }

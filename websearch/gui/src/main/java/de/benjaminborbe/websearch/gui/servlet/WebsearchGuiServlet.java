@@ -126,6 +126,7 @@ public class WebsearchGuiServlet extends WebsiteHtmlServlet {
 				ul.add(websearchGuiLinkFactory.refreshAll(request));
 				ul.add(websearchGuiLinkFactory.clearIndex(request));
 				ul.add(websearchGuiLinkFactory.expireAll(request));
+				ul.add(websearchGuiLinkFactory.pageShow(request));
 				widgets.add(ul);
 			}
 			return widgets;

@@ -4,6 +4,7 @@ import com.google.inject.Injector;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
+import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameDto;
@@ -423,7 +424,11 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testMaxBid() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
+		final PokerConfig config = injector.getInstance(PokerConfig.class);
+		ConfigurationServiceCache configurationServiceCache = injector.getInstance(ConfigurationServiceCache.class);
 		final PokerService service = injector.getInstance(PokerService.class);
+
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
 		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
@@ -431,9 +436,8 @@ public class PokerServiceImplIntegrationTest {
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
 
-		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerMaxBid"), "1000");
-		final PokerConfig config = injector.getInstance(PokerConfig.class);
+		configurationServiceCache.flush();
 		assertEquals(1000l, config.getMaxBid());
 
 		{
@@ -454,6 +458,7 @@ public class PokerServiceImplIntegrationTest {
 		}
 
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerMaxBid"), "0");
+		configurationServiceCache.flush();
 
 		{
 			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
@@ -466,6 +471,10 @@ public class PokerServiceImplIntegrationTest {
 	public void testBidNegativeCredits() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final PokerService service = injector.getInstance(PokerService.class);
+		ConfigurationServiceCache configurationServiceCache = injector.getInstance(ConfigurationServiceCache.class);
+		final PokerConfig config = injector.getInstance(PokerConfig.class);
+		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
+
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
 		final int startCredits = 10000;
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", startCredits));
@@ -474,7 +483,6 @@ public class PokerServiceImplIntegrationTest {
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
 
-		final PokerConfig config = injector.getInstance(PokerConfig.class);
 		assertFalse(config.isCreditsNegativeAllowed());
 
 		{
@@ -489,8 +497,8 @@ public class PokerServiceImplIntegrationTest {
 			assertEquals(new Long(startCredits), game.getBet());
 		}
 
-		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerCreditsNegativeAllowed"), "true");
+		configurationServiceCache.flush();
 		assertTrue(config.isCreditsNegativeAllowed());
 
 		{
