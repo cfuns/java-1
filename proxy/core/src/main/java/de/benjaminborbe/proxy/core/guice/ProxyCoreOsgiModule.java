@@ -1,6 +1,7 @@
 package de.benjaminborbe.proxy.core.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.crawler.api.CrawlerService;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
@@ -10,6 +11,8 @@ public class ProxyCoreOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+
+		bind(CrawlerService.class).toProvider(service(CrawlerService.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());
 		bind(ExtHttpService.class).toProvider(service(ExtHttpService.class).single());
 	}

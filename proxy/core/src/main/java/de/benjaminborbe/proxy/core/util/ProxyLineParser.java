@@ -47,11 +47,10 @@ public class ProxyLineParser {
 
 	public String parseUrl(final String line) throws ParseException {
 		int pos = line.indexOf(" ");
-		if (pos != -1) {
-			return line.substring(pos + 1);
-		} else {
+		if (pos == -1) {
 			throw new ParseException("parseUrl from line " + line + " failed!");
 		}
+		return line.substring(pos + 1);
 	}
 
 	public int parseReturnCode(final String line) throws ParseException {
@@ -60,8 +59,11 @@ public class ProxyLineParser {
 		return parseUtil.parseInt(line.substring(pos1 + 1, pos2));
 	}
 
-	public Map<String, List<String>> parseHeaderLine(final String line) {
+	public Map<String, List<String>> parseHeaderLine(final String line) throws ParseException {
 		int pos = line.indexOf(": ");
+		if (pos == -1) {
+			throw new ParseException("parseHeaderLine from line " + line + " failed!");
+		}
 		String key = line.substring(0, pos);
 		String valueString = line.substring(pos + 2);
 		Map<String, List<String>> result = new HashMap<>();

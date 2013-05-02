@@ -7,7 +7,10 @@ import javax.inject.Inject;
 public class ProxyConversationListenerRegistry extends RegistryBase<ProxyConversationListener> {
 
 	@Inject
-	public ProxyConversationListenerRegistry(ProxyConversationListenerHistory proxyConversationListenerHistory) {
-		super(proxyConversationListenerHistory);
+	public ProxyConversationListenerRegistry(
+		final ProxyConversationListenerHistory proxyConversationListenerHistory,
+		final ProxyConversationListenerCrawler proxyConversationListenerCrawler
+	) {
+		super(proxyConversationListenerHistory, proxyConversationListenerCrawler);
 	}
 }

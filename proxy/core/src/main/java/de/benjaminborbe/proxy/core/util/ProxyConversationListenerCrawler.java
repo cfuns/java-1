@@ -40,8 +40,8 @@ public class ProxyConversationListenerCrawler implements ProxyConversationListen
 
 		HttpHeaderDto httpHeaderDto = new HttpHeaderDto();
 		String line = proxyLineReader.readLine(inputStream);
-		while (line != null && !line.isEmpty()) {
-			proxyLineParser.parseHeaderLine(line);
+		while (line != null && !line.trim().isEmpty()) {
+			proxyLineParser.parseHeaderLine(line.trim());
 			line = proxyLineReader.readLine(inputStream);
 		}
 

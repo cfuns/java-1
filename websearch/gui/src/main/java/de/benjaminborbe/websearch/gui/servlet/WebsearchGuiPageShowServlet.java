@@ -112,36 +112,43 @@ public class WebsearchGuiPageShowServlet extends WebsiteHtmlServlet {
 				final WebsearchPageIdentifier websearchPageIdentifier = webseachService.createPageIdentifier(url);
 				final WebsearchPage websearchPage = webseachService.getPage(sessionIdentifier, websearchPageIdentifier);
 
-				{
-					widgets.add(new H2Widget("Infos:"));
-					final UlWidget ul = new UlWidget();
-					ul.add("Url: " + websearchPage.getUrl());
-					ul.add("ReturnCode: " + websearchPage.getReturnCode());
-					ul.add("LastVisit: " + calendarUtil.toDateTimeString(websearchPage.getLastVisit()));
-					ul.add("Duration: " + websearchPage.getDuration());
-					widgets.add(ul);
-				}
-				{
-					widgets.add(new H2Widget("Headers:"));
-					final HttpHeader header = websearchPage.getHeader();
-					if (header == null) {
-						widgets.add("-");
-					} else {
+				if (websearchPage == null) {
+					widgets.add("page " + url + " not found");
+					widgets.add(new BrWidget());
+				} else {
+
+					{
+						widgets.add(new H2Widget("Infos:"));
 						final UlWidget ul = new UlWidget();
-						for (final String key : comparatorUtil.sort(header.getKeys())) {
-							ul.add(key + " = " + StringUtils.join(header.getValues(key), ","));
-						}
+						ul.add("Url: " + websearchPage.getUrl());
+						ul.add("ReturnCode: " + websearchPage.getReturnCode());
+						ul.add("LastVisit: " + calendarUtil.toDateTimeString(websearchPage.getLastVisit()));
+						ul.add("Duration: " + websearchPage.getDuration());
 						widgets.add(ul);
 					}
-				}
-				{
-					widgets.add(new H2Widget("Options:"));
-					widgets.add(websearchGuiLinkFactory.pageContent(request, websearchPageIdentifier));
-					widgets.add(new BrWidget());
-					widgets.add(websearchGuiLinkFactory.pageExpire(request, websearchPageIdentifier));
-					widgets.add(new BrWidget());
-					widgets.add(websearchGuiLinkFactory.pageRefresh(request, websearchPageIdentifier));
-					widgets.add(new BrWidget());
+					{
+						widgets.add(new H2Widget("Headers:"));
+						final HttpHeader header = websearchPage.getHeader();
+						if (header == null) {
+							widgets.add("-");
+						} else {
+							final UlWidget ul = new UlWidget();
+							for (final String key : comparatorUtil.sort(header.getKeys())) {
+								ul.add(key + " = " + StringUtils.join(header.getValues(key), ","));
+							}
+							widgets.add(ul);
+						}
+					}
+					{
+						widgets.add(new H2Widget("Options:"));
+						widgets.add(websearchGuiLinkFactory.pageContent(request, websearchPageIdentifier));
+						widgets.add(new BrWidget());
+						widgets.add(websearchGuiLinkFactory.pageExpire(request, websearchPageIdentifier));
+						widgets.add(new BrWidget());
+						widgets.add(websearchGuiLinkFactory.pageRefresh(request, websearchPageIdentifier));
+						widgets.add(new BrWidget());
+					}
+
 				}
 			}
 
