@@ -6,6 +6,8 @@ import de.benjaminborbe.proxy.core.dao.ProxyConversationImpl;
 import de.benjaminborbe.tools.stream.InputStreamCopy;
 import de.benjaminborbe.tools.stream.OutputStreamCopy;
 import de.benjaminborbe.tools.stream.StreamUtil;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -31,6 +33,8 @@ public class ProxySocket {
 
 	private final Logger logger;
 
+	private final DurationUtil durationUtil;
+
 	private final ParseUtil parseUtil;
 
 	private final ProxyLineReader proxyLineReader;
@@ -52,6 +56,7 @@ public class ProxySocket {
 	@Inject
 	public ProxySocket(
 		final Logger logger,
+		final DurationUtil durationUtil,
 		final ParseUtil parseUtil,
 		final ProxyLineReader proxyLineReader,
 		final ProxyLineParser proxyLineParser,
@@ -61,6 +66,7 @@ public class ProxySocket {
 		final IdGeneratorUUID idGenerator, final ProxyConversationNotifier proxyConversationNotifier
 	) {
 		this.logger = logger;
+		this.durationUtil = durationUtil;
 		this.parseUtil = parseUtil;
 		this.proxyLineReader = proxyLineReader;
 		this.proxyLineParser = proxyLineParser;
@@ -159,16 +165,15 @@ public class ProxySocket {
 			public void run() {
 				try {
 					logger.trace("start");
+					final Duration duration = durationUtil.getDuration();
 					final ProxyContentImpl requestContent = new ProxyContentImpl();
 					final ProxyContentImpl responseContent = new ProxyContentImpl();
-					final ProxyConversationImpl proxyConversation = new ProxyConversationImpl(createNewId(), requestContent, responseContent);
 
 					final InputStream clientInputStream = clientSocket.getInputStream();
 					final String line = proxyLineReader.readLine(clientInputStream);
 					logger.info("proxy-request: " + line);
 					final String header = readHeader(clientInputStream);
 					logger.trace("header parsed");
-					proxyConversation.setUrl(parseUtil.parseURL(proxyLineParser.parseUrl(line)));
 
 					final Socket remoteSocket = new Socket(proxyLineParser.parseHostname(line), proxyLineParser.parsePort(line));
 					final OutputStream remoteOutputStream = new OutputStreamCopy(remoteSocket.getOutputStream(), requestContent.getOutputStream());
@@ -182,6 +187,9 @@ public class ProxySocket {
 					final OutputStream clientOutputStream = clientSocket.getOutputStream();
 					streamUtil.copy(remoteInputStream, clientOutputStream);
 
+					final ProxyConversationImpl proxyConversation = new ProxyConversationImpl(createNewId(), requestContent, responseContent);
+					proxyConversation.setUrl(parseUtil.parseURL(proxyLineParser.parseUrl(line)));
+					proxyConversation.setDuration(duration.getTime());
 					proxyConversationNotifier.onProxyConversationCompleted(proxyConversation);
 					logger.trace("done");
 				} catch (IOException | ParseException e) {

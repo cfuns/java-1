@@ -16,6 +16,8 @@ public class ProxyConversationImpl implements ProxyConversation {
 
 	private URL url;
 
+	private long duration;
+
 	public ProxyConversationImpl(
 		final ProxyConversationIdentifier id,
 		final ProxyContent request,
@@ -47,5 +49,13 @@ public class ProxyConversationImpl implements ProxyConversation {
 
 	public URL getUrl() {
 		return url;
+	}
+
+	public void setDuration(final Long duration) {
+		this.duration = duration;
+	}
+
+	public Long getDuration() {
+		return duration;
 	}
 }

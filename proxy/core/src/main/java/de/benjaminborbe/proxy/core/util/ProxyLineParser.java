@@ -4,6 +4,10 @@ import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 
 import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProxyLineParser {
 
@@ -41,8 +45,27 @@ public class ProxyLineParser {
 		}
 	}
 
-	public String parseUrl(final String line) {
+	public String parseUrl(final String line) throws ParseException {
 		int pos = line.indexOf(" ");
-		return line.substring(pos + 1);
+		if (pos != -1) {
+			return line.substring(pos + 1);
+		} else {
+			throw new ParseException("parseUrl from line " + line + " failed!");
+		}
+	}
+
+	public int parseReturnCode(final String line) throws ParseException {
+		int pos1 = line.indexOf(" ");
+		int pos2 = line.indexOf(" ", pos1 + 1);
+		return parseUtil.parseInt(line.substring(pos1 + 1, pos2));
+	}
+
+	public Map<String, List<String>> parseHeaderLine(final String line) {
+		int pos = line.indexOf(": ");
+		String key = line.substring(0, pos);
+		String valueString = line.substring(pos + 2);
+		Map<String, List<String>> result = new HashMap<>();
+		result.put(key, Arrays.asList(valueString.split(", ")));
+		return result;
 	}
 }

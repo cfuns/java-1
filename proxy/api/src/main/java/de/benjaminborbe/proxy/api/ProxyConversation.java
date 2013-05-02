@@ -11,4 +11,6 @@ public interface ProxyConversation {
 	ProxyConversationIdentifier getId();
 
 	URL getUrl();
+
+	Long getDuration();
 }

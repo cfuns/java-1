@@ -1,10 +1,12 @@
 package de.benjaminborbe.proxy.core.util;
 
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 public class ProxyLineParserUnitTest {
@@ -30,10 +32,32 @@ public class ProxyLineParserUnitTest {
 	}
 
 	@Test
-	public void testGetUrl() {
+	public void testGetUrl() throws ParseException {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final ProxyLineParser proxyLineParser = new ProxyLineParser(parseUtil);
 		assertThat(proxyLineParser.parseUrl("GET http://www.benjamin-borbe.de/bb"), is("http://www.benjamin-borbe.de/bb"));
 	}
 
+	@Test
+	public void testParseReturnCode() throws ParseException {
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final ProxyLineParser proxyLineParser = new ProxyLineParser(parseUtil);
+		assertThat(proxyLineParser.parseReturnCode("HTTP/1.0 200 OK"), is(200));
+	}
+
+	@Test
+	public void testParseHeaderLine() throws Exception {
+		final ParseUtil parseUtil = new ParseUtilImpl();
+		final ProxyLineParser proxyLineParser = new ProxyLineParser(parseUtil);
+		assertThat(proxyLineParser.parseHeaderLine("Key: Value"), is(notNullValue()));
+		assertThat(proxyLineParser.parseHeaderLine("Key: Value").size(), is(1));
+		assertThat(proxyLineParser.parseHeaderLine("Key: Value").get("Key").size(), is(1));
+		assertThat(proxyLineParser.parseHeaderLine("Key: Value").get("Key").get(0), is("Value"));
+
+		assertThat(proxyLineParser.parseHeaderLine("Key: Value1, Value2"), is(notNullValue()));
+		assertThat(proxyLineParser.parseHeaderLine("Key: Value1, Value2").size(), is(1));
+		assertThat(proxyLineParser.parseHeaderLine("Key: Value1, Value2").get("Key").size(), is(2));
+		assertThat(proxyLineParser.parseHeaderLine("Key: Value1, Value2").get("Key").get(0), is("Value1"));
+		assertThat(proxyLineParser.parseHeaderLine("Key: Value1, Value2").get("Key").get(1), is("Value2"));
+	}
 }

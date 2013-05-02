@@ -1,10 +1,12 @@
 package de.benjaminborbe.proxy.core.util;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class ProxyLineReader {
 
+	@Inject
 	public ProxyLineReader() {
 	}
 
