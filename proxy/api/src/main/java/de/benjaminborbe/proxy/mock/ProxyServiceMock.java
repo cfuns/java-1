@@ -34,4 +34,9 @@ public class ProxyServiceMock implements ProxyService {
 	public ProxyConversationIdentifier createProxyConversationIdentifier(final String id) throws ProxyServiceException {
 		return null;
 	}
+
+	@Override
+	public Integer getServerPort() {
+		return null;
+	}
 }

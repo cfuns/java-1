@@ -16,7 +16,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 @Singleton
-public class ProxySocket {
+public class ProxyServer {
 
 	private static final String NEWLINE = "\r\n";
 
@@ -47,7 +47,7 @@ public class ProxySocket {
 	private ServerSocket serverSocket = null;
 
 	@Inject
-	public ProxySocket(
+	public ProxyServer(
 		final Logger logger,
 		final ProxyRequestHandler proxyRequestHandler,
 		final DurationUtil durationUtil,
@@ -75,10 +75,18 @@ public class ProxySocket {
 		this.proxyCoreConfig = proxyCoreConfig;
 	}
 
+	public Integer getPort() {
+		if (serverSocket != null) {
+			return serverSocket.getLocalPort();
+		}
+		return null;
+	}
+
 	public synchronized void start() {
 		if (serverSocket == null) {
 			logger.info("start");
-			threadRunner.run("proxy", new ProxyRunnable());
+			final int port = createPort();
+			threadRunner.run("proxy", new ProxyRunnable(port));
 		} else {
 			logger.info("start failed, already running");
 		}
@@ -99,16 +107,17 @@ public class ProxySocket {
 		}
 	}
 
-	private int createRandomPort() {
-		return randomUtil.getRandomInt(1024, 0xFFFF);
-	}
-
 	private class ProxyRunnable implements Runnable {
+
+		private final int port;
+
+		public ProxyRunnable(final int port) {
+			this.port = port;
+		}
 
 		@Override
 		public void run() {
 			try {
-				final int port = getPort();
 				logger.info("create ServerSocket on port: " + port);
 				serverSocket = new ServerSocket(port);
 				serverSocket.setReuseAddress(false);
@@ -137,10 +146,13 @@ public class ProxySocket {
 					}
 			}
 		}
-
 	}
 
-	private int getPort() {
+	private int createRandomPort() {
+		return randomUtil.getRandomInt(1024, 0xFFFF);
+	}
+
+	private int createPort() {
 		final int port;
 		if (proxyCoreConfig.randomPort()) {
 			port = createRandomPort();

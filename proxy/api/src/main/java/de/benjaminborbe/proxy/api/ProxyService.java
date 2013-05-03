@@ -13,4 +13,6 @@ public interface ProxyService {
 	ProxyConversation getProxyConversation(ProxyConversationIdentifier proxyConversationIdentifier) throws ProxyServiceException;
 
 	ProxyConversationIdentifier createProxyConversationIdentifier(String id) throws ProxyServiceException;
+
+	Integer getServerPort();
 }

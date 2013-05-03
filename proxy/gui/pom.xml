@@ -52,10 +52,16 @@
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>
+							de.benjaminborbe.html.api,
+							de.benjaminborbe.navigation.api,
 							de.benjaminborbe.proxy.api,
 							${felix_plugin_imports}
 						</Import-Package>
-						<Import-Service>de.benjaminborbe.proxy.api.ProxyService</Import-Service>
+						<Import-Service>
+							de.benjaminborbe.authorization.api.AuthorizationService,
+							de.benjaminborbe.authentication.api.AuthenticationService,
+							de.benjaminborbe.proxy.api.ProxyService
+						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service></Export-Service>
 					</instructions>

@@ -25,6 +25,8 @@ public class ProxyCoreConfigImpl extends ConfigurationBase implements ProxyCoreC
 
 	private final ConfigurationDescriptionInteger port = new ConfigurationDescriptionInteger(9999, "ProxyPort", "Proxy Port");
 
+	private final ConfigurationDescriptionBoolean autoStart = new ConfigurationDescriptionBoolean(false, "ProxyAutoStart", "Proxy Auto Start");
+
 	@Inject
 	public ProxyCoreConfigImpl(
 		final Logger logger,
@@ -40,6 +42,7 @@ public class ProxyCoreConfigImpl extends ConfigurationBase implements ProxyCoreC
 		result.add(conversationHistory);
 		result.add(conversationCrawler);
 		result.add(randomPort);
+		result.add(autoStart);
 		result.add(port);
 		return result;
 	}
@@ -62,6 +65,11 @@ public class ProxyCoreConfigImpl extends ConfigurationBase implements ProxyCoreC
 	@Override
 	public Integer getPort() {
 		return getValueInteger(port);
+	}
+
+	@Override
+	public boolean autoStart() {
+		return Boolean.TRUE.equals(getValueBoolean(autoStart));
 	}
 
 }

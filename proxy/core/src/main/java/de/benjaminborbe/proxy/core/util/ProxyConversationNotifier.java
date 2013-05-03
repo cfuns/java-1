@@ -20,9 +20,9 @@ public class ProxyConversationNotifier {
 	public void onProxyConversationCompleted(final ProxyConversation proxyConversation) {
 		for (final ProxyConversationListener proxyConversationListener : proxyConversationListenerRegistry.getAll()) {
 			try {
-				logger.trace("notify ProxyConversationListener " + proxyConversationListener.getClass().getName() + " started");
+				logger.trace("notify  " + proxyConversationListener.getClass().getSimpleName() + " started");
 				proxyConversationListener.onProxyConversationCompleted(proxyConversation);
-				logger.trace("notify ProxyConversationListener " + proxyConversationListener.getClass().getName() + " finished");
+				logger.trace("notify " + proxyConversationListener.getClass().getSimpleName() + " finished");
 			} catch (Exception e) {
 				logger.debug("onProxyConversationCompleted failed on " + proxyConversationListener.getClass().getName(), e);
 			}

@@ -19,6 +19,7 @@ public class ProxyLineParserUnitTest {
 		assertThat(proxyLineParser.parseHostname("GET http://www.benjamin-borbe.de"), is("www.benjamin-borbe.de"));
 		assertThat(proxyLineParser.parseHostname("GET http://www.benjamin-borbe.de:80/bb"), is("www.benjamin-borbe.de"));
 		assertThat(proxyLineParser.parseHostname("GET http://www.benjamin-borbe.de:80"), is("www.benjamin-borbe.de"));
+		assertThat(proxyLineParser.parseHostname("CONNECT www.benjamin-borbe.de:443 HTTP/1.0"), is("www.benjamin-borbe.de"));
 	}
 
 	@Test
@@ -30,6 +31,7 @@ public class ProxyLineParserUnitTest {
 		assertThat(proxyLineParser.parsePort("GET http://www.benjamin-borbe.de:81/bb"), is(81));
 		assertThat(proxyLineParser.parsePort("GET http://www.benjamin-borbe.de:81"), is(81));
 		assertThat(proxyLineParser.parsePort("GET http://www.benjamin-borbe.de/bla:81"), is(80));
+		assertThat(proxyLineParser.parsePort("CONNECT www.benjamin-borbe.de:443 HTTP/1.0"), is(443));
 	}
 
 	@Test

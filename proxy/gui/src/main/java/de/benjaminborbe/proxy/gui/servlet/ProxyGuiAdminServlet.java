@@ -9,6 +9,7 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.proxy.api.ProxyService;
 import de.benjaminborbe.proxy.gui.util.ProxyGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -37,6 +38,8 @@ public class ProxyGuiAdminServlet extends WebsiteHtmlServlet {
 
 	private final ProxyGuiLinkFactory proxyGuiLinkFactory;
 
+	private final ProxyService proxyService;
+
 	@Inject
 	public ProxyGuiAdminServlet(
 		final Logger logger,
@@ -48,10 +51,13 @@ public class ProxyGuiAdminServlet extends WebsiteHtmlServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService, final ProxyGuiLinkFactory proxyGuiLinkFactory
+		final CacheService cacheService,
+		final ProxyGuiLinkFactory proxyGuiLinkFactory,
+		final ProxyService proxyService
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.proxyGuiLinkFactory = proxyGuiLinkFactory;
+		this.proxyService = proxyService;
 	}
 
 	@Override
@@ -70,6 +76,8 @@ public class ProxyGuiAdminServlet extends WebsiteHtmlServlet {
 		widgets.add(new H2Widget("Debug"));
 		widgets.add(proxyGuiLinkFactory.conversationList(request));
 		widgets.add(new H2Widget("Manage Proxy"));
+		widgets.add("ServerPort: " + proxyService.getServerPort());
+		widgets.add(new BrWidget());
 		widgets.add(proxyGuiLinkFactory.startProxy(request));
 		widgets.add(new BrWidget());
 		widgets.add(proxyGuiLinkFactory.stopProxy(request));

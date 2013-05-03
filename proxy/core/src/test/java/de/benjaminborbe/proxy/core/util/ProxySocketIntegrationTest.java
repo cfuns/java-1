@@ -12,6 +12,6 @@ public class ProxySocketIntegrationTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ProxyModulesMock());
-		assertNotNull(injector.getInstance(ProxySocket.class));
+		assertNotNull(injector.getInstance(ProxyServer.class));
 	}
 }

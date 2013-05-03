@@ -15,4 +15,6 @@ public interface ProxyCoreConfig {
 	boolean randomPort();
 
 	Integer getPort();
+
+	boolean autoStart();
 }

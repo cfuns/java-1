@@ -19,35 +19,47 @@ public class ProxyLineParser {
 	}
 
 	public String parseHostname(final String line) throws ParseException {
-		final int pos1 = parseUtil.indexOf(line, "//") + 2;
-		final int pos2 = line.indexOf("/", pos1);
-		final int pos3 = line.indexOf(":", pos1);
-		if (pos3 != -1 && pos3 < pos2 || pos3 != -1 && pos2 == -1) {
-			return line.substring(pos1, pos3);
-		} else if (pos2 != -1) {
-			return line.substring(pos1, pos2);
+		if (line.startsWith("CONNECT ")) {
+			int pos1 = line.indexOf(" ");
+			int pos2 = line.indexOf(":", pos1 + 1);
+			return line.substring(pos1 + 1, pos2);
 		} else {
-			return line.substring(pos1);
+			final int pos1 = parseUtil.indexOf(line, "//") + 2;
+			final int pos2 = line.indexOf("/", pos1);
+			final int pos3 = line.indexOf(":", pos1);
+			if (pos3 != -1 && pos3 < pos2 || pos3 != -1 && pos2 == -1) {
+				return line.substring(pos1, pos3);
+			} else if (pos2 != -1) {
+				return line.substring(pos1, pos2);
+			} else {
+				return line.substring(pos1);
+			}
 		}
 	}
 
 	public int parsePort(final String line) throws ParseException {
-		final int pos1 = parseUtil.indexOf(line, "//") + 2;
-		int pos = pos1;
-		while (pos < line.length()) {
-			if (!isValidHostnameChar(line.charAt(pos))) {
-				if (line.charAt(pos) == ':') {
-					int endpos = pos + 1;
-					while (endpos < line.length() && Character.isDigit(line.charAt(endpos))) {
-						endpos++;
+		if (line.startsWith("CONNECT ")) {
+			int pos1 = line.indexOf(":");
+			int pos2 = line.indexOf(" ", pos1 + 1);
+			return parseUtil.parseInt(line.substring(pos1 + 1, pos2));
+		} else {
+			final int pos1 = parseUtil.indexOf(line, "//") + 2;
+			int pos = pos1;
+			while (pos < line.length()) {
+				if (!isValidHostnameChar(line.charAt(pos))) {
+					if (line.charAt(pos) == ':') {
+						int endpos = pos + 1;
+						while (endpos < line.length() && Character.isDigit(line.charAt(endpos))) {
+							endpos++;
+						}
+						return parseUtil.parseInt(line.substring(pos + 1, endpos));
 					}
-					return parseUtil.parseInt(line.substring(pos + 1, endpos));
+					return 80;
 				}
-				return 80;
+				pos++;
 			}
-			pos++;
+			return 80;
 		}
-		return 80;
 	}
 
 	private boolean isValidHostnameChar(final char c) {

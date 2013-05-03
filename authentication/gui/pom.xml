@@ -54,11 +54,13 @@
 						<Export-Package></Export-Package>
 						<Export-Service></Export-Service>
 						<Import-Package>
-							de.benjaminborbe.authentication.api.*,
-							de.benjaminborbe.configuration.api.*,
+							de.benjaminborbe.authentication.api,
+							de.benjaminborbe.configuration.api,
 							${felix_plugin_imports}
 						</Import-Package>
 						<Import-Service>
+							de.benjaminborbe.cache.api.CacheService,
+							de.benjaminborbe.navigation.api.NavigationWidget,
 							de.benjaminborbe.authentication.api.AuthenticationService,
 							de.benjaminborbe.configuration.api.ConfigurationService
 						</Import-Service>

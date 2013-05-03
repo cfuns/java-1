@@ -62,8 +62,9 @@ public class ProxyRequestHandler {
 	}
 
 	public void handleRequest(final Socket clientSocket) {
+		Socket remoteSocket = null;
 		try {
-			logger.trace("start");
+			logger.trace("handle proxy request started");
 			final Duration duration = durationUtil.getDuration();
 			final ProxyContentImpl requestContent = new ProxyContentImpl();
 			final ProxyContentImpl responseContent = new ProxyContentImpl();
@@ -71,13 +72,19 @@ public class ProxyRequestHandler {
 			final InputStream clientInputStream = clientSocket.getInputStream();
 			final String line = proxyLineReader.readLine(clientInputStream);
 			logger.info("proxy-request: " + line);
-			final String header = readHeader(clientInputStream);
-			logger.trace("header parsed");
 
-			final Socket remoteSocket = new Socket(proxyLineParser.parseHostname(line), proxyLineParser.parsePort(line));
+			final String hostname = proxyLineParser.parseHostname(line);
+			final int port = proxyLineParser.parsePort(line);
+			logger.debug("connected to " + hostname + ":" + port);
+			remoteSocket = new Socket(hostname, port);
+
 			final OutputStream remoteOutputStream = new OutputStreamCopy(remoteSocket.getOutputStream(), requestContent.getOutputStream());
 			remoteOutputStream.write(line.getBytes());
 			remoteOutputStream.write(NEWLINE.getBytes());
+
+			final String header = readHeader(clientInputStream);
+			logger.trace("header parsed");
+
 			remoteOutputStream.write(header.getBytes());
 			remoteOutputStream.flush();
 			logger.trace("send header to remote");
@@ -85,17 +92,24 @@ public class ProxyRequestHandler {
 			final InputStream remoteInputStream = new InputStreamCopy(remoteSocket.getInputStream(), responseContent.getOutputStream());
 			final OutputStream clientOutputStream = clientSocket.getOutputStream();
 			streamUtil.copy(remoteInputStream, clientOutputStream);
+			clientOutputStream.flush();
 
 			final ProxyConversationImpl proxyConversation = new ProxyConversationImpl(createNewId(), requestContent, responseContent);
 			proxyConversation.setUrl(parseUtil.parseURL(proxyLineParser.parseUrl(line)));
 			proxyConversation.setDuration(duration.getTime());
 			proxyConversationNotifier.onProxyConversationCompleted(proxyConversation);
-			logger.trace("done");
+
+			logger.trace("handle proxy request finished");
 		} catch (IOException | ParseException e) {
 			logger.debug(e.getClass().getName(), e);
 		} finally {
 			try {
 				clientSocket.close();
+			} catch (IOException e) {
+				// nop
+			}
+			try {
+				remoteSocket.close();
 			} catch (IOException e) {
 				// nop
 			}
@@ -119,5 +133,33 @@ public class ProxyRequestHandler {
 			stringWriter.append(NEWLINE);
 		}
 		return stringWriter.toString();
+	}
+
+	private class Copier extends Thread {
+
+		private InputStream in;
+
+		private OutputStream out;
+
+		public Copier(InputStream in, OutputStream out) {
+			this.in = in;
+			this.out = out;
+		}
+
+		public void run() {
+			byte buf[] = new byte[4096];
+			int len;
+			try {
+				while (true) {
+					len = in.read(buf);
+					if (len == -1) {
+						return;
+					}
+					out.write(buf, 0, len);
+				}
+			} catch (Exception e) {
+				//stopping();
+			}
+		}
 	}
 }
