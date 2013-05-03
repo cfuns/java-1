@@ -29,6 +29,7 @@ public class ProxyLineParserUnitTest {
 		assertThat(proxyLineParser.parsePort("GET http://www.benjamin-borbe.de"), is(80));
 		assertThat(proxyLineParser.parsePort("GET http://www.benjamin-borbe.de:81/bb"), is(81));
 		assertThat(proxyLineParser.parsePort("GET http://www.benjamin-borbe.de:81"), is(81));
+		assertThat(proxyLineParser.parsePort("GET http://www.benjamin-borbe.de/bla:81"), is(80));
 	}
 
 	@Test
@@ -36,6 +37,7 @@ public class ProxyLineParserUnitTest {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final ProxyLineParser proxyLineParser = new ProxyLineParser(parseUtil);
 		assertThat(proxyLineParser.parseUrl("GET http://www.benjamin-borbe.de/bb"), is("http://www.benjamin-borbe.de/bb"));
+		assertThat(proxyLineParser.parseUrl("GET http://www.benjamin-borbe.de/bb HTTP/1.0"), is("http://www.benjamin-borbe.de/bb"));
 	}
 
 	@Test

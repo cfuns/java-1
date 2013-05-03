@@ -77,7 +77,7 @@ public class ProxySocket {
 		this.proxyConversationNotifier = proxyConversationNotifier;
 	}
 
-	public void start() {
+	public synchronized void start() {
 		if (serverSocket == null) {
 			logger.info("start");
 			threadRunner.run("proxy", new ProxyRunnable());
@@ -130,7 +130,7 @@ public class ProxySocket {
 		public void run() {
 			try {
 				final int port = createRandomPort();
-				logger.debug("create ServerSocket on port: " + port);
+				logger.info("create ServerSocket on port: " + port);
 				serverSocket = new ServerSocket(port);
 				serverSocket.setReuseAddress(false);
 				// serverSocket.setSoTimeout(4000);

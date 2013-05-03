@@ -33,40 +33,55 @@ public class ProxyLineParser {
 
 	public int parsePort(final String line) throws ParseException {
 		final int pos1 = parseUtil.indexOf(line, "//") + 2;
-		final int pos2 = line.indexOf(":", pos1);
-		if (pos2 == -1) {
-			return 80;
+		int pos = pos1;
+		while (pos < line.length()) {
+			if (!isValidHostnameChar(line.charAt(pos))) {
+				if (line.charAt(pos) == ':') {
+					int endpos = pos + 1;
+					while (endpos < line.length() && Character.isDigit(line.charAt(endpos))) {
+						endpos++;
+					}
+					return parseUtil.parseInt(line.substring(pos + 1, endpos));
+				}
+				return 80;
+			}
+			pos++;
 		}
-		final int pos3 = line.indexOf("/", pos2);
-		if (pos3 != -1) {
-			return parseUtil.parseInt(line.substring(pos2 + 1, pos3));
-		} else {
-			return parseUtil.parseInt(line.substring(pos2 + 1));
-		}
+		return 80;
+	}
+
+	private boolean isValidHostnameChar(final char c) {
+		return 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || '0' <= c && c <= '9' || c == '.' || c == '-' || 'c' == '_';
+		//return Character.isLetterOrDigit(c);
 	}
 
 	public String parseUrl(final String line) throws ParseException {
-		int pos = line.indexOf(" ");
-		if (pos == -1) {
+		final int pos1 = line.indexOf(" ");
+		if (pos1 == -1) {
 			throw new ParseException("parseUrl from line " + line + " failed!");
 		}
-		return line.substring(pos + 1);
+		final int pos2 = line.indexOf(" ", pos1 + 1);
+		if (pos2 != -1) {
+			return line.substring(pos1 + 1, pos2);
+		} else {
+			return line.substring(pos1 + 1);
+		}
 	}
 
 	public int parseReturnCode(final String line) throws ParseException {
-		int pos1 = line.indexOf(" ");
-		int pos2 = line.indexOf(" ", pos1 + 1);
+		final int pos1 = line.indexOf(" ");
+		final int pos2 = line.indexOf(" ", pos1 + 1);
 		return parseUtil.parseInt(line.substring(pos1 + 1, pos2));
 	}
 
 	public Map<String, List<String>> parseHeaderLine(final String line) throws ParseException {
-		int pos = line.indexOf(": ");
+		final int pos = line.indexOf(": ");
 		if (pos == -1) {
 			throw new ParseException("parseHeaderLine from line " + line + " failed!");
 		}
-		String key = line.substring(0, pos);
-		String valueString = line.substring(pos + 2);
-		Map<String, List<String>> result = new HashMap<>();
+		final String key = line.substring(0, pos);
+		final String valueString = line.substring(pos + 2);
+		final Map<String, List<String>> result = new HashMap<>();
 		result.put(key, Arrays.asList(valueString.split(", ")));
 		return result;
 	}

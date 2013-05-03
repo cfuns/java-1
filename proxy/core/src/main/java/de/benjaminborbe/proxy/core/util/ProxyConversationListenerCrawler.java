@@ -7,13 +7,20 @@ import de.benjaminborbe.httpdownloader.api.HttpHeaderDto;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpResponseDto;
 import de.benjaminborbe.proxy.api.ProxyConversation;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.ParseException;
+import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class ProxyConversationListenerCrawler implements ProxyConversationListener {
+
+	private final Logger logger;
 
 	private final CrawlerService crawlerService;
 
@@ -21,36 +28,53 @@ public class ProxyConversationListenerCrawler implements ProxyConversationListen
 
 	private final ProxyLineParser proxyLineParser;
 
+	private final StreamUtil streamUtil;
+
 	@Inject
-	public ProxyConversationListenerCrawler(final CrawlerService crawlerService, final ProxyLineReader proxyLineReader, final ProxyLineParser proxyLineParser) {
+	public ProxyConversationListenerCrawler(
+		final Logger logger,
+		final CrawlerService crawlerService,
+		final ProxyLineReader proxyLineReader,
+		final ProxyLineParser proxyLineParser, final StreamUtil streamUtil
+	) {
+		this.logger = logger;
 		this.crawlerService = crawlerService;
 		this.proxyLineReader = proxyLineReader;
 		this.proxyLineParser = proxyLineParser;
+		this.streamUtil = streamUtil;
 	}
 
 	@Override
 	public void onProxyConversationCompleted(final ProxyConversation proxyConversation) throws CrawlerException, IOException, ParseException {
+		logger.debug("add proxy request to crawler");
 		crawlerService.notify(buildHttpResponse(proxyConversation));
 	}
 
 	private HttpResponse buildHttpResponse(final ProxyConversation proxyConversation) throws IOException, ParseException {
 
 		final byte[] content = proxyConversation.getResponse().getContent();
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(content);
+		final ByteArrayInputStream inputStream = new ByteArrayInputStream(content);
+		final int returnCode = proxyLineParser.parseReturnCode(proxyLineReader.readLine(inputStream));
 
-		HttpHeaderDto httpHeaderDto = new HttpHeaderDto();
+		final HttpHeaderDto httpHeaderDto = new HttpHeaderDto();
 		String line = proxyLineReader.readLine(inputStream);
 		while (line != null && !line.trim().isEmpty()) {
-			proxyLineParser.parseHeaderLine(line.trim());
+			final Map<String, List<String>> headers = proxyLineParser.parseHeaderLine(line.trim());
+			for (final Map.Entry<String, List<String>> header : headers.entrySet()) {
+				httpHeaderDto.setHeader(header.getKey(), header.getValue());
+			}
 			line = proxyLineReader.readLine(inputStream);
 		}
+
+		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		streamUtil.copy(inputStream, outputStream);
 
 		final HttpResponseDto httpResponseDto = new HttpResponseDto();
 		httpResponseDto.setUrl(proxyConversation.getUrl());
 		httpResponseDto.setDuration(proxyConversation.getDuration());
-		httpResponseDto.setContent(new HttpContentByteArray(content));
+		httpResponseDto.setContent(new HttpContentByteArray(outputStream.toByteArray()));
 		httpResponseDto.setHeader(httpHeaderDto);
-		httpResponseDto.setReturnCode(proxyLineParser.parseReturnCode(proxyLineReader.readLine(inputStream)));
+		httpResponseDto.setReturnCode(returnCode);
 
 		return httpResponseDto;
 	}

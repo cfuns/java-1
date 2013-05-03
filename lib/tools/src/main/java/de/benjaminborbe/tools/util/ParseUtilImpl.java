@@ -83,7 +83,7 @@ public class ParseUtilImpl implements ParseUtil {
 				return Integer.parseInt(number);
 			}
 		} catch (final Exception e) {
-			throw new ParseException(e.getClass().getSimpleName(), e);
+			throw new ParseException("parseInt " + number + " failed", e);
 		}
 	}
 

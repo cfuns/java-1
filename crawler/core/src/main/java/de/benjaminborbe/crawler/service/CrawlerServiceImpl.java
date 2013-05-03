@@ -54,7 +54,7 @@ public class CrawlerServiceImpl implements CrawlerService {
 	@Override
 	public void notify(final HttpResponse httpResponse) throws CrawlerException {
 		try {
-			logger.trace("notify");
+			logger.debug("notify " + httpResponse.getUrl());
 			crawlerNotifier.notifiy(httpResponse);
 		} finally {
 
