@@ -1,16 +1,9 @@
 package de.benjaminborbe.proxy.core.util;
 
-import de.benjaminborbe.proxy.api.ProxyConversationIdentifier;
 import de.benjaminborbe.proxy.core.config.ProxyCoreConfig;
-import de.benjaminborbe.proxy.core.dao.ProxyContentImpl;
-import de.benjaminborbe.proxy.core.dao.ProxyConversationImpl;
-import de.benjaminborbe.tools.stream.InputStreamCopy;
-import de.benjaminborbe.tools.stream.OutputStreamCopy;
 import de.benjaminborbe.tools.stream.StreamUtil;
-import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
-import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.RandomUtil;
 import de.benjaminborbe.tools.util.ThreadRunner;
@@ -19,9 +12,6 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.StringWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -31,6 +21,8 @@ public class ProxySocket {
 	private static final String NEWLINE = "\r\n";
 
 	private final Logger logger;
+
+	private final ProxyRequestHandler proxyRequestHandler;
 
 	private final DurationUtil durationUtil;
 
@@ -57,6 +49,7 @@ public class ProxySocket {
 	@Inject
 	public ProxySocket(
 		final Logger logger,
+		final ProxyRequestHandler proxyRequestHandler,
 		final DurationUtil durationUtil,
 		final ParseUtil parseUtil,
 		final ProxyLineReader proxyLineReader,
@@ -69,6 +62,7 @@ public class ProxySocket {
 		final ProxyCoreConfig proxyCoreConfig
 	) {
 		this.logger = logger;
+		this.proxyRequestHandler = proxyRequestHandler;
 		this.durationUtil = durationUtil;
 		this.parseUtil = parseUtil;
 		this.proxyLineReader = proxyLineReader;
@@ -105,27 +99,8 @@ public class ProxySocket {
 		}
 	}
 
-	private String readHeader(final InputStream is) throws IOException {
-		final StringWriter stringWriter = new StringWriter();
-		String line;
-		do {
-			line = proxyLineReader.readLine(is);
-			stringWriter.append(line);
-			stringWriter.append(NEWLINE);
-		} while (line != null && line.length() > 1);
-		if (line != null) {
-			stringWriter.append(line);
-			stringWriter.append(NEWLINE);
-		}
-		return stringWriter.toString();
-	}
-
 	private int createRandomPort() {
 		return randomUtil.getRandomInt(1024, 0xFFFF);
-	}
-
-	private ProxyConversationIdentifier createNewId() {
-		return new ProxyConversationIdentifier(idGenerator.nextId());
 	}
 
 	private class ProxyRunnable implements Runnable {
@@ -142,7 +117,13 @@ public class ProxySocket {
 				// serverSocket.bind(new InetSocketAddress("127.0.0.1", PORT));
 				while (serverSocket != null) {
 					final Socket clientSocket = serverSocket.accept();
-					threadRunner.run("request", new ProxyRequestRunnable(clientSocket));
+					threadRunner.run("request", new Runnable() {
+
+						@Override
+						public void run() {
+							proxyRequestHandler.handleRequest(clientSocket);
+						}
+					});
 				}
 			} catch (IOException e) {
 				logger.info(e.getClass().getName(), e);
@@ -157,56 +138,6 @@ public class ProxySocket {
 			}
 		}
 
-		private class ProxyRequestRunnable implements Runnable {
-
-			private final Socket clientSocket;
-
-			public ProxyRequestRunnable(final Socket clientSocket) {
-				this.clientSocket = clientSocket;
-			}
-
-			@Override
-			public void run() {
-				try {
-					logger.trace("start");
-					final Duration duration = durationUtil.getDuration();
-					final ProxyContentImpl requestContent = new ProxyContentImpl();
-					final ProxyContentImpl responseContent = new ProxyContentImpl();
-
-					final InputStream clientInputStream = clientSocket.getInputStream();
-					final String line = proxyLineReader.readLine(clientInputStream);
-					logger.info("proxy-request: " + line);
-					final String header = readHeader(clientInputStream);
-					logger.trace("header parsed");
-
-					final Socket remoteSocket = new Socket(proxyLineParser.parseHostname(line), proxyLineParser.parsePort(line));
-					final OutputStream remoteOutputStream = new OutputStreamCopy(remoteSocket.getOutputStream(), requestContent.getOutputStream());
-					remoteOutputStream.write(line.getBytes());
-					remoteOutputStream.write(NEWLINE.getBytes());
-					remoteOutputStream.write(header.getBytes());
-					remoteOutputStream.flush();
-					logger.trace("send header to remote");
-
-					final InputStream remoteInputStream = new InputStreamCopy(remoteSocket.getInputStream(), responseContent.getOutputStream());
-					final OutputStream clientOutputStream = clientSocket.getOutputStream();
-					streamUtil.copy(remoteInputStream, clientOutputStream);
-
-					final ProxyConversationImpl proxyConversation = new ProxyConversationImpl(createNewId(), requestContent, responseContent);
-					proxyConversation.setUrl(parseUtil.parseURL(proxyLineParser.parseUrl(line)));
-					proxyConversation.setDuration(duration.getTime());
-					proxyConversationNotifier.onProxyConversationCompleted(proxyConversation);
-					logger.trace("done");
-				} catch (IOException | ParseException e) {
-					logger.debug(e.getClass().getName(), e);
-				} finally {
-					try {
-						clientSocket.close();
-					} catch (IOException e) {
-						// nop
-					}
-				}
-			}
-		}
 	}
 
 	private int getPort() {

@@ -91,7 +91,6 @@ public class AuthenticationGuiRegisterServlet extends WebsiteHtmlServlet {
 			final String email = request.getParameter(AuthenticationGuiConstants.PARAMETER_EMAIL);
 			final String password = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD);
 			final String passwordRepeat = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD_REPEAT);
-			final String fullname = request.getParameter(AuthenticationGuiConstants.PARAMETER_FULLNAME);
 			if (username != null && password != null && email != null && password.equals(passwordRepeat)) {
 				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {

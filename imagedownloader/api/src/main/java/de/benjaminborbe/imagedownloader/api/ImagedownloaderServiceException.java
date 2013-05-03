@@ -2,6 +2,8 @@ package de.benjaminborbe.imagedownloader.api;
 
 public class ImagedownloaderServiceException extends Exception {
 
+	private static final long serialVersionUID = -8111865762242405201L;
+
 	public ImagedownloaderServiceException(final Throwable cause) {
 		super(cause);
 	}

@@ -109,8 +109,6 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 			final String date = request.getParameter(AnalyticsGuiConstants.PARAMETER_DATE);
 			final String value = request.getParameter(AnalyticsGuiConstants.PARAMETER_VALUE);
 			if (reportId != null && date != null && value != null) {
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-
 				try {
 					final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(reportId);
 					addData(analyticsReportIdentifier, date, value);
@@ -129,10 +127,6 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 			widgets.add(formWidget);
 
 			return widgets;
-		} catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
 		} catch (final AnalyticsServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
@@ -140,8 +134,12 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private void addData(final AnalyticsReportIdentifier analyticsReportIdentifier, final String dateString, final String valueString)
-		throws AnalyticsServiceException, ValidationException, PermissionDeniedException, LoginRequiredException {
+	private void addData(
+		final AnalyticsReportIdentifier analyticsReportIdentifier,
+		final String dateString,
+		final String valueString
+	) throws AnalyticsServiceException,
+		ValidationException, PermissionDeniedException, LoginRequiredException {
 		final List<ValidationError> errors = new ArrayList<>();
 		Calendar calendar = null;
 		{
@@ -178,8 +176,7 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
-		PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			analyticsService.expectAnalyticsAdminPermission(sessionIdentifier);

@@ -1,8 +1,6 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
@@ -31,8 +29,6 @@ public class TopNaviWidget implements Widget {
 
 	private final Logger logger;
 
-	private final AuthenticationService authenticationService;
-
 	private final PortfolioGuiGalleryCollectionComparator galleryComparator;
 
 	private final PortfolioGuiLinkFactory portfolioLinkFactory;
@@ -47,7 +43,6 @@ public class TopNaviWidget implements Widget {
 	) {
 		this.logger = logger;
 		this.galleryService = galleryService;
-		this.authenticationService = authenticationService;
 		this.galleryComparator = galleryComparator;
 		this.portfolioLinkFactory = portfolioLinkFactory;
 	}
@@ -55,7 +50,6 @@ public class TopNaviWidget implements Widget {
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final UlWidget ul = new UlWidget();
 			ul.addClass("navi");
 			final List<GalleryCollection> galleries = getGalleries();
@@ -64,7 +58,7 @@ public class TopNaviWidget implements Widget {
 				ul.add(portfolioLinkFactory.createGallery(request, gallery));
 			}
 			ul.render(request, response, context);
-		} catch (final GalleryServiceException | AuthenticationServiceException e) {
+		} catch (final GalleryServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}

@@ -5,7 +5,6 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authentication.gui.util.AuthenticationGuiLinkFactory;
@@ -88,7 +87,6 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID));
 			final String email = request.getParameter(AuthenticationGuiConstants.PARAMETER_EMAIL);
 			if (userIdentifier != null && email != null) {
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
 					sendPasswordLostEmail(request, userIdentifier, email);
 					widgets.add("password lost email sent successful");
@@ -111,8 +109,12 @@ public class AuthenticationGuiUserPasswordLostEmailServlet extends WebsiteHtmlSe
 		}
 	}
 
-	private void sendPasswordLostEmail(final HttpServletRequest request, final UserIdentifier userIdentifier, final String email)
-		throws AuthenticationServiceException, ValidationException, UnsupportedEncodingException {
+	private void sendPasswordLostEmail(
+		final HttpServletRequest request,
+		final UserIdentifier userIdentifier,
+		final String email
+	) throws AuthenticationServiceException,
+		ValidationException, UnsupportedEncodingException {
 		final String shortenUrl = authenticationGuiLinkFactory.getShortenUrl(request);
 		final String resetUrl = authenticationGuiLinkFactory.getPasswordResetUrl(request);
 		authenticationService.sendPasswordLostEmail(shortenUrl, resetUrl, userIdentifier, email);

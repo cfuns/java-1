@@ -2,8 +2,6 @@ package de.benjaminborbe.blog.gui.servlet;
 
 import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.blog.api.BlogPost;
@@ -47,8 +45,6 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 
 	private final BlogService blogService;
 
-	private final AuthenticationService authenticationService;
-
 	private final UrlUtil urlUtil;
 
 	private final CalendarUtil calendarUtil;
@@ -70,7 +66,6 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 		final CacheService cacheService
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
-		this.authenticationService = authenticationService;
 		this.blogService = blogService;
 		this.urlUtil = urlUtil;
 		this.calendarUtil = calendarUtil;
@@ -89,7 +84,6 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final List<BlogPost> blogPosts = blogService.getLatestBlogPosts();
 			for (final BlogPost blogPost : blogPosts) {
 				widgets.add(new BlogGuiPostWidget(blogPost, urlUtil, calendarUtil));
@@ -97,10 +91,6 @@ public class BlogGuiLatestPostsServlet extends WebsiteHtmlServlet {
 			widgets.add(new BrWidget());
 			widgets.add(new LinkRelativWidget(request, "/" + BlogGuiConstants.NAME + BlogGuiConstants.POST_ADD_URL, "add post"));
 			return widgets;
-		} catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
 		} catch (final BlogServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);

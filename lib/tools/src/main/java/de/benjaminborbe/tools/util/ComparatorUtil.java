@@ -24,7 +24,7 @@ public class ComparatorUtil {
 		return list;
 	}
 
-	public <T extends Comparable> List<T> sort(final Collection<T> collection) {
+	public <T extends Comparable<T>> List<T> sort(final Collection<T> collection) {
 		final List<T> list;
 		if (collection instanceof List) {
 			list = (List<T>) collection;

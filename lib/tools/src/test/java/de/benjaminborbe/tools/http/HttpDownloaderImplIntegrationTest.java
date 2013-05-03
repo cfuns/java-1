@@ -190,8 +190,7 @@ public class HttpDownloaderImplIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
 		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
 		final HttpDownloadUtil httpDownloadUtil = injector.getInstance(HttpDownloadUtil.class);
-		final HttpDownloadResult result = httpDownloader.getUrl(new URL(
-			"http://www.spiegel.de/netzwelt/web/29c3-was-hacker-auf-einem-kongress-alles-machen-a-875161.html"), 5000);
+		final HttpDownloadResult result = httpDownloader.getUrl(new URL("http://www.spiegel.de/netzwelt/web/29c3-was-hacker-auf-einem-kongress-alles-machen-a-875161.html"), 5000);
 		assertNotNull(result);
 
 		assertThat(result.getContentEncoding().getEncoding(), is("ISO-8859-1"));
@@ -230,7 +229,6 @@ public class HttpDownloaderImplIntegrationTest {
 
 		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
 		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
-		final HttpDownloadUtil httpDownloadUtil = injector.getInstance(HttpDownloadUtil.class);
 		final HttpDownloadResult result = httpDownloader.getUrl(new URL("http://www.google.de/gibtsned"), 5000);
 		assertNotNull(result);
 		assertThat(result.getResponseCode(), is(404));

@@ -45,8 +45,6 @@ public class TaskServiceImplIntegrationTest {
 
 	private static final String USERNAME = "USERNAME";
 
-	private static final String FULLNAME = "FULLNAME";
-
 	private static final String PASSWORD = "PASSWORD";
 
 	private static final String EMAIL = "test@example.com";
@@ -74,8 +72,7 @@ public class TaskServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		// register
-		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, SHORTEN_URL, VALIDATE_EMAIL_BASE_URL, username, EMAIL, PASSWORD
-		);
+		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, SHORTEN_URL, VALIDATE_EMAIL_BASE_URL, username, EMAIL, PASSWORD);
 		assertEquals(username, userIdentifier.getId());
 		// login
 		assertTrue(authenticationService.login(sessionIdentifier, userIdentifier, PASSWORD));
@@ -851,7 +848,8 @@ public class TaskServiceImplIntegrationTest {
 	private TaskIdentifier getTask(
 		final SessionIdentifier sessionIdentifier,
 		final TaskService taskService
-	) throws ValidationException, PermissionDeniedException, LoginRequiredException, TaskServiceException {
+	) throws ValidationException, PermissionDeniedException,
+		LoginRequiredException, TaskServiceException {
 		final TaskDto task = new TaskDto();
 		task.setFocus(TaskFocus.INBOX);
 		task.setName(TASK_NAME);
@@ -913,7 +911,7 @@ public class TaskServiceImplIntegrationTest {
 				final TaskAttachmentWithContentDto taskAttachment = new TaskAttachmentWithContentDto();
 				taskService.addAttachment(sessionIdentifier, taskAttachment);
 				fail("ValidationException expected");
-			} catch (ValidationException e) {
+			} catch (final ValidationException e) {
 				assertThat(e, is(not(nullValue())));
 			}
 		}
@@ -923,7 +921,7 @@ public class TaskServiceImplIntegrationTest {
 				taskAttachment.setName("taskAttachmentName");
 				taskService.addAttachment(sessionIdentifier, taskAttachment);
 				fail("ValidationException expected");
-			} catch (ValidationException e) {
+			} catch (final ValidationException e) {
 				assertThat(e, is(not(nullValue())));
 			}
 		}

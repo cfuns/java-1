@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.TimeZone;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -64,8 +63,6 @@ public class AuthenticationServiceImplIntegrationTest {
 		final String username = "testuser";
 		final String email = "test@example.com";
 		final String password = "Test123!";
-		final String fullname = null;
-		final TimeZone timeZone = null;
 		assertThat(mailService.getMails().size(), is(0));
 		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password);
 		assertNotNull(userIdentifier);

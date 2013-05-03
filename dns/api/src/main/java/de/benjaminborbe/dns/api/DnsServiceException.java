@@ -2,6 +2,8 @@ package de.benjaminborbe.dns.api;
 
 public class DnsServiceException extends Exception {
 
+	private static final long serialVersionUID = 9201831234988670236L;
+
 	public DnsServiceException(final Throwable cause) {
 		super(cause);
 	}

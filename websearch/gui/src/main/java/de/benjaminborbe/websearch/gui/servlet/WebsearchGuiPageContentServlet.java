@@ -32,11 +32,11 @@ import java.io.InputStream;
 @Singleton
 public class WebsearchGuiPageContentServlet extends WebsiteServlet {
 
+	private static final long serialVersionUID = -682265109392123207L;
+
 	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
-
-	private final CalendarUtil calendarUtil;
 
 	private final WebsearchService websearchService;
 
@@ -51,19 +51,23 @@ public class WebsearchGuiPageContentServlet extends WebsiteServlet {
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
-		final WebsearchService websearchService, final StreamUtil streamUtil
+		final WebsearchService websearchService,
+		final StreamUtil streamUtil
 	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
-		this.calendarUtil = calendarUtil;
 		this.websearchService = websearchService;
 		this.streamUtil = streamUtil;
 	}
 
 	@Override
-	protected void doService(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws ServletException,
-		IOException, PermissionDeniedException, LoginRequiredException {
+	protected void doService(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context
+	) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);

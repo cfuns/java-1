@@ -10,9 +10,7 @@ import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -45,8 +43,6 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 
 	private final AnalyticsGuiConfig analyticsGuiConfig;
 
-	private final AuthenticationService authenticationService;
-
 	private final AnalyticsService analyticsService;
 
 	private final ParseUtil parseUtil;
@@ -67,7 +63,6 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.analyticsGuiConfig = analyticsGuiConfig;
-		this.authenticationService = authenticationService;
 		this.analyticsService = analyticsService;
 		this.parseUtil = parseUtil;
 	}
@@ -87,8 +82,6 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 			final String value = request.getParameter(AnalyticsGuiConstants.PARAMETER_VALUE);
 
 			if (token != null && reportId != null && value != null) {
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-
 				try {
 					final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(reportId);
 					addData(analyticsReportIdentifier, value);
@@ -100,14 +93,13 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 					printError(response, "add value failed");
 				}
 			}
-		} catch (final AnalyticsServiceException | AuthenticationServiceException e) {
+		} catch (final AnalyticsServiceException e) {
 			printException(response, e);
 		}
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
-		PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
 		final String token = request.getParameter(AnalyticsGuiConstants.PARAMETER_AUTH_TOKEN);
 		if (logger.isTraceEnabled())
 			logger.trace("doCheckPermission");
@@ -130,8 +122,11 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 		return false;
 	}
 
-	private void addData(final AnalyticsReportIdentifier analyticsReportIdentifier, final String valueString)
-		throws AnalyticsServiceException, ValidationException, PermissionDeniedException, LoginRequiredException {
+	private void addData(
+		final AnalyticsReportIdentifier analyticsReportIdentifier,
+		final String valueString
+	) throws AnalyticsServiceException, ValidationException,
+		PermissionDeniedException, LoginRequiredException {
 		final List<ValidationError> errors = new ArrayList<>();
 
 		double value = 0;

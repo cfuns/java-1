@@ -3,8 +3,6 @@ package de.benjaminborbe.portfolio.gui.servlet;
 import com.google.common.collect.Lists;
 import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
@@ -45,8 +43,6 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 
 	private final GalleryService galleryService;
 
-	private final AuthenticationService authenticationService;
-
 	private final PortfolioGuiGalleryCollectionComparator galleryComparator;
 
 	private final UrlUtil urlUtil;
@@ -71,7 +67,6 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 		final AuthorizationService authorizationService
 	) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
-		this.authenticationService = authenticationService;
 		this.portfolioWidgetProvider = portfolioWidgetProvider;
 		this.galleryService = galleryService;
 		this.galleryComparator = galleryComparator;
@@ -84,7 +79,6 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
 			final String galleryId = urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_GALLERY_ID);
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(galleryId);
 			final GalleryCollection galleryCollection = galleryService.getCollectionShared(galleryCollectionIdentifier);
 			if (galleryCollection == null) {
@@ -99,8 +93,6 @@ public class PortfolioGuiGalleryServlet extends WebsiteWidgetServlet {
 				portfolioWidget.setGalleryEntries(entries);
 				return portfolioWidget;
 			}
-		} catch (final AuthenticationServiceException e) {
-			return new ExceptionWidget(e);
 		} catch (final GalleryServiceException e) {
 			return new ExceptionWidget(e);
 		}

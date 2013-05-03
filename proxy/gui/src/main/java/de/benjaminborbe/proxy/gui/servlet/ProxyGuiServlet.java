@@ -68,7 +68,8 @@ public class ProxyGuiServlet extends WebsiteServlet {
 		final HttpServletRequest request,
 		final HttpServletResponse response,
 		final HttpContext context
-	) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
+	) throws ServletException, IOException,
+		PermissionDeniedException, LoginRequiredException {
 		final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManagerAllowAll()};
 
 		final SSLSocketFactory orgSSLSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
@@ -112,7 +113,7 @@ public class ProxyGuiServlet extends WebsiteServlet {
 			allowedHeaders.add("accept");
 			allowedHeaders.add("accept-language");
 
-			final Enumeration headerNames = request.getHeaderNames();
+			final Enumeration<?> headerNames = request.getHeaderNames();
 			while (headerNames.hasMoreElements()) {
 				final String name = String.valueOf(headerNames.nextElement());
 				final String value = request.getHeader(name);

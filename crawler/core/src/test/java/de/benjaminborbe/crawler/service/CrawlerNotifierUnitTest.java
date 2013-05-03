@@ -7,7 +7,6 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,10 +16,6 @@ public class CrawlerNotifierUnitTest {
 	public void testNotify() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
-
-		final URL url = new URL("http://example.com/index.html");
-		final String content = "Foo Bar";
-		final String contentType = "text/html";
 
 		final HttpResponseDto result = new HttpResponseDto();
 

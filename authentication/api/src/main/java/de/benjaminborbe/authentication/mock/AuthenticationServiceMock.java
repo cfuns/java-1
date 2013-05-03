@@ -202,16 +202,17 @@ public class AuthenticationServiceMock implements AuthenticationService {
 
 	@Override
 	public void sendPasswordLostEmail(
-		final String shortenUrl, final String resetUrl, final UserIdentifier userIdentifier,
+		final String shortenUrl,
+		final String resetUrl,
+		final UserIdentifier userIdentifier,
 		final String email
-	) throws AuthenticationServiceException, ValidationException {
+	) throws AuthenticationServiceException,
+		ValidationException {
 	}
 
 	@Override
-	public void setNewPassword(
-		final UserIdentifier userIdentifier, final String token, final String newPassword,
-		final String newPasswordRepeat
-	) throws AuthenticationServiceException, ValidationException {
+	public void setNewPassword(final UserIdentifier userIdentifier, final String token, final String newPassword, final String newPasswordRepeat)
+		throws AuthenticationServiceException, ValidationException {
 	}
 
 	@Override
@@ -231,8 +232,6 @@ public class AuthenticationServiceMock implements AuthenticationService {
 		final String shortenUrl = null;
 		final String validateEmailBaseUrl = null;
 		final String email = null;
-		final String fullname = null;
-		final TimeZone timeZone = null;
 		return register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, username, email, password);
 	}
 }

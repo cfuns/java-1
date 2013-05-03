@@ -2,7 +2,6 @@ package de.benjaminborbe.portfolio.gui.servlet;
 
 import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
@@ -33,8 +32,6 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 
 	private final Logger logger;
 
-	private final AuthenticationService authenticationService;
-
 	private final UrlUtil urlUtil;
 
 	@Inject
@@ -51,7 +48,6 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.galleryService = galleryService;
-		this.authenticationService = authenticationService;
 		this.urlUtil = urlUtil;
 	}
 
@@ -65,7 +61,6 @@ public class PortfolioGuiImageServlet extends WebsiteServlet {
 			// load image
 			final String imageId = urlUtil.parseId(request, PortfolioGuiConstants.PARAMETER_IMAGE_ID);
 			final GalleryImageIdentifier id = galleryService.createImageIdentifier(imageId);
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryImage image = galleryService.getImage(id);
 			logger.debug("loaded image " + image);
 

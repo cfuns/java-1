@@ -2,8 +2,6 @@ package de.benjaminborbe.portfolio.gui.servlet;
 
 import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
@@ -39,8 +37,6 @@ public class PortfolioGuiLinksServlet extends WebsiteWidgetServlet {
 
 	private final GalleryService galleryService;
 
-	private final AuthenticationService authenticationService;
-
 	@Inject
 	public PortfolioGuiLinksServlet(
 		final Logger logger,
@@ -55,7 +51,6 @@ public class PortfolioGuiLinksServlet extends WebsiteWidgetServlet {
 	) {
 		super(logger, urlUtil, calendarUtil, timeZoneUtil, httpContextProvider, authenticationService, authorizationService);
 		this.portfolioWidget = portfolioWidget;
-		this.authenticationService = authenticationService;
 		this.galleryService = galleryService;
 	}
 
@@ -80,17 +75,13 @@ public class PortfolioGuiLinksServlet extends WebsiteWidgetServlet {
 	@Override
 	public Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		try {
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.getCollectionIdentifierByNameShared(
-				PortfolioGuiConstants.COLLECTION_NAME_LINKS);
+			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.getCollectionIdentifierByNameShared(PortfolioGuiConstants.COLLECTION_NAME_LINKS);
 			if (galleryCollectionIdentifier != null) {
 				portfolioWidget.setGalleryEntries(galleryService.getEntriesShared(galleryCollectionIdentifier));
 			}
 			portfolioWidget.addTitle("Links - Benjamin Borbe");
 			portfolioWidget.addContent(createContentWidget());
 			return portfolioWidget;
-		} catch (final AuthenticationServiceException e) {
-			return new ExceptionWidget(e);
 		} catch (final GalleryServiceException e) {
 			return new ExceptionWidget(e);
 		}

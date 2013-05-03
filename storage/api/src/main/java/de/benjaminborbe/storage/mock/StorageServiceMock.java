@@ -1,5 +1,6 @@
 package de.benjaminborbe.storage.mock;
 
+import de.benjaminborbe.api.NotImplementedException;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
@@ -8,7 +9,6 @@ import de.benjaminborbe.storage.api.StorageRowIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import org.slf4j.Logger;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -299,27 +299,27 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public void backup() throws StorageException {
-		throw new NotImplementedException();
+		throw new NotImplementedException("not implemented yet!");
 	}
 
 	@Override
 	public void restore(final String columnFamily, final String jsonContent) throws StorageException {
-		throw new NotImplementedException();
+		throw new NotImplementedException("not implemented yet!");
 	}
 
 	@Override
 	public long count(final String columnFamily) throws StorageException {
-		throw new NotImplementedException();
+		throw new NotImplementedException("not implemented yet!");
 	}
 
 	@Override
 	public long count(final String columnFamily, final StorageValue columnName) throws StorageException {
-		throw new NotImplementedException();
+		throw new NotImplementedException("not implemented yet!");
 	}
 
 	@Override
 	public long count(final String columnFamily, final StorageValue columnName, final StorageValue columnValue) throws StorageException {
-		throw new NotImplementedException();
+		throw new NotImplementedException("not implemented yet!");
 	}
 
 	@Override

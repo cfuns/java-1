@@ -53,8 +53,6 @@ public class ProjectileGuiTeamListServlet extends WebsiteHtmlServlet {
 
 	private final ProjectileLinkFactory projectileLinkFactory;
 
-	private final Logger logger;
-
 	private final AuthorizationService authorizationService;
 
 	@Inject
@@ -76,7 +74,6 @@ public class ProjectileGuiTeamListServlet extends WebsiteHtmlServlet {
 		this.authenticationService = authenticationService;
 		this.authorizationService = authorizationService;
 		this.projectileService = projectileService;
-		this.logger = logger;
 		this.projectileLinkFactory = projectileLinkFactory;
 	}
 
@@ -89,7 +86,6 @@ public class ProjectileGuiTeamListServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(TITLE));
 			final UlWidget ul = new UlWidget();
@@ -110,17 +106,12 @@ public class ProjectileGuiTeamListServlet extends WebsiteHtmlServlet {
 			widgets.add(projectileLinkFactory.createTeam(request));
 			return widgets;
 		} catch (final ProjectileServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-			return new ExceptionWidget(e);
-		} catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
 			return new ExceptionWidget(e);
 		}
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
-		PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(ProjectileService.PERMISSION_ADMIN);

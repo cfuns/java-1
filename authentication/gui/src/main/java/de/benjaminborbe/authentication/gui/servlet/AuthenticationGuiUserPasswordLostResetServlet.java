@@ -5,7 +5,6 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authentication.gui.AuthenticationGuiConstants;
 import de.benjaminborbe.authentication.gui.util.AuthenticationGuiLinkFactory;
@@ -94,7 +93,6 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 			final String passwordRepeat = request.getParameter(AuthenticationGuiConstants.PARAMETER_PASSWORD_REPEAT);
 			final String token = request.getParameter(AuthenticationGuiConstants.PARAMETER_EMAIL_VERIFY_TOKEN);
 			if (userIdentifier != null && password != null && passwordRepeat != null && token != null) {
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 				try {
 					setNewPassword(userIdentifier, token, password, passwordRepeat);
 					throw new RedirectException(authenticationGuiLinkFactory.userLoginUrl(request, userIdentifier));
@@ -118,8 +116,13 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 		}
 	}
 
-	private void setNewPassword(final UserIdentifier userIdentifier, final String token, final String password, final String passwordRepeat)
-		throws ValidationException, AuthenticationServiceException {
+	private void setNewPassword(
+		final UserIdentifier userIdentifier,
+		final String token,
+		final String password,
+		final String passwordRepeat
+	) throws ValidationException,
+		AuthenticationServiceException {
 		authenticationService.setNewPassword(userIdentifier, token, password, passwordRepeat);
 	}
 
@@ -134,8 +137,7 @@ public class AuthenticationGuiUserPasswordLostResetServlet extends WebsiteHtmlSe
 	}
 
 	@Override
-	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
-		PermissionDeniedException, LoginRequiredException {
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
 
 		try {
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(request.getParameter(AuthenticationGuiConstants.PARAMETER_USER_ID));

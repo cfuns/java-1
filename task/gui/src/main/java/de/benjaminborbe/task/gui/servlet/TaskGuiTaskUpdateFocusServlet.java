@@ -3,9 +3,7 @@ package de.benjaminborbe.task.gui.servlet;
 import com.google.inject.Provider;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
@@ -36,8 +34,6 @@ public class TaskGuiTaskUpdateFocusServlet extends TaskGuiWebsiteServlet {
 
 	private final TaskService taskService;
 
-	private final AuthenticationService authenticationService;
-
 	private final Logger logger;
 
 	private final ParseUtil parseUtil;
@@ -56,7 +52,6 @@ public class TaskGuiTaskUpdateFocusServlet extends TaskGuiWebsiteServlet {
 	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.taskService = taskService;
-		this.authenticationService = authenticationService;
 		this.logger = logger;
 		this.parseUtil = parseUtil;
 	}
@@ -69,11 +64,10 @@ public class TaskGuiTaskUpdateFocusServlet extends TaskGuiWebsiteServlet {
 	) throws ServletException, IOException,
 		LoginRequiredException, PermissionDeniedException {
 		try {
-			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 			final TaskFocus taskFocus = parseUtil.parseEnum(TaskFocus.class, request.getParameter(TaskGuiConstants.PARAMETER_TASK_FOCUS));
 			taskService.updateTaskFocus(taskIdentifier, taskFocus);
-		} catch (final AuthenticationServiceException | ValidationException | ParseException | TaskServiceException e) {
+		} catch (final ValidationException | ParseException | TaskServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

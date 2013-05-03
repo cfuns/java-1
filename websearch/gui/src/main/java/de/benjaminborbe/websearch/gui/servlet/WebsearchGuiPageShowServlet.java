@@ -11,7 +11,6 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
-import de.benjaminborbe.httpdownloader.api.HttpUtil;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
@@ -47,11 +46,11 @@ import java.io.IOException;
 @Singleton
 public class WebsearchGuiPageShowServlet extends WebsiteHtmlServlet {
 
+	private static final long serialVersionUID = -7605803790016397697L;
+
 	private static final String TITLE = "Websearch - Page - Content";
 
 	private final Logger logger;
-
-	private final HttpUtil httpUtil;
 
 	private final CalendarUtil calendarUtil;
 
@@ -66,7 +65,6 @@ public class WebsearchGuiPageShowServlet extends WebsiteHtmlServlet {
 	@Inject
 	public WebsearchGuiPageShowServlet(
 		final Logger logger,
-		final HttpUtil httpUtil,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final ParseUtil parseUtil,
@@ -82,7 +80,6 @@ public class WebsearchGuiPageShowServlet extends WebsiteHtmlServlet {
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
-		this.httpUtil = httpUtil;
 		this.calendarUtil = calendarUtil;
 		this.authenticationService = authenticationService;
 		this.webseachService = webseachService;
@@ -96,11 +93,8 @@ public class WebsearchGuiPageShowServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(
-		final HttpServletRequest request,
-		final HttpServletResponse response,
-		final HttpContext context
-	) throws IOException, PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
+		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
