@@ -1,18 +1,18 @@
 package de.benjaminborbe.proxy.core.config;
 
-import java.util.Collection;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+
+import java.util.Collection;
 
 public interface ProxyCoreConfig {
 
-    Collection<ConfigurationDescription> getConfigurations();
+	Collection<ConfigurationDescription> getConfigurations();
 
-    boolean conversationHistory();
+	boolean conversationHistory();
 
-    boolean conversationCrawler();
+	boolean conversationCrawler();
 
-    boolean randomPort();
+	boolean randomPort();
 
-    Integer getPort();
+	Integer getPort();
 }
