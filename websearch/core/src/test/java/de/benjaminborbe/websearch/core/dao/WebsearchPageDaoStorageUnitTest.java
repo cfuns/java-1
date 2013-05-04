@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.core.dao;
 
 import com.google.inject.Provider;
-import de.benjaminborbe.httpdownloader.api.HttpUtil;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.mock.StorageServiceMock;

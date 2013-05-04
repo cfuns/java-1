@@ -1,4 +1,7 @@
-package de.benjaminborbe.httpdownloader.api;
+package de.benjaminborbe.httpdownloader.tools;
+
+import de.benjaminborbe.httpdownloader.api.HttpHeader;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
 
 import java.net.HttpURLConnection;
 

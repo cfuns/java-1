@@ -1,15 +1,15 @@
 package de.benjaminborbe.httpdownloader.core.service;
 
-import de.benjaminborbe.httpdownloader.api.HttpContentByteArray;
-import de.benjaminborbe.httpdownloader.api.HttpHeaderDto;
 import de.benjaminborbe.httpdownloader.api.HttpRequest;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
-import de.benjaminborbe.httpdownloader.api.HttpResponseDto;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
 import de.benjaminborbe.httpdownloader.core.util.HttpdownloaderGet;
 import de.benjaminborbe.httpdownloader.core.util.HttpdownloaderGetSecure;
 import de.benjaminborbe.httpdownloader.core.util.HttpdownloaderGetUnsecure;
+import de.benjaminborbe.httpdownloader.tools.HttpContentByteArray;
+import de.benjaminborbe.httpdownloader.tools.HttpHeaderDto;
+import de.benjaminborbe.httpdownloader.tools.HttpResponseDto;
 import de.benjaminborbe.tools.http.HttpDownloadResult;
 import de.benjaminborbe.tools.http.HttpDownloaderException;
 import org.slf4j.Logger;

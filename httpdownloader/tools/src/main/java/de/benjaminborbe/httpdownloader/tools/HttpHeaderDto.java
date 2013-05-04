@@ -1,4 +1,6 @@
-package de.benjaminborbe.httpdownloader.api;
+package de.benjaminborbe.httpdownloader.tools;
+
+import de.benjaminborbe.httpdownloader.api.HttpHeader;
 
 import java.util.Arrays;
 import java.util.Collection;

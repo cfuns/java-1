@@ -2,9 +2,9 @@ package de.benjaminborbe.websearch.core.util;
 
 import de.benjaminborbe.httpdownloader.api.HttpContent;
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
-import de.benjaminborbe.httpdownloader.api.HttpHeaderDto;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
-import de.benjaminborbe.httpdownloader.api.HttpUtil;
+import de.benjaminborbe.httpdownloader.tools.HttpHeaderDto;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.easymock.EasyMock;
 import org.junit.Test;

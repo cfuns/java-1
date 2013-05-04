@@ -2,10 +2,10 @@ package de.benjaminborbe.proxy.core.util;
 
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerService;
-import de.benjaminborbe.httpdownloader.api.HttpContentByteArray;
-import de.benjaminborbe.httpdownloader.api.HttpHeaderDto;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
-import de.benjaminborbe.httpdownloader.api.HttpResponseDto;
+import de.benjaminborbe.httpdownloader.tools.HttpContentByteArray;
+import de.benjaminborbe.httpdownloader.tools.HttpHeaderDto;
+import de.benjaminborbe.httpdownloader.tools.HttpResponseDto;
 import de.benjaminborbe.proxy.api.ProxyConversation;
 import de.benjaminborbe.proxy.core.config.ProxyCoreConfig;
 import de.benjaminborbe.tools.stream.StreamUtil;

@@ -2,7 +2,7 @@ package de.benjaminborbe.crawler.service;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
-import de.benjaminborbe.httpdownloader.api.HttpResponseDto;
+import de.benjaminborbe.httpdownloader.tools.HttpResponseDto;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;

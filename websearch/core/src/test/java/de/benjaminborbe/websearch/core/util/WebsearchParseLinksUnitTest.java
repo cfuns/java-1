@@ -2,7 +2,7 @@ package de.benjaminborbe.websearch.core.util;
 
 import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.httpdownloader.api.HttpContent;
-import de.benjaminborbe.httpdownloader.api.HttpUtil;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;

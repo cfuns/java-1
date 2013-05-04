@@ -1,9 +1,11 @@
-package de.benjaminborbe.httpdownloader.api;
+package de.benjaminborbe.httpdownloader.tools;
 
+import de.benjaminborbe.httpdownloader.api.HttpHeader;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import org.easymock.EasyMock;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class HttpUtilUnitTest {
@@ -15,19 +17,19 @@ public class HttpUtilUnitTest {
 			final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
 			EasyMock.expect(httpResponse.getReturnCode()).andReturn(null);
 			EasyMock.replay(httpResponse);
-			assertThat(httpUtil.isAvailable(httpResponse), is(false));
+			assertThat(httpUtil.isAvailable(httpResponse), CoreMatchers.is(false));
 		}
 		{
 			final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
 			EasyMock.expect(httpResponse.getReturnCode()).andReturn(404);
 			EasyMock.replay(httpResponse);
-			assertThat(httpUtil.isAvailable(httpResponse), is(false));
+			assertThat(httpUtil.isAvailable(httpResponse), CoreMatchers.is(false));
 		}
 		{
 			final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
 			EasyMock.expect(httpResponse.getReturnCode()).andReturn(200);
 			EasyMock.replay(httpResponse);
-			assertThat(httpUtil.isAvailable(httpResponse), is(true));
+			assertThat(httpUtil.isAvailable(httpResponse), CoreMatchers.is(true));
 		}
 	}
 
@@ -38,25 +40,25 @@ public class HttpUtilUnitTest {
 			final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
 			EasyMock.expect(httpHeader.getValue("Content-Type")).andReturn(null);
 			EasyMock.replay(httpHeader);
-			assertThat(httpUtil.isHtml(httpHeader), is(false));
+			assertThat(httpUtil.isHtml(httpHeader), CoreMatchers.is(false));
 		}
 		{
 			final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
 			EasyMock.expect(httpHeader.getValue("Content-Type")).andReturn("text/plain");
 			EasyMock.replay(httpHeader);
-			assertThat(httpUtil.isHtml(httpHeader), is(false));
+			assertThat(httpUtil.isHtml(httpHeader), CoreMatchers.is(false));
 		}
 		{
 			final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
 			EasyMock.expect(httpHeader.getValue("Content-Type")).andReturn("text/html");
 			EasyMock.replay(httpHeader);
-			assertThat(httpUtil.isHtml(httpHeader), is(true));
+			assertThat(httpUtil.isHtml(httpHeader), CoreMatchers.is(true));
 		}
 		{
 			final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
 			EasyMock.expect(httpHeader.getValue("Content-Type")).andReturn("text/html;charset=UTF-8");
 			EasyMock.replay(httpHeader);
-			assertThat(httpUtil.isHtml(httpHeader), is(true));
+			assertThat(httpUtil.isHtml(httpHeader), CoreMatchers.is(true));
 		}
 
 	}

@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.core.util;
 
 import de.benjaminborbe.httpdownloader.api.HttpContent;
-import de.benjaminborbe.httpdownloader.api.HttpContentByteArray;
+import de.benjaminborbe.httpdownloader.tools.HttpContentByteArray;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
 import de.benjaminborbe.tools.mapper.MapperByteArray;

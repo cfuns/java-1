@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.core.util;
 
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
-import de.benjaminborbe.httpdownloader.api.HttpHeaderDto;
+import de.benjaminborbe.httpdownloader.tools.HttpHeaderDto;
 import de.benjaminborbe.tools.json.JSONArraySimple;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.json.JSONParseException;

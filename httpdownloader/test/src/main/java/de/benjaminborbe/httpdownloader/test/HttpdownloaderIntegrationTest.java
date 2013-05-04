@@ -1,8 +1,8 @@
 package de.benjaminborbe.httpdownloader.test;
 
-import de.benjaminborbe.httpdownloader.api.HttpRequestDto;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestDto;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;

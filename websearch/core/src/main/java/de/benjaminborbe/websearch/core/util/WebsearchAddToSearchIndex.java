@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.core.util;
 
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
-import de.benjaminborbe.httpdownloader.api.HttpUtil;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.tools.html.HtmlUtil;

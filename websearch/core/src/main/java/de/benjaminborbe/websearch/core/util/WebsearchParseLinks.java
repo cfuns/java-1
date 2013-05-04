@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.core.util;
 
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
-import de.benjaminborbe.httpdownloader.api.HttpUtil;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.ParseException;
