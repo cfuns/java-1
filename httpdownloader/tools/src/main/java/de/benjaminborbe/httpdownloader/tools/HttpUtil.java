@@ -2,12 +2,28 @@ package de.benjaminborbe.httpdownloader.tools;
 
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.tools.stream.StreamUtil;
 
+import javax.inject.Inject;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.zip.GZIPInputStream;
 
 public class HttpUtil {
 
-	public HttpUtil() {
+	private static final String DEFAULT_CHARSET = "UTF8";
+
+	public static final String CONTENT_ENCODING = "Content-Encoding";
+
+	public static final String CONTENT_TYPE = "Content-Type";
+
+	private final StreamUtil streamUtil;
+
+	@Inject
+	public HttpUtil(final StreamUtil streamUtil) {
+		this.streamUtil = streamUtil;
 	}
 
 	public boolean isAvailable(final HttpResponse httpResponse) {
@@ -16,7 +32,7 @@ public class HttpUtil {
 	}
 
 	public String getContentType(final HttpHeader httpHeader) {
-		return httpHeader.getValue("Content-Type");
+		return httpHeader != null ? httpHeader.getValue(CONTENT_TYPE) : null;
 	}
 
 	public boolean isHtml(final HttpHeader httpHeader) {
@@ -24,7 +40,37 @@ public class HttpUtil {
 		return contentType != null && contentType.startsWith("text/html");
 	}
 
-	public String getContent(final HttpResponse httpResponse) {
-		return new String(httpResponse.getContent().getContent());
+	public String getContent(final HttpResponse httpResponse) throws IOException {
+		final byte[] content = httpResponse.getContent().getContent();
+		final HttpHeader header = httpResponse.getHeader();
+		final String charset = getCharset(header);
+		if ("gzip".equals(getContentEncoding(header))) {
+			GZIPInputStream inputStream = new GZIPInputStream(new ByteArrayInputStream(content));
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			streamUtil.copy(inputStream, outputStream);
+			return new String(outputStream.toByteArray(), charset);
+		} else {
+			return new String(content, charset);
+		}
+	}
+
+	private String getContentEncoding(final HttpHeader header) {
+		return header != null ? header.getValue(CONTENT_ENCODING) : null;
+	}
+
+	private String getCharset(final HttpHeader header) {
+		final String contentType = getContentType(header);
+		if (contentType != null) {
+			final String s = "charset=";
+			int pos = contentType.indexOf(s);
+			if (pos != -1) {
+				return contentType.substring(pos + s.length());
+			}
+		}
+		return DEFAULT_CHARSET;
+	}
+
+	public String getCharset(final HttpResponse httpResponse) {
+		return getCharset(httpResponse.getHeader());
 	}
 }

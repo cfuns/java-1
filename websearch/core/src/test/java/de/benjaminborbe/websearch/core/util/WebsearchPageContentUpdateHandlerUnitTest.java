@@ -5,6 +5,8 @@ import de.benjaminborbe.httpdownloader.api.HttpHeader;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.tools.HttpHeaderDto;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
+import de.benjaminborbe.tools.stream.ChannelTools;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.easymock.EasyMock;
 import org.junit.Test;
@@ -25,7 +27,9 @@ public class WebsearchPageContentUpdateHandlerUnitTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		EasyMock.replay(parseUtil);
 
-		final HttpUtil httpUtil = new HttpUtil();
+		final ChannelTools channelTools = new ChannelTools();
+		final StreamUtil streamUtil = new StreamUtil(channelTools);
+		final HttpUtil httpUtil = new HttpUtil(streamUtil);
 
 		final WebsearchAddToSearchIndex websearchAddToSearchIndex = EasyMock.createMock(WebsearchAddToSearchIndex.class);
 		EasyMock.replay(websearchAddToSearchIndex);

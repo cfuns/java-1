@@ -75,6 +75,7 @@ public class WebsearchGuiPageContentServlet extends WebsiteServlet {
 			final WebsearchPageIdentifier websearchPageIdentifier = websearchService.createPageIdentifier(url);
 			final WebsearchPage websearchPage = websearchService.getPage(sessionIdentifier, websearchPageIdentifier);
 			response.setContentType(websearchPage.getHeader().getValue("Content-Type"));
+			response.setHeader("Content-Encoding", websearchPage.getHeader().getValue("Content-Encoding"));
 
 			final InputStream inputStream = websearchPage.getContent().getContentStream();
 			final ServletOutputStream outputStream = response.getOutputStream();

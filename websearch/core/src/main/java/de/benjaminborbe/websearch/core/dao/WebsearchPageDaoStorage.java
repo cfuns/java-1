@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 
@@ -93,7 +94,7 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 			if (fieldNames == null || fieldNames.contains(new StorageValue(WebsearchPageBeanMapper.CONTENT, getEncoding()))) {
 				websearchPageContentUpdateHandler.onContentUpdated(entity);
 			}
-		} catch (ParseException | IndexerServiceException e) {
+		} catch (ParseException | IOException | IndexerServiceException e) {
 			throw new StorageException(e);
 		}
 	}

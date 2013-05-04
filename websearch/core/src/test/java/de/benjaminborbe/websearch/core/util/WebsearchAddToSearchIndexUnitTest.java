@@ -3,6 +3,8 @@ package de.benjaminborbe.websearch.core.util;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.stream.ChannelTools;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.StringUtil;
 import org.easymock.EasyMock;
 import org.junit.Test;
@@ -32,7 +34,9 @@ public class WebsearchAddToSearchIndexUnitTest {
 		EasyMock.expect(htmlUtil.filterHtmlTages(title)).andReturn(title);
 		EasyMock.replay(htmlUtil);
 
-		final HttpUtil httpUtil = new HttpUtil();
+		final ChannelTools channelTools = new ChannelTools();
+		final StreamUtil streamUtil = new StreamUtil(channelTools);
+		final HttpUtil httpUtil = new HttpUtil(streamUtil);
 		final WebsearchAddToSearchIndex websearchAddToSearchIndex = new WebsearchAddToSearchIndex(logger, indexerService, htmlUtil, stringUtil, httpUtil);
 		assertThat(websearchAddToSearchIndex.extractTitle(content), is(title));
 	}

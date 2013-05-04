@@ -8,6 +8,7 @@ import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 
 public class WebsearchPageContentUpdateHandler {
@@ -33,7 +34,7 @@ public class WebsearchPageContentUpdateHandler {
 		this.websearchParseLinks = websearchParseLinks;
 	}
 
-	public void onContentUpdated(final WebsearchPageBean page) throws ParseException, IndexerServiceException {
+	public void onContentUpdated(final WebsearchPageBean page) throws ParseException, IndexerServiceException, IOException {
 		if (isHtmlPage(page)) {
 			websearchParseLinks.parseLinks(page);
 			websearchAddToSearchIndex.addToIndex(page);

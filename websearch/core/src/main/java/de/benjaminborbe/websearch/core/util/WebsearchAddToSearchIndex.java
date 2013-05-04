@@ -15,6 +15,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.io.IOException;
 
 public class WebsearchAddToSearchIndex {
 
@@ -45,7 +46,7 @@ public class WebsearchAddToSearchIndex {
 		this.httpUtil = httpUtil;
 	}
 
-	public void addToIndex(final HttpResponse result) throws IndexerServiceException, ParseException {
+	public void addToIndex(final HttpResponse result) throws IndexerServiceException, ParseException, IOException {
 		final String html = httpUtil.getContent(result);
 		final Document document = Jsoup.parse(html);
 		for (final Element head : document.getElementsByTag("head")) {

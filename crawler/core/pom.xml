@@ -55,7 +55,10 @@
 							${felix_plugin_imports},
 							de.benjaminborbe.crawler.api
 						</Import-Package>
-						<Import-Service></Import-Service>
+						<Import-Service>
+							de.benjaminborbe.httpdownloader.api.HttpdownloaderService,
+							de.benjaminborbe.message.api.MessageService
+						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service>de.benjaminborbe.crawler.api.CrawlerService</Export-Service>
 					</instructions>

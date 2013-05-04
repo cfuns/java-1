@@ -58,6 +58,7 @@
 							${felix_plugin_imports}
 						</Import-Package>
 						<Import-Service>
+							de.benjaminborbe.configuration.api.ConfigurationService,
 							de.benjaminborbe.authorization.api.AuthorizationService,
 							de.benjaminborbe.authentication.api.AuthenticationService,
 							de.benjaminborbe.proxy.api.ProxyService

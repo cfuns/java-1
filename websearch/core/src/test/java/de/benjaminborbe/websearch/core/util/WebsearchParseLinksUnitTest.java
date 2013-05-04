@@ -4,6 +4,8 @@ import de.benjaminborbe.crawler.api.CrawlerResult;
 import de.benjaminborbe.httpdownloader.api.HttpContent;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.stream.ChannelTools;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageDao;
@@ -35,6 +37,7 @@ public class WebsearchParseLinksUnitTest {
 		final CrawlerResult crawlerResult = EasyMock.createMock(CrawlerResult.class);
 		EasyMock.expect(crawlerResult.getContent()).andReturn(httpContent);
 		EasyMock.expect(crawlerResult.getUrl()).andReturn(new URL("http://example.com"));
+		EasyMock.expect(crawlerResult.getHeader()).andReturn(null);
 		EasyMock.replay(crawlerResult);
 
 		final WebsearchPageDao websearchPageDao = EasyMock.createMock(WebsearchPageDao.class);
@@ -47,7 +50,9 @@ public class WebsearchParseLinksUnitTest {
 		EasyMock.expect(parseUtil.parseURL(urlString)).andReturn(url).anyTimes();
 		EasyMock.replay(parseUtil);
 
-		final HttpUtil httpUtil = new HttpUtil();
+		final ChannelTools channelTools = new ChannelTools();
+		final StreamUtil streamUtil = new StreamUtil(channelTools);
+		final HttpUtil httpUtil = new HttpUtil(streamUtil);
 
 		final WebsearchPageBean websearchPageBean = EasyMock.createMock(WebsearchPageBean.class);
 		EasyMock.replay(websearchPageBean);

@@ -17,6 +17,8 @@ import de.benjaminborbe.tools.mapper.MapperCalendar;
 import de.benjaminborbe.tools.mapper.MapperInteger;
 import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperUrl;
+import de.benjaminborbe.tools.stream.ChannelTools;
+import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -70,7 +72,9 @@ public class WebsearchPageDaoStorageUnitTest {
 
 		final TimeZone timeZone = timeZoneUtil.getUTCTimeZone();
 		final Calendar calendar = calendarUtil.parseDateTime(timeZone, "2012-12-24 20:15:59");
-		final HttpUtil httpUtil = new HttpUtil();
+		final ChannelTools channelTools = new ChannelTools();
+		final StreamUtil streamUtil = new StreamUtil(channelTools);
+		final HttpUtil httpUtil = new HttpUtil(streamUtil);
 		final WebsearchAddToSearchIndex websearchAddToSearchIndex = EasyMock.createMock(WebsearchAddToSearchIndex.class);
 		EasyMock.replay(websearchAddToSearchIndex);
 		final WebsearchParseLinks websearchParseLinks = EasyMock.createMock(WebsearchParseLinks.class);

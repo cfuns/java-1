@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -40,7 +41,7 @@ public class WebsearchParseLinks {
 		this.parseUtil = parseUtil;
 	}
 
-	public void parseLinks(final HttpResponse result) {
+	public void parseLinks(final HttpResponse result) throws IOException {
 		final Collection<String> links = htmlUtil.parseLinks(httpUtil.getContent(result));
 		logger.trace("found " + links.size() + " links");
 		for (final String link : links) {
