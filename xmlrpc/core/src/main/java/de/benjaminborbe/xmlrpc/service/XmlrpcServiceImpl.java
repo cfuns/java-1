@@ -24,7 +24,7 @@ public class XmlrpcServiceImpl implements XmlrpcService {
 	@Override
 	public Object execute(final URL url, final String pMethodName, final Object[] pParams) throws XmlrpcServiceException {
 		try {
-			logger.trace("execute");
+			logger.debug("call on url: " + url + " method: " + pMethodName + " with params " + toString(pParams));
 			final XmlRpcClient client = getClient(url);
 
 			// System.setProperty("javax.xml.parsers.SAXParserFactory",
@@ -34,6 +34,20 @@ public class XmlrpcServiceImpl implements XmlrpcService {
 		} catch (final XmlRpcException e) {
 			throw new XmlrpcServiceException(e);
 		}
+	}
+
+	private String toString(final Object[] pParams) {
+		StringBuilder sb = new StringBuilder();
+		if (pParams != null) {
+			sb.append('[');
+			for (Object param : pParams) {
+				sb.append(param != null ? String.valueOf(param) : "null");
+			}
+			sb.append(']');
+		} else {
+			sb.append("null");
+		}
+		return sb.toString();
 	}
 
 	private XmlRpcClient getClient(final URL url) {

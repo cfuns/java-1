@@ -45,12 +45,20 @@ public class ConfluenceGuiLinkFactory {
 			ConfluenceGuiConstants.PARAMETER_INSTANCE_ID, String.valueOf(id)), "edit");
 	}
 
+	public Widget refreshPage(
+		final HttpServletRequest request,
+		final ConfluenceInstanceIdentifier id
+	) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_REFRESH_PAGE, new MapParameter().add(
+			ConfluenceGuiConstants.PARAMETER_INSTANCE_ID, String.valueOf(id)), "refresh page");
+	}
+
 	public Widget expireAll(final HttpServletRequest request) throws MalformedURLException {
 		return new LinkRelativWidget(request, "/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_EXPIRE_ALL, "expire all").addConfirm("expire all?");
 	}
 
 	public Widget refreshIndex(final HttpServletRequest request) throws MalformedURLException {
-		return new LinkRelativWidget(request, "/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_INDEX_REFRESH, "refresh index");
+		return new LinkRelativWidget(request, "/" + ConfluenceGuiConstants.NAME + ConfluenceGuiConstants.URL_REFRESH_PAGES, "refresh index");
 	}
 
 }

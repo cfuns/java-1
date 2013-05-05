@@ -6,6 +6,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.confluence.api.ConfluenceInstance;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
+import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.api.ConfluenceServiceException;
 
@@ -32,16 +33,13 @@ public class ConfluenceServiceMock implements ConfluenceService {
 	}
 
 	@Override
-	public Collection<ConfluenceInstance> getConfluenceInstances(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException {
-		return new ArrayList<>();
+	public ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(final String instanceId) {
+		return null;
 	}
 
 	@Override
-	public ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(
-		final SessionIdentifier sessionIdentifier,
-		final String id
-	) throws ConfluenceServiceException {
-		return null;
+	public Collection<ConfluenceInstance> getConfluenceInstances(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException {
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -51,11 +49,31 @@ public class ConfluenceServiceMock implements ConfluenceService {
 	}
 
 	@Override
-	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, ConfluenceServiceException {
+	public boolean refreshPages(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, ConfluenceServiceException {
+		return true;
+	}
+
+	@Override
+	public boolean refreshPage(
+		final SessionIdentifier sessionIdentifier, final ConfluencePageIdentifier confluencePageIdentifier
+	) throws LoginRequiredException, ConfluenceServiceException, PermissionDeniedException {
+		return false;
+	}
+
+	@Override
+	public ConfluencePageIdentifier findPageByUrl(
+		final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String pageUrl
+	) throws LoginRequiredException, ConfluenceServiceException, PermissionDeniedException {
+		return null;
 	}
 
 	@Override
 	public void expireAll(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+	}
+
+	@Override
+	public ConfluencePageIdentifier createConfluencePageIdentifier(final String pageId) {
+		return null;
 	}
 
 	@Override

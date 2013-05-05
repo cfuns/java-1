@@ -9,11 +9,7 @@ import java.util.Collection;
 
 public interface ConfluenceServiceInstance {
 
-	ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(
-		SessionIdentifier sessionIdentifier,
-		String id
-	) throws ConfluenceServiceException, LoginRequiredException,
-		PermissionDeniedException;
+	ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(String instanceId);
 
 	Collection<ConfluenceInstance> getConfluenceInstances(SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException;
 

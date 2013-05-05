@@ -112,6 +112,8 @@ public class ConfluenceGuiInstanceListServlet extends WebsiteHtmlServlet {
 				final ListWidget options = new ListWidget();
 				options.add(linkFactory.updateInstance(request, confluenceInstance.getId()));
 				options.add(" ");
+				options.add(linkFactory.refreshPage(request, confluenceInstance.getId()));
+				options.add(" ");
 				options.add(linkFactory.deleteInstance(request, confluenceInstance.getId()));
 				row.addCell(options);
 				row.addClass(Boolean.TRUE.equals(confluenceInstance.getActivated()) ? "confluenceInstanceActive" : "confluenceInstanceInactive");

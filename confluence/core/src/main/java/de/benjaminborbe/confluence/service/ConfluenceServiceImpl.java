@@ -12,14 +12,17 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.confluence.api.ConfluenceInstance;
 import de.benjaminborbe.confluence.api.ConfluenceInstanceIdentifier;
+import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
 import de.benjaminborbe.confluence.api.ConfluenceService;
 import de.benjaminborbe.confluence.api.ConfluenceServiceException;
+import de.benjaminborbe.confluence.connector.ConfluenceXmlRpcClientException;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.confluence.dao.ConfluencePageBean;
 import de.benjaminborbe.confluence.dao.ConfluencePageDao;
 import de.benjaminborbe.confluence.util.ConfluenceIndexUtil;
-import de.benjaminborbe.confluence.util.ConfluenceRefresher;
+import de.benjaminborbe.confluence.util.ConfluencePageRefresher;
+import de.benjaminborbe.confluence.util.ConfluencePagesRefresher;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
@@ -30,11 +33,13 @@ import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -52,7 +57,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	private final IdGeneratorUUID idGeneratorUUID;
 
-	private final ConfluenceRefresher confluenceRefresher;
+	private final ConfluencePagesRefresher confluencePagesRefresher;
 
 	private final AuthorizationService authorizationService;
 
@@ -64,6 +69,8 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 
 	private final ConfluenceIndexUtil confluenceIndexUtil;
 
+	private final ConfluencePageRefresher confluencePageRefresher;
+
 	@Inject
 	public ConfluenceServiceImpl(
 		final Logger logger,
@@ -74,9 +81,10 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		final DurationUtil durationUtil,
 		final IdGeneratorUUID idGeneratorUUID,
 		final ValidationExecutor validationExecutor,
-		final ConfluenceRefresher confluenceRefresher,
+		final ConfluencePagesRefresher confluencePagesRefresher,
 		final IndexService indexService,
-		final ConfluenceIndexUtil confluenceIndexUtil
+		final ConfluenceIndexUtil confluenceIndexUtil,
+		final ConfluencePageRefresher confluencePageRefresher
 	) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -85,10 +93,11 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		this.durationUtil = durationUtil;
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.validationExecutor = validationExecutor;
-		this.confluenceRefresher = confluenceRefresher;
+		this.confluencePagesRefresher = confluencePagesRefresher;
 		this.authorizationService = authorizationService;
 		this.indexService = indexService;
 		this.confluenceIndexUtil = confluenceIndexUtil;
+		this.confluencePageRefresher = confluencePageRefresher;
 	}
 
 	@Override
@@ -102,7 +111,7 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			logger.debug("createConfluenceIntance");
 			expectPermission(sessionIdentifier);
 
-			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = createConfluenceInstanceIdentifier(sessionIdentifier, idGeneratorUUID.nextId());
+			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = createConfluenceInstanceIdentifier(idGeneratorUUID.nextId());
 			final ConfluenceInstanceBean confluenceInstance = confluenceInstanceDao.create();
 			confluenceInstance.setId(confluenceInstanceIdentifier);
 			confluenceInstance.setUrl(url);
@@ -249,20 +258,11 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	}
 
 	@Override
-	public ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(
-		final SessionIdentifier sessionIdentifier,
-		final String id
-	) throws ConfluenceServiceException,
-		LoginRequiredException, PermissionDeniedException {
-		final Duration duration = durationUtil.getDuration();
-		try {
-			logger.debug("getConfluenceInstances");
-			expectPermission(sessionIdentifier);
-
-			return new ConfluenceInstanceIdentifier(id);
-		} finally {
-			logger.trace("duration " + duration.getTime());
+	public ConfluenceInstanceIdentifier createConfluenceInstanceIdentifier(final String instanceId) {
+		if (instanceId != null && !instanceId.trim().isEmpty()) {
+			return new ConfluenceInstanceIdentifier(instanceId.trim());
 		}
+		return null;
 	}
 
 	@Override
@@ -308,13 +308,49 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 	}
 
 	@Override
-	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
+	public boolean refreshPages(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.debug("refreshSearchIndex");
+			logger.debug("refreshPages");
 			expectPermission(sessionIdentifier);
 
-			confluenceRefresher.refresh();
+			return confluencePagesRefresher.refresh();
+		} finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public boolean refreshPage(
+		final SessionIdentifier sessionIdentifier, final ConfluencePageIdentifier confluencePageIdentifier
+	) throws LoginRequiredException, ConfluenceServiceException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("refreshPages");
+			expectPermission(sessionIdentifier);
+
+			confluencePageRefresher.refreshPage(confluencePageIdentifier);
+
+			return true;
+		} catch (IndexerServiceException | ConfluenceXmlRpcClientException | StorageException | MalformedURLException | ParseException e) {
+			throw new ConfluenceServiceException(e);
+		} finally {
+			logger.trace("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public ConfluencePageIdentifier findPageByUrl(
+		final SessionIdentifier sessionIdentifier, final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String pageUrl
+	) throws LoginRequiredException, ConfluenceServiceException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("expireAll");
+			expectPermission(sessionIdentifier);
+
+			return confluencePageDao.findPageByUrl(confluenceInstanceIdentifier, pageUrl);
+		} catch (StorageException | IdentifierIteratorException e) {
+			throw new ConfluenceServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());
 		}
@@ -339,6 +375,14 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 		} finally {
 			logger.trace("duration " + duration.getTime());
 		}
+	}
+
+	@Override
+	public ConfluencePageIdentifier createConfluencePageIdentifier(final String pageId) {
+		if (pageId != null && !pageId.trim().isEmpty()) {
+			return new ConfluencePageIdentifier(pageId);
+		}
+		return null;
 	}
 
 	@Override

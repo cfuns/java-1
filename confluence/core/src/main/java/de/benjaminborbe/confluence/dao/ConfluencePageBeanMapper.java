@@ -25,6 +25,24 @@ import java.util.List;
 @Singleton
 public class ConfluencePageBeanMapper extends MapObjectMapperAdapter<ConfluencePageBean> {
 
+	public static final String ID = "id";
+
+	public static final String OWNER = "owner";
+
+	public static final String INSTANCE_ID = "instanceId";
+
+	public static final String PAGE_ID = "pageId";
+
+	public static final String URL = "url";
+
+	public static final String LAST_VISIT = "lastVisit";
+
+	public static final String LAST_MODIFIED = "lastModified";
+
+	public static final String MODIFIED = "modified";
+
+	public static final String CREATED = "created";
+
 	@Inject
 	public ConfluencePageBeanMapper(
 		final Provider<ConfluencePageBean> provider,
@@ -47,15 +65,15 @@ public class ConfluencePageBeanMapper extends MapObjectMapperAdapter<ConfluenceP
 		final MapperUrl mapperUrl
 	) {
 		final List<StringObjectMapper<ConfluencePageBean>> result = new ArrayList<>();
-		result.add(new StringObjectMapperAdapter<ConfluencePageBean, ConfluencePageIdentifier>("id", mapperConfluencePageIdentifier));
-		result.add(new StringObjectMapperAdapter<ConfluencePageBean, UserIdentifier>("owner", mapperUserIdentifier));
-		result.add(new StringObjectMapperAdapter<ConfluencePageBean, ConfluenceInstanceIdentifier>("instanceId", mapperConfluenceInstanceIdentifier));
-		result.add(new StringObjectMapperAdapter<ConfluencePageBean, String>("pageId", mapperString));
-		result.add(new StringObjectMapperAdapter<ConfluencePageBean, URL>("url", mapperUrl));
-		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>("lastVisit", mapperCalendar));
-		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>("lastModified", mapperCalendar));
-		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ConfluencePageBean, ConfluencePageIdentifier>(ID, mapperConfluencePageIdentifier));
+		result.add(new StringObjectMapperAdapter<ConfluencePageBean, UserIdentifier>(OWNER, mapperUserIdentifier));
+		result.add(new StringObjectMapperAdapter<ConfluencePageBean, ConfluenceInstanceIdentifier>(INSTANCE_ID, mapperConfluenceInstanceIdentifier));
+		result.add(new StringObjectMapperAdapter<ConfluencePageBean, String>(PAGE_ID, mapperString));
+		result.add(new StringObjectMapperAdapter<ConfluencePageBean, URL>(URL, mapperUrl));
+		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>(LAST_VISIT, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>(LAST_MODIFIED, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>(CREATED, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<ConfluencePageBean, Calendar>(MODIFIED, mapperCalendar));
 		return result;
 	}
 }

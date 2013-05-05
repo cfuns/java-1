@@ -6,7 +6,8 @@ import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceCreateServle
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceDeleteServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceListServlet;
 import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiInstanceUpdateServlet;
-import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiRefreshIndexServlet;
+import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiRefreshPageServlet;
+import de.benjaminborbe.confluence.gui.servlet.ConfluenceGuiRefreshPagesServlet;
 import de.benjaminborbe.confluence.gui.util.ConfluenceGuiNavigationEntry;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
@@ -23,10 +24,13 @@ import java.util.Set;
 public class ConfluenceGuiActivator extends HttpBundleActivator {
 
 	@Inject
+	private ConfluenceGuiRefreshPageServlet confluenceGuiRefreshPageServlet;
+
+	@Inject
 	private ConfluenceGuiExpireAllServlet confluenceGuiExpireAllServlet;
 
 	@Inject
-	private ConfluenceGuiRefreshIndexServlet confluenceGuiRefreshIndexServlet;
+	private ConfluenceGuiRefreshPagesServlet confluenceGuiRefreshPagesServlet;
 
 	@Inject
 	private ConfluenceGuiInstanceCreateServlet confluenceGuiInstanceCreateServlet;
@@ -59,7 +63,8 @@ public class ConfluenceGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(confluenceGuiInstanceListServlet, ConfluenceGuiConstants.URL_INSTANCE_LIST));
 		result.add(new ServletInfo(confluenceGuiInstanceDeleteServlet, ConfluenceGuiConstants.URL_INSTANCE_DELETE));
 		result.add(new ServletInfo(confluenceGuiInstanceUpdateServlet, ConfluenceGuiConstants.URL_INSTANCE_UPDATE));
-		result.add(new ServletInfo(confluenceGuiRefreshIndexServlet, ConfluenceGuiConstants.URL_INDEX_REFRESH));
+		result.add(new ServletInfo(confluenceGuiRefreshPagesServlet, ConfluenceGuiConstants.URL_REFRESH_PAGES));
+		result.add(new ServletInfo(confluenceGuiRefreshPageServlet, ConfluenceGuiConstants.URL_REFRESH_PAGE));
 		result.add(new ServletInfo(confluenceGuiExpireAllServlet, ConfluenceGuiConstants.URL_EXPIRE_ALL));
 		return result;
 	}

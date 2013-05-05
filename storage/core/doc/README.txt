@@ -165,7 +165,8 @@ create column family confluence_page with
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type and
   column_metadata = [
-    {column_name: instanceId, validation_class: UTF8Type, index_type: KEYS}
+    {column_name: instanceId, validation_class: UTF8Type, index_type: KEYS},
+    {column_name: url, validation_class: UTF8Type, index_type: KEYS}
   ];
 
 drop column family task;

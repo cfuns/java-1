@@ -63,7 +63,7 @@ public class ConfluenceGuiInstanceDeleteServlet extends WebsiteServlet {
 		LoginRequiredException, PermissionDeniedException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceInstanceIdentifier(sessionIdentifier,
+			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceInstanceIdentifier(
 				request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_ID));
 			confluenceService.deleteConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier);
 		} catch (final AuthenticationServiceException | ConfluenceServiceException e) {

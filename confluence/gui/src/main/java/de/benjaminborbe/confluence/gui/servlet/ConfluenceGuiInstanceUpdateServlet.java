@@ -108,7 +108,7 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 			final String referer = request.getParameter(ConfluenceGuiConstants.PARAMETER_REFERER);
 			final String owner = request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_OWNER);
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceInstanceIdentifier(sessionIdentifier, id);
+			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceInstanceIdentifier(id);
 
 			final ConfluenceInstance confluenceInstance = confluenceService.getConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier);
 

@@ -4,7 +4,7 @@ import de.benjaminborbe.confluence.config.ConfluenceConfig;
 import de.benjaminborbe.confluence.connector.ConfluenceConnector;
 import de.benjaminborbe.confluence.connector.ConfluenceConnectorPage;
 import de.benjaminborbe.confluence.connector.ConfluenceConnectorPageSummary;
-import de.benjaminborbe.confluence.connector.ConfluenceSession;
+import de.benjaminborbe.confluence.connector.ConfluenceConnectorSession;
 import de.benjaminborbe.confluence.connector.ConfluenceXmlRpcClientException;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
@@ -26,13 +26,12 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class ConfluenceRefresher {
+public class ConfluencePagesRefresher {
 
 	private final class RefreshPages implements Runnable {
 
@@ -88,10 +87,12 @@ public class ConfluenceRefresher {
 
 	private final ConfluencePageExpiredCalculator confluencePageExpiredCalculator;
 
+	private final ConfluencePageRefresher confluencePageRefresher;
+
 	private final ListUtil listUtil;
 
 	@Inject
-	public ConfluenceRefresher(
+	public ConfluencePagesRefresher(
 		final Logger logger,
 		final ParseUtil parseUtil,
 		final RunOnlyOnceATime runOnlyOnceATime,
@@ -105,7 +106,8 @@ public class ConfluenceRefresher {
 		final TimeZoneUtil timeZoneUtil,
 		final ConfluenceConfig confluenceConfig,
 		final ConfluenceIndexUtil confluenceIndexUtil,
-		final ConfluencePageExpiredCalculator confluencePageExpiredCalculator
+		final ConfluencePageExpiredCalculator confluencePageExpiredCalculator,
+		final ConfluencePageRefresher confluencePageRefresher
 	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
@@ -121,6 +123,7 @@ public class ConfluenceRefresher {
 		this.confluenceConfig = confluenceConfig;
 		this.confluenceIndexUtil = confluenceIndexUtil;
 		this.confluencePageExpiredCalculator = confluencePageExpiredCalculator;
+		this.confluencePageRefresher = confluencePageRefresher;
 	}
 
 	private void handle(final ConfluenceInstanceBean confluenceInstanceBean) throws MalformedURLException, ConfluenceXmlRpcClientException, ParseException {
@@ -128,17 +131,17 @@ public class ConfluenceRefresher {
 		final String indexName = confluenceIndexUtil.getIndex(confluenceInstanceBean);
 		int counter = 0;
 		final String confluenceBaseUrl = confluenceInstanceBean.getUrl();
-		final String username = confluenceInstanceBean.getUsername();
-		final String password = confluenceInstanceBean.getPassword();
-		final ConfluenceSession token = confluenceConnector.login(confluenceBaseUrl, username, password);
-		final List<String> spaceKeys = listUtil.toList(confluenceConnector.getSpaceKeys(confluenceBaseUrl, token));
+
+		final ConfluenceConnectorSession token = confluenceConnector.login(confluenceInstanceBean);
+
+		final List<String> spaceKeys = listUtil.toList(confluenceConnector.getSpaceKeys(token));
 
 		Collections.shuffle(spaceKeys);
 
 		logger.debug("found " + spaceKeys.size() + " spaces in " + confluenceBaseUrl);
 		for (final String spaceKey : spaceKeys) {
 			logger.debug("process space " + spaceKey);
-			final List<ConfluenceConnectorPageSummary> pageSummaries = listUtil.toList(confluenceConnector.getPageSummaries(confluenceBaseUrl, token, spaceKey));
+			final List<ConfluenceConnectorPageSummary> pageSummaries = listUtil.toList(confluenceConnector.getPageSummaries(token, spaceKey));
 
 			Collections.shuffle(pageSummaries);
 
@@ -158,7 +161,7 @@ public class ConfluenceRefresher {
 					return;
 				}
 
-				final ConfluenceConnectorPage page = confluenceConnector.getPage(confluenceBaseUrl, token, pageSummary);
+				final ConfluenceConnectorPage page = confluenceConnector.getPage(token, pageSummary);
 				final Calendar pageModified = toCalendar(page.getModified());
 				logger.debug("process page " + page.getTitle() + " lastmodified: " + calendarUtil.toDateTimeString(pageModified));
 				try {
@@ -168,23 +171,7 @@ public class ConfluenceRefresher {
 
 						counter++;
 						logger.debug("refresh-counter: " + counter);
-						logger.debug("update page " + page.getTitle());
-						final String content = confluenceConnector.getRenderedContent(confluenceBaseUrl, token, page.getPageId());
-						final URL url = parseUtil.parseURL(page.getUrl());
-						final String title = page.getTitle();
-
-						indexerService.addToIndex(indexName, url, title, filterContent(content), calendarUtil.getCalendar(page.getModified()));
-
-						logger.debug("addToIndex " + url.toExternalForm());
-
-						// update lastVisit
-						pageBean.setLastVisit(calendarUtil.now());
-						pageBean.setLastModified(pageModified);
-						pageBean.setPageId(page.getPageId());
-						pageBean.setOwner(confluenceInstanceBean.getOwner());
-						pageBean.setInstanceId(confluenceInstanceBean.getId());
-						pageBean.setUrl(url);
-						confluencePageDao.save(pageBean);
+						confluencePageRefresher.refreshPage(token, confluenceInstanceBean, pageBean, page);
 					} else {
 						logger.debug("skip page " + page.getTitle());
 					}
@@ -215,12 +202,6 @@ public class ConfluenceRefresher {
 
 	private Calendar toCalendar(final Date date) {
 		return calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), date, null);
-	}
-
-	private String filterContent(final String orgContent) throws ParseException {
-		final String filteredContent = htmlUtil.filterHtmlTages(orgContent);
-		logger.trace("filterContent - orgContent: " + orgContent + " filteredContent: " + filteredContent);
-		return filteredContent;
 	}
 
 	public boolean refresh() {

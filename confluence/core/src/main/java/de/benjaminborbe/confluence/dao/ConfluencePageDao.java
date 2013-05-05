@@ -5,6 +5,7 @@ import de.benjaminborbe.confluence.api.ConfluencePageIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.Dao;
 import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 
 public interface ConfluencePageDao extends Dao<ConfluencePageBean, ConfluencePageIdentifier> {
 
@@ -14,4 +15,8 @@ public interface ConfluencePageDao extends Dao<ConfluencePageBean, ConfluencePag
 
 	long countPagesOfInstance(ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws StorageException;
 
+	ConfluencePageIdentifier findPageByUrl(
+		ConfluenceInstanceIdentifier confluenceInstanceIdentifier,
+		String pageUrl
+	) throws StorageException, IdentifierIteratorException;
 }

@@ -8,6 +8,8 @@ import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.tools.DaoStorage;
 import de.benjaminborbe.storage.tools.EntityIterator;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueMap;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import org.slf4j.Logger;
@@ -17,6 +19,8 @@ import javax.inject.Singleton;
 
 @Singleton
 public class ConfluencePageDaoStorage extends DaoStorage<ConfluencePageBean, ConfluencePageIdentifier> implements ConfluencePageDao {
+
+	private final Logger logger;
 
 	@Inject
 	public ConfluencePageDaoStorage(
@@ -28,6 +32,7 @@ public class ConfluencePageDaoStorage extends DaoStorage<ConfluencePageBean, Con
 		final CalendarUtil calendarUtil
 	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
+		this.logger = logger;
 	}
 
 	private static final String COLUMN_FAMILY = "confluence_page";
@@ -61,5 +66,24 @@ public class ConfluencePageDaoStorage extends DaoStorage<ConfluencePageBean, Con
 	@Override
 	public long countPagesOfInstance(final ConfluenceInstanceIdentifier confluenceInstanceIdentifier) throws StorageException {
 		return count(new StorageValue("instanceId", getEncoding()), new StorageValue(String.valueOf(confluenceInstanceIdentifier), getEncoding()));
+	}
+
+	@Override
+	public ConfluencePageIdentifier findPageByUrl(
+		final ConfluenceInstanceIdentifier confluenceInstanceIdentifier, final String pageUrl
+	) throws StorageException, IdentifierIteratorException {
+		logger.trace("search for page with instance " + confluenceInstanceIdentifier + " and url: " + pageUrl);
+		final StorageValueMap storageValueMap = new StorageValueMap(getEncoding());
+		storageValueMap.add(ConfluencePageBeanMapper.INSTANCE_ID, confluenceInstanceIdentifier.getId());
+		storageValueMap.add(ConfluencePageBeanMapper.URL, pageUrl);
+		final IdentifierIterator<ConfluencePageIdentifier> identifierIterator = getIdentifierIterator(storageValueMap);
+		if (identifierIterator.hasNext()) {
+			ConfluencePageIdentifier confluencePageIdentifier = identifierIterator.next();
+			logger.trace("found page: " + confluenceInstanceIdentifier);
+			return confluencePageIdentifier;
+		} else {
+			logger.trace("didn't found page");
+			return null;
+		}
 	}
 }

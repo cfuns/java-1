@@ -22,7 +22,7 @@ public interface ConfluenceGuiConstants {
 
 	String URL_INSTANCE_UPDATE = "/update";
 
-	String URL_INDEX_REFRESH = "/refresh";
+	String URL_REFRESH_PAGES = "/refreshPages";
 
 	String URL_EXPIRE_ALL = "/expireAll";
 
@@ -35,4 +35,10 @@ public interface ConfluenceGuiConstants {
 	String PARAMETER_INSTANCE_ACTIVATED = "instance_activated";
 
 	String PARAMETER_INSTANCE_OWNER = "instance_owner";
+
+	String PARAMETER_PAGE_ID = "page_id";
+
+	String URL_REFRESH_PAGE = "/refreshPage";
+
+	String PARAMETER_PAGE_URL = "page_url";
 }
