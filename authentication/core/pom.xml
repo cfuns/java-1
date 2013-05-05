@@ -54,7 +54,11 @@
 						<Export-Package></Export-Package>
 						<Export-Service>de.benjaminborbe.authentication.api.AuthenticationService</Export-Service>
 						<Import-Package>${felix_plugin_imports}</Import-Package>
-						<Import-Service>de.benjaminborbe.storage.api.StorageService</Import-Service>
+						<Import-Service>
+							de.benjaminborbe.storage.api.StorageService,
+							de.benjaminborbe.mail.api.MailService,
+							de.benjaminborbe.shortener.api.ShortenerService
+						</Import-Service>
 					</instructions>
 				</configuration>
 			</plugin>

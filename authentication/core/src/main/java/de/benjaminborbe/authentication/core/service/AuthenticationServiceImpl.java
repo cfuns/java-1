@@ -279,7 +279,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	) throws MailServiceException, ShortenerServiceException, ParseException,
 		ValidationException {
 		if (Boolean.TRUE.equals(user.getEmailVerified())) {
-			logger.debug("email already verified");
+			logger.trace("email already verified => skip send mail");
+		} else if (user.getEmailNew() == null) {
+			logger.warn("newEmail is null => skip send mail");
 		} else {
 			logger.debug("email not verified, sending mail");
 			final String from = authenticationConfig.getEmailFrom();
