@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class CronConfigImpl extends ConfigurationBase implements CronConfig {
 
-	private final ConfigurationDescriptionBoolean autoStart = new ConfigurationDescriptionBoolean(false, "ConfigAutoStart", "Config Auto Start");
+	private final ConfigurationDescriptionBoolean autoStart = new ConfigurationDescriptionBoolean(false, "CronAutoStart", "Cron Auto Start");
 
 	@Inject
 	public CronConfigImpl(
