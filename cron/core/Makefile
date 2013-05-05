@@ -15,7 +15,7 @@ installwotest:
 bundle:
 	mvn org.apache.felix:maven-bundle-plugin:bundle
 deploy:
-	../scripts/osgi_deploy.pl 'Benjamin Borbe - Cron' ./target/de.benjaminborbe.cron.jar ${TOMCAT_HOST} 5555 ${LOCAL_BUNDLE_BASE} ${REMOTE_BUNDLE_BASE}
+	../../scripts/osgi_deploy.pl 'Benjamin Borbe - Cron - Core' ./target/de.benjaminborbe.cron.core.jar ${TOMCAT_HOST} 5555 ${LOCAL_BUNDLE_BASE} ${REMOTE_BUNDLE_BASE}
 .PHONY: clean installwotest deploy
 dir:
 	mkdir -p src/main/resources src/main/java src/test/resources src/test/java
