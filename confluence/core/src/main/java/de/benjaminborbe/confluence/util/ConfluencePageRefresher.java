@@ -89,7 +89,7 @@ public class ConfluencePageRefresher {
 		final String indexName = confluenceIndexUtil.getIndex(confluenceInstanceBean);
 		final Calendar pageModified = toCalendar(confluenceConnectorPage.getModified());
 
-		List<ConfluenceConnectorLabel> labels = confluenceConnector.getLabels(confluenceConnectorSession, confluenceConnectorPage.getPageId());
+		final List<ConfluenceConnectorLabel> labels = confluenceConnector.getLabels(confluenceConnectorSession, confluenceConnectorPage.getPageId());
 
 		indexerService.addToIndex(indexName, url, title, prepareContent(content, labels), calendarUtil.getCalendar(confluenceConnectorPage.getModified()));
 
@@ -110,10 +110,10 @@ public class ConfluencePageRefresher {
 		final String filteredContent = htmlUtil.filterHtmlTages(orgContent);
 		logger.trace("filteredContent: " + filteredContent);
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(filteredContent);
 		if (labels != null) {
-			for (ConfluenceConnectorLabel label : labels) {
+			for (final ConfluenceConnectorLabel label : labels) {
 				sb.append(' ');
 				sb.append(label.getLabel());
 			}

@@ -20,8 +20,8 @@ public class ProxyLineParser {
 
 	public String parseHostname(final String line) throws ParseException {
 		if (line.startsWith("CONNECT ")) {
-			int pos1 = line.indexOf(" ");
-			int pos2 = line.indexOf(":", pos1 + 1);
+			final int pos1 = line.indexOf(" ");
+			final int pos2 = line.indexOf(":", pos1 + 1);
 			return line.substring(pos1 + 1, pos2);
 		} else {
 			final int pos1 = parseUtil.indexOf(line, "//") + 2;
@@ -39,8 +39,8 @@ public class ProxyLineParser {
 
 	public int parsePort(final String line) throws ParseException {
 		if (line.startsWith("CONNECT ")) {
-			int pos1 = line.indexOf(":");
-			int pos2 = line.indexOf(" ", pos1 + 1);
+			final int pos1 = line.indexOf(":");
+			final int pos2 = line.indexOf(" ", pos1 + 1);
 			return parseUtil.parseInt(line.substring(pos1 + 1, pos2));
 		} else {
 			final int pos1 = parseUtil.indexOf(line, "//") + 2;

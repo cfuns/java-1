@@ -37,10 +37,10 @@ public class XmlrpcServiceImpl implements XmlrpcService {
 	}
 
 	private String toString(final Object[] pParams) {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		if (pParams != null) {
 			sb.append('[');
-			for (Object param : pParams) {
+			for (final Object param : pParams) {
 				sb.append(param != null ? String.valueOf(param) : "null");
 			}
 			sb.append(']');

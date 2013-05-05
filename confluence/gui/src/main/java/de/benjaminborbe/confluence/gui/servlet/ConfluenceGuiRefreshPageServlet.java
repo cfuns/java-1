@@ -95,7 +95,7 @@ public class ConfluenceGuiRefreshPageServlet extends WebsiteHtmlServlet {
 
 			}
 
-			FormWidget form = new FormWidget();
+			final FormWidget form = new FormWidget();
 			form.addFormInputWidget(new FormInputHiddenWidget(ConfluenceGuiConstants.PARAMETER_INSTANCE_ID));
 			form.addFormInputWidget(new FormInputTextWidget(ConfluenceGuiConstants.PARAMETER_PAGE_URL).addLabel("Page-Url:"));
 			form.addFormInputWidget(new FormInputSubmitWidget("refresh page"));

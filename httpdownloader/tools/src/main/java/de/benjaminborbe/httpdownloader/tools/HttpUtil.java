@@ -45,8 +45,8 @@ public class HttpUtil {
 		final HttpHeader header = httpResponse.getHeader();
 		final String charset = getCharset(header);
 		if ("gzip".equals(getContentEncoding(header))) {
-			GZIPInputStream inputStream = new GZIPInputStream(new ByteArrayInputStream(content));
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			final GZIPInputStream inputStream = new GZIPInputStream(new ByteArrayInputStream(content));
+			final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			streamUtil.copy(inputStream, outputStream);
 			return new String(outputStream.toByteArray(), charset);
 		} else {
@@ -62,7 +62,7 @@ public class HttpUtil {
 		final String contentType = getContentType(header);
 		if (contentType != null) {
 			final String s = "charset=";
-			int pos = contentType.indexOf(s);
+			final int pos = contentType.indexOf(s);
 			if (pos != -1) {
 				return contentType.substring(pos + s.length());
 			}

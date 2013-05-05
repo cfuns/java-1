@@ -78,7 +78,7 @@ public class ConfluencePageDaoStorage extends DaoStorage<ConfluencePageBean, Con
 		storageValueMap.add(ConfluencePageBeanMapper.URL, pageUrl);
 		final IdentifierIterator<ConfluencePageIdentifier> identifierIterator = getIdentifierIterator(storageValueMap);
 		if (identifierIterator.hasNext()) {
-			ConfluencePageIdentifier confluencePageIdentifier = identifierIterator.next();
+			final ConfluencePageIdentifier confluencePageIdentifier = identifierIterator.next();
 			logger.trace("found page: " + confluenceInstanceIdentifier);
 			return confluencePageIdentifier;
 		} else {
