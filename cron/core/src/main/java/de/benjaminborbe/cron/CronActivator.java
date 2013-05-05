@@ -1,8 +1,10 @@
 package de.benjaminborbe.cron;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.api.CronService;
+import de.benjaminborbe.cron.config.CronConfig;
 import de.benjaminborbe.cron.guice.CronModules;
 import de.benjaminborbe.cron.service.CronJobServiceTracker;
 import de.benjaminborbe.cron.service.CronMessageConsumer;
@@ -22,6 +24,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CronActivator extends BaseBundleActivator {
+
+	@Inject
+	private CronConfig cronConfig;
 
 	@Inject
 	private CronJobRegistry cronJobRegistry;
@@ -44,7 +49,9 @@ public class CronActivator extends BaseBundleActivator {
 	@Override
 	protected void onStarted() {
 		super.onStarted();
-		cronManager.start();
+		if (cronConfig.autoStart()) {
+			cronManager.start();
+		}
 	}
 
 	@Override
@@ -71,6 +78,9 @@ public class CronActivator extends BaseBundleActivator {
 		result.add(new ServiceInfo(CronController.class, cronController));
 		result.add(new ServiceInfo(CronService.class, cronService));
 		result.add(new ServiceInfo(MessageConsumer.class, cronMessageConsumer));
+		for (final ConfigurationDescription configuration : cronConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
 		return result;
 	}
 

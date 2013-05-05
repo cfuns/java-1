@@ -1,6 +1,7 @@
 package de.benjaminborbe.cron;
 
 import com.google.inject.Injector;
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.cron.guice.CronModulesMock;
@@ -69,6 +70,8 @@ public class CronActivatorIntegrationTest {
 		names.add(CronController.class.getName());
 		names.add(CronService.class.getName());
 		names.add(MessageConsumer.class.getName());
+		names.add(ConfigurationDescription.class.getName());
+
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;
