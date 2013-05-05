@@ -10,7 +10,9 @@ import de.benjaminborbe.websearch.core.dao.WebsearchPageDao;
 import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,11 +49,21 @@ public class WebsearchSaveAllImages {
 	}
 
 	private void saveImage(final WebsearchPageBean websearchPageBean) throws NoSuchAlgorithmException, IOException {
-		if (isJpeg(websearchPageBean)) {
+		if (isJpeg(websearchPageBean) && isCorrectSize(websearchPageBean)) {
 			logger.debug("save image of page " + websearchPageBean.getUrl());
+
 			final byte[] content = websearchPageBean.getContent().getContent();
 			final File filename = buildFile(content);
 			saveJpeg(filename, content);
+		}
+	}
+
+	private boolean isCorrectSize(final WebsearchPageBean websearchPageBean) {
+		try {
+			final BufferedImage image = ImageIO.read(websearchPageBean.getContent().getContentStream());
+			return image != null && (image.getWidth() >= 1024 && image.getHeight() >= 768 || image.getWidth() >= 768 && image.getHeight() >= 1024);
+		} catch (IOException e) {
+			return false;
 		}
 	}
 
