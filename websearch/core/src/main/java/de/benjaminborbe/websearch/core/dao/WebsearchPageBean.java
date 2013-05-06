@@ -1,8 +1,8 @@
 package de.benjaminborbe.websearch.core.dao;
 
+import de.benjaminborbe.crawler.api.CrawlerNotifierResult;
 import de.benjaminborbe.httpdownloader.api.HttpContent;
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
-import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
@@ -12,7 +12,7 @@ import de.benjaminborbe.websearch.api.WebsearchPageIdentifier;
 import java.net.URL;
 import java.util.Calendar;
 
-public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> implements WebsearchPage, HttpResponse, HasCreated, HasModified {
+public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> implements WebsearchPage, CrawlerNotifierResult, HasCreated, HasModified {
 
 	private static final long serialVersionUID = -7689141287266279351L;
 
@@ -33,6 +33,26 @@ public class WebsearchPageBean extends EntityBase<WebsearchPageIdentifier> imple
 	private Long duration;
 
 	private HttpContent content;
+
+	private Long depth;
+
+	private Integer timeout;
+
+	public Integer getTimeout() {
+		return timeout;
+	}
+
+	public void setTimeout(final Integer timeout) {
+		this.timeout = timeout;
+	}
+
+	public Long getDepth() {
+		return depth;
+	}
+
+	public void setDepth(final Long depth) {
+		this.depth = depth;
+	}
 
 	public Long getDuration() {
 		return duration;

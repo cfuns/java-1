@@ -1,7 +1,7 @@
 package de.benjaminborbe.websearch.core.service;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
-import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.crawler.api.CrawlerNotifierResult;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
@@ -32,7 +32,7 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	@Override
-	public void notifiy(final HttpResponse httpResponse) {
+	public void notifiy(final CrawlerNotifierResult httpResponse) {
 		try {
 			logger.trace("notify " + httpResponse.getUrl());
 			updateLastVisit(httpResponse);
@@ -41,8 +41,8 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 		}
 	}
 
-	private void updateLastVisit(final HttpResponse httpResponse) throws StorageException {
-		final WebsearchPageBean page = pageDao.findOrCreate(httpResponse.getUrl());
+	private void updateLastVisit(final CrawlerNotifierResult httpResponse) throws StorageException {
+		final WebsearchPageBean page = pageDao.findOrCreate(httpResponse.getUrl(), httpResponse.getDepth(), httpResponse.getTimeout());
 		page.setLastVisit(calendarUtil.now());
 		page.setHeader(httpResponse.getHeader());
 		page.setContent(httpResponse.getContent());

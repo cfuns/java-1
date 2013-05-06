@@ -1,6 +1,6 @@
 package de.benjaminborbe.websearch.core.util;
 
-import de.benjaminborbe.crawler.api.CrawlerResult;
+import de.benjaminborbe.crawler.api.CrawlerNotifierResult;
 import de.benjaminborbe.httpdownloader.api.HttpContent;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.tools.html.HtmlUtil;
@@ -34,7 +34,7 @@ public class WebsearchParseLinksUnitTest {
 		EasyMock.expect(httpContent.getContent()).andReturn(content.getBytes());
 		EasyMock.replay(httpContent);
 
-		final CrawlerResult crawlerResult = EasyMock.createMock(CrawlerResult.class);
+		final CrawlerNotifierResult crawlerResult = EasyMock.createMock(CrawlerNotifierResult.class);
 		EasyMock.expect(crawlerResult.getContent()).andReturn(httpContent);
 		EasyMock.expect(crawlerResult.getUrl()).andReturn(new URL("http://example.com"));
 		EasyMock.expect(crawlerResult.getHeader()).andReturn(null);
@@ -43,7 +43,9 @@ public class WebsearchParseLinksUnitTest {
 		final WebsearchPageDao websearchPageDao = EasyMock.createMock(WebsearchPageDao.class);
 		final String urlString = "http://example.com/links";
 		final URL url = new URL(urlString);
-		EasyMock.expect(websearchPageDao.findOrCreate(url)).andReturn(null);
+		final Long depth = 0l;
+		final Integer timeout = 5000;
+		EasyMock.expect(websearchPageDao.findOrCreate(url, depth, timeout)).andReturn(null);
 		EasyMock.replay(websearchPageDao);
 
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);

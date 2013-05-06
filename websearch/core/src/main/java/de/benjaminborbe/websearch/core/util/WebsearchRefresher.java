@@ -14,7 +14,7 @@ import java.net.URL;
 
 public class WebsearchRefresher {
 
-	private static final int TIMEOUT = 5000;
+	public static final int DEFAULT_TIMEOUT = 5000;
 
 	private final class RefreshPages implements Runnable {
 
@@ -39,7 +39,7 @@ public class WebsearchRefresher {
 							counter++;
 
 							logger.debug("trigger refresh of url " + url);
-							final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, TIMEOUT);
+							final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(url, page.getDepth(), getTimeout(page));
 							crawlerService.processCrawlerInstruction(crawlerInstruction);
 						}
 					} catch (final Exception e) {
@@ -51,6 +51,11 @@ public class WebsearchRefresher {
 				logger.error(e.getClass().getSimpleName(), e);
 			}
 		}
+	}
+
+	private Integer getTimeout(final WebsearchPageBean page) {
+		final Integer timeout = page.getTimeout();
+		return timeout != null ? timeout : DEFAULT_TIMEOUT;
 	}
 
 	private final CrawlerService crawlerService;

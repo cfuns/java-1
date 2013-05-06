@@ -9,6 +9,7 @@ import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
+import de.benjaminborbe.crawler.gui.CrawlerGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -39,8 +40,6 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Crawler";
-
-	private static final String PARAMETER_URL = "url";
 
 	private static final int TIMEOUT = 5000;
 
@@ -82,20 +81,22 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
-			if (request.getParameter(PARAMETER_URL) != null) {
+			final String url = request.getParameter(CrawlerGuiConstants.PARAMETER_URL);
+			final String depth = request.getParameter(CrawlerGuiConstants.PARAMETER_DEPTH);
+			if (url != null && depth != null) {
 				try {
-					final String url = request.getParameter(PARAMETER_URL);
-					final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(parseUtil.parseURL(url), TIMEOUT);
+					final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(parseUtil.parseURL(url), parseUtil.parseLong(depth), TIMEOUT);
 					crawlerService.processCrawlerInstruction(crawlerInstructionBuilder);
-					widgets.add("add url successful");
+					widgets.add("add url " + url + " successful");
 				} catch (final CrawlerException e) {
 					logger.debug(e.getClass().getName(), e);
-					widgets.add("add url failed");
+					widgets.add("add url " + url + " failed");
 				}
 			} else {
 				final String action = request.getContextPath() + "/crawler";
 				final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
-				formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_URL).addPlaceholder("url...").addLabel("Url:"));
+				formWidget.addFormInputWidget(new FormInputTextWidget(CrawlerGuiConstants.PARAMETER_URL).addPlaceholder("url...").addLabel("Url:"));
+				formWidget.addFormInputWidget(new FormInputTextWidget(CrawlerGuiConstants.PARAMETER_DEPTH).addPlaceholder("0").addLabel("Depth:"));
 				formWidget.addFormInputWidget(new FormInputSubmitWidget("crawle"));
 				widgets.add(formWidget);
 			}

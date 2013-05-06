@@ -1,6 +1,6 @@
 package de.benjaminborbe.websearch.core.util;
 
-import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.crawler.api.CrawlerNotifierResult;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.html.HtmlUtil;
@@ -41,7 +41,7 @@ public class WebsearchParseLinks {
 		this.parseUtil = parseUtil;
 	}
 
-	public void parseLinks(final HttpResponse result) throws IOException {
+	public void parseLinks(final CrawlerNotifierResult result) throws IOException {
 		final Collection<String> links = htmlUtil.parseLinks(httpUtil.getContent(result));
 		logger.trace("found " + links.size() + " links");
 		for (final String link : links) {
@@ -50,12 +50,17 @@ public class WebsearchParseLinks {
 					final URL resultUrl = result.getUrl();
 					final URL targetUrl = buildUrl(resultUrl, link.trim());
 					logger.trace("found link to: " + targetUrl.toExternalForm() + " in " + resultUrl);
-					pageDao.findOrCreate(targetUrl);
+					pageDao.findOrCreate(targetUrl, getDepth(result), result.getTimeout());
 				}
 			} catch (MalformedURLException | StorageException | ParseException e) {
 				logger.debug(e.getClass().getName(), e);
 			}
 		}
+	}
+
+	private long getDepth(final CrawlerNotifierResult result) {
+		final Long depth = result.getDepth();
+		return depth != null ? Math.max(0, depth - 1) : 0;
 	}
 
 	private boolean isValidLink(final String link) {

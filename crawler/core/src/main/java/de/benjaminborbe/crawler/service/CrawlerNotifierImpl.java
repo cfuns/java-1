@@ -1,8 +1,8 @@
 package de.benjaminborbe.crawler.service;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
+import de.benjaminborbe.crawler.api.CrawlerNotifierResult;
 import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
-import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -22,7 +22,7 @@ public class CrawlerNotifierImpl implements CrawlerNotifier {
 	}
 
 	@Override
-	public void notifiy(final HttpResponse result) {
+	public void notifiy(final CrawlerNotifierResult result) {
 		logger.trace("notifiy");
 		for (final CrawlerNotifier n : crawlerNotifierRegistry.getAll()) {
 			try {

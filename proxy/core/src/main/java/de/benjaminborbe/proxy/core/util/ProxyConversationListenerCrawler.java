@@ -1,6 +1,7 @@
 package de.benjaminborbe.proxy.core.util;
 
 import de.benjaminborbe.crawler.api.CrawlerException;
+import de.benjaminborbe.crawler.api.CrawlerNotifierResultDto;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.tools.HttpContentByteArray;
@@ -54,7 +55,7 @@ public class ProxyConversationListenerCrawler implements ProxyConversationListen
 	public void onProxyConversationCompleted(final ProxyConversation proxyConversation) throws CrawlerException, IOException, ParseException {
 		if (proxyCoreConfig.conversationCrawler()) {
 			logger.debug("add proxy request to crawler");
-			crawlerService.notify(buildHttpResponse(proxyConversation));
+			crawlerService.notify(new CrawlerNotifierResultDto(buildHttpResponse(proxyConversation), null, null));
 		} else {
 			logger.trace("skip");
 		}

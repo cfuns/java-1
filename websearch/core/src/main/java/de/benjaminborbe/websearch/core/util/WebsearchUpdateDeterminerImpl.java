@@ -1,6 +1,6 @@
 package de.benjaminborbe.websearch.core.util;
 
-import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -44,19 +44,22 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 	@Override
 	public EntityIterator<WebsearchPageBean> determineExpiredPages() throws StorageException, EntityIteratorException {
 		logger.trace("determineExpiredPages");
+		final List<WebsearchConfigurationBean> configurations = createStartPages();
+		final EntityIterator<WebsearchPageBean> pages = pageDao.getEntityIterator();
+		final WebsearchDepthNotZero websearchDepthNotZero = new WebsearchDepthNotZero(logger);
+		final WebsearchExpiredPredicate websearchExpiredPredicate = new WebsearchExpiredPredicate(logger, calendarUtil, configurations);
+		return new EntityIteratorFilter<>(pages, Predicates.or(websearchDepthNotZero, websearchExpiredPredicate));
+	}
 
-		// create startpages
+	private List<WebsearchConfigurationBean> createStartPages() throws StorageException, EntityIteratorException {
 		final EntityIterator<WebsearchConfigurationBean> configurationsIterator = configurationDao.getActivatedEntityIterator();
 		final List<WebsearchConfigurationBean> configurations = new ArrayList<>();
 		while (configurationsIterator.hasNext()) {
 			final WebsearchConfigurationBean configuration = configurationsIterator.next();
 			configurations.add(configuration);
-			pageDao.findOrCreate(configuration.getUrl());
+			pageDao.findOrCreate(configuration.getUrl(), null, null);
 		}
-
-		final EntityIterator<WebsearchPageBean> pages = pageDao.getEntityIterator();
-		final Predicate<WebsearchPageBean> predicate = new WebsearchNotExpiredPredicate(logger, calendarUtil, configurations);
-		return new EntityIteratorFilter<>(pages, predicate);
+		return configurations;
 	}
 
 }

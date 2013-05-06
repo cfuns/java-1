@@ -24,7 +24,9 @@ public class WebsearchPageDaoStorageIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WebsearchModulesMock());
 		final WebsearchPageDaoStorage websearchPageDaoStorage = injector.getInstance(WebsearchPageDaoStorage.class);
 		final URL url = new URL("http://www.benjamin-borbe.de");
-		final WebsearchPageBean websearchPageBean = websearchPageDaoStorage.findOrCreate(url);
+		long depth = 0;
+		int timeout = 5000;
+		final WebsearchPageBean websearchPageBean = websearchPageDaoStorage.findOrCreate(url, depth, timeout);
 		assertThat(websearchPageBean, is(notNullValue()));
 		assertThat(websearchPageBean.getUrl(), is(url));
 		assertThat(websearchPageBean.getId(), is(notNullValue()));

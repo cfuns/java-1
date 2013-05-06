@@ -3,6 +3,7 @@ package de.benjaminborbe.crawler.message;
 import com.google.inject.Provider;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.MapperInteger;
+import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperUrl;
 import de.benjaminborbe.tools.mapper.json.JsonObjectMapper;
 import de.benjaminborbe.tools.mapper.stringobject.StringObjectMapper;
@@ -16,17 +17,29 @@ import java.util.List;
 
 public class CrawlerMessageMapperImpl implements CrawlerMessageMapper {
 
+	public static final String TIMEOUT = "timeout";
+
+	public static final String DEPTH = "depth";
+
+	public static final String URL = "url";
+
 	private final JsonObjectMapper<CrawlerMessage> mapper;
 
 	@Inject
-	public CrawlerMessageMapperImpl(final Provider<CrawlerMessage> messageProvider, final MapperUrl mapperUrl, final MapperInteger mapperInteger) {
-		mapper = new JsonObjectMapper<>(messageProvider, build(mapperUrl, mapperInteger));
+	public CrawlerMessageMapperImpl(
+		final Provider<CrawlerMessage> messageProvider,
+		final MapperUrl mapperUrl,
+		final MapperInteger mapperInteger,
+		final MapperLong mapperLong
+	) {
+		mapper = new JsonObjectMapper<>(messageProvider, build(mapperUrl, mapperInteger, mapperLong));
 	}
 
-	private Collection<StringObjectMapper<CrawlerMessage>> build(final MapperUrl mapperUrl, final MapperInteger mapperInteger) {
+	private Collection<StringObjectMapper<CrawlerMessage>> build(final MapperUrl mapperUrl, final MapperInteger mapperInteger, final MapperLong mapperLong) {
 		final List<StringObjectMapper<CrawlerMessage>> result = new ArrayList<>();
-		result.add(new StringObjectMapperAdapter<CrawlerMessage, URL>("url", mapperUrl));
-		result.add(new StringObjectMapperAdapter<CrawlerMessage, Integer>("timeout", mapperInteger));
+		result.add(new StringObjectMapperAdapter<CrawlerMessage, URL>(URL, mapperUrl));
+		result.add(new StringObjectMapperAdapter<CrawlerMessage, Integer>(TIMEOUT, mapperInteger));
+		result.add(new StringObjectMapperAdapter<CrawlerMessage, Long>(DEPTH, mapperLong));
 		return result;
 	}
 

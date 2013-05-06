@@ -49,7 +49,7 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 	}
 
 	@Override
-	public WebsearchPageBean findOrCreate(final URL url) throws StorageException {
+	public WebsearchPageBean findOrCreate(final URL url, Long depth, Integer timeout) throws StorageException {
 		{
 			final WebsearchPageBean page = load(url);
 			if (page != null) {
@@ -60,6 +60,8 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 			final WebsearchPageBean page = create();
 			page.setId(new WebsearchPageIdentifier(url.toExternalForm()));
 			page.setUrl(url);
+			page.setDepth(depth);
+			page.setTimeout(timeout);
 			save(page);
 			return page;
 		}

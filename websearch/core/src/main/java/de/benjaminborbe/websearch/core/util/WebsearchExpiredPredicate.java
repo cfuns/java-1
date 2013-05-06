@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean> {
+public class WebsearchExpiredPredicate implements Predicate<WebsearchPageBean> {
 
 	private static final long DEFAULT_DELAY = 300;
 
@@ -25,7 +25,7 @@ public class WebsearchNotExpiredPredicate implements Predicate<WebsearchPageBean
 
 	private final CalendarUtil calendarUtil;
 
-	public WebsearchNotExpiredPredicate(final Logger logger, final CalendarUtil calendarUtil, final List<WebsearchConfigurationBean> configurations) {
+	public WebsearchExpiredPredicate(final Logger logger, final CalendarUtil calendarUtil, final List<WebsearchConfigurationBean> configurations) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.configurations = configurations;

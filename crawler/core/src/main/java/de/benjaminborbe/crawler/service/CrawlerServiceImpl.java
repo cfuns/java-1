@@ -4,10 +4,10 @@ import de.benjaminborbe.crawler.CrawlerConstants;
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
+import de.benjaminborbe.crawler.api.CrawlerNotifierResult;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.message.CrawlerMessage;
 import de.benjaminborbe.crawler.message.CrawlerMessageMapper;
-import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.message.api.MessageService;
 import de.benjaminborbe.message.api.MessageServiceException;
 import de.benjaminborbe.tools.mapper.MapException;
@@ -44,7 +44,7 @@ public class CrawlerServiceImpl implements CrawlerService {
 	public void processCrawlerInstruction(final CrawlerInstruction crawlerInstruction) throws CrawlerException {
 		try {
 			logger.trace("processCrawlerInstruction");
-			final CrawlerMessage message = new CrawlerMessage(crawlerInstruction.getUrl(), crawlerInstruction.getTimeout());
+			final CrawlerMessage message = new CrawlerMessage(crawlerInstruction.getUrl(), crawlerInstruction.getDepth(), crawlerInstruction.getTimeout());
 			messageService.sendMessage(CrawlerConstants.MESSSAGE_TYPE, String.valueOf(crawlerInstruction.getUrl()), crawlerMessageMapper.map(message));
 		} catch (final MapException | MessageServiceException e) {
 			throw new CrawlerException(e);
@@ -52,7 +52,7 @@ public class CrawlerServiceImpl implements CrawlerService {
 	}
 
 	@Override
-	public void notify(final HttpResponse httpResponse) throws CrawlerException {
+	public void notify(final CrawlerNotifierResult httpResponse) throws CrawlerException {
 		try {
 			logger.debug("notify " + httpResponse.getUrl());
 			crawlerNotifier.notifiy(httpResponse);

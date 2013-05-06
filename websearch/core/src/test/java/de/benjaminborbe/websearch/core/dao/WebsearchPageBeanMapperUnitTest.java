@@ -59,6 +59,7 @@ public class WebsearchPageBeanMapperUnitTest {
 		result.add(new Object[]{WebsearchPageBeanMapper.CONTENT, Base64.encodeBase64String("Hello World".getBytes("UTF-8"))});
 		result.add(new Object[]{WebsearchPageBeanMapper.HEADER, "{\"keyA\":[\"valueA1\",\"valueA2\"],\"keyB\":[\"valueB1\",\"valueB2\"]}"});
 		result.add(new Object[]{WebsearchPageBeanMapper.DURATION, "123456"});
+		result.add(new Object[]{WebsearchPageBeanMapper.DEPTH, "123456"});
 		return result;
 	}
 

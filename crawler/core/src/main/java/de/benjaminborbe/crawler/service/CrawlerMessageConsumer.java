@@ -5,6 +5,7 @@ import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.crawler.CrawlerConstants;
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
+import de.benjaminborbe.crawler.api.CrawlerNotifierResultDto;
 import de.benjaminborbe.crawler.message.CrawlerMessage;
 import de.benjaminborbe.crawler.message.CrawlerMessageMapper;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
@@ -55,7 +56,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 		this.crawlerMessageMapper = crawlerMessageMapper;
 	}
 
-	protected void crawleDomain(final URL url, final int timeout) throws CrawlerException {
+	protected void crawleDomain(final URL url, final long depth, final int timeout) throws CrawlerException {
 		try {
 			logger.trace("crawle domain: " + url + " started");
 
@@ -66,7 +67,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 			final HttpResponse httpResponse = httpdownloaderService.getUnsecure(httpRequestDto);
 
 			logger.debug("url: " + url + " contentType: " + httpUtil.getContentType(httpResponse.getHeader()) + " returnCode: " + httpResponse.getReturnCode());
-			crawlerNotifier.notifiy(httpResponse);
+			crawlerNotifier.notifiy(new CrawlerNotifierResultDto(httpResponse, depth, timeout));
 			logger.trace("crawle domain: " + url + " finished");
 			track();
 		} catch (HttpdownloaderServiceException e) {
@@ -91,7 +92,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 	public boolean process(final Message message) {
 		try {
 			final CrawlerMessage crawlerMessage = crawlerMessageMapper.map(message.getContent());
-			crawleDomain(crawlerMessage.getUrl(), crawlerMessage.getTimeout());
+			crawleDomain(crawlerMessage.getUrl(), crawlerMessage.getDepth(), crawlerMessage.getTimeout());
 			return true;
 		} catch (final CrawlerException | MapException e) {
 			logger.warn("process crawlerMessage failed!", e);

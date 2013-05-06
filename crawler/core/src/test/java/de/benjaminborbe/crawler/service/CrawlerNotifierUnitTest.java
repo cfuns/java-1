@@ -1,8 +1,8 @@
 package de.benjaminborbe.crawler.service;
 
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
+import de.benjaminborbe.crawler.api.CrawlerNotifierResultDto;
 import de.benjaminborbe.crawler.util.CrawlerNotifierRegistry;
-import de.benjaminborbe.httpdownloader.tools.HttpResponseDto;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ public class CrawlerNotifierUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final HttpResponseDto result = new HttpResponseDto();
+		final CrawlerNotifierResultDto result = new CrawlerNotifierResultDto();
 
 		final CrawlerNotifier clientCrawlerNotifier = EasyMock.createMock(CrawlerNotifier.class);
 		clientCrawlerNotifier.notifiy(result);
