@@ -63,7 +63,7 @@ public class WebsearchParseLinks {
 				if (isValidLink(link)) {
 					final URL resultUrl = result.getUrl();
 					final URL targetUrl = buildUrl(resultUrl, link.trim());
-					final long depth = getDepth(result);
+					final Long depth = getDepth(result);
 					final Integer timeout = result.getTimeout();
 					logger.debug("found link to: " + targetUrl + " in " + resultUrl + " depth: " + depth + " timeout: " + timeout);
 					WebsearchPageBean page = pageDao.findOrCreate(targetUrl);
@@ -77,9 +77,13 @@ public class WebsearchParseLinks {
 		}
 	}
 
-	private long getDepth(final CrawlerNotifierResult result) {
+	private Long getDepth(final CrawlerNotifierResult result) {
 		final Long depth = result.getDepth();
-		return depth != null ? Math.max(0, depth - 1) : 0;
+		if (depth == null || depth == 0l) {
+			return null;
+		} else {
+			return depth - 1;
+		}
 	}
 
 	private boolean isValidLink(final String link) {

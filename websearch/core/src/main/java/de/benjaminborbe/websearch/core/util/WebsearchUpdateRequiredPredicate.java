@@ -66,7 +66,7 @@ public class WebsearchUpdateRequiredPredicate implements Predicate<WebsearchPage
 
 	private boolean hasDepth(final WebsearchPageBean page) {
 		final Long depth = page.getDepth();
-		return depth != null && depth > 0;
+		return depth != null && depth >= 0;
 	}
 
 	private boolean isExpired(final long time, final WebsearchPageBean page, final List<WebsearchConfigurationBean> pageConfigurations) {

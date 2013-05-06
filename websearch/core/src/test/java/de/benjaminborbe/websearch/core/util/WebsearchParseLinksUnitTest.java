@@ -54,7 +54,7 @@ public class WebsearchParseLinksUnitTest {
 		EasyMock.expect(websearchPageDao.findOrCreate(url)).andReturn(websearchPageBean);
 		EasyMock.expect(parseUtil.parseURL(urlString)).andReturn(url).anyTimes();
 		EasyMock.expect(websearchPageBean.getDepth()).andReturn(depth);
-		EasyMock.expect(mathUtil.maxLong(depth, depth)).andReturn(depth);
+		EasyMock.expect(mathUtil.maxLong(null, depth)).andReturn(depth);
 		websearchPageBean.setDepth(depth);
 		EasyMock.expect(websearchPageDao.getEncoding()).andReturn(encoding);
 		websearchPageDao.save(EasyMock.anyObject(WebsearchPageBean.class), EasyMock.anyObject(Collection.class));
