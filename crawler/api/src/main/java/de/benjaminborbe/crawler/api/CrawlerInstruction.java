@@ -6,7 +6,7 @@ public interface CrawlerInstruction {
 
 	URL getUrl();
 
-	int getTimeout();
+	Integer getTimeout();
 
-	long getDepth();
+	Long getDepth();
 }

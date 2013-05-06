@@ -65,7 +65,7 @@ public class WebsearchParseLinks {
 					final URL targetUrl = buildUrl(resultUrl, link.trim());
 					final Long depth = getDepth(result);
 					final Integer timeout = result.getTimeout();
-					logger.debug("found link to: " + targetUrl + " in " + resultUrl + " depth: " + depth + " timeout: " + timeout);
+					logger.trace("found link to: " + targetUrl + " in " + resultUrl + " depth: " + depth + " timeout: " + timeout);
 					WebsearchPageBean page = pageDao.findOrCreate(targetUrl);
 					page.setDepth(mathUtil.maxLong(depth, page.getDepth()));
 					page.setTimeout(mathUtil.maxInteger(timeout, page.getTimeout()));

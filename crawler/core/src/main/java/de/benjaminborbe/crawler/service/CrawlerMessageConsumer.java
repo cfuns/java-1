@@ -56,7 +56,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 		this.crawlerMessageMapper = crawlerMessageMapper;
 	}
 
-	protected void crawleDomain(final URL url, final long depth, final int timeout) throws CrawlerException {
+	protected void crawleDomain(final URL url, final Long depth, final Integer timeout) throws CrawlerException {
 		try {
 			logger.trace("crawle domain: " + url + " started");
 

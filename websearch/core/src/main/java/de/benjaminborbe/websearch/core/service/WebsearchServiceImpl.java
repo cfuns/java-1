@@ -213,7 +213,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 
 			final String url = page.getId();
 			logger.debug("trigger refresh of url " + url);
-			final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(parseUtil.parseURL(url), 0, 5000);
+			final CrawlerInstruction crawlerInstruction = new CrawlerInstructionBuilder(parseUtil.parseURL(url), null, 5000);
 			crawlerService.processCrawlerInstruction(crawlerInstruction);
 		} catch (final AuthorizationServiceException | CrawlerException | ParseException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);

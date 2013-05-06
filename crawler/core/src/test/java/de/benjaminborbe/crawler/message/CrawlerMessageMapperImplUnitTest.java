@@ -27,8 +27,8 @@ public class CrawlerMessageMapperImplUnitTest {
 		final CrawlerMessageMapperImpl crawlerMessageMapper = new CrawlerMessageMapperImpl(messageProvider, mapperUrl, mapperInteger, mapperLong);
 
 		final URL url = new URL("http://www.benjamin-borbe.de");
-		final long depth = 1337l;
-		final int timeout = 42;
+		final Long depth = 1337l;
+		final Integer timeout = 42;
 		final CrawlerMessage orgMessage = new CrawlerMessage(url, depth, timeout);
 		final String string = crawlerMessageMapper.map(orgMessage);
 		final CrawlerMessage message = crawlerMessageMapper.map(string);

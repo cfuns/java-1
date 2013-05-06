@@ -6,18 +6,14 @@ public class CrawlerInstructionBuilder implements CrawlerInstruction {
 
 	private final URL url;
 
-	private final long depth;
+	private final Long depth;
 
-	private final int timeout;
+	private final Integer timeout;
 
-	public CrawlerInstructionBuilder(final URL url, final long depth, final int timeout) {
+	public CrawlerInstructionBuilder(final URL url, final Long depth, final Integer timeout) {
 		this.url = url;
 		this.depth = depth;
 		this.timeout = timeout;
-	}
-
-	public long getDepth() {
-		return depth;
 	}
 
 	@Override
@@ -26,8 +22,12 @@ public class CrawlerInstructionBuilder implements CrawlerInstruction {
 	}
 
 	@Override
-	public int getTimeout() {
-		return timeout;
+	public Long getDepth() {
+		return depth;
 	}
 
+	@Override
+	public Integer getTimeout() {
+		return timeout;
+	}
 }
