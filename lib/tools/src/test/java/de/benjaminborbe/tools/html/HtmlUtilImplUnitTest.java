@@ -8,8 +8,12 @@ import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
+import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 public class HtmlUtilImplUnitTest {
 
@@ -50,6 +54,22 @@ public class HtmlUtilImplUnitTest {
 			.size());
 		assertEquals(0,
 			htmlUtil.parseLinks("<html><head><meta name=\"robots\" content=\"nofollow,test\"></head><body><a href=\"http://www.benjamin-borbe.de\">linkLabel</a></body></html>").size());
+	}
+
+	@Test
+	public void testParseLinksImgSrc() {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
+
+		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
+		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
+		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\">"), is(notNullValue()));
+		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\">").size(), is(1));
+		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\">"), is(hasItem("http://www.benjamin-borbe.de/images/logo.jpg")));
+
+		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\" />"), is(notNullValue()));
+		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\" />").size(), is(1));
+		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\" />"), is(hasItem("http://www.benjamin-borbe.de/images/logo.jpg")));
 	}
 
 	@Test

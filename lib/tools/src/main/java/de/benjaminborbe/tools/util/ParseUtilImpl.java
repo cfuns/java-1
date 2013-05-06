@@ -57,7 +57,7 @@ public class ParseUtilImpl implements ParseUtil {
 				return Long.parseLong(number);
 			}
 		} catch (final Exception e) {
-			throw new ParseException(e.getClass().getSimpleName(), e);
+			throw new ParseException("parseLong of " + number + " failed", e);
 		}
 	}
 

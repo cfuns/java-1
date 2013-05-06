@@ -31,14 +31,17 @@ public class WebsearchCrawlerNotifyUnitTest {
 		final long depth = 42l;
 		final int timeout = 5000;
 
-		EasyMock.expect(websearchPageDao.findOrCreate(url, depth, timeout)).andReturn(websearchPageBean);
+		EasyMock.expect(websearchPageDao.findOrCreate(url)).andReturn(websearchPageBean);
 		EasyMock.expect(httpResponse.getUrl()).andReturn(url).times(2);
 
 		EasyMock.expect(httpResponse.getReturnCode()).andReturn(returnCode);
 		websearchPageBean.setReturnCode(returnCode);
 
 		EasyMock.expect(httpResponse.getDepth()).andReturn(depth);
+		websearchPageBean.setDepth(depth);
+
 		EasyMock.expect(httpResponse.getTimeout()).andReturn(timeout);
+		websearchPageBean.setTimeout(timeout);
 
 		EasyMock.expect(httpResponse.getHeader()).andReturn(httpHeader);
 		websearchPageBean.setHeader(httpHeader);
@@ -55,7 +58,6 @@ public class WebsearchCrawlerNotifyUnitTest {
 		websearchPageDao.save(websearchPageBean);
 
 		final Object[] mocks = new Object[]{logger, calendarUtil, websearchPageDao, httpResponse, websearchPageBean, calendar, httpHeader};
-
 		EasyMock.replay(mocks);
 
 		final WebsearchCrawlerNotify websearchCrawlerNotify = new WebsearchCrawlerNotify(logger, calendarUtil, websearchPageDao);

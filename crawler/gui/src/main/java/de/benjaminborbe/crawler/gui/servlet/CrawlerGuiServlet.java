@@ -43,6 +43,8 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 
 	private static final int TIMEOUT = 5000;
 
+	public static final int DEFAULT_DEPTH = 0;
+
 	private final ParseUtil parseUtil;
 
 	private final CrawlerService crawlerService;
@@ -85,7 +87,7 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 			final String depth = request.getParameter(CrawlerGuiConstants.PARAMETER_DEPTH);
 			if (url != null && depth != null) {
 				try {
-					final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(parseUtil.parseURL(url), parseUtil.parseLong(depth), TIMEOUT);
+					final CrawlerInstruction crawlerInstructionBuilder = new CrawlerInstructionBuilder(parseUtil.parseURL(url), parseUtil.parseLong(depth, DEFAULT_DEPTH), TIMEOUT);
 					crawlerService.processCrawlerInstruction(crawlerInstructionBuilder);
 					widgets.add("add url " + url + " successful");
 				} catch (final CrawlerException e) {
@@ -96,7 +98,7 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 				final String action = request.getContextPath() + "/crawler";
 				final FormWidget formWidget = new FormWidget(action).addMethod(FormMethod.POST);
 				formWidget.addFormInputWidget(new FormInputTextWidget(CrawlerGuiConstants.PARAMETER_URL).addPlaceholder("url...").addLabel("Url:"));
-				formWidget.addFormInputWidget(new FormInputTextWidget(CrawlerGuiConstants.PARAMETER_DEPTH).addPlaceholder("0").addLabel("Depth:"));
+				formWidget.addFormInputWidget(new FormInputTextWidget(CrawlerGuiConstants.PARAMETER_DEPTH).addPlaceholder(String.valueOf(DEFAULT_DEPTH)).addLabel("Depth:"));
 				formWidget.addFormInputWidget(new FormInputSubmitWidget("crawle"));
 				widgets.add(formWidget);
 			}

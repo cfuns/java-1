@@ -1,16 +1,18 @@
 package de.benjaminborbe.tools.util;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-@Singleton
 public class MathUtil {
 
 	@Inject
 	public MathUtil() {
+	}
+
+	public Long maxLong(final Long... numbers) {
+		return maxLong(Arrays.asList(numbers));
 	}
 
 	public Long maxLong(final Collection<Long> numbers) {
@@ -18,8 +20,24 @@ public class MathUtil {
 		for (final Long n : numbers) {
 			if (result == null) {
 				result = n;
-			} else {
+			} else if (n != null) {
 				result = Math.max(result, n);
+			}
+		}
+		return result;
+	}
+
+	public Long minLong(final Long... numbers) {
+		return minLong(Arrays.asList(numbers));
+	}
+
+	public Long minLong(final Collection<Long> numbers) {
+		Long result = null;
+		for (final Long n : numbers) {
+			if (result == null) {
+				result = n;
+			} else if (n != null) {
+				result = Math.min(result, n);
 			}
 		}
 		return result;
@@ -34,7 +52,7 @@ public class MathUtil {
 		for (final Integer n : numbers) {
 			if (result == null) {
 				result = n;
-			} else {
+			} else if (n != null) {
 				result = Math.min(result, n);
 			}
 		}
@@ -50,7 +68,7 @@ public class MathUtil {
 		for (final Integer n : numbers) {
 			if (result == null) {
 				result = n;
-			} else {
+			} else if (n != null) {
 				result = Math.max(result, n);
 			}
 		}

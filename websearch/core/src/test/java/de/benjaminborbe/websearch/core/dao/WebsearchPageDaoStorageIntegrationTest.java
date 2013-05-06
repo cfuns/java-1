@@ -26,7 +26,7 @@ public class WebsearchPageDaoStorageIntegrationTest {
 		final URL url = new URL("http://www.benjamin-borbe.de");
 		long depth = 0;
 		int timeout = 5000;
-		final WebsearchPageBean websearchPageBean = websearchPageDaoStorage.findOrCreate(url, depth, timeout);
+		final WebsearchPageBean websearchPageBean = websearchPageDaoStorage.findOrCreate(url);
 		assertThat(websearchPageBean, is(notNullValue()));
 		assertThat(websearchPageBean.getUrl(), is(url));
 		assertThat(websearchPageBean.getId(), is(notNullValue()));

@@ -79,15 +79,28 @@ public class HtmlUtilImpl implements HtmlUtil {
 			}
 		}
 
-		final Elements elements = document.getElementsByTag("a");
-		logger.trace("found " + elements.size() + " a elements");
-		for (final Element element : elements) {
-			if (!"nofollow".equalsIgnoreCase(element.attr("rel"))) {
-				final String href = element.attr("href");
+		{
+			final Elements elements = document.getElementsByTag("a");
+			logger.trace("found " + elements.size() + " a elements");
+			for (final Element element : elements) {
+				if (!"nofollow".equalsIgnoreCase(element.attr("rel"))) {
+					final String href = element.attr("href");
+					logger.trace("add link to result " + href);
+					result.add(href);
+				}
+			}
+		}
+
+		{
+			final Elements elements = document.getElementsByTag("img");
+			logger.trace("found " + elements.size() + " img elements");
+			for (final Element element : elements) {
+				final String href = element.attr("src");
 				logger.trace("add link to result " + href);
 				result.add(href);
 			}
 		}
+
 		return result;
 	}
 

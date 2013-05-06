@@ -42,12 +42,14 @@ public class WebsearchCrawlerNotify implements CrawlerNotifier {
 	}
 
 	private void updateLastVisit(final CrawlerNotifierResult httpResponse) throws StorageException {
-		final WebsearchPageBean page = pageDao.findOrCreate(httpResponse.getUrl(), httpResponse.getDepth(), httpResponse.getTimeout());
+		final WebsearchPageBean page = pageDao.findOrCreate(httpResponse.getUrl());
 		page.setLastVisit(calendarUtil.now());
 		page.setHeader(httpResponse.getHeader());
 		page.setContent(httpResponse.getContent());
 		page.setReturnCode(httpResponse.getReturnCode());
 		page.setDuration(httpResponse.getDuration());
+		page.setTimeout(httpResponse.getTimeout());
+		page.setDepth(httpResponse.getDepth());
 		pageDao.save(page);
 	}
 }

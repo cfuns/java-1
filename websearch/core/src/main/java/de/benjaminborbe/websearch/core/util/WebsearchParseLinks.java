@@ -3,9 +3,13 @@ package de.benjaminborbe.websearch.core.util;
 import de.benjaminborbe.crawler.api.CrawlerNotifierResult;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.html.HtmlUtil;
+import de.benjaminborbe.tools.util.MathUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
+import de.benjaminborbe.websearch.core.dao.WebsearchPageBeanMapper;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageDao;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -32,13 +36,23 @@ public class WebsearchParseLinks {
 
 	private final ParseUtil parseUtil;
 
+	private final MathUtil mathUtil;
+
 	@Inject
-	public WebsearchParseLinks(final Logger logger, final HtmlUtil htmlUtil, final HttpUtil httpUtil, final WebsearchPageDao pageDao, final ParseUtil parseUtil) {
+	public WebsearchParseLinks(
+		final Logger logger,
+		final HtmlUtil htmlUtil,
+		final HttpUtil httpUtil,
+		final WebsearchPageDao pageDao,
+		final ParseUtil parseUtil,
+		final MathUtil mathUtil
+	) {
 		this.logger = logger;
 		this.htmlUtil = htmlUtil;
 		this.httpUtil = httpUtil;
 		this.pageDao = pageDao;
 		this.parseUtil = parseUtil;
+		this.mathUtil = mathUtil;
 	}
 
 	public void parseLinks(final CrawlerNotifierResult result) throws IOException {
@@ -52,7 +66,10 @@ public class WebsearchParseLinks {
 					final long depth = getDepth(result);
 					final Integer timeout = result.getTimeout();
 					logger.debug("found link to: " + targetUrl + " in " + resultUrl + " depth: " + depth + " timeout: " + timeout);
-					pageDao.findOrCreate(targetUrl, depth, timeout);
+					WebsearchPageBean page = pageDao.findOrCreate(targetUrl);
+					page.setDepth(mathUtil.maxLong(depth, page.getDepth()));
+					page.setTimeout(mathUtil.maxInteger(timeout, page.getTimeout()));
+					pageDao.save(page, new StorageValueList(pageDao.getEncoding()).add(WebsearchPageBeanMapper.DEPTH).add(WebsearchPageBeanMapper.TIMEOUT));
 				}
 			} catch (MalformedURLException | StorageException | ParseException e) {
 				logger.debug(e.getClass().getName(), e);

@@ -18,6 +18,7 @@ import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
@@ -35,6 +36,7 @@ import de.benjaminborbe.websearch.core.action.WebsearchSaveAllImages;
 import de.benjaminborbe.websearch.core.dao.WebsearchConfigurationBean;
 import de.benjaminborbe.websearch.core.dao.WebsearchConfigurationDao;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
+import de.benjaminborbe.websearch.core.dao.WebsearchPageBeanMapper;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageDao;
 import de.benjaminborbe.websearch.core.util.WebsearchRefresher;
 import org.slf4j.Logger;
@@ -171,7 +173,7 @@ public class WebsearchServiceImpl implements WebsearchService {
 	private void expirePage(final WebsearchPageBean page) throws StorageException {
 		if (page != null) {
 			page.setLastVisit(null);
-			pageDao.save(page);
+			pageDao.save(page, new StorageValueList(pageDao.getEncoding()).add(WebsearchPageBeanMapper.LAST_VISIT));
 		}
 	}
 
