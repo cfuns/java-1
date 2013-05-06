@@ -339,7 +339,7 @@ gwt/api/target
 gwt/core/.gwt/
 gwt/core/de.benjaminborbe.gwt.core.iml
 gwt/core/target
-gwt/core/war/
+gwt/gui/war/
 gwt/de.benjaminborbe.gwt.iml
 gwt/gui/de.benjaminborbe.gwt.gui.iml
 gwt/gui/target

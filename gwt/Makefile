@@ -1,6 +1,6 @@
 all:
-	mvn -Pbase,test clean install
+	mvn -Pbase,slow,test clean install
 clean:
-	mvn -Pbase,test clean
+	mvn -Pbase,slow,test clean
 installwotest:
-	mvn -Pbase -Dmaven.test.skip=true resources:resources install
+	mvn -Pbase,slow-Dmaven.test.skip=true resources:resources install
