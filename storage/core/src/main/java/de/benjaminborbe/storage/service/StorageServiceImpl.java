@@ -268,8 +268,10 @@ public class StorageServiceImpl implements StorageService {
 	public void backup(final String columnFamily) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
+			logger.info("backup columnfamily " + columnFamily + " started");
 			final File targetDirectory = new File(config.getBackpuDirectory());
 			storageExporter.export(targetDirectory, config.getKeySpace(), columnFamily);
+			logger.info("backup columnfamily " + columnFamily + " finished");
 		} catch (final Exception e) {
 			throw new StorageException(e);
 		} finally {
@@ -282,8 +284,10 @@ public class StorageServiceImpl implements StorageService {
 	public void backup() throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
+			logger.info("backup all columnfamilies started");
 			final File targetDirectory = new File(config.getBackpuDirectory());
 			storageExporter.export(targetDirectory, config.getKeySpace());
+			logger.info("backup all columnfamilies finished");
 		} catch (final Exception e) {
 			throw new StorageException(e);
 		} finally {

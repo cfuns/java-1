@@ -16,10 +16,15 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -69,16 +74,21 @@ public class StorageBackupServlet extends StorageHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final String cf = request.getParameter(StorageGuiConstants.PARAMETER_COLUMNFAMILY);
-			if (cf != null) {
+			if (cf != null && !cf.trim().isEmpty()) {
 				if (ALL.equals(cf)) {
 					persistentStorageService.backup();
 				} else {
 					persistentStorageService.backup(cf);
 				}
 				widgets.add("backup done");
-			} else {
-				widgets.add("add parameter " + StorageGuiConstants.PARAMETER_COLUMNFAMILY + "=[" + StorageGuiConstants.PARAMETER_COLUMNFAMILY + "|" + ALL + "]");
+				widgets.add(new BrWidget());
 			}
+
+			widgets.add("use " + ALL + " to backup all columnfamilies");
+			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
+			form.addFormInputWidget(new FormInputTextWidget(StorageGuiConstants.PARAMETER_COLUMNFAMILY).addLabel("ColumnFamily"));
+			form.addFormInputWidget(new FormInputSubmitWidget("backup"));
+			widgets.add(form);
 
 			return widgets;
 		} catch (final StorageException e) {
