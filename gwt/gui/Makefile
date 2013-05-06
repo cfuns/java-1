@@ -26,7 +26,7 @@ test:
 bundle:
 	mvn resources:resources org.apache.felix:maven-bundle-plugin:bundle
 deploy:
-	../scripts/osgi_deploy.pl 'Benjamin Borbe - GWT' ./target/de.benjaminborbe.gwt.jar ${TOMCAT_HOST} 5555 ${LOCAL_BUNDLE_BASE} ${REMOTE_BUNDLE_BASE}
+	../../scripts/osgi_deploy.pl 'Benjamin Borbe - GWT - Gui' ./target/de.benjaminborbe.gwt.gui.jar ${TOMCAT_HOST} 5555 ${LOCAL_BUNDLE_BASE} ${REMOTE_BUNDLE_BASE}
 gwt:
 	mvn gwt:run
 dir:

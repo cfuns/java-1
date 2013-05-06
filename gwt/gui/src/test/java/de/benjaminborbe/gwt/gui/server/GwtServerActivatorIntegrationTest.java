@@ -27,6 +27,29 @@ public class GwtServerActivatorIntegrationTest {
 	}
 
 	@Test
+	public void testServlets() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new GwtServerModulesMock());
+		final GwtServerActivator activator = new GwtServerActivator() {
+
+			@Override
+			public Injector getInjector() {
+				return injector;
+			}
+
+		};
+		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
+		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
+		final List<String> paths = new ArrayList<>();
+		paths.add("/" + GwtServerConstants.NAME + GwtServerConstants.URL_HOME);
+		paths.add("/" + GwtServerConstants.NAME + GwtServerConstants.URL_HOME_HTML);
+		paths.add("/" + GwtServerConstants.NAME + GwtServerConstants.URL_HOME_JS);
+		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
+		for (final String path : paths) {
+			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
+		}
+	}
+
+	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new GwtServerModulesMock());
 		final GwtServerActivator activator = new GwtServerActivator() {
