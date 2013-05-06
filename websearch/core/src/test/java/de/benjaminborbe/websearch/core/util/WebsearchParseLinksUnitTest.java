@@ -34,17 +34,20 @@ public class WebsearchParseLinksUnitTest {
 		EasyMock.expect(httpContent.getContent()).andReturn(content.getBytes());
 		EasyMock.replay(httpContent);
 
+		final Long depth = 0l;
+		final Integer timeout = 5000;
+
 		final CrawlerNotifierResult crawlerResult = EasyMock.createMock(CrawlerNotifierResult.class);
 		EasyMock.expect(crawlerResult.getContent()).andReturn(httpContent);
 		EasyMock.expect(crawlerResult.getUrl()).andReturn(new URL("http://example.com"));
 		EasyMock.expect(crawlerResult.getHeader()).andReturn(null);
+		EasyMock.expect(crawlerResult.getDepth()).andReturn(depth);
+		EasyMock.expect(crawlerResult.getTimeout()).andReturn(timeout);
 		EasyMock.replay(crawlerResult);
 
 		final WebsearchPageDao websearchPageDao = EasyMock.createMock(WebsearchPageDao.class);
 		final String urlString = "http://example.com/links";
 		final URL url = new URL(urlString);
-		final Long depth = 0l;
-		final Integer timeout = 5000;
 		EasyMock.expect(websearchPageDao.findOrCreate(url, depth, timeout)).andReturn(null);
 		EasyMock.replay(websearchPageDao);
 

@@ -7,6 +7,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.crawler.api.CrawlerService;
+import de.benjaminborbe.crawler.gui.CrawlerGuiConstants;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -57,11 +58,12 @@ public class CrawlerGuiServletUnitTest {
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.expect(request.getServerPort()).andReturn(80).anyTimes();
 		EasyMock.expect(request.getContextPath()).andReturn("/path").anyTimes();
-		EasyMock.expect(request.getParameter("url")).andReturn(null).anyTimes();
 		EasyMock.expect(request.getSession()).andReturn(session).anyTimes();
 		EasyMock.expect(request.getScheme()).andReturn("http").anyTimes();
 		EasyMock.expect(request.getServerName()).andReturn("localhost").anyTimes();
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
+		EasyMock.expect(request.getParameter(CrawlerGuiConstants.PARAMETER_DEPTH)).andReturn(null).anyTimes();
+		EasyMock.expect(request.getParameter(CrawlerGuiConstants.PARAMETER_URL)).andReturn(null).anyTimes();
 		EasyMock.replay(request);
 
 		final TimeZone timeZone = EasyMock.createMock(TimeZone.class);

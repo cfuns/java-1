@@ -3,6 +3,7 @@ package de.benjaminborbe.websearch.core.util;
 import com.google.common.base.Predicate;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
+import de.benjaminborbe.websearch.core.WebsearchConstants;
 import de.benjaminborbe.websearch.core.dao.WebsearchConfigurationBean;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
 import org.slf4j.Logger;
@@ -12,9 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class WebsearchExpiredPredicate implements Predicate<WebsearchPageBean> {
-
-	private static final long DEFAULT_DELAY = 300;
+public class WebsearchUpdateRequiredPredicate implements Predicate<WebsearchPageBean> {
 
 	// 1 day
 	private static final long EXPIRE_DAY = 24l * 60l * 60l * 1000l;
@@ -25,7 +24,7 @@ public class WebsearchExpiredPredicate implements Predicate<WebsearchPageBean> {
 
 	private final CalendarUtil calendarUtil;
 
-	public WebsearchExpiredPredicate(final Logger logger, final CalendarUtil calendarUtil, final List<WebsearchConfigurationBean> configurations) {
+	public WebsearchUpdateRequiredPredicate(final Logger logger, final CalendarUtil calendarUtil, final List<WebsearchConfigurationBean> configurations) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
 		this.configurations = configurations;
@@ -37,7 +36,7 @@ public class WebsearchExpiredPredicate implements Predicate<WebsearchPageBean> {
 			final long time = calendarUtil.getTime();
 			final List<WebsearchConfigurationBean> pageConfigurations = getConfigurationForPage(page, configurations);
 			// handle only pages configuration exists for
-			if (!pageConfigurations.isEmpty()) {
+			if (!pageConfigurations.isEmpty() || hasDepth(page)) {
 
 				logger.trace("url " + page.getId() + " is subpage");
 				// check age > EXPIRE
@@ -65,11 +64,16 @@ public class WebsearchExpiredPredicate implements Predicate<WebsearchPageBean> {
 		return false;
 	}
 
+	private boolean hasDepth(final WebsearchPageBean page) {
+		final Long depth = page.getDepth();
+		return depth != null && depth > 0;
+	}
+
 	private boolean isExpired(final long time, final WebsearchPageBean page, final List<WebsearchConfigurationBean> pageConfigurations) {
 		if (page.getLastVisit() == null) {
 			return true;
 		}
-		int days = 7;
+		int days = WebsearchConstants.DEFAULT_EXPIRE_IN_DAYS;
 		for (final WebsearchConfigurationBean websearchConfigurationBean : pageConfigurations) {
 			final Integer expire = websearchConfigurationBean.getExpire();
 			if (expire != null && expire > 0) {
@@ -113,6 +117,6 @@ public class WebsearchExpiredPredicate implements Predicate<WebsearchPageBean> {
 				return configuration.getDelay();
 			}
 		}
-		return DEFAULT_DELAY;
+		return WebsearchConstants.DEFAULT_DELAY;
 	}
 }

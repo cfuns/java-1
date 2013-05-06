@@ -1,6 +1,5 @@
 package de.benjaminborbe.websearch.core.util;
 
-import com.google.common.base.Predicates;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -46,9 +45,8 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 		logger.trace("determineExpiredPages");
 		final List<WebsearchConfigurationBean> configurations = createStartPages();
 		final EntityIterator<WebsearchPageBean> pages = pageDao.getEntityIterator();
-		final WebsearchDepthNotZero websearchDepthNotZero = new WebsearchDepthNotZero(logger);
-		final WebsearchExpiredPredicate websearchExpiredPredicate = new WebsearchExpiredPredicate(logger, calendarUtil, configurations);
-		return new EntityIteratorFilter<>(pages, Predicates.or(websearchDepthNotZero, websearchExpiredPredicate));
+		final WebsearchUpdateRequiredPredicate websearchExpiredPredicate = new WebsearchUpdateRequiredPredicate(logger, calendarUtil, configurations);
+		return new EntityIteratorFilter<>(pages, websearchExpiredPredicate);
 	}
 
 	private List<WebsearchConfigurationBean> createStartPages() throws StorageException, EntityIteratorException {

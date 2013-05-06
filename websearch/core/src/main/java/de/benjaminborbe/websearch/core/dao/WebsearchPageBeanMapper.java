@@ -46,6 +46,8 @@ public class WebsearchPageBeanMapper extends MapObjectMapperAdapter<WebsearchPag
 
 	public static final String DEPTH = "depth";
 
+	public static final String TIMEOUT = "timeout";
+
 	@Inject
 	public WebsearchPageBeanMapper(
 		final Provider<WebsearchPageBean> provider,
@@ -77,6 +79,7 @@ public class WebsearchPageBeanMapper extends MapObjectMapperAdapter<WebsearchPag
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Integer>(RETURN_CODE, mapperInteger));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Long>(DURATION, mapperLong));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Long>(DEPTH, mapperLong));
+		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Integer>(TIMEOUT, mapperInteger));
 		return result;
 	}
 }
