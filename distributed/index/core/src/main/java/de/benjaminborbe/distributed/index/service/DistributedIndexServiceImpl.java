@@ -46,7 +46,7 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 	@Override
 	public void add(final String index, final String id, final Map<String, Integer> data) throws DistributedIndexServiceException {
 		try {
-			logger.debug("add - index: " + index + " id: " + id + " data: " + data);
+			logger.trace("add - index: " + index + " id: " + id + " data: " + data);
 			final DistributedIndexEntryBean bean = distributedIndexDao.create();
 			bean.setId(buildId(index, id));
 			bean.setData(data);

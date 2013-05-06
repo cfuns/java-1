@@ -31,7 +31,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public void addToIndex(final String index, final URL url, final String title, final String content, final Calendar date) throws IndexerServiceException {
-		logger.debug("addToIndex - index: " + index + " url: " + url + " date: " + calendarUtil.toDateTimeString(date) + " title: " + title + " content: " + content);
+		logger.trace("addToIndex - index: " + index + " url: " + url + " date: " + calendarUtil.toDateTimeString(date) + " title: " + title + " content: " + content);
 		for (final IndexService indexService : indexServiceFactory.getIndexServices()) {
 			indexService.addToIndex(index, url, title, content, date);
 		}

@@ -75,7 +75,7 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	) throws DistributedSearchServiceException {
 		try {
 			logger
-				.debug("addToIndex - index: " + index + " url: " + url.toExternalForm() + " date: " + calendarUtil.toDateTimeString(date) + " title: " + title + " content: " + content);
+				.trace("addToIndex - index: " + index + " url: " + url.toExternalForm() + " date: " + calendarUtil.toDateTimeString(date) + " title: " + title + " content: " + content);
 			final DistributedSearchPageIdentifier id = new DistributedSearchPageIdentifier(index, url.toExternalForm());
 			final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.findOrCreate(id);
 			distributedSearchPage.setId(id);

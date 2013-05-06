@@ -1,5 +1,6 @@
 package de.benjaminborbe.websearch.core.action;
 
+import de.benjaminborbe.httpdownloader.api.HttpContent;
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -16,9 +17,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 
 public class WebsearchSaveAllImages {
+
+	public static final int LONG_MIN = 1000;
+
+	public static final int SHORT_MIN = 600;
 
 	private final Logger logger;
 
@@ -49,7 +55,10 @@ public class WebsearchSaveAllImages {
 	}
 
 	private void saveImage(final WebsearchPageBean websearchPageBean) throws NoSuchAlgorithmException, IOException {
-		if (isJpeg(websearchPageBean) && isCorrectSize(websearchPageBean)) {
+		final boolean jpeg = isJpeg(websearchPageBean);
+		final boolean correctSize = isCorrectSize(websearchPageBean);
+		logger.trace("isJpeg: " + jpeg + " correctSize: " + correctSize);
+		if (jpeg && correctSize) {
 			logger.debug("save image of page " + websearchPageBean.getUrl());
 
 			final byte[] content = websearchPageBean.getContent().getContent();
@@ -60,9 +69,17 @@ public class WebsearchSaveAllImages {
 
 	private boolean isCorrectSize(final WebsearchPageBean websearchPageBean) {
 		try {
-			final BufferedImage image = ImageIO.read(websearchPageBean.getContent().getContentStream());
-			return image != null && (image.getWidth() >= 1024 && image.getHeight() >= 768 || image.getWidth() >= 768 && image.getHeight() >= 1024);
-		} catch (IOException e) {
+			final HttpContent httpContent = websearchPageBean.getContent();
+			if (httpContent == null) {
+				return false;
+			}
+			final InputStream contentStream = httpContent.getContentStream();
+			if (contentStream == null) {
+				return false;
+			}
+			final BufferedImage image = ImageIO.read(contentStream);
+			return image != null && (image.getWidth() >= LONG_MIN && image.getHeight() >= SHORT_MIN || image.getWidth() >= SHORT_MIN && image.getHeight() >= LONG_MIN);
+		} catch (Exception e) {
 			return false;
 		}
 	}

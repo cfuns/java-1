@@ -26,7 +26,7 @@ public class DistributedSearchAnalyser {
 	}
 
 	public Collection<String> parseSearchTerm(final String content) {
-		logger.debug("parseSearchTerm: " + content);
+		logger.trace("parseSearchTerm: " + content);
 		return filter(searchUtil.buildSearchParts(content));
 	}
 
