@@ -1,5 +1,13 @@
 package de.benjaminborbe.websearch.core;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.inject.Inject;
+
+import org.osgi.framework.BundleContext;
+
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.crawler.api.CrawlerNotifier;
 import de.benjaminborbe.cron.api.CronJob;
@@ -10,49 +18,48 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.websearch.api.WebsearchService;
 import de.benjaminborbe.websearch.core.config.WebsearchConfig;
 import de.benjaminborbe.websearch.core.guice.WebsearchModules;
-import de.benjaminborbe.websearch.core.service.WebsearchCrawlerNotify;
 import de.benjaminborbe.websearch.core.service.WebsearchRefreshPagesCronJob;
+import de.benjaminborbe.websearch.core.service.WebsearchSaveImageCrawlerNotify;
 import de.benjaminborbe.websearch.core.service.WebsearchSearchServiceComponent;
-import org.osgi.framework.BundleContext;
-
-import javax.inject.Inject;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import de.benjaminborbe.websearch.core.service.WebsearchUpdatePageCrawlerNotify;
 
 public class WebsearchActivator extends BaseBundleActivator {
 
-	@Inject
-	private WebsearchConfig websearchConfig;
+    @Inject
+    private WebsearchConfig websearchConfig;
 
-	@Inject
-	private WebsearchCrawlerNotify websearchCrawlerNotify;
+    @Inject
+    private WebsearchSaveImageCrawlerNotify websearchSaveImageCrawlerNotify;
 
-	@Inject
-	private WebsearchSearchServiceComponent websearchSearchServiceComponent;
+    @Inject
+    private WebsearchUpdatePageCrawlerNotify websearchUpdatePageCrawlerNotify;
 
-	@Inject
-	private WebsearchRefreshPagesCronJob refreshPagesCronJob;
+    @Inject
+    private WebsearchSearchServiceComponent websearchSearchServiceComponent;
 
-	@Inject
-	private WebsearchService websearchService;
+    @Inject
+    private WebsearchRefreshPagesCronJob refreshPagesCronJob;
 
-	@Override
-	protected Modules getModules(final BundleContext context) {
-		return new WebsearchModules(context);
-	}
+    @Inject
+    private WebsearchService websearchService;
 
-	@Override
-	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
-		result.add(new ServiceInfo(CrawlerNotifier.class, websearchCrawlerNotify));
-		result.add(new ServiceInfo(SearchServiceComponent.class, websearchSearchServiceComponent, websearchSearchServiceComponent.getClass().getName()));
-		result.add(new ServiceInfo(CronJob.class, refreshPagesCronJob, refreshPagesCronJob.getClass().getName()));
-		result.add(new ServiceInfo(WebsearchService.class, websearchService));
-		for (final ConfigurationDescription configuration : websearchConfig.getConfigurations()) {
-			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
-		}
-		return result;
-	}
+    @Override
+    protected Modules getModules(final BundleContext context) {
+        return new WebsearchModules(context);
+    }
+
+    @Override
+    public Collection<ServiceInfo> getServiceInfos() {
+        final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+        result.add(new ServiceInfo(CrawlerNotifier.class, websearchUpdatePageCrawlerNotify));
+        result.add(new ServiceInfo(CrawlerNotifier.class, websearchSaveImageCrawlerNotify));
+        result.add(new ServiceInfo(SearchServiceComponent.class, websearchSearchServiceComponent, websearchSearchServiceComponent.getClass().getName()));
+        result.add(new ServiceInfo(CronJob.class, refreshPagesCronJob, refreshPagesCronJob.getClass().getName()));
+        result.add(new ServiceInfo(WebsearchService.class, websearchService));
+        for (final ConfigurationDescription configuration : websearchConfig.getConfigurations()) {
+            result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+        }
+        return result;
+    }
 
 }

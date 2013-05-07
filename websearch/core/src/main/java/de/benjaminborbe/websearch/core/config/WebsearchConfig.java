@@ -1,14 +1,16 @@
 package de.benjaminborbe.websearch.core.config;
 
-import de.benjaminborbe.configuration.api.ConfigurationDescription;
-
 import java.util.Collection;
+
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
 public interface WebsearchConfig {
 
-	Collection<ConfigurationDescription> getConfigurations();
+    Collection<ConfigurationDescription> getConfigurations();
 
-	Integer getRefreshLimit();
+    Integer getRefreshLimit();
 
-	Boolean getCronEnabled();
+    boolean getCronEnabled();
+
+    boolean saveImages();
 }
