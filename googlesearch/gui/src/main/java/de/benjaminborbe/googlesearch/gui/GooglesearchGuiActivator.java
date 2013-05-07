@@ -3,6 +3,7 @@ package de.benjaminborbe.googlesearch.gui;
 import de.benjaminborbe.googlesearch.gui.guice.GooglesearchGuiModules;
 import de.benjaminborbe.googlesearch.gui.service.GooglesearchGuiMapSpecialSearch;
 import de.benjaminborbe.googlesearch.gui.service.GooglesearchGuiSpecialSearch;
+import de.benjaminborbe.googlesearch.gui.service.GooglesearchGuiYoutubeSpecialSearch;
 import de.benjaminborbe.googlesearch.gui.servlet.GooglesearchGuiServlet;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.guice.Modules;
@@ -20,6 +21,9 @@ public class GooglesearchGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private GooglesearchGuiServlet googlesearchGuiServlet;
+
+	@Inject
+	private GooglesearchGuiYoutubeSpecialSearch googlesearchGuiYoutubeSpecialSearch;
 
 	@Inject
 	private GooglesearchGuiSpecialSearch searchGuiSpecialSearchGoogle;
@@ -48,6 +52,7 @@ public class GooglesearchGuiActivator extends HttpBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(SearchSpecial.class, searchGuiSpecialSearchGoogle, searchGuiSpecialSearchGoogle.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, googlesearchGuiMapSpecialSearch, googlesearchGuiMapSpecialSearch.getClass().getName()));
+		result.add(new ServiceInfo(SearchSpecial.class, googlesearchGuiYoutubeSpecialSearch, googlesearchGuiYoutubeSpecialSearch.getClass().getName()));
 		return result;
 	}
 
