@@ -129,6 +129,6 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 	@Override
 	public Collection<String> getAliases() {
-		return Arrays.asList("confluence", "c");
+		return Arrays.asList("confluence", "c", "wiki");
 	}
 }
