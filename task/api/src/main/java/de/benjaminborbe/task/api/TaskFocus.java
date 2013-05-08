@@ -6,5 +6,6 @@ public enum TaskFocus {
 	TODAY,
 	NEXT,
 	SOMEDAY,
-	NEVER
+	NEVER;
+
 }

@@ -199,14 +199,10 @@ public class TaskNextWidget extends CompositeWidget {
 		options.add(taskGuiLinkFactory.taskStartTomorrow(request, task.getId()));
 		options.add(" ");
 		options.add(taskGuiWidgetFactory.buildImage(request, "empty"));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.INBOX, "inbox"));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.TODAY, "today"));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.NEXT, "next"));
-		options.add(" ");
-		options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.SOMEDAY, "someday"));
+		for (TaskFocus taskFocus : TaskFocus.values()) {
+			options.add(" ");
+			options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, taskFocus, taskFocus.name().toLowerCase()));
+		}
 
 		row.add(new SpanWidget(options).addAttribute("class", "taskOptions"));
 		final DivWidget div = new DivWidget(row).addClass("taskEntry");
