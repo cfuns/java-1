@@ -26,12 +26,16 @@ public class TaskFocusWidget extends CompositeWidget {
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
 		final ListWidget widgets = new ListWidget();
 		final UlWidget ul = new UlWidget();
-		ul.add(taskGuiLinkFactory.taskFocusSwitch(request, "Inbox", TaskFocus.INBOX));
-		ul.add(taskGuiLinkFactory.taskFocusSwitch(request, "Today", TaskFocus.TODAY));
-		ul.add(taskGuiLinkFactory.taskFocusSwitch(request, "Next", TaskFocus.NEXT));
-		ul.add(taskGuiLinkFactory.taskFocusSwitch(request, "Someday", TaskFocus.SOMEDAY));
+		for (TaskFocus taskFocus : TaskFocus.values()) {
+			ul.add(taskGuiLinkFactory.taskFocusSwitch(request, buildName(taskFocus), taskFocus));
+		}
 		widgets.add(ul);
 		return new DivWidget(widgets).addClass("taskFocus");
+	}
+
+	private String buildName(final TaskFocus taskFocus) {
+		String name = taskFocus.name();
+		return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
 	}
 
 }
