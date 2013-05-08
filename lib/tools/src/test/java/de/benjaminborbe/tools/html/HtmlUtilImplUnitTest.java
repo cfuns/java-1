@@ -63,6 +63,7 @@ public class HtmlUtilImplUnitTest {
 
 		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
+
 		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\">"), is(notNullValue()));
 		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\">").size(), is(1));
 		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\">"), is(hasItem("http://www.benjamin-borbe.de/images/logo.jpg")));
@@ -70,6 +71,10 @@ public class HtmlUtilImplUnitTest {
 		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\" />"), is(notNullValue()));
 		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\" />").size(), is(1));
 		assertThat(htmlUtil.parseLinks("<img src=\"http://www.benjamin-borbe.de/images/logo.jpg\" />"), is(hasItem("http://www.benjamin-borbe.de/images/logo.jpg")));
+
+		assertThat(htmlUtil.parseLinks("<img src_o=\"http://www.benjamin-borbe.de/images/logo.jpg\">"), is(notNullValue()));
+		assertThat(htmlUtil.parseLinks("<img src_o=\"http://www.benjamin-borbe.de/images/logo.jpg\">").size(), is(1));
+		assertThat(htmlUtil.parseLinks("<img src_o=\"http://www.benjamin-borbe.de/images/logo.jpg\">"), is(hasItem("http://www.benjamin-borbe.de/images/logo.jpg")));
 	}
 
 	@Test
