@@ -7,7 +7,7 @@ public interface WebsearchService extends WebsearchServicePage, WebsearchService
 
 	void saveImages(SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
 
-	void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
+	boolean refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
 
 	void clearIndex(final SessionIdentifier sessionIdentifier) throws WebsearchServiceException, PermissionDeniedException;
 

@@ -6,6 +6,7 @@ import de.benjaminborbe.message.gui.servlet.MessageGuiDeleteByTypeServlet;
 import de.benjaminborbe.message.gui.servlet.MessageGuiExchangeMessagesServlet;
 import de.benjaminborbe.message.gui.servlet.MessageGuiMessageDeleteServlet;
 import de.benjaminborbe.message.gui.servlet.MessageGuiMessageListServlet;
+import de.benjaminborbe.message.gui.servlet.MessageGuiMessageViewServlet;
 import de.benjaminborbe.message.gui.servlet.MessageGuiUnlockExpiredMessagesServlet;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.tools.guice.Modules;
@@ -20,6 +21,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MessageGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private MessageGuiMessageViewServlet messageGuiMessageViewServlet;
 
 	@Inject
 	private MessageGuiExchangeMessagesServlet messageGuiExchangeMessagesServlet;
@@ -61,6 +65,7 @@ public class MessageGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(messageserviceGuiUnlockExpiredMessagesServlet, MessageGuiConstants.URL_UNLOCK));
 		result.add(new ServletInfo(messageGuiDeleteByTypeServlet, MessageGuiConstants.URL_DELETE_BY_TYPE));
 		result.add(new ServletInfo(messageGuiMessageListServlet, MessageGuiConstants.URL_MESSAGE_LIST));
+		result.add(new ServletInfo(messageGuiMessageViewServlet, MessageGuiConstants.URL_MESSAGE_VIEW));
 		result.add(new ServletInfo(messageGuiMessageDeleteServlet, MessageGuiConstants.URL_MESSAGE_DELETE));
 		result.add(new ServletInfo(messageGuiExchangeMessagesServlet, MessageGuiConstants.URL_MESSAGE_EXCHANGE));
 

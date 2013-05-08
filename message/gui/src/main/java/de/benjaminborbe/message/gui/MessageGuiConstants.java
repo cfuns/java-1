@@ -8,6 +8,8 @@ public interface MessageGuiConstants {
 
 	String PARAMETER_MESSAGE_TYPE = "message_type";
 
+	String PARAMETER_ID = "message_id";
+
 	String URL_MESSAGE_LIST = "/";
 
 	String URL_MESSAGE_DELETE = "/delete";
@@ -17,4 +19,6 @@ public interface MessageGuiConstants {
 	String URL_MESSAGE_EXCHANGE = "/exchange";
 
 	String URL_DELETE_BY_TYPE = "/deleteByType";
+
+	String URL_MESSAGE_VIEW = "/view";
 }

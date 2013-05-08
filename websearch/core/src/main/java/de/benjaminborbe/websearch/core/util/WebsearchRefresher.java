@@ -4,7 +4,7 @@ import de.benjaminborbe.crawler.api.CrawlerInstruction;
 import de.benjaminborbe.crawler.api.CrawlerInstructionBuilder;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.storage.tools.EntityIterator;
-import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
+import de.benjaminborbe.tools.synchronize.RunOnlyOnceATimeAsync;
 import de.benjaminborbe.websearch.core.config.WebsearchConfig;
 import de.benjaminborbe.websearch.core.dao.WebsearchPageBean;
 import org.slf4j.Logger;
@@ -62,7 +62,7 @@ public class WebsearchRefresher {
 
 	private final WebsearchUpdateDeterminer updateDeterminer;
 
-	private final RunOnlyOnceATime runOnlyOnceATime;
+	private final RunOnlyOnceATimeAsync runOnlyOnceATime;
 
 	private final Logger logger;
 
@@ -76,7 +76,7 @@ public class WebsearchRefresher {
 		final WebsearchConfig websearchConfig,
 		final WebsearchUpdateDeterminer updateDeterminer,
 		final CrawlerService crawlerService,
-		final RunOnlyOnceATime runOnlyOnceATime,
+		final RunOnlyOnceATimeAsync runOnlyOnceATime,
 		final WebsearchRobotsTxtUtil websearchRobotsTxtUtil
 	) {
 		this.logger = logger;

@@ -46,6 +46,7 @@ public class MessageGuiActivatorIntegrationTest {
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_UNLOCK);
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_DELETE_BY_TYPE);
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_LIST);
+		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_VIEW);
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_DELETE);
 		paths.add("/" + MessageGuiConstants.NAME + MessageGuiConstants.URL_MESSAGE_EXCHANGE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());

@@ -142,12 +142,11 @@ public class WebsearchServiceImpl implements WebsearchService {
 	}
 
 	@Override
-	public void refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, WebsearchServiceException {
+	public boolean refreshSearchIndex(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, WebsearchServiceException {
 		try {
 			logger.info("refreshPages");
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier("WebsearchService.refreshPages"));
-
-			websearchRefresher.refresh();
+			return websearchRefresher.refresh();
 		} catch (final AuthorizationServiceException e) {
 			throw new WebsearchServiceException(e.getClass().getName(), e);
 		}

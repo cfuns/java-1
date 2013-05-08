@@ -48,6 +48,13 @@ public class MessageServiceMock implements MessageService {
 	}
 
 	@Override
+	public Message getMessage(
+		final SessionIdentifier sessionIdentifier, final MessageIdentifier messageIdentifier
+	) throws MessageServiceException, PermissionDeniedException, LoginRequiredException {
+		return null;
+	}
+
+	@Override
 	public void deleteById(
 		final SessionIdentifier sessionIdentifier,
 		final MessageIdentifier messageIdentifier
