@@ -168,6 +168,10 @@ public class MonitoringNotifier {
 	private String buildLabel(final MonitoringNode bean) {
 		final MonitoringCheckIdentifier type = bean.getCheckType();
 		final MonitoringCheck check = monitoringCheckRegistry.get(type);
+		if (check == null) {
+			logger.debug("no monitorcheck for type " + type + " found");
+			return null;
+		}
 		return check.getDescription(bean.getParameter()) + " (" + bean.getName() + ")";
 	}
 }
