@@ -272,13 +272,10 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		{
 			final ListWidget focusList = new ListWidget();
 			focusList.add("Focus: ");
-			focusList.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.INBOX, "inbox"));
-			focusList.add(" ");
-			focusList.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.TODAY, "today"));
-			focusList.add(" ");
-			focusList.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.NEXT, "next"));
-			focusList.add(" ");
-			focusList.add(taskGuiLinkFactory.taskUpdateFocus(request, task, TaskFocus.SOMEDAY, "someday"));
+			for (TaskFocus taskFocus : TaskFocus.values()) {
+				focusList.add(taskGuiLinkFactory.taskUpdateFocus(request, task, taskFocus, taskFocus.name().toLowerCase()));
+				focusList.add(" ");
+			}
 			widgets.add(new DivWidget(focusList).addClass("focusList"));
 		}
 
