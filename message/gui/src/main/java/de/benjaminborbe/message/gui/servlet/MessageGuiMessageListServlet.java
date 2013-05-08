@@ -118,7 +118,7 @@ public class MessageGuiMessageListServlet extends WebsiteHtmlServlet {
 				for (final Message message : messages) {
 					final TableRowWidget row = new TableRowWidget();
 					row.addCell(asString(message.getType()));
-					row.addCell(stringUtil.shortenDots(asString(message.getId()), 150));
+					row.addCell(messageGuiLinkFactory.messageView(request, message.getId(), stringUtil.shortenDots(asString(message.getId()), 150)));
 					row.addCell(asString(message.getLockName()));
 					row.addCell(asString(calendarUtil.toDateTimeString(message.getLockTime())));
 					row.addCell(asString(calendarUtil.toDateTimeString(message.getCreated())));
