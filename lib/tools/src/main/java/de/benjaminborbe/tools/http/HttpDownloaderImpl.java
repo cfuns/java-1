@@ -117,22 +117,27 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			connection.setRequestProperty("User-Agent", USERAGENT);
 			connection.connect();
 
-			final String contentType = connection.getContentType();
-			final Map<String, List<String>> headers = connection.getHeaderFields();
-			final Encoding contentEncoding = extractEncoding(connection, contentType);
 			final int responseCode = connection.getResponseCode();
-
 			try {
-				inputStream = connection.getInputStream();
-				outputStream = new ByteArrayOutputStream();
-				streamUtil.copy(inputStream, outputStream);
-				final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), outputStream.toByteArray(), contentType,
-					contentEncoding, headers, responseCode);
-				logger.trace("downloadUrl finished");
-				return httpDownloadResult;
-			} catch (FileNotFoundException e) {
-				final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), null, contentType, contentEncoding, headers,
-					responseCode);
+				final String contentType = connection.getContentType();
+				final Encoding contentEncoding = extractEncoding(connection, contentType);
+				final Map<String, List<String>> headers = connection.getHeaderFields();
+				try {
+					inputStream = connection.getInputStream();
+					outputStream = new ByteArrayOutputStream();
+					streamUtil.copy(inputStream, outputStream);
+					final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), outputStream.toByteArray(), contentType,
+						contentEncoding, headers, responseCode);
+					logger.trace("downloadUrl finished");
+					return httpDownloadResult;
+				} catch (FileNotFoundException e) {
+					final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), null, contentType, contentEncoding, headers,
+						responseCode);
+					logger.trace("downloadUrl failed");
+					return httpDownloadResult;
+				}
+			} catch (IOException e) {
+				final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), null, null, null, null, responseCode);
 				logger.trace("downloadUrl failed");
 				return httpDownloadResult;
 			}

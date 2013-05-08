@@ -61,8 +61,12 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 			httpResponse.setDuration(httpDownloadResult.getDuration());
 			httpResponse.setContent(new HttpContentByteArray(httpDownloadResult.getContent()));
 			final HttpHeaderDto header = new HttpHeaderDto();
-			for (final Map.Entry<String, List<String>> e : httpDownloadResult.getHeaders().entrySet()) {
-				header.setHeader(e.getKey(), e.getValue());
+			if (httpDownloadResult.getHeaders() != null) {
+				for (final Map.Entry<String, List<String>> e : httpDownloadResult.getHeaders().entrySet()) {
+					header.setHeader(e.getKey(), e.getValue());
+				}
+			} else {
+				logger.trace("no header found");
 			}
 			httpResponse.setHeader(header);
 

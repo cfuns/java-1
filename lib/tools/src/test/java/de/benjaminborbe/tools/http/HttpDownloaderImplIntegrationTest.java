@@ -26,7 +26,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class HttpDownloaderImplIntegrationTest {
 
@@ -109,12 +108,9 @@ public class HttpDownloaderImplIntegrationTest {
 		final URL url = new URL("http://htaccesstest.benjamin-borbe.de/index.html");
 
 		{
-			try {
-				httpDownloader.getUrl(url, TIMEOUT);
-				fail("exception expected");
-			} catch (final HttpDownloaderException e) {
-				assertNotNull(e);
-			}
+			final HttpDownloadResult httpDownloadResult = httpDownloader.getUrl(url, TIMEOUT);
+			assertThat(httpDownloadResult, is(notNullValue()));
+			assertThat(httpDownloadResult.getResponseCode(), is(401));
 
 			final String username = "test";
 			final String password = "test";
@@ -124,12 +120,9 @@ public class HttpDownloaderImplIntegrationTest {
 		}
 
 		{
-			try {
-				httpDownloader.getUrlUnsecure(url, TIMEOUT);
-				fail("exception expected");
-			} catch (final HttpDownloaderException e) {
-				assertNotNull(e);
-			}
+			final HttpDownloadResult httpDownloadResult = httpDownloader.getUrlUnsecure(url, TIMEOUT);
+			assertThat(httpDownloadResult, is(notNullValue()));
+			assertThat(httpDownloadResult.getResponseCode(), is(401));
 
 			final String username = "test";
 			final String password = "test";
