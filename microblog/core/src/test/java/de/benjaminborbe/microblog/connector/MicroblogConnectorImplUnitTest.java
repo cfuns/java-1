@@ -1,5 +1,9 @@
 package de.benjaminborbe.microblog.connector;
 
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestDto;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.config.MicroblogConfig;
@@ -36,46 +40,54 @@ public class MicroblogConnectorImplUnitTest {
 	@Test
 	public void testParseLatestRevision() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
-		EasyMock.replay(logger);
-
 		final HttpDownloadResult httpDownloadResult = EasyMock.createMock(HttpDownloadResult.class);
-		EasyMock.replay(httpDownloadResult);
-
 		final HttpDownloader httpDownloader = EasyMock.createMock(HttpDownloader.class);
-		final String rssFeed = "https://micro.rp.seibert-media.net/api/statuses/friends_timeline/bborbe.rss";
-		EasyMock.expect(httpDownloader.getUrlUnsecure(new URL(rssFeed), 5000)).andReturn(httpDownloadResult);
-		EasyMock.replay(httpDownloader);
-
-		final MicroblogPostIdentifier rev = new MicroblogPostIdentifier(1337l);
-		final String content = "bla <guid>https://micro.rp.seibert-media.net/notice/" + rev + "</guid> bla";
-
 		final HttpDownloadUtil httpDownloadUtil = EasyMock.createMock(HttpDownloadUtil.class);
-		EasyMock.expect(httpDownloadUtil.getContent(httpDownloadResult)).andReturn(content);
-		EasyMock.replay(httpDownloadUtil);
-
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
-		EasyMock.expect(parseUtil.parseLong(String.valueOf(rev))).andReturn(rev.getId());
-		EasyMock.replay(parseUtil);
-
 		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
-		EasyMock.replay(htmlUtil);
-
 		final MicroblogConfig microblogConfig = EasyMock.createMock(MicroblogConfig.class);
-		EasyMock.expect(microblogConfig.getMicroblogRssFeed()).andReturn(rssFeed).anyTimes();
-		EasyMock.expect(microblogConfig.getMicroblogUrl()).andReturn("https://micro.rp.seibert-media.net").anyTimes();
-		EasyMock.replay(microblogConfig);
+		final HttpdownloaderService httpdownloaderService = EasyMock.createMock(HttpdownloaderService.class);
+		final HttpUtil httpUtil = EasyMock.createMock(HttpUtil.class);
+		final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
 
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final CurrentTime currentTime = new CurrentTimeImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
+		final MicroblogPostIdentifier rev = new MicroblogPostIdentifier(1337l);
+		final String rssFeed = "https://micro.rp.seibert-media.net/api/statuses/friends_timeline/bborbe.rss";
+		final String content = "bla <guid>https://micro.rp.seibert-media.net/notice/" + rev + "</guid> bla";
+		final URL url = new URL(rssFeed);
 
-		final MicroblogConnector microblogConnector = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil, parseUtil,
-			htmlUtil);
+		EasyMock.expect(parseUtil.parseLong(String.valueOf(rev))).andReturn(rev.getId());
+		EasyMock.expect(microblogConfig.getMicroblogRssFeed()).andReturn(rssFeed).anyTimes();
+		EasyMock.expect(microblogConfig.getMicroblogUrl()).andReturn("https://micro.rp.seibert-media.net").anyTimes();
+		EasyMock.expect(parseUtil.parseURL(rssFeed)).andReturn(url);
+		EasyMock.expect(httpdownloaderService.getUnsecure(new HttpRequestDto(url, MicroblogConnectorImpl.TIMEOUT))).andReturn(httpResponse);
+		EasyMock.expect(httpUtil.getContent(httpResponse)).andReturn(content);
+
+		Object[] mocks = new Object[]{httpResponse, httpdownloaderService, microblogConfig, logger, parseUtil, httpUtil, htmlUtil, httpDownloadUtil, httpDownloader, httpDownloadResult};
+		EasyMock.replay(mocks);
+
+		final MicroblogConnector microblogConnector = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, parseUtil, htmlUtil, httpdownloaderService, httpUtil);
 		assertEquals(rev, microblogConnector.getLatestRevision());
+
+		EasyMock.verify(mocks);
 	}
 
 	@Test
 	public void testExtractContentJoinGroup() throws Exception {
+		final HttpdownloaderService httpdownloaderService = EasyMock.createMock(HttpdownloaderService.class);
+		final HttpUtil httpUtil = EasyMock.createMock(HttpUtil.class);
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		final MicroblogConnector microblogConnector = EasyMock.createMock(MicroblogConnector.class);
+		final MicroblogRevisionStorage microblogRevisionStorage = EasyMock.createMock(MicroblogRevisionStorage.class);
+		final MailService mailService = EasyMock.createMock(MailService.class);
+		final HttpDownloader httpDownloader = EasyMock.createNiceMock(HttpDownloader.class);
+		final HttpDownloadUtil httpDownloadUtil = EasyMock.createNiceMock(HttpDownloadUtil.class);
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		final MicroblogConfig microblogConfig = EasyMock.createMock(MicroblogConfig.class);
+
 		final StringBuilder pageContent = new StringBuilder();
 		pageContent.append("<div class=\"entry-title\">");
 		pageContent
@@ -88,50 +100,22 @@ public class MicroblogConnectorImplUnitTest {
 		pageContent.append("<span class=\"source\">from <span class=\"device\">activity</span>");
 		pageContent.append("</span>");
 		pageContent.append("</div>");
-
-		final Logger logger = EasyMock.createNiceMock(Logger.class);
-		EasyMock.replay(logger);
-
-		final MicroblogConnector microblogConnector = EasyMock.createMock(MicroblogConnector.class);
-		EasyMock.replay(microblogConnector);
-
-		final MicroblogRevisionStorage microblogRevisionStorage = EasyMock.createMock(MicroblogRevisionStorage.class);
-		EasyMock.replay(microblogRevisionStorage);
-
-		final MailService mailService = EasyMock.createMock(MailService.class);
-		EasyMock.replay(mailService);
-
-		final HttpDownloader httpDownloader = EasyMock.createNiceMock(HttpDownloader.class);
-		EasyMock.replay(httpDownloader);
-
-		final HttpDownloadUtil httpDownloadUtil = EasyMock.createNiceMock(HttpDownloadUtil.class);
-		EasyMock.replay(httpDownloadUtil);
-
-		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
-		EasyMock.replay(parseUtil);
-
 		final String result = "Bill Gates joined the group HELL";
-
-		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
-		EasyMock
-			.expect(
-				htmlUtil
-					.filterHtmlTages("<a href=\"https://micro.rp.seibert-media.net/bgates\">Bill Gates</a> joined the group <a href=\"https://micro.rp.seibert-media.net/group/tech\">HELL</a>."))
-			.andReturn(result);
-		EasyMock.expect(htmlUtil.unescapeHtml(result)).andReturn(result);
-		EasyMock.replay(htmlUtil);
-
-		final MicroblogConfig microblogConfig = EasyMock.createMock(MicroblogConfig.class);
-		EasyMock.replay(microblogConfig);
-
+		final String htmlContent = "<a href=\"https://micro.rp.seibert-media.net/bgates\">Bill Gates</a> joined the group <a href=\"https://micro.rp.seibert-media.net/group/tech\">HELL</a>.";
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final CurrentTime currentTime = new CurrentTimeImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
-		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil,
-			parseUtil, htmlUtil);
+		EasyMock.expect(htmlUtil.filterHtmlTages(htmlContent)).andReturn(result);
+		EasyMock.expect(htmlUtil.unescapeHtml(result)).andReturn(result);
 
+		Object[] mocks = new Object[]{httpdownloaderService, microblogConfig, htmlUtil, mailService, parseUtil, microblogRevisionStorage, microblogConnector, logger, httpUtil, httpDownloadUtil, httpDownloader};
+		EasyMock.replay(mocks);
+
+		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, parseUtil, htmlUtil, httpdownloaderService, httpUtil);
 		assertEquals(result, microblogConnectorImpl.extractContent(pageContent.toString()));
+
+		EasyMock.verify(mocks);
 	}
 
 	@Test
@@ -202,10 +186,17 @@ public class MicroblogConnectorImplUnitTest {
 		final CurrentTime currentTime = new CurrentTimeImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
-		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil,
-			parseUtil, htmlUtil);
+		final HttpdownloaderService httpdownloaderService = EasyMock.createMock(HttpdownloaderService.class);
+		final HttpUtil httpUtil = EasyMock.createMock(HttpUtil.class);
+
+		Object[] mocks = new Object[]{httpdownloaderService, httpUtil};
+		EasyMock.replay(mocks);
+
+		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, parseUtil, htmlUtil, httpdownloaderService, httpUtil);
 
 		assertEquals(result, microblogConnectorImpl.extractContent(pageContent.toString()));
+
+		EasyMock.verify(mocks);
 	}
 
 	@Test
@@ -250,9 +241,16 @@ public class MicroblogConnectorImplUnitTest {
 		final CurrentTime currentTime = new CurrentTimeImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
-		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil,
-			parseUtil, htmlUtil);
+		final HttpdownloaderService httpdownloaderService = EasyMock.createMock(HttpdownloaderService.class);
+		final HttpUtil httpUtil = EasyMock.createMock(HttpUtil.class);
+
+		Object[] mocks = new Object[]{httpdownloaderService, httpUtil};
+		EasyMock.replay(mocks);
+
+		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, parseUtil, htmlUtil, httpdownloaderService, httpUtil);
 		assertEquals("bgates", microblogConnectorImpl.extractAuthor(pageContent.toString()));
+
+		EasyMock.verify(mocks);
 	}
 
 	@Test
@@ -298,10 +296,16 @@ public class MicroblogConnectorImplUnitTest {
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final CurrentTime currentTime = new CurrentTimeImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
+		final HttpdownloaderService httpdownloaderService = EasyMock.createMock(HttpdownloaderService.class);
+		final HttpUtil httpUtil = EasyMock.createMock(HttpUtil.class);
 
-		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil,
-			parseUtil, htmlUtil);
+		Object[] mocks = new Object[]{httpdownloaderService, httpUtil};
+		EasyMock.replay(mocks);
+
+		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, parseUtil, htmlUtil, httpdownloaderService, httpUtil);
 		assertEquals("https://micro.rp.seibert-media.net/conversation/42#notice-1337", microblogConnectorImpl.extractConversationUrl(pageContent.toString()));
+
+		EasyMock.verify(mocks);
 	}
 
 	@Test
@@ -338,8 +342,14 @@ public class MicroblogConnectorImplUnitTest {
 		final CurrentTime currentTime = new CurrentTimeImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
-		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, httpDownloader, httpDownloadUtil,
-			parseUtil, htmlUtil);
+		final HttpdownloaderService httpdownloaderService = EasyMock.createMock(HttpdownloaderService.class);
+		final HttpUtil httpUtil = EasyMock.createMock(HttpUtil.class);
+
+		Object[] mocks = new Object[]{httpdownloaderService, httpUtil};
+		EasyMock.replay(mocks);
+
+		final MicroblogConnectorImpl microblogConnectorImpl = new MicroblogConnectorImpl(logger, calendarUtil, timeZoneUtil, microblogConfig, parseUtil, htmlUtil, httpdownloaderService, httpUtil);
+
 		final String pageContent = resourceUtil.getResourceContentAsString("sample_conversation.txt");
 		assertNotNull(pageContent);
 		final String conversationUrl = "http://testd.de";
@@ -362,5 +372,6 @@ public class MicroblogConnectorImplUnitTest {
 		assertEquals("https://micro.rp.seibert-media.net/notice/14", result.getPosts().get(0).getPostUrl());
 		assertEquals(conversationUrl, result.getPosts().get(0).getConversationUrl());
 
+		EasyMock.verify(mocks);
 	}
 }
