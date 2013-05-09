@@ -24,10 +24,11 @@ public class WebsearchParseLinksUnitTest {
 
 	@Test
 	public void testParseLinks() throws Exception {
-
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		final ChannelTools channelTools = new ChannelTools();
 		final StreamUtil streamUtil = new StreamUtil(channelTools);
-		final HttpUtil httpUtil = new HttpUtil(streamUtil);
+		final HttpUtil httpUtil = new HttpUtil(logger, streamUtil);
+
 		final Long depth = 0l;
 		final Integer timeout = 5000;
 		final String content = "foo";
@@ -35,7 +36,6 @@ public class WebsearchParseLinksUnitTest {
 		final URL url = new URL(urlString);
 		final String encoding = "utf8";
 
-		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
 		final HttpContent httpContent = EasyMock.createMock(HttpContent.class);
 		final CrawlerNotifierResult crawlerResult = EasyMock.createMock(CrawlerNotifierResult.class);

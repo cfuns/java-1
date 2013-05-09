@@ -5,18 +5,28 @@ import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
 
+import javax.inject.Singleton;
+
+@Singleton
 public class HttpdownloaderServiceMock implements HttpdownloaderService {
+
+	private HttpResponse httpResponse;
 
 	public HttpdownloaderServiceMock() {
 	}
 
 	@Override
 	public HttpResponse getSecure(final HttpRequest httpRequest) throws HttpdownloaderServiceException {
-		return null;
+		return httpResponse;
 	}
 
 	@Override
 	public HttpResponse getUnsecure(final HttpRequest httpRequest) throws HttpdownloaderServiceException {
-		return null;
+		return httpResponse;
 	}
+
+	public void setHttpResponse(final HttpResponse httpResponse) {
+		this.httpResponse = httpResponse;
+	}
+
 }

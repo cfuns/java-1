@@ -29,7 +29,7 @@ public class WebsearchPageContentUpdateHandlerUnitTest {
 
 		final ChannelTools channelTools = new ChannelTools();
 		final StreamUtil streamUtil = new StreamUtil(channelTools);
-		final HttpUtil httpUtil = new HttpUtil(streamUtil);
+		final HttpUtil httpUtil = new HttpUtil(logger, streamUtil);
 
 		final WebsearchAddToSearchIndex websearchAddToSearchIndex = EasyMock.createMock(WebsearchAddToSearchIndex.class);
 		EasyMock.replay(websearchAddToSearchIndex);

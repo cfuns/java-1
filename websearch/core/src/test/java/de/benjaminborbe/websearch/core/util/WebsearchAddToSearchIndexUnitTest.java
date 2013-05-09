@@ -17,27 +17,26 @@ public class WebsearchAddToSearchIndexUnitTest {
 
 	@Test
 	public void testExtractTitle() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		final IndexService indexerService = EasyMock.createMock(IndexService.class);
+		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
+		final StringUtil stringUtil = EasyMock.createMock(StringUtil.class);
+
 		final String title = "Foo Bar Title";
 		final String content = "<html><title>" + title + "</title><body></body></html>";
-
-		final Logger logger = EasyMock.createNiceMock(Logger.class);
-		EasyMock.replay(logger);
-
-		final IndexService indexerService = EasyMock.createMock(IndexService.class);
-		EasyMock.replay(indexerService);
-
-		final StringUtil stringUtil = EasyMock.createMock(StringUtil.class);
-		EasyMock.expect(stringUtil.shorten(title, 80)).andReturn(title);
-		EasyMock.replay(stringUtil);
-
-		final HtmlUtil htmlUtil = EasyMock.createMock(HtmlUtil.class);
-		EasyMock.expect(htmlUtil.filterHtmlTages(title)).andReturn(title);
-		EasyMock.replay(htmlUtil);
-
 		final ChannelTools channelTools = new ChannelTools();
 		final StreamUtil streamUtil = new StreamUtil(channelTools);
-		final HttpUtil httpUtil = new HttpUtil(streamUtil);
+		final HttpUtil httpUtil = new HttpUtil(logger, streamUtil);
+
+		EasyMock.expect(stringUtil.shorten(title, 80)).andReturn(title);
+		EasyMock.expect(htmlUtil.filterHtmlTages(title)).andReturn(title);
+
+		Object[] mocks = new Object[]{htmlUtil, stringUtil, indexerService, logger};
+		EasyMock.replay(mocks);
+
 		final WebsearchAddToSearchIndex websearchAddToSearchIndex = new WebsearchAddToSearchIndex(logger, indexerService, htmlUtil, stringUtil, httpUtil);
 		assertThat(websearchAddToSearchIndex.extractTitle(content), is(title));
+
+		EasyMock.verify(mocks);
 	}
 }

@@ -7,6 +7,7 @@ import de.benjaminborbe.tools.stream.ChannelTools;
 import de.benjaminborbe.tools.stream.StreamUtil;
 import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,9 +16,11 @@ public class HttpUtilUnitTest {
 
 	@Test
 	public void testIsAvailable() {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
 		final ChannelTools channelTools = new ChannelTools();
 		final StreamUtil streamUtil = new StreamUtil(channelTools);
-		final HttpUtil httpUtil = new HttpUtil(streamUtil);
+		final HttpUtil httpUtil = new HttpUtil(logger, streamUtil);
 		{
 			final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
 			EasyMock.expect(httpResponse.getReturnCode()).andReturn(null);
@@ -40,9 +43,11 @@ public class HttpUtilUnitTest {
 
 	@Test
 	public void testIsHtml() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
 		final ChannelTools channelTools = new ChannelTools();
 		final StreamUtil streamUtil = new StreamUtil(channelTools);
-		final HttpUtil httpUtil = new HttpUtil(streamUtil);
+		final HttpUtil httpUtil = new HttpUtil(logger, streamUtil);
 		{
 			final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
 			EasyMock.expect(httpHeader.getValue(HttpUtil.CONTENT_TYPE)).andReturn(null);
@@ -71,9 +76,11 @@ public class HttpUtilUnitTest {
 
 	@Test
 	public void testGetContent() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
 		final ChannelTools channelTools = new ChannelTools();
 		final StreamUtil streamUtil = new StreamUtil(channelTools);
-		final HttpUtil httpUtil = new HttpUtil(streamUtil);
+		final HttpUtil httpUtil = new HttpUtil(logger, streamUtil);
 		final String content = "Hello World";
 		final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
 		final HttpContent httpContent = EasyMock.createMock(HttpContent.class);
@@ -94,9 +101,11 @@ public class HttpUtilUnitTest {
 
 	@Test
 	public void testGetContentEncoding() throws Exception {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
 		final ChannelTools channelTools = new ChannelTools();
 		final StreamUtil streamUtil = new StreamUtil(channelTools);
-		final HttpUtil httpUtil = new HttpUtil(streamUtil);
+		final HttpUtil httpUtil = new HttpUtil(logger, streamUtil);
 		final String content = "für";
 		final String encoding = "UTF8";
 		final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
@@ -118,9 +127,11 @@ public class HttpUtilUnitTest {
 
 	@Test
 	public void testGetCharset() {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
 		final ChannelTools channelTools = new ChannelTools();
 		final StreamUtil streamUtil = new StreamUtil(channelTools);
-		final HttpUtil httpUtil = new HttpUtil(streamUtil);
+		final HttpUtil httpUtil = new HttpUtil(logger, streamUtil);
 		final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
 		final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
 		EasyMock.expect(httpResponse.getHeader()).andReturn(httpHeader);
@@ -136,9 +147,11 @@ public class HttpUtilUnitTest {
 
 	@Test
 	public void testGetCharsetDefault() {
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+		EasyMock.replay(logger);
 		final ChannelTools channelTools = new ChannelTools();
 		final StreamUtil streamUtil = new StreamUtil(channelTools);
-		final HttpUtil httpUtil = new HttpUtil(streamUtil);
+		final HttpUtil httpUtil = new HttpUtil(logger, streamUtil);
 		final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
 		final HttpHeader httpHeader = EasyMock.createMock(HttpHeader.class);
 		EasyMock.expect(httpResponse.getHeader()).andReturn(httpHeader);

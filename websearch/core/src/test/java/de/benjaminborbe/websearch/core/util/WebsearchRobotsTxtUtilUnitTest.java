@@ -9,7 +9,7 @@ public class WebsearchRobotsTxtUtilUnitTest {
 
 	@Test
 	public void testBuildRobotsTxtUrl() {
-		final WebsearchRobotsTxtUtil u = new WebsearchRobotsTxtUtil(null, null, null, null);
+		final WebsearchRobotsTxtUtil u = new WebsearchRobotsTxtUtil(null, null, null, null, null);
 		assertThat(u.buildRobotsTxtUrl("http://example.com"), is("http://example.com/robots.txt"));
 		assertThat(u.buildRobotsTxtUrl("http://example.com/"), is("http://example.com/robots.txt"));
 		assertThat(u.buildRobotsTxtUrl("http://example.com/bla"), is("http://example.com/robots.txt"));

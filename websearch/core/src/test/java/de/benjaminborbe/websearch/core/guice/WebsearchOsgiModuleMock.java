@@ -9,6 +9,8 @@ import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
 import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.mock.CrawlerServiceMock;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.mock.HttpdownloaderServiceMock;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.mock.IndexServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
@@ -24,6 +26,7 @@ public class WebsearchOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(HttpdownloaderService.class).to(HttpdownloaderServiceMock.class).in(Singleton.class);
 		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);

@@ -1,8 +1,10 @@
 package de.benjaminborbe.httpdownloader.tools;
 
+import de.benjaminborbe.httpdownloader.api.HttpContent;
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.tools.stream.StreamUtil;
+import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
@@ -13,16 +15,19 @@ import java.util.zip.GZIPInputStream;
 
 public class HttpUtil {
 
-	private static final String DEFAULT_CHARSET = "UTF8";
+	public static final String DEFAULT_CHARSET = "UTF8";
 
 	public static final String CONTENT_ENCODING = "Content-Encoding";
 
 	public static final String CONTENT_TYPE = "Content-Type";
 
+	private final Logger logger;
+
 	private final StreamUtil streamUtil;
 
 	@Inject
-	public HttpUtil(final StreamUtil streamUtil) {
+	public HttpUtil(final Logger logger, final StreamUtil streamUtil) {
+		this.logger = logger;
 		this.streamUtil = streamUtil;
 	}
 
@@ -41,7 +46,12 @@ public class HttpUtil {
 	}
 
 	public String getContent(final HttpResponse httpResponse) throws IOException {
-		final byte[] content = httpResponse.getContent().getContent();
+		final HttpContent httpContent = httpResponse.getContent();
+		if (httpContent == null) {
+			logger.trace("httpContent is null");
+			return null;
+		}
+		final byte[] content = httpContent.getContent();
 		final HttpHeader header = httpResponse.getHeader();
 		final String charset = getCharset(header);
 		if ("gzip".equals(getContentEncoding(header))) {

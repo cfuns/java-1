@@ -74,7 +74,7 @@ public class WebsearchPageDaoStorageUnitTest {
 		final Calendar calendar = calendarUtil.parseDateTime(timeZone, "2012-12-24 20:15:59");
 		final ChannelTools channelTools = new ChannelTools();
 		final StreamUtil streamUtil = new StreamUtil(channelTools);
-		final HttpUtil httpUtil = new HttpUtil(streamUtil);
+		final HttpUtil httpUtil = new HttpUtil(logger, streamUtil);
 		final WebsearchAddToSearchIndex websearchAddToSearchIndex = EasyMock.createMock(WebsearchAddToSearchIndex.class);
 		EasyMock.replay(websearchAddToSearchIndex);
 		final WebsearchParseLinks websearchParseLinks = EasyMock.createMock(WebsearchParseLinks.class);
