@@ -1,6 +1,7 @@
 package de.benjaminborbe.worktime.core.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.storage.api.StorageService;
 import org.apache.felix.http.api.ExtHttpService;
@@ -12,6 +13,7 @@ public class WorktimeOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(HttpdownloaderService.class).toProvider(service(HttpdownloaderService.class).single());
 		bind(NavigationWidget.class).toProvider(service(NavigationWidget.class).single());
 		bind(StorageService.class).toProvider(service(StorageService.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());

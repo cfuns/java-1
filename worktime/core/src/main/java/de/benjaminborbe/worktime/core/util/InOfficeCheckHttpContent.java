@@ -1,9 +1,10 @@
 package de.benjaminborbe.worktime.core.util;
 
-import de.benjaminborbe.tools.http.HttpDownloadResult;
-import de.benjaminborbe.tools.http.HttpDownloadUtil;
-import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.http.HttpDownloaderException;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestDto;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
@@ -29,21 +30,21 @@ public class InOfficeCheckHttpContent {
 
 	private final ParseUtil parseUtil;
 
-	private final HttpDownloader httpDownloader;
+	private final HttpdownloaderService httpdownloaderService;
 
-	private final HttpDownloadUtil httpDownloadUtil;
+	private final HttpUtil httpUtil;
 
 	@Inject
 	public InOfficeCheckHttpContent(
 		final Logger logger,
 		final ParseUtil parseUtil,
-		final HttpDownloader httpDownloader,
-		final HttpDownloadUtil httpDownloadUtil
+		final HttpdownloaderService httpdownloaderService,
+		final HttpUtil httpUtil
 	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
-		this.httpDownloader = httpDownloader;
-		this.httpDownloadUtil = httpDownloadUtil;
+		this.httpdownloaderService = httpdownloaderService;
+		this.httpUtil = httpUtil;
 	}
 
 	public boolean check() {
@@ -53,20 +54,17 @@ public class InOfficeCheckHttpContent {
 	private boolean check(final String urlString, final String matchString) {
 		try {
 			final URL url = parseUtil.parseURL(urlString);
-			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
-			logger.trace("downloaded " + url + " in " + result.getDuration() + " ms");
-			if (result.getDuration() > TIMEOUT) {
+			final HttpResponse httpResponse = httpdownloaderService.getUnsecure(new HttpRequestDto(url, TIMEOUT));
+			logger.trace("downloaded " + url + " in " + httpResponse.getDuration() + " ms");
+			if (httpResponse.getDuration() > TIMEOUT) {
 				final String msg = "timeout while downloading url: " + url;
 				logger.warn(msg);
 				return false;
 			}
-			final String content = httpDownloadUtil.getContent(result);
+			final String content = httpUtil.getContent(httpResponse);
 			return content != null && content.contains(matchString);
-		} catch (final ParseException | IOException e) {
+		} catch (final HttpdownloaderServiceException | ParseException | IOException e) {
 			logger.warn(e.getClass().getName());
-			return false;
-		} catch (final HttpDownloaderException e) {
-			logger.trace("HttpDownloaderException");
 			return false;
 		}
 	}
