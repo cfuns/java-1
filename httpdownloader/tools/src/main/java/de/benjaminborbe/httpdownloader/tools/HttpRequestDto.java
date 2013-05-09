@@ -13,6 +13,19 @@ public class HttpRequestDto implements HttpRequest {
 
 	private HttpHeader header;
 
+	public HttpRequestDto() {
+	}
+
+	public HttpRequestDto(final URL url) {
+		this.timeout = timeout;
+		this.url = url;
+	}
+
+	public HttpRequestDto(final URL url, final int timeout) {
+		this.timeout = timeout;
+		this.url = url;
+	}
+
 	public int getTimeout() {
 		return timeout;
 	}

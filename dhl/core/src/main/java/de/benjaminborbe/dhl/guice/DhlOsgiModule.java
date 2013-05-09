@@ -3,6 +3,7 @@ package de.benjaminborbe.dhl.guice;
 import com.google.inject.AbstractModule;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.storage.api.StorageService;
 import org.apache.felix.http.api.ExtHttpService;
@@ -14,6 +15,7 @@ public class DhlOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(HttpdownloaderService.class).toProvider(service(HttpdownloaderService.class).single());
 		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
 		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());
 		bind(StorageService.class).toProvider(service(StorageService.class).single());

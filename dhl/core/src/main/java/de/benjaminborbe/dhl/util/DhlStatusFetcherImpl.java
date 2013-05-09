@@ -1,16 +1,17 @@
 package de.benjaminborbe.dhl.util;
 
 import de.benjaminborbe.dhl.api.Dhl;
-import de.benjaminborbe.tools.http.HttpDownloadResult;
-import de.benjaminborbe.tools.http.HttpDownloadUtil;
-import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.http.HttpDownloaderException;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestDto;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.net.URL;
 
 @Singleton
@@ -20,9 +21,9 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 
 	private final Logger logger;
 
-	private final HttpDownloader httpDownloader;
+	private final HttpdownloaderService httpdownloaderService;
 
-	private final HttpDownloadUtil httpDownloadUtil;
+	private final HttpUtil httpUtil;
 
 	private final DhlStatusParser dhlStatusParser;
 
@@ -31,14 +32,14 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 	@Inject
 	public DhlStatusFetcherImpl(
 		final Logger logger,
-		final HttpDownloader httpDownloader,
-		final HttpDownloadUtil httpDownloadUtil,
+		final HttpdownloaderService httpdownloaderService,
+		final HttpUtil httpUtil,
 		final DhlStatusParser dhlStatusParser,
 		final DhlUrlBuilder dhlUrlBuilder
 	) {
 		this.logger = logger;
-		this.httpDownloader = httpDownloader;
-		this.httpDownloadUtil = httpDownloadUtil;
+		this.httpdownloaderService = httpdownloaderService;
+		this.httpUtil = httpUtil;
 		this.dhlStatusParser = dhlStatusParser;
 		this.dhlUrlBuilder = dhlUrlBuilder;
 	}
@@ -48,15 +49,11 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 		try {
 			logger.debug("getStatus for " + dhl.getTrackingNumber());
 			final URL url = dhlUrlBuilder.buildUrl(dhl);
-			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
-			final String content = httpDownloadUtil.getContent(result);
+			final HttpResponse httpResponse = httpdownloaderService.getUnsecure(new HttpRequestDto(url, TIMEOUT));
+			final String content = httpUtil.getContent(httpResponse);
 			return dhlStatusParser.parseCurrentStatus(dhl, content);
-		} catch (final ParseException e) {
-			throw new DhlStatusFetcherException("MalformedURLException", e);
-		} catch (final HttpDownloaderException e) {
-			throw new DhlStatusFetcherException("HttpDownloaderException", e);
-		} catch (final UnsupportedEncodingException e) {
-			throw new DhlStatusFetcherException("UnsupportedEncodingException", e);
+		} catch (IOException | ParseException | HttpdownloaderServiceException e) {
+			throw new DhlStatusFetcherException("fetch dlh status failed!", e);
 		}
 	}
 

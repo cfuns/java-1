@@ -103,6 +103,7 @@ public class ParseUtilImplUnitTest {
 	public void testParseUrl() throws Exception {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		assertEquals("http://www.google.de", parseUtil.parseURL("http://www.google.de").toExternalForm());
+		assertEquals("http://www.google.de", parseUtil.parseURL(" http://www.google.de ").toExternalForm());
 		try {
 			parseUtil.parseURL(null);
 			fail("ParseException expected");
