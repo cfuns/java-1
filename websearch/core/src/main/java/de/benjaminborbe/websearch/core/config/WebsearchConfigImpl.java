@@ -22,6 +22,10 @@ public class WebsearchConfigImpl extends ConfigurationBase implements WebsearchC
 
 	private final ConfigurationDescriptionBoolean saveImages = new ConfigurationDescriptionBoolean(false, "WebsearchSaveImages", "Websearch Save Images");
 
+	private final ConfigurationDescriptionInteger minImageShortSide = new ConfigurationDescriptionInteger(600, "WebsearchMinImageShortSide", "Websearch Min Image Short Side");
+
+	private final ConfigurationDescriptionInteger minImageLongSide = new ConfigurationDescriptionInteger(900, "WebsearchMinImageLongSide", "Websearch Min Image Long Side");
+
 	@Inject
 	public WebsearchConfigImpl(
 		final Logger logger,
@@ -38,6 +42,8 @@ public class WebsearchConfigImpl extends ConfigurationBase implements WebsearchC
 		result.add(refreshLimit);
 		result.add(cronEnabled);
 		result.add(saveImages);
+		result.add(minImageShortSide);
+		result.add(minImageLongSide);
 		return result;
 	}
 
@@ -54,6 +60,16 @@ public class WebsearchConfigImpl extends ConfigurationBase implements WebsearchC
 	@Override
 	public boolean saveImages() {
 		return Boolean.TRUE.equals(getValueBoolean(saveImages));
+	}
+
+	@Override
+	public int minImageLongSide() {
+		return getValueInteger(minImageLongSide);
+	}
+
+	@Override
+	public int minImageShortSide() {
+		return getValueInteger(minImageShortSide);
 	}
 
 }

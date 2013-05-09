@@ -4,6 +4,7 @@ import de.benjaminborbe.crawler.api.CrawlerNotifierResult;
 import de.benjaminborbe.httpdownloader.api.HttpContent;
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
 import de.benjaminborbe.tools.util.Md5Util;
+import de.benjaminborbe.websearch.core.config.WebsearchConfig;
 import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 
@@ -18,21 +19,21 @@ import java.security.NoSuchAlgorithmException;
 
 public class WebsearchSaveAllImage {
 
-	public static final int LONG_MIN = 1000;
-
-	public static final int SHORT_MIN = 600;
-
 	private final Logger logger;
 
 	private final Md5Util md5Util;
 
+	private final WebsearchConfig websearchConfig;
+
 	@Inject
 	public WebsearchSaveAllImage(
 		final Logger logger,
-		final Md5Util md5Util
+		final Md5Util md5Util,
+		final WebsearchConfig websearchConfig
 	) {
 		this.logger = logger;
 		this.md5Util = md5Util;
+		this.websearchConfig = websearchConfig;
 	}
 
 	public void saveImage(final CrawlerNotifierResult websearchPageBean) throws NoSuchAlgorithmException, IOException {
@@ -59,8 +60,10 @@ public class WebsearchSaveAllImage {
 				return false;
 			}
 			final BufferedImage image = ImageIO.read(contentStream);
+			final int longMin = websearchConfig.minImageLongSide();
+			final int shortMin = websearchConfig.minImageShortSide();
 			return image != null
-				&& (image.getWidth() >= LONG_MIN && image.getHeight() >= SHORT_MIN || image.getWidth() >= SHORT_MIN && image.getHeight() >= LONG_MIN);
+				&& (image.getWidth() >= longMin && image.getHeight() >= shortMin || image.getWidth() >= shortMin && image.getHeight() >= longMin);
 		} catch (Exception e) {
 			return false;
 		}
