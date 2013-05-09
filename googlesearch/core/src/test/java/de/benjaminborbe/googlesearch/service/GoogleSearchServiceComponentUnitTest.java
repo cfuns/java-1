@@ -33,7 +33,7 @@ public class GoogleSearchServiceComponentUnitTest {
 		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final UrlUtil urlUtil = new UrlUtilImpl();
-		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, null, htmlUtil, urlUtil, jsonParser);
+		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, htmlUtil, urlUtil, jsonParser, null, null);
 		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
 		final ResourceUtil resourceUtil = new ResourceUtilImpl(streamUtil);
 		final String content = resourceUtil.getResourceContentAsString("sample-result.txt");
@@ -83,7 +83,7 @@ public class GoogleSearchServiceComponentUnitTest {
 		final HtmlTagParser htmlTagParser = new HtmlTagParser(logger);
 		final HtmlUtil htmlUtil = new HtmlUtilImpl(logger, htmlTagParser);
 		final UrlUtil urlUtil = new UrlUtilImpl();
-		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(null, null, null, null, htmlUtil, urlUtil, null);
+		final GoogleSearchServiceComponent googleSearchServiceComponent = new GoogleSearchServiceComponent(logger, null, htmlUtil, urlUtil, null, null, null);
 		assertEquals("https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=crawler+java", googleSearchServiceComponent.buildQueryUrl(Arrays.asList("crawler", "java"))
 			.toExternalForm());
 

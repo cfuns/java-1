@@ -1,14 +1,15 @@
 package de.benjaminborbe.googlesearch.service;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestDto;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
 import de.benjaminborbe.search.api.SearchServiceComponent;
 import de.benjaminborbe.tools.html.HtmlUtil;
-import de.benjaminborbe.tools.http.HttpDownloadResult;
-import de.benjaminborbe.tools.http.HttpDownloadUtil;
-import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.json.JSONArray;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParseException;
@@ -23,6 +24,7 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -71,11 +73,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
 	private final Logger logger;
 
-	private final HttpDownloader httpDownloader;
-
 	private final HtmlUtil htmlUtil;
-
-	private final HttpDownloadUtil httpDownloadUtil;
 
 	private final UrlUtil urlUtil;
 
@@ -83,23 +81,27 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
 	private final JSONParser jsonParser;
 
+	private final HttpdownloaderService httpdownloaderService;
+
+	private final HttpUtil httpUtil;
+
 	@Inject
 	public GoogleSearchServiceComponent(
 		final Logger logger,
 		final SearchUtil searchUtil,
-		final HttpDownloader httpDownloader,
-		final HttpDownloadUtil httpDownloadUtil,
 		final HtmlUtil htmlUtil,
 		final UrlUtil urlUtil,
-		final JSONParser jsonParser
+		final JSONParser jsonParser,
+		final HttpdownloaderService httpdownloaderService,
+		final HttpUtil httpUtil
 	) {
 		this.logger = logger;
 		this.searchUtil = searchUtil;
-		this.httpDownloader = httpDownloader;
-		this.httpDownloadUtil = httpDownloadUtil;
 		this.htmlUtil = htmlUtil;
 		this.urlUtil = urlUtil;
 		this.jsonParser = jsonParser;
+		this.httpdownloaderService = httpdownloaderService;
+		this.httpUtil = httpUtil;
 	}
 
 	@Override
@@ -117,7 +119,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 			for (final BeanMatch<SearchResult> beanResult : beanResults) {
 				result.add(map(beanResult));
 			}
-		} catch (final HttpDownloaderException | ParseException | JSONParseException | UnsupportedEncodingException | MalformedURLException e) {
+		} catch (final HttpdownloaderServiceException | IOException | ParseException | JSONParseException e) {
 			logger.error(e.getClass().getName(), e);
 		}
 
@@ -129,9 +131,9 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 		return new SearchResultImpl(SEARCH_TYPE, beanResult.getMatchCounter(), bean.getTitle(), bean.getUrl(), bean.getDescription());
 	}
 
-	protected String downloadContent(final URL url) throws HttpDownloaderException, UnsupportedEncodingException {
-		final HttpDownloadResult httpDownloadResult = httpDownloader.getUrlUnsecure(url, TIMEOUT);
-		return httpDownloadUtil.getContent(httpDownloadResult);
+	protected String downloadContent(final URL url) throws IOException, HttpdownloaderServiceException {
+		final HttpResponse httpResponse = httpdownloaderService.getUnsecure(new HttpRequestDto(url, TIMEOUT));
+		return httpUtil.getContent(httpResponse);
 	}
 
 	protected List<SearchResult> buildResults(final String content) throws MalformedURLException, JSONParseException, ParseException {
