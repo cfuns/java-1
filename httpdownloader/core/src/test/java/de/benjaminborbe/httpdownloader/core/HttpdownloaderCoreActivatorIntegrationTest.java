@@ -1,8 +1,7 @@
-package de.benjaminborbe.httpdownloader;
+package de.benjaminborbe.httpdownloader.core;
 
 import com.google.inject.Injector;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
-import de.benjaminborbe.httpdownloader.core.HttpdownloaderCoreActivator;
 import de.benjaminborbe.httpdownloader.core.guice.HttpdownloaderModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;

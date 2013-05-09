@@ -4,7 +4,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
-import de.benjaminborbe.httpdownloader.tools.HttpRequestDto;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchResultImpl;
@@ -132,11 +132,11 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	protected String downloadContent(final URL url) throws IOException, HttpdownloaderServiceException {
-		final HttpResponse httpResponse = httpdownloaderService.getUnsecure(new HttpRequestDto(url, TIMEOUT));
+		final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(TIMEOUT).build());
 		return httpUtil.getContent(httpResponse);
 	}
 
-	protected List<SearchResult> buildResults(final String content) throws MalformedURLException, JSONParseException, ParseException {
+	protected List<SearchResult> buildResults(final String content) throws JSONParseException, ParseException {
 		final List<SearchResult> searchResults = new ArrayList<>();
 		final Object object = jsonParser.parse(content);
 		if (object instanceof JSONObject) {

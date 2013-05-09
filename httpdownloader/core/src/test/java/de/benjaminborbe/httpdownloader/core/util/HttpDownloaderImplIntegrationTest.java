@@ -1,8 +1,8 @@
-package de.benjaminborbe.tools.http;
+package de.benjaminborbe.httpdownloader.core.util;
 
 import com.google.inject.Injector;
+import de.benjaminborbe.httpdownloader.core.guice.HttpdownloaderModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.tools.guice.ToolModules;
 import de.benjaminborbe.tools.stream.ChannelTools;
 import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.Base64Util;
@@ -74,12 +74,12 @@ public class HttpDownloaderImplIntegrationTest {
 		final HttpDownloader httpDownloader = new HttpDownloaderImpl(logger, streamUtil, durationUtil, base64Util);
 		final URL url = new URL("http://www.google.de");
 		{
-			final HttpDownloadResult result = httpDownloader.getUrl(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlSecure(url, TIMEOUT, null, null, null);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
 		{
-			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT, null, null, null);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
@@ -108,25 +108,25 @@ public class HttpDownloaderImplIntegrationTest {
 		final URL url = new URL("http://htaccesstest.benjamin-borbe.de/index.html");
 
 		{
-			final HttpDownloadResult httpDownloadResult = httpDownloader.getUrl(url, TIMEOUT);
+			final HttpDownloadResult httpDownloadResult = httpDownloader.getUrlSecure(url, TIMEOUT, null, null, null);
 			assertThat(httpDownloadResult, is(notNullValue()));
 			assertThat(httpDownloadResult.getResponseCode(), is(401));
 
 			final String username = "test";
 			final String password = "test";
-			final HttpDownloadResult result = httpDownloader.getUrl(url, TIMEOUT, username, password);
+			final HttpDownloadResult result = httpDownloader.getUrlSecure(url, TIMEOUT, username, password, null);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
 
 		{
-			final HttpDownloadResult httpDownloadResult = httpDownloader.getUrlUnsecure(url, TIMEOUT);
+			final HttpDownloadResult httpDownloadResult = httpDownloader.getUrlUnsecure(url, TIMEOUT, null, null, null);
 			assertThat(httpDownloadResult, is(notNullValue()));
 			assertThat(httpDownloadResult.getResponseCode(), is(401));
 
 			final String username = "test";
 			final String password = "test";
-			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT, username, password);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT, username, password, null);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
@@ -155,13 +155,13 @@ public class HttpDownloaderImplIntegrationTest {
 		final URL url = new URL("http://test:test@htaccesstest.benjamin-borbe.de/index.html");
 
 		{
-			final HttpDownloadResult result = httpDownloader.getUrl(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlSecure(url, TIMEOUT, null, null, null);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
 
 		{
-			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT);
+			final HttpDownloadResult result = httpDownloader.getUrlUnsecure(url, TIMEOUT, null, null, null);
 			assertTrue(result.getDuration() > 0);
 			assertNotNull(result.getContent());
 		}
@@ -169,7 +169,7 @@ public class HttpDownloaderImplIntegrationTest {
 
 	@Test
 	public void testInject() {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
+		final Injector injector = GuiceInjectorBuilder.getInjector(new HttpdownloaderModulesMock());
 		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
 		assertNotNull(httpDownloader);
 		assertEquals(HttpDownloaderImpl.class, httpDownloader.getClass());
@@ -180,10 +180,10 @@ public class HttpDownloaderImplIntegrationTest {
 		if (notFound)
 			return;
 
-		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
+		final Injector injector = GuiceInjectorBuilder.getInjector(new HttpdownloaderModulesMock());
 		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
 		final HttpDownloadUtil httpDownloadUtil = injector.getInstance(HttpDownloadUtil.class);
-		final HttpDownloadResult result = httpDownloader.getUrl(new URL("http://www.spiegel.de/netzwelt/web/29c3-was-hacker-auf-einem-kongress-alles-machen-a-875161.html"), 5000);
+		final HttpDownloadResult result = httpDownloader.getUrlSecure(new URL("http://www.spiegel.de/netzwelt/web/29c3-was-hacker-auf-einem-kongress-alles-machen-a-875161.html"), 5000, null, null, null);
 		assertNotNull(result);
 
 		assertThat(result.getContentEncoding().getEncoding(), is("ISO-8859-1"));
@@ -200,10 +200,10 @@ public class HttpDownloaderImplIntegrationTest {
 		if (notFound)
 			return;
 
-		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
+		final Injector injector = GuiceInjectorBuilder.getInjector(new HttpdownloaderModulesMock());
 		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
 		final HttpDownloadUtil httpDownloadUtil = injector.getInstance(HttpDownloadUtil.class);
-		final HttpDownloadResult result = httpDownloader.getUrl(new URL("http://www.seibert-media.net/unternehmen/index.shtml"), 5000);
+		final HttpDownloadResult result = httpDownloader.getUrlSecure(new URL("http://www.seibert-media.net/unternehmen/index.shtml"), 5000, null, null, null);
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getResponseCode(), is(200));
 
@@ -220,9 +220,9 @@ public class HttpDownloaderImplIntegrationTest {
 		if (notFound)
 			return;
 
-		final Injector injector = GuiceInjectorBuilder.getInjector(new ToolModules());
+		final Injector injector = GuiceInjectorBuilder.getInjector(new HttpdownloaderModulesMock());
 		final HttpDownloader httpDownloader = injector.getInstance(HttpDownloader.class);
-		final HttpDownloadResult result = httpDownloader.getUrl(new URL("http://www.google.de/gibtsned"), 5000);
+		final HttpDownloadResult result = httpDownloader.getUrlSecure(new URL("http://www.google.de/gibtsned"), 5000, null, null, null);
 		assertNotNull(result);
 		assertThat(result.getResponseCode(), is(404));
 	}

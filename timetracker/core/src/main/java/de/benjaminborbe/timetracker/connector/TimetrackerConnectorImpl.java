@@ -1,10 +1,12 @@
 package de.benjaminborbe.timetracker.connector;
 
+import de.benjaminborbe.httpdownloader.api.HttpMethod;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.tools.date.DateUtil;
-import de.benjaminborbe.tools.http.HttpDownloadResult;
-import de.benjaminborbe.tools.http.HttpDownloadUtil;
-import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.json.JSONArray;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParseException;
@@ -15,8 +17,7 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,31 +31,31 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 
 	private final ParseUtil parseUtil;
 
-	private final HttpDownloader httpDownloader;
-
 	private final Logger logger;
-
-	private final HttpDownloadUtil httpDownloadUtil;
 
 	private final DateUtil dateUtil;
 
 	private final JSONParser jsonParser;
 
+	private final HttpdownloaderService httpdownloaderService;
+
+	private final HttpUtil httpUtil;
+
 	@Inject
 	public TimetrackerConnectorImpl(
 		final Logger logger,
 		final ParseUtil parseUtil,
-		final HttpDownloader httpDownloader,
-		final HttpDownloadUtil httpDownloadUtil,
 		final DateUtil dateUtil,
-		final JSONParser jsonParser
+		final JSONParser jsonParser,
+		final HttpdownloaderService httpdownloaderService,
+		final HttpUtil httpUtil
 	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
-		this.httpDownloader = httpDownloader;
-		this.httpDownloadUtil = httpDownloadUtil;
 		this.dateUtil = dateUtil;
 		this.jsonParser = jsonParser;
+		this.httpdownloaderService = httpdownloaderService;
+		this.httpUtil = httpUtil;
 	}
 
 	@Override
@@ -66,8 +67,8 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			parameter.put("date", dateUtil.germanDateString(date));
 			final Map<String, String> cookies = new HashMap<>();
 			cookies.put("JSESSIONID", sessionId);
-			final HttpDownloadResult result = httpDownloader.postUrl(url, parameter, cookies, TIMEOUT);
-			final String content = httpDownloadUtil.getContent(result);
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(TIMEOUT).addCookies(cookies).addParameters(parameter).addHttpMethod(HttpMethod.POST).build());
+			final String content = httpUtil.getContent(httpResponse);
 
 			final Object object = jsonParser.parse(content);
 			if (object instanceof JSONObject) {
@@ -91,7 +92,7 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			}
 			// System.err.println("content: " + content);
 			return false;
-		} catch (final HttpDownloaderException | JSONParseException | UnsupportedEncodingException | MalformedURLException e) {
+		} catch (final HttpdownloaderServiceException | JSONParseException | IOException e) {
 			throw new TimetrackerConnectorException(e);
 		}
 	}
@@ -104,8 +105,9 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			final Map<String, String> data = new HashMap<>();
 			data.put("username", username);
 			data.put("password", password);
-			final HttpDownloadResult result = httpDownloader.postUrl(url, data, TIMEOUT);
-			final String content = httpDownloadUtil.getContent(result);
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(TIMEOUT).addHttpMethod(HttpMethod.POST).build());
+			final String content = httpUtil.getContent(httpResponse);
+
 			final String startString = "jsessionid=";
 			final int pos1 = content.indexOf(startString);
 			final int pos2 = content.indexOf("\"", pos1);
@@ -114,7 +116,7 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			} else {
 				return null;
 			}
-		} catch (final ParseException | UnsupportedEncodingException | HttpDownloaderException e) {
+		} catch (final ParseException | IOException | HttpdownloaderServiceException e) {
 			logger.debug(e.getClass().getSimpleName(), e);
 			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
 		}

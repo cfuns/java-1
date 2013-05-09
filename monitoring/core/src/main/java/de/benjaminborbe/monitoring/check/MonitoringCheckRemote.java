@@ -2,15 +2,16 @@ package de.benjaminborbe.monitoring.check;
 
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.tools.MapperJsonObjectMonitoringNode;
 import de.benjaminborbe.monitoring.tools.MonitoringCheckResultDto;
-import de.benjaminborbe.tools.http.HttpDownloadResult;
-import de.benjaminborbe.tools.http.HttpDownloadUtil;
-import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParseException;
 import de.benjaminborbe.tools.json.JSONParser;
@@ -26,6 +27,7 @@ import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringUr
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,9 +51,9 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 
 	private final UrlUtil urlUtil;
 
-	private final HttpDownloader httpDownloader;
+	private final HttpdownloaderService httpdownloaderService;
 
-	private final HttpDownloadUtil httpDownloadUtil;
+	private final HttpUtil httpUtil;
 
 	private final JSONParser jsonParser;
 
@@ -59,19 +61,19 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 	public MonitoringCheckRemote(
 		final Logger logger,
 		final ParseUtil parseUtil,
-		final HttpDownloader httpDownloader,
-		final HttpDownloadUtil httpDownloadUtil,
 		final JSONParser jsonParser,
 		final ValidationConstraintValidator validationConstraintValidator,
-		final UrlUtil urlUtil
+		final UrlUtil urlUtil,
+		final HttpdownloaderService httpdownloaderService,
+		final HttpUtil httpUtil
 	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
-		this.httpDownloader = httpDownloader;
-		this.httpDownloadUtil = httpDownloadUtil;
 		this.jsonParser = jsonParser;
 		this.validationConstraintValidator = validationConstraintValidator;
 		this.urlUtil = urlUtil;
+		this.httpdownloaderService = httpdownloaderService;
+		this.httpUtil = httpUtil;
 	}
 
 	@Override
@@ -100,8 +102,8 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 	private MonitoringCheckResult check(final java.net.URL url, final int timeout) {
 		try {
 			logger.debug("check - url: " + url);
-			final HttpDownloadResult httpResult = httpDownloader.getUrl(url, timeout);
-			final String httpContent = httpDownloadUtil.getContent(httpResult);
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(timeout).build());
+			final String httpContent = httpUtil.getContent(httpResponse);
 			final Object object = jsonParser.parse(httpContent);
 			if (object instanceof JSONObject) {
 				logger.debug("json-data found");
@@ -117,13 +119,16 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 				logger.debug("no json-data found");
 				return new MonitoringCheckResultDto(this, false, "invalid json response", url);
 			}
-		} catch (final HttpDownloaderException e) {
-			logger.warn(e.getClass().getName(), e);
-			return new MonitoringCheckResultDto(this, e, url);
 		} catch (final UnsupportedEncodingException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
 		} catch (final JSONParseException e) {
+			logger.warn(e.getClass().getName(), e);
+			return new MonitoringCheckResultDto(this, e, url);
+		} catch (HttpdownloaderServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+			return new MonitoringCheckResultDto(this, e, url);
+		} catch (IOException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
 		}

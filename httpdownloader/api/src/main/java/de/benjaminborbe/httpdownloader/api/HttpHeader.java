@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface HttpHeader {
 
-	String getValue(String name);
+	String getValue(String key);
 
-	List<String> getValues(String name);
+	List<String> getValues(String key);
 
 	Collection<String> getKeys();
 }

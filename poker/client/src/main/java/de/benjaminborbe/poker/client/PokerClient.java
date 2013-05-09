@@ -1,25 +1,27 @@
 package de.benjaminborbe.poker.client;
 
 import com.google.inject.Injector;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.poker.client.guice.PokerClientModules;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.tools.http.HttpDownloadResult;
-import de.benjaminborbe.tools.http.HttpDownloadUtil;
-import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParseException;
 import de.benjaminborbe.tools.json.JSONParser;
 import de.benjaminborbe.tools.json.JSONParserSimple;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class PokerClient {
 
@@ -31,20 +33,29 @@ public class PokerClient {
 
 	private final UrlUtil urlUtil;
 
-	private final HttpDownloader httpDownloader;
+	private final ParseUtil parseUtil;
 
-	private final HttpDownloadUtil httpDownloadUtil;
+	private final HttpdownloaderService httpdownloaderService;
+
+	private final HttpUtil httpUtil;
 
 	private final JSONParser jsonParser;
 
 	private static boolean running = true;
 
 	@Inject
-	public PokerClient(final Logger logger, final UrlUtil urlUtil, final HttpDownloader httpDownloader, final HttpDownloadUtil httpDownloadUtil) {
+	public PokerClient(
+		final Logger logger,
+		final UrlUtil urlUtil,
+		final ParseUtil parseUtil,
+		final HttpdownloaderService httpdownloaderService,
+		final HttpUtil httpUtil
+	) {
 		this.logger = logger;
 		this.urlUtil = urlUtil;
-		this.httpDownloader = httpDownloader;
-		this.httpDownloadUtil = httpDownloadUtil;
+		this.parseUtil = parseUtil;
+		this.httpdownloaderService = httpdownloaderService;
+		this.httpUtil = httpUtil;
 		this.jsonParser = new JSONParserSimple();
 	}
 
@@ -119,16 +130,15 @@ public class PokerClient {
 					Thread.sleep(DELAY);
 				} catch (final InterruptedException e) {
 				}
-			} catch (MalformedURLException | UnsupportedEncodingException | HttpDownloaderException | JSONParseException e) {
+			} catch (JSONParseException | ParseException | HttpdownloaderServiceException | IOException e) {
 				logger.warn(e.getClass().getSimpleName(), e);
 			}
 		}
 	}
 
-	public String getContent(final String url) throws UnsupportedEncodingException, MalformedURLException, HttpDownloaderException {
-		final HttpDownloadResult result = httpDownloader.getUrlUnsecure(new URL(url), TIMEOUT);
-		final String content = httpDownloadUtil.getContent(result);
-		return content;
+	public String getContent(final String url) throws IOException, ParseException, HttpdownloaderServiceException {
+		final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).build());
+		return httpUtil.getContent(httpResponse);
 	}
 
 	private String getCallUrl(final String baseUrl, final String token, final String playerId) throws UnsupportedEncodingException {

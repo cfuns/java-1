@@ -1,11 +1,8 @@
 package de.benjaminborbe.httpdownloader.core.util;
 
-import de.benjaminborbe.tools.http.HttpDownloadResult;
-import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.http.HttpDownloaderException;
+import de.benjaminborbe.httpdownloader.api.HttpRequest;
 
 import javax.inject.Inject;
-import java.net.URL;
 
 public class HttpdownloaderGetSecure implements HttpdownloaderGet {
 
@@ -16,7 +13,8 @@ public class HttpdownloaderGetSecure implements HttpdownloaderGet {
 		this.httpDownloader = httpDownloader;
 	}
 
-	public HttpDownloadResult getUrl(final URL url, final int timeOut) throws HttpDownloaderException {
-		return httpDownloader.getUrl(url, timeOut);
+	@Override
+	public HttpDownloadResult fetch(final HttpRequest httpRequest) throws HttpDownloaderException {
+		return httpDownloader.getUrlSecure(httpRequest.getUrl(), httpRequest.getTimeout(), httpRequest.getUsername(), httpRequest.getPassword(), httpRequest.getHeader());
 	}
 }

@@ -11,8 +11,6 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.html.HtmlUtilImpl;
-import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.http.HttpDownloaderImpl;
 import de.benjaminborbe.tools.jndi.JndiContext;
 import de.benjaminborbe.tools.jndi.JndiContextImpl;
 import de.benjaminborbe.tools.json.JSONParser;
@@ -62,7 +60,6 @@ public abstract class ToolModuleBase extends AbstractModule {
 		bind(ParseUtil.class).to(ParseUtilImpl.class).in(Singleton.class);
 		bind(DateUtil.class).to(DateUtilImpl.class).in(Singleton.class);
 		bind(CalendarUtil.class).to(CalendarUtilImpl.class).in(Singleton.class);
-		bind(HttpDownloader.class).to(HttpDownloaderImpl.class).in(Singleton.class);
 		bind(IdGeneratorLong.class).to(IdGeneratorLongImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
 	}

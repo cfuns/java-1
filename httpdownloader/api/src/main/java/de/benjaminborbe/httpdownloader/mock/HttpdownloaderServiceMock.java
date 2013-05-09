@@ -16,12 +16,7 @@ public class HttpdownloaderServiceMock implements HttpdownloaderService {
 	}
 
 	@Override
-	public HttpResponse getSecure(final HttpRequest httpRequest) throws HttpdownloaderServiceException {
-		return httpResponse;
-	}
-
-	@Override
-	public HttpResponse getUnsecure(final HttpRequest httpRequest) throws HttpdownloaderServiceException {
+	public HttpResponse fetch(final HttpRequest httpRequest) throws HttpdownloaderServiceException {
 		return httpResponse;
 	}
 

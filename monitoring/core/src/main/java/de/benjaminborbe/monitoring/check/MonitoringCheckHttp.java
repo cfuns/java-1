@@ -2,14 +2,15 @@ package de.benjaminborbe.monitoring.check;
 
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
 import de.benjaminborbe.monitoring.tools.MonitoringCheckResultDto;
-import de.benjaminborbe.tools.http.HttpDownloadResult;
-import de.benjaminborbe.tools.http.HttpDownloadUtil;
-import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
@@ -52,27 +53,27 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 
 	private final Logger logger;
 
-	private final HttpDownloader httpDownloader;
-
-	private final HttpDownloadUtil httpDownloadUtil;
-
 	private final ParseUtil parseUtil;
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
+	private final HttpdownloaderService httpdownloaderService;
+
+	private final HttpUtil httpUtil;
+
 	@Inject
 	public MonitoringCheckHttp(
 		final Logger logger,
-		final HttpDownloader httpDownloader,
-		final HttpDownloadUtil httpDownloadUtil,
 		final ParseUtil parseUtil,
-		final ValidationConstraintValidator validationConstraintValidator
+		final ValidationConstraintValidator validationConstraintValidator,
+		final HttpdownloaderService httpdownloaderService,
+		final HttpUtil httpUtil
 	) {
 		this.logger = logger;
-		this.httpDownloader = httpDownloader;
-		this.httpDownloadUtil = httpDownloadUtil;
 		this.parseUtil = parseUtil;
 		this.validationConstraintValidator = validationConstraintValidator;
+		this.httpdownloaderService = httpdownloaderService;
+		this.httpUtil = httpUtil;
 	}
 
 	@Override
@@ -107,19 +108,14 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		URL url = null;
 		try {
 			url = new URL(urlString);
-			final HttpDownloadResult result;
-			if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-				result = httpDownloader.getUrlUnsecure(url, timeout, username, password);
-			} else {
-				result = httpDownloader.getUrlUnsecure(url, timeout);
-			}
-			logger.trace("downloaded " + url + " in " + result.getDuration() + " ms");
-			if (result.getDuration() > timeout) {
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(timeout).build());
+			logger.trace("downloaded " + url + " in " + httpResponse.getDuration() + " ms");
+			if (httpResponse.getDuration() > timeout) {
 				final String msg = "timeout while downloading url: " + url;
 				logger.trace(msg);
 				return new MonitoringCheckResultDto(this, false, msg, url);
 			}
-			final String content = httpDownloadUtil.getContent(result);
+			final String content = httpUtil.getContent(httpResponse);
 			if (!checkTitle(content, titleMatch)) {
 				final String msg = "cannot find title " + titleMatch + " in content of " + url;
 				logger.warn(msg);
@@ -138,7 +134,7 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		} catch (final IOException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
-		} catch (final HttpDownloaderException e) {
+		} catch (HttpdownloaderServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
 		}

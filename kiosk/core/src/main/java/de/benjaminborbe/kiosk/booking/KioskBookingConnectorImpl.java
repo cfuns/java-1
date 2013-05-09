@@ -1,11 +1,14 @@
 package de.benjaminborbe.kiosk.booking;
 
+import de.benjaminborbe.httpdownloader.api.HttpHeader;
+import de.benjaminborbe.httpdownloader.api.HttpMethod;
+import de.benjaminborbe.httpdownloader.api.HttpResponse;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
+import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.kiosk.KioskConstants;
 import de.benjaminborbe.kiosk.config.KioskConfig;
-import de.benjaminborbe.tools.http.HttpDownloadResult;
-import de.benjaminborbe.tools.http.HttpDownloadUtil;
-import de.benjaminborbe.tools.http.HttpDownloader;
-import de.benjaminborbe.tools.http.HttpDownloaderException;
 import de.benjaminborbe.tools.map.MapChain;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -14,11 +17,11 @@ import de.benjaminborbe.tools.util.DurationUtil;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
@@ -30,13 +33,13 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 
 	private final Logger logger;
 
-	private final HttpDownloader httpDownloader;
-
-	private final HttpDownloadUtil httpDownloadUtil;
-
 	private final UrlUtil urlUtil;
 
 	private final DurationUtil durationUtil;
+
+	private final HttpdownloaderService httpdownloaderService;
+
+	private final HttpUtil httpUtil;
 
 	private final KioskConfig kioskConfig;
 
@@ -44,17 +47,17 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 	public KioskBookingConnectorImpl(
 		final Logger logger,
 		final KioskConfig kioskConfig,
-		final HttpDownloader httpDownloader,
-		final HttpDownloadUtil httpDownloadUtil,
 		final UrlUtil urlUtil,
-		final DurationUtil durationUtil
+		final DurationUtil durationUtil,
+		final HttpdownloaderService httpdownloaderService,
+		final HttpUtil httpUtil
 	) {
 		this.logger = logger;
 		this.kioskConfig = kioskConfig;
-		this.httpDownloader = httpDownloader;
-		this.httpDownloadUtil = httpDownloadUtil;
 		this.urlUtil = urlUtil;
 		this.durationUtil = durationUtil;
+		this.httpdownloaderService = httpdownloaderService;
+		this.httpUtil = httpUtil;
 	}
 
 	@Override
@@ -144,10 +147,13 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 		} catch (final MalformedURLException e) {
 			logger.info(e.getClass().getName(), e);
 			return false;
-		} catch (final HttpDownloaderException e) {
+		} catch (final UnsupportedEncodingException e) {
 			logger.info(e.getClass().getName(), e);
 			return false;
-		} catch (final UnsupportedEncodingException e) {
+		} catch (HttpdownloaderServiceException e) {
+			logger.info(e.getClass().getName(), e);
+			return false;
+		} catch (IOException e) {
 			logger.info(e.getClass().getName(), e);
 			return false;
 		} finally {
@@ -156,37 +162,31 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 		}
 	}
 
-	private String logout(final String sessionId, final long customer) throws MalformedURLException, HttpDownloaderException, UnsupportedEncodingException {
+	private String logout(final String sessionId, final long customer) throws IOException, HttpdownloaderServiceException {
 		return addProduct(sessionId, customer);
 	}
 
-	private String addProduct(final String sessionId, final long ean) throws HttpDownloaderException, MalformedURLException, UnsupportedEncodingException {
+	private String addProduct(final String sessionId, final long ean) throws IOException, HttpdownloaderServiceException {
 		final String url = "https://kiosk.lf.seibert-media.net/index.cgi/cart";
-		final HttpDownloadResult result = postUrl(new URL(url), new MapChain<String, String>().add("ean", String.valueOf(ean)).add("form_action", "add"),
-			new MapChain<String, String>().add("sessionID", sessionId), TIMEOUT);
-		final String htmlContent = httpDownloadUtil.getContent(result);
-		return htmlContent;
+		return httpUtil.getContent(postUrl(new URL(url), new MapChain<String, String>().add("ean", String.valueOf(ean)).add("form_action", "add"),
+			new MapChain<String, String>().add("sessionID", sessionId), TIMEOUT));
 	}
 
-	private String getCartContent(final String sessionId) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
+	private String getCartContent(final String sessionId) throws IOException, HttpdownloaderServiceException {
 		final String url = urlUtil.buildUrl("https://kiosk.lf.seibert-media.net/index.cgi/cart", new MapParameter());
-		final HttpDownloadResult result = getUrl(new URL(url), TIMEOUT, new MapChain<String, String>().add("sessionID", sessionId));
-		final String htmlContent = httpDownloadUtil.getContent(result);
-		return htmlContent;
+		return httpUtil.getContent(getUrl(new URL(url), TIMEOUT, new MapChain<String, String>().add("sessionID", sessionId)));
 	}
 
-	private String endShopping(final String sessionId) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
+	private String endShopping(final String sessionId) throws IOException, HttpdownloaderServiceException {
 		final String url = urlUtil.buildUrl("https://kiosk.lf.seibert-media.net/index.cgi/end_shopping", new MapParameter());
-		final HttpDownloadResult result = getUrl(new URL(url), TIMEOUT, new MapChain<String, String>().add("sessionID", sessionId));
-		final String htmlContent = httpDownloadUtil.getContent(result);
-		return htmlContent;
+		return httpUtil.getContent(getUrl(new URL(url), TIMEOUT, new MapChain<String, String>().add("sessionID", sessionId)));
 	}
 
-	private String getLogin(final long customer) throws UnsupportedEncodingException, HttpDownloaderException, MalformedURLException {
+	private String getLogin(final long customer) throws UnsupportedEncodingException, MalformedURLException, HttpdownloaderServiceException {
 		final String url = urlUtil.buildUrl("https://kiosk.lf.seibert-media.net/index.cgi", new MapParameter().add("customer_no", String.valueOf(customer)));
-		final HttpDownloadResult result = getUrl(new URL(url), TIMEOUT);
-		final Map<String, List<String>> headers = result.getHeaders();
-		final List<String> cookies = headers.get("Set-Cookie");
+		final HttpResponse result = getUrl(new URL(url), TIMEOUT);
+		final HttpHeader headers = result.getHeader();
+		final List<String> cookies = headers.getValues("Set-Cookie");
 		for (final String cookie : cookies) {
 			logger.debug("login success");
 			return parseSessionId(cookie);
@@ -195,33 +195,36 @@ public class KioskBookingConnectorImpl implements KioskBookingConnector {
 		return null;
 	}
 
-	private HttpDownloadResult postUrl(
+	private HttpResponse postUrl(
 		final URL url,
 		final MapChain<String, String> data,
 		final MapChain<String, String> cookies,
 		final int timeout
-	) throws HttpDownloaderException {
+	) throws HttpdownloaderServiceException {
 		try {
 			Thread.sleep(DELAY);
 		} catch (final InterruptedException e) {
 		}
-		return httpDownloader.postUrl(url, data, cookies, timeout);
+		final HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(url).addTimeout(timeout).addCookies(cookies).addHttpMethod(HttpMethod.POST);
+		return httpdownloaderService.fetch(httpRequestBuilder.build());
 	}
 
-	private HttpDownloadResult getUrl(final URL url, final int timeout, final MapChain<String, String> add) throws HttpDownloaderException {
+	private HttpResponse getUrl(final URL url, final int timeout, final MapChain<String, String> cookies) throws HttpdownloaderServiceException {
 		try {
 			Thread.sleep(DELAY);
 		} catch (final InterruptedException e) {
 		}
-		return httpDownloader.getUrl(url, timeout, add);
+		final HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(url).addTimeout(timeout).addCookies(cookies).addHttpMethod(HttpMethod.GET);
+		return httpdownloaderService.fetch(httpRequestBuilder.build());
 	}
 
-	private HttpDownloadResult getUrl(final URL url, final int timeout) throws HttpDownloaderException {
+	private HttpResponse getUrl(final URL url, final int timeout) throws HttpdownloaderServiceException {
 		try {
 			Thread.sleep(DELAY);
 		} catch (final InterruptedException e) {
 		}
-		return httpDownloader.getUrl(url, timeout);
+		final HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(url).addTimeout(timeout).addHttpMethod(HttpMethod.GET);
+		return httpdownloaderService.fetch(httpRequestBuilder.build());
 	}
 
 	protected String parseSessionId(final String cookie) {

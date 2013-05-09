@@ -4,18 +4,17 @@ import de.benjaminborbe.httpdownloader.api.HttpRequest;
 
 import javax.inject.Inject;
 
-public class HttpdownloaderGetUnsecure implements HttpdownloaderGet {
+public class HttpdownloaderPostUnsecure implements HttpdownloaderPost {
 
 	private final HttpDownloader httpDownloader;
 
 	@Inject
-	public HttpdownloaderGetUnsecure(final HttpDownloader httpDownloader) {
+	public HttpdownloaderPostUnsecure(final HttpDownloader httpDownloader) {
 		this.httpDownloader = httpDownloader;
 	}
 
 	@Override
 	public HttpDownloadResult fetch(final HttpRequest httpRequest) throws HttpDownloaderException {
-		return httpDownloader.getUrlUnsecure(httpRequest.getUrl(), httpRequest.getTimeout(), httpRequest.getUsername(), httpRequest.getPassword(), httpRequest.getHeader());
-
+		return httpDownloader.postUrlUnsecure(httpRequest.getUrl(), httpRequest.getTimeout(), httpRequest.getParameter(), httpRequest.getHeader());
 	}
 }

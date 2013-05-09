@@ -2,7 +2,8 @@ package de.benjaminborbe.httpdownloader.api;
 
 public interface HttpdownloaderService {
 
-	HttpResponse getSecure(HttpRequest httpRequest) throws HttpdownloaderServiceException;
+	String USERAGENT = "Yet Another Bot";
 
-	HttpResponse getUnsecure(HttpRequest httpRequest) throws HttpdownloaderServiceException;
+	HttpResponse fetch(HttpRequest httpRequest) throws HttpdownloaderServiceException;
+
 }

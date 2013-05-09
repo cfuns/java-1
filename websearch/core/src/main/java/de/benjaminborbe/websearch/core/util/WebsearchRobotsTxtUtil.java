@@ -3,9 +3,8 @@ package de.benjaminborbe.websearch.core.util;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
-import de.benjaminborbe.httpdownloader.tools.HttpRequestDto;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
-import de.benjaminborbe.tools.http.HttpDownloader;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
@@ -51,8 +50,8 @@ public class WebsearchRobotsTxtUtil {
 		logger.trace("check url: " + url);
 		final WebsearchRobotsTxt robotsTxt = getWebsearchRobotsTxt(url.toExternalForm());
 		final String uri = buildUri(url.toExternalForm());
-		final boolean allowed = robotsTxt.isAllowed(HttpDownloader.USERAGENT, uri);
-		logger.debug("url: " + url + " is " + (allowed ? "allowed" : "disallowed") + " for ua: " + HttpDownloader.USERAGENT + " via robots.txt");
+		final boolean allowed = robotsTxt.isAllowed(HttpdownloaderService.USERAGENT, uri);
+		logger.debug("url: " + url + " is " + (allowed ? "allowed" : "disallowed") + " for ua: " + HttpdownloaderService.USERAGENT + " via robots.txt");
 		return allowed;
 	}
 
@@ -62,7 +61,7 @@ public class WebsearchRobotsTxtUtil {
 			return cache.get(robotsTxtUrl);
 		} else {
 			try {
-				final HttpResponse httpResponse = httpdownloaderService.getUnsecure(new HttpRequestDto(parseUtil.parseURL(url), TIMEOUT));
+				final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).build());
 				final String content = httpUtil.getContent(httpResponse);
 				final WebsearchRobotsTxt robotstxt = websearchRobotsTxtParser.parseRobotsTxt(content);
 				cache.put(robotsTxtUrl, robotstxt);

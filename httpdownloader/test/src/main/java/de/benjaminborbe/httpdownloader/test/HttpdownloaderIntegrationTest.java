@@ -62,7 +62,7 @@ public class HttpdownloaderIntegrationTest extends TestCaseOsgi {
 		final HttpRequestDto httpRequest = new HttpRequestDto();
 		final URL url = new URL("http://www.google.de");
 		httpRequest.setUrl(url);
-		final HttpResponse httpResponse = httpdownloaderService.getSecure(httpRequest);
+		final HttpResponse httpResponse = httpdownloaderService.fetch(httpRequest);
 		assertNotNull(httpResponse);
 		assertNotNull(httpResponse.getContent());
 		assertNotNull(httpResponse.getDuration());

@@ -81,7 +81,7 @@ public class ShortenerServiceImpl implements ShortenerService {
 	@Override
 	public URL getUrl(final ShortenerUrlIdentifier shortenerUrlIdentifier) throws ShortenerServiceException {
 		try {
-			logger.debug("getUrl");
+			logger.debug("getUrlSecure");
 
 			final ShortenerUrlBean bean = shortenerUrlDao.load(shortenerUrlIdentifier);
 			if (bean == null) {

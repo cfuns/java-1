@@ -5,6 +5,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.mock.HttpdownloaderServiceMock;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.mock.MailServiceMock;
 import de.benjaminborbe.notification.api.NotificationService;
@@ -22,6 +24,7 @@ public class MonitoringOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(HttpdownloaderService.class).to(HttpdownloaderServiceMock.class).in(Singleton.class);
 		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);

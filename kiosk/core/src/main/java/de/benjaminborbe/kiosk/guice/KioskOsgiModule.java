@@ -1,19 +1,19 @@
 package de.benjaminborbe.kiosk.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
+import com.google.inject.AbstractModule;
+import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.message.api.MessageService;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
-import com.google.inject.AbstractModule;
-
-import de.benjaminborbe.configuration.api.ConfigurationService;
-import de.benjaminborbe.message.api.MessageService;
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class KioskOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(HttpdownloaderService.class).toProvider(service(HttpdownloaderService.class).single());
 		bind(ConfigurationService.class).toProvider(service(ConfigurationService.class).single());
 		bind(MessageService.class).toProvider(service(MessageService.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());

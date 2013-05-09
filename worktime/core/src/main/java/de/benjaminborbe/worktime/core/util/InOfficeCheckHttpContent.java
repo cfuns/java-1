@@ -3,7 +3,7 @@ package de.benjaminborbe.worktime.core.util;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
-import de.benjaminborbe.httpdownloader.tools.HttpRequestDto;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -54,7 +54,7 @@ public class InOfficeCheckHttpContent {
 	private boolean check(final String urlString, final String matchString) {
 		try {
 			final URL url = parseUtil.parseURL(urlString);
-			final HttpResponse httpResponse = httpdownloaderService.getUnsecure(new HttpRequestDto(url, TIMEOUT));
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(TIMEOUT).build());
 			logger.trace("downloaded " + url + " in " + httpResponse.getDuration() + " ms");
 			if (httpResponse.getDuration() > TIMEOUT) {
 				final String msg = "timeout while downloading url: " + url;

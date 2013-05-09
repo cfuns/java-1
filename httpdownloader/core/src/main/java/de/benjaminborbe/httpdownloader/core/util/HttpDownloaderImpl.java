@@ -1,5 +1,6 @@
-package de.benjaminborbe.tools.http;
+package de.benjaminborbe.httpdownloader.core.util;
 
+import de.benjaminborbe.httpdownloader.api.HttpHeader;
 import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.util.Base64Util;
 import de.benjaminborbe.tools.util.Duration;
@@ -30,7 +31,6 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -78,27 +78,12 @@ public class HttpDownloaderImpl implements HttpDownloader {
 		this.base64Util = base64Util;
 	}
 
-	@Override
-	public HttpDownloadResult getUrlUnsecure(final URL url, final int timeout) throws HttpDownloaderException {
-		return getUrlUnsecure(url, timeout, null, null);
-
-	}
-
-	@Override
-	public HttpDownloadResult getUrl(final URL url, final int timeout) throws HttpDownloaderException {
-		return getUrl(url, timeout, null, null);
-	}
-
-	@Override
-	public HttpDownloadResult getUrl(final URL url, final int timeout, final String username, final String password) throws HttpDownloaderException {
-		return getUrl(url, timeout, username, password, new HashMap<String, String>());
-	}
-
 	protected HttpDownloadResult doDownloadUrl(
 		final URL url,
+		final Integer timeout,
 		final String username,
 		final String password,
-		final Map<String, String> cookies
+		final HttpHeader httpHeader
 	) throws IOException {
 		logger.trace("downloadUrl started");
 		final Duration duration = durationUtil.getDuration();
@@ -113,8 +98,12 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			}
 			// connection.setConnectTimeout(timeout);
 			// connection.setReadTimeout(timeout);
-			connection.setRequestProperty("Cookie", buildCookieString(cookies));
 			connection.setRequestProperty("User-Agent", USERAGENT);
+			if (httpHeader != null) {
+				for (final String httpHeaderField : httpHeader.getKeys()) {
+					connection.setRequestProperty(httpHeaderField, httpHeader.getValue(httpHeaderField));
+				}
+			}
 			connection.connect();
 
 			final int responseCode = connection.getResponseCode();
@@ -168,9 +157,14 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult getUrlUnsecure(final URL url, final int timeout, final String username, final String password) throws HttpDownloaderException {
+	public HttpDownloadResult getUrlUnsecure(
+		final URL url,
+		final Integer timeout,
+		final String username,
+		final String password,
+		final HttpHeader httpHeader
+	) throws HttpDownloaderException {
 		final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManagerAllowAll()};
-
 		final SSLSocketFactory orgSSLSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
 		final HostnameVerifier orgHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
 		try {
@@ -180,7 +174,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			HttpsURLConnection.setDefaultHostnameVerifier(hv);
 			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
-			return getUrl(url, timeout, username, password);
+			return getUrlSecure(url, timeout, username, password, httpHeader);
 		} catch (final NoSuchAlgorithmException e) {
 			logger.error("NoSuchAlgorithmException", e);
 			throw new HttpDownloaderException("NoSuchAlgorithmException", e);
@@ -194,11 +188,11 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult postUrl(
+	public HttpDownloadResult postUrlSecure(
 		final URL url,
+		final Integer timeout,
 		final Map<String, String> parameter,
-		final Map<String, String> cookies,
-		final int timeout
+		final HttpHeader httpHeader
 	) throws HttpDownloaderException {
 		try {
 			final Duration duration = durationUtil.getDuration();
@@ -221,8 +215,12 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setConnectTimeout(timeout);
 			connection.setReadTimeout(timeout);
-			connection.setRequestProperty("Cookie", buildCookieString(cookies));
 			connection.setRequestProperty("User-Agent", USERAGENT);
+			if (httpHeader != null) {
+				for (final String httpHeaderField : httpHeader.getKeys()) {
+					connection.setRequestProperty(httpHeaderField, httpHeader.getValue(httpHeaderField));
+				}
+			}
 			connection.setDoOutput(true);
 			connection.connect();
 			final OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
@@ -244,18 +242,37 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			logger.error(e.getClass().getSimpleName(), e);
 			throw new HttpDownloaderException(e.getClass().getSimpleName(), e);
 		}
-
 	}
 
 	@Override
-	public HttpDownloadResult postUrl(final URL url, final Map<String, String> data, final int timeout) throws HttpDownloaderException {
-		final Map<String, String> cookies = new HashMap<>();
-		return postUrl(url, data, cookies, timeout);
+	public HttpDownloadResult postUrlUnsecure(
+		final URL url, final Integer timeOut, final Map<String, String> data, final HttpHeader httpHeader
+	) throws HttpDownloaderException {
+		final TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManagerAllowAll()};
+		final SSLSocketFactory orgSSLSocketFactory = HttpsURLConnection.getDefaultSSLSocketFactory();
+		final HostnameVerifier orgHostnameVerifier = HttpsURLConnection.getDefaultHostnameVerifier();
+		try {
+			final SSLContext sc = SSLContext.getInstance("SSL");
+			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+			final HostnameVerifier hv = new HostnameVerifierAllowAll();
+			HttpsURLConnection.setDefaultHostnameVerifier(hv);
+			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+			return postUrlSecure(url, timeOut, data, httpHeader);
+		} catch (final NoSuchAlgorithmException e) {
+			logger.error("NoSuchAlgorithmException", e);
+			throw new HttpDownloaderException("NoSuchAlgorithmException", e);
+		} catch (final KeyManagementException e) {
+			logger.error("KeyManagementException", e);
+			throw new HttpDownloaderException("KeyManagementException", e);
+		} finally {
+			HttpsURLConnection.setDefaultHostnameVerifier(orgHostnameVerifier);
+			HttpsURLConnection.setDefaultSSLSocketFactory(orgSSLSocketFactory);
+		}
 	}
 
 	protected String buildCookieString(final Map<String, String> cookies) {
-		boolean first = true;
 		final StringWriter result = new StringWriter();
+		boolean first = true;
 		final List<String> keys = new ArrayList<>(cookies.keySet());
 		Collections.sort(keys);
 		for (final String key : keys) {
@@ -272,15 +289,10 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	}
 
 	@Override
-	public HttpDownloadResult getUrl(final URL url, final int timeout, final Map<String, String> cookies) throws HttpDownloaderException {
-		return getUrl(url, timeout, null, null, cookies);
-	}
-
-	@Override
-	public HttpDownloadResult getUrl(final URL url, final int timeout, final String username, final String password, final Map<String, String> cookies)
+	public HttpDownloadResult getUrlSecure(final URL url, final Integer timeout, final String username, final String password, final HttpHeader httpHeader)
 		throws HttpDownloaderException {
 		try {
-			return doDownloadUrl(url, username, password, cookies);
+			return doDownloadUrl(url, timeout, username, password, httpHeader);
 		} catch (final IOException e) {
 			throw new HttpDownloaderException(e.getClass().getSimpleName() + " for url " + url, e);
 		}

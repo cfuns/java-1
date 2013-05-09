@@ -4,7 +4,7 @@ import de.benjaminborbe.dhl.api.Dhl;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
-import de.benjaminborbe.httpdownloader.tools.HttpRequestDto;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import org.slf4j.Logger;
@@ -49,7 +49,7 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 		try {
 			logger.debug("getStatus for " + dhl.getTrackingNumber());
 			final URL url = dhlUrlBuilder.buildUrl(dhl);
-			final HttpResponse httpResponse = httpdownloaderService.getUnsecure(new HttpRequestDto(url, TIMEOUT));
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(TIMEOUT).build());
 			final String content = httpUtil.getContent(httpResponse);
 			return dhlStatusParser.parseCurrentStatus(dhl, content);
 		} catch (IOException | ParseException | HttpdownloaderServiceException e) {

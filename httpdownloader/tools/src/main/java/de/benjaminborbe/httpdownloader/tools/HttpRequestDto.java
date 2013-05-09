@@ -1,37 +1,61 @@
 package de.benjaminborbe.httpdownloader.tools;
 
 import de.benjaminborbe.httpdownloader.api.HttpHeader;
+import de.benjaminborbe.httpdownloader.api.HttpMethod;
 import de.benjaminborbe.httpdownloader.api.HttpRequest;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.net.URL;
+import java.util.Map;
 
 public class HttpRequestDto implements HttpRequest {
 
-	private int timeout;
+	private String username;
+
+	private String password;
+
+	public void setParameter(final Map<String, String> parameter) {
+		this.parameter = parameter;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(final String username) {
+		this.username = username;
+	}
+
+	private HttpMethod httpMethod;
+
+	private Integer timeout;
 
 	private URL url;
 
 	private HttpHeader header;
 
-	public HttpRequestDto() {
-	}
+	private Map<String, String> parameter;
 
-	public HttpRequestDto(final URL url) {
-		this.timeout = timeout;
-		this.url = url;
-	}
+	private Boolean secure;
 
-	public HttpRequestDto(final URL url, final int timeout) {
-		this.timeout = timeout;
-		this.url = url;
-	}
-
-	public int getTimeout() {
+	public Integer getTimeout() {
 		return timeout;
 	}
 
-	public void setTimeout(final int timeout) {
+	@Override
+	public Map<String, String> getParameter() {
+		return parameter;
+	}
+
+	public void setTimeout(final Integer timeout) {
 		this.timeout = timeout;
 	}
 
@@ -51,6 +75,14 @@ public class HttpRequestDto implements HttpRequest {
 		this.header = header;
 	}
 
+	public HttpMethod getHttpMethod() {
+		return httpMethod;
+	}
+
+	public void setHttpMethod(final HttpMethod httpMethod) {
+		this.httpMethod = httpMethod;
+	}
+
 	@Override
 	public boolean equals(final Object o) {
 		if (this == o) return true;
@@ -60,6 +92,7 @@ public class HttpRequestDto implements HttpRequest {
 
 		if (timeout != that.timeout) return false;
 		if (header != null ? !header.equals(that.header) : that.header != null) return false;
+		if (httpMethod != that.httpMethod) return false;
 		if (url != null ? !url.equals(that.url) : that.url != null) return false;
 
 		return true;
@@ -67,7 +100,8 @@ public class HttpRequestDto implements HttpRequest {
 
 	@Override
 	public int hashCode() {
-		int result = timeout;
+		int result = httpMethod != null ? httpMethod.hashCode() : 0;
+		result = 31 * result + timeout;
 		result = 31 * result + (url != null ? url.hashCode() : 0);
 		result = 31 * result + (header != null ? header.hashCode() : 0);
 		return result;
@@ -81,4 +115,13 @@ public class HttpRequestDto implements HttpRequest {
 			.append("header", header)
 			.toString();
 	}
+
+	public void setSecure(final Boolean secure) {
+		this.secure = secure;
+	}
+
+	public Boolean getSecure() {
+		return secure;
+	}
+
 }

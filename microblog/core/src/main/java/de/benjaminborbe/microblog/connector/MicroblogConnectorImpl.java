@@ -3,7 +3,7 @@ package de.benjaminborbe.microblog.connector;
 import de.benjaminborbe.httpdownloader.api.HttpResponse;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderServiceException;
-import de.benjaminborbe.httpdownloader.tools.HttpRequestDto;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
@@ -75,7 +75,8 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	public MicroblogPostIdentifier getLatestRevision() throws MicroblogConnectorException {
 		logger.trace("getLatestRevision");
 		try {
-			final HttpResponse httpResponse = httpdownloaderService.getUnsecure(new HttpRequestDto(parseUtil.parseURL(microblogConfig.getMicroblogRssFeed()), TIMEOUT));
+			final String url = microblogConfig.getMicroblogRssFeed();
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).build());
 			final String content = httpUtil.getContent(httpResponse);
 			final Pattern pattern = Pattern.compile("<guid>" + microblogConfig.getMicroblogUrl() + "/notice/(\\d+)</guid>");
 			final Matcher matcher = pattern.matcher(content);
@@ -95,8 +96,8 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	public MicroblogPostResult getPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogConnectorException {
 		logger.trace("getPost");
 		try {
-			final String postUrl = microblogConfig.getMicroblogUrl() + "/notice/" + microblogPostIdentifier;
-			final HttpResponse httpResponse = httpdownloaderService.getUnsecure(new HttpRequestDto(parseUtil.parseURL(postUrl), TIMEOUT));
+			final String url = microblogConfig.getMicroblogUrl() + "/notice/" + microblogPostIdentifier;
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).build());
 			final String pageContent = httpUtil.getContent(httpResponse);
 			final String content = extractContent(pageContent);
 			if (logger.isTraceEnabled())
@@ -108,7 +109,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			if (logger.isTraceEnabled())
 				logger.trace("conversationUrl=" + conversationUrl);
 			final Calendar date = extractCalendar(pageContent);
-			return new MicroblogPostResult(microblogPostIdentifier, content, author, postUrl, conversationUrl, date);
+			return new MicroblogPostResult(microblogPostIdentifier, content, author, url, conversationUrl, date);
 		} catch (final ParseException | HttpdownloaderServiceException | IOException e) {
 			throw new MicroblogConnectorException(e);
 		}
@@ -222,8 +223,8 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 	public MicroblogConversationResult getConversation(final MicroblogConversationIdentifier microblogConversationIdentifier) throws MicroblogConnectorException {
 		try {
 			logger.trace("getConversation");
-			final String conversationRssUrl = microblogConfig.getMicroblogUrl() + "/api/statusnet/conversation/" + microblogConversationIdentifier.getId() + ".rss";
-			final HttpResponse httpResponse = httpdownloaderService.getUnsecure(new HttpRequestDto(parseUtil.parseURL(conversationRssUrl), TIMEOUT));
+			final String url = microblogConfig.getMicroblogUrl() + "/api/statusnet/conversation/" + microblogConversationIdentifier.getId() + ".rss";
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).build());
 			final String pageContent = httpUtil.getContent(httpResponse);
 			final int open = pageContent.indexOf("<link>");
 			final int close = pageContent.indexOf("</link>", open);

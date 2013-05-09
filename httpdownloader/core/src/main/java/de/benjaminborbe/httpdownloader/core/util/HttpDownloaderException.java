@@ -1,4 +1,4 @@
-package de.benjaminborbe.tools.http;
+package de.benjaminborbe.httpdownloader.core.util;
 
 public class HttpDownloaderException extends Exception {
 
