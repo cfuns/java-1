@@ -134,6 +134,7 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.expect(galleryService.getCollectionsWithGroup(sessionIdentifier, galleryGroupIdentifier)).andReturn(new HashSet<GalleryCollection>()).anyTimes();
 		EasyMock.expect(galleryService.createGroupIdentifier(groupId)).andReturn(galleryGroupIdentifier).anyTimes();
 		EasyMock.expect(galleryService.getGroup(sessionIdentifier, galleryGroupIdentifier)).andReturn(group);
+		galleryService.expectPermission(sessionIdentifier);
 		EasyMock.replay(galleryService);
 
 		final GalleryGuiLinkFactory linkFactory = EasyMock.createNiceMock(GalleryGuiLinkFactory.class);
@@ -141,8 +142,6 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.replay(linkFactory);
 
 		final AuthorizationService authorizationService = EasyMock.createMock(AuthorizationService.class);
-		authorizationService.expectAdminRole(sessionIdentifier);
-		EasyMock.expect(authorizationService.hasAdminRole(sessionIdentifier)).andReturn(true);
 		EasyMock.replay(authorizationService);
 
 		final CacheService cacheService = EasyMock.createMock(CacheService.class);

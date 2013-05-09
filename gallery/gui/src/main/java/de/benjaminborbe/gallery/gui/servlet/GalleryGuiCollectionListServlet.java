@@ -17,6 +17,7 @@ import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
 import de.benjaminborbe.gallery.gui.util.GalleryCollectionComparator;
 import de.benjaminborbe.gallery.gui.util.GalleryGuiLinkFactory;
+import de.benjaminborbe.gallery.gui.util.GalleryGuiWebsiteHtmlServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 @Singleton
-public class GalleryGuiCollectionListServlet extends GalleryGuiHtmlServlet {
+public class GalleryGuiCollectionListServlet extends GalleryGuiWebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -71,7 +72,7 @@ public class GalleryGuiCollectionListServlet extends GalleryGuiHtmlServlet {
 		final GalleryCollectionComparator galleryCollectionComparator,
 		final CacheService cacheService
 	) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService, galleryService);
 		this.linkFactory = linkFactory;
 		this.galleryService = galleryService;
 		this.logger = logger;

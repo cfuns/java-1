@@ -7,12 +7,12 @@ import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
+import de.benjaminborbe.gallery.gui.util.GalleryGuiWebsiteServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.stream.StreamUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteServlet;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -26,7 +26,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 
 @Singleton
-public class GalleryGuiImageServlet extends WebsiteServlet {
+public class GalleryGuiImageServlet extends GalleryGuiWebsiteServlet {
 
 	private static final long serialVersionUID = -5013723680643328782L;
 
@@ -52,7 +52,7 @@ public class GalleryGuiImageServlet extends WebsiteServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final AuthorizationService authorizationService
 	) {
-		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, galleryService);
 		this.logger = logger;
 		this.galleryService = galleryService;
 		this.streamUtil = streamUtil;

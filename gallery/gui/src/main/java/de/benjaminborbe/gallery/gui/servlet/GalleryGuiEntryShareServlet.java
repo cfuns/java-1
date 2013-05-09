@@ -11,11 +11,11 @@ import de.benjaminborbe.gallery.api.GalleryEntryIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
 import de.benjaminborbe.gallery.gui.GalleryGuiConstants;
+import de.benjaminborbe.gallery.gui.util.GalleryGuiWebsiteServlet;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteServlet;
 import de.benjaminborbe.website.util.RedirectWidget;
 import org.slf4j.Logger;
 
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Singleton
-public class GalleryGuiEntryShareServlet extends WebsiteServlet {
+public class GalleryGuiEntryShareServlet extends GalleryGuiWebsiteServlet {
 
 	private static final long serialVersionUID = 7727468974460815201L;
 
@@ -48,7 +48,7 @@ public class GalleryGuiEntryShareServlet extends WebsiteServlet {
 		final GalleryService galleryService,
 		final AuthorizationService authorizationService
 	) {
-		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, galleryService);
 		this.galleryService = galleryService;
 		this.logger = logger;
 		this.authenticationService = authenticationService;

@@ -254,4 +254,13 @@ public class GalleryServiceMock implements GalleryService {
 	public void unshareEntry(final SessionIdentifier sessionIdentifier, final GalleryEntryIdentifier galleryEntryIdentifier) throws PermissionDeniedException,
 		LoginRequiredException, GalleryServiceException {
 	}
+
+	@Override
+	public void expectPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, GalleryServiceException {
+	}
+
+	@Override
+	public boolean hasPermission(final SessionIdentifier sessionIdentifier) throws GalleryServiceException {
+		return false;
+	}
 }
