@@ -43,7 +43,7 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 
 	private static final int TIMEOUT = 5000;
 
-	public static final int DEFAULT_DEPTH = 0;
+	public static final long DEFAULT_DEPTH = 0;
 
 	private final ParseUtil parseUtil;
 
