@@ -45,22 +45,16 @@ public class GalleryServiceMock implements GalleryService {
 
 	@Override
 	public GalleryGroupIdentifier createGroup(
-		final SessionIdentifier sessionIdentifier,
-		final String groupName,
-		final Boolean shared
-	) throws GalleryServiceException,
-		LoginRequiredException, PermissionDeniedException, ValidationException {
+		final SessionIdentifier sessionIdentifier, final GalleryGroup galleryGroup
+	) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		return null;
 	}
 
 	@Override
 	public void updateGroup(
 		final SessionIdentifier sessionIdentifier,
-		final GalleryGroupIdentifier galleryGroupIdentifier,
-		final String groupName,
-		final Boolean shared
-	)
-		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+		final GalleryGroup galleryGroup
+	) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 	}
 
 	@Override

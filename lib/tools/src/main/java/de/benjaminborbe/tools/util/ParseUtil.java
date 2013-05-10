@@ -4,25 +4,25 @@ import java.net.URL;
 
 public interface ParseUtil {
 
-	double parseDouble(final String number) throws ParseException;
+	Double parseDouble(final String number) throws ParseException;
 
-	double parseDouble(final String number, double defaultValue);
+	Double parseDouble(final String number, Double defaultValue);
 
-	float parseFloat(final String number) throws ParseException;
+	Float parseFloat(final String number) throws ParseException;
 
-	float parseFloat(final String number, float defaultValue);
+	Float parseFloat(final String number, Float defaultValue);
 
-	long parseLong(final String number) throws ParseException;
+	Long parseLong(final String number) throws ParseException;
 
-	long parseLong(final String number, long defaultValue);
+	Long parseLong(final String number, Long defaultValue);
 
-	int parseInt(final String number) throws ParseException;
+	Integer parseInt(final String number) throws ParseException;
 
-	int parseInt(final String number, int defaultValue);
+	Integer parseInt(final String number, Integer defaultValue);
 
-	boolean parseBoolean(String value) throws ParseException;
+	Boolean parseBoolean(String value) throws ParseException;
 
-	boolean parseBoolean(String value, boolean defaultValue);
+	Boolean parseBoolean(String value, Boolean defaultValue);
 
 	<T extends Enum<T>> T parseEnum(Class<T> enumClazz, String value) throws ParseException;
 

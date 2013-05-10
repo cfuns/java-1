@@ -24,16 +24,13 @@ public interface GalleryServiceGroup {
 
 	GalleryGroupIdentifier createGroup(
 		final SessionIdentifier sessionIdentifier,
-		String groupName,
-		Boolean shared
+		GalleryGroup galleryGroup
 	) throws GalleryServiceException, LoginRequiredException,
 		PermissionDeniedException, ValidationException;
 
 	void updateGroup(
 		final SessionIdentifier sessionIdentifier,
-		GalleryGroupIdentifier galleryGroupIdentifier,
-		String groupName,
-		Boolean shared
+		GalleryGroup galleryGroup
 	) throws GalleryServiceException,
 		LoginRequiredException, PermissionDeniedException, ValidationException;
 

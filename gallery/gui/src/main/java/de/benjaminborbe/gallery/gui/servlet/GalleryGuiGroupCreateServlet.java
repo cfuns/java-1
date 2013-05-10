@@ -11,6 +11,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
+import de.benjaminborbe.gallery.api.GalleryGroupDto;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.api.GalleryServiceException;
@@ -93,11 +94,17 @@ public class GalleryGuiGroupCreateServlet extends GalleryGuiWebsiteHtmlServlet {
 			final String name = request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_NAME);
 			final String shared = request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_SHARED);
 			final String referer = request.getParameter(GalleryGuiConstants.PARAMETER_REFERER);
-			if (name != null && shared != null) {
+
+			final String shortSideMinLength = request.getParameter(GalleryGuiConstants.PARAMETER_SHORT_SIDE_MIN_LENGTH);
+			final String shortSideMaxLength = request.getParameter(GalleryGuiConstants.PARAMETER_SHORT_SIDE_MAX_LENGTH);
+			final String longSideMinLength = request.getParameter(GalleryGuiConstants.PARAMETER_LONG_SIDE_MIN_LENGTH);
+			final String longSideMaxLength = request.getParameter(GalleryGuiConstants.PARAMETER_LONG_SIDE_MAX_LENGTH);
+
+			if (name != null && shared != null && shortSideMinLength != null && shortSideMaxLength != null && longSideMinLength != null && longSideMaxLength != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-					final GalleryGroupIdentifier galleryGroupIdentifier = createGroup(sessionIdentifier, name, shared);
+					final GalleryGroupIdentifier galleryGroupIdentifier = createGroup(sessionIdentifier, name, shared, shortSideMinLength, shortSideMaxLength, longSideMinLength, longSideMaxLength);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -111,8 +118,12 @@ public class GalleryGuiGroupCreateServlet extends GalleryGuiWebsiteHtmlServlet {
 			}
 			final FormWidget formWidget = new FormWidget();
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
-			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GROUP_NAME).addLabel("Name..."));
-			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GROUP_SHARED).addLabel("Shared").addDefaultValue("false"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GROUP_NAME).addLabel("Name:"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GROUP_SHARED).addLabel("Shared:").addDefaultValue("false"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_SHORT_SIDE_MIN_LENGTH).addLabel("ShortSideMinLength:"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_SHORT_SIDE_MAX_LENGTH).addLabel("ShortSideMaxLength:"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_LONG_SIDE_MIN_LENGTH).addLabel("LongSideMinLength:"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_LONG_SIDE_MAX_LENGTH).addLabel("LongSideMaxLength:"));
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;
@@ -128,24 +139,33 @@ public class GalleryGuiGroupCreateServlet extends GalleryGuiWebsiteHtmlServlet {
 	private GalleryGroupIdentifier createGroup(
 		final SessionIdentifier sessionIdentifier,
 		final String name,
-		final String sharedString
-	) throws GalleryServiceException,
-		LoginRequiredException, PermissionDeniedException, ValidationException {
-		Boolean shared;
+		final String sharedString,
+		final String shortSideMinLengthString,
+		final String shortSideMaxLengthString,
+		final String longSideMinLengthString,
+		final String longSideMaxLengthString
+	)
+		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
+		final GalleryGroupDto galleryGroupDto = new GalleryGroupDto();
+		galleryGroupDto.setName(name);
+		galleryGroupDto.setShortSideMinLength(parseUtil.parseInt(shortSideMinLengthString, null));
+		galleryGroupDto.setShortSideMaxLength(parseUtil.parseInt(shortSideMaxLengthString, null));
+		galleryGroupDto.setLongSideMinLength(parseUtil.parseInt(longSideMinLengthString, null));
+		galleryGroupDto.setLongSideMaxLength(parseUtil.parseInt(longSideMaxLengthString, null));
+
 		final List<ValidationError> errors = new ArrayList<>();
 		{
 			try {
-				shared = parseUtil.parseBoolean(sharedString);
+				galleryGroupDto.setShared(parseUtil.parseBoolean(sharedString));
 			} catch (final ParseException e) {
-				shared = null;
 				errors.add(new ValidationErrorSimple("illegal shared"));
 			}
 		}
+
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		} else {
-			final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroup(sessionIdentifier, name, shared);
-			return galleryGroupIdentifier;
+			return galleryService.createGroup(sessionIdentifier, galleryGroupDto);
 		}
 	}
 

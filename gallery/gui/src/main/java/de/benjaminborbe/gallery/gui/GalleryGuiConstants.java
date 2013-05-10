@@ -74,4 +74,11 @@ public interface GalleryGuiConstants {
 
 	String URL_ENTRY_SHARE = "/entry/share";
 
+	String PARAMETER_SHORT_SIDE_MIN_LENGTH = "shortSideMinLength";
+
+	String PARAMETER_SHORT_SIDE_MAX_LENGTH = "shortSideMaxLength";
+
+	String PARAMETER_LONG_SIDE_MIN_LENGTH = "longSideMinLength";
+
+	String PARAMETER_LONG_SIDE_MAX_LENGTH = "longSideMaxLength";
 }

@@ -13,7 +13,7 @@ public class ParseUtilImpl implements ParseUtil {
 	}
 
 	@Override
-	public double parseDouble(final String number) throws ParseException {
+	public Double parseDouble(final String number) throws ParseException {
 		try {
 			return Double.parseDouble(number);
 		} catch (final Exception e) {
@@ -22,7 +22,7 @@ public class ParseUtilImpl implements ParseUtil {
 	}
 
 	@Override
-	public double parseDouble(final String number, final double defaultValue) {
+	public Double parseDouble(final String number, final Double defaultValue) {
 		try {
 			return Double.parseDouble(number);
 		} catch (final Exception e) {
@@ -31,7 +31,7 @@ public class ParseUtilImpl implements ParseUtil {
 	}
 
 	@Override
-	public float parseFloat(final String number) throws ParseException {
+	public Float parseFloat(final String number) throws ParseException {
 		try {
 			return Float.parseFloat(number);
 		} catch (final Exception e) {
@@ -40,7 +40,7 @@ public class ParseUtilImpl implements ParseUtil {
 	}
 
 	@Override
-	public float parseFloat(final String number, final float defaultValue) {
+	public Float parseFloat(final String number, final Float defaultValue) {
 		try {
 			return Float.parseFloat(number);
 		} catch (final Exception e) {
@@ -49,7 +49,7 @@ public class ParseUtilImpl implements ParseUtil {
 	}
 
 	@Override
-	public long parseLong(final String number) throws ParseException {
+	public Long parseLong(final String number) throws ParseException {
 		try {
 			if (number.charAt(0) == '+') {
 				return Long.parseLong(number.substring(1));
@@ -62,7 +62,7 @@ public class ParseUtilImpl implements ParseUtil {
 	}
 
 	@Override
-	public long parseLong(final String number, final long defaultValue) {
+	public Long parseLong(final String number, final Long defaultValue) {
 		try {
 			if (number.charAt(0) == '+') {
 				return Long.parseLong(number.substring(1));
@@ -75,7 +75,7 @@ public class ParseUtilImpl implements ParseUtil {
 	}
 
 	@Override
-	public int parseInt(final String number) throws ParseException {
+	public Integer parseInt(final String number) throws ParseException {
 		try {
 			if (number.charAt(0) == '+') {
 				return Integer.parseInt(number.substring(1));
@@ -88,7 +88,7 @@ public class ParseUtilImpl implements ParseUtil {
 	}
 
 	@Override
-	public int parseInt(final String number, final int defaultValue) {
+	public Integer parseInt(final String number, final Integer defaultValue) {
 		try {
 			if (number.charAt(0) == '+') {
 				return Integer.parseInt(number.substring(1));
@@ -119,7 +119,7 @@ public class ParseUtilImpl implements ParseUtil {
 	}
 
 	@Override
-	public boolean parseBoolean(final String value) throws ParseException {
+	public Boolean parseBoolean(final String value) throws ParseException {
 		if ("true".equalsIgnoreCase(value) || "1".equalsIgnoreCase(value)) {
 			return true;
 		}
@@ -130,7 +130,7 @@ public class ParseUtilImpl implements ParseUtil {
 	}
 
 	@Override
-	public boolean parseBoolean(final String value, final boolean defaultValue) {
+	public Boolean parseBoolean(final String value, final Boolean defaultValue) {
 		if ("true".equalsIgnoreCase(value) || "1".equalsIgnoreCase(value)) {
 			return true;
 		}

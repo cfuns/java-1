@@ -14,27 +14,27 @@ public class ParseUtilImplUnitTest {
 	@Test
 	public void testParseInt() throws ParseException {
 		final ParseUtil parseUtil = new ParseUtilImpl();
-		assertEquals(0, parseUtil.parseInt("0"));
-		assertEquals(1, parseUtil.parseInt("1"));
-		assertEquals(-1, parseUtil.parseInt("-1"));
-		assertEquals(1, parseUtil.parseInt("+1"));
-		assertEquals(0, parseUtil.parseInt("0", 1337));
-		assertEquals(1, parseUtil.parseInt("1", 1337));
-		assertEquals(-1, parseUtil.parseInt("-1", 1337));
-		assertEquals(1, parseUtil.parseInt("+1", 1337));
+		assertEquals(new Integer(0), parseUtil.parseInt("0"));
+		assertEquals(new Integer(1), parseUtil.parseInt("1"));
+		assertEquals(new Integer(-1), parseUtil.parseInt("-1"));
+		assertEquals(new Integer(1), parseUtil.parseInt("+1"));
+		assertEquals(new Integer(0), parseUtil.parseInt("0", 1337));
+		assertEquals(new Integer(1), parseUtil.parseInt("1", 1337));
+		assertEquals(new Integer(-1), parseUtil.parseInt("-1", 1337));
+		assertEquals(new Integer(1), parseUtil.parseInt("+1", 1337));
 	}
 
 	@Test
 	public void testParseLong() throws ParseException {
 		final ParseUtil parseUtil = new ParseUtilImpl();
-		assertEquals(0l, parseUtil.parseLong("0"));
-		assertEquals(1l, parseUtil.parseLong("1"));
-		assertEquals(-1l, parseUtil.parseLong("-1"));
-		assertEquals(1l, parseUtil.parseLong("+1"));
-		assertEquals(0l, parseUtil.parseLong("0", 1337));
-		assertEquals(1l, parseUtil.parseLong("1", 1337));
-		assertEquals(-1l, parseUtil.parseLong("-1", 1337));
-		assertEquals(1l, parseUtil.parseLong("+1", 1337));
+		assertEquals(new Long(0l), parseUtil.parseLong("0"));
+		assertEquals(new Long(1l), parseUtil.parseLong("1"));
+		assertEquals(new Long(-1l), parseUtil.parseLong("-1"));
+		assertEquals(new Long(1l), parseUtil.parseLong("+1"));
+		assertEquals(new Long(0l), parseUtil.parseLong("0", 1337L));
+		assertEquals(new Long(1l), parseUtil.parseLong("1", 1337L));
+		assertEquals(new Long(-1l), parseUtil.parseLong("-1", 1337L));
+		assertEquals(new Long(1l), parseUtil.parseLong("+1", 1337L));
 	}
 
 	@Test

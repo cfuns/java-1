@@ -186,18 +186,22 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	@Override
-	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final String name, final Boolean shared) throws GalleryServiceException,
+	public GalleryGroupIdentifier createGroup(final SessionIdentifier sessionIdentifier, final GalleryGroup galleryGroup) throws GalleryServiceException,
 		LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);
 
-			logger.debug("createGallery name: " + name);
+			logger.debug("createGallery name: " + galleryGroup.getName());
 			final GalleryGroupIdentifier galleryGroupIdentifier = createGroupIdentifier(idGeneratorUUID.nextId());
 			final GalleryGroupBean group = galleryGroupDao.create();
 			group.setId(galleryGroupIdentifier);
-			group.setName(name);
-			group.setShared(shared);
+			group.setName(galleryGroup.getName());
+			group.setShared(galleryGroup.getShared());
+			group.setLongSideMaxLength(galleryGroup.getLongSideMaxLength());
+			group.setLongSideMinLength(galleryGroup.getLongSideMinLength());
+			group.setShortSideMaxLength(galleryGroup.getShortSideMaxLength());
+			group.setShortSideMinLength(galleryGroup.getShortSideMinLength());
 
 			final ValidationResult errors = validationExecutor.validate(group);
 			if (errors.hasErrors()) {
@@ -586,8 +590,7 @@ public class GalleryServiceImpl implements GalleryService {
 
 			expectPermission(sessionIdentifier);
 
-			final GalleryEntryBean image = galleryEntryDao.load(id);
-			return image;
+			return galleryEntryDao.load(id);
 		} catch (final StorageException e) {
 			throw new GalleryServiceException(e.getClass().getName(), e);
 		} finally {
@@ -764,19 +767,21 @@ public class GalleryServiceImpl implements GalleryService {
 	@Override
 	public void updateGroup(
 		final SessionIdentifier sessionIdentifier,
-		final GalleryGroupIdentifier galleryGroupIdentifier,
-		final String groupName,
-		final Boolean shared
+		final GalleryGroup galleryGroup
 	)
 		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier);
 
-			logger.debug("updateGroup name: " + groupName);
-			final GalleryGroupBean group = galleryGroupDao.load(galleryGroupIdentifier);
-			group.setName(groupName);
-			group.setShared(shared);
+			logger.debug("updateGroup name: " + galleryGroup.getName());
+			final GalleryGroupBean group = galleryGroupDao.load(galleryGroup.getId());
+			group.setName(galleryGroup.getName());
+			group.setShared(galleryGroup.getShared());
+			group.setLongSideMaxLength(galleryGroup.getLongSideMaxLength());
+			group.setLongSideMinLength(galleryGroup.getLongSideMinLength());
+			group.setShortSideMaxLength(galleryGroup.getShortSideMaxLength());
+			group.setShortSideMinLength(galleryGroup.getShortSideMinLength());
 
 			final ValidationResult errors = validationExecutor.validate(group);
 			if (errors.hasErrors()) {
@@ -854,7 +859,7 @@ public class GalleryServiceImpl implements GalleryService {
 				p2++;
 			}
 			if (p1 != null && p2 != null) {
-				if (p2 == p1) {
+				if (p2.equals(p1)) {
 					p1++;
 				} else {
 					final Long tmp = p1;

@@ -13,4 +13,12 @@ public interface GalleryGroup {
 	Calendar getModified();
 
 	Boolean getShared();
+
+	Integer getLongSideMaxLength();
+
+	Integer getLongSideMinLength();
+
+	Integer getShortSideMaxLength();
+
+	Integer getShortSideMinLength();
 }

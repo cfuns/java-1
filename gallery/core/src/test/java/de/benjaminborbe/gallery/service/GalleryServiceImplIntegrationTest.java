@@ -3,6 +3,7 @@ package de.benjaminborbe.gallery.service;
 import com.google.inject.Injector;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.gallery.api.GalleryGroupDto;
 import de.benjaminborbe.gallery.api.GalleryService;
 import de.benjaminborbe.gallery.guice.GalleryModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -30,7 +31,10 @@ public class GalleryServiceImplIntegrationTest {
 		try {
 			final String groupName = null;
 			final SessionIdentifier sessionIdentifier = null;
-			galleryService.createGroup(sessionIdentifier, groupName, false);
+			final GalleryGroupDto dto = new GalleryGroupDto();
+			dto.setName(groupName);
+			dto.setShared(false);
+			galleryService.createGroup(sessionIdentifier, dto);
 			fail("ValidationException expected");
 		} catch (final ValidationException e) {
 			assertNotNull(e);
@@ -39,7 +43,10 @@ public class GalleryServiceImplIntegrationTest {
 		{
 			final String groupName = "testGroup";
 			final SessionIdentifier sessionIdentifier = null;
-			galleryService.createGroup(sessionIdentifier, groupName, false);
+			final GalleryGroupDto dto = new GalleryGroupDto();
+			dto.setName(groupName);
+			dto.setShared(false);
+			galleryService.createGroup(sessionIdentifier, dto);
 		}
 	}
 
