@@ -86,7 +86,7 @@ public class MessageGuiMessageViewServlet extends WebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			String messageId = request.getParameter(MessageGuiConstants.PARAMETER_ID);
+			final String messageId = request.getParameter(MessageGuiConstants.PARAMETER_ID);
 			final Message message = messageService.getMessage(sessionIdentifier, messageService.createMessageIdentifier(messageId));
 			final TableWidget table = new TableWidget();
 			table.addRow(new TableRowWidget().addCell("Id: ").addCell(toString(message.getId())));

@@ -41,7 +41,7 @@ public class CrawlerNotifierResultDto implements CrawlerNotifierResult {
 	public CrawlerNotifierResultDto() {
 	}
 
-	public CrawlerNotifierResultDto(HttpResponse httpResponse, final Long depth, Integer timeout) {
+	public CrawlerNotifierResultDto(final HttpResponse httpResponse, final Long depth, final Integer timeout) {
 		this.depth = depth;
 		this.timeout = timeout;
 		this.content = httpResponse.getContent();

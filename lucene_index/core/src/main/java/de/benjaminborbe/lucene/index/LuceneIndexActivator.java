@@ -47,6 +47,7 @@ public class LuceneIndexActivator extends BaseBundleActivator {
 			try {
 				Class.forName("org.apache.lucene.codecs.lucene40.Lucene40Codec");
 			} catch (final ClassNotFoundException e) {
+				// nop
 			}
 			final NamedSPILoader<Codec> loader = new NamedSPILoader<>(Codec.class);
 			Codec.setDefault(loader.lookup("Lucene40"));

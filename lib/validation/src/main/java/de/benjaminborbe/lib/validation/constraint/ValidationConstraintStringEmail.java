@@ -18,10 +18,10 @@ public class ValidationConstraintStringEmail implements ValidationConstraint<Str
 		return object != null;
 	}
 
-	public static boolean isValidEmailAddress(String email) {
+	public static boolean isValidEmailAddress(final String email) {
 		boolean result = true;
 		try {
-			InternetAddress emailAddr = new InternetAddress(email);
+			final InternetAddress emailAddr = new InternetAddress(email);
 			emailAddr.validate();
 		} catch (AddressException ex) {
 			result = false;

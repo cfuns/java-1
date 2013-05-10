@@ -92,11 +92,11 @@ public class HtmlUtilImpl implements HtmlUtil {
 		}
 
 		{
-			List<String> attrs = Arrays.asList("src", "src_o");
+			final List<String> attrs = Arrays.asList("src", "src_o");
 			final Elements elements = document.getElementsByTag("img");
 			logger.trace("found " + elements.size() + " img elements");
 			for (final Element element : elements) {
-				for (String attr : attrs) {
+				for (final String attr : attrs) {
 					final String href = element.attr(attr);
 					if (href != null && !href.trim().isEmpty()) {
 						logger.trace("add link to result " + href);

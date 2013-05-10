@@ -4,5 +4,4 @@ public interface GalleryConstants {
 
 	String PERMISSION = "gallery";
 
-	;
 }

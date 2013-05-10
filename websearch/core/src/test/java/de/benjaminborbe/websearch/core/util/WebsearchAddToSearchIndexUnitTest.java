@@ -31,7 +31,7 @@ public class WebsearchAddToSearchIndexUnitTest {
 		EasyMock.expect(stringUtil.shorten(title, 80)).andReturn(title);
 		EasyMock.expect(htmlUtil.filterHtmlTages(title)).andReturn(title);
 
-		Object[] mocks = new Object[]{htmlUtil, stringUtil, indexerService, logger};
+		final Object[] mocks = new Object[]{htmlUtil, stringUtil, indexerService, logger};
 		EasyMock.replay(mocks);
 
 		final WebsearchAddToSearchIndex websearchAddToSearchIndex = new WebsearchAddToSearchIndex(logger, indexerService, htmlUtil, stringUtil, httpUtil);

@@ -194,7 +194,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	private Collection<ValidationError> checkSize(
-		String name,
+		final String name,
 		final byte[] imageContent,
 		final Integer longSideMinLength,
 		final Integer longSideMaxLength,
@@ -206,8 +206,8 @@ public class GalleryServiceImpl implements GalleryService {
 			final BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageContent));
 			final int width = image.getWidth();
 			final int height = image.getHeight();
-			int shortLength = Math.min(width, height);
-			int longLength = Math.max(width, height);
+			final int shortLength = Math.min(width, height);
+			final int longLength = Math.max(width, height);
 
 			if (longSideMinLength != null && longLength < longSideMinLength) {
 				errors.add(new ValidationErrorSimple("long side of image(" + longLength + ") " + name + " to short(" + longSideMinLength + ")"));

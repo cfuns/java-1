@@ -22,7 +22,7 @@ public class WebsearchRobotsTxtUtilIntegrationTest {
 		final HttpResponse httpResponse = EasyMock.createMock(HttpResponse.class);
 		final HttpContent httpContent = EasyMock.createMock(HttpContent.class);
 		final Injector injector = GuiceInjectorBuilder.getInjector(new WebsearchModulesMock());
-		HttpdownloaderServiceMock httpdownloaderServiceMock = injector.getInstance(HttpdownloaderServiceMock.class);
+		final HttpdownloaderServiceMock httpdownloaderServiceMock = injector.getInstance(HttpdownloaderServiceMock.class);
 		httpdownloaderServiceMock.setHttpResponse(httpResponse);
 
 		EasyMock.expect(httpResponse.getContent()).andReturn(httpContent);
@@ -30,7 +30,7 @@ public class WebsearchRobotsTxtUtilIntegrationTest {
 		final byte[] content = getContent().getBytes(HttpUtil.DEFAULT_CHARSET);
 		EasyMock.expect(httpContent.getContent()).andReturn(content);
 
-		Object[] mocks = new Object[]{httpResponse, httpContent};
+		final Object[] mocks = new Object[]{httpResponse, httpContent};
 		EasyMock.replay(mocks);
 
 		final WebsearchRobotsTxtUtil u = injector.getInstance(WebsearchRobotsTxtUtil.class);
@@ -41,7 +41,7 @@ public class WebsearchRobotsTxtUtilIntegrationTest {
 	}
 
 	private String getContent() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("User-agent: *\n");
 		sb.append("Disallow: /bin/\n");
 		return sb.toString();

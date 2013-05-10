@@ -26,7 +26,7 @@ public class TaskFocusWidget extends CompositeWidget {
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
 		final ListWidget widgets = new ListWidget();
 		final UlWidget ul = new UlWidget();
-		for (TaskFocus taskFocus : TaskFocus.values()) {
+		for (final TaskFocus taskFocus : TaskFocus.values()) {
 			ul.add(taskGuiLinkFactory.taskFocusSwitch(request, buildName(taskFocus), taskFocus));
 		}
 		widgets.add(ul);
@@ -34,7 +34,7 @@ public class TaskFocusWidget extends CompositeWidget {
 	}
 
 	private String buildName(final TaskFocus taskFocus) {
-		String name = taskFocus.name();
+		final String name = taskFocus.name();
 		return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
 	}
 

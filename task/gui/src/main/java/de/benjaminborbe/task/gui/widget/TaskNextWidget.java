@@ -199,7 +199,7 @@ public class TaskNextWidget extends CompositeWidget {
 		options.add(taskGuiLinkFactory.taskStartTomorrow(request, task.getId()));
 		options.add(" ");
 		options.add(taskGuiWidgetFactory.buildImage(request, "empty"));
-		for (TaskFocus taskFocus : TaskFocus.values()) {
+		for (final TaskFocus taskFocus : TaskFocus.values()) {
 			options.add(" ");
 			options.add(taskGuiLinkFactory.taskUpdateFocus(request, task, taskFocus, taskFocus.name().toLowerCase()));
 		}

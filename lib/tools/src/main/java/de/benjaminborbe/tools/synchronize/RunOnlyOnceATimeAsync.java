@@ -34,7 +34,7 @@ public class RunOnlyOnceATimeAsync {
 	private final ThreadResult<Boolean> running = new ThreadResult<>(false);
 
 	@Inject
-	public RunOnlyOnceATimeAsync(final Logger logger, ThreadRunner threadRunner) {
+	public RunOnlyOnceATimeAsync(final Logger logger, final ThreadRunner threadRunner) {
 		this.logger = logger;
 		this.threadRunner = threadRunner;
 	}

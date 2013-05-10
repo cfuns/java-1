@@ -272,7 +272,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 		{
 			final ListWidget focusList = new ListWidget();
 			focusList.add("Focus: ");
-			for (TaskFocus taskFocus : TaskFocus.values()) {
+			for (final TaskFocus taskFocus : TaskFocus.values()) {
 				focusList.add(taskGuiLinkFactory.taskUpdateFocus(request, task, taskFocus, taskFocus.name().toLowerCase()));
 				focusList.add(" ");
 			}
