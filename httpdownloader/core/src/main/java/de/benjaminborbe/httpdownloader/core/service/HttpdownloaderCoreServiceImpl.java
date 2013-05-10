@@ -73,7 +73,7 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 	private HttpResponse download(final HttpRequest httpRequest, final HttpdownloaderAction httpdownloader) throws HttpdownloaderServiceException {
 		try {
 			final URL url = httpRequest.getUrl();
-			logger.debug("download url: " + url);
+			logger.debug("download url: '" + url + "'");
 			final HttpDownloadResult httpDownloadResult = httpdownloader.fetch(httpRequest);
 
 			final HttpResponseDto httpResponse = new HttpResponseDto();

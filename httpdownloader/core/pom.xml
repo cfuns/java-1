@@ -141,10 +141,5 @@
 			<artifactId>de.benjaminborbe.httpdownloader.tools</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.lib.tools</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 	</dependencies>
 </project>
