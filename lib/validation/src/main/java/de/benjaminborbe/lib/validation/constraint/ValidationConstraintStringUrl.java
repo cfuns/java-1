@@ -1,23 +1,27 @@
 package de.benjaminborbe.lib.validation.constraint;
 
-import de.benjaminborbe.tools.url.UrlUtil;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ValidationConstraintStringUrl implements ValidationConstraint<String> {
 
-	private final UrlUtil urlUtil;
-
-	public ValidationConstraintStringUrl(final UrlUtil urlUtil) {
-		this.urlUtil = urlUtil;
-	}
-
 	@Override
 	public boolean validate(final String object) {
-		return urlUtil.isUrl(object);
+		return isUrl(object);
 	}
 
 	@Override
 	public boolean precondition(final String object) {
 		return object != null;
+	}
+
+	public boolean isUrl(final String url) {
+		try {
+			new URL(url);
+			return true;
+		} catch (final MalformedURLException e) {
+			return false;
+		}
 	}
 
 }

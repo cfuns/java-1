@@ -68,7 +68,7 @@ public class BookmarkValidator extends ValidatorBase<BookmarkBean> {
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
-					constraints.add(new ValidationConstraintStringUrl(urlUtil));
+					constraints.add(new ValidationConstraintStringUrl());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});

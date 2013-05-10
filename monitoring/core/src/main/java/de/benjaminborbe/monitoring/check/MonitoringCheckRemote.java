@@ -153,7 +153,7 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 			final String url = parameter.get(URL);
 			final List<ValidationConstraint<String>> constraints = new ArrayList<>();
 			constraints.add(new ValidationConstraintNotNull<String>());
-			constraints.add(new ValidationConstraintStringUrl(urlUtil));
+			constraints.add(new ValidationConstraintStringUrl());
 			result.addAll(validationConstraintValidator.validate(URL, url, constraints));
 		}
 
