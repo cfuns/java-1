@@ -52,6 +52,10 @@ public class HttpUtil {
 			return null;
 		}
 		final byte[] content = httpContent.getContent();
+		if (content == null) {
+			logger.trace("content is null");
+			return null;
+		}
 		final HttpHeader header = httpResponse.getHeader();
 		final String charset = getCharset(header);
 		if ("gzip".equals(getContentEncoding(header))) {

@@ -155,8 +155,8 @@ public class GalleryServiceImpl implements GalleryService {
 				final Collection<ValidationError> validationErrors = new ArrayList<>();
 				final GalleryCollectionBean collectionBean = galleryCollectionDao.load(galleryCollectionIdentifier);
 				final GalleryGroupBean groupBean = galleryGroupDao.load(collectionBean.getGroupId());
-				validationErrors.addAll(checkSize(imagePreviewContent, groupBean.getPreviewLongSideMinLength(), groupBean.getPreviewLongSideMaxLength(), groupBean.getPreviewShortSideMinLength(), groupBean.getPreviewShortSideMaxLength()));
-				validationErrors.addAll(checkSize(imageContent, groupBean.getLongSideMinLength(), groupBean.getLongSideMaxLength(), groupBean.getShortSideMinLength(), groupBean.getShortSideMaxLength()));
+				validationErrors.addAll(checkSize("preview", imagePreviewContent, groupBean.getPreviewLongSideMinLength(), groupBean.getPreviewLongSideMaxLength(), groupBean.getPreviewShortSideMinLength(), groupBean.getPreviewShortSideMaxLength()));
+				validationErrors.addAll(checkSize("image", imageContent, groupBean.getLongSideMinLength(), groupBean.getLongSideMaxLength(), groupBean.getShortSideMinLength(), groupBean.getShortSideMaxLength()));
 				if (!validationErrors.isEmpty()) {
 					throw new ValidationException(new ValidationResultImpl(validationErrors));
 				}
@@ -194,6 +194,7 @@ public class GalleryServiceImpl implements GalleryService {
 	}
 
 	private Collection<ValidationError> checkSize(
+		String name,
 		final byte[] imageContent,
 		final Integer longSideMinLength,
 		final Integer longSideMaxLength,
@@ -209,17 +210,16 @@ public class GalleryServiceImpl implements GalleryService {
 			int longLength = Math.max(width, height);
 
 			if (longSideMinLength != null && longLength < longSideMinLength) {
-				errors.add(new ValidationErrorSimple("long to short"));
+				errors.add(new ValidationErrorSimple("long side of image(" + longLength + ") " + name + " to short(" + longSideMinLength + ")"));
 			}
 			if (longSideMaxLength != null && longLength > longSideMaxLength) {
-				errors.add(new ValidationErrorSimple("long to long"));
+				errors.add(new ValidationErrorSimple("long side of image(" + longLength + ") " + name + " to long(" + longSideMaxLength + ")"));
 			}
-
 			if (shortSideMinLength != null && shortLength < shortSideMinLength) {
-				errors.add(new ValidationErrorSimple("short to short"));
+				errors.add(new ValidationErrorSimple("short side of image(" + shortLength + ") " + name + " to short(" + shortSideMinLength + ")"));
 			}
 			if (shortSideMaxLength != null && shortLength > shortSideMaxLength) {
-				errors.add(new ValidationErrorSimple("short to long"));
+				errors.add(new ValidationErrorSimple("short side of image(" + shortLength + ") " + name + " to long(" + shortSideMaxLength + ")"));
 			}
 
 		} catch (IOException e) {
