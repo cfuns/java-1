@@ -116,12 +116,12 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools</artifactId>
+			<artifactId>de.benjaminborbe.lib.tools</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
+			<artifactId>de.benjaminborbe.lib.osgi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -151,6 +151,11 @@
 			<groupId>dnsjava</groupId>
 			<artifactId>dnsjava</artifactId>
 			<version>2.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.lib.validation</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,22 +1,22 @@
 package de.benjaminborbe.monitoring.dao;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
+import de.benjaminborbe.lib.validation.ValidatorBase;
+import de.benjaminborbe.lib.validation.ValidatorRule;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintAnd;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintIdentifier;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintNull;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintOr;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringMaxLength;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.check.MonitoringCheckRegistry;
 import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
-import de.benjaminborbe.tools.validation.ValidatorBase;
-import de.benjaminborbe.tools.validation.ValidatorRule;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintAnd;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIdentifier;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNull;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintOr;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

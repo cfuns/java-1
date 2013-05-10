@@ -1,9 +1,9 @@
 package de.benjaminborbe.message.guice;
 
-import javax.inject.Inject;
-
+import de.benjaminborbe.lib.validation.ValidatorRegistry;
 import de.benjaminborbe.message.dao.MessageValidator;
-import de.benjaminborbe.tools.validation.ValidatorRegistry;
+
+import javax.inject.Inject;
 
 public class MessageValidatorLinker {
 

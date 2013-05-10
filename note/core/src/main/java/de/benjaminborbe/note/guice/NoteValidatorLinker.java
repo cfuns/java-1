@@ -1,9 +1,9 @@
 package de.benjaminborbe.note.guice;
 
-import javax.inject.Inject;
-
+import de.benjaminborbe.lib.validation.ValidatorRegistry;
 import de.benjaminborbe.note.dao.NoteValidator;
-import de.benjaminborbe.tools.validation.ValidatorRegistry;
+
+import javax.inject.Inject;
 
 public class NoteValidatorLinker {
 

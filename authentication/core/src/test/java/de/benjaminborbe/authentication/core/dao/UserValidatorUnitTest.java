@@ -1,8 +1,8 @@
 package de.benjaminborbe.authentication.core.dao;
 
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidatorMock;
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
+import de.benjaminborbe.lib.validation.ValidationConstraintValidatorMock;
 import org.easymock.EasyMock;
 import org.junit.Test;
 

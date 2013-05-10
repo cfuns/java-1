@@ -32,10 +32,6 @@ import de.benjaminborbe.tools.util.ResourceUtil;
 import de.benjaminborbe.tools.util.ResourceUtilImpl;
 import de.benjaminborbe.tools.util.StringUtil;
 import de.benjaminborbe.tools.util.StringUtilImpl;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
-import de.benjaminborbe.tools.validation.ValidationExecutorImpl;
-import de.benjaminborbe.tools.validation.ValidatorRegistry;
-import de.benjaminborbe.tools.validation.ValidatorRegistryImpl;
 import org.slf4j.Logger;
 
 import javax.inject.Singleton;
@@ -45,11 +41,9 @@ public abstract class ToolModuleBase extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(JSONParser.class).to(JSONParserSimple.class).in(Singleton.class);
-		bind(ValidationExecutor.class).to(ValidationExecutorImpl.class).in(Singleton.class);
 		bind(PasswordGenerator.class).to(PasswordGeneratorImpl.class).in(Singleton.class);
 		bind(PasswordValidator.class).to(PasswordValidatorImpl.class).in(Singleton.class);
 		bind(CurrentTime.class).to(CurrentTimeImpl.class);
-		bind(ValidatorRegistry.class).to(ValidatorRegistryImpl.class).in(Singleton.class);
 		bind(UrlUtil.class).to(UrlUtilImpl.class).in(Singleton.class);
 		bind(HtmlUtil.class).to(HtmlUtilImpl.class).in(Singleton.class);
 		bind(ResourceUtil.class).to(ResourceUtilImpl.class).in(Singleton.class);

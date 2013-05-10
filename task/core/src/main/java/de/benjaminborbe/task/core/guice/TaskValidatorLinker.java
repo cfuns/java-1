@@ -1,9 +1,9 @@
 package de.benjaminborbe.task.core.guice;
 
+import de.benjaminborbe.lib.validation.ValidatorRegistry;
 import de.benjaminborbe.task.core.dao.attachment.TaskAttachmentValidator;
 import de.benjaminborbe.task.core.dao.context.TaskContextValidator;
 import de.benjaminborbe.task.core.dao.task.TaskValidator;
-import de.benjaminborbe.tools.validation.ValidatorRegistry;
 
 import javax.inject.Inject;
 

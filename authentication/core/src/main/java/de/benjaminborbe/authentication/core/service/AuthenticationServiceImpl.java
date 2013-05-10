@@ -23,6 +23,8 @@ import de.benjaminborbe.authentication.core.util.AuthenticationGeneratePasswordF
 import de.benjaminborbe.authentication.core.util.AuthenticationPasswordEncryptionService;
 import de.benjaminborbe.authentication.core.util.AuthenticationPasswordUtil;
 import de.benjaminborbe.authentication.core.verifycredential.AuthenticationVerifyCredential;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
+import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.mail.api.MailDto;
 import de.benjaminborbe.mail.api.MailService;
 import de.benjaminborbe.mail.api.MailServiceException;
@@ -39,8 +41,6 @@ import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
-import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

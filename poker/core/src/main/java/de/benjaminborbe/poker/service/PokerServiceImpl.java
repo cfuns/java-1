@@ -11,6 +11,8 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
+import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameDto;
@@ -38,8 +40,6 @@ import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.list.ListUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
-import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

@@ -15,6 +15,7 @@ import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.api.KioskServiceException;
 import de.benjaminborbe.kiosk.api.KioskUser;
 import de.benjaminborbe.kiosk.api.KioskUserDto;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.lunch.LunchConstants;
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.api.LunchService;
@@ -32,7 +33,6 @@ import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 

@@ -25,6 +25,7 @@ import de.benjaminborbe.confluence.util.ConfluencePageRefresher;
 import de.benjaminborbe.confluence.util.ConfluencePagesRefresher;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -34,7 +35,6 @@ import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

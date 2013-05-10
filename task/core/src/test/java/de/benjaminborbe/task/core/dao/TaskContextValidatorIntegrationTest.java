@@ -1,10 +1,10 @@
 package de.benjaminborbe.task.core.dao;
 
 import com.google.inject.Injector;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.task.core.dao.context.TaskContextBean;
 import de.benjaminborbe.task.core.guice.TaskModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

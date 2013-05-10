@@ -2,15 +2,15 @@ package de.benjaminborbe.websearch.core.dao;
 
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
-import de.benjaminborbe.tools.validation.ValidatorBase;
-import de.benjaminborbe.tools.validation.ValidatorRule;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerGE;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIntegerLE;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintLongGE;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintLongLE;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
+import de.benjaminborbe.lib.validation.ValidatorBase;
+import de.benjaminborbe.lib.validation.ValidatorRule;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintIntegerGE;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintIntegerLE;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintLongGE;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintLongLE;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintNotNull;
 
 import javax.inject.Inject;
 import java.net.URL;

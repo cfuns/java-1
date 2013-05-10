@@ -23,11 +23,11 @@ import de.benjaminborbe.dhl.util.DhlStatusFetcherException;
 import de.benjaminborbe.dhl.util.DhlStatusNotifier;
 import de.benjaminborbe.dhl.util.DhlStatusNotifierException;
 import de.benjaminborbe.dhl.util.DhlUrlBuilder;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

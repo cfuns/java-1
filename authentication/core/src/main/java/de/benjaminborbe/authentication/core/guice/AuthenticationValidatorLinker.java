@@ -1,7 +1,7 @@
 package de.benjaminborbe.authentication.core.guice;
 
 import de.benjaminborbe.authentication.core.dao.UserValidator;
-import de.benjaminborbe.tools.validation.ValidatorRegistry;
+import de.benjaminborbe.lib.validation.ValidatorRegistry;
 
 import javax.inject.Inject;
 

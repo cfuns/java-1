@@ -2,6 +2,7 @@ package de.benjaminborbe.shortener.service;
 
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.shortener.api.ShortenerService;
 import de.benjaminborbe.shortener.api.ShortenerServiceException;
 import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
@@ -12,7 +13,6 @@ import de.benjaminborbe.tools.password.PasswordCharacter;
 import de.benjaminborbe.tools.password.PasswordGenerator;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

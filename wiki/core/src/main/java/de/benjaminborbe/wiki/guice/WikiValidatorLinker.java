@@ -1,10 +1,10 @@
 package de.benjaminborbe.wiki.guice;
 
-import javax.inject.Inject;
-
-import de.benjaminborbe.tools.validation.ValidatorRegistry;
+import de.benjaminborbe.lib.validation.ValidatorRegistry;
 import de.benjaminborbe.wiki.dao.WikiPageValidator;
 import de.benjaminborbe.wiki.dao.WikiSpaceValidator;
+
+import javax.inject.Inject;
 
 public class WikiValidatorLinker {
 

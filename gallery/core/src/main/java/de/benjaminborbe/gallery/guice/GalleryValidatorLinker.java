@@ -4,7 +4,7 @@ import de.benjaminborbe.gallery.validation.GalleryCollectionValidator;
 import de.benjaminborbe.gallery.validation.GalleryEntryValidator;
 import de.benjaminborbe.gallery.validation.GalleryGroupValidator;
 import de.benjaminborbe.gallery.validation.GalleryImageValidator;
-import de.benjaminborbe.tools.validation.ValidatorRegistry;
+import de.benjaminborbe.lib.validation.ValidatorRegistry;
 
 import javax.inject.Inject;
 

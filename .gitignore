@@ -1178,3 +1178,15 @@ xmpp/api/.classpath
 xmpp/core/.classpath
 xmpp/gui/.classpath
 xmpp/test/.classpath
+httpdownloader/tools/de.benjaminborbe.httpdownloader.tools.iml
+lib/osgi/target
+lib/osgi/.classpath
+lib/osgitest/target
+lib/osgitest/.classpath
+lib/tools/de.benjaminborbe.lib.tools.iml
+lib/validation/target
+lib/osgi/de.benjaminborbe.lib.osgi.iml
+lib/osgi/de.benjaminborbe.tools.osgi.iml
+lib/osgitest/de.benjaminborbe.lib.osgitest.iml
+lib/osgitest/de.benjaminborbe.test.osgi.iml
+lib/validation/de.benjaminborbe.lib.validation.iml

@@ -5,11 +5,11 @@ import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.UserIdentifier;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
-import de.benjaminborbe.tools.validation.ValidatorBase;
-import de.benjaminborbe.tools.validation.ValidatorRule;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
+import de.benjaminborbe.lib.validation.ValidatorBase;
+import de.benjaminborbe.lib.validation.ValidatorRule;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintNotNull;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

@@ -126,12 +126,12 @@
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools</artifactId>
+			<artifactId>de.benjaminborbe.lib.tools</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
+			<artifactId>de.benjaminborbe.lib.osgi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

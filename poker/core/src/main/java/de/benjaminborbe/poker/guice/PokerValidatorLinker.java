@@ -1,8 +1,8 @@
 package de.benjaminborbe.poker.guice;
 
+import de.benjaminborbe.lib.validation.ValidatorRegistry;
 import de.benjaminborbe.poker.game.PokerGameValidator;
 import de.benjaminborbe.poker.player.PokerPlayerValidator;
-import de.benjaminborbe.tools.validation.ValidatorRegistry;
 
 import javax.inject.Inject;
 

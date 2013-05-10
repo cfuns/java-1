@@ -1,9 +1,9 @@
 package de.benjaminborbe.task.core.dao;
 
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
 import de.benjaminborbe.task.api.TaskContextIdentifier;
 import de.benjaminborbe.task.core.dao.context.TaskContextBean;
 import de.benjaminborbe.task.core.dao.context.TaskContextValidator;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

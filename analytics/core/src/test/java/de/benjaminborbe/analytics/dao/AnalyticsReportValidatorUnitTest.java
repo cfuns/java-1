@@ -1,15 +1,14 @@
 package de.benjaminborbe.analytics.dao;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
+import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
+import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
-import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class AnalyticsReportValidatorUnitTest {
 

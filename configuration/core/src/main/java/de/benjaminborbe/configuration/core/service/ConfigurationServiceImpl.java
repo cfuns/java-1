@@ -9,8 +9,8 @@ import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.configuration.core.dao.ConfigurationBean;
 import de.benjaminborbe.configuration.core.dao.ConfigurationDao;
 import de.benjaminborbe.configuration.core.dao.ConfigurationRegistry;
+import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.storage.api.StorageException;
-import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

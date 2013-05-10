@@ -1,8 +1,8 @@
 package de.benjaminborbe.gallery.validation;
 
 import de.benjaminborbe.gallery.dao.GalleryEntryBean;
-import de.benjaminborbe.tools.validation.ValidatorBase;
-import de.benjaminborbe.tools.validation.ValidatorRule;
+import de.benjaminborbe.lib.validation.ValidatorBase;
+import de.benjaminborbe.lib.validation.ValidatorRule;
 
 import java.util.HashMap;
 import java.util.Map;

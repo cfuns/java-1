@@ -1,15 +1,15 @@
 package de.benjaminborbe.poker.game;
 
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
+import de.benjaminborbe.lib.validation.ValidatorBase;
+import de.benjaminborbe.lib.validation.ValidatorRule;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintIdentifier;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintNotNull;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringMaxLength;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
-import de.benjaminborbe.tools.validation.ValidatorBase;
-import de.benjaminborbe.tools.validation.ValidatorRule;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintIdentifier;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMaxLength;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintStringMinLength;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

@@ -14,13 +14,13 @@ import de.benjaminborbe.distributed.search.dao.DistributedSearchPageDao;
 import de.benjaminborbe.distributed.search.dao.DistributedSearchPageIdentifier;
 import de.benjaminborbe.distributed.search.util.DistributedSearchAnalyser;
 import de.benjaminborbe.distributed.search.util.DistributedSearchResultImpl;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

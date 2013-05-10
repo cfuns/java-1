@@ -1,6 +1,6 @@
 package de.benjaminborbe.distributed.search.dao;
 
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;

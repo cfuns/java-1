@@ -16,13 +16,13 @@ import de.benjaminborbe.blog.api.BlogService;
 import de.benjaminborbe.blog.api.BlogServiceException;
 import de.benjaminborbe.blog.dao.BlogPostBean;
 import de.benjaminborbe.blog.dao.BlogPostDao;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

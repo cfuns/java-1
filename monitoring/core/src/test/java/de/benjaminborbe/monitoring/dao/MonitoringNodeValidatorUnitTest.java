@@ -2,6 +2,7 @@ package de.benjaminborbe.monitoring.dao;
 
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringNodeIdentifier;
 import de.benjaminborbe.monitoring.check.MonitoringCheckHttp;
@@ -20,7 +21,6 @@ import de.benjaminborbe.tools.util.Base64UtilImpl;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;

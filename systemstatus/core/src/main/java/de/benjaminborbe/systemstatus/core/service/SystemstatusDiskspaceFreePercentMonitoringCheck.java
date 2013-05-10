@@ -2,6 +2,11 @@ package de.benjaminborbe.systemstatus.core.service;
 
 import de.benjaminborbe.api.ValidationError;
 import de.benjaminborbe.api.ValidationErrorSimple;
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraint;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintLongGE;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintLongLE;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.monitoring.api.MonitoringCheckResult;
@@ -10,11 +15,6 @@ import de.benjaminborbe.systemstatus.api.SystemstatusPartition;
 import de.benjaminborbe.systemstatus.core.util.SystemstatusPartitionUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraint;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintLongGE;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintLongLE;
-import de.benjaminborbe.tools.validation.constraint.ValidationConstraintNotNull;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

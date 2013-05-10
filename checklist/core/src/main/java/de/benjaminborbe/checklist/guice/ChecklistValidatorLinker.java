@@ -1,10 +1,10 @@
 package de.benjaminborbe.checklist.guice;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.checklist.dao.ChecklistEntryValidator;
 import de.benjaminborbe.checklist.dao.ChecklistListValidator;
-import de.benjaminborbe.tools.validation.ValidatorRegistry;
+import de.benjaminborbe.lib.validation.ValidatorRegistry;
+
+import javax.inject.Inject;
 
 public class ChecklistValidatorLinker {
 

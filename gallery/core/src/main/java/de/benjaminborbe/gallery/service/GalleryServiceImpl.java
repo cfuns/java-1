@@ -27,6 +27,7 @@ import de.benjaminborbe.gallery.dao.GalleryGroupDao;
 import de.benjaminborbe.gallery.dao.GalleryImageBean;
 import de.benjaminborbe.gallery.dao.GalleryImageDao;
 import de.benjaminborbe.gallery.util.SharedPredicate;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -35,7 +36,6 @@ import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;

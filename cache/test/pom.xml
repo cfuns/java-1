@@ -96,7 +96,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.test.osgi</artifactId>
+			<artifactId>de.benjaminborbe.osgitest</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -131,7 +131,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>de.benjaminborbe.tools.osgi</artifactId>
+			<artifactId>de.benjaminborbe.lib.osgi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

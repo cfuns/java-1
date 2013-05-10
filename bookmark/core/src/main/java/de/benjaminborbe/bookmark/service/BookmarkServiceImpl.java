@@ -19,13 +19,13 @@ import de.benjaminborbe.bookmark.api.BookmarkService;
 import de.benjaminborbe.bookmark.api.BookmarkServiceException;
 import de.benjaminborbe.bookmark.dao.BookmarkBean;
 import de.benjaminborbe.bookmark.dao.BookmarkDao;
+import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.search.BeanMatch;
 import de.benjaminborbe.tools.search.BeanSearcher;
 import de.benjaminborbe.tools.util.ComparatorBase;
-import de.benjaminborbe.tools.validation.ValidationExecutor;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 

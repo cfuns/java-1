@@ -1,6 +1,6 @@
 package de.benjaminborbe.confluence.validation;
 
-import de.benjaminborbe.tools.validation.ValidatorRegistry;
+import de.benjaminborbe.lib.validation.ValidatorRegistry;
 
 import javax.inject.Inject;
 

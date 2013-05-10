@@ -14,7 +14,8 @@
 	<modules>
 		<module>cache</module>
 		<module>tools</module>
-		<module>tools_osgi</module>
-		<module>test_osgi</module>
+		<module>osgi</module>
+		<module>osgitest</module>
+		<module>validation</module>
 	</modules>
 </project>

@@ -1,5 +1,6 @@
 package de.benjaminborbe.task.core.dao;
 
+import de.benjaminborbe.lib.validation.ValidationConstraintValidator;
 import de.benjaminborbe.task.api.TaskFocus;
 import de.benjaminborbe.task.api.TaskIdentifier;
 import de.benjaminborbe.task.core.dao.task.TaskBean;
@@ -9,7 +10,6 @@ import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.tools.validation.ValidationConstraintValidator;
 import org.junit.Test;
 import org.slf4j.Logger;
 

@@ -10,6 +10,7 @@ import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.notification.api.Notification;
 import de.benjaminborbe.notification.api.NotificationMediaIdentifier;
 import de.benjaminborbe.notification.api.NotificationService;
@@ -24,7 +25,6 @@ import de.benjaminborbe.notification.util.NotificationNotifierRegistry;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.IdentifierIterator;
 import de.benjaminborbe.storage.tools.IdentifierIteratorException;
-import de.benjaminborbe.tools.validation.ValidationResultImpl;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
