@@ -2,6 +2,7 @@ package de.benjaminborbe.distributed.search.guice;
 
 import com.google.inject.Module;
 import com.google.inject.servlet.ServletModule;
+import de.benjaminborbe.lib.validation.guice.ValidationModule;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
 import org.ops4j.peaberry.Peaberry;
@@ -20,6 +21,6 @@ public class DistributedSearchModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DistributedSearchOsgiModule(), new DistributedSearchModule(), new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new DistributedSearchOsgiModule(), new DistributedSearchModule(), new ToolModule(), new ValidationModule());
 	}
 }

@@ -2,6 +2,7 @@ package de.benjaminborbe.confluence.guice;
 
 import com.google.inject.Module;
 import com.google.inject.servlet.ServletModule;
+import de.benjaminborbe.lib.validation.guice.ValidationModule;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
 import org.ops4j.peaberry.Peaberry;
@@ -20,6 +21,6 @@ public class ConfluenceModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new ConfluenceOsgiModule(), new ConfluenceModule(), new ToolModule());
+		return Arrays.asList(Peaberry.osgiModule(context), new ServletModule(), new ConfluenceOsgiModule(), new ConfluenceModule(), new ToolModule(), new ValidationModule());
 	}
 }

@@ -1,17 +1,16 @@
-package de.benjaminborbe.task;
+package de.benjaminborbe.virt.core;
 
 import com.google.inject.Injector;
-import de.benjaminborbe.search.api.SearchServiceComponent;
-import de.benjaminborbe.task.api.TaskService;
-import de.benjaminborbe.task.core.TaskActivator;
-import de.benjaminborbe.task.core.guice.TaskModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import de.benjaminborbe.virt.api.VirtService;
+import de.benjaminborbe.virt.core.guice.VirtModulesMock;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,19 +18,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class TaskActivatorIntegrationTest {
+public class VirtCoreActivatorIntegrationTest {
 
 	@Test
 	public void testInject() {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
-		final TaskActivator activator = injector.getInstance(TaskActivator.class);
+		final Injector injector = GuiceInjectorBuilder.getInjector(new VirtModulesMock());
+		final VirtCoreActivator activator = injector.getInstance(VirtCoreActivator.class);
 		assertNotNull(activator);
 	}
 
 	@Test
 	public void testResources() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
-		final TaskActivator activator = new TaskActivator() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new VirtModulesMock());
+		final VirtCoreActivator activator = new VirtCoreActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -50,8 +49,8 @@ public class TaskActivatorIntegrationTest {
 
 	@Test
 	public void testServices() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new TaskModulesMock());
-		final TaskActivator activator = new TaskActivator() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new VirtModulesMock());
+		final VirtCoreActivator activator = new VirtCoreActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -64,9 +63,7 @@ public class TaskActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
-		names.add(TaskService.class.getName());
-		names.add(SearchServiceComponent.class.getName());
+		final List<String> names = Arrays.asList(VirtService.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;
