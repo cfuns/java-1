@@ -53,6 +53,10 @@ public class GalleryGroupBeanMapperUnitTest {
 		result.add(new Object[]{GalleryGroupBeanMapper.LONG_SIDE_MIN_LENGTH, "2"});
 		result.add(new Object[]{GalleryGroupBeanMapper.SHORT_SIDE_MAX_LENGTH, "3"});
 		result.add(new Object[]{GalleryGroupBeanMapper.SHORT_SIDE_MIN_LENGTH, "4"});
+		result.add(new Object[]{GalleryGroupBeanMapper.PREVIEW_LONG_SIDE_MAX_LENGTH, "5"});
+		result.add(new Object[]{GalleryGroupBeanMapper.PREVIEW_LONG_SIDE_MIN_LENGTH, "6"});
+		result.add(new Object[]{GalleryGroupBeanMapper.PREVIEW_SHORT_SIDE_MAX_LENGTH, "7"});
+		result.add(new Object[]{GalleryGroupBeanMapper.PREVIEW_SHORT_SIDE_MIN_LENGTH, "8"});
 		return result;
 	}
 

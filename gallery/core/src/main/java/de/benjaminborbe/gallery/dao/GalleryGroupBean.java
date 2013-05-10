@@ -31,6 +31,46 @@ public class GalleryGroupBean extends EntityBase<GalleryGroupIdentifier> impleme
 
 	private Integer longSideMaxLength;
 
+	private Integer previewShortSideMinLength;
+
+	private Integer previewShortSideMaxLength;
+
+	private Integer previewLongSideMinLength;
+
+	private Integer previewLongSideMaxLength;
+
+	public Integer getPreviewLongSideMaxLength() {
+		return previewLongSideMaxLength;
+	}
+
+	public void setPreviewLongSideMaxLength(final Integer previewLongSideMaxLength) {
+		this.previewLongSideMaxLength = previewLongSideMaxLength;
+	}
+
+	public Integer getPreviewLongSideMinLength() {
+		return previewLongSideMinLength;
+	}
+
+	public void setPreviewLongSideMinLength(final Integer previewLongSideMinLength) {
+		this.previewLongSideMinLength = previewLongSideMinLength;
+	}
+
+	public Integer getPreviewShortSideMaxLength() {
+		return previewShortSideMaxLength;
+	}
+
+	public void setPreviewShortSideMaxLength(final Integer previewShortSideMaxLength) {
+		this.previewShortSideMaxLength = previewShortSideMaxLength;
+	}
+
+	public Integer getPreviewShortSideMinLength() {
+		return previewShortSideMinLength;
+	}
+
+	public void setPreviewShortSideMinLength(final Integer previewShortSideMinLength) {
+		this.previewShortSideMinLength = previewShortSideMinLength;
+	}
+
 	public Integer getLongSideMaxLength() {
 		return longSideMaxLength;
 	}

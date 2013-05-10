@@ -81,4 +81,12 @@ public interface GalleryGuiConstants {
 	String PARAMETER_LONG_SIDE_MIN_LENGTH = "longSideMinLength";
 
 	String PARAMETER_LONG_SIDE_MAX_LENGTH = "longSideMaxLength";
+
+	String PARAMETER_PREVIEW_SHORT_SIDE_MIN_LENGTH = "PreviewShortSideMinLength";
+
+	String PARAMETER_PREVIEW_SHORT_SIDE_MAX_LENGTH = "PreviewShortSideMaxLength";
+
+	String PARAMETER_PREVIEW_LONG_SIDE_MIN_LENGTH = "PreviewLongSideMinLength";
+
+	String PARAMETER_PREVIEW_LONG_SIDE_MAX_LENGTH = "PreviewLongSideMaxLength";
 }

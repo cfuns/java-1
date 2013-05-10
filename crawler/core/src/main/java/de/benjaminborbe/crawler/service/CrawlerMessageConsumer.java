@@ -63,6 +63,7 @@ public class CrawlerMessageConsumer implements MessageConsumer {
 			final HttpRequestDto httpRequestDto = new HttpRequestDto();
 			httpRequestDto.setUrl(url);
 			httpRequestDto.setTimeout(timeout);
+			httpRequestDto.setSecure(false);
 
 			final HttpResponse httpResponse = httpdownloaderService.fetch(httpRequestDto);
 

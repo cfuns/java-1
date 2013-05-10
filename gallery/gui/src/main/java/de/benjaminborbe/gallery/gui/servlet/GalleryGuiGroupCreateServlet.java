@@ -95,16 +95,25 @@ public class GalleryGuiGroupCreateServlet extends GalleryGuiWebsiteHtmlServlet {
 			final String shared = request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_SHARED);
 			final String referer = request.getParameter(GalleryGuiConstants.PARAMETER_REFERER);
 
+			final String previewShortSideMinLength = request.getParameter(GalleryGuiConstants.PARAMETER_PREVIEW_SHORT_SIDE_MIN_LENGTH);
+			final String previewShortSideMaxLength = request.getParameter(GalleryGuiConstants.PARAMETER_PREVIEW_SHORT_SIDE_MAX_LENGTH);
+			final String previewLongSideMinLength = request.getParameter(GalleryGuiConstants.PARAMETER_PREVIEW_LONG_SIDE_MIN_LENGTH);
+			final String previewLongSideMaxLength = request.getParameter(GalleryGuiConstants.PARAMETER_PREVIEW_LONG_SIDE_MAX_LENGTH);
+
 			final String shortSideMinLength = request.getParameter(GalleryGuiConstants.PARAMETER_SHORT_SIDE_MIN_LENGTH);
 			final String shortSideMaxLength = request.getParameter(GalleryGuiConstants.PARAMETER_SHORT_SIDE_MAX_LENGTH);
 			final String longSideMinLength = request.getParameter(GalleryGuiConstants.PARAMETER_LONG_SIDE_MIN_LENGTH);
 			final String longSideMaxLength = request.getParameter(GalleryGuiConstants.PARAMETER_LONG_SIDE_MAX_LENGTH);
 
-			if (name != null && shared != null && shortSideMinLength != null && shortSideMaxLength != null && longSideMinLength != null && longSideMaxLength != null) {
+			if (name != null && shared != null && shortSideMinLength != null && shortSideMaxLength != null && longSideMinLength != null && longSideMaxLength != null && previewShortSideMinLength != null && previewShortSideMaxLength != null && previewLongSideMinLength != null && previewLongSideMaxLength != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-					final GalleryGroupIdentifier galleryGroupIdentifier = createGroup(sessionIdentifier, name, shared, shortSideMinLength, shortSideMaxLength, longSideMinLength, longSideMaxLength);
+					final GalleryGroupIdentifier galleryGroupIdentifier = createGroup(sessionIdentifier, name, shared,
+
+						previewShortSideMinLength, previewShortSideMaxLength, previewLongSideMinLength, previewLongSideMaxLength,
+
+						shortSideMinLength, shortSideMaxLength, longSideMinLength, longSideMaxLength);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -120,10 +129,17 @@ public class GalleryGuiGroupCreateServlet extends GalleryGuiWebsiteHtmlServlet {
 			formWidget.addFormInputWidget(new FormInputHiddenWidget(GalleryGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GROUP_NAME).addLabel("Name:"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_GROUP_SHARED).addLabel("Shared:").addDefaultValue("false"));
+
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_PREVIEW_SHORT_SIDE_MIN_LENGTH).addLabel("PreviewShortSideMinLength:"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_PREVIEW_SHORT_SIDE_MAX_LENGTH).addLabel("PreviewShortSideMaxLength:"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_PREVIEW_LONG_SIDE_MIN_LENGTH).addLabel("PreviewLongSideMinLength:"));
+			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_PREVIEW_LONG_SIDE_MAX_LENGTH).addLabel("PreviewLongSideMaxLength:"));
+
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_SHORT_SIDE_MIN_LENGTH).addLabel("ShortSideMinLength:"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_SHORT_SIDE_MAX_LENGTH).addLabel("ShortSideMaxLength:"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_LONG_SIDE_MIN_LENGTH).addLabel("LongSideMinLength:"));
 			formWidget.addFormInputWidget(new FormInputTextWidget(GalleryGuiConstants.PARAMETER_LONG_SIDE_MAX_LENGTH).addLabel("LongSideMaxLength:"));
+
 			formWidget.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(formWidget);
 			return widgets;
@@ -140,18 +156,28 @@ public class GalleryGuiGroupCreateServlet extends GalleryGuiWebsiteHtmlServlet {
 		final SessionIdentifier sessionIdentifier,
 		final String name,
 		final String sharedString,
-		final String shortSideMinLengthString,
-		final String shortSideMaxLengthString,
-		final String longSideMinLengthString,
-		final String longSideMaxLengthString
+		final String previewShortSideMinLength,
+		final String previewShortSideMaxLength,
+		final String previewLongSideMinLength,
+		final String previewLongSideMaxLength,
+		final String shortSideMinLength,
+		final String shortSideMaxLength,
+		final String longSideMinLength,
+		final String longSideMaxLength
 	)
 		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException {
 		final GalleryGroupDto galleryGroupDto = new GalleryGroupDto();
 		galleryGroupDto.setName(name);
-		galleryGroupDto.setShortSideMinLength(parseUtil.parseInt(shortSideMinLengthString, null));
-		galleryGroupDto.setShortSideMaxLength(parseUtil.parseInt(shortSideMaxLengthString, null));
-		galleryGroupDto.setLongSideMinLength(parseUtil.parseInt(longSideMinLengthString, null));
-		galleryGroupDto.setLongSideMaxLength(parseUtil.parseInt(longSideMaxLengthString, null));
+
+		galleryGroupDto.setPreviewShortSideMinLength(parseUtil.parseInt(previewShortSideMinLength, null));
+		galleryGroupDto.setPreviewShortSideMaxLength(parseUtil.parseInt(previewShortSideMaxLength, null));
+		galleryGroupDto.setPreviewLongSideMinLength(parseUtil.parseInt(previewLongSideMinLength, null));
+		galleryGroupDto.setPreviewLongSideMaxLength(parseUtil.parseInt(previewLongSideMaxLength, null));
+
+		galleryGroupDto.setShortSideMinLength(parseUtil.parseInt(shortSideMinLength, null));
+		galleryGroupDto.setShortSideMaxLength(parseUtil.parseInt(shortSideMaxLength, null));
+		galleryGroupDto.setLongSideMinLength(parseUtil.parseInt(longSideMinLength, null));
+		galleryGroupDto.setLongSideMaxLength(parseUtil.parseInt(longSideMaxLength, null));
 
 		final List<ValidationError> errors = new ArrayList<>();
 		{

@@ -39,6 +39,14 @@ public class GalleryGroupBeanMapper extends MapObjectMapperAdapter<GalleryGroupB
 
 	public static final String LONG_SIDE_MAX_LENGTH = "longSideMaxLength";
 
+	public static final String PREVIEW_SHORT_SIDE_MIN_LENGTH = "previewShortSideMinLength";
+
+	public static final String PREVIEW_SHORT_SIDE_MAX_LENGTH = "previewShortSideMaxLength";
+
+	public static final String PREVIEW_LONG_SIDE_MIN_LENGTH = "previewLongSideMinLength";
+
+	public static final String PREVIEW_LONG_SIDE_MAX_LENGTH = "previewLongSideMaxLength";
+
 	@Inject
 	public GalleryGroupBeanMapper(
 		final Provider<GalleryGroupBean> provider,
@@ -68,7 +76,10 @@ public class GalleryGroupBeanMapper extends MapObjectMapperAdapter<GalleryGroupB
 		result.add(new StringObjectMapperAdapter<GalleryGroupBean, Integer>(SHORT_SIDE_MAX_LENGTH, mapperInteger));
 		result.add(new StringObjectMapperAdapter<GalleryGroupBean, Integer>(LONG_SIDE_MIN_LENGTH, mapperInteger));
 		result.add(new StringObjectMapperAdapter<GalleryGroupBean, Integer>(LONG_SIDE_MAX_LENGTH, mapperInteger));
-
+		result.add(new StringObjectMapperAdapter<GalleryGroupBean, Integer>(PREVIEW_SHORT_SIDE_MIN_LENGTH, mapperInteger));
+		result.add(new StringObjectMapperAdapter<GalleryGroupBean, Integer>(PREVIEW_SHORT_SIDE_MAX_LENGTH, mapperInteger));
+		result.add(new StringObjectMapperAdapter<GalleryGroupBean, Integer>(PREVIEW_LONG_SIDE_MIN_LENGTH, mapperInteger));
+		result.add(new StringObjectMapperAdapter<GalleryGroupBean, Integer>(PREVIEW_LONG_SIDE_MAX_LENGTH, mapperInteger));
 		return result;
 	}
 }

@@ -24,8 +24,7 @@ public interface GalleryServiceEntry {
 		byte[] imageContent,
 		String imageContentType,
 		final Boolean shared
-	)
-		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
+	) throws GalleryServiceException, LoginRequiredException, PermissionDeniedException, ValidationException;
 
 	List<GalleryEntryIdentifier> getEntryIdentifiers(final SessionIdentifier sessionIdentifier, GalleryCollectionIdentifier galleryCollectionIdentifier)
 		throws GalleryServiceException, LoginRequiredException, PermissionDeniedException;

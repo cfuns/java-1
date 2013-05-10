@@ -1,5 +1,7 @@
 package de.benjaminborbe.gallery.service;
 
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -28,6 +30,7 @@ import de.benjaminborbe.gallery.dao.GalleryImageBean;
 import de.benjaminborbe.gallery.dao.GalleryImageDao;
 import de.benjaminborbe.gallery.util.SharedPredicate;
 import de.benjaminborbe.lib.validation.ValidationExecutor;
+import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
@@ -38,8 +41,12 @@ import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import org.slf4j.Logger;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -144,6 +151,17 @@ public class GalleryServiceImpl implements GalleryService {
 		try {
 			expectPermission(sessionIdentifier);
 
+			{
+				final Collection<ValidationError> validationErrors = new ArrayList<>();
+				final GalleryCollectionBean collectionBean = galleryCollectionDao.load(galleryCollectionIdentifier);
+				final GalleryGroupBean groupBean = galleryGroupDao.load(collectionBean.getGroupId());
+				validationErrors.addAll(checkSize(imagePreviewContent, groupBean.getPreviewLongSideMinLength(), groupBean.getPreviewLongSideMaxLength(), groupBean.getPreviewShortSideMinLength(), groupBean.getPreviewShortSideMaxLength()));
+				validationErrors.addAll(checkSize(imageContent, groupBean.getLongSideMinLength(), groupBean.getLongSideMaxLength(), groupBean.getShortSideMinLength(), groupBean.getShortSideMaxLength()));
+				if (!validationErrors.isEmpty()) {
+					throw new ValidationException(new ValidationResultImpl(validationErrors));
+				}
+			}
+
 			final GalleryImageIdentifier imageIdentifier = createImage(imageName, imageContent, imageContentType);
 			final GalleryImageIdentifier previewImageIdentifier = createImage(imagePreviewName, imagePreviewContent, imagePreviewContentType);
 
@@ -172,6 +190,42 @@ public class GalleryServiceImpl implements GalleryService {
 		} finally {
 			logger.debug("duration " + duration.getTime());
 		}
+
+	}
+
+	private Collection<ValidationError> checkSize(
+		final byte[] imageContent,
+		final Integer longSideMinLength,
+		final Integer longSideMaxLength,
+		final Integer shortSideMinLength,
+		final Integer shortSideMaxLength
+	) {
+		final List<ValidationError> errors = new ArrayList<>();
+		try {
+			final BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageContent));
+			final int width = image.getWidth();
+			final int height = image.getHeight();
+			int shortLength = Math.min(width, height);
+			int longLength = Math.max(width, height);
+
+			if (longSideMinLength != null && longLength < longSideMinLength) {
+				errors.add(new ValidationErrorSimple("long to short"));
+			}
+			if (longSideMaxLength != null && longLength > longSideMaxLength) {
+				errors.add(new ValidationErrorSimple("long to long"));
+			}
+
+			if (shortSideMinLength != null && shortLength < shortSideMinLength) {
+				errors.add(new ValidationErrorSimple("short to short"));
+			}
+			if (shortSideMaxLength != null && shortLength > shortSideMaxLength) {
+				errors.add(new ValidationErrorSimple("short to long"));
+			}
+
+		} catch (IOException e) {
+			errors.add(new ValidationErrorSimple("read image failed"));
+		}
+		return errors;
 	}
 
 	@Override
@@ -198,6 +252,12 @@ public class GalleryServiceImpl implements GalleryService {
 			group.setId(galleryGroupIdentifier);
 			group.setName(galleryGroup.getName());
 			group.setShared(galleryGroup.getShared());
+
+			group.setPreviewLongSideMaxLength(galleryGroup.getPreviewLongSideMaxLength());
+			group.setPreviewLongSideMinLength(galleryGroup.getPreviewLongSideMinLength());
+			group.setPreviewShortSideMaxLength(galleryGroup.getPreviewShortSideMaxLength());
+			group.setPreviewShortSideMinLength(galleryGroup.getPreviewShortSideMinLength());
+
 			group.setLongSideMaxLength(galleryGroup.getLongSideMaxLength());
 			group.setLongSideMinLength(galleryGroup.getLongSideMinLength());
 			group.setShortSideMaxLength(galleryGroup.getShortSideMaxLength());
@@ -778,6 +838,12 @@ public class GalleryServiceImpl implements GalleryService {
 			final GalleryGroupBean group = galleryGroupDao.load(galleryGroup.getId());
 			group.setName(galleryGroup.getName());
 			group.setShared(galleryGroup.getShared());
+
+			group.setPreviewLongSideMaxLength(galleryGroup.getPreviewLongSideMaxLength());
+			group.setPreviewLongSideMinLength(galleryGroup.getPreviewLongSideMinLength());
+			group.setPreviewShortSideMaxLength(galleryGroup.getPreviewShortSideMaxLength());
+			group.setPreviewShortSideMinLength(galleryGroup.getPreviewShortSideMinLength());
+
 			group.setLongSideMaxLength(galleryGroup.getLongSideMaxLength());
 			group.setLongSideMinLength(galleryGroup.getLongSideMinLength());
 			group.setShortSideMaxLength(galleryGroup.getShortSideMaxLength());

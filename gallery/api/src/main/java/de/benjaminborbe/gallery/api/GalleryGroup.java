@@ -21,4 +21,12 @@ public interface GalleryGroup {
 	Integer getShortSideMaxLength();
 
 	Integer getShortSideMinLength();
+
+	Integer getPreviewLongSideMaxLength();
+
+	Integer getPreviewLongSideMinLength();
+
+	Integer getPreviewShortSideMaxLength();
+
+	Integer getPreviewShortSideMinLength();
 }
