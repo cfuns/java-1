@@ -83,13 +83,11 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol = new SeleniumExecutionProtocolImpl();
 		if (runOnlyOnceATime.run(new SeleniumCoreRunner(seleniumCoreExecutor, seleniumConfigurationIdentifier, seleniumExecutionProtocol))) {
-			final String msg = "execute " + seleniumConfigurationIdentifier + " completed";
-			logger.trace(msg);
-			seleniumExecutionProtocol.addMessage(msg);
+			logger.trace("execute SeleniumConfiguration" + seleniumConfigurationIdentifier + " completed");
 		} else {
-			final String msg = "execute " + seleniumConfigurationIdentifier + " skipped, already running";
+			final String msg = "execute SeleniumConfiguration " + seleniumConfigurationIdentifier + " skipped, already running";
 			logger.trace(msg);
-			seleniumExecutionProtocol.addMessage(msg);
+			seleniumExecutionProtocol.addError(msg);
 		}
 		return seleniumExecutionProtocol;
 	}

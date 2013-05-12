@@ -25,7 +25,10 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
+import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -87,8 +90,18 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 
 			final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier = seleniumService.createSeleniumConfigurationIdentifier(request.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID));
 			final SeleniumExecutionProtocol seleniumExecutionProtocol = seleniumService.execute(sessionIdentifier, seleniumConfigurationIdentifier);
-			for (String message : seleniumExecutionProtocol.getMessages()) {
-				widgets.add(message);
+
+			widgets.add("completed: " + seleniumExecutionProtocol.isCompleted());
+			widgets.add(new BrWidget());
+			widgets.add("hasErrors: " + seleniumExecutionProtocol.hasErrors());
+			widgets.add(new BrWidget());
+			{
+				widgets.add(new H2Widget("Messages"));
+				UlWidget ul = new UlWidget();
+				for (String message : seleniumExecutionProtocol.getMessages()) {
+					ul.add(message);
+				}
+				widgets.add(ul);
 			}
 
 			return widgets;

@@ -9,12 +9,48 @@ public class SeleniumExecutionProtocolImpl implements SeleniumExecutionProtocol 
 
 	private final List<String> messages = new ArrayList<>();
 
-	public void addMessage(String message) {
+	private final List<String> infos = new ArrayList<>();
+
+	private final List<String> errors = new ArrayList<>();
+
+	private boolean completed;
+
+	public List<String> getInfos() {
+		return infos;
+	}
+
+	public List<String> getErrors() {
+		return errors;
+	}
+
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	private void addMessage(String message) {
 		messages.add(message);
 	}
 
 	@Override
 	public List<String> getMessages() {
 		return messages;
+	}
+
+	public void addInfo(String message) {
+		infos.add(message);
+		addMessage(message);
+	}
+
+	public void addError(String message) {
+		errors.add(message);
+		addMessage(message);
+	}
+
+	public boolean hasErrors() {
+		return !errors.isEmpty();
+	}
+
+	public void complete() {
+		completed = true;
 	}
 }

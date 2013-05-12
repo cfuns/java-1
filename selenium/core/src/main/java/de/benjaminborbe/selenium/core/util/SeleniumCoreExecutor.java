@@ -38,11 +38,19 @@ public class SeleniumCoreExecutor {
 			SeleniumConfigurationAction seleniumConfiguration = seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
 			seleniumConfiguration.run(driver, seleniumExecutionProtocol);
 
+			seleniumExecutionProtocol.addInfo("completed");
+			seleniumExecutionProtocol.complete();
 		} catch (Exception e) {
-			logger.error("Exception", e);
+			logger.warn("Exception", e);
+			seleniumExecutionProtocol.addError(e.getMessage());
 		} finally {
-			if (driver != null)
-				driver.close();
+			if (driver != null) {
+				try {
+					driver.close();
+				} catch (Exception e) {
+					logger.trace("close driver failed", e);
+				}
+			}
 		}
 	}
 }

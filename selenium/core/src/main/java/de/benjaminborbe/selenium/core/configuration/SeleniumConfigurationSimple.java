@@ -32,7 +32,7 @@ public class SeleniumConfigurationSimple implements SeleniumConfigurationAction 
 
 		final String url = "http://www.heise.de";
 		driver.get(url);
-		seleniumExecutionProtocol.addMessage("get " + url);
+		seleniumExecutionProtocol.addInfo("get " + url);
 
 		logger.debug("title: " + driver.getTitle());
 		logger.debug("currentUrl: " + driver.getCurrentUrl());
@@ -42,7 +42,7 @@ public class SeleniumConfigurationSimple implements SeleniumConfigurationAction 
 
 		final String xpathExpression = "//*[@id=\"themen_aktuell\"]/ol/li[4]/a";
 		driver.findElement(By.xpath(xpathExpression)).click();
-		seleniumExecutionProtocol.addMessage("click element " + xpathExpression);
+		seleniumExecutionProtocol.addInfo("click element " + xpathExpression);
 
 		logger.debug("text: " + driver.findElement(By.xpath("//*[@id=\"mitte_uebersicht\"]/div[1]/h1")).getText());
 
@@ -53,6 +53,6 @@ public class SeleniumConfigurationSimple implements SeleniumConfigurationAction 
 		logger.debug("windowHandles: " + driver.getWindowHandles());
 
 		logger.trace("pageSource: " + driver.getPageSource());
-		seleniumExecutionProtocol.addMessage("done");
+		seleniumExecutionProtocol.addInfo("done");
 	}
 }
