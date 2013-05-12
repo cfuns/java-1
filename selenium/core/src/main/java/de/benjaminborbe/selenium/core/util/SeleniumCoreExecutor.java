@@ -1,7 +1,6 @@
 package de.benjaminborbe.selenium.core.util;
 
 import de.benjaminborbe.selenium.api.SeleniumConfiguration;
-import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
 import de.benjaminborbe.selenium.core.action.SeleniumAction;
 import de.benjaminborbe.selenium.core.action.SeleniumActionRegistry;
@@ -33,15 +32,13 @@ public class SeleniumCoreExecutor {
 		this.seleniumActionRegistry = seleniumActionRegistry;
 	}
 
-	public void execute(final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier, final SeleniumExecutionProtocolImpl seleniumExecutionProtocol) {
+	public void execute(final SeleniumConfiguration seleniumConfiguration, final SeleniumExecutionProtocolImpl seleniumExecutionProtocol) {
 		WebDriver driver = null;
 		try {
 			driver = seleniumCoreWebDriverProvider.get();
 			driver.manage().window().maximize();
 			// http://docs.seleniumhq.org/docs/04_webdriver_advanced.jsp
 			// driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
-			final SeleniumConfiguration seleniumConfiguration = seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
 
 			for (final SeleniumActionConfiguration seleniumActionConfiguration : seleniumConfiguration.getActionConfigurations()) {
 				final SeleniumAction action = seleniumActionRegistry.get(seleniumActionConfiguration.getClass());

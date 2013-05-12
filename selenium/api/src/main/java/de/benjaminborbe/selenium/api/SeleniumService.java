@@ -19,6 +19,11 @@ public interface SeleniumService {
 		SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException;
 
+	SeleniumExecutionProtocol execute(
+		SessionIdentifier sessionIdentifier,
+		SeleniumConfiguration seleniumConfiguration
+	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException;
+
 	Collection<SeleniumConfiguration> getSeleniumConfigurations(final SessionIdentifier sessionIdentifier) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException;
 
 	SeleniumConfiguration getConfiguration(

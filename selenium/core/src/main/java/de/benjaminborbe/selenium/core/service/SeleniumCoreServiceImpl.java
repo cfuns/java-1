@@ -81,14 +81,29 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 	public SeleniumExecutionProtocol execute(
 		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
-
 		expectPermission(sessionIdentifier);
 
+		final SeleniumConfiguration seleniumConfiguration = seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
+		return execute(seleniumConfiguration);
+	}
+
+	@Override
+	public SeleniumExecutionProtocol execute(
+		final SessionIdentifier sessionIdentifier, final SeleniumConfiguration seleniumConfiguration
+	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
+		expectPermission(sessionIdentifier);
+		return execute(seleniumConfiguration);
+	}
+
+	public SeleniumExecutionProtocol execute(
+		final SeleniumConfiguration seleniumConfiguration
+	) throws SeleniumServiceException {
+
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol = new SeleniumExecutionProtocolImpl();
-		if (runOnlyOnceATime.run(new SeleniumCoreRunner(seleniumCoreExecutor, seleniumConfigurationIdentifier, seleniumExecutionProtocol))) {
-			logger.trace("execute SeleniumConfiguration" + seleniumConfigurationIdentifier + " completed");
+		if (runOnlyOnceATime.run(new SeleniumCoreRunner(seleniumCoreExecutor, seleniumConfiguration, seleniumExecutionProtocol))) {
+			logger.trace("execute SeleniumConfiguration" + seleniumConfiguration.getId() + " completed");
 		} else {
-			final String msg = "execute SeleniumConfiguration " + seleniumConfigurationIdentifier + " skipped, already running";
+			final String msg = "execute SeleniumConfiguration " + seleniumConfiguration.getId() + " skipped, already running";
 			logger.trace(msg);
 			seleniumExecutionProtocol.addError(msg);
 		}

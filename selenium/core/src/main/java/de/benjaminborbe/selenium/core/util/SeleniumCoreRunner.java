@@ -1,27 +1,27 @@
 package de.benjaminborbe.selenium.core.util;
 
-import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
+import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 
 public class SeleniumCoreRunner implements Runnable {
 
 	private final SeleniumCoreExecutor seleniumCoreExecutor;
 
-	private final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier;
+	private final SeleniumConfiguration seleniumConfiguration;
 
 	private final SeleniumExecutionProtocolImpl seleniumExecutionProtocol;
 
 	public SeleniumCoreRunner(
 		final SeleniumCoreExecutor seleniumCoreExecutor,
-		final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier,
+		final SeleniumConfiguration seleniumConfiguration,
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol
 	) {
 		this.seleniumCoreExecutor = seleniumCoreExecutor;
-		this.seleniumConfigurationIdentifier = seleniumConfigurationIdentifier;
+		this.seleniumConfiguration = seleniumConfiguration;
 		this.seleniumExecutionProtocol = seleniumExecutionProtocol;
 	}
 
 	@Override
 	public void run() {
-		seleniumCoreExecutor.execute(seleniumConfigurationIdentifier, seleniumExecutionProtocol);
+		seleniumCoreExecutor.execute(seleniumConfiguration, seleniumExecutionProtocol);
 	}
 }
