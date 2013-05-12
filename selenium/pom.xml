@@ -18,6 +18,7 @@
 				<module>api</module>
 				<module>core</module>
 				<module>gui</module>
+				<module>configuration</module>
 			</modules>
 		</profile>
 		<profile>

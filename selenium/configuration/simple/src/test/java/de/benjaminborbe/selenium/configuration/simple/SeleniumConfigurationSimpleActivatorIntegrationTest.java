@@ -1,10 +1,8 @@
-package de.benjaminborbe.selenium;
+package de.benjaminborbe.selenium.configuration.simple;
 
 import com.google.inject.Injector;
-import de.benjaminborbe.configuration.api.ConfigurationDescription;
-import de.benjaminborbe.selenium.api.SeleniumService;
-import de.benjaminborbe.selenium.core.SeleniumCoreActivator;
-import de.benjaminborbe.selenium.core.guice.SeleniumModulesMock;
+import de.benjaminborbe.selenium.api.SeleniumConfiguration;
+import de.benjaminborbe.selenium.configuration.simple.guice.SeleniumConfigurationSimpleModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -19,19 +17,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class SeleniumCoreActivatorIntegrationTest {
+public class SeleniumConfigurationSimpleActivatorIntegrationTest {
 
 	@Test
 	public void testInject() {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumModulesMock());
-		final SeleniumCoreActivator activator = injector.getInstance(SeleniumCoreActivator.class);
+		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumConfigurationSimpleModulesMock());
+		final SeleniumConfigurationSimpleActivator activator = injector.getInstance(SeleniumConfigurationSimpleActivator.class);
 		assertNotNull(activator);
 	}
 
 	@Test
 	public void testResources() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumModulesMock());
-		final SeleniumCoreActivator activator = new SeleniumCoreActivator() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumConfigurationSimpleModulesMock());
+		final SeleniumConfigurationSimpleActivator activator = new SeleniumConfigurationSimpleActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -50,8 +48,8 @@ public class SeleniumCoreActivatorIntegrationTest {
 
 	@Test
 	public void testServices() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumModulesMock());
-		final SeleniumCoreActivator activator = new SeleniumCoreActivator() {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumConfigurationSimpleModulesMock());
+		final SeleniumConfigurationSimpleActivator activator = new SeleniumConfigurationSimpleActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -65,9 +63,7 @@ public class SeleniumCoreActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<>();
-		names.add(SeleniumService.class.getName());
-		names.add(ConfigurationDescription.class.getName());
-		names.add(ConfigurationDescription.class.getName());
+		names.add(SeleniumConfiguration.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;
@@ -79,5 +75,4 @@ public class SeleniumCoreActivatorIntegrationTest {
 			assertTrue("no service with name: " + name + " found", match);
 		}
 	}
-
 }

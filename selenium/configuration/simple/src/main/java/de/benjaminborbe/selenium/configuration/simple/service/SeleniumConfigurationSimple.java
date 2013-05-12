@@ -1,4 +1,4 @@
-package de.benjaminborbe.selenium.core.configuration;
+package de.benjaminborbe.selenium.configuration.simple.service;
 
 import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
@@ -25,7 +25,7 @@ public class SeleniumConfigurationSimple implements SeleniumConfiguration {
 
 	@Override
 	public SeleniumConfigurationIdentifier getId() {
-		return new SeleniumConfigurationIdentifier("1");
+		return new SeleniumConfigurationIdentifier(getClass().getName());
 	}
 
 	@Override
