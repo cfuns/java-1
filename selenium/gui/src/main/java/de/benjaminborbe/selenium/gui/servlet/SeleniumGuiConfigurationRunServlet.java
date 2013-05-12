@@ -85,8 +85,11 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 			final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier = seleniumService.createSeleniumConfigurationIdentifier(request.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID));
-			seleniumService.run(sessionIdentifier, seleniumConfigurationIdentifier);
-			widgets.add("run configuration finished");
+			if (seleniumService.execute(sessionIdentifier, seleniumConfigurationIdentifier)) {
+				widgets.add("execution finished");
+			} else {
+				widgets.add("execution skipped, already running");
+			}
 
 			return widgets;
 		} catch (SeleniumServiceException | AuthenticationServiceException e) {

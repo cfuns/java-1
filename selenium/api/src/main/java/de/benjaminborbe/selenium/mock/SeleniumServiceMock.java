@@ -30,9 +30,10 @@ public class SeleniumServiceMock implements SeleniumService {
 	}
 
 	@Override
-	public void run(
+	public boolean execute(
 		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
+		return false;
 	}
 
 	@Override

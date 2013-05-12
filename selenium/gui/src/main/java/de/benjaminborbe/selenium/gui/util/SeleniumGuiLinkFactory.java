@@ -26,6 +26,6 @@ public class SeleniumGuiLinkFactory {
 		final SeleniumConfiguration seleniumConfiguration
 	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_RUN, new MapParameter().add(
-			SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(seleniumConfiguration)), "run");
+			SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(seleniumConfiguration)), "execute");
 	}
 }

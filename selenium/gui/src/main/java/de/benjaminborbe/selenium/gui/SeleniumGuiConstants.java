@@ -6,7 +6,7 @@ public interface SeleniumGuiConstants {
 
 	String NAME = "selenium";
 
-	String URL_CONFIGURATION_RUN = "/run";
+	String URL_CONFIGURATION_RUN = "/execute";
 
 	String PARAMETER_CONFIGURATION_ID = "configuration_id";
 }

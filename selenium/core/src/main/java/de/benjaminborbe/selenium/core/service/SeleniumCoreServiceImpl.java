@@ -11,7 +11,9 @@ import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.api.SeleniumServiceException;
 import de.benjaminborbe.selenium.core.SeleniumCoreConstatns;
 import de.benjaminborbe.selenium.core.configuration.SeleniumConfigurationRegistry;
+import de.benjaminborbe.selenium.core.util.SeleniumCoreExecutor;
 import de.benjaminborbe.selenium.core.util.SeleniumCoreRunner;
+import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -23,23 +25,26 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 
 	private final Logger logger;
 
-	private final SeleniumCoreRunner seleniumCoreRunner;
+	private final SeleniumCoreExecutor seleniumCoreExecutor;
 
 	private final AuthorizationService authorizationService;
 
 	private final SeleniumConfigurationRegistry seleniumConfigurationRegistry;
 
+	private final RunOnlyOnceATime runOnlyOnceATime;
+
 	@Inject
 	public SeleniumCoreServiceImpl(
 		final Logger logger,
-		final SeleniumCoreRunner seleniumCoreRunner,
+		final SeleniumCoreExecutor seleniumCoreExecutor,
 		final AuthorizationService authorizationService,
-		final SeleniumConfigurationRegistry seleniumConfigurationRegistry
+		final SeleniumConfigurationRegistry seleniumConfigurationRegistry, final RunOnlyOnceATime runOnlyOnceATime
 	) {
 		this.logger = logger;
-		this.seleniumCoreRunner = seleniumCoreRunner;
+		this.seleniumCoreExecutor = seleniumCoreExecutor;
 		this.authorizationService = authorizationService;
 		this.seleniumConfigurationRegistry = seleniumConfigurationRegistry;
+		this.runOnlyOnceATime = runOnlyOnceATime;
 	}
 
 	@Override
@@ -69,12 +74,16 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 	}
 
 	@Override
-	public void run(
+	public boolean execute(
 		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
-		logger.trace("run " + seleniumConfigurationIdentifier + " started");
-		seleniumCoreRunner.run();
-		logger.trace("run " + seleniumConfigurationIdentifier + " finished");
+		if (runOnlyOnceATime.run(new SeleniumCoreRunner(seleniumCoreExecutor, seleniumConfigurationIdentifier))) {
+			logger.trace("execute " + seleniumConfigurationIdentifier + " started");
+			return true;
+		} else {
+			logger.trace("execute " + seleniumConfigurationIdentifier + " skipped");
+			return false;
+		}
 	}
 
 	@Override
