@@ -1,14 +1,20 @@
 package de.benjaminborbe.selenium.core.configuration;
 
+import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
-import de.benjaminborbe.selenium.core.util.SeleniumExecutionProtocolImpl;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationClickImpl;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectTextImpl;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrlImpl;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SeleniumConfigurationSimple implements SeleniumConfigurationAction {
+public class SeleniumConfigurationSimple implements SeleniumConfiguration {
 
 	private final Logger logger;
 
@@ -28,31 +34,16 @@ public class SeleniumConfigurationSimple implements SeleniumConfigurationAction 
 	}
 
 	@Override
-	public void run(final WebDriver driver, SeleniumExecutionProtocolImpl seleniumExecutionProtocol) {
-
-		final String url = "http://www.heise.de";
-		driver.get(url);
-		seleniumExecutionProtocol.addInfo("get " + url);
-
-		logger.debug("title: " + driver.getTitle());
-		logger.debug("currentUrl: " + driver.getCurrentUrl());
-		logger.debug("pageSource.length: " + driver.getPageSource().length());
-		logger.debug("windowHandle: " + driver.getWindowHandle());
-		logger.debug("windowHandles: " + driver.getWindowHandles());
-
-		final String xpathExpression = "//*[@id=\"themen_aktuell\"]/ol/li[4]/a";
-		driver.findElement(By.xpath(xpathExpression)).click();
-		seleniumExecutionProtocol.addInfo("click element " + xpathExpression);
-
-		logger.debug("text: " + driver.findElement(By.xpath("//*[@id=\"mitte_uebersicht\"]/div[1]/h1")).getText());
-
-		logger.debug("title: " + driver.getTitle());
-		logger.debug("currentUrl: " + driver.getCurrentUrl());
-		logger.debug("pageSource.length: " + driver.getPageSource().length());
-		logger.debug("windowHandle: " + driver.getWindowHandle());
-		logger.debug("windowHandles: " + driver.getWindowHandles());
-
-		logger.trace("pageSource: " + driver.getPageSource());
-		seleniumExecutionProtocol.addInfo("done");
+	public List<SeleniumActionConfiguration> getActionConfigurations() {
+		try {
+			final List<SeleniumActionConfiguration> list = new ArrayList<>();
+			list.add(new SeleniumActionConfigurationGetUrlImpl("open heise", new URL("http://www.heise.de")));
+			list.add(new SeleniumActionConfigurationClickImpl("click", "//*[@id=\"themen_aktuell\"]/ol/li[4]/a"));
+			list.add(new SeleniumActionConfigurationExpectTextImpl("expect mitte_uebersicht", "//*[@id=\"mitte_uebersicht\"]/div[1]/h1", "Facebook – nicht nur eine Erfolgsgeschichte"));
+			return list;
+		} catch (MalformedURLException e) {
+			return null;
+		}
 	}
+
 }

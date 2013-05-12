@@ -1,7 +1,10 @@
 package de.benjaminborbe.selenium.core.util;
 
+import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
-import de.benjaminborbe.selenium.core.configuration.SeleniumConfigurationAction;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
+import de.benjaminborbe.selenium.core.action.SeleniumAction;
+import de.benjaminborbe.selenium.core.action.SeleniumActionRegistry;
 import de.benjaminborbe.selenium.core.configuration.SeleniumConfigurationRegistry;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -16,15 +19,18 @@ public class SeleniumCoreExecutor {
 
 	private final SeleniumConfigurationRegistry seleniumConfigurationRegistry;
 
+	private final SeleniumActionRegistry seleniumActionRegistry;
+
 	@Inject
 	public SeleniumCoreExecutor(
 		final Logger logger,
 		final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider,
-		final SeleniumConfigurationRegistry seleniumConfigurationRegistry
+		final SeleniumConfigurationRegistry seleniumConfigurationRegistry, final SeleniumActionRegistry seleniumActionRegistry
 	) {
 		this.logger = logger;
 		this.seleniumCoreWebDriverProvider = seleniumCoreWebDriverProvider;
 		this.seleniumConfigurationRegistry = seleniumConfigurationRegistry;
+		this.seleniumActionRegistry = seleniumActionRegistry;
 	}
 
 	public void execute(final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier, final SeleniumExecutionProtocolImpl seleniumExecutionProtocol) {
@@ -35,8 +41,16 @@ public class SeleniumCoreExecutor {
 			// http://docs.seleniumhq.org/docs/04_webdriver_advanced.jsp
 			// driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-			SeleniumConfigurationAction seleniumConfiguration = seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
-			seleniumConfiguration.run(driver, seleniumExecutionProtocol);
+			SeleniumConfiguration seleniumConfiguration = seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
+
+			for (SeleniumActionConfiguration seleniumActionConfiguration : seleniumConfiguration.getActionConfigurations()) {
+				SeleniumAction action = seleniumActionRegistry.get(seleniumActionConfiguration);
+				final boolean success = action.execute(driver, seleniumExecutionProtocol, seleniumActionConfiguration);
+				if (!success) {
+					logger.debug("action not successful => return");
+					return;
+				}
+			}
 
 			seleniumExecutionProtocol.addInfo("completed");
 			seleniumExecutionProtocol.complete();
