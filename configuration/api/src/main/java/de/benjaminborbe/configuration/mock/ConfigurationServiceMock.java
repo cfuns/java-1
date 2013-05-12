@@ -39,6 +39,10 @@ public class ConfigurationServiceMock implements ConfigurationService {
 		data.put(configurationIdentifier, value);
 	}
 
+	public void setConfigurationValue(final ConfigurationIdentifier configurationIdentifier, final Object value) throws ConfigurationServiceException {
+		setConfigurationValue(configurationIdentifier, value != null ? String.valueOf(value) : null);
+	}
+
 	@Override
 	public ConfigurationIdentifier createConfigurationIdentifier(final String id) throws ConfigurationServiceException {
 		return new ConfigurationIdentifier(id);

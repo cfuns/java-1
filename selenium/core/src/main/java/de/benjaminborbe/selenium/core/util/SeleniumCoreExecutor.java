@@ -45,6 +45,8 @@ public class SeleniumCoreExecutor {
 			logger.debug("windowHandle: " + driver.getWindowHandle());
 			logger.debug("windowHandles: " + driver.getWindowHandles());
 
+			logger.trace("pageSource: " + driver.getPageSource());
+
 		} catch (Exception e) {
 			logger.error("Exception", e);
 		} finally {

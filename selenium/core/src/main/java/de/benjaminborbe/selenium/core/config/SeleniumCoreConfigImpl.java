@@ -5,6 +5,7 @@ import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
+import de.benjaminborbe.selenium.core.SeleniumCoreConstatns;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
@@ -15,9 +16,9 @@ import java.util.Set;
 
 public class SeleniumCoreConfigImpl extends ConfigurationBase implements SeleniumCoreConfig {
 
-	private final ConfigurationDescriptionString remoteHost = new ConfigurationDescriptionString(null, "SeleniumRemoteHost", "Selenium Remote Host");
+	private final ConfigurationDescriptionString remoteHost = new ConfigurationDescriptionString(null, SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_HOST, "Selenium Remote Host");
 
-	private final ConfigurationDescriptionInteger remotePort = new ConfigurationDescriptionInteger(null, "SeleniumRemotePort", "Selenium Remote Port");
+	private final ConfigurationDescriptionInteger remotePort = new ConfigurationDescriptionInteger(null, SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_PORT, "Selenium Remote Port");
 
 	@Inject
 	public SeleniumCoreConfigImpl(
