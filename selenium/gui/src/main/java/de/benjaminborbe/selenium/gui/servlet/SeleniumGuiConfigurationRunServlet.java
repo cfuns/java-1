@@ -17,7 +17,6 @@ import de.benjaminborbe.selenium.api.SeleniumExecutionProtocol;
 import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.api.SeleniumServiceException;
 import de.benjaminborbe.selenium.gui.SeleniumGuiConstants;
-import de.benjaminborbe.selenium.gui.util.SeleniumGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -51,8 +50,6 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 
 	private final SeleniumService seleniumService;
 
-	private final SeleniumGuiLinkFactory seleniumGuiLinkFactory;
-
 	@Inject
 	public SeleniumGuiConfigurationRunServlet(
 		final Logger logger,
@@ -64,13 +61,12 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService, final SeleniumService seleniumService, SeleniumGuiLinkFactory seleniumGuiLinkFactory
+		final CacheService cacheService, final SeleniumService seleniumService
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.seleniumService = seleniumService;
-		this.seleniumGuiLinkFactory = seleniumGuiLinkFactory;
 	}
 
 	@Override
@@ -88,7 +84,7 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier = seleniumService.createSeleniumConfigurationIdentifier(request.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID));
-			SeleniumConfiguration seleniumConfiguration = seleniumService.getConfiguration(sessionIdentifier, seleniumConfigurationIdentifier);
+			final SeleniumConfiguration seleniumConfiguration = seleniumService.getConfiguration(sessionIdentifier, seleniumConfigurationIdentifier);
 			if (seleniumConfiguration == null) {
 				widgets.add("configuration not found");
 				return widgets;
@@ -103,8 +99,8 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 			widgets.add(new BrWidget());
 			{
 				widgets.add(new H2Widget("Messages"));
-				UlWidget ul = new UlWidget();
-				for (String message : seleniumExecutionProtocol.getMessages()) {
+				final UlWidget ul = new UlWidget();
+				for (final String message : seleniumExecutionProtocol.getMessages()) {
 					ul.add(message);
 				}
 				widgets.add(ul);

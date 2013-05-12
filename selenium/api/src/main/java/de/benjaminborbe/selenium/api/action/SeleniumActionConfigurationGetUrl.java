@@ -4,9 +4,9 @@ import java.net.URL;
 
 public class SeleniumActionConfigurationGetUrl implements SeleniumActionConfiguration {
 
-	private String message;
+	private final String message;
 
-	private URL url;
+	private final URL url;
 
 	public SeleniumActionConfigurationGetUrl(final String message, final URL url) {
 		this.message = message;

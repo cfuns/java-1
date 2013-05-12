@@ -30,7 +30,7 @@ public class SeleniumConfigurationRegistry implements Registry<SeleniumConfigura
 
 	@Override
 	public void add(final SeleniumConfiguration... objects) {
-		for (SeleniumConfiguration object : objects) {
+		for (final SeleniumConfiguration object : objects) {
 			add(object);
 		}
 	}

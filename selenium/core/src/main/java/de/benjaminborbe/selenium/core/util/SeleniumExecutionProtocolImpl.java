@@ -27,7 +27,7 @@ public class SeleniumExecutionProtocolImpl implements SeleniumExecutionProtocol 
 		return completed;
 	}
 
-	private void addMessage(String message) {
+	private void addMessage(final String message) {
 		messages.add(message);
 	}
 
@@ -36,12 +36,12 @@ public class SeleniumExecutionProtocolImpl implements SeleniumExecutionProtocol 
 		return messages;
 	}
 
-	public void addInfo(String message) {
+	public void addInfo(final String message) {
 		infos.add(message);
 		addMessage(message);
 	}
 
-	public void addError(String message) {
+	public void addError(final String message) {
 		errors.add(message);
 		addMessage(message);
 	}

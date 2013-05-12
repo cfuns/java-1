@@ -2,9 +2,9 @@ package de.benjaminborbe.selenium.api.action;
 
 public class SeleniumActionConfigurationClick implements SeleniumActionConfiguration {
 
-	private String xpath;
+	private final String xpath;
 
-	private String message;
+	private final String message;
 
 	public SeleniumActionConfigurationClick(final String message, final String xpath) {
 		this.message = message;

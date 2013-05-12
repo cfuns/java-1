@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class SeleniumActionRegistryImpl implements SeleniumActionRegistry, Registry<SeleniumAction> {
 
-	private final Map<Class<SeleniumActionConfiguration>, SeleniumAction> data = new HashMap<>();
+	private final Map<Class<? extends SeleniumActionConfiguration>, SeleniumAction> data = new HashMap<>();
 
 	@Inject
 	public SeleniumActionRegistryImpl(
@@ -18,7 +18,7 @@ public class SeleniumActionRegistryImpl implements SeleniumActionRegistry, Regis
 		final SeleniumActionGetUrl seleniumActionGetUrl,
 		final SeleniumActionPageContent seleniumActionPageContent,
 		final SeleniumActionClick seleniumActionClick,
-		SeleniumActionExpectText seleniumActionExpectText
+		final SeleniumActionExpectText seleniumActionExpectText
 	) {
 		add(seleniumActionPageInfo);
 		add(seleniumActionGetUrl);
@@ -34,7 +34,7 @@ public class SeleniumActionRegistryImpl implements SeleniumActionRegistry, Regis
 
 	@Override
 	public void add(final SeleniumAction object) {
-		final Class type = object.getType();
+		final Class<? extends SeleniumActionConfiguration> type = object.getType();
 		if (data.put(type, object) != null) {
 			throw new SeleniumActionRegistryAlreadyRegisteredException("action for type " + type + " already registered");
 		}
@@ -49,7 +49,8 @@ public class SeleniumActionRegistryImpl implements SeleniumActionRegistry, Regis
 
 	@Override
 	public void remove(final SeleniumAction object) {
-		data.remove(object.getType().getClass());
+		final Class<? extends SeleniumActionConfiguration> type = object.getType();
+		data.remove(type);
 	}
 
 	@Override

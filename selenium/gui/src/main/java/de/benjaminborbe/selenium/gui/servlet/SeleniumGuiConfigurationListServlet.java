@@ -60,7 +60,7 @@ public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
-		final CacheService cacheService, final SeleniumService seleniumService, SeleniumGuiLinkFactory seleniumGuiLinkFactory
+		final CacheService cacheService, final SeleniumService seleniumService, final SeleniumGuiLinkFactory seleniumGuiLinkFactory
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
@@ -85,13 +85,13 @@ public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-			UlWidget ul = new UlWidget();
+			final UlWidget ul = new UlWidget();
 			final Collection<SeleniumConfiguration> seleniumConfigurations = seleniumService.getSeleniumConfigurations(sessionIdentifier);
 			if (seleniumConfigurations.isEmpty()) {
 				widgets.add("no configuration found");
 			} else {
-				for (SeleniumConfiguration seleniumConfiguration : seleniumConfigurations) {
-					ListWidget row = new ListWidget();
+				for (final SeleniumConfiguration seleniumConfiguration : seleniumConfigurations) {
+					final ListWidget row = new ListWidget();
 					row.add(seleniumConfiguration.getName());
 					row.add(" ");
 					row.add(seleniumGuiLinkFactory.configurationRun(request, seleniumConfiguration.getId()));

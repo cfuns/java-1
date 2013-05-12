@@ -2,11 +2,11 @@ package de.benjaminborbe.selenium.api.action;
 
 public class SeleniumActionConfigurationExpectText implements SeleniumActionConfiguration {
 
-	private String xpath;
+	private final String xpath;
 
 	private final String message;
 
-	private String text;
+	private final String text;
 
 	public SeleniumActionConfigurationExpectText(final String message, final String xpath, final String text) {
 		this.message = message;

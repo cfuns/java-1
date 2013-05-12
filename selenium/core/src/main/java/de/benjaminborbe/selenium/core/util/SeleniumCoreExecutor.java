@@ -41,10 +41,10 @@ public class SeleniumCoreExecutor {
 			// http://docs.seleniumhq.org/docs/04_webdriver_advanced.jsp
 			// driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-			SeleniumConfiguration seleniumConfiguration = seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
+			final SeleniumConfiguration seleniumConfiguration = seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
 
-			for (SeleniumActionConfiguration seleniumActionConfiguration : seleniumConfiguration.getActionConfigurations()) {
-				SeleniumAction action = seleniumActionRegistry.get(seleniumActionConfiguration.getClass());
+			for (final SeleniumActionConfiguration seleniumActionConfiguration : seleniumConfiguration.getActionConfigurations()) {
+				final SeleniumAction action = seleniumActionRegistry.get(seleniumActionConfiguration.getClass());
 				if (action == null) {
 					final String msg = "no action for type " + seleniumActionConfiguration.getClass() + " found!";
 					logger.warn(msg);
