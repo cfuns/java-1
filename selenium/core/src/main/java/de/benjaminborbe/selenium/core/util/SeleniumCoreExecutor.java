@@ -44,7 +44,7 @@ public class SeleniumCoreExecutor {
 			SeleniumConfiguration seleniumConfiguration = seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
 
 			for (SeleniumActionConfiguration seleniumActionConfiguration : seleniumConfiguration.getActionConfigurations()) {
-				SeleniumAction action = seleniumActionRegistry.get(seleniumActionConfiguration);
+				SeleniumAction action = seleniumActionRegistry.get(seleniumActionConfiguration.getClass());
 				final boolean success = action.execute(driver, seleniumExecutionProtocol, seleniumActionConfiguration);
 				if (!success) {
 					logger.debug("action not successful => return");

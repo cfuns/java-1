@@ -4,6 +4,6 @@ import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
 
 public interface SeleniumActionRegistry {
 
-	SeleniumAction<SeleniumActionConfiguration> get(SeleniumActionConfiguration seleniumActionConfiguration);
+	SeleniumAction<SeleniumActionConfiguration> get(final Class<? extends SeleniumActionConfiguration> seleniumActionConfigurationClass);
 
 }

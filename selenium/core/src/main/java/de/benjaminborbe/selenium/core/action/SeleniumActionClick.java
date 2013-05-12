@@ -17,9 +17,9 @@ public class SeleniumActionClick implements SeleniumAction<SeleniumActionConfigu
 		final WebDriver webDriver, final SeleniumExecutionProtocolImpl seleniumExecutionProtocol, final SeleniumActionConfigurationClick seleniumActionConfiguration
 	) {
 
-		final String xpathExpression = "//*[@id=\"themen_aktuell\"]/ol/li[4]/a";
+		final String xpathExpression = seleniumActionConfiguration.getXpath();
 		webDriver.findElement(By.xpath(xpathExpression)).click();
-		seleniumExecutionProtocol.addInfo("click element " + xpathExpression);
+		seleniumExecutionProtocol.addInfo(seleniumActionConfiguration.getMessage());
 
 		return true;
 	}

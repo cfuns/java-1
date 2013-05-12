@@ -16,21 +16,28 @@ public class SeleniumActionRegistryImpl implements SeleniumActionRegistry, Regis
 	public SeleniumActionRegistryImpl(
 		final SeleniumActionPageInfo seleniumActionPageInfo,
 		final SeleniumActionGetUrl seleniumActionGetUrl,
-		SeleniumActionPageContent seleniumActionPageContent
+		final SeleniumActionPageContent seleniumActionPageContent,
+		final SeleniumActionClick seleniumActionClick,
+		SeleniumActionExpectText seleniumActionExpectText
 	) {
 		add(seleniumActionPageInfo);
 		add(seleniumActionGetUrl);
 		add(seleniumActionPageContent);
+		add(seleniumActionClick);
+		add(seleniumActionExpectText);
 	}
 
 	@Override
-	public SeleniumAction<SeleniumActionConfiguration> get(final SeleniumActionConfiguration seleniumActionConfiguration) {
-		return data.get(seleniumActionConfiguration.getClass());
+	public SeleniumAction<SeleniumActionConfiguration> get(final Class<? extends SeleniumActionConfiguration> seleniumActionConfigurationClass) {
+		return data.get(seleniumActionConfigurationClass);
 	}
 
 	@Override
 	public void add(final SeleniumAction object) {
-		data.put(object.getType(), object);
+		final Class type = object.getType();
+		if (data.put(type, object) != null) {
+			throw new SeleniumActionRegistryAlreadyRegisteredException("action for type " + type + " already registered");
+		}
 	}
 
 	@Override

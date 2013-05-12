@@ -4,6 +4,8 @@ import com.google.inject.AbstractModule;
 import de.benjaminborbe.configuration.tools.ConfigurationCache;
 import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.selenium.api.SeleniumService;
+import de.benjaminborbe.selenium.core.action.SeleniumActionRegistry;
+import de.benjaminborbe.selenium.core.action.SeleniumActionRegistryImpl;
 import de.benjaminborbe.selenium.core.config.SeleniumCoreConfig;
 import de.benjaminborbe.selenium.core.config.SeleniumCoreConfigImpl;
 import de.benjaminborbe.selenium.core.service.SeleniumCoreServiceImpl;
@@ -16,6 +18,7 @@ public class SeleniumCoreModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(SeleniumActionRegistry.class).to(SeleniumActionRegistryImpl.class).in(Singleton.class);
 		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
 		bind(SeleniumCoreConfig.class).to(SeleniumCoreConfigImpl.class).in(Singleton.class);
 		bind(SeleniumService.class).to(SeleniumCoreServiceImpl.class).in(Singleton.class);

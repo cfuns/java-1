@@ -1,13 +1,13 @@
 package de.benjaminborbe.selenium.core.action;
 
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageInfo;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageContent;
 import de.benjaminborbe.selenium.core.util.SeleniumExecutionProtocolImpl;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 
-public class SeleniumActionPageContent implements SeleniumAction<SeleniumActionConfigurationPageInfo> {
+public class SeleniumActionPageContent implements SeleniumAction<SeleniumActionConfigurationPageContent> {
 
 	private final Logger logger;
 
@@ -17,15 +17,15 @@ public class SeleniumActionPageContent implements SeleniumAction<SeleniumActionC
 	}
 
 	@Override
-	public Class<SeleniumActionConfigurationPageInfo> getType() {
-		return SeleniumActionConfigurationPageInfo.class;
+	public Class<SeleniumActionConfigurationPageContent> getType() {
+		return SeleniumActionConfigurationPageContent.class;
 	}
 
 	@Override
 	public boolean execute(
 		final WebDriver webDriver,
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol,
-		final SeleniumActionConfigurationPageInfo seleniumActionConfiguration
+		final SeleniumActionConfigurationPageContent seleniumActionConfiguration
 	) {
 		logger.trace("pageSource: " + webDriver.getPageSource());
 		return true;
