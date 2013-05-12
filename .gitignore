@@ -1,4 +1,10 @@
 httpdownloader/tools/de.benjaminborbe.storage.httpdownloader.iml
+lib/validation/de.benjaminborbe.lib.validation.iml
+selenium/api/de.benjaminborbe.selenium.api.iml
+selenium/core/de.benjaminborbe.selenium.core.iml
+selenium/de.benjaminborbe.selenium.iml
+selenium/gui/de.benjaminborbe.selenium.gui.iml
+selenium/test/de.benjaminborbe.selenium.test.iml
 .idea
 poker/table/war
 .project
@@ -1189,4 +1195,8 @@ lib/osgi/de.benjaminborbe.lib.osgi.iml
 lib/osgi/de.benjaminborbe.tools.osgi.iml
 lib/osgitest/de.benjaminborbe.lib.osgitest.iml
 lib/osgitest/de.benjaminborbe.test.osgi.iml
-lib/validation/de.benjaminborbe.lib.validation.iml
+lib/validation/de.benjaminborbe.lib.validation.imlselenium/target
+selenium/core/target
+selenium/api/target
+selenium/gui/target
+selenium/test/target

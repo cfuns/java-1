@@ -81,6 +81,7 @@
 		<profile>
 			<id>default</id>
 			<modules>
+				<module>selenium</module>
 				<module>dns</module>
 				<module>sample</module>
 				<module>virt</module>
