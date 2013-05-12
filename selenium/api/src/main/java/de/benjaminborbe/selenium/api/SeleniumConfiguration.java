@@ -5,4 +5,5 @@ public interface SeleniumConfiguration {
 	SeleniumConfigurationIdentifier getId();
 
 	String getName();
+
 }

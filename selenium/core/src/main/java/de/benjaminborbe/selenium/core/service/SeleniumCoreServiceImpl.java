@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Singleton
@@ -38,7 +39,8 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 		final Logger logger,
 		final SeleniumCoreExecutor seleniumCoreExecutor,
 		final AuthorizationService authorizationService,
-		final SeleniumConfigurationRegistry seleniumConfigurationRegistry, final RunOnlyOnceATime runOnlyOnceATime
+		final SeleniumConfigurationRegistry seleniumConfigurationRegistry,
+		final RunOnlyOnceATime runOnlyOnceATime
 	) {
 		this.logger = logger;
 		this.seleniumCoreExecutor = seleniumCoreExecutor;
@@ -88,6 +90,6 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 
 	@Override
 	public Collection<SeleniumConfiguration> getSeleniumConfigurations(final SessionIdentifier sessionIdentifier) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
-		return seleniumConfigurationRegistry.getAll();
+		return new ArrayList<SeleniumConfiguration>(seleniumConfigurationRegistry.getAll());
 	}
 }

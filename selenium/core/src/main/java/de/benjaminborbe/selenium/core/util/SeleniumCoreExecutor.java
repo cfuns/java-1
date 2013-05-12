@@ -1,7 +1,8 @@
 package de.benjaminborbe.selenium.core.util;
 
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
-import org.openqa.selenium.By;
+import de.benjaminborbe.selenium.core.configuration.SeleniumConfigurationAction;
+import de.benjaminborbe.selenium.core.configuration.SeleniumConfigurationRegistry;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 
@@ -13,39 +14,29 @@ public class SeleniumCoreExecutor {
 
 	private final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider;
 
+	private final SeleniumConfigurationRegistry seleniumConfigurationRegistry;
+
 	@Inject
-	public SeleniumCoreExecutor(final Logger logger, SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider) {
+	public SeleniumCoreExecutor(
+		final Logger logger,
+		SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider,
+		final SeleniumConfigurationRegistry seleniumConfigurationRegistry
+	) {
 		this.logger = logger;
 		this.seleniumCoreWebDriverProvider = seleniumCoreWebDriverProvider;
+		this.seleniumConfigurationRegistry = seleniumConfigurationRegistry;
 	}
 
 	public void execute(final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier) {
 		WebDriver driver = null;
 		try {
 			driver = seleniumCoreWebDriverProvider.get();
-
+			driver.manage().window().maximize();
 			// http://docs.seleniumhq.org/docs/04_webdriver_advanced.jsp
 			// driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-			driver.manage().window().maximize();
-			driver.get("http://www.heise.de");
 
-			logger.debug("title: " + driver.getTitle());
-			logger.debug("currentUrl: " + driver.getCurrentUrl());
-			logger.debug("pageSource.length: " + driver.getPageSource().length());
-			logger.debug("windowHandle: " + driver.getWindowHandle());
-			logger.debug("windowHandles: " + driver.getWindowHandles());
-
-			driver.findElement(By.xpath("//*[@id=\"themen_aktuell\"]/ol/li[4]/a")).click();
-
-			logger.debug("text: " + driver.findElement(By.xpath("//*[@id=\"mitte_uebersicht\"]/div[1]/h1")).getText());
-
-			logger.debug("title: " + driver.getTitle());
-			logger.debug("currentUrl: " + driver.getCurrentUrl());
-			logger.debug("pageSource.length: " + driver.getPageSource().length());
-			logger.debug("windowHandle: " + driver.getWindowHandle());
-			logger.debug("windowHandles: " + driver.getWindowHandles());
-
-			logger.trace("pageSource: " + driver.getPageSource());
+			SeleniumConfigurationAction seleniumConfiguration = seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
+			seleniumConfiguration.run(driver);
 
 		} catch (Exception e) {
 			logger.error("Exception", e);
