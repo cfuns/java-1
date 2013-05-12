@@ -26,7 +26,7 @@ public class SeleniumActionExpectText implements SeleniumAction<SeleniumActionCo
 			seleniumExecutionProtocol.addInfo(seleniumActionConfiguration.getMessage() + " found");
 			return true;
 		} else {
-			seleniumExecutionProtocol.addInfo(seleniumActionConfiguration.getMessage() + " not found");
+			seleniumExecutionProtocol.addError(seleniumActionConfiguration.getMessage() + " not found");
 			return false;
 		}
 	}
