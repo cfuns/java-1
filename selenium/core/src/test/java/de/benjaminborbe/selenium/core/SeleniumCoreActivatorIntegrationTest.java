@@ -6,7 +6,6 @@ import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.core.guice.SeleniumModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
-import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import org.junit.Test;
 
@@ -25,26 +24,6 @@ public class SeleniumCoreActivatorIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumModulesMock());
 		final SeleniumCoreActivator activator = injector.getInstance(SeleniumCoreActivator.class);
 		assertNotNull(activator);
-	}
-
-	@Test
-	public void testResources() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumModulesMock());
-		final SeleniumCoreActivator activator = new SeleniumCoreActivator() {
-
-			@Override
-			public Injector getInjector() {
-				return injector;
-			}
-
-		};
-		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
-		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
-		for (final String path : paths) {
-			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
-		}
 	}
 
 	@Test

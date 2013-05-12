@@ -5,7 +5,6 @@ import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.configuration.simple.guice.SeleniumConfigurationSimpleModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
-import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import org.junit.Test;
 
@@ -24,26 +23,6 @@ public class SeleniumConfigurationSimpleActivatorIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumConfigurationSimpleModulesMock());
 		final SeleniumConfigurationSimpleActivator activator = injector.getInstance(SeleniumConfigurationSimpleActivator.class);
 		assertNotNull(activator);
-	}
-
-	@Test
-	public void testResources() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumConfigurationSimpleModulesMock());
-		final SeleniumConfigurationSimpleActivator activator = new SeleniumConfigurationSimpleActivator() {
-
-			@Override
-			public Injector getInjector() {
-				return injector;
-			}
-
-		};
-		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
-		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
-		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
-		for (final String path : paths) {
-			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
-		}
 	}
 
 	@Test
