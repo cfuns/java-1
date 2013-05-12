@@ -1,10 +1,10 @@
 MVN_OPTS=-Djava.awt.headless=true
+all:
+	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow install
 fast:
 	mvn $(MVN_OPTS) -Pdefault,base,lib -T 2C -Dmaven.test.skip=true install
 installlib:
 	mvn $(MVN_OPTS) -Pdefault,lib install
-all:
-	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow install
 clean:
 	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow clean
 	find . -name target -type d -exec rm -rf "{}" \;

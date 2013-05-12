@@ -8,5 +8,8 @@ public interface SeleniumCoreConfig {
 
 	Collection<ConfigurationDescription> getConfigurations();
 
-	boolean getUseRemoteDriver();
+	String getSeleniumRemoteHost();
+
+	Integer getSeleniumRemotePort();
+
 }

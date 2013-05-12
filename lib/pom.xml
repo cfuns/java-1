@@ -12,6 +12,7 @@
 	<description>Benjamin Borbe - Lib</description>
 	<packaging>pom</packaging>
 	<modules>
+		<module>test</module>
 		<module>cache</module>
 		<module>tools</module>
 		<module>osgi</module>

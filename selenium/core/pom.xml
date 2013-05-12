@@ -58,7 +58,10 @@
 							de.benjaminborbe.selenium.api,
 							${felix_plugin_imports}
 						</Import-Package>
-						<Import-Service></Import-Service>
+						<Import-Service>
+							de.benjaminborbe.authorization.api.AuthorizationService,
+							de.benjaminborbe.configuration.api.ConfigurationService
+						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service>de.benjaminborbe.selenium.api.SeleniumService</Export-Service>
 					</instructions>

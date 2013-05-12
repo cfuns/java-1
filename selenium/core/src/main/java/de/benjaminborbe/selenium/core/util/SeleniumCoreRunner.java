@@ -2,24 +2,26 @@ package de.benjaminborbe.selenium.core.util;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 
-public class Runner {
+public class SeleniumCoreRunner {
 
 	private final Logger logger;
 
+	private final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider;
+
 	@Inject
-	public Runner(final Logger logger) {
+	public SeleniumCoreRunner(final Logger logger, SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider) {
 		this.logger = logger;
+		this.seleniumCoreWebDriverProvider = seleniumCoreWebDriverProvider;
 	}
 
 	public void run() {
 		WebDriver driver = null;
 		try {
-			driver = new FirefoxDriver();
+			driver = seleniumCoreWebDriverProvider.get();
 
 			// http://docs.seleniumhq.org/docs/04_webdriver_advanced.jsp
 			// driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);

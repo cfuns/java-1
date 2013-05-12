@@ -11,7 +11,7 @@ public class ConfigurationDescriptionLong implements ConfigurationDescription {
 
 	private final Long defaultValue;
 
-	public ConfigurationDescriptionLong(final long defaultValue, final String name, final String description) {
+	public ConfigurationDescriptionLong(final Long defaultValue, final String name, final String description) {
 		this.defaultValue = defaultValue;
 		this.name = name;
 		this.description = description;

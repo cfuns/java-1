@@ -67,6 +67,7 @@ public class SeleniumCoreActivatorIntegrationTest {
 		final List<String> names = new ArrayList<>();
 		names.add(SeleniumService.class.getName());
 		names.add(ConfigurationDescription.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

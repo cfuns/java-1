@@ -2,7 +2,8 @@ package de.benjaminborbe.selenium.core.config;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
-import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
@@ -14,7 +15,9 @@ import java.util.Set;
 
 public class SeleniumCoreConfigImpl extends ConfigurationBase implements SeleniumCoreConfig {
 
-	private final ConfigurationDescriptionBoolean useRemoteDriver = new ConfigurationDescriptionBoolean(false, "SeleniumUseRemoteDriver", "Selenium Use Remote Driver");
+	private final ConfigurationDescriptionString remoteHost = new ConfigurationDescriptionString(null, "SeleniumRemoteHost", "Selenium Remote Host");
+
+	private final ConfigurationDescriptionInteger remotePort = new ConfigurationDescriptionInteger(null, "SeleniumRemotePort", "Selenium Remote Port");
 
 	@Inject
 	public SeleniumCoreConfigImpl(
@@ -28,13 +31,19 @@ public class SeleniumCoreConfigImpl extends ConfigurationBase implements Seleniu
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
 		final Set<ConfigurationDescription> result = new HashSet<>();
-		result.add(useRemoteDriver);
+		result.add(remoteHost);
+		result.add(remotePort);
 		return result;
 	}
 
 	@Override
-	public boolean getUseRemoteDriver() {
-		return Boolean.TRUE.equals(getValueBoolean(useRemoteDriver));
+	public String getSeleniumRemoteHost() {
+		return getValueString(remoteHost);
+	}
+
+	@Override
+	public Integer getSeleniumRemotePort() {
+		return getValueInteger(remotePort);
 	}
 
 }

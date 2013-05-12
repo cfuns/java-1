@@ -11,7 +11,7 @@ import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.api.SeleniumServiceException;
 import de.benjaminborbe.selenium.core.SeleniumCoreConstatns;
 import de.benjaminborbe.selenium.core.configuration.SeleniumConfigurationRegistry;
-import de.benjaminborbe.selenium.core.util.Runner;
+import de.benjaminborbe.selenium.core.util.SeleniumCoreRunner;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -23,7 +23,7 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 
 	private final Logger logger;
 
-	private final Runner runner;
+	private final SeleniumCoreRunner seleniumCoreRunner;
 
 	private final AuthorizationService authorizationService;
 
@@ -32,12 +32,12 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 	@Inject
 	public SeleniumCoreServiceImpl(
 		final Logger logger,
-		final Runner runner,
+		final SeleniumCoreRunner seleniumCoreRunner,
 		final AuthorizationService authorizationService,
 		final SeleniumConfigurationRegistry seleniumConfigurationRegistry
 	) {
 		this.logger = logger;
-		this.runner = runner;
+		this.seleniumCoreRunner = seleniumCoreRunner;
 		this.authorizationService = authorizationService;
 		this.seleniumConfigurationRegistry = seleniumConfigurationRegistry;
 	}
@@ -72,8 +72,9 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 	public void run(
 		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
-		logger.debug("run " + seleniumConfigurationIdentifier);
-		runner.run();
+		logger.trace("run " + seleniumConfigurationIdentifier + " started");
+		seleniumCoreRunner.run();
+		logger.trace("run " + seleniumConfigurationIdentifier + " finished");
 	}
 
 	@Override

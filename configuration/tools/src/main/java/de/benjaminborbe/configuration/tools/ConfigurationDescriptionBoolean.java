@@ -11,7 +11,7 @@ public class ConfigurationDescriptionBoolean implements ConfigurationDescription
 
 	private final Boolean defaultValue;
 
-	public ConfigurationDescriptionBoolean(final boolean defaultValue, final String name, final String description) {
+	public ConfigurationDescriptionBoolean(final Boolean defaultValue, final String name, final String description) {
 		this.defaultValue = defaultValue;
 		this.name = name;
 		this.description = description;

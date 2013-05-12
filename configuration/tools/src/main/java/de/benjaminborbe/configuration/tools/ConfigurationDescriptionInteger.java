@@ -11,7 +11,7 @@ public class ConfigurationDescriptionInteger implements ConfigurationDescription
 
 	private final Integer defaultValue;
 
-	public ConfigurationDescriptionInteger(final int defaultValue, final String name, final String description) {
+	public ConfigurationDescriptionInteger(final Integer defaultValue, final String name, final String description) {
 		this.defaultValue = defaultValue;
 		this.name = name;
 		this.description = description;
