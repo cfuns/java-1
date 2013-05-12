@@ -11,6 +11,7 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.api.SeleniumExecutionProtocol;
 import de.benjaminborbe.selenium.api.SeleniumService;
@@ -84,11 +85,12 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 		try {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-
 			final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier = seleniumService.createSeleniumConfigurationIdentifier(request.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID));
+			SeleniumConfiguration seleniumConfiguration = seleniumService.getConfiguration(sessionIdentifier, seleniumConfigurationIdentifier);
+			widgets.add(new H1Widget(getTitle() + " - " + seleniumConfiguration.getName()));
+
 			final SeleniumExecutionProtocol seleniumExecutionProtocol = seleniumService.execute(sessionIdentifier, seleniumConfigurationIdentifier);
 
 			widgets.add("completed: " + seleniumExecutionProtocol.isCompleted());

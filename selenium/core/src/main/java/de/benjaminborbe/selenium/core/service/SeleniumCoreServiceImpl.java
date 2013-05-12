@@ -81,6 +81,9 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 	public SeleniumExecutionProtocol execute(
 		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
+
+		expectPermission(sessionIdentifier);
+
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol = new SeleniumExecutionProtocolImpl();
 		if (runOnlyOnceATime.run(new SeleniumCoreRunner(seleniumCoreExecutor, seleniumConfigurationIdentifier, seleniumExecutionProtocol))) {
 			logger.trace("execute SeleniumConfiguration" + seleniumConfigurationIdentifier + " completed");
@@ -94,6 +97,15 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 
 	@Override
 	public Collection<SeleniumConfiguration> getSeleniumConfigurations(final SessionIdentifier sessionIdentifier) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
+		expectPermission(sessionIdentifier);
 		return new ArrayList<SeleniumConfiguration>(seleniumConfigurationRegistry.getAll());
+	}
+
+	@Override
+	public SeleniumConfiguration getConfiguration(
+		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
+	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
+		expectPermission(sessionIdentifier);
+		return seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
 	}
 }

@@ -16,8 +16,7 @@ public class SeleniumConfigurationRegistry implements Registry<SeleniumConfigura
 	private final Map<SeleniumConfigurationIdentifier, SeleniumConfiguration> data = new HashMap<>();
 
 	@Inject
-	public SeleniumConfigurationRegistry(final SeleniumConfigurationSimple seleniumConfigurationSimple) {
-		add(seleniumConfigurationSimple);
+	public SeleniumConfigurationRegistry() {
 	}
 
 	public SeleniumConfiguration get(final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier) {

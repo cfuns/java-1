@@ -41,4 +41,11 @@ public class SeleniumServiceMock implements SeleniumService {
 	public Collection<SeleniumConfiguration> getSeleniumConfigurations(final SessionIdentifier sessionIdentifier) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
 		return null;
 	}
+
+	@Override
+	public SeleniumConfiguration getConfiguration(
+		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
+	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
+		return null;
+	}
 }

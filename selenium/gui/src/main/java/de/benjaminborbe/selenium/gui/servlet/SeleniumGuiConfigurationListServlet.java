@@ -32,6 +32,7 @@ import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 
 @Singleton
 public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
@@ -85,14 +86,19 @@ public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 			UlWidget ul = new UlWidget();
-			for (SeleniumConfiguration seleniumConfiguration : seleniumService.getSeleniumConfigurations(sessionIdentifier)) {
-				ListWidget row = new ListWidget();
-				row.add(seleniumConfiguration.getName());
-				row.add(" ");
-				row.add(seleniumGuiLinkFactory.configurationRun(request, seleniumConfiguration.getId()));
-				ul.add(row);
+			final Collection<SeleniumConfiguration> seleniumConfigurations = seleniumService.getSeleniumConfigurations(sessionIdentifier);
+			if (seleniumConfigurations.isEmpty()) {
+				widgets.add("no configuration found");
+			} else {
+				for (SeleniumConfiguration seleniumConfiguration : seleniumConfigurations) {
+					ListWidget row = new ListWidget();
+					row.add(seleniumConfiguration.getName());
+					row.add(" ");
+					row.add(seleniumGuiLinkFactory.configurationRun(request, seleniumConfiguration.getId()));
+					ul.add(row);
+				}
+				widgets.add(ul);
 			}
-			widgets.add(ul);
 
 			return widgets;
 		} catch (SeleniumServiceException | AuthenticationServiceException e) {
