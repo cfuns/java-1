@@ -1,6 +1,7 @@
 package de.benjaminborbe.selenium;
 
 import com.google.inject.Injector;
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.core.SeleniumCoreActivator;
 import de.benjaminborbe.selenium.core.guice.SeleniumModulesMock;
@@ -11,7 +12,6 @@ import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -64,7 +64,9 @@ public class SeleniumCoreActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = Arrays.asList(SeleniumService.class.getName());
+		final List<String> names = new ArrayList<>();
+		names.add(SeleniumService.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

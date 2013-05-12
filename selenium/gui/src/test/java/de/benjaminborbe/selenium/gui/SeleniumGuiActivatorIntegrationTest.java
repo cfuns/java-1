@@ -1,6 +1,7 @@
 package de.benjaminborbe.selenium.gui;
 
 import com.google.inject.Injector;
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.selenium.gui.guice.SeleniumGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
@@ -41,7 +42,9 @@ public class SeleniumGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = Arrays.asList("/" + SeleniumGuiConstants.NAME);
+		final List<String> paths = new ArrayList<>();
+		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_LIST);
+		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_RUN);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
@@ -106,6 +109,7 @@ public class SeleniumGuiActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<>();
+		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

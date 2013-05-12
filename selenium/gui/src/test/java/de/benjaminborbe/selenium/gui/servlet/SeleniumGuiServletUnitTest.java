@@ -8,6 +8,9 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import de.benjaminborbe.selenium.api.SeleniumConfiguration;
+import de.benjaminborbe.selenium.api.SeleniumService;
+import de.benjaminborbe.selenium.gui.util.SeleniumGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
@@ -24,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -125,12 +129,18 @@ public class SeleniumGuiServletUnitTest {
 		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
 		EasyMock.replay(cacheService);
 
-		final SeleniumGuiServlet seleniumServlet = new SeleniumGuiServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-			urlUtil, authorizationService, cacheService);
+		final SeleniumGuiLinkFactory seleniumGuiLinkFactory = EasyMock.createMock(SeleniumGuiLinkFactory.class);
+		EasyMock.replay(seleniumGuiLinkFactory);
+		final SeleniumService seleniumService = EasyMock.createMock(SeleniumService.class);
+		EasyMock.expect(seleniumService.getSeleniumConfigurations(sessionIdentifier)).andReturn(new ArrayList<SeleniumConfiguration>());
+		EasyMock.replay(seleniumService);
+
+		final SeleniumGuiConfigurationListServlet seleniumServlet = new SeleniumGuiConfigurationListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
+			urlUtil, authorizationService, cacheService, seleniumService, seleniumGuiLinkFactory);
 
 		seleniumServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
 		assertNotNull(content);
-		assertTrue(content.contains("<h1>Selenium</h1>"));
+		assertTrue(content.contains("<h1>Selenium - Configuration - List</h1>"));
 	}
 }

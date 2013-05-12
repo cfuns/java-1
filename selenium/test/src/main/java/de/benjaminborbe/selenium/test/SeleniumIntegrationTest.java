@@ -53,9 +53,19 @@ public class SeleniumIntegrationTest extends TestCaseOsgi {
 		assertEquals("de.benjaminborbe.selenium.core.service.SeleniumCoreServiceImpl", service.getClass().getName());
 	}
 
-	public void testCalc() throws Exception {
+	public void testCreateSeleniumConfigurationIdentifier() throws Exception {
 		final SeleniumService seleniumService = getService(SeleniumService.class);
-		assertEquals(46, seleniumService.calc(23));
+
+		assertNull(seleniumService.createSeleniumConfigurationIdentifier(null));
+		assertNull(seleniumService.createSeleniumConfigurationIdentifier(""));
+		assertNull(seleniumService.createSeleniumConfigurationIdentifier(" "));
+
+		assertNotNull(seleniumService.createSeleniumConfigurationIdentifier("1337"));
+		assertEquals("1337", seleniumService.createSeleniumConfigurationIdentifier("1337").getId());
+
+		assertNotNull(seleniumService.createSeleniumConfigurationIdentifier(" 1337 "));
+		assertEquals("1337", seleniumService.createSeleniumConfigurationIdentifier(" 1337 ").getId());
+
 	}
 
 }
