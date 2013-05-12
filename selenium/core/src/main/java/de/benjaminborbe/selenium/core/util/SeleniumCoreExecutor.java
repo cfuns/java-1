@@ -45,6 +45,12 @@ public class SeleniumCoreExecutor {
 
 			for (SeleniumActionConfiguration seleniumActionConfiguration : seleniumConfiguration.getActionConfigurations()) {
 				SeleniumAction action = seleniumActionRegistry.get(seleniumActionConfiguration.getClass());
+				if (action == null) {
+					final String msg = "no action for type " + seleniumActionConfiguration.getClass() + " found!";
+					logger.warn(msg);
+					seleniumExecutionProtocol.addError(msg);
+					return;
+				}
 				final boolean success = action.execute(driver, seleniumExecutionProtocol, seleniumActionConfiguration);
 				if (!success) {
 					logger.debug("action not successful => return");

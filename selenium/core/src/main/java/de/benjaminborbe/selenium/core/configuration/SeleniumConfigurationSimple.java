@@ -3,9 +3,9 @@ package de.benjaminborbe.selenium.core.configuration;
 import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationClickImpl;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectTextImpl;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrlImpl;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationClick;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectText;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrl;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -37,9 +37,9 @@ public class SeleniumConfigurationSimple implements SeleniumConfiguration {
 	public List<SeleniumActionConfiguration> getActionConfigurations() {
 		try {
 			final List<SeleniumActionConfiguration> list = new ArrayList<>();
-			list.add(new SeleniumActionConfigurationGetUrlImpl("open heise", new URL("http://www.heise.de")));
-			list.add(new SeleniumActionConfigurationClickImpl("click", "//*[@id=\"themen_aktuell\"]/ol/li[4]/a"));
-			list.add(new SeleniumActionConfigurationExpectTextImpl("expect mitte_uebersicht", "//*[@id=\"mitte_uebersicht\"]/div[1]/h1", "Facebook – nicht nur eine Erfolgsgeschichte"));
+			list.add(new SeleniumActionConfigurationGetUrl("open heise", new URL("http://www.heise.de")));
+			list.add(new SeleniumActionConfigurationClick("click", "//*[@id=\"themen_aktuell\"]/ol/li[4]/a"));
+			list.add(new SeleniumActionConfigurationExpectText("expect mitte_uebersicht", "//*[@id=\"mitte_uebersicht\"]/div[1]/h1", "Facebook – nicht nur eine Erfolgsgeschichte"));
 			return list;
 		} catch (MalformedURLException e) {
 			return null;

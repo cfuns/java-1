@@ -1,5 +1,15 @@
 package de.benjaminborbe.selenium.api.action;
 
-public interface SeleniumActionConfigurationPageInfo extends SeleniumActionConfiguration {
+public class SeleniumActionConfigurationPageInfo implements SeleniumActionConfiguration {
 
+	private final String message;
+
+	public SeleniumActionConfigurationPageInfo(final String message) {
+		this.message = message;
+	}
+
+	@Override
+	public String getMessage() {
+		return message;
+	}
 }
