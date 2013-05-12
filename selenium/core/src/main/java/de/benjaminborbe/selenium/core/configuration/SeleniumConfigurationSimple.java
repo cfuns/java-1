@@ -1,6 +1,7 @@
 package de.benjaminborbe.selenium.core.configuration;
 
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
+import de.benjaminborbe.selenium.core.util.SeleniumExecutionProtocolImpl;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -27,9 +28,11 @@ public class SeleniumConfigurationSimple implements SeleniumConfigurationAction 
 	}
 
 	@Override
-	public void run(final WebDriver driver) {
+	public void run(final WebDriver driver, SeleniumExecutionProtocolImpl seleniumExecutionProtocol) {
 
-		driver.get("http://www.heise.de");
+		final String url = "http://www.heise.de";
+		driver.get(url);
+		seleniumExecutionProtocol.addMessage("get " + url);
 
 		logger.debug("title: " + driver.getTitle());
 		logger.debug("currentUrl: " + driver.getCurrentUrl());
@@ -37,7 +40,9 @@ public class SeleniumConfigurationSimple implements SeleniumConfigurationAction 
 		logger.debug("windowHandle: " + driver.getWindowHandle());
 		logger.debug("windowHandles: " + driver.getWindowHandles());
 
-		driver.findElement(By.xpath("//*[@id=\"themen_aktuell\"]/ol/li[4]/a")).click();
+		final String xpathExpression = "//*[@id=\"themen_aktuell\"]/ol/li[4]/a";
+		driver.findElement(By.xpath(xpathExpression)).click();
+		seleniumExecutionProtocol.addMessage("click element " + xpathExpression);
 
 		logger.debug("text: " + driver.findElement(By.xpath("//*[@id=\"mitte_uebersicht\"]/div[1]/h1")).getText());
 
@@ -48,5 +53,6 @@ public class SeleniumConfigurationSimple implements SeleniumConfigurationAction 
 		logger.debug("windowHandles: " + driver.getWindowHandles());
 
 		logger.trace("pageSource: " + driver.getPageSource());
+		seleniumExecutionProtocol.addMessage("done");
 	}
 }

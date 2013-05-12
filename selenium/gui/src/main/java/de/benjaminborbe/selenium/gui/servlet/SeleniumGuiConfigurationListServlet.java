@@ -89,7 +89,7 @@ public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
 				ListWidget row = new ListWidget();
 				row.add(seleniumConfiguration.getName());
 				row.add(" ");
-				row.add(seleniumGuiLinkFactory.configurationRun(request, seleniumConfiguration));
+				row.add(seleniumGuiLinkFactory.configurationRun(request, seleniumConfiguration.getId()));
 				ul.add(row);
 			}
 			widgets.add(ul);

@@ -7,12 +7,14 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
+import de.benjaminborbe.selenium.api.SeleniumExecutionProtocol;
 import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.api.SeleniumServiceException;
 import de.benjaminborbe.selenium.core.SeleniumCoreConstatns;
 import de.benjaminborbe.selenium.core.configuration.SeleniumConfigurationRegistry;
 import de.benjaminborbe.selenium.core.util.SeleniumCoreExecutor;
 import de.benjaminborbe.selenium.core.util.SeleniumCoreRunner;
+import de.benjaminborbe.selenium.core.util.SeleniumExecutionProtocolImpl;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import org.slf4j.Logger;
 
@@ -76,16 +78,20 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 	}
 
 	@Override
-	public boolean execute(
+	public SeleniumExecutionProtocol execute(
 		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
-		if (runOnlyOnceATime.run(new SeleniumCoreRunner(seleniumCoreExecutor, seleniumConfigurationIdentifier))) {
-			logger.trace("execute " + seleniumConfigurationIdentifier + " started");
-			return true;
+		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol = new SeleniumExecutionProtocolImpl();
+		if (runOnlyOnceATime.run(new SeleniumCoreRunner(seleniumCoreExecutor, seleniumConfigurationIdentifier, seleniumExecutionProtocol))) {
+			final String msg = "execute " + seleniumConfigurationIdentifier + " completed";
+			logger.trace(msg);
+			seleniumExecutionProtocol.addMessage(msg);
 		} else {
-			logger.trace("execute " + seleniumConfigurationIdentifier + " skipped");
-			return false;
+			final String msg = "execute " + seleniumConfigurationIdentifier + " skipped, already running";
+			logger.trace(msg);
+			seleniumExecutionProtocol.addMessage(msg);
 		}
+		return seleniumExecutionProtocol;
 	}
 
 	@Override

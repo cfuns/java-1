@@ -1,7 +1,7 @@
 package de.benjaminborbe.selenium.gui.util;
 
 import de.benjaminborbe.html.api.Widget;
-import de.benjaminborbe.selenium.api.SeleniumConfiguration;
+import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.gui.SeleniumGuiConstants;
 import de.benjaminborbe.tools.url.MapParameter;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -23,9 +23,9 @@ public class SeleniumGuiLinkFactory {
 
 	public Widget configurationRun(
 		final HttpServletRequest request,
-		final SeleniumConfiguration seleniumConfiguration
+		final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_RUN, new MapParameter().add(
-			SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(seleniumConfiguration)), "execute");
+			SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(seleniumConfigurationIdentifier)), "execute");
 	}
 }

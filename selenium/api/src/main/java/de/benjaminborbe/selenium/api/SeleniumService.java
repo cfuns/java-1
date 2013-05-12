@@ -14,7 +14,7 @@ public interface SeleniumService {
 
 	SeleniumConfigurationIdentifier createSeleniumConfigurationIdentifier(String id) throws SeleniumServiceException;
 
-	boolean execute(
+	SeleniumExecutionProtocol execute(
 		SessionIdentifier sessionIdentifier,
 		SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException;

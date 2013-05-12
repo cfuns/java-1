@@ -27,6 +27,6 @@ public class SeleniumCoreRunnerSystemTest {
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier(SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_PORT), 4444);
 		configurationServiceCache.flush();
 
-		runner.execute(seleniumConfigurationRegistry.getAll().iterator().next().getId());
+		runner.execute(seleniumConfigurationRegistry.getAll().iterator().next().getId(), null);
 	}
 }

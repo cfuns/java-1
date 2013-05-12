@@ -19,7 +19,7 @@ public class SeleniumCoreExecutor {
 	@Inject
 	public SeleniumCoreExecutor(
 		final Logger logger,
-		SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider,
+		final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider,
 		final SeleniumConfigurationRegistry seleniumConfigurationRegistry
 	) {
 		this.logger = logger;
@@ -27,7 +27,7 @@ public class SeleniumCoreExecutor {
 		this.seleniumConfigurationRegistry = seleniumConfigurationRegistry;
 	}
 
-	public void execute(final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier) {
+	public void execute(final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier, final SeleniumExecutionProtocolImpl seleniumExecutionProtocol) {
 		WebDriver driver = null;
 		try {
 			driver = seleniumCoreWebDriverProvider.get();
@@ -36,7 +36,7 @@ public class SeleniumCoreExecutor {
 			// driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 			SeleniumConfigurationAction seleniumConfiguration = seleniumConfigurationRegistry.get(seleniumConfigurationIdentifier);
-			seleniumConfiguration.run(driver);
+			seleniumConfiguration.run(driver, seleniumExecutionProtocol);
 
 		} catch (Exception e) {
 			logger.error("Exception", e);

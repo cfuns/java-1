@@ -12,6 +12,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
+import de.benjaminborbe.selenium.api.SeleniumExecutionProtocol;
 import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.api.SeleniumServiceException;
 import de.benjaminborbe.selenium.gui.SeleniumGuiConstants;
@@ -85,10 +86,9 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 			final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier = seleniumService.createSeleniumConfigurationIdentifier(request.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID));
-			if (seleniumService.execute(sessionIdentifier, seleniumConfigurationIdentifier)) {
-				widgets.add("execution finished");
-			} else {
-				widgets.add("execution skipped, already running");
+			final SeleniumExecutionProtocol seleniumExecutionProtocol = seleniumService.execute(sessionIdentifier, seleniumConfigurationIdentifier);
+			for (String message : seleniumExecutionProtocol.getMessages()) {
+				widgets.add(message);
 			}
 
 			return widgets;
