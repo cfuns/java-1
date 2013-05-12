@@ -89,6 +89,10 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier = seleniumService.createSeleniumConfigurationIdentifier(request.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID));
 			SeleniumConfiguration seleniumConfiguration = seleniumService.getConfiguration(sessionIdentifier, seleniumConfigurationIdentifier);
+			if (seleniumConfiguration == null) {
+				widgets.add("configuration not found");
+				return widgets;
+			}
 			widgets.add(new H1Widget(getTitle() + " - " + seleniumConfiguration.getName()));
 
 			final SeleniumExecutionProtocol seleniumExecutionProtocol = seleniumService.execute(sessionIdentifier, seleniumConfigurationIdentifier);
