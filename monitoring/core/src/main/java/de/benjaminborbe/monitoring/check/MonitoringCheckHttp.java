@@ -108,7 +108,7 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		URL url = null;
 		try {
 			url = new URL(urlString);
-			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(timeout).build());
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addSecure(false).addTimeout(timeout).build());
 			logger.trace("downloaded " + url + " in " + httpResponse.getDuration() + " ms");
 			if (httpResponse.getDuration() > timeout) {
 				final String msg = "timeout while downloading url: " + url;

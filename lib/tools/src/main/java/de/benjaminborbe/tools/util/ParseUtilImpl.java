@@ -145,7 +145,7 @@ public class ParseUtilImpl implements ParseUtil {
 		try {
 			return new URL(value);
 		} catch (final Exception e) {
-			throw new ParseException(e.getClass().getSimpleName(), e);
+			throw new ParseException("parse url '" + value + "' failed", e);
 		}
 	}
 
