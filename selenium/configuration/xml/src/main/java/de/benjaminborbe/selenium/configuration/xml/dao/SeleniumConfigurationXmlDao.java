@@ -3,10 +3,12 @@ package de.benjaminborbe.selenium.configuration.xml.dao;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Singleton
 public class SeleniumConfigurationXmlDao {
 
 	private final Map<SeleniumConfigurationIdentifier, SeleniumConfigurationXmlBean> data = new HashMap<>();

@@ -29,14 +29,6 @@ public class SeleniumConfigurationXmlServiceManager {
 
 	private BundleContext bundleContext;
 
-	public BundleContext getBundleContext() {
-		return bundleContext;
-	}
-
-	public void setBundleContext(final BundleContext bundleContext) {
-		this.bundleContext = bundleContext;
-	}
-
 	@Inject
 	public SeleniumConfigurationXmlServiceManager(
 		final Logger logger,
@@ -48,11 +40,21 @@ public class SeleniumConfigurationXmlServiceManager {
 		this.seleniumGuiConfigurationXmlParser = seleniumGuiConfigurationXmlParser;
 	}
 
+	public BundleContext getBundleContext() {
+		return bundleContext;
+	}
+
+	public void setBundleContext(final BundleContext bundleContext) {
+		this.bundleContext = bundleContext;
+	}
+
 	public void onAdded(SeleniumConfigurationIdentifier id) {
+		logger.debug("add service for seleniumConfiguration: " + id);
 		try {
 			final SeleniumConfigurationXmlBean seleniumConfigurationXmlBean = seleniumConfigurationXmlDao.load(id);
 			final SeleniumConfiguration seleniumConfiguration = seleniumGuiConfigurationXmlParser.parse(seleniumConfigurationXmlBean.getXml());
-			bundleContext.registerService(SeleniumConfiguration.class.getName(), seleniumConfiguration, new Properties());
+			services.put(id, bundleContext.registerService(SeleniumConfiguration.class.getName(), seleniumConfiguration, new Properties()));
+			logger.debug("register service completed");
 		} catch (ParseException e) {
 			logger.warn("add SeleniumConfiguration failed", e);
 		}
@@ -60,8 +62,12 @@ public class SeleniumConfigurationXmlServiceManager {
 	}
 
 	public void onRemoved(SeleniumConfigurationIdentifier id) {
+		logger.debug("remove service for seleniumConfiguration: " + id);
 		if (services.containsKey(id)) {
 			services.get(id).unregister();
+			logger.debug("unregistered completed");
+		} else {
+			logger.debug("unregistered failed, no matching service found");
 		}
 	}
 }
