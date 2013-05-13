@@ -17,6 +17,7 @@ import de.benjaminborbe.selenium.api.SeleniumExecutionProtocol;
 import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.api.SeleniumServiceException;
 import de.benjaminborbe.selenium.gui.SeleniumGuiConstants;
+import de.benjaminborbe.selenium.gui.widget.SeleniumGuiExecuteWidget;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -25,10 +26,7 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
-import de.benjaminborbe.website.util.H2Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
-import de.benjaminborbe.website.widget.BrWidget;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -92,19 +90,7 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle() + " - " + seleniumConfiguration.getName()));
 
 			final SeleniumExecutionProtocol seleniumExecutionProtocol = seleniumService.execute(sessionIdentifier, seleniumConfigurationIdentifier);
-
-			widgets.add("completed: " + seleniumExecutionProtocol.isCompleted());
-			widgets.add(new BrWidget());
-			widgets.add("hasErrors: " + seleniumExecutionProtocol.hasErrors());
-			widgets.add(new BrWidget());
-			{
-				widgets.add(new H2Widget("Messages"));
-				final UlWidget ul = new UlWidget();
-				for (final String message : seleniumExecutionProtocol.getMessages()) {
-					ul.add(message);
-				}
-				widgets.add(ul);
-			}
+			widgets.add(new SeleniumGuiExecuteWidget(seleniumExecutionProtocol));
 
 			return widgets;
 		} catch (SeleniumServiceException | AuthenticationServiceException e) {

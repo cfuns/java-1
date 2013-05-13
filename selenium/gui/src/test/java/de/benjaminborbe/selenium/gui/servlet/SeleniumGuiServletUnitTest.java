@@ -129,8 +129,9 @@ public class SeleniumGuiServletUnitTest {
 		EasyMock.expect(cacheService.get("hostname")).andReturn("localhost").anyTimes();
 		EasyMock.replay(cacheService);
 
-		final SeleniumGuiLinkFactory seleniumGuiLinkFactory = EasyMock.createMock(SeleniumGuiLinkFactory.class);
+		final SeleniumGuiLinkFactory seleniumGuiLinkFactory = EasyMock.createNiceMock(SeleniumGuiLinkFactory.class);
 		EasyMock.replay(seleniumGuiLinkFactory);
+
 		final SeleniumService seleniumService = EasyMock.createMock(SeleniumService.class);
 		EasyMock.expect(seleniumService.getSeleniumConfigurations(sessionIdentifier)).andReturn(new ArrayList<SeleniumConfiguration>());
 		EasyMock.replay(seleniumService);

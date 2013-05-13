@@ -28,4 +28,8 @@ public class SeleniumGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_RUN, new MapParameter().add(
 			SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(seleniumConfigurationIdentifier)), "execute");
 	}
+
+	public Widget configurationUpload(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_UPLOAD, new MapParameter(), "upload");
+	}
 }

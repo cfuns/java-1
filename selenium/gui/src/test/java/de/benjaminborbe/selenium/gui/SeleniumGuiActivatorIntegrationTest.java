@@ -45,6 +45,7 @@ public class SeleniumGuiActivatorIntegrationTest {
 		final List<String> paths = new ArrayList<>();
 		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_LIST);
 		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_RUN);
+		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_UPLOAD);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
