@@ -1,8 +1,8 @@
 package de.benjaminborbe.selenium.gui.guice;
 
 import com.google.inject.AbstractModule;
-import de.benjaminborbe.selenium.gui.util.SeleniumGuiConfigurationXmlParser;
-import de.benjaminborbe.selenium.gui.util.SeleniumGuiConfigurationXmlParserImpl;
+import de.benjaminborbe.selenium.parser.SeleniumGuiConfigurationXmlParser;
+import de.benjaminborbe.selenium.parser.SeleniumGuiConfigurationXmlParserImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
 

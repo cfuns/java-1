@@ -1,8 +1,8 @@
 package de.benjaminborbe.selenium.configuration.xml;
 
 import com.google.inject.Injector;
-import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.configuration.xml.guice.SeleniumConfigurationXmlModulesMock;
+import de.benjaminborbe.selenium.configuration.xml.service.SeleniumConfigurationXmlService;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
@@ -42,7 +42,7 @@ public class SeleniumConfigurationXmlActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<>();
-		names.add(SeleniumConfiguration.class.getName());
+		names.add(SeleniumConfigurationXmlService.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

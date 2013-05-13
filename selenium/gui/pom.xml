@@ -60,7 +60,8 @@
 							de.benjaminborbe.selenium.api.SeleniumService,
 							de.benjaminborbe.authentication.api.AuthenticationService,
 							de.benjaminborbe.authorization.api.AuthorizationService,
-							de.benjaminborbe.navigation.api.NavigationWidget
+							de.benjaminborbe.navigation.api.NavigationWidget ,
+							de.benjaminborbe.selenium.configuration.xml.service.SeleniumConfigurationXmlService
 						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service></Export-Service>
@@ -120,8 +121,6 @@
 			<version>${easymock.version}</version>
 			<scope>test</scope>
 		</dependency>
-
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.lib.tools</artifactId>
@@ -192,9 +191,15 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom2</artifactId>
-			<version>2.0.5</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.selenium.parser</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.selenium.configuration.xml</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

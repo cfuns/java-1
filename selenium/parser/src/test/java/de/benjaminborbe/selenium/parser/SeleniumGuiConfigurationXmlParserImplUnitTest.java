@@ -1,4 +1,4 @@
-package de.benjaminborbe.selenium.gui.util;
+package de.benjaminborbe.selenium.parser;
 
 import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;

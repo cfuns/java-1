@@ -16,6 +16,7 @@
 			<id>base</id>
 			<modules>
 				<module>api</module>
+				<module>parser</module>
 				<module>core</module>
 				<module>gui</module>
 				<module>configuration</module>

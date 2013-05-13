@@ -56,8 +56,8 @@
 							${felix_plugin_imports}
 						</Import-Package>
 						<Import-Service></Import-Service>
-						<Export-Package></Export-Package>
-						<Export-Service></Export-Service>
+						<Export-Package>de.benjaminborbe.selenium.configuration.xml.service.*</Export-Package>
+						<Export-Service>de.benjaminborbe.selenium.configuration.xml.service.SeleniumConfigurationXmlService</Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -129,6 +129,11 @@
 			<artifactId>de.benjaminborbe.selenium.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.selenium.parser</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>
