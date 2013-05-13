@@ -2,42 +2,19 @@ package de.benjaminborbe.selenium.configuration.xml.dao;
 
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
-@Singleton
-public class SeleniumConfigurationXmlDao {
+public interface SeleniumConfigurationXmlDao {
 
-	private final Map<SeleniumConfigurationIdentifier, SeleniumConfigurationXmlBean> data = new HashMap<>();
+	SeleniumConfigurationXmlBean create();
 
-	@Inject
-	public SeleniumConfigurationXmlDao() {
-	}
+	void save(final SeleniumConfigurationXmlBean bean);
 
-	public SeleniumConfigurationXmlBean create() {
-		return new SeleniumConfigurationXmlBean();
-	}
+	void delete(final SeleniumConfigurationIdentifier id);
 
-	public void save(final SeleniumConfigurationXmlBean bean) {
-		data.put(bean.getId(), bean);
-	}
+	Collection<SeleniumConfigurationIdentifier> list();
 
-	public void delete(final SeleniumConfigurationIdentifier id) {
-		data.remove(id);
-	}
+	SeleniumConfigurationXmlBean load(final SeleniumConfigurationIdentifier id);
 
-	public Collection<SeleniumConfigurationIdentifier> list() {
-		return data.keySet();
-	}
-
-	public SeleniumConfigurationXmlBean load(final SeleniumConfigurationIdentifier id) {
-		return data.get(id);
-	}
-
-	public boolean exists(final SeleniumConfigurationIdentifier id) {
-		return data.containsKey(id);
-	}
+	boolean exists(final SeleniumConfigurationIdentifier id);
 }
