@@ -11,6 +11,7 @@ import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlS
 import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlServiceException;
 import de.benjaminborbe.selenium.configuration.xml.dao.SeleniumConfigurationXmlBean;
 import de.benjaminborbe.selenium.configuration.xml.dao.SeleniumConfigurationXmlDao;
+import de.benjaminborbe.selenium.configuration.xml.util.SeleniumConfigurationXmlServiceManager;
 import de.benjaminborbe.selenium.parser.SeleniumGuiConfigurationXmlParser;
 import de.benjaminborbe.tools.util.ParseException;
 import org.slf4j.Logger;
@@ -24,6 +25,8 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 
 	private final Logger logger;
 
+	private final SeleniumConfigurationXmlServiceManager seleniumConfigurationXmlServiceManager;
+
 	private final SeleniumService seleniumService;
 
 	private final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser;
@@ -32,12 +35,14 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 
 	@Inject
 	public SeleniumConfigurationXmlServiceImpl(
-		Logger logger,
+		final Logger logger,
+		final SeleniumConfigurationXmlServiceManager seleniumConfigurationXmlServiceManager,
 		final SeleniumService seleniumService,
 		final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser,
 		final SeleniumConfigurationXmlDao seleniumConfigurationXmlDao
 	) {
 		this.logger = logger;
+		this.seleniumConfigurationXmlServiceManager = seleniumConfigurationXmlServiceManager;
 		this.seleniumService = seleniumService;
 		this.seleniumGuiConfigurationXmlParser = seleniumGuiConfigurationXmlParser;
 		this.seleniumConfigurationXmlDao = seleniumConfigurationXmlDao;
@@ -54,31 +59,39 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 	}
 
 	public SeleniumConfigurationIdentifier addXml(
-		SessionIdentifier sessionIdentifier,
-		String xml
+		final SessionIdentifier sessionIdentifier,
+		final String xml
 	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
 			seleniumService.expectPermission(sessionIdentifier);
 			logger.debug("addXml");
 			final SeleniumConfiguration seleniumConfiguration = seleniumGuiConfigurationXmlParser.parse(xml);
-			SeleniumConfigurationXmlBean bean = seleniumConfigurationXmlDao.create();
-			bean.setId(seleniumConfiguration.getId());
+			final SeleniumConfigurationIdentifier id = seleniumConfiguration.getId();
+			if (seleniumConfigurationXmlDao.exists(id)) {
+				seleniumConfigurationXmlDao.delete(id);
+				seleniumConfigurationXmlServiceManager.onRemoved(id);
+			}
+
+			final SeleniumConfigurationXmlBean bean = seleniumConfigurationXmlDao.create();
+			bean.setId(id);
 			bean.setXml(xml);
 			seleniumConfigurationXmlDao.save(bean);
-			return seleniumConfiguration.getId();
+			seleniumConfigurationXmlServiceManager.onAdded(id);
+			return id;
 		} catch (ParseException | SeleniumServiceException e) {
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}
 	}
 
 	public void deleteXml(
-		SessionIdentifier sessionIdentifier,
-		SeleniumConfigurationIdentifier seleniumConfiguration
+		final SessionIdentifier sessionIdentifier,
+		final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException {
 		try {
 			seleniumService.expectPermission(sessionIdentifier);
 			logger.debug("deleteXml");
-			seleniumConfigurationXmlDao.delete(seleniumConfiguration);
+			seleniumConfigurationXmlDao.delete(seleniumConfigurationIdentifier);
+			seleniumConfigurationXmlServiceManager.onRemoved(seleniumConfigurationIdentifier);
 		} catch (SeleniumServiceException e) {
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}

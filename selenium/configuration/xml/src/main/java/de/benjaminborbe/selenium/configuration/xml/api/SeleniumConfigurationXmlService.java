@@ -12,12 +12,12 @@ public interface SeleniumConfigurationXmlService {
 	Collection<SeleniumConfigurationIdentifier> list(SessionIdentifier sessionIdentifier) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException;
 
 	SeleniumConfigurationIdentifier addXml(
-		SessionIdentifier sessionIdentifier,
-		String xml
+		final SessionIdentifier sessionIdentifier,
+		final String xml
 	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException;
 
 	void deleteXml(
-		SessionIdentifier sessionIdentifier,
-		SeleniumConfigurationIdentifier seleniumConfiguration
+		final SessionIdentifier sessionIdentifier,
+		final SeleniumConfigurationIdentifier seleniumConfiguration
 	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException;
 }

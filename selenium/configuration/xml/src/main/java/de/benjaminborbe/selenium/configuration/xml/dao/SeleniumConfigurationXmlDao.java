@@ -30,4 +30,12 @@ public class SeleniumConfigurationXmlDao {
 	public Collection<SeleniumConfigurationIdentifier> list() {
 		return data.keySet();
 	}
+
+	public SeleniumConfigurationXmlBean load(final SeleniumConfigurationIdentifier id) {
+		return data.get(id);
+	}
+
+	public boolean exists(final SeleniumConfigurationIdentifier id) {
+		return data.containsKey(id);
+	}
 }
