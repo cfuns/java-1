@@ -104,9 +104,11 @@ public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
 				widgets.add(ul);
 			}
 
-			widgets.add(seleniumGuiLinkFactory.configurationRunXml(request));
+			widgets.add(seleniumGuiLinkFactory.configurationXmlList(request));
 			widgets.add(new BrWidget());
-			widgets.add(seleniumGuiLinkFactory.configurationUploadXml(request));
+			widgets.add(seleniumGuiLinkFactory.configurationXmlRun(request));
+			widgets.add(new BrWidget());
+			widgets.add(seleniumGuiLinkFactory.configurationXmlUpload(request));
 			widgets.add(new BrWidget());
 
 			return widgets;

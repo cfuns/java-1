@@ -10,9 +10,13 @@ public interface SeleniumGuiConstants {
 
 	String PARAMETER_CONFIGURATION_ID = "configuration_id";
 
-	String URL_CONFIGURATION_RUN_XML = "/run/xml";
-
 	String PARAMETER_CONFIGURATION_XML = "configuration_xml";
 
-	String URL_CONFIGURATION_UPLOAD_XML = "/upload/xml";
+	String URL_CONFIGURATION_XML_RUN = "/xml/run";
+
+	String URL_CONFIGURATION_XML_UPLOAD = "/xml/upload";
+
+	String URL_CONFIGURATION_XML_DELETE = "/xml/delete";
+
+	String URL_CONFIGURATION_XML_LIST = "/xml/list";
 }

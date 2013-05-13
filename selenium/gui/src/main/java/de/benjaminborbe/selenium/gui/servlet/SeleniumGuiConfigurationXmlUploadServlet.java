@@ -11,17 +11,12 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.selenium.api.SeleniumConfiguration;
-import de.benjaminborbe.selenium.api.SeleniumExecutionProtocol;
-import de.benjaminborbe.selenium.api.SeleniumService;
-import de.benjaminborbe.selenium.api.SeleniumServiceException;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlServiceException;
 import de.benjaminborbe.selenium.gui.SeleniumGuiConstants;
-import de.benjaminborbe.selenium.gui.widget.SeleniumGuiExecuteWidget;
-import de.benjaminborbe.selenium.parser.SeleniumGuiConfigurationXmlParser;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextareaWidget;
@@ -32,6 +27,7 @@ import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.RedirectWidget;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -41,22 +37,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Singleton
-public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
+public class SeleniumGuiConfigurationXmlUploadServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Selenium - Configuration - XML - Run";
+	private static final String TITLE = "Selenium - Configuration - XML - Upload";
 
 	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
 
-	private final SeleniumService seleniumService;
-
-	private final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser;
+	private final SeleniumConfigurationXmlService seleniumConfigurationXmlService;
 
 	@Inject
-	public SeleniumGuiConfigurationRunXmlServlet(
+	public SeleniumGuiConfigurationXmlUploadServlet(
 		final Logger logger,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
@@ -67,14 +61,12 @@ public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
 		final CacheService cacheService,
-		final SeleniumService seleniumService,
-		final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser
+		final SeleniumConfigurationXmlService seleniumConfigurationXmlService
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
-		this.seleniumService = seleniumService;
-		this.seleniumGuiConfigurationXmlParser = seleniumGuiConfigurationXmlParser;
+		this.seleniumConfigurationXmlService = seleniumConfigurationXmlService;
 	}
 
 	@Override
@@ -93,25 +85,18 @@ public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
 
 			final String xml = request.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_XML);
 			if (xml != null) {
-				try {
-					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-					final SeleniumConfiguration seleniumConfiguration = seleniumGuiConfigurationXmlParser.parse(xml);
-					final SeleniumExecutionProtocol seleniumExecutionProtocol = seleniumService.execute(sessionIdentifier, seleniumConfiguration);
-					widgets.add(new SeleniumGuiExecuteWidget(seleniumExecutionProtocol));
-				} catch (ParseException e) {
-					final String msg = "parse xml failed!";
-					logger.warn(msg, e);
-					widgets.add(msg);
-				}
+				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+				seleniumConfigurationXmlService.addXml(sessionIdentifier, xml);
+				return new RedirectWidget(request.getContextPath() + "/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_XML_LIST);
 			}
 
 			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
 			form.addFormInputWidget(new FormInputTextareaWidget(SeleniumGuiConstants.PARAMETER_CONFIGURATION_XML).addLabel("Xml:").addDefaultValue(getDefaultXml()));
-			form.addFormInputWidget(new FormInputSubmitWidget("execute"));
+			form.addFormInputWidget(new FormInputSubmitWidget("upload"));
 			widgets.add(form);
 
 			return widgets;
-		} catch (SeleniumServiceException | AuthenticationServiceException e) {
+		} catch (AuthenticationServiceException | SeleniumConfigurationXmlServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

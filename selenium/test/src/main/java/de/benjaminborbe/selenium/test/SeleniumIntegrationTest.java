@@ -1,6 +1,7 @@
 package de.benjaminborbe.selenium.test;
 
 import de.benjaminborbe.selenium.api.SeleniumService;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
@@ -51,6 +52,13 @@ public class SeleniumIntegrationTest extends TestCaseOsgi {
 		final SeleniumService service = (SeleniumService) serviceObject;
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.selenium.core.service.SeleniumCoreServiceImpl", service.getClass().getName());
+	}
+
+	public void testSeleniumConfigurationXmlService() throws Exception {
+		final Object serviceObject = getServiceObject(SeleniumConfigurationXmlService.class.getName(), null);
+		final SeleniumConfigurationXmlService service = (SeleniumConfigurationXmlService) serviceObject;
+		assertNotNull(service);
+		assertEquals("de.benjaminborbe.selenium.configuration.xml.service.SeleniumConfigurationXmlServiceImpl", service.getClass().getName());
 	}
 
 	public void testCreateSeleniumConfigurationIdentifier() throws Exception {

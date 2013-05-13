@@ -3,6 +3,7 @@ package de.benjaminborbe.selenium.configuration.xml.dao;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 
 import javax.inject.Inject;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,5 +25,9 @@ public class SeleniumConfigurationXmlDao {
 
 	public void delete(final SeleniumConfigurationIdentifier id) {
 		data.remove(id);
+	}
+
+	public Collection<SeleniumConfigurationIdentifier> list() {
+		return data.keySet();
 	}
 }
