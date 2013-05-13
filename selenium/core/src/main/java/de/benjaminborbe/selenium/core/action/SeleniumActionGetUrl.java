@@ -19,6 +19,7 @@ public class SeleniumActionGetUrl implements SeleniumAction<SeleniumActionConfig
 	) {
 		webDriver.get(seleniumActionConfiguration.getUrl().toExternalForm());
 		seleniumExecutionProtocol.addInfo(seleniumActionConfiguration.getMessage());
+
 		return true;
 	}
 }

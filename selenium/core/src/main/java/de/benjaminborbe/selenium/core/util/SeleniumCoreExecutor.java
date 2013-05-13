@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import java.util.concurrent.TimeUnit;
 
 public class SeleniumCoreExecutor {
 
@@ -38,7 +39,7 @@ public class SeleniumCoreExecutor {
 			driver = seleniumCoreWebDriverProvider.get();
 			driver.manage().window().maximize();
 			// http://docs.seleniumhq.org/docs/04_webdriver_advanced.jsp
-			// driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 			for (final SeleniumActionConfiguration seleniumActionConfiguration : seleniumConfiguration.getActionConfigurations()) {
 				final SeleniumAction action = seleniumActionRegistry.get(seleniumActionConfiguration.getClass());
