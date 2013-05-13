@@ -1,4 +1,4 @@
-package de.benjaminborbe.selenium.configuration.xml.service;
+package de.benjaminborbe.selenium.configuration.xml.api;
 
 public class SeleniumConfigurationXmlServiceException extends Exception {
 

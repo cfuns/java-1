@@ -1,4 +1,6 @@
 httpdownloader/tools/de.benjaminborbe.storage.httpdownloader.iml
+selenium/configuration/xml/de.benjaminborbe.selenium.configuration.xml.iml
+selenium/parser/de.benjaminborbe.selenium.parser.iml
 selenium/configuration/simple/de.benjaminborbe.selenium.configuration.simple.iml
 selenium/configuration/de.benjaminborbe.selenium.configuration.iml
 lib/test/de.benjaminborbe.lib.test.iml

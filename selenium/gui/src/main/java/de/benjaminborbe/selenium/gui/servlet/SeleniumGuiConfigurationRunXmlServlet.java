@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Singleton
-public class SeleniumGuiConfigurationUploadServlet extends WebsiteHtmlServlet {
+public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -56,7 +56,7 @@ public class SeleniumGuiConfigurationUploadServlet extends WebsiteHtmlServlet {
 	private final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser;
 
 	@Inject
-	public SeleniumGuiConfigurationUploadServlet(
+	public SeleniumGuiConfigurationRunXmlServlet(
 		final Logger logger,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,

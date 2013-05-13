@@ -1,8 +1,8 @@
 package de.benjaminborbe.selenium.configuration.xml;
 
 import com.google.inject.Injector;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
 import de.benjaminborbe.selenium.configuration.xml.guice.SeleniumConfigurationXmlModulesMock;
-import de.benjaminborbe.selenium.configuration.xml.service.SeleniumConfigurationXmlService;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;

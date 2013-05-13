@@ -1,6 +1,8 @@
 package de.benjaminborbe.selenium.configuration.xml.guice;
 
 import com.google.inject.AbstractModule;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
+import de.benjaminborbe.selenium.configuration.xml.service.SeleniumConfigurationXmlServiceImpl;
 import de.benjaminborbe.selenium.parser.SeleniumGuiConfigurationXmlParser;
 import de.benjaminborbe.selenium.parser.SeleniumGuiConfigurationXmlParserImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
@@ -12,6 +14,7 @@ public class SeleniumConfigurationXmlModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(SeleniumConfigurationXmlService.class).to(SeleniumConfigurationXmlServiceImpl.class).in(Singleton.class);
 		bind(SeleniumGuiConfigurationXmlParser.class).to(SeleniumGuiConfigurationXmlParserImpl.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);
 	}

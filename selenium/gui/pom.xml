@@ -61,7 +61,7 @@
 							de.benjaminborbe.authentication.api.AuthenticationService,
 							de.benjaminborbe.authorization.api.AuthorizationService,
 							de.benjaminborbe.navigation.api.NavigationWidget ,
-							de.benjaminborbe.selenium.configuration.xml.service.SeleniumConfigurationXmlService
+							de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService
 						</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service></Export-Service>

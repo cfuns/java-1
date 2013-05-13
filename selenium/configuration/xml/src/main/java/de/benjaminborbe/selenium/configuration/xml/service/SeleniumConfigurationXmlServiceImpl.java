@@ -2,6 +2,8 @@ package de.benjaminborbe.selenium.configuration.xml.service;
 
 import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlServiceException;
 import de.benjaminborbe.selenium.configuration.xml.dao.SeleniumConfigurationXmlBean;
 import de.benjaminborbe.selenium.configuration.xml.dao.SeleniumConfigurationXmlDao;
 import de.benjaminborbe.selenium.parser.SeleniumGuiConfigurationXmlParser;
@@ -12,7 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class SeleniumConfigurationXmlService {
+public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfigurationXmlService {
 
 	private final Logger logger;
 
@@ -21,7 +23,7 @@ public class SeleniumConfigurationXmlService {
 	private final SeleniumConfigurationXmlDao seleniumConfigurationXmlDao;
 
 	@Inject
-	public SeleniumConfigurationXmlService(
+	public SeleniumConfigurationXmlServiceImpl(
 		Logger logger,
 		final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser,
 		final SeleniumConfigurationXmlDao seleniumConfigurationXmlDao

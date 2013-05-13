@@ -5,6 +5,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.selenium.api.SeleniumService;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
@@ -14,6 +15,7 @@ public class SeleniumGuiOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(SeleniumConfigurationXmlService.class).toProvider(service(SeleniumConfigurationXmlService.class).single());
 		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());
 		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
 		bind(SeleniumService.class).toProvider(service(SeleniumService.class).single());

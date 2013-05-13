@@ -8,6 +8,8 @@ import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.selenium.api.SeleniumService;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlServiceMock;
 import de.benjaminborbe.selenium.mock.SeleniumServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
@@ -20,6 +22,7 @@ public class SeleniumGuiOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(SeleniumConfigurationXmlService.class).to(SeleniumConfigurationXmlServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(SeleniumService.class).to(SeleniumServiceMock.class).in(Singleton.class);

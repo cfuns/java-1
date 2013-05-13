@@ -1,7 +1,8 @@
 package de.benjaminborbe.selenium.configuration.xml;
 
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
 import de.benjaminborbe.selenium.configuration.xml.guice.SeleniumConfigurationXmlModules;
-import de.benjaminborbe.selenium.configuration.xml.service.SeleniumConfigurationXmlService;
+import de.benjaminborbe.selenium.configuration.xml.service.SeleniumConfigurationXmlServiceImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -15,7 +16,7 @@ import java.util.Set;
 public class SeleniumConfigurationXmlActivator extends BaseBundleActivator {
 
 	@Inject
-	private SeleniumConfigurationXmlService seleniumConfigurationXmlService;
+	private SeleniumConfigurationXmlServiceImpl seleniumConfigurationXmlService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
