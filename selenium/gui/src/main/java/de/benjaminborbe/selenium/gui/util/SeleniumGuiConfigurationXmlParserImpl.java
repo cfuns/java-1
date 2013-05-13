@@ -7,13 +7,16 @@ import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrl;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SeleniumGuiConfigurationXmlParserImpl implements SeleniumGuiConfigurationXmlParser {
 
@@ -26,44 +29,35 @@ public class SeleniumGuiConfigurationXmlParserImpl implements SeleniumGuiConfigu
 
 	@Override
 	public SeleniumConfiguration parse(final String xml) throws ParseException {
-		if (xml == null || xml.isEmpty()) {
-			throw new ParseException("parse xml failed! empty content");
-		}
-		final Document document = Jsoup.parse(xml);
-		final Elements allElements = document.getAllElements();
-		if (allElements.isEmpty()) {
-			throw new ParseException("parse xml failed! no element found");
-		}
-		return parseConfig(allElements.get(0));
-	}
-
-	private SeleniumConfiguration parseConfig(final Element element) throws ParseException {
-		final SeleniumConfigurationDto seleniumConfiguration = new SeleniumConfigurationDto();
-		final ArrayList<SeleniumActionConfiguration> actions = new ArrayList<>();
-		seleniumConfiguration.setActions(actions);
-		final Element id = getElementByTag(element, "id");
-		final Element name = getElementByTag(element, "name");
-		seleniumConfiguration.setName(name.text());
-		seleniumConfiguration.setId(new SeleniumConfigurationIdentifier(id.text()));
-
-		final Elements actionsElement = element.getElementsByTag("actions");
-		if (!actionsElement.isEmpty()) {
-			final Elements actionElements = actionsElement.get(0).getElementsByTag("action");
-			for (final Element actionElement : actionElements) {
-				final Element message = getElementByTag(element, "message");
-				final Element url = getElementByTag(element, "url");
-				actions.add(new SeleniumActionConfigurationGetUrl(message.text(), parseUtil.parseURL(url.text())));
+		try {
+			if (xml == null || xml.isEmpty()) {
+				throw new ParseException("parse xml failed! empty content");
 			}
-		}
-		return seleniumConfiguration;
-	}
+			final SAXBuilder sb = new SAXBuilder();
+			final Document doc = sb.build(new StringReader(xml));
+			Element rootElement = doc.getRootElement();
 
-	private Element getElementByTag(final Element element, final String tag) throws ParseException {
-		final Elements elements = element.getElementsByTag(tag);
-		if (elements.isEmpty()) {
-			throw new ParseException("element " + tag + " not found");
-		} else {
-			return elements.get(0);
+			if (!"config".equals(rootElement.getName())) {
+				throw new ParseException("rootElement element != config");
+			} else {
+				final SeleniumConfigurationDto seleniumConfiguration = new SeleniumConfigurationDto();
+				seleniumConfiguration.setId(new SeleniumConfigurationIdentifier(rootElement.getChildText("id")));
+				seleniumConfiguration.setName(rootElement.getChildText("name"));
+				final ArrayList<SeleniumActionConfiguration> list = new ArrayList<>();
+				seleniumConfiguration.setActions(list);
+
+				Element actionsElement = rootElement.getChild("actions");
+				if (actionsElement != null) {
+					final List<Element> children = actionsElement.getChildren("action");
+					for (final Element actionElement : children) {
+						list.add(new SeleniumActionConfigurationGetUrl(actionElement.getChildText("message"), parseUtil.parseURL(actionElement.getChildText("url"))));
+					}
+				}
+
+				return seleniumConfiguration;
+			}
+		} catch (JDOMException | IOException e) {
+			throw new ParseException(e);
 		}
 	}
 }

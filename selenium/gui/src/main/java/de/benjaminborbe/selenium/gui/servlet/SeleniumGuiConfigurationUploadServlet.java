@@ -106,7 +106,7 @@ public class SeleniumGuiConfigurationUploadServlet extends WebsiteHtmlServlet {
 			}
 
 			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
-			form.addFormInputWidget(new FormInputTextareaWidget(request.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_XML)).addLabel("Xml:").addDefaultValue(getDefaultXml()));
+			form.addFormInputWidget(new FormInputTextareaWidget(SeleniumGuiConstants.PARAMETER_CONFIGURATION_XML).addLabel("Xml:").addDefaultValue(getDefaultXml()));
 			form.addFormInputWidget(new FormInputSubmitWidget("execute"));
 			widgets.add(form);
 
@@ -118,16 +118,16 @@ public class SeleniumGuiConfigurationUploadServlet extends WebsiteHtmlServlet {
 
 	private String getDefaultXml() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("<config>");
-		sb.append("  <id>test</id>");
-		sb.append("  <name>Test Configuration</name>");
-		sb.append("  <actions>");
-		sb.append("    <action name=\"GetUrl\">");
-		sb.append("      <message></message>");
-		sb.append("      <url></url>");
-		sb.append("    </action>");
-		sb.append("  </actions>");
-		sb.append("</config>");
+		sb.append("<config>\n");
+		sb.append("  <id>test</id>\n");
+		sb.append("  <name>Test Configuration</name>\n");
+		sb.append("  <actions>\n");
+		sb.append("    <action name=\"GetUrl\">\n");
+		sb.append("      <message>test-message</message>\n");
+		sb.append("      <url>http://www.benjamin-borbe.de</url>\n");
+		sb.append("    </action>\n");
+		sb.append("  </actions>\n");
+		sb.append("</config>\n");
 		return sb.toString();
 	}
 }
