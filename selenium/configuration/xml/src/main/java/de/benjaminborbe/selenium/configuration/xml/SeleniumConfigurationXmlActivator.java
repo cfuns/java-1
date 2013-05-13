@@ -1,12 +1,18 @@
 package de.benjaminborbe.selenium.configuration.xml;
 
+import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
+import de.benjaminborbe.selenium.configuration.xml.dao.SeleniumConfigurationXmlDao;
 import de.benjaminborbe.selenium.configuration.xml.guice.SeleniumConfigurationXmlModules;
 import de.benjaminborbe.selenium.configuration.xml.service.SeleniumConfigurationXmlServiceImpl;
 import de.benjaminborbe.selenium.configuration.xml.util.SeleniumConfigurationXmlServiceManager;
+import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.tools.IdentifierIterator;
+import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
+import de.benjaminborbe.tools.util.ParseException;
 import org.osgi.framework.BundleContext;
 
 import javax.inject.Inject;
@@ -22,10 +28,26 @@ public class SeleniumConfigurationXmlActivator extends BaseBundleActivator {
 	@Inject
 	private SeleniumConfigurationXmlServiceManager seleniumConfigurationXmlServiceManager;
 
+	@Inject
+	private SeleniumConfigurationXmlDao seleniumConfigurationXmlDao;
+
 	@Override
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
 		seleniumConfigurationXmlServiceManager.setBundleContext(context);
+		try {
+			IdentifierIterator<SeleniumConfigurationIdentifier> i = seleniumConfigurationXmlDao.getIdentifierIterator();
+			while (i.hasNext()) {
+				final SeleniumConfigurationIdentifier id = i.next();
+				try {
+					seleniumConfigurationXmlServiceManager.onAdded(id);
+				} catch (ParseException e) {
+					logger.warn("register failed", e);
+				}
+			}
+		} catch (IdentifierIteratorException | StorageException e) {
+			logger.warn("register failed", e);
+		}
 	}
 
 	@Override
@@ -39,4 +61,5 @@ public class SeleniumConfigurationXmlActivator extends BaseBundleActivator {
 		result.add(new ServiceInfo(SeleniumConfigurationXmlService.class, seleniumConfigurationXmlService));
 		return result;
 	}
+
 }

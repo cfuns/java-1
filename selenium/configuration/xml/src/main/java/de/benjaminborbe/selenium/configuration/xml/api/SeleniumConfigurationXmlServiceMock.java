@@ -27,4 +27,11 @@ public class SeleniumConfigurationXmlServiceMock implements SeleniumConfiguratio
 		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier seleniumConfiguration
 	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException {
 	}
+
+	@Override
+	public SeleniumConfigurationXml getXml(
+		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier id
+	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException {
+		return null;
+	}
 }

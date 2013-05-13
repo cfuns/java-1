@@ -102,6 +102,8 @@ public class SeleniumGuiConfigurationXmlListServlet extends WebsiteHtmlServlet {
 					row.add(" ");
 					row.add(seleniumGuiLinkFactory.configurationRun(request, seleniumConfigurationIdentifier));
 					row.add(" ");
+					row.add(seleniumGuiLinkFactory.configurationShow(request, seleniumConfigurationIdentifier));
+					row.add(" ");
 					row.add(seleniumGuiLinkFactory.configurationXmlDelete(request, seleniumConfigurationIdentifier));
 					ul.add(row);
 				}

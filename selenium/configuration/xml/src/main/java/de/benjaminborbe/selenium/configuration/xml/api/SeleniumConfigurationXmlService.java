@@ -9,7 +9,8 @@ import java.util.Collection;
 
 public interface SeleniumConfigurationXmlService {
 
-	Collection<SeleniumConfigurationIdentifier> list(SessionIdentifier sessionIdentifier) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException;
+	Collection<SeleniumConfigurationIdentifier> list(SessionIdentifier sessionIdentifier)
+		throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException;
 
 	SeleniumConfigurationIdentifier addXml(
 		final SessionIdentifier sessionIdentifier,
@@ -18,6 +19,13 @@ public interface SeleniumConfigurationXmlService {
 
 	void deleteXml(
 		final SessionIdentifier sessionIdentifier,
-		final SeleniumConfigurationIdentifier seleniumConfiguration
+		final SeleniumConfigurationIdentifier id
+	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException;
+
+	SeleniumConfigurationXml getXml(
+		SessionIdentifier sessionIdentifier,
+		SeleniumConfigurationIdentifier id
 	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException;
 }
+
+

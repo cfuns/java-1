@@ -387,3 +387,8 @@ create column family filestorage_entry with
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type;
 
+drop column family selenium_xml;
+create column family selenium_xml with
+  comparator = UTF8Type and
+  key_validation_class = UTF8Type and
+  default_validation_class = UTF8Type;

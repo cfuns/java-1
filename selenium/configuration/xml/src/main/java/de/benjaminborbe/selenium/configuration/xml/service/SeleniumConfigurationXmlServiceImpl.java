@@ -7,12 +7,14 @@ import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.api.SeleniumServiceException;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXml;
 import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
 import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlServiceException;
 import de.benjaminborbe.selenium.configuration.xml.dao.SeleniumConfigurationXmlBean;
 import de.benjaminborbe.selenium.configuration.xml.dao.SeleniumConfigurationXmlDao;
 import de.benjaminborbe.selenium.configuration.xml.util.SeleniumConfigurationXmlServiceManager;
 import de.benjaminborbe.selenium.parser.SeleniumGuiConfigurationXmlParser;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.util.ParseException;
 import org.slf4j.Logger;
 
@@ -53,7 +55,7 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 		try {
 			seleniumService.expectPermission(sessionIdentifier);
 			return seleniumConfigurationXmlDao.list();
-		} catch (SeleniumServiceException e) {
+		} catch (StorageException | SeleniumServiceException e) {
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}
 	}
@@ -78,7 +80,7 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 			seleniumConfigurationXmlDao.save(bean);
 			seleniumConfigurationXmlServiceManager.onAdded(id);
 			return id;
-		} catch (ParseException | SeleniumServiceException e) {
+		} catch (ParseException | StorageException | SeleniumServiceException e) {
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}
 	}
@@ -92,7 +94,19 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 			logger.debug("deleteXml");
 			seleniumConfigurationXmlDao.delete(seleniumConfigurationIdentifier);
 			seleniumConfigurationXmlServiceManager.onRemoved(seleniumConfigurationIdentifier);
-		} catch (SeleniumServiceException e) {
+		} catch (StorageException | SeleniumServiceException e) {
+			throw new SeleniumConfigurationXmlServiceException(e);
+		}
+	}
+
+	@Override
+	public SeleniumConfigurationXml getXml(
+		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier id
+	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException {
+		try {
+			seleniumService.expectPermission(sessionIdentifier);
+			return seleniumConfigurationXmlDao.load(id);
+		} catch (StorageException | SeleniumServiceException e) {
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}
 	}

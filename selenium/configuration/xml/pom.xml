@@ -55,7 +55,10 @@
 							de.benjaminborbe.selenium.api,
 							${felix_plugin_imports}
 						</Import-Package>
-						<Import-Service></Import-Service>
+						<Import-Service>
+							de.benjaminborbe.storage.api.StorageService,
+							de.benjaminborbe.selenium.api.SeleniumService
+						</Import-Service>
 						<Export-Package>de.benjaminborbe.selenium.configuration.xml.api.*</Export-Package>
 						<Export-Service>de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService</Export-Service>
 					</instructions>
@@ -146,6 +149,17 @@
 			<artifactId>de.benjaminborbe.authorization.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.storage.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.storage.tools</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

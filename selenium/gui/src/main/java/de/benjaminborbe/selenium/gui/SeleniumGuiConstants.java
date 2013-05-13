@@ -19,4 +19,6 @@ public interface SeleniumGuiConstants {
 	String URL_CONFIGURATION_XML_DELETE = "/xml/delete";
 
 	String URL_CONFIGURATION_XML_LIST = "/xml/list";
+
+	String URL_CONFIGURATION_XML_SHOW = "/xml/show";
 }

@@ -5,6 +5,7 @@ import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.configuration.xml.dao.SeleniumConfigurationXmlBean;
 import de.benjaminborbe.selenium.configuration.xml.dao.SeleniumConfigurationXmlDao;
 import de.benjaminborbe.selenium.parser.SeleniumGuiConfigurationXmlParser;
+import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.tools.util.ParseException;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -48,17 +49,12 @@ public class SeleniumConfigurationXmlServiceManager {
 		this.bundleContext = bundleContext;
 	}
 
-	public void onAdded(SeleniumConfigurationIdentifier id) {
+	public void onAdded(SeleniumConfigurationIdentifier id) throws StorageException, ParseException {
 		logger.debug("add service for seleniumConfiguration: " + id);
-		try {
-			final SeleniumConfigurationXmlBean seleniumConfigurationXmlBean = seleniumConfigurationXmlDao.load(id);
-			final SeleniumConfiguration seleniumConfiguration = seleniumGuiConfigurationXmlParser.parse(seleniumConfigurationXmlBean.getXml());
-			services.put(id, bundleContext.registerService(SeleniumConfiguration.class.getName(), seleniumConfiguration, new Properties()));
-			logger.debug("register service completed");
-		} catch (ParseException e) {
-			logger.warn("add SeleniumConfiguration failed", e);
-		}
-
+		final SeleniumConfigurationXmlBean seleniumConfigurationXmlBean = seleniumConfigurationXmlDao.load(id);
+		final SeleniumConfiguration seleniumConfiguration = seleniumGuiConfigurationXmlParser.parse(seleniumConfigurationXmlBean.getXml());
+		services.put(id, bundleContext.registerService(SeleniumConfiguration.class.getName(), seleniumConfiguration, new Properties()));
+		logger.debug("register service completed");
 	}
 
 	public void onRemoved(SeleniumConfigurationIdentifier id) {
