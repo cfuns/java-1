@@ -49,7 +49,7 @@ public class SeleniumConfigurationXmlServiceManager {
 		this.bundleContext = bundleContext;
 	}
 
-	public void onAdded(SeleniumConfigurationIdentifier id) throws StorageException, ParseException {
+	public void onAdded(final SeleniumConfigurationIdentifier id) throws StorageException, ParseException {
 		logger.debug("add service for seleniumConfiguration: " + id);
 		final SeleniumConfigurationXmlBean seleniumConfigurationXmlBean = seleniumConfigurationXmlDao.load(id);
 		final SeleniumConfiguration seleniumConfiguration = seleniumGuiConfigurationXmlParser.parse(seleniumConfigurationXmlBean.getXml());
@@ -57,7 +57,7 @@ public class SeleniumConfigurationXmlServiceManager {
 		logger.debug("register service completed");
 	}
 
-	public void onRemoved(SeleniumConfigurationIdentifier id) {
+	public void onRemoved(final SeleniumConfigurationIdentifier id) {
 		logger.debug("remove service for seleniumConfiguration: " + id);
 		if (services.containsKey(id)) {
 			services.get(id).unregister();

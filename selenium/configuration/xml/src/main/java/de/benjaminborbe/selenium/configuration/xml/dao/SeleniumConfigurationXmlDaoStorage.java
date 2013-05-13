@@ -41,8 +41,8 @@ public class SeleniumConfigurationXmlDaoStorage extends DaoStorage<SeleniumConfi
 	@Override
 	public Collection<SeleniumConfigurationIdentifier> list() throws StorageException {
 		try {
-			List<SeleniumConfigurationIdentifier> result = new ArrayList<>();
-			IdentifierIterator<SeleniumConfigurationIdentifier> i = getIdentifierIterator();
+			final List<SeleniumConfigurationIdentifier> result = new ArrayList<>();
+			final IdentifierIterator<SeleniumConfigurationIdentifier> i = getIdentifierIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}

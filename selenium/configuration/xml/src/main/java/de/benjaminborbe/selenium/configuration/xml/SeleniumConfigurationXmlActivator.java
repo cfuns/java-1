@@ -36,7 +36,7 @@ public class SeleniumConfigurationXmlActivator extends BaseBundleActivator {
 		super.start(context);
 		seleniumConfigurationXmlServiceManager.setBundleContext(context);
 		try {
-			IdentifierIterator<SeleniumConfigurationIdentifier> i = seleniumConfigurationXmlDao.getIdentifierIterator();
+			final IdentifierIterator<SeleniumConfigurationIdentifier> i = seleniumConfigurationXmlDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				final SeleniumConfigurationIdentifier id = i.next();
 				try {

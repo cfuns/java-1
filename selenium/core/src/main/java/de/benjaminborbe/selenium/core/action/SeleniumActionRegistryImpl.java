@@ -14,13 +14,13 @@ public class SeleniumActionRegistryImpl implements SeleniumActionRegistry, Regis
 
 	@Inject
 	public SeleniumActionRegistryImpl(
-		SeleniumActionSleep seleniumActionSleep,
+		final SeleniumActionSleep seleniumActionSleep,
 		final SeleniumActionPageInfo seleniumActionPageInfo,
 		final SeleniumActionGetUrl seleniumActionGetUrl,
 		final SeleniumActionPageContent seleniumActionPageContent,
 		final SeleniumActionClick seleniumActionClick,
 		final SeleniumActionExpectText seleniumActionExpectText,
-		SeleniumActionExpectUrl seleniumActionExpectUrl
+		final SeleniumActionExpectUrl seleniumActionExpectUrl
 	) {
 		add(seleniumActionExpectUrl);
 		add(seleniumActionSleep);
