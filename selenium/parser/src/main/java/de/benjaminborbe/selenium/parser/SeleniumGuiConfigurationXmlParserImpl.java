@@ -9,6 +9,7 @@ import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectTex
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrl;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageContent;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageInfo;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSleep;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.jdom2.Attribute;
@@ -75,6 +76,9 @@ public class SeleniumGuiConfigurationXmlParserImpl implements SeleniumGuiConfigu
 						}
 						if ("PageInfo".equals(name.getValue())) {
 							list.add(new SeleniumActionConfigurationPageInfo(actionElement.getChildText("message")));
+						}
+						if ("Sleep".equals(name.getValue())) {
+							list.add(new SeleniumActionConfigurationSleep(actionElement.getChildText("message"), parseUtil.parseLong(actionElement.getChildText("duration"))));
 						}
 					}
 				}

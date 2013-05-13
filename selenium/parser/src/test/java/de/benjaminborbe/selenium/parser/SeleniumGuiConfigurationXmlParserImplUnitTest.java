@@ -4,6 +4,7 @@ import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationClick;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrl;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSleep;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.easymock.EasyMock;
@@ -174,6 +175,50 @@ public class SeleniumGuiConfigurationXmlParserImplUnitTest {
 		assertThat(configuration.getMessage(), is(message));
 		assertThat(configuration.getXpath(), is(notNullValue()));
 		assertThat(configuration.getXpath(), is(xpath));
+
+		EasyMock.verify(mocks);
+	}
+
+	@Test
+	public void testParseSleep() throws Exception {
+		final String id = "test";
+		final String name = "Test Configuration";
+		final String message = "test message";
+		final long duration = 5000;
+		final StringBuilder sb = new StringBuilder();
+		sb.append("<config>");
+		sb.append("  <id>" + id + "</id>");
+		sb.append("  <name>" + name + "</name>");
+		sb.append("  <actions>");
+		sb.append("    <action name=\"Sleep\">");
+		sb.append("      <message>" + message + "</message>");
+		sb.append("      <duration>" + duration + "</duration>");
+		sb.append("    </action>");
+		sb.append("  </actions>");
+		sb.append("</config>");
+
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		EasyMock.expect(parseUtil.parseLong(String.valueOf(duration))).andReturn(duration);
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+
+		final Object[] mocks = new Object[]{parseUtil, logger};
+		EasyMock.replay(mocks);
+
+		final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser = new SeleniumGuiConfigurationXmlParserImpl(logger, parseUtil);
+		final SeleniumConfiguration seleniumConfiguration = seleniumGuiConfigurationXmlParser.parse(sb.toString());
+		assertThat(seleniumConfiguration.getId(), is(notNullValue()));
+		assertThat(seleniumConfiguration.getId().getId(), is(id));
+		assertThat(seleniumConfiguration.getName(), is(notNullValue()));
+		assertThat(seleniumConfiguration.getName(), is(name));
+		assertThat(seleniumConfiguration.getActionConfigurations(), is(notNullValue()));
+		assertThat(seleniumConfiguration.getActionConfigurations().isEmpty(), is(false));
+		final SeleniumActionConfiguration seleniumActionConfiguration = seleniumConfiguration.getActionConfigurations().get(0);
+
+		assertThat(seleniumActionConfiguration.getClass().getName(), is(SeleniumActionConfigurationSleep.class.getName()));
+		final SeleniumActionConfigurationSleep configuration = (SeleniumActionConfigurationSleep) seleniumActionConfiguration;
+		assertThat(configuration.getMessage(), is(notNullValue()));
+		assertThat(configuration.getMessage(), is(message));
+		assertThat(configuration.getDuration(), is(duration));
 
 		EasyMock.verify(mocks);
 	}
