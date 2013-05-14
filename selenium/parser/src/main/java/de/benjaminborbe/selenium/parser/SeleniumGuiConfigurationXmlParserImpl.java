@@ -10,6 +10,7 @@ import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectUrl
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrl;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageContent;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageInfo;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSendKeys;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSleep;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -65,6 +66,9 @@ public class SeleniumGuiConfigurationXmlParserImpl implements SeleniumGuiConfigu
 						final Attribute name = actionElement.getAttribute("name");
 						if ("Click".equals(name.getValue())) {
 							list.add(new SeleniumActionConfigurationClick(actionElement.getChildText("message"), actionElement.getChildText("xpath")));
+						}
+						if ("SendKeys".equals(name.getValue())) {
+							list.add(new SeleniumActionConfigurationSendKeys(actionElement.getChildText("message"), actionElement.getChildText("xpath"), actionElement.getChildText("keys")));
 						}
 						if ("GetUrl".equals(name.getValue())) {
 							list.add(new SeleniumActionConfigurationGetUrl(actionElement.getChildText("message"), parseUtil.parseURL(actionElement.getChildText("url"))));

@@ -1,0 +1,28 @@
+package de.benjaminborbe.selenium.core.action;
+
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSendKeys;
+import de.benjaminborbe.selenium.core.util.SeleniumExecutionProtocolImpl;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class SeleniumActionSendKeys implements SeleniumAction<SeleniumActionConfigurationSendKeys> {
+
+	@Override
+	public Class<SeleniumActionConfigurationSendKeys> getType() {
+		return SeleniumActionConfigurationSendKeys.class;
+	}
+
+	@Override
+	public boolean execute(
+		final WebDriver webDriver,
+		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol,
+		final SeleniumActionConfigurationSendKeys seleniumActionConfiguration
+	) {
+
+		final String xpathExpression = seleniumActionConfiguration.getXpath();
+		webDriver.findElement(By.xpath(xpathExpression)).sendKeys(seleniumActionConfiguration.getKeys());
+		seleniumExecutionProtocol.addInfo(seleniumActionConfiguration.getMessage());
+
+		return true;
+	}
+}
