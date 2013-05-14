@@ -15,10 +15,12 @@ import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
 import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlServiceException;
+import de.benjaminborbe.selenium.gui.util.SeleniumConfigurationIdentifierComparator;
 import de.benjaminborbe.selenium.gui.util.SeleniumGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -34,7 +36,7 @@ import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class SeleniumGuiConfigurationXmlListServlet extends WebsiteHtmlServlet {
@@ -48,6 +50,8 @@ public class SeleniumGuiConfigurationXmlListServlet extends WebsiteHtmlServlet {
 	private final AuthenticationService authenticationService;
 
 	private final SeleniumGuiLinkFactory seleniumGuiLinkFactory;
+
+	private final ComparatorUtil comparatorUtil;
 
 	private final SeleniumConfigurationXmlService seleniumConfigurationXmlService;
 
@@ -65,13 +69,15 @@ public class SeleniumGuiConfigurationXmlListServlet extends WebsiteHtmlServlet {
 		final CacheService cacheService,
 		final SeleniumService seleniumService,
 		final SeleniumGuiLinkFactory seleniumGuiLinkFactory,
-		final SeleniumConfigurationXmlService seleniumConfigurationXmlService
+		final SeleniumConfigurationXmlService seleniumConfigurationXmlService,
+		final ComparatorUtil comparatorUtil
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.seleniumConfigurationXmlService = seleniumConfigurationXmlService;
 		this.seleniumGuiLinkFactory = seleniumGuiLinkFactory;
+		this.comparatorUtil = comparatorUtil;
 	}
 
 	@Override
@@ -91,7 +97,7 @@ public class SeleniumGuiConfigurationXmlListServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 			final UlWidget ul = new UlWidget();
-			final Collection<SeleniumConfigurationIdentifier> seleniumConfigurations = seleniumConfigurationXmlService.list(sessionIdentifier);
+			final List<SeleniumConfigurationIdentifier> seleniumConfigurations = comparatorUtil.sort(seleniumConfigurationXmlService.list(sessionIdentifier), new SeleniumConfigurationIdentifierComparator());
 			if (seleniumConfigurations.isEmpty()) {
 				widgets.add("no configuration found");
 				widgets.add(new BrWidget());

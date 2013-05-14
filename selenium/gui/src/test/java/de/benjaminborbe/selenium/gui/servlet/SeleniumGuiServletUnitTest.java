@@ -16,6 +16,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.guice.ProviderAdapter;
 import de.benjaminborbe.tools.mock.EnumerationEmpty;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ComparatorUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.servlet.RedirectUtil;
 import org.easymock.EasyMock;
@@ -136,8 +137,9 @@ public class SeleniumGuiServletUnitTest {
 		EasyMock.expect(seleniumService.getSeleniumConfigurations(sessionIdentifier)).andReturn(new ArrayList<SeleniumConfiguration>());
 		EasyMock.replay(seleniumService);
 
+		final ComparatorUtil comparatorUtil = new ComparatorUtil();
 		final SeleniumGuiConfigurationListServlet seleniumServlet = new SeleniumGuiConfigurationListServlet(logger, calendarUtil, timeZoneUtil, parseUtil, authenticationService, navigationWidget, httpContextProvider,
-			urlUtil, authorizationService, cacheService, seleniumService, seleniumGuiLinkFactory);
+			urlUtil, authorizationService, cacheService, seleniumService, seleniumGuiLinkFactory, comparatorUtil);
 
 		seleniumServlet.service(request, response);
 		final String content = sw.getBuffer().toString();
