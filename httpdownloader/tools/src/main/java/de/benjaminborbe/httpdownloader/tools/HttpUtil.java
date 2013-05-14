@@ -10,8 +10,11 @@ import javax.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.zip.DeflaterInputStream;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipException;
 
 public class HttpUtil {
 
@@ -60,14 +63,22 @@ public class HttpUtil {
 		final String charset = getCharset(header);
 		if ("gzip".equals(getContentEncoding(header))) {
 			try {
-				final GZIPInputStream inputStream = new GZIPInputStream(new ByteArrayInputStream(content));
+				final InputStream inputStream = new GZIPInputStream(new ByteArrayInputStream(content));
 				final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 				streamUtil.copy(inputStream, outputStream);
 				return new String(outputStream.toByteArray(), charset);
-			} catch (java.util.zip.ZipException e) {
-				logger.warn("getContent as gzip failed", e);
-				return new String(content, charset);
+			} catch (ZipException e) {
+				logger.warn("getContent as gzip failed for url " + httpResponse.getUrl());
 			}
+			try {
+				final InputStream inputStream = new DeflaterInputStream(new ByteArrayInputStream(content));
+				final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				streamUtil.copy(inputStream, outputStream);
+				return new String(outputStream.toByteArray(), charset);
+			} catch (ZipException e) {
+				logger.warn("getContent as deflate failed for url " + httpResponse.getUrl());
+			}
+			return null;
 		} else {
 			return new String(content, charset);
 		}

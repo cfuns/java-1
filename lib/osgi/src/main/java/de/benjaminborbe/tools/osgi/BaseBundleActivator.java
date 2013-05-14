@@ -119,10 +119,10 @@ public abstract class BaseBundleActivator implements BundleActivator {
 		return result;
 	}
 
-	protected void onStarted() {
+	protected void onStarted() throws Exception {
 	}
 
-	protected void onStopped() {
+	protected void onStopped() throws Exception {
 	}
 
 	public Injector getInjector() {

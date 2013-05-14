@@ -51,7 +51,7 @@ public class MetaActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected void onStarted() {
+	protected void onStarted() throws Exception {
 		super.onStarted();
 
 		logger.info("onStarted - start");

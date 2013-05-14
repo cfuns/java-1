@@ -48,6 +48,10 @@ public class WebsearchAddToSearchIndex {
 
 	public void addToIndex(final HttpResponse result) throws IndexerServiceException, ParseException, IOException {
 		final String html = httpUtil.getContent(result);
+		if (html == null || html.trim().isEmpty()) {
+			logger.debug("addToIndex skip, content of " + result.getUrl() + " is empty");
+			return;
+		}
 		final Document document = Jsoup.parse(html);
 		for (final Element head : document.getElementsByTag("head")) {
 			for (final Element meta : head.getElementsByTag("meta")) {
