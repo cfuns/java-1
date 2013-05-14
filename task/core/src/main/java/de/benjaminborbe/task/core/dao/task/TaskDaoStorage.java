@@ -50,7 +50,8 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 	@Override
 	public EntityIterator<TaskBean> getTasks(final UserIdentifier userIdentifier, final boolean completed) throws StorageException {
 		logger.trace("getTasksCompleted for user: " + userIdentifier);
-		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.OWNER, String.valueOf(userIdentifier)).add(TaskBeanMapper.COMPLETED, String.valueOf(completed)));
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.OWNER, String.valueOf(userIdentifier)).add(TaskBeanMapper.COMPLETED,
+			String.valueOf(completed)));
 	}
 
 	@Override
@@ -82,7 +83,8 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 
 	@Override
 	public EntityIterator<TaskBean> getTasks(final TaskContextIdentifier taskContextIdentifier, final boolean completed) throws StorageException {
-		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.CONTEXT, String.valueOf(taskContextIdentifier)).add(TaskBeanMapper.COMPLETED,
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.CONTEXT, String.valueOf(taskContextIdentifier)).add(
+			TaskBeanMapper.COMPLETED,
 			String.valueOf(completed)));
 	}
 
@@ -98,7 +100,8 @@ public class TaskDaoStorage extends DaoStorage<TaskBean, TaskIdentifier> impleme
 
 	@Override
 	public EntityIterator<TaskBean> getTasks(final UserIdentifier userIdentifier, final TaskFocus taskFocus, final boolean completed) throws StorageException {
-		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.OWNER, String.valueOf(userIdentifier)).add(TaskBeanMapper.FOCUS, String.valueOf(taskFocus))
+		return getEntityIterator(new StorageValueMap(getEncoding()).add(TaskBeanMapper.OWNER, String.valueOf(userIdentifier))
+			.add(TaskBeanMapper.FOCUS, String.valueOf(taskFocus))
 			.add(TaskBeanMapper.COMPLETED, String.valueOf(completed)));
 	}
 

@@ -24,6 +24,8 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 
 	public static final String COLUMNFAMILY = "websearch_page";
 
+	private final Logger logger;
+
 	private final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction;
 
 	private final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler;
@@ -39,6 +41,7 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 		final CalendarUtil calendarUtil, final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler
 	) {
 		super(logger, storageService, beanProvider, pageBeanMapper, identifierBuilder, calendarUtil);
+		this.logger = logger;
 		this.pageDaoSubPagesAction = pageDaoSubPagesAction;
 		this.websearchPageContentUpdateHandler = websearchPageContentUpdateHandler;
 	}
@@ -89,13 +92,12 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 	}
 
 	@Override
-	public void onPostSave(final WebsearchPageBean entity, final Collection<StorageValue> fieldNames) throws StorageException {
-		try {
-			if (fieldNames == null || fieldNames.contains(new StorageValue(WebsearchPageBeanMapper.CONTENT, getEncoding()))) {
-				websearchPageContentUpdateHandler.onContentUpdated(entity);
-			}
-		} catch (ParseException | IOException | IndexerServiceException e) {
-			throw new StorageException(e);
+	public void onPostSave(
+		final WebsearchPageBean entity,
+		final Collection<StorageValue> fieldNames
+	) throws ParseException, IOException, IndexerServiceException {
+		if (fieldNames == null || fieldNames.contains(new StorageValue(WebsearchPageBeanMapper.CONTENT, getEncoding()))) {
+			websearchPageContentUpdateHandler.onContentUpdated(entity);
 		}
 	}
 }

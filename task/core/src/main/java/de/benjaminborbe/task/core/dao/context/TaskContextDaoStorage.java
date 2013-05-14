@@ -97,18 +97,14 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	}
 
 	@Override
-	public void onPostDelete(final TaskContextIdentifier id) {
-		try {
-			logger.debug("onPostDelete " + id);
-			final EntityIterator<TaskBean> ti = taskDao.getTasks(id);
-			while (ti.hasNext()) {
-				final TaskBean task = ti.next();
-				logger.debug("remove context from task " + task.getId());
-				task.setContext(null);
-				taskDao.save(task, Arrays.asList(buildValue(TaskBeanMapper.CONTEXT)));
-			}
-		} catch (final EntityIteratorException | StorageException e) {
-			logger.debug(e.getClass().getName(), e);
+	public void onPostDelete(final TaskContextIdentifier id) throws StorageException, EntityIteratorException {
+		logger.debug("onPostDelete " + id);
+		final EntityIterator<TaskBean> ti = taskDao.getTasks(id);
+		while (ti.hasNext()) {
+			final TaskBean task = ti.next();
+			logger.debug("remove context from task " + task.getId());
+			task.setContext(null);
+			taskDao.save(task, Arrays.asList(buildValue(TaskBeanMapper.CONTEXT)));
 		}
 	}
 }

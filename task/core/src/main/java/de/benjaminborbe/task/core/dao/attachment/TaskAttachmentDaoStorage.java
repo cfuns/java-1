@@ -72,12 +72,8 @@ public class TaskAttachmentDaoStorage extends DaoStorage<TaskAttachmentBean, Tas
 	}
 
 	@Override
-	public void onPreDelete(final TaskAttachmentIdentifier id) throws StorageException {
-		try {
-			final TaskAttachmentBean bean = load(id);
-			filestorageService.deleteFilestorageEntry(bean.getFile());
-		} catch (FilestorageServiceException e) {
-			throw new StorageException(e);
-		}
+	public void onPreDelete(final TaskAttachmentIdentifier id) throws FilestorageServiceException, StorageException {
+		final TaskAttachmentBean bean = load(id);
+		filestorageService.deleteFilestorageEntry(bean.getFile());
 	}
 }

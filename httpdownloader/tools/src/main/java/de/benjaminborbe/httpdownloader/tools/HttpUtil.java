@@ -59,10 +59,15 @@ public class HttpUtil {
 		final HttpHeader header = httpResponse.getHeader();
 		final String charset = getCharset(header);
 		if ("gzip".equals(getContentEncoding(header))) {
-			final GZIPInputStream inputStream = new GZIPInputStream(new ByteArrayInputStream(content));
-			final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			streamUtil.copy(inputStream, outputStream);
-			return new String(outputStream.toByteArray(), charset);
+			try {
+				final GZIPInputStream inputStream = new GZIPInputStream(new ByteArrayInputStream(content));
+				final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				streamUtil.copy(inputStream, outputStream);
+				return new String(outputStream.toByteArray(), charset);
+			} catch (java.util.zip.ZipException e) {
+				logger.warn("getContent as gzip failed", e);
+				return new String(content, charset);
+			}
 		} else {
 			return new String(content, charset);
 		}

@@ -101,24 +101,32 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	@Override
 	public void delete(final I id) throws StorageException {
 		logger.trace("delete");
-		onPreDelete(id);
+		try {
+			onPreDelete(id);
+		} catch (Exception e) {
+			logger.warn("onPreDelete failed", e);
+		}
 		storageService.delete(getColumnFamily(), new StorageValue(id.getId(), getEncoding()));
-		onPostDelete(id);
+		try {
+			onPostDelete(id);
+		} catch (Exception e) {
+			logger.warn("onPostDelete failed", e);
+		}
 	}
 
-	public void onPostDelete(final I id) throws StorageException {
+	public void onPostDelete(final I id) throws Exception {
 		logger.trace("onPostDelete - id: " + id);
 	}
 
-	public void onPreDelete(final I id) throws StorageException {
+	public void onPreDelete(final I id) throws Exception {
 		logger.trace("onPreDelete - id: " + id);
 	}
 
-	public void onPostSave(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
+	public void onPostSave(final E entity, final Collection<StorageValue> fieldNames) throws Exception {
 		logger.trace("onPostSave - id: " + entity.getId() + " fieldNames: " + fieldNames);
 	}
 
-	public void onPreSave(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
+	public void onPreSave(final E entity, final Collection<StorageValue> fieldNames) throws Exception {
 		logger.trace("onPreSave - id: " + entity.getId() + " fieldNames: " + fieldNames);
 	}
 
@@ -180,7 +188,8 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public void load(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
-		final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), new ArrayList<>(fieldNames));
+		final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), new ArrayList<>(
+			fieldNames));
 		load(entity, fieldNames, values);
 	}
 
@@ -248,7 +257,11 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 			logger.trace("save " + entity.getClass().getName() + " " + entity.getId());
 
-			onPreSave(entity, fieldNames);
+			try {
+				onPreSave(entity, fieldNames);
+			} catch (Exception e) {
+				logger.warn("onPreSave failed", e);
+			}
 
 			if (entity instanceof HasModified) {
 				final HasModified hasModified = (HasModified) entity;
@@ -278,7 +291,11 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			}
 			storageService.set(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), data);
 
-			onPostSave(entity, fieldNames);
+			try {
+				onPostSave(entity, fieldNames);
+			} catch (Exception e) {
+				logger.warn("onPostSave failed", e);
+			}
 
 		} catch (final MapException | UnsupportedEncodingException e) {
 			throw new StorageException(e);
