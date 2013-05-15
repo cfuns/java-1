@@ -21,8 +21,10 @@ public class SeleniumActionRegistryImpl implements SeleniumActionRegistry, Regis
 		final SeleniumActionClick seleniumActionClick,
 		final SeleniumActionExpectText seleniumActionExpectText,
 		final SeleniumActionExpectUrl seleniumActionExpectUrl,
-		final SeleniumActionSendKeys seleniumActionSendKeys
+		final SeleniumActionSendKeys seleniumActionSendKeys,
+		SeleniumActionSelect seleniumActionSelect
 	) {
+		add(seleniumActionSelect);
 		add(seleniumActionSendKeys);
 		add(seleniumActionExpectUrl);
 		add(seleniumActionSleep);

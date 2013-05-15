@@ -58,6 +58,14 @@ public class SeleniumGuiLinkFactory {
 		final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
 	) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_XML_SHOW, new MapParameter().add(
-			SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(seleniumConfigurationIdentifier)), "show xml");
+			SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(seleniumConfigurationIdentifier)), "show");
+	}
+
+	public Widget configurationUpdate(
+		final HttpServletRequest request,
+		final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_XML_UPDATE, new MapParameter().add(
+			SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID, String.valueOf(seleniumConfigurationIdentifier)), "update");
 	}
 }

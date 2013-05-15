@@ -10,6 +10,7 @@ import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectUrl
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrl;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageContent;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageInfo;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSelect;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSendKeys;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSleep;
 import de.benjaminborbe.tools.util.ParseException;
@@ -63,30 +64,28 @@ public class SeleniumGuiConfigurationXmlParserImpl implements SeleniumGuiConfigu
 				if (actionsElement != null) {
 					final List<Element> children = actionsElement.getChildren("action");
 					for (final Element actionElement : children) {
-						final Attribute name = actionElement.getAttribute("name");
-						if ("Click".equals(name.getValue())) {
+						final Attribute nameAttribute = actionElement.getAttribute("name");
+						final String name = nameAttribute.getValue();
+						if ("Click".equals(name)) {
 							list.add(new SeleniumActionConfigurationClick(actionElement.getChildText("message"), actionElement.getChildText("xpath")));
-						}
-						if ("SendKeys".equals(name.getValue())) {
+						} else if ("SendKeys".equals(name)) {
 							list.add(new SeleniumActionConfigurationSendKeys(actionElement.getChildText("message"), actionElement.getChildText("xpath"), actionElement.getChildText("keys")));
-						}
-						if ("GetUrl".equals(name.getValue())) {
+						} else if ("GetUrl".equals(name)) {
 							list.add(new SeleniumActionConfigurationGetUrl(actionElement.getChildText("message"), parseUtil.parseURL(actionElement.getChildText("url"))));
-						}
-						if ("ExpectUrl".equals(name.getValue())) {
+						} else if ("ExpectUrl".equals(name)) {
 							list.add(new SeleniumActionConfigurationExpectUrl(actionElement.getChildText("message"), parseUtil.parseURL(actionElement.getChildText("url"))));
-						}
-						if ("ExpectText".equals(name.getValue())) {
+						} else if ("ExpectText".equals(name)) {
 							list.add(new SeleniumActionConfigurationExpectText(actionElement.getChildText("message"), actionElement.getChildText("xpath"), actionElement.getChildText("text")));
-						}
-						if ("PageContent".equals(name.getValue())) {
+						} else if ("Select".equals(name)) {
+							list.add(new SeleniumActionConfigurationSelect(actionElement.getChildText("message"), actionElement.getChildText("xpath"), actionElement.getChildText("value")));
+						} else if ("PageContent".equals(name)) {
 							list.add(new SeleniumActionConfigurationPageContent(actionElement.getChildText("message")));
-						}
-						if ("PageInfo".equals(name.getValue())) {
+						} else if ("PageInfo".equals(name)) {
 							list.add(new SeleniumActionConfigurationPageInfo(actionElement.getChildText("message")));
-						}
-						if ("Sleep".equals(name.getValue())) {
+						} else if ("Sleep".equals(name)) {
 							list.add(new SeleniumActionConfigurationSleep(actionElement.getChildText("message"), parseUtil.parseLong(actionElement.getChildText("duration"))));
+						} else {
+							throw new ParseException("illegal action-nameAttribute: " + name);
 						}
 					}
 				}
