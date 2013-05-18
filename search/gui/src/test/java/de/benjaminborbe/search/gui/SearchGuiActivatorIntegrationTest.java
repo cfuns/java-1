@@ -28,8 +28,7 @@ public class SearchGuiActivatorIntegrationTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchGuiModulesMock());
-		final SearchGuiActivator activator = injector.getInstance(SearchGuiActivator.class);
-		assertNotNull(activator);
+		assertNotNull(injector.getInstance(SearchGuiActivator.class));
 	}
 
 	@Test
