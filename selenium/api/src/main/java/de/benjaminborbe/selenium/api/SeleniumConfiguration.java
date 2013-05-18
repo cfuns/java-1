@@ -12,4 +12,5 @@ public interface SeleniumConfiguration {
 
 	List<SeleniumActionConfiguration> getActionConfigurations();
 
+	Boolean getCloseWindow();
 }

@@ -64,7 +64,9 @@ public class SeleniumCoreExecutor {
 		} finally {
 			if (driver != null) {
 				try {
-					driver.close();
+					if (seleniumConfiguration.getCloseWindow() == null || seleniumConfiguration.getCloseWindow()) {
+						driver.close();
+					}
 				} catch (Exception e) {
 					logger.trace("close driver failed", e);
 				}

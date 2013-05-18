@@ -38,4 +38,14 @@ public class SeleniumConfigurationDto implements SeleniumConfiguration {
 	public List<SeleniumActionConfiguration> getActionConfigurations() {
 		return actions;
 	}
+
+	private Boolean closeWindow;
+
+	public Boolean getCloseWindow() {
+		return closeWindow;
+	}
+
+	public void setCloseWindow(final Boolean closeWindow) {
+		this.closeWindow = closeWindow;
+	}
 }
