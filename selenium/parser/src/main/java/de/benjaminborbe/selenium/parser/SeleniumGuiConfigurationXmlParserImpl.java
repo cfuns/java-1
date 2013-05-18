@@ -57,6 +57,12 @@ public class SeleniumGuiConfigurationXmlParserImpl implements SeleniumGuiConfigu
 				final SeleniumConfigurationDto seleniumConfiguration = new SeleniumConfigurationDto();
 				seleniumConfiguration.setId(new SeleniumConfigurationIdentifier(rootElement.getChildText("id")));
 				seleniumConfiguration.setName(rootElement.getChildText("name"));
+
+				final Element close = rootElement.getChild("close");
+				if (close != null) {
+					seleniumConfiguration.setCloseWindow(parseUtil.parseBoolean(close.getText()));
+				}
+
 				final ArrayList<SeleniumActionConfiguration> list = new ArrayList<>();
 				seleniumConfiguration.setActions(list);
 
