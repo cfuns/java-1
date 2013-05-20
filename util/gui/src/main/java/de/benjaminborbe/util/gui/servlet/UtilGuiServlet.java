@@ -79,6 +79,7 @@ public class UtilGuiServlet extends WebsiteHtmlServlet {
 		ul.add(utilLinkFactory.time(request));
 		ul.add(utilLinkFactory.timeConvert(request));
 		ul.add(utilLinkFactory.uuidGenerator(request));
+		ul.add(utilLinkFactory.dumpRequest(request));
 		widgets.add(ul);
 		return widgets;
 	}

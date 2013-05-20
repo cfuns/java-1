@@ -15,6 +15,7 @@ import de.benjaminborbe.util.gui.servlet.UtilGuiPasswordGeneratorServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPenMeServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPentestServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiQUnitServlet;
+import de.benjaminborbe.util.gui.servlet.UtilGuiRequestDumpServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeConvertServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeServlet;
@@ -27,6 +28,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class UtilGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private UtilGuiRequestDumpServlet utilGuiRequestDumpServlet;
 
 	@Inject
 	private UtilGuiUUIDGeneratorServlet utilGuiUUIDGeneratorServlet;
@@ -87,6 +91,7 @@ public class UtilGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(utilGuiTimeServlet, UtilGuiConstants.URL_TIME));
 		result.add(new ServletInfo(utilGuiLogServlet, UtilGuiConstants.URL_LOG));
 		result.add(new ServletInfo(utilGuiUUIDGeneratorServlet, UtilGuiConstants.URL_UUID_GENERATOR));
+		result.add(new ServletInfo(utilGuiRequestDumpServlet, UtilGuiConstants.URL_DUMP_REQUEST));
 		return result;
 	}
 

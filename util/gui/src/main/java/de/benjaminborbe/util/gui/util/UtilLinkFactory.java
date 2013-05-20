@@ -1,14 +1,12 @@
 package de.benjaminborbe.util.gui.util;
 
-import java.net.MalformedURLException;
-
-import javax.servlet.http.HttpServletRequest;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.util.gui.UtilGuiConstants;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import java.net.MalformedURLException;
 
 public class UtilLinkFactory {
 
@@ -58,5 +56,9 @@ public class UtilLinkFactory {
 
 	public Widget uuidGenerator(final HttpServletRequest request) throws MalformedURLException {
 		return new LinkRelativWidget(request, "/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_UUID_GENERATOR, "UUID Generator");
+	}
+
+	public Widget dumpRequest(final HttpServletRequest request) throws MalformedURLException {
+		return new LinkRelativWidget(request, "/" + UtilGuiConstants.NAME + UtilGuiConstants.URL_DUMP_REQUEST, "Dump Request");
 	}
 }
