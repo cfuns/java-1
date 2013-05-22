@@ -44,13 +44,13 @@ public class LogglyActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected void onStopped() {
-		super.onStopped();
+	protected void onStopped() throws Exception {
 		try {
 			logglyConnectorProvider.get().close();
 		} catch (final Exception e) {
 			// nop
 		}
+		super.onStopped();
 	}
 
 }

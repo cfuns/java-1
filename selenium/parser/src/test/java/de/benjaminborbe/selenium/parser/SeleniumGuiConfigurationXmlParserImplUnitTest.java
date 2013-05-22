@@ -4,6 +4,7 @@ import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationClick;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectUrl;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationFollowAttribute;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrl;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSelect;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSendKeys;
@@ -491,6 +492,55 @@ public class SeleniumGuiConfigurationXmlParserImplUnitTest {
 		final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser = new SeleniumGuiConfigurationXmlParserImpl(logger, parseUtil);
 		final SeleniumConfiguration configuration = seleniumGuiConfigurationXmlParser.parse(sb.toString());
 		assertThat(configuration.getCloseWindow(), is(Boolean.FALSE));
+
+		EasyMock.verify(mocks);
+	}
+
+	@Test
+	public void testParseFollowAttribute() throws Exception {
+		final String id = "test";
+		final String name = "Test Configuration";
+		final String message = "test message";
+		final String xpath = "myxpath";
+		final String value = "abc";
+		String attribute = "src";
+		final StringBuilder sb = new StringBuilder();
+		sb.append("<config>");
+		sb.append("  <id>" + id + "</id>");
+		sb.append("  <name>" + name + "</name>");
+		sb.append("  <actions>");
+		sb.append("    <action name=\"FollowAttribute\">");
+		sb.append("      <message>" + message + "</message>");
+		sb.append("      <xpath>" + xpath + "</xpath>");
+		sb.append("      <attribute>" + attribute + "</attribute>");
+		sb.append("    </action>");
+		sb.append("  </actions>");
+		sb.append("</config>");
+
+		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
+		final Logger logger = EasyMock.createNiceMock(Logger.class);
+
+		final Object[] mocks = new Object[]{parseUtil, logger};
+		EasyMock.replay(mocks);
+
+		final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser = new SeleniumGuiConfigurationXmlParserImpl(logger, parseUtil);
+		final SeleniumConfiguration seleniumConfiguration = seleniumGuiConfigurationXmlParser.parse(sb.toString());
+		assertThat(seleniumConfiguration.getId(), is(notNullValue()));
+		assertThat(seleniumConfiguration.getId().getId(), is(id));
+		assertThat(seleniumConfiguration.getName(), is(notNullValue()));
+		assertThat(seleniumConfiguration.getName(), is(name));
+		assertThat(seleniumConfiguration.getActionConfigurations(), is(notNullValue()));
+		assertThat(seleniumConfiguration.getActionConfigurations().isEmpty(), is(false));
+		final SeleniumActionConfiguration seleniumActionConfiguration = seleniumConfiguration.getActionConfigurations().get(0);
+
+		assertThat(seleniumActionConfiguration.getClass().getName(), is(SeleniumActionConfigurationFollowAttribute.class.getName()));
+		final SeleniumActionConfigurationFollowAttribute configuration = (SeleniumActionConfigurationFollowAttribute) seleniumActionConfiguration;
+		assertThat(configuration.getMessage(), is(notNullValue()));
+		assertThat(configuration.getMessage(), is(message));
+		assertThat(configuration.getXpath(), is(notNullValue()));
+		assertThat(configuration.getXpath(), is(xpath));
+		assertThat(configuration.getAttribute(), is(notNullValue()));
+		assertThat(configuration.getAttribute(), is(attribute));
 
 		EasyMock.verify(mocks);
 	}

@@ -47,7 +47,6 @@ public class SeleniumGuiActivatorIntegrationTest {
 		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_RUN);
 		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_XML_RUN);
 		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_XML_UPLOAD);
-		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_XML_LIST);
 		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_XML_DELETE);
 		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_XML_SHOW);
 		paths.add("/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_XML_UPDATE);

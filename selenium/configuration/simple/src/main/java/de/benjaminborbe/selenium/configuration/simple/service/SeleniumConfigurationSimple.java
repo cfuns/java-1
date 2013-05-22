@@ -47,7 +47,7 @@ public class SeleniumConfigurationSimple implements SeleniumConfiguration {
 	}
 
 	@Override
-	public boolean getCloseWindow() {
+	public Boolean getCloseWindow() {
 		return true;
 	}
 

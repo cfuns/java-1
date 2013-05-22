@@ -98,7 +98,7 @@ public class SeleniumGuiConfigurationXmlUpdateServlet extends WebsiteHtmlServlet
 			final String xml = request.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_XML);
 			if (xml != null) {
 				seleniumConfigurationXmlService.addXml(sessionIdentifier, xml);
-				return new RedirectWidget(request.getContextPath() + "/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_XML_LIST);
+				return new RedirectWidget(request.getContextPath() + "/" + SeleniumGuiConstants.NAME + SeleniumGuiConstants.URL_CONFIGURATION_LIST);
 			}
 
 			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);

@@ -12,8 +12,11 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.selenium.api.SeleniumConfiguration;
+import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.api.SeleniumServiceException;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlService;
+import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXmlServiceException;
 import de.benjaminborbe.selenium.gui.util.SeleniumConfigurationComparator;
 import de.benjaminborbe.selenium.gui.util.SeleniumGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -54,6 +57,8 @@ public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
 
 	private final ComparatorUtil comparatorUtil;
 
+	private final SeleniumConfigurationXmlService seleniumConfigurationXmlService;
+
 	@Inject
 	public SeleniumGuiConfigurationListServlet(
 		final Logger logger,
@@ -68,7 +73,8 @@ public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
 		final CacheService cacheService,
 		final SeleniumService seleniumService,
 		final SeleniumGuiLinkFactory seleniumGuiLinkFactory,
-		final ComparatorUtil comparatorUtil
+		final ComparatorUtil comparatorUtil,
+		final SeleniumConfigurationXmlService seleniumConfigurationXmlService
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
@@ -76,6 +82,7 @@ public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
 		this.seleniumService = seleniumService;
 		this.seleniumGuiLinkFactory = seleniumGuiLinkFactory;
 		this.comparatorUtil = comparatorUtil;
+		this.seleniumConfigurationXmlService = seleniumConfigurationXmlService;
 	}
 
 	@Override
@@ -101,24 +108,32 @@ public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
 				widgets.add(new BrWidget());
 			} else {
 				for (final SeleniumConfiguration seleniumConfiguration : seleniumConfigurations) {
+					final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier = seleniumConfiguration.getId();
+
 					final ListWidget row = new ListWidget();
 					row.add(seleniumConfiguration.getName());
 					row.add(" ");
-					row.add(seleniumGuiLinkFactory.configurationRun(request, seleniumConfiguration.getId()));
+					row.add(seleniumGuiLinkFactory.configurationRun(request, seleniumConfigurationIdentifier));
+					if (seleniumConfigurationXmlService.isXmlConfiguration(sessionIdentifier, seleniumConfigurationIdentifier)) {
+						row.add(" ");
+						row.add(seleniumGuiLinkFactory.configurationShow(request, seleniumConfigurationIdentifier));
+						row.add(" ");
+						row.add(seleniumGuiLinkFactory.configurationUpdate(request, seleniumConfigurationIdentifier));
+						row.add(" ");
+						row.add(seleniumGuiLinkFactory.configurationXmlDelete(request, seleniumConfigurationIdentifier));
+					}
 					ul.add(row);
 				}
 				widgets.add(ul);
 			}
 
-			widgets.add(seleniumGuiLinkFactory.configurationXmlList(request));
-			widgets.add(new BrWidget());
 			widgets.add(seleniumGuiLinkFactory.configurationXmlRun(request));
 			widgets.add(new BrWidget());
 			widgets.add(seleniumGuiLinkFactory.configurationXmlUpload(request));
 			widgets.add(new BrWidget());
 
 			return widgets;
-		} catch (SeleniumServiceException | AuthenticationServiceException e) {
+		} catch (SeleniumServiceException | SeleniumConfigurationXmlServiceException | AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

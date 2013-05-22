@@ -110,4 +110,16 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}
 	}
+
+	@Override
+	public boolean isXmlConfiguration(
+		final SessionIdentifier sessionIdentifier, final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
+	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException {
+		try {
+			seleniumService.expectPermission(sessionIdentifier);
+			return seleniumConfigurationXmlDao.exists(seleniumConfigurationIdentifier);
+		} catch (StorageException | SeleniumServiceException e) {
+			throw new SeleniumConfigurationXmlServiceException(e);
+		}
+	}
 }

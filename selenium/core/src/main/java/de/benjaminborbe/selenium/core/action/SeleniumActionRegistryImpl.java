@@ -22,7 +22,8 @@ public class SeleniumActionRegistryImpl implements SeleniumActionRegistry, Regis
 		final SeleniumActionExpectText seleniumActionExpectText,
 		final SeleniumActionExpectUrl seleniumActionExpectUrl,
 		final SeleniumActionSendKeys seleniumActionSendKeys,
-		SeleniumActionSelect seleniumActionSelect
+		final SeleniumActionSelect seleniumActionSelect,
+		final SeleniumActionFollowAttribute seleniumActionFollowAttribute
 	) {
 		add(seleniumActionSelect);
 		add(seleniumActionSendKeys);
@@ -33,6 +34,7 @@ public class SeleniumActionRegistryImpl implements SeleniumActionRegistry, Regis
 		add(seleniumActionPageContent);
 		add(seleniumActionClick);
 		add(seleniumActionExpectText);
+		add(seleniumActionFollowAttribute);
 	}
 
 	@Override

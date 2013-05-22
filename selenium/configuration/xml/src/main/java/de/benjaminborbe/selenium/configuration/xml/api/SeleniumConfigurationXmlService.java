@@ -26,6 +26,8 @@ public interface SeleniumConfigurationXmlService {
 		SessionIdentifier sessionIdentifier,
 		SeleniumConfigurationIdentifier id
 	) throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException;
+
+	boolean isXmlConfiguration(SessionIdentifier sessionIdentifier, SeleniumConfigurationIdentifier seleniumConfigurationIdentifier)
+		throws SeleniumConfigurationXmlServiceException, LoginRequiredException, PermissionDeniedException;
+
 }
-
-

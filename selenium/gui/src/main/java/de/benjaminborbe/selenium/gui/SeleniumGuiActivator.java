@@ -7,7 +7,6 @@ import de.benjaminborbe.selenium.gui.servlet.SeleniumGuiConfigurationListServlet
 import de.benjaminborbe.selenium.gui.servlet.SeleniumGuiConfigurationRunServlet;
 import de.benjaminborbe.selenium.gui.servlet.SeleniumGuiConfigurationRunXmlServlet;
 import de.benjaminborbe.selenium.gui.servlet.SeleniumGuiConfigurationXmlDeleteServlet;
-import de.benjaminborbe.selenium.gui.servlet.SeleniumGuiConfigurationXmlListServlet;
 import de.benjaminborbe.selenium.gui.servlet.SeleniumGuiConfigurationXmlShowServlet;
 import de.benjaminborbe.selenium.gui.servlet.SeleniumGuiConfigurationXmlUpdateServlet;
 import de.benjaminborbe.selenium.gui.servlet.SeleniumGuiConfigurationXmlUploadServlet;
@@ -32,9 +31,6 @@ public class SeleniumGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private SeleniumGuiConfigurationXmlDeleteServlet seleniumGuiConfigurationXmlDeleteServlet;
-
-	@Inject
-	private SeleniumGuiConfigurationXmlListServlet seleniumGuiConfigurationXmlListServlet;
 
 	@Inject
 	private SeleniumGuiConfigurationXmlUploadServlet seleniumGuiConfigurationXmlUploadServlet;
@@ -67,7 +63,6 @@ public class SeleniumGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(seleniumGuiConfigurationRunServlet, SeleniumGuiConstants.URL_CONFIGURATION_RUN));
 		result.add(new ServletInfo(seleniumGuiConfigurationRunXmlServlet, SeleniumGuiConstants.URL_CONFIGURATION_XML_RUN));
 		result.add(new ServletInfo(seleniumGuiConfigurationXmlUploadServlet, SeleniumGuiConstants.URL_CONFIGURATION_XML_UPLOAD));
-		result.add(new ServletInfo(seleniumGuiConfigurationXmlListServlet, SeleniumGuiConstants.URL_CONFIGURATION_XML_LIST));
 		result.add(new ServletInfo(seleniumGuiConfigurationXmlDeleteServlet, SeleniumGuiConstants.URL_CONFIGURATION_XML_DELETE));
 		result.add(new ServletInfo(seleniumGuiConfigurationXmlShowServlet, SeleniumGuiConstants.URL_CONFIGURATION_XML_SHOW));
 		result.add(new ServletInfo(seleniumGuiConfigurationXmlUpdateServlet, SeleniumGuiConstants.URL_CONFIGURATION_XML_UPDATE));
