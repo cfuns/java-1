@@ -2,6 +2,7 @@ package de.benjaminborbe.selenium.core.config;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
@@ -20,6 +21,8 @@ public class SeleniumCoreConfigImpl extends ConfigurationBase implements Seleniu
 
 	private final ConfigurationDescriptionInteger remotePort = new ConfigurationDescriptionInteger(null, SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_PORT, "Selenium Remote Port");
 
+	private final ConfigurationDescriptionBoolean local = new ConfigurationDescriptionBoolean(false, SeleniumCoreConstatns.CONFIG_SELENIUM_LOCAL, "Selenium Local");
+
 	@Inject
 	public SeleniumCoreConfigImpl(
 		final Logger logger,
@@ -34,6 +37,7 @@ public class SeleniumCoreConfigImpl extends ConfigurationBase implements Seleniu
 		final Set<ConfigurationDescription> result = new HashSet<>();
 		result.add(remoteHost);
 		result.add(remotePort);
+		result.add(local);
 		return result;
 	}
 
@@ -45,6 +49,11 @@ public class SeleniumCoreConfigImpl extends ConfigurationBase implements Seleniu
 	@Override
 	public Integer getSeleniumRemotePort() {
 		return getValueInteger(remotePort);
+	}
+
+	@Override
+	public Boolean getSeleniumLocal() {
+		return getValueBoolean(local);
 	}
 
 }

@@ -12,4 +12,5 @@ public interface SeleniumCoreConfig {
 
 	Integer getSeleniumRemotePort();
 
+	Boolean getSeleniumLocal();
 }

@@ -6,5 +6,7 @@ public interface SeleniumCoreConstatns {
 
 	String CONFIG_SELENIUM_REMOTE_PORT = "SeleniumRemotePort";
 
+	String CONFIG_SELENIUM_LOCAL = "SeleniumLocal";
+
 	String PERMISSION = "selenium";
 }
