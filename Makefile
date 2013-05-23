@@ -1,6 +1,8 @@
 MVN_OPTS=-Djava.awt.headless=true
 all:
 	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow install
+sonar:
+	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow sonar:sonar
 fast:
 	mvn $(MVN_OPTS) -Pdefault,base,lib -T 2C -Dmaven.test.skip=true install
 installlib:
@@ -16,8 +18,6 @@ update:
 	mvn -Pdefault,base,lib,meta,bridge,test,slow versions:display-dependency-updates | grep ' -> ' | perl ~/bin/unique.pl
 updateplugin:
 	mvn -Pdefault,base,lib,meta,bridge,test,slow versions:display-plugin-updates | grep ' -> ' | perl ~/bin/unique.pl
-sonar:
-	mvn $(MVN_OPTS) sonar:sonar
 package:
 	make packagedevel
 deploy:
