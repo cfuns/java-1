@@ -76,7 +76,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		logger.trace("getLatestRevision");
 		try {
 			final String url = microblogConfig.getMicroblogRssFeed();
-			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).build());
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).addSecure(false).build());
 			final String content = httpUtil.getContent(httpResponse);
 			final Pattern pattern = Pattern.compile("<guid>" + microblogConfig.getMicroblogUrl() + "/notice/(\\d+)</guid>");
 			final Matcher matcher = pattern.matcher(content);
@@ -97,7 +97,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		logger.trace("getPost");
 		try {
 			final String url = microblogConfig.getMicroblogUrl() + "/notice/" + microblogPostIdentifier;
-			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).build());
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).addSecure(false).build());
 			final String pageContent = httpUtil.getContent(httpResponse);
 			final String content = extractContent(pageContent);
 			if (logger.isTraceEnabled())
@@ -224,7 +224,7 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 		try {
 			logger.trace("getConversation");
 			final String url = microblogConfig.getMicroblogUrl() + "/api/statusnet/conversation/" + microblogConversationIdentifier.getId() + ".rss";
-			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).build());
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).addSecure(false).build());
 			final String pageContent = httpUtil.getContent(httpResponse);
 			final int open = pageContent.indexOf("<link>");
 			final int close = pageContent.indexOf("</link>", open);

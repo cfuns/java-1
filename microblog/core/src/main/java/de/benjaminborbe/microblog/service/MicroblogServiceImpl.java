@@ -205,4 +205,17 @@ public class MicroblogServiceImpl implements MicroblogService {
 		microblogNotification.deactivateNotification(userIdentifier, keyword);
 	}
 
+	@Override
+	public MicroblogPost getPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return microblogConnector.getPost(microblogPostIdentifier);
+		} catch (final MicroblogConnectorException e) {
+			throw new MicroblogServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
 }

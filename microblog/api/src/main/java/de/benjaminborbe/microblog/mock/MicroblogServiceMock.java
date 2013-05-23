@@ -5,6 +5,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
+import de.benjaminborbe.microblog.api.MicroblogPost;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogService;
 import de.benjaminborbe.microblog.api.MicroblogServiceException;
@@ -61,6 +62,11 @@ public class MicroblogServiceMock implements MicroblogService {
 
 	@Override
 	public void deactivateNotification(final UserIdentifier userIdentifier, final String keyword) throws MicroblogServiceException {
+	}
+
+	@Override
+	public MicroblogPost getPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException {
+		return null;
 	}
 
 }

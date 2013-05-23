@@ -35,4 +35,6 @@ public interface MicroblogService {
 	void activateNotification(UserIdentifier userIdentifier, String keyword) throws MicroblogServiceException, ValidationException;
 
 	void deactivateNotification(UserIdentifier userIdentifier, String keyword) throws MicroblogServiceException, ValidationException;
+
+	MicroblogPost getPost(final MicroblogPostIdentifier microblogPostIdentifier) throws MicroblogServiceException;
 }
