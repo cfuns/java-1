@@ -1,52 +1,54 @@
 package de.benjaminborbe.selenium.configuration.xml.dao;
 
+import java.util.Calendar;
+
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.configuration.xml.api.SeleniumConfigurationXml;
 import de.benjaminborbe.storage.tools.Entity;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 
-import java.util.Calendar;
-
 public class SeleniumConfigurationXmlBean implements Entity<SeleniumConfigurationIdentifier>, HasCreated, HasModified, SeleniumConfigurationXml {
 
-	private SeleniumConfigurationIdentifier id;
+    private static final long serialVersionUID = 6861429774932303573L;
 
-	private String xml;
+    private SeleniumConfigurationIdentifier id;
 
-	private Calendar created;
+    private String xml;
 
-	private Calendar modified;
+    private Calendar created;
 
-	public Calendar getCreated() {
-		return created;
-	}
+    private Calendar modified;
 
-	public void setCreated(final Calendar created) {
-		this.created = created;
-	}
+    public Calendar getCreated() {
+        return created;
+    }
 
-	public Calendar getModified() {
-		return modified;
-	}
+    public void setCreated(final Calendar created) {
+        this.created = created;
+    }
 
-	public void setModified(final Calendar modified) {
-		this.modified = modified;
-	}
+    public Calendar getModified() {
+        return modified;
+    }
 
-	public SeleniumConfigurationIdentifier getId() {
-		return id;
-	}
+    public void setModified(final Calendar modified) {
+        this.modified = modified;
+    }
 
-	public void setId(final SeleniumConfigurationIdentifier id) {
-		this.id = id;
-	}
+    public SeleniumConfigurationIdentifier getId() {
+        return id;
+    }
 
-	public String getXml() {
-		return xml;
-	}
+    public void setId(final SeleniumConfigurationIdentifier id) {
+        this.id = id;
+    }
 
-	public void setXml(final String xml) {
-		this.xml = xml;
-	}
+    public String getXml() {
+        return xml;
+    }
+
+    public void setXml(final String xml) {
+        this.xml = xml;
+    }
 }
