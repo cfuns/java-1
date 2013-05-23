@@ -3,6 +3,7 @@ package de.benjaminborbe.selenium.api;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
 
 import java.util.Collection;
 
@@ -29,5 +30,12 @@ public interface SeleniumService {
 	SeleniumConfiguration getConfiguration(
 		SessionIdentifier sessionIdentifier,
 		SeleniumConfigurationIdentifier seleniumConfigurationIdentifier
+	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException;
+
+	void closeDrivers(SessionIdentifier sessionIdentifier) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException;
+
+	SeleniumExecutionProtocol executeAction(
+		SessionIdentifier sessionIdentifier,
+		SeleniumActionConfiguration seleniumActionConfiguration
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException;
 }

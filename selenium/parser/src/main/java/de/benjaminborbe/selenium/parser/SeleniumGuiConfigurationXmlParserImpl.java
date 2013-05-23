@@ -4,19 +4,8 @@ import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationDto;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationClick;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectText;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectUrl;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationFollowAttribute;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrl;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageContent;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageInfo;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSelect;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSendKeys;
-import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationSleep;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
-import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -35,10 +24,17 @@ public class SeleniumGuiConfigurationXmlParserImpl implements SeleniumGuiConfigu
 
 	private final ParseUtil parseUtil;
 
+	private final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser;
+
 	@Inject
-	public SeleniumGuiConfigurationXmlParserImpl(final Logger logger, final ParseUtil parseUtil) {
+	public SeleniumGuiConfigurationXmlParserImpl(
+		final Logger logger,
+		final ParseUtil parseUtil,
+		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser
+	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
+		this.seleniumGuiActionXmlParser = seleniumGuiActionXmlParser;
 	}
 
 	@Override
@@ -52,57 +48,40 @@ public class SeleniumGuiConfigurationXmlParserImpl implements SeleniumGuiConfigu
 			final Document doc = sb.build(new StringReader(xml));
 			final Element rootElement = doc.getRootElement();
 
-			if (!"config".equals(rootElement.getName())) {
-				throw new ParseException("rootElement element != config");
-			} else {
-				final SeleniumConfigurationDto seleniumConfiguration = new SeleniumConfigurationDto();
-				seleniumConfiguration.setId(new SeleniumConfigurationIdentifier(rootElement.getChildText("id")));
-				seleniumConfiguration.setName(rootElement.getChildText("name"));
+			return parse(rootElement);
 
-				final Element close = rootElement.getChild("close");
-				if (close != null) {
-					seleniumConfiguration.setCloseWindow(parseUtil.parseBoolean(close.getText()));
-				}
-
-				final ArrayList<SeleniumActionConfiguration> list = new ArrayList<>();
-				seleniumConfiguration.setActions(list);
-
-				final Element actionsElement = rootElement.getChild("actions");
-				if (actionsElement != null) {
-					final List<Element> children = actionsElement.getChildren("action");
-					for (final Element actionElement : children) {
-						final Attribute nameAttribute = actionElement.getAttribute("name");
-						final String name = nameAttribute.getValue();
-						if ("Click".equals(name)) {
-							list.add(new SeleniumActionConfigurationClick(actionElement.getChildText("message"), actionElement.getChildText("xpath")));
-						} else if ("FollowAttribute".equals(name)) {
-							list.add(new SeleniumActionConfigurationFollowAttribute(actionElement.getChildText("message"), actionElement.getChildText("xpath"), actionElement.getChildText("attribute")));
-						} else if ("SendKeys".equals(name)) {
-							list.add(new SeleniumActionConfigurationSendKeys(actionElement.getChildText("message"), actionElement.getChildText("xpath"), actionElement.getChildText("keys")));
-						} else if ("GetUrl".equals(name)) {
-							list.add(new SeleniumActionConfigurationGetUrl(actionElement.getChildText("message"), parseUtil.parseURL(actionElement.getChildText("url"))));
-						} else if ("ExpectUrl".equals(name)) {
-							list.add(new SeleniumActionConfigurationExpectUrl(actionElement.getChildText("message"), parseUtil.parseURL(actionElement.getChildText("url"))));
-						} else if ("ExpectText".equals(name)) {
-							list.add(new SeleniumActionConfigurationExpectText(actionElement.getChildText("message"), actionElement.getChildText("xpath"), actionElement.getChildText("text")));
-						} else if ("Select".equals(name)) {
-							list.add(new SeleniumActionConfigurationSelect(actionElement.getChildText("message"), actionElement.getChildText("xpath"), actionElement.getChildText("value")));
-						} else if ("PageContent".equals(name)) {
-							list.add(new SeleniumActionConfigurationPageContent(actionElement.getChildText("message")));
-						} else if ("PageInfo".equals(name)) {
-							list.add(new SeleniumActionConfigurationPageInfo(actionElement.getChildText("message")));
-						} else if ("Sleep".equals(name)) {
-							list.add(new SeleniumActionConfigurationSleep(actionElement.getChildText("message"), parseUtil.parseLong(actionElement.getChildText("duration"))));
-						} else {
-							throw new ParseException("illegal action-nameAttribute: " + name);
-						}
-					}
-				}
-
-				return seleniumConfiguration;
-			}
 		} catch (JDOMException | IOException e) {
 			throw new ParseException(e);
 		}
 	}
+
+	@Override
+	public SeleniumConfiguration parse(final Element rootElement) throws ParseException {
+		if (!"config".equals(rootElement.getName())) {
+			throw new ParseException("rootElement element != config");
+		} else {
+			final SeleniumConfigurationDto seleniumConfiguration = new SeleniumConfigurationDto();
+			seleniumConfiguration.setId(new SeleniumConfigurationIdentifier(rootElement.getChildText("id")));
+			seleniumConfiguration.setName(rootElement.getChildText("name"));
+
+			final Element close = rootElement.getChild("close");
+			if (close != null) {
+				seleniumConfiguration.setCloseWindow(parseUtil.parseBoolean(close.getText()));
+			}
+
+			final ArrayList<SeleniumActionConfiguration> list = new ArrayList<>();
+			seleniumConfiguration.setActions(list);
+
+			final Element actionsElement = rootElement.getChild("actions");
+			if (actionsElement != null) {
+				final List<Element> children = actionsElement.getChildren("action");
+				for (final Element actionElement : children) {
+					list.add(seleniumGuiActionXmlParser.parse(actionElement));
+				}
+			}
+
+			return seleniumConfiguration;
+		}
+	}
+
 }

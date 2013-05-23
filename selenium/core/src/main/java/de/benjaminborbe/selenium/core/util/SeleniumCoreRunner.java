@@ -4,24 +4,24 @@ import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 
 public class SeleniumCoreRunner implements Runnable {
 
-	private final SeleniumCoreExecutor seleniumCoreExecutor;
+	private final SeleniumCoreConfigurationExecutor seleniumCoreConfigurationExecutor;
 
 	private final SeleniumConfiguration seleniumConfiguration;
 
 	private final SeleniumExecutionProtocolImpl seleniumExecutionProtocol;
 
 	public SeleniumCoreRunner(
-		final SeleniumCoreExecutor seleniumCoreExecutor,
+		final SeleniumCoreConfigurationExecutor seleniumCoreConfigurationExecutor,
 		final SeleniumConfiguration seleniumConfiguration,
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol
 	) {
-		this.seleniumCoreExecutor = seleniumCoreExecutor;
+		this.seleniumCoreConfigurationExecutor = seleniumCoreConfigurationExecutor;
 		this.seleniumConfiguration = seleniumConfiguration;
 		this.seleniumExecutionProtocol = seleniumExecutionProtocol;
 	}
 
 	@Override
 	public void run() {
-		seleniumCoreExecutor.execute(seleniumConfiguration, seleniumExecutionProtocol);
+		seleniumCoreConfigurationExecutor.execute(seleniumConfiguration, seleniumExecutionProtocol);
 	}
 }

@@ -6,7 +6,6 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
@@ -28,17 +27,18 @@ public class SeleniumCoreWebDriverProviderUnitTest {
 		final SeleniumCoreConfig seleniumCoreConfig = EasyMock.createMock(SeleniumCoreConfig.class);
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		final SeleniumRemoteWebDriverCreator seleniumRemoteWebDriverCreator = EasyMock.createMock(SeleniumRemoteWebDriverCreator.class);
+		final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry = EasyMock.createNiceMock(SeleniumCoreWebDriverRegistry.class);
 
 		EasyMock.expect(seleniumCoreConfig.getSeleniumRemoteHost()).andReturn(hostname);
 		EasyMock.expect(seleniumCoreConfig.getSeleniumRemotePort()).andReturn(port);
 		EasyMock.expect(parseUtil.parseURL(urlString)).andReturn(url);
 		EasyMock.expect(seleniumRemoteWebDriverCreator.create(EasyMock.anyObject(URL.class), EasyMock.anyObject(Capabilities.class))).andReturn(remoteWebDriver);
 
-		final Object[] mocks = new Object[]{seleniumCoreConfig, parseUtil, seleniumRemoteWebDriverCreator, remoteWebDriver};
+		final Object[] mocks = new Object[]{seleniumCoreConfig, parseUtil, seleniumRemoteWebDriverCreator, remoteWebDriver, seleniumCoreWebDriverRegistry};
 		EasyMock.replay(mocks);
 
-		final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider = new SeleniumCoreWebDriverProvider(seleniumCoreConfig, parseUtil, seleniumRemoteWebDriverCreator);
-		final WebDriver webDriver = seleniumCoreWebDriverProvider.get();
+		final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider = new SeleniumCoreWebDriverProvider(seleniumCoreConfig, parseUtil, seleniumRemoteWebDriverCreator, seleniumCoreWebDriverRegistry);
+		final SeleniumCoreWebDriver webDriver = seleniumCoreWebDriverProvider.get();
 		assertThat(webDriver, is(notNullValue()));
 
 		EasyMock.verify(mocks);
@@ -53,16 +53,17 @@ public class SeleniumCoreWebDriverProviderUnitTest {
 		final SeleniumCoreConfig seleniumCoreConfig = EasyMock.createMock(SeleniumCoreConfig.class);
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		final SeleniumRemoteWebDriverCreator seleniumRemoteWebDriverCreator = EasyMock.createMock(SeleniumRemoteWebDriverCreator.class);
+		final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry = EasyMock.createMock(SeleniumCoreWebDriverRegistry.class);
 
 		EasyMock.expect(seleniumCoreConfig.getSeleniumRemoteHost()).andReturn(hostname);
 		EasyMock.expect(seleniumCoreConfig.getSeleniumRemotePort()).andReturn(port);
 		EasyMock.expect(parseUtil.parseURL(url)).andThrow(new ParseException("fail"));
 
-		final Object[] mocks = new Object[]{seleniumCoreConfig, parseUtil, seleniumRemoteWebDriverCreator};
+		final Object[] mocks = new Object[]{seleniumCoreConfig, parseUtil, seleniumRemoteWebDriverCreator, seleniumCoreWebDriverRegistry};
 		EasyMock.replay(mocks);
 
-		final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider = new SeleniumCoreWebDriverProvider(seleniumCoreConfig, parseUtil, seleniumRemoteWebDriverCreator);
-		final WebDriver webDriver = seleniumCoreWebDriverProvider.get();
+		final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider = new SeleniumCoreWebDriverProvider(seleniumCoreConfig, parseUtil, seleniumRemoteWebDriverCreator, seleniumCoreWebDriverRegistry);
+		final SeleniumCoreWebDriver webDriver = seleniumCoreWebDriverProvider.get();
 		assertThat(webDriver, is(notNullValue()));
 
 		EasyMock.verify(mocks);

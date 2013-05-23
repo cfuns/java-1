@@ -1,9 +1,9 @@
 package de.benjaminborbe.selenium.core.action;
 
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationClick;
+import de.benjaminborbe.selenium.core.util.SeleniumCoreWebDriver;
 import de.benjaminborbe.selenium.core.util.SeleniumExecutionProtocolImpl;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 public class SeleniumActionClick implements SeleniumAction<SeleniumActionConfigurationClick> {
 
@@ -14,7 +14,9 @@ public class SeleniumActionClick implements SeleniumAction<SeleniumActionConfigu
 
 	@Override
 	public boolean execute(
-		final WebDriver webDriver, final SeleniumExecutionProtocolImpl seleniumExecutionProtocol, final SeleniumActionConfigurationClick seleniumActionConfiguration
+		final SeleniumCoreWebDriver webDriver,
+		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol,
+		final SeleniumActionConfigurationClick seleniumActionConfiguration
 	) {
 
 		final String xpathExpression = seleniumActionConfiguration.getXpath();

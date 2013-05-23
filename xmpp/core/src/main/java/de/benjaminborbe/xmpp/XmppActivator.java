@@ -61,7 +61,7 @@ public class XmppActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected void onStopped() {
+	protected void onStopped() throws Exception {
 		super.onStopped();
 
 		try {

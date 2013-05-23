@@ -8,6 +8,7 @@ import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
 import de.benjaminborbe.selenium.api.SeleniumExecutionProtocol;
 import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.api.SeleniumServiceException;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
 
 import java.util.Collection;
 
@@ -55,4 +56,16 @@ public class SeleniumServiceMock implements SeleniumService {
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
 		return null;
 	}
+
+	@Override
+	public void closeDrivers(final SessionIdentifier sessionIdentifier) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
+	}
+
+	@Override
+	public SeleniumExecutionProtocol executeAction(
+		final SessionIdentifier sessionIdentifier, final SeleniumActionConfiguration seleniumActionConfiguration
+	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
+		return null;
+	}
+
 }

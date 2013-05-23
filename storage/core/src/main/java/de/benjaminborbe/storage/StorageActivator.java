@@ -47,7 +47,7 @@ public class StorageActivator extends HttpBundleActivator {
 	}
 
 	@Override
-	protected void onStopped() {
+	protected void onStopped() throws Exception {
 		super.onStopped();
 		storageConnectionPool.close();
 	}

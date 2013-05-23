@@ -7,6 +7,8 @@ import de.benjaminborbe.selenium.core.config.SeleniumCoreConfig;
 import de.benjaminborbe.selenium.core.configuration.SeleniumConfigurationRegistry;
 import de.benjaminborbe.selenium.core.guice.SeleniumCoreModules;
 import de.benjaminborbe.selenium.core.service.SeleniumConfigurationServiceTracker;
+import de.benjaminborbe.selenium.core.util.SeleniumCoreWebDriver;
+import de.benjaminborbe.selenium.core.util.SeleniumCoreWebDriverRegistry;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -28,6 +30,9 @@ public class SeleniumCoreActivator extends BaseBundleActivator {
 
 	@Inject
 	private SeleniumService seleniumService;
+
+	@Inject
+	private SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -51,4 +56,18 @@ public class SeleniumCoreActivator extends BaseBundleActivator {
 		return serviceTrackers;
 	}
 
+	@Override
+	protected void onStopped() throws Exception {
+		super.onStopped();
+
+		final Collection<SeleniumCoreWebDriver> webDrivers = seleniumCoreWebDriverRegistry.getAll();
+		for (SeleniumCoreWebDriver driver : webDrivers) {
+			try {
+				seleniumCoreWebDriverRegistry.remove(driver);
+				driver.close();
+			} catch (Exception e) {
+				// nop
+			}
+		}
+	}
 }

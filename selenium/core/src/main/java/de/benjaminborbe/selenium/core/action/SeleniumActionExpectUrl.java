@@ -1,8 +1,8 @@
 package de.benjaminborbe.selenium.core.action;
 
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectUrl;
+import de.benjaminborbe.selenium.core.util.SeleniumCoreWebDriver;
 import de.benjaminborbe.selenium.core.util.SeleniumExecutionProtocolImpl;
-import org.openqa.selenium.WebDriver;
 
 public class SeleniumActionExpectUrl implements SeleniumAction<SeleniumActionConfigurationExpectUrl> {
 
@@ -13,7 +13,7 @@ public class SeleniumActionExpectUrl implements SeleniumAction<SeleniumActionCon
 
 	@Override
 	public boolean execute(
-		final WebDriver webDriver,
+		final SeleniumCoreWebDriver webDriver,
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol,
 		final SeleniumActionConfigurationExpectUrl seleniumActionConfiguration
 	) {

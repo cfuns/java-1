@@ -11,13 +11,13 @@ import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
-import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumExecutionProtocol;
 import de.benjaminborbe.selenium.api.SeleniumService;
 import de.benjaminborbe.selenium.api.SeleniumServiceException;
+import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
 import de.benjaminborbe.selenium.gui.SeleniumGuiConstants;
 import de.benjaminborbe.selenium.gui.widget.SeleniumGuiExecuteWidget;
-import de.benjaminborbe.selenium.parser.SeleniumGuiConfigurationXmlParser;
+import de.benjaminborbe.selenium.parser.SeleniumGuiActionXmlParser;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -41,11 +41,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Singleton
-public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
+public class SeleniumGuiActionRunXmlServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String TITLE = "Selenium - Configuration - XML - Run";
+	private static final String TITLE = "Selenium - Action - XML - Run";
 
 	private final Logger logger;
 
@@ -53,10 +53,10 @@ public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
 
 	private final SeleniumService seleniumService;
 
-	private final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser;
+	private final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser;
 
 	@Inject
-	public SeleniumGuiConfigurationRunXmlServlet(
+	public SeleniumGuiActionRunXmlServlet(
 		final Logger logger,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
@@ -68,13 +68,13 @@ public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
 		final AuthorizationService authorizationService,
 		final CacheService cacheService,
 		final SeleniumService seleniumService,
-		final SeleniumGuiConfigurationXmlParser seleniumGuiConfigurationXmlParser
+		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.seleniumService = seleniumService;
-		this.seleniumGuiConfigurationXmlParser = seleniumGuiConfigurationXmlParser;
+		this.seleniumGuiActionXmlParser = seleniumGuiActionXmlParser;
 	}
 
 	@Override
@@ -95,8 +95,8 @@ public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
 			if (xml != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-					final SeleniumConfiguration seleniumConfiguration = seleniumGuiConfigurationXmlParser.parse(xml);
-					final SeleniumExecutionProtocol seleniumExecutionProtocol = seleniumService.execute(sessionIdentifier, seleniumConfiguration);
+					final SeleniumActionConfiguration seleniumActionConfiguration = seleniumGuiActionXmlParser.parse(xml);
+					final SeleniumExecutionProtocol seleniumExecutionProtocol = seleniumService.executeAction(sessionIdentifier, seleniumActionConfiguration);
 					widgets.add(new SeleniumGuiExecuteWidget(seleniumExecutionProtocol));
 				} catch (ParseException e) {
 					final String msg = "parse xml failed!";
@@ -107,7 +107,7 @@ public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
 
 			final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
 			form.addFormInputWidget(new FormInputTextareaWidget(SeleniumGuiConstants.PARAMETER_CONFIGURATION_XML).addLabel("Xml:").addDefaultValue(getDefaultXml()));
-			form.addFormInputWidget(new FormInputSubmitWidget("execute configuration"));
+			form.addFormInputWidget(new FormInputSubmitWidget("execute action"));
 			widgets.add(form);
 
 			return widgets;
@@ -118,17 +118,10 @@ public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
 
 	private String getDefaultXml() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("<config>\n");
-		sb.append("  <id>test</id>\n");
-		sb.append("  <name>Test Configuration</name>\n");
-		sb.append("  <close>true</close>\n");
-		sb.append("  <actions>\n");
-		sb.append("    <action name=\"GetUrl\">\n");
-		sb.append("      <message>test-message</message>\n");
-		sb.append("      <url>http://www.benjamin-borbe.de</url>\n");
-		sb.append("    </action>\n");
-		sb.append("  </actions>\n");
-		sb.append("</config>\n");
+		sb.append("<action name=\"GetUrl\">\n");
+		sb.append("  <message>test-message</message>\n");
+		sb.append("  <url>http://www.benjamin-borbe.de</url>\n");
+		sb.append("</action>\n");
 		return sb.toString();
 	}
 }

@@ -1,9 +1,9 @@
 package de.benjaminborbe.selenium.core.action;
 
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectText;
+import de.benjaminborbe.selenium.core.util.SeleniumCoreWebDriver;
 import de.benjaminborbe.selenium.core.util.SeleniumExecutionProtocolImpl;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class SeleniumActionExpectText implements SeleniumAction<SeleniumActionConfigurationExpectText> {
@@ -15,7 +15,7 @@ public class SeleniumActionExpectText implements SeleniumAction<SeleniumActionCo
 
 	@Override
 	public boolean execute(
-		final WebDriver webDriver,
+		final SeleniumCoreWebDriver webDriver,
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol,
 		final SeleniumActionConfigurationExpectText seleniumActionConfiguration
 	) {

@@ -47,7 +47,7 @@ public class VncActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected void onStopped() {
+	protected void onStopped() throws Exception {
 		super.onStopped();
 		try {
 			vncService.disconnectForce();

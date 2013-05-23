@@ -1,8 +1,8 @@
 package de.benjaminborbe.selenium.core.action;
 
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationPageContent;
+import de.benjaminborbe.selenium.core.util.SeleniumCoreWebDriver;
 import de.benjaminborbe.selenium.core.util.SeleniumExecutionProtocolImpl;
-import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -23,7 +23,7 @@ public class SeleniumActionPageContent implements SeleniumAction<SeleniumActionC
 
 	@Override
 	public boolean execute(
-		final WebDriver webDriver,
+		final SeleniumCoreWebDriver webDriver,
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol,
 		final SeleniumActionConfigurationPageContent seleniumActionConfiguration
 	) {

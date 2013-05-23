@@ -14,7 +14,7 @@ public class SeleniumCoreRunnerIntegrationTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumModulesMock());
-		assertThat(injector.getInstance(SeleniumCoreExecutor.class), is(notNullValue()));
+		assertThat(injector.getInstance(SeleniumCoreConfigurationExecutor.class), is(notNullValue()));
 	}
 
 }

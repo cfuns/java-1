@@ -47,7 +47,7 @@ public class CronActivator extends BaseBundleActivator {
 	private CronManager cronManager;
 
 	@Override
-	protected void onStarted() {
+	protected void onStarted() throws Exception {
 		super.onStarted();
 		if (cronConfig.autoStart()) {
 			cronManager.start();
@@ -55,7 +55,7 @@ public class CronActivator extends BaseBundleActivator {
 	}
 
 	@Override
-	protected void onStopped() {
+	protected void onStopped() throws Exception {
 		cronManager.stop();
 		super.onStopped();
 	}

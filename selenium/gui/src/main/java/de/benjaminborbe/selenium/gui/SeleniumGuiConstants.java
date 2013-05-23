@@ -12,13 +12,15 @@ public interface SeleniumGuiConstants {
 
 	String PARAMETER_CONFIGURATION_XML = "configuration_xml";
 
-	String URL_CONFIGURATION_XML_RUN = "/xml/run";
+	String URL_CONFIGURATION_XML_RUN = "/configuration/run";
 
-	String URL_CONFIGURATION_XML_UPLOAD = "/xml/upload";
+	String URL_CONFIGURATION_XML_UPLOAD = "/configuration/upload";
 
-	String URL_CONFIGURATION_XML_DELETE = "/xml/delete";
+	String URL_CONFIGURATION_XML_DELETE = "/configuration/delete";
 
-	String URL_CONFIGURATION_XML_SHOW = "/xml/show";
+	String URL_CONFIGURATION_XML_SHOW = "/configuration/show";
 
-	String URL_CONFIGURATION_XML_UPDATE = "/xml/update";
+	String URL_CONFIGURATION_XML_UPDATE = "/configuration/update";
+
+	String URL_ACTION_XML_RUN = "/action/run";
 }

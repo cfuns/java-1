@@ -32,7 +32,7 @@ public class SeleniumCoreRunnerSystemTest {
 	@Test
 	public void testRun() throws ConfigurationServiceException {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumModulesMock());
-		final SeleniumCoreExecutor runner = injector.getInstance(SeleniumCoreExecutor.class);
+		final SeleniumCoreConfigurationExecutor runner = injector.getInstance(SeleniumCoreConfigurationExecutor.class);
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
 		final ConfigurationServiceCache configurationServiceCache = injector.getInstance(ConfigurationServiceCache.class);
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier(SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_HOST), "192.168.223.143");
