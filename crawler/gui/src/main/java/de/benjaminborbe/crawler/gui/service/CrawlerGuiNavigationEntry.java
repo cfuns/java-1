@@ -1,8 +1,8 @@
 package de.benjaminborbe.crawler.gui.service;
 
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authorization.api.AuthorizationService;
-import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.crawler.api.CrawlerException;
+import de.benjaminborbe.crawler.api.CrawlerService;
 import de.benjaminborbe.crawler.gui.CrawlerGuiConstants;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 
@@ -10,11 +10,11 @@ import javax.inject.Inject;
 
 public class CrawlerGuiNavigationEntry implements NavigationEntry {
 
-	private final AuthorizationService authorizationService;
+	private final CrawlerService crawlerService;
 
 	@Inject
-	public CrawlerGuiNavigationEntry(final AuthorizationService authorizationService) {
-		this.authorizationService = authorizationService;
+	public CrawlerGuiNavigationEntry(final CrawlerService crawlerService) {
+		this.crawlerService = crawlerService;
 	}
 
 	@Override
@@ -30,8 +30,8 @@ public class CrawlerGuiNavigationEntry implements NavigationEntry {
 	@Override
 	public boolean isVisible(final SessionIdentifier sessionIdentifier) {
 		try {
-			return authorizationService.hasAdminRole(sessionIdentifier);
-		} catch (final AuthorizationServiceException e) {
+			return crawlerService.hasPermission(sessionIdentifier);
+		} catch (final CrawlerException e) {
 			return false;
 		}
 	}

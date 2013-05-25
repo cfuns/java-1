@@ -3,6 +3,8 @@ package de.benjaminborbe.crawler.guice;
 import com.google.inject.AbstractModule;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.mock.AnalyticsServiceMock;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
 import de.benjaminborbe.httpdownloader.mock.HttpdownloaderServiceMock;
 import de.benjaminborbe.message.api.MessageService;
@@ -20,6 +22,7 @@ public class CrawlerOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(HttpdownloaderService.class).to(HttpdownloaderServiceMock.class).in(Singleton.class);
 		bind(AnalyticsService.class).to(AnalyticsServiceMock.class).in(Singleton.class);
 		bind(MessageService.class).to(MessageServiceMock.class).in(Singleton.class);

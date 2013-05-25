@@ -113,7 +113,7 @@ public class CrawlerGuiServletUnitTest {
 		EasyMock.expect(authenticationService.getCurrentUser(sessionIdentifier)).andReturn(userIdentifier).anyTimes();
 		EasyMock.replay(authenticationService);
 
-		final CrawlerService crawlerService = EasyMock.createMock(CrawlerService.class);
+		final CrawlerService crawlerService = EasyMock.createNiceMock(CrawlerService.class);
 		EasyMock.replay(crawlerService);
 
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);

@@ -1,5 +1,10 @@
 package de.benjaminborbe.crawler.service;
 
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.crawler.CrawlerConstants;
 import de.benjaminborbe.crawler.api.CrawlerException;
 import de.benjaminborbe.crawler.api.CrawlerInstruction;
@@ -27,17 +32,21 @@ public class CrawlerServiceImpl implements CrawlerService {
 
 	private final CrawlerNotifier crawlerNotifier;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public CrawlerServiceImpl(
 		final Logger logger,
 		final MessageService messageService,
 		final CrawlerMessageMapper crawlerMessageMapper,
-		final CrawlerNotifier crawlerNotifier
+		final CrawlerNotifier crawlerNotifier,
+		final AuthorizationService authorizationService
 	) {
 		this.logger = logger;
 		this.messageService = messageService;
 		this.crawlerMessageMapper = crawlerMessageMapper;
 		this.crawlerNotifier = crawlerNotifier;
+		this.authorizationService = authorizationService;
 	}
 
 	@Override
@@ -58,6 +67,24 @@ public class CrawlerServiceImpl implements CrawlerService {
 			crawlerNotifier.notifiy(httpResponse);
 		} finally {
 
+		}
+	}
+
+	@Override
+	public void expectPermission(final SessionIdentifier sessionIdentifier) throws CrawlerException, PermissionDeniedException, LoginRequiredException {
+		try {
+			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(CrawlerConstants.PERMISSON_NAME));
+		} catch (AuthorizationServiceException e) {
+			throw new CrawlerException(e);
+		}
+	}
+
+	@Override
+	public boolean hasPermission(final SessionIdentifier sessionIdentifier) throws CrawlerException {
+		try {
+			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(CrawlerConstants.PERMISSON_NAME));
+		} catch (AuthorizationServiceException e) {
+			throw new CrawlerException(e);
 		}
 	}
 

@@ -57,6 +57,7 @@
 						</Import-Package>
 						<Import-Service>
 							de.benjaminborbe.httpdownloader.api.HttpdownloaderService,
+							de.benjaminborbe.authorization.api.AuthorizationService,
 							de.benjaminborbe.message.api.MessageService
 						</Import-Service>
 						<Export-Package></Export-Package>

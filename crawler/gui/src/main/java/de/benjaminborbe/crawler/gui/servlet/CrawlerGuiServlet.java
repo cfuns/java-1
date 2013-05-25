@@ -2,6 +2,9 @@ package de.benjaminborbe.crawler.gui.servlet;
 
 import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
@@ -30,6 +33,7 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -46,6 +50,8 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 	public static final long DEFAULT_DEPTH = 0;
 
 	private final ParseUtil parseUtil;
+
+	private final AuthenticationService authenticationService;
 
 	private final CrawlerService crawlerService;
 
@@ -67,6 +73,7 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.parseUtil = parseUtil;
+		this.authenticationService = authenticationService;
 		this.crawlerService = crawlerService;
 		this.logger = logger;
 	}
@@ -106,5 +113,20 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 		} catch (ParseException e) {
 			return new ExceptionWidget(e);
 		}
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			crawlerService.expectPermission(sessionIdentifier);
+		} catch (AuthenticationServiceException | CrawlerException e) {
+			throw new PermissionDeniedException("auth failed", e);
+		}
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
 	}
 }
