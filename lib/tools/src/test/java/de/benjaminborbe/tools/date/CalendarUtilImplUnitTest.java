@@ -343,6 +343,11 @@ public class CalendarUtilImplUnitTest {
 		}
 		{
 			final Calendar baseValue = calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
+			assertEquals("2012-11-11 18:15:30", calendarUtil.toDateTimeString(calendarUtil.parseSmart("18:15:30")));
+			assertEquals("2012-11-11 18:15:30", calendarUtil.toDateTimeString(calendarUtil.parseSmart(baseValue, "18:15:30")));
+		}
+		{
+			final Calendar baseValue = calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), "2012-11-11 20:59:45");
 			assertEquals("2012-11-11 00:00:00", calendarUtil.toDateTimeString(calendarUtil.parseSmart(baseValue, "0m")));
 			assertEquals("2012-12-11 00:00:00", calendarUtil.toDateTimeString(calendarUtil.parseSmart(baseValue, "1m")));
 			assertEquals("2013-01-11 00:00:00", calendarUtil.toDateTimeString(calendarUtil.parseSmart(baseValue, "2m")));

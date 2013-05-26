@@ -335,15 +335,30 @@ public class CalendarUtilImpl implements CalendarUtil {
 		// 18:15
 		{
 			final String[] parts = input.split(":");
-			if (parts.length == 2) {
-				final int hour = parseUtil.parseInt(parts[0]);
-				final int minute = parseUtil.parseInt(parts[1]);
-				final Calendar calendar = clone(baseValue);
-				calendar.set(Calendar.HOUR_OF_DAY, hour);
-				calendar.set(Calendar.MINUTE, minute);
-				calendar.set(Calendar.SECOND, 0);
-				calendar.set(Calendar.MILLISECOND, 0);
-				return calendar;
+			try {
+				if (parts.length == 2) {
+					final int hour = parseUtil.parseInt(parts[0]);
+					final int minute = parseUtil.parseInt(parts[1]);
+					final Calendar calendar = clone(baseValue);
+					calendar.set(Calendar.HOUR_OF_DAY, hour);
+					calendar.set(Calendar.MINUTE, minute);
+					calendar.set(Calendar.SECOND, 0);
+					calendar.set(Calendar.MILLISECOND, 0);
+					return calendar;
+				}
+				if (parts.length == 3) {
+					final int hour = parseUtil.parseInt(parts[0]);
+					final int minute = parseUtil.parseInt(parts[1]);
+					final int seconds = parseUtil.parseInt(parts[2]);
+					final Calendar calendar = clone(baseValue);
+					calendar.set(Calendar.HOUR_OF_DAY, hour);
+					calendar.set(Calendar.MINUTE, minute);
+					calendar.set(Calendar.SECOND, seconds);
+					calendar.set(Calendar.MILLISECOND, 0);
+					return calendar;
+				}
+			} catch (ParseException e) {
+				// nop
 			}
 		}
 
