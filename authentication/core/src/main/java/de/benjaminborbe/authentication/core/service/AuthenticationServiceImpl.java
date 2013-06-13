@@ -375,7 +375,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			throw new ValidationException(new ValidationResultImpl(errors));
 		}
 		final byte[] newSalt = passwordEncryptionService.generateSalt();
-		final byte[] newEncryptedPassword = passwordEncryptionService.getEncryptedPassword(newPassword, newSalt);
+		final byte[] newEncryptedPassword = passwordEncryptionService.encryptPassword(newPassword, newSalt);
 		user.setPassword(newEncryptedPassword);
 		user.setPasswordSalt(newSalt);
 		user.setEmailVerifyToken(String.valueOf(UUID.randomUUID()));

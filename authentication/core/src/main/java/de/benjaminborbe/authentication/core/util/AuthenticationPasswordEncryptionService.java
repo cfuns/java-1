@@ -22,14 +22,14 @@ public class AuthenticationPasswordEncryptionService {
 	) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		// Encrypt the clear-text password using the same salt that was used to
 		// encrypt the original password
-		final byte[] encryptedAttemptedPassword = getEncryptedPassword(attemptedPassword, salt);
+		final byte[] encryptedAttemptedPassword = encryptPassword(attemptedPassword, salt);
 
 		// Authentication succeeds if encrypted password that the user entered
 		// is equal to the stored hash
 		return Arrays.equals(encryptedPassword, encryptedAttemptedPassword);
 	}
 
-	public byte[] getEncryptedPassword(final String password, final byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
+	public byte[] encryptPassword(final String password, final byte[] salt) throws NoSuchAlgorithmException, InvalidKeySpecException {
 		// PBKDF2 with SHA-1 as the hashing algorithm. Note that the NIST
 		// specifically names SHA-1 as an acceptable hashing algorithm for PBKDF2
 		final String algorithm = "PBKDF2WithHmacSHA1";
