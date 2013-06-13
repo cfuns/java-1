@@ -19,6 +19,7 @@
 		<module>online</module>
 		<module>obr</module>
 		<module>report</module>
+		<module>selenium</module>
 	</modules>
 	<build>
 		<plugins>

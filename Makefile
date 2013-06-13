@@ -26,6 +26,10 @@ packagedevel:
 	cd bridge/war/devel && make installwotest
 deploydevel:
 	cd bridge/war/devel && make deployforce
+packageselenium:
+	cd bridge/war/selenium && make installwotest
+deployselenium:
+	cd bridge/war/selenium && make deployforce
 packageobr:
 	cd bridge/war/obr && make installwotest
 deployobr:

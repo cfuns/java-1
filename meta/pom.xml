@@ -15,6 +15,7 @@
 		<module>online</module>
 		<module>office</module>
 		<module>devel</module>
+		<module>selenium</module>
 	</modules>
 	<dependencies>
 		<dependency>
