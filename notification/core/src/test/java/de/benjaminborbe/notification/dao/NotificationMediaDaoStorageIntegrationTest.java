@@ -1,13 +1,11 @@
 package de.benjaminborbe.notification.dao;
 
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.notification.guice.NotificationModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 
 public class NotificationMediaDaoStorageIntegrationTest {
 

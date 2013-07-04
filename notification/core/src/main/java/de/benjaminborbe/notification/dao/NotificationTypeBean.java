@@ -1,11 +1,11 @@
 package de.benjaminborbe.notification.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.notification.api.NotificationTypeIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class NotificationTypeBean extends EntityBase<NotificationTypeIdentifier> implements HasCreated, HasModified {
 

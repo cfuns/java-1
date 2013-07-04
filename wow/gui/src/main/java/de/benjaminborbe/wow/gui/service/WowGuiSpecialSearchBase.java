@@ -1,16 +1,14 @@
 package de.benjaminborbe.wow.gui.service;
 
-import java.io.IOException;
-import java.io.StringWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.search.api.SearchSpecial;
 import de.benjaminborbe.tools.url.UrlUtil;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.StringWriter;
 
 public abstract class WowGuiSpecialSearchBase implements SearchSpecial {
 

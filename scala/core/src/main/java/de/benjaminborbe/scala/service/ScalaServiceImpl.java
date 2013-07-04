@@ -1,11 +1,10 @@
 package de.benjaminborbe.scala.service;
 
+import de.benjaminborbe.scala.api.ScalaService;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.scala.api.ScalaService;
 
 @Singleton
 public class ScalaServiceImpl implements ScalaService {

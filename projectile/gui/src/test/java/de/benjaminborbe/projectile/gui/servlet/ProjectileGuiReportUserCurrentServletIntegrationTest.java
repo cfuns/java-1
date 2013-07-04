@@ -1,13 +1,11 @@
 package de.benjaminborbe.projectile.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.projectile.gui.guice.ProjectileGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class ProjectileGuiReportUserCurrentServletIntegrationTest {
 

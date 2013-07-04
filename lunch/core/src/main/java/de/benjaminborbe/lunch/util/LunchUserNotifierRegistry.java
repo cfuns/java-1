@@ -1,8 +1,8 @@
 package de.benjaminborbe.lunch.util;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.tools.registry.RegistryBase;
+
+import javax.inject.Inject;
 
 public class LunchUserNotifierRegistry extends RegistryBase<LunchUserNotifier> {
 

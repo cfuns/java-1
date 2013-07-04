@@ -1,12 +1,11 @@
 package de.benjaminborbe.website.widget;
 
-import java.io.IOException;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.Widget;
+import java.io.IOException;
 
 public class VoidWidget implements Widget {
 

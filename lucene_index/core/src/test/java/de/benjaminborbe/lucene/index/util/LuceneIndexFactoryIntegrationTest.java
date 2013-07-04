@@ -1,16 +1,14 @@
 package de.benjaminborbe.lucene.index.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import com.google.inject.Injector;
+import de.benjaminborbe.lucene.index.guice.LuceneIndexModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import org.apache.lucene.store.Directory;
 import org.junit.Test;
 
-import com.google.inject.Injector;
-
-import de.benjaminborbe.lucene.index.guice.LuceneIndexModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class LuceneIndexFactoryIntegrationTest {
 

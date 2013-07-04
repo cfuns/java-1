@@ -1,14 +1,12 @@
 package de.benjaminborbe.monitoring.check;
 
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.monitoring.api.MonitoringCheck;
 import de.benjaminborbe.monitoring.guice.MonitoringModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 
 public class MonitoringCheckRegistryIntegrationTest {
 

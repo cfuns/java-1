@@ -1,16 +1,15 @@
 package de.benjaminborbe.search.gui.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import java.util.Arrays;
-import java.util.Collection;
-
+import de.benjaminborbe.search.api.SearchSpecial;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.search.api.SearchSpecial;
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class SearchGuiSpecialSearchFactoryUnitTest {
 

@@ -1,15 +1,13 @@
 package de.benjaminborbe.wiki.render;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.wiki.api.WikiPageContentType;
 import de.benjaminborbe.wiki.guice.WikiModulesMock;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class WikiConfluenceRendererIntegrationTest {
 

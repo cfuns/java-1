@@ -1,9 +1,9 @@
 package de.benjaminborbe.monitoring.api;
 
+import de.benjaminborbe.api.ValidationError;
+
 import java.util.Collection;
 import java.util.Map;
-
-import de.benjaminborbe.api.ValidationError;
 
 public interface MonitoringCheck {
 

@@ -1,15 +1,13 @@
 package de.benjaminborbe.tools.date;
 
-import static org.junit.Assert.assertEquals;
+import com.google.inject.Injector;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.tools.guice.ToolModules;
+import org.junit.Test;
 
 import java.util.Calendar;
 
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
-import de.benjaminborbe.tools.guice.ToolModules;
+import static org.junit.Assert.assertEquals;
 
 public class CalendarUtilImplIntegrationTest {
 

@@ -1,13 +1,11 @@
 package de.benjaminborbe.bookmark.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.bookmark.gui.guice.BookmarkGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class BookmarkGuiListServletIntegrationTest {
 

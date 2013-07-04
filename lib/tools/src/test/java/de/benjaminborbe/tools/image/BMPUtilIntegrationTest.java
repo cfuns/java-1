@@ -1,10 +1,10 @@
 package de.benjaminborbe.tools.image;
 
+import org.junit.Test;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
-
-import org.junit.Test;
 
 public class BMPUtilIntegrationTest {
 

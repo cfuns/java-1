@@ -1,16 +1,16 @@
 package de.benjaminborbe.meta.util;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 public class BundleResolverImplUnitTest {
 

@@ -1,9 +1,9 @@
 package de.benjaminborbe.projectile.util;
 
+import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
+
 import java.util.Calendar;
 import java.util.List;
-
-import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 
 public class ProjectileSlacktimeReportAggregate implements ProjectileSlacktimeReport {
 

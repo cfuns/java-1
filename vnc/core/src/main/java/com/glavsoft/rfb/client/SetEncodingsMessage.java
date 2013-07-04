@@ -24,11 +24,11 @@
 
 package com.glavsoft.rfb.client;
 
-import java.util.Set;
-
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.rfb.encoding.EncodingType;
 import com.glavsoft.transport.Writer;
+
+import java.util.Set;
 
 public class SetEncodingsMessage implements ClientToServerMessage {
 

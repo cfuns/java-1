@@ -1,7 +1,5 @@
 package de.benjaminborbe.gallery.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.api.GalleryGroupIdentifier;
@@ -9,6 +7,8 @@ import de.benjaminborbe.gallery.util.HasShared;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class GalleryCollectionBean extends EntityBase<GalleryCollectionIdentifier> implements GalleryCollection, HasCreated, HasModified, HasShared {
 

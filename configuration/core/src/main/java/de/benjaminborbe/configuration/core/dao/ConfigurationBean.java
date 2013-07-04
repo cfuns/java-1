@@ -1,11 +1,11 @@
 package de.benjaminborbe.configuration.core.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class ConfigurationBean extends EntityBase<ConfigurationIdentifier> implements HasCreated, HasModified {
 

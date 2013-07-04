@@ -1,13 +1,11 @@
 package de.benjaminborbe.systemstatus.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.systemstatus.gui.guice.SystemstatusGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class SystemstatusGuiServletIntegrationTest {
 

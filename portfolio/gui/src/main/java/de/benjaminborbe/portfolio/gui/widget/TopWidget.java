@@ -1,12 +1,12 @@
 package de.benjaminborbe.portfolio.gui.widget;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.util.DivWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
 import de.benjaminborbe.website.widget.BrWidget;
+
+import javax.inject.Inject;
 
 public class TopWidget extends DivWidget implements Widget {
 

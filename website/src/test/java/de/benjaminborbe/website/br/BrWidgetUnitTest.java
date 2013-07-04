@@ -1,18 +1,16 @@
 package de.benjaminborbe.website.br;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.website.widget.BrWidget;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.website.widget.BrWidget;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import static org.junit.Assert.assertEquals;
 
 public class BrWidgetUnitTest {
 

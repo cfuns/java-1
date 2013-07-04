@@ -32,8 +32,8 @@ public class SlashGuiRedirectDeterminerImpl implements SlashGuiRedirectDetermine
 
 	@Override
 	public String getTarget(final HttpServletRequest request) {
-		List<SlashGuiRuleResult> slashGuiRuleResults = new ArrayList<>();
-		for (SlashGuiRule slashGuiRule : slashGuiRuleRegistry.getAll()) {
+		final List<SlashGuiRuleResult> slashGuiRuleResults = new ArrayList<>();
+		for (final SlashGuiRule slashGuiRule : slashGuiRuleRegistry.getAll()) {
 			slashGuiRuleResults.addAll(slashGuiRule.getTarget(request));
 		}
 		logger.debug("found " + slashGuiRuleResults.size() + " posible targets");

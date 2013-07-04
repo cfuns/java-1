@@ -1,16 +1,6 @@
 package de.benjaminborbe.selenium.gui.servlet;
 
-import java.io.IOException;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-
 import com.google.inject.Provider;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
@@ -38,66 +28,74 @@ import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.PreWidget;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Singleton
 public class SeleniumGuiConfigurationXmlShowServlet extends WebsiteHtmlServlet {
 
-    private static final String TITLE = "Selenium - Configuration - XML - Show";
+	private static final String TITLE = "Selenium - Configuration - XML - Show";
 
-    private static final long serialVersionUID = 8298113704324748047L;
+	private static final long serialVersionUID = 8298113704324748047L;
 
-    private final Logger logger;
+	private final Logger logger;
 
-    private final AuthenticationService authenticationService;
+	private final AuthenticationService authenticationService;
 
-    private final SeleniumConfigurationXmlService seleniumConfigurationXmlService;
+	private final SeleniumConfigurationXmlService seleniumConfigurationXmlService;
 
-    private final SeleniumService seleniumService;
+	private final SeleniumService seleniumService;
 
-    @Inject
-    public SeleniumGuiConfigurationXmlShowServlet(
-            final Logger logger,
-            final CalendarUtil calendarUtil,
-            final TimeZoneUtil timeZoneUtil,
-            final ParseUtil parseUtil,
-            final NavigationWidget navigationWidget,
-            final AuthenticationService authenticationService,
-            final AuthorizationService authorizationService,
-            final Provider<HttpContext> httpContextProvider,
-            final UrlUtil urlUtil,
-            final CacheService cacheService,
-            final SeleniumConfigurationXmlService seleniumConfigurationXmlService,
-            final SeleniumService seleniumService) {
-        super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil,
-                cacheService);
-        this.logger = logger;
-        this.authenticationService = authenticationService;
-        this.seleniumConfigurationXmlService = seleniumConfigurationXmlService;
-        this.seleniumService = seleniumService;
-    }
+	@Inject
+	public SeleniumGuiConfigurationXmlShowServlet(
+		final Logger logger,
+		final CalendarUtil calendarUtil,
+		final TimeZoneUtil timeZoneUtil,
+		final ParseUtil parseUtil,
+		final NavigationWidget navigationWidget,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
+		final Provider<HttpContext> httpContextProvider,
+		final UrlUtil urlUtil,
+		final CacheService cacheService,
+		final SeleniumConfigurationXmlService seleniumConfigurationXmlService,
+		final SeleniumService seleniumService
+	) {
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil,
+			cacheService);
+		this.logger = logger;
+		this.authenticationService = authenticationService;
+		this.seleniumConfigurationXmlService = seleniumConfigurationXmlService;
+		this.seleniumService = seleniumService;
+	}
 
-    @Override
-    protected String getTitle() {
-        return TITLE;
-    }
+	@Override
+	protected String getTitle() {
+		return TITLE;
+	}
 
-    @Override
-    protected Widget createContentWidget(
-            final HttpServletRequest request, final HttpServletResponse response, final HttpContext context
-            ) throws IOException, PermissionDeniedException, RedirectException, LoginRequiredException {
-        try {
-            logger.trace("printContent");
-            final ListWidget widgets = new ListWidget();
-            widgets.add(new H1Widget(getTitle()));
-            final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-            final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier = seleniumService.createSeleniumConfigurationIdentifier(request
-                    .getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID));
-            final SeleniumConfigurationXml xml = seleniumConfigurationXmlService.getXml(sessionIdentifier, seleniumConfigurationIdentifier);
+	@Override
+	protected Widget createContentWidget(
+		final HttpServletRequest request, final HttpServletResponse response, final HttpContext context
+	) throws IOException, PermissionDeniedException, RedirectException, LoginRequiredException {
+		try {
+			logger.trace("printContent");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier = seleniumService.createSeleniumConfigurationIdentifier(request
+				.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID));
+			final SeleniumConfigurationXml xml = seleniumConfigurationXmlService.getXml(sessionIdentifier, seleniumConfigurationIdentifier);
 
-            widgets.add(new PreWidget(xml.getXml()));
-            return widgets;
-        } catch (SeleniumServiceException | SeleniumConfigurationXmlServiceException | AuthenticationServiceException e) {
-            return new ExceptionWidget(e);
-        }
-    }
+			widgets.add(new PreWidget(xml.getXml()));
+			return widgets;
+		} catch (SeleniumServiceException | SeleniumConfigurationXmlServiceException | AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
+		}
+	}
 }

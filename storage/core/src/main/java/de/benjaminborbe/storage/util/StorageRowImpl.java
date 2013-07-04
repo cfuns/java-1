@@ -1,10 +1,10 @@
 package de.benjaminborbe.storage.util;
 
-import java.util.Collection;
-import java.util.Map;
-
 import de.benjaminborbe.storage.api.StorageRow;
 import de.benjaminborbe.storage.api.StorageValue;
+
+import java.util.Collection;
+import java.util.Map;
 
 public class StorageRowImpl implements StorageRow {
 

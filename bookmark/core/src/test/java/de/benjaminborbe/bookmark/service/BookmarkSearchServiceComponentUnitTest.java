@@ -1,15 +1,14 @@
 package de.benjaminborbe.bookmark.service;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.net.MalformedURLException;
-
+import de.benjaminborbe.bookmark.api.BookmarkService;
+import de.benjaminborbe.tools.search.SearchUtil;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.bookmark.api.BookmarkService;
-import de.benjaminborbe.tools.search.SearchUtil;
+import java.net.MalformedURLException;
+
+import static org.junit.Assert.assertNotNull;
 
 public class BookmarkSearchServiceComponentUnitTest {
 

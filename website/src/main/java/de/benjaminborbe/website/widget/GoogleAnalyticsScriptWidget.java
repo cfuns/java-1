@@ -1,8 +1,8 @@
 package de.benjaminborbe.website.widget;
 
-import java.io.StringWriter;
-
 import de.benjaminborbe.website.util.JavascriptWidget;
+
+import java.io.StringWriter;
 
 public class GoogleAnalyticsScriptWidget extends JavascriptWidget {
 

@@ -1,10 +1,9 @@
 package de.benjaminborbe.tools.jndi;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class NamingEnumerationMock<T> implements NamingEnumeration<T> {
 

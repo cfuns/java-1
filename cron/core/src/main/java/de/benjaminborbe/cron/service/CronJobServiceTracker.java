@@ -1,14 +1,13 @@
 package de.benjaminborbe.cron.service;
 
-import org.osgi.framework.BundleContext;
-import org.slf4j.Logger;
-
-import javax.inject.Singleton;
-
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.cron.util.CronJobRegistry;
 import de.benjaminborbe.cron.util.Quartz;
 import de.benjaminborbe.tools.osgi.service.RegistryServiceTracker;
+import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+
+import javax.inject.Singleton;
 
 @Singleton
 public class CronJobServiceTracker extends RegistryServiceTracker<CronJob> {

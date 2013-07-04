@@ -1,13 +1,12 @@
 package de.benjaminborbe.configuration.core.dao;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
+import de.benjaminborbe.tools.registry.RegistryBase;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.configuration.api.ConfigurationDescription;
-import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
-import de.benjaminborbe.tools.registry.RegistryBase;
 
 @Singleton
 public class ConfigurationRegistry extends RegistryBase<ConfigurationDescription> {

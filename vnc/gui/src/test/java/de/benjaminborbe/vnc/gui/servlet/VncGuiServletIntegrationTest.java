@@ -1,13 +1,11 @@
 package de.benjaminborbe.vnc.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.vnc.gui.guice.VncGuiModulesMock;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class VncGuiServletIntegrationTest {
 

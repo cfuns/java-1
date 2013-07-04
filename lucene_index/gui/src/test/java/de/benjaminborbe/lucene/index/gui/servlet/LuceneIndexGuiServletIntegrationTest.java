@@ -1,13 +1,11 @@
 package de.benjaminborbe.lucene.index.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.lucene.index.gui.guice.LuceneIndexGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class LuceneIndexGuiServletIntegrationTest {
 

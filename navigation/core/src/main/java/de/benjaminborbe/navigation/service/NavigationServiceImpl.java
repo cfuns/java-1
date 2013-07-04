@@ -1,15 +1,13 @@
 package de.benjaminborbe.navigation.service;
 
-import java.util.Collection;
-
+import de.benjaminborbe.navigation.api.NavigationEntry;
+import de.benjaminborbe.navigation.api.NavigationService;
+import de.benjaminborbe.navigation.util.NavigationEntryRegistry;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.navigation.api.NavigationEntry;
-import de.benjaminborbe.navigation.api.NavigationService;
-import de.benjaminborbe.navigation.util.NavigationEntryRegistry;
+import java.util.Collection;
 
 @Singleton
 public class NavigationServiceImpl implements NavigationService {

@@ -1,8 +1,8 @@
 package de.benjaminborbe.shortener.api;
 
-import java.net.URL;
-
 import de.benjaminborbe.api.ValidationException;
+
+import java.net.URL;
 
 public interface ShortenerService {
 

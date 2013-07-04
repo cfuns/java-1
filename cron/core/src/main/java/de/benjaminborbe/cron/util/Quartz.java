@@ -1,8 +1,7 @@
 package de.benjaminborbe.cron.util;
 
-import org.quartz.SchedulerException;
-
 import de.benjaminborbe.cron.api.CronJob;
+import org.quartz.SchedulerException;
 
 public interface Quartz {
 

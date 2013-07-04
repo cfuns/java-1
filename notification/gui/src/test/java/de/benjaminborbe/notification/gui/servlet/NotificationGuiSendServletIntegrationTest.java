@@ -1,13 +1,11 @@
 package de.benjaminborbe.notification.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.notification.gui.guice.NotificationGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class NotificationGuiSendServletIntegrationTest {
 

@@ -24,10 +24,9 @@
 
 package com.glavsoft.rfb.client;
 
-import org.slf4j.Logger;
-
 import com.glavsoft.exceptions.TransportException;
 import com.glavsoft.transport.Writer;
+import org.slf4j.Logger;
 
 /**
  * A key press or release. Down-ﬂag is non-zero (true) if the key is now pressed, zero

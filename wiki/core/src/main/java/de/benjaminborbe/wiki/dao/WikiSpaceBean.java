@@ -1,12 +1,12 @@
 package de.benjaminborbe.wiki.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
 import de.benjaminborbe.wiki.api.WikiSpace;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
+
+import java.util.Calendar;
 
 public class WikiSpaceBean extends EntityBase<WikiSpaceIdentifier> implements WikiSpace, HasCreated, HasModified {
 

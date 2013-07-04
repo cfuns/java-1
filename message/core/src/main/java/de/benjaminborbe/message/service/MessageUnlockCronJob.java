@@ -1,11 +1,10 @@
 package de.benjaminborbe.message.service;
 
+import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.message.util.MessageUnlock;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
-
-import de.benjaminborbe.cron.api.CronJob;
-import de.benjaminborbe.message.util.MessageUnlock;
 
 public class MessageUnlockCronJob implements CronJob {
 

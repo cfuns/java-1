@@ -1,13 +1,12 @@
 package de.benjaminborbe.search.gui.util;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-
+import de.benjaminborbe.tools.search.SearchUtil;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
-import de.benjaminborbe.tools.search.SearchUtil;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
 
 public class SearchGuiUtilUnitTest {
 

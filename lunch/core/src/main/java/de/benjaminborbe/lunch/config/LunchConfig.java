@@ -1,9 +1,9 @@
 package de.benjaminborbe.lunch.config;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
+
 import java.util.Collection;
 import java.util.List;
-
-import de.benjaminborbe.configuration.api.ConfigurationDescription;
 
 public interface LunchConfig {
 

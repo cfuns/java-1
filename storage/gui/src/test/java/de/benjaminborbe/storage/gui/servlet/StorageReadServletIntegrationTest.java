@@ -1,13 +1,11 @@
 package de.benjaminborbe.storage.gui.servlet;
 
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.storage.gui.guice.StorageGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 
 public class StorageReadServletIntegrationTest {
 

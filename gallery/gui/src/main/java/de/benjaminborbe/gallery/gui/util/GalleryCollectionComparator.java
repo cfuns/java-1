@@ -1,9 +1,9 @@
 package de.benjaminborbe.gallery.gui.util;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.gallery.api.GalleryCollection;
 import de.benjaminborbe.tools.util.ComparatorChain;
+
+import javax.inject.Inject;
 
 public class GalleryCollectionComparator extends ComparatorChain<GalleryCollection> {
 

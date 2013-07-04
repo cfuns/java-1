@@ -1,13 +1,12 @@
 package de.benjaminborbe.message.service;
 
+import de.benjaminborbe.message.api.MessageConsumer;
+import de.benjaminborbe.message.util.MessageConsumerRegistry;
+import de.benjaminborbe.tools.osgi.service.RegistryServiceTracker;
 import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 
 import javax.inject.Singleton;
-
-import de.benjaminborbe.message.api.MessageConsumer;
-import de.benjaminborbe.message.util.MessageConsumerRegistry;
-import de.benjaminborbe.tools.osgi.service.RegistryServiceTracker;
 
 @Singleton
 public class MessageConsumerTracker extends RegistryServiceTracker<MessageConsumer> {

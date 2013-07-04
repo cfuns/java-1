@@ -1,9 +1,8 @@
 package de.benjaminborbe.storage.tools;
 
+import de.benjaminborbe.api.Identifier;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-
-import de.benjaminborbe.api.Identifier;
 
 public abstract class EntityBase<I extends Identifier<?>> implements Entity<I> {
 

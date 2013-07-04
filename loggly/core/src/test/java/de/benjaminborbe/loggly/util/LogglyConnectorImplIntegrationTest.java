@@ -1,16 +1,14 @@
 package de.benjaminborbe.loggly.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.google.inject.Injector;
+import de.benjaminborbe.loggly.guice.LogglyModulesMock;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
 
 import java.util.Date;
 
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.loggly.guice.LogglyModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class LogglyConnectorImplIntegrationTest {
 

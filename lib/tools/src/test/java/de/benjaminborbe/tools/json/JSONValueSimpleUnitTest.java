@@ -1,10 +1,10 @@
 package de.benjaminborbe.tools.json;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.io.StringWriter;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class JSONValueSimpleUnitTest {
 

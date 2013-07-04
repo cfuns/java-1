@@ -1,13 +1,11 @@
 package de.benjaminborbe.mail.util;
 
-import java.util.Properties;
-
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.naming.NamingException;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import java.util.Properties;
 
 @Singleton
 public class MailSessionFactoryMock implements MailSessionFactory {

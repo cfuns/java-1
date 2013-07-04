@@ -1,11 +1,10 @@
 package de.benjaminborbe.forum.service;
 
+import de.benjaminborbe.forum.api.ForumService;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.forum.api.ForumService;
 
 @Singleton
 public class ForumServiceImpl implements ForumService {

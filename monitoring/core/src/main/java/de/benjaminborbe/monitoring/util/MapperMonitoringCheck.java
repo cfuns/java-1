@@ -1,10 +1,10 @@
 package de.benjaminborbe.monitoring.util;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.monitoring.api.MonitoringCheckIdentifier;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
+
+import javax.inject.Inject;
 
 public class MapperMonitoringCheck implements Mapper<MonitoringCheckIdentifier> {
 

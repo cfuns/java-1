@@ -1,9 +1,9 @@
 package de.benjaminborbe.websearch.api;
 
+import de.benjaminborbe.authentication.api.UserIdentifier;
+
 import java.net.URL;
 import java.util.List;
-
-import de.benjaminborbe.authentication.api.UserIdentifier;
 
 public interface WebsearchConfiguration {
 

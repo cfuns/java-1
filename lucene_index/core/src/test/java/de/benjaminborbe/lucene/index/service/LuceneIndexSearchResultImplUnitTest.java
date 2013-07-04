@@ -1,11 +1,10 @@
 package de.benjaminborbe.lucene.index.service;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
+import de.benjaminborbe.lucene.index.api.LuceneIndexSearchResult;
 import org.junit.Test;
 
-import de.benjaminborbe.lucene.index.api.LuceneIndexSearchResult;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class LuceneIndexSearchResultImplUnitTest {
 

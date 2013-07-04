@@ -1,11 +1,11 @@
 package de.benjaminborbe.projectile.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class ProjectileReportBean extends EntityBase<ProjectileReportIdentifier> implements HasCreated, ProjectileSlacktimeReport, HasModified {
 

@@ -1,10 +1,9 @@
 package de.benjaminborbe.analytics.util;
 
-import java.util.Calendar;
+import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 
 import javax.inject.Inject;
-
-import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
+import java.util.Calendar;
 
 public class AnalyticsIntervalUtil {
 

@@ -1,8 +1,8 @@
 package de.benjaminborbe.bookmark.service;
 
-import javax.inject.Singleton;
-
 import de.benjaminborbe.tools.registry.RegistryBase;
+
+import javax.inject.Singleton;
 
 @Singleton
 public class ServletPathRegistry extends RegistryBase<String> {

@@ -55,7 +55,7 @@
 	outline: none;
 }
 
-#prevLink,#nextLink {
+#prevLink, #nextLink {
 	width: 49%;
 	height: 100%;
 	background-image: url(data:image/gif;base64,AAAA); /* Trick IE into showing hover */
@@ -72,11 +72,11 @@
 	float: right;
 }
 
-#prevLink:hover,#prevLink:visited:hover {
+#prevLink:hover, #prevLink:visited:hover {
 	background: url(../images/lightbox/prevlabel.gif) left 15% no-repeat;
 }
 
-#nextLink:hover,#nextLink:visited:hover {
+#nextLink:hover, #nextLink:visited:hover {
 	background: url(../images/lightbox/nextlabel.gif) right 15% no-repeat;
 }
 

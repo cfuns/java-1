@@ -24,22 +24,16 @@
 
 package com.glavsoft.viewer.swing.gui;
 
-import java.awt.Frame;
-import java.awt.GridLayout;
+import com.glavsoft.viewer.swing.Utils;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.border.EmptyBorder;
-
-import com.glavsoft.viewer.swing.Utils;
 
 /**
  * Dialog to ask password

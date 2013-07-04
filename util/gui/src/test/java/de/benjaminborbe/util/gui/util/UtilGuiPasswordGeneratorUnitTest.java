@@ -1,15 +1,14 @@
 package de.benjaminborbe.util.gui.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import de.benjaminborbe.tools.password.PasswordCharacter;
+import de.benjaminborbe.tools.password.PasswordGenerator;
+import de.benjaminborbe.tools.password.PasswordGeneratorImpl;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
 
-import de.benjaminborbe.tools.password.PasswordCharacter;
-import de.benjaminborbe.tools.password.PasswordGenerator;
-import de.benjaminborbe.tools.password.PasswordGeneratorImpl;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class UtilGuiPasswordGeneratorUnitTest {
 

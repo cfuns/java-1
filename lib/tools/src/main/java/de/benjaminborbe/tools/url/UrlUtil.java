@@ -1,11 +1,10 @@
 package de.benjaminborbe.tools.url;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 public interface UrlUtil {
 

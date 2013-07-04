@@ -1,13 +1,13 @@
 package de.benjaminborbe.note.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.note.api.Note;
 import de.benjaminborbe.note.api.NoteIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class NoteBean extends EntityBase<NoteIdentifier> implements Note, HasCreated, HasModified {
 

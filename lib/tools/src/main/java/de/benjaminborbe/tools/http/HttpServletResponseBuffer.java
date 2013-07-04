@@ -1,11 +1,10 @@
 package de.benjaminborbe.tools.http;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 
 public class HttpServletResponseBuffer extends HttpServletResponseAdapter implements HttpServletResponse {
 

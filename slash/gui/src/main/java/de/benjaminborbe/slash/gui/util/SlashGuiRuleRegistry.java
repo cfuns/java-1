@@ -9,7 +9,11 @@ import javax.inject.Singleton;
 public class SlashGuiRuleRegistry extends RegistryBase<SlashGuiRule> {
 
 	@Inject
-	public SlashGuiRuleRegistry(SlashGuiBenjaminBorbeSlashGuiRule bb, SlashGuiHarteslichSlashGuiRule harteslich, SlashGuiPokerSlashGuiRule poker) {
+	public SlashGuiRuleRegistry(
+		final SlashGuiBenjaminBorbeSlashGuiRule bb,
+		final SlashGuiHarteslichSlashGuiRule harteslich,
+		final SlashGuiPokerSlashGuiRule poker
+	) {
 		super(bb, harteslich, poker);
 	}
 }

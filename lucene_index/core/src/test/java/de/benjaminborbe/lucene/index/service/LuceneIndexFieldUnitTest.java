@@ -1,9 +1,9 @@
 package de.benjaminborbe.lucene.index.service;
 
+import org.junit.Test;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
 
 public class LuceneIndexFieldUnitTest {
 

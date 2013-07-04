@@ -21,7 +21,11 @@ public class SlashGuiBenjaminBorbeSlashGuiRule implements SlashGuiRule {
 	private final ExtHttpServiceMock extHttpServiceMock;
 
 	@Inject
-	public SlashGuiBenjaminBorbeSlashGuiRule(final Logger logger, AuthenticationService authenticationService, final ExtHttpServiceMock extHttpServiceMock) {
+	public SlashGuiBenjaminBorbeSlashGuiRule(
+		final Logger logger,
+		final AuthenticationService authenticationService,
+		final ExtHttpServiceMock extHttpServiceMock
+	) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.extHttpServiceMock = extHttpServiceMock;
@@ -29,7 +33,7 @@ public class SlashGuiBenjaminBorbeSlashGuiRule implements SlashGuiRule {
 
 	@Override
 	public Collection<SlashGuiRuleResult> getTarget(final HttpServletRequest request) {
-		List<SlashGuiRuleResult> result = new ArrayList<>();
+		final List<SlashGuiRuleResult> result = new ArrayList<>();
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			if (authenticationService.isLoggedIn(sessionIdentifier)) {

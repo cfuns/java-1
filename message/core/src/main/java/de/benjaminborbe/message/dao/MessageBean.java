@@ -1,12 +1,12 @@
 package de.benjaminborbe.message.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.message.api.Message;
 import de.benjaminborbe.message.api.MessageIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class MessageBean extends EntityBase<MessageIdentifier> implements Message, HasCreated, HasModified {
 

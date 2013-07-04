@@ -2,7 +2,6 @@ package de.benjaminborbe.tools.jndi;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import java.util.HashMap;

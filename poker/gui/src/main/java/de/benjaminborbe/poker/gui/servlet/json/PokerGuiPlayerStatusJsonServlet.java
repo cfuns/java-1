@@ -75,7 +75,7 @@ public class PokerGuiPlayerStatusJsonServlet extends PokerGuiPlayerJsonServlet {
 			final JSONArray jsonPlayers = new JSONArraySimple();
 			for (final PokerPlayerIdentifier pid : game.getPlayers()) {
 				final JSONObject jsonPlayerObject = new JSONObjectSimple();
-				PokerPlayer otherPlayer = pokerService.getPlayer(pid);
+				final PokerPlayer otherPlayer = pokerService.getPlayer(pid);
 				jsonPlayerObject.put("playerId", otherPlayer.getId());
 				jsonPlayerObject.put("playerName", otherPlayer.getName());
 				jsonPlayerObject.put("playerCredits", otherPlayer.getAmount());
@@ -85,7 +85,7 @@ public class PokerGuiPlayerStatusJsonServlet extends PokerGuiPlayerJsonServlet {
 			jsonObject.put("players", jsonPlayers);
 
 			final JSONArray jsonBoardCards = new JSONArraySimple();
-			for (PokerCardIdentifier cid : game.getBoardCards()) {
+			for (final PokerCardIdentifier cid : game.getBoardCards()) {
 				jsonBoardCards.add(cid);
 			}
 			jsonObject.put("boardCards", jsonBoardCards);

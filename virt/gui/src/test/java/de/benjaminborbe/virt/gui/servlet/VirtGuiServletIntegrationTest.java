@@ -1,13 +1,11 @@
 package de.benjaminborbe.virt.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
+import com.google.inject.Injector;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import de.benjaminborbe.virt.gui.guice.VirtGuiModulesMock;
 import org.junit.Test;
 
-import com.google.inject.Injector;
-
-import de.benjaminborbe.virt.gui.guice.VirtGuiModulesMock;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import static org.junit.Assert.assertEquals;
 
 public class VirtGuiServletIntegrationTest {
 

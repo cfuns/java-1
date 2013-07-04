@@ -1,10 +1,9 @@
 package de.benjaminborbe.calendar;
 
-import org.osgi.framework.BundleContext;
-
 import de.benjaminborbe.calendar.guice.CalendarModules;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
+import org.osgi.framework.BundleContext;
 
 public class CalendarActivator extends BaseBundleActivator {
 

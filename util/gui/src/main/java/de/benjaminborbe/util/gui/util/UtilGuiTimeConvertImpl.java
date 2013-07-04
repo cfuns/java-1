@@ -1,11 +1,10 @@
 package de.benjaminborbe.util.gui.util;
 
-import java.util.Calendar;
-import java.util.TimeZone;
+import de.benjaminborbe.tools.date.CalendarUtil;
 
 import javax.inject.Inject;
-
-import de.benjaminborbe.tools.date.CalendarUtil;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class UtilGuiTimeConvertImpl implements UtilGuiTimeConvert {
 

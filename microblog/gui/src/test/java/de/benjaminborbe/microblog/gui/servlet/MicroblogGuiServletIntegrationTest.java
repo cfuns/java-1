@@ -1,13 +1,11 @@
 package de.benjaminborbe.microblog.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.microblog.gui.guice.MicroblogGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class MicroblogGuiServletIntegrationTest {
 

@@ -1,13 +1,12 @@
 package de.benjaminborbe.website.util;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.Widget;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class HtmlContentWidget implements Widget {
 

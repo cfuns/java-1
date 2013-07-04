@@ -1,15 +1,13 @@
 package de.benjaminborbe.dashboard.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.service.log.LogService;
-
 import com.google.inject.AbstractModule;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.storage.api.StorageService;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.service.log.LogService;
+
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class DashboardOsgiModule extends AbstractModule {
 

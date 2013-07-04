@@ -1,13 +1,11 @@
 package de.benjaminborbe.shortener.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
+import com.google.inject.AbstractModule;
+import de.benjaminborbe.storage.api.StorageService;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
-import com.google.inject.AbstractModule;
-
-import de.benjaminborbe.storage.api.StorageService;
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class ShortenerOsgiModule extends AbstractModule {
 

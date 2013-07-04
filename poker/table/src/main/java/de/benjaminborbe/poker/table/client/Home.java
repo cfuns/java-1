@@ -4,7 +4,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
-
 import de.benjaminborbe.poker.table.client.gin.PokerTableClientGinjector;
 
 public class Home implements EntryPoint {

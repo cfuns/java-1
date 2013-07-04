@@ -1,16 +1,15 @@
 package de.benjaminborbe.poker.card;
 
-import static org.junit.Assert.assertEquals;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import de.benjaminborbe.poker.api.PokerCardColor;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerCardValue;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import static org.junit.Assert.assertEquals;
 
 public class PokerCardIdentifierBuilderUnitTest {
 

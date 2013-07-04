@@ -1,11 +1,11 @@
 package de.benjaminborbe.meta.guice;
 
-import java.net.URL;
-
 import org.osgi.service.obr.Repository;
 import org.osgi.service.obr.RepositoryAdmin;
 import org.osgi.service.obr.Resolver;
 import org.osgi.service.obr.Resource;
+
+import java.net.URL;
 
 public class RepositoryAdminMock implements RepositoryAdmin {
 

@@ -1,7 +1,6 @@
 package de.benjaminborbe.tools.util;
 
 import javax.inject.Inject;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;

@@ -1,13 +1,13 @@
-.search .title,.title a {
+.search .title, .title a {
 	font-size: 16px;
 	color: #1122CC;
 }
 
-.search .link,.link a {
+.search .link, .link a {
 	color: #009933;
 }
 
-.search .link,.description {
+.search .link, .description {
 	font-size: 13px;
 	max-width: 1000px;
 }

@@ -1,11 +1,11 @@
 package de.benjaminborbe.shortener.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class ShortenerUrlBean extends EntityBase<ShortenerUrlIdentifier> implements HasCreated, HasModified {
 

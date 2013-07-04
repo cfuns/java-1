@@ -1,13 +1,11 @@
 package de.benjaminborbe.search.gui.service;
 
-import java.util.Collection;
-
+import de.benjaminborbe.search.api.SearchSpecial;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.search.api.SearchSpecial;
+import java.util.Collection;
 
 @Singleton
 public class SearchGuiSpecialSearchFactoryImpl implements SearchGuiSpecialSearchFactory {

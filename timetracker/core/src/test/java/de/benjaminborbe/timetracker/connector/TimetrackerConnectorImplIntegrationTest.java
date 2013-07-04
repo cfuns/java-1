@@ -1,18 +1,16 @@
 package de.benjaminborbe.timetracker.connector;
 
+import com.google.inject.Injector;
+import de.benjaminborbe.timetracker.guice.TimetrackerModulesMock;
+import de.benjaminborbe.tools.date.DateUtil;
+import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Ignore;
-import org.junit.Test;
-
-import com.google.inject.Injector;
-
-import de.benjaminborbe.timetracker.guice.TimetrackerModulesMock;
-import de.benjaminborbe.tools.date.DateUtil;
-import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 
 public class TimetrackerConnectorImplIntegrationTest {
 

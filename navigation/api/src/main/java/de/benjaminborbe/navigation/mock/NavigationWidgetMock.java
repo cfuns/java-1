@@ -1,12 +1,11 @@
 package de.benjaminborbe.navigation.mock;
 
-import java.io.IOException;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.navigation.api.NavigationWidget;
+import java.io.IOException;
 
 public class NavigationWidgetMock implements NavigationWidget {
 

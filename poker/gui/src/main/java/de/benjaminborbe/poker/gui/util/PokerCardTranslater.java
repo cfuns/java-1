@@ -1,11 +1,11 @@
 package de.benjaminborbe.poker.gui.util;
 
-import java.util.ResourceBundle;
-
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.SpanWidget;
+
+import java.util.ResourceBundle;
 
 public class PokerCardTranslater {
 

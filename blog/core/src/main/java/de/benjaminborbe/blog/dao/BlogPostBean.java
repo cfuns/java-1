@@ -1,13 +1,13 @@
 package de.benjaminborbe.blog.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.blog.api.BlogPost;
 import de.benjaminborbe.blog.api.BlogPostIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class BlogPostBean extends EntityBase<BlogPostIdentifier> implements BlogPost, HasCreated, HasModified {
 

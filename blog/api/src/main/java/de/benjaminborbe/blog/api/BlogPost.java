@@ -1,8 +1,8 @@
 package de.benjaminborbe.blog.api;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
+
+import java.util.Calendar;
 
 public interface BlogPost {
 

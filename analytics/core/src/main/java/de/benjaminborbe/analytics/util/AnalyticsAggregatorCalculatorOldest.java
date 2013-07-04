@@ -1,11 +1,10 @@
 package de.benjaminborbe.analytics.util;
 
-import java.util.Calendar;
-import java.util.Collection;
+import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 
 import javax.inject.Inject;
-
-import de.benjaminborbe.analytics.api.AnalyticsReportValue;
+import java.util.Calendar;
+import java.util.Collection;
 
 public class AnalyticsAggregatorCalculatorOldest implements AnalyticsAggregatorCalculator {
 

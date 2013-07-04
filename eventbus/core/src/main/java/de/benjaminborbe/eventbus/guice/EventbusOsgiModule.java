@@ -1,13 +1,11 @@
 package de.benjaminborbe.eventbus.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
+import com.google.inject.AbstractModule;
+import de.benjaminborbe.navigation.api.NavigationWidget;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
-import com.google.inject.AbstractModule;
-
-import de.benjaminborbe.navigation.api.NavigationWidget;
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class EventbusOsgiModule extends AbstractModule {
 

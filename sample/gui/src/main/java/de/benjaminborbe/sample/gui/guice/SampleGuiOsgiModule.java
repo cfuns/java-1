@@ -1,16 +1,14 @@
 package de.benjaminborbe.sample.gui.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.service.log.LogService;
-
 import com.google.inject.AbstractModule;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.sample.api.SampleService;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.service.log.LogService;
+
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class SampleGuiOsgiModule extends AbstractModule {
 

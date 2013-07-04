@@ -24,14 +24,13 @@
 
 package com.glavsoft.rfb.protocol;
 
-import org.slf4j.Logger;
-
 import com.glavsoft.rfb.IPasswordRetriever;
 import com.glavsoft.rfb.client.ClientToServerMessage;
 import com.glavsoft.rfb.encoding.PixelFormat;
 import com.glavsoft.rfb.protocol.state.ProtocolState;
 import com.glavsoft.transport.Reader;
 import com.glavsoft.transport.Writer;
+import org.slf4j.Logger;
 
 public interface ProtocolContext {
 

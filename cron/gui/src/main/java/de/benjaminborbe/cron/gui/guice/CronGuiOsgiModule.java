@@ -1,17 +1,15 @@
 package de.benjaminborbe.cron.gui.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
-import org.apache.felix.http.api.ExtHttpService;
-import org.osgi.service.log.LogService;
-
 import com.google.inject.AbstractModule;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
+import org.apache.felix.http.api.ExtHttpService;
+import org.osgi.service.log.LogService;
+
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class CronGuiOsgiModule extends AbstractModule {
 

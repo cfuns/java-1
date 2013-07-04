@@ -1,13 +1,11 @@
 package de.benjaminborbe.googlesearch.service;
 
-import java.util.List;
-
+import de.benjaminborbe.googlesearch.api.GooglesearchService;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.googlesearch.api.GooglesearchService;
+import java.util.List;
 
 @Singleton
 public class GooglesearchServiceImpl implements GooglesearchService {

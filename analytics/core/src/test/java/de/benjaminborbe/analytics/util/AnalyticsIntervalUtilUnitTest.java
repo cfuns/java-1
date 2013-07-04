@@ -1,13 +1,12 @@
 package de.benjaminborbe.analytics.util;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
+import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import org.junit.Test;
-
-import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
+import static org.junit.Assert.assertEquals;
 
 public class AnalyticsIntervalUtilUnitTest {
 

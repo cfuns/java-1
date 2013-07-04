@@ -1,19 +1,17 @@
 package de.benjaminborbe.lunch.wikiconnector;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Collection;
-
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.lunch.guice.LunchModulesMock;
 import de.benjaminborbe.tools.date.DateUtil;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import java.util.Collection;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class LunchWikiConnectorIntegrationTest {
 

@@ -1,9 +1,9 @@
 package de.benjaminborbe.lunch.gui.util;
 
-import java.util.Date;
-
 import de.benjaminborbe.lunch.api.Lunch;
 import de.benjaminborbe.tools.util.ComparatorBase;
+
+import java.util.Date;
 
 public class LunchGuiComparator extends ComparatorBase<Lunch, Date> {
 

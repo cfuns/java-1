@@ -1,13 +1,11 @@
 package de.benjaminborbe.cron.job;
 
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.cron.guice.CronModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 
 public class CronJobOsgiIntegrationTest {
 

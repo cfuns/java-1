@@ -1,8 +1,8 @@
 package de.benjaminborbe.tools.date;
 
-import java.util.Date;
-
 import de.benjaminborbe.tools.util.ParseException;
+
+import java.util.Date;
 
 public interface DateUtil {
 

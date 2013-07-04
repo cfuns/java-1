@@ -1,10 +1,10 @@
 package de.benjaminborbe.wiki.util;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.tools.mapper.MapperEnum;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.wiki.api.WikiPageContentType;
+
+import javax.inject.Inject;
 
 public class MapperWikiPageContentType extends MapperEnum<WikiPageContentType> {
 

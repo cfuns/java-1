@@ -1,7 +1,5 @@
 package de.benjaminborbe.checklist.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.checklist.api.ChecklistEntry;
 import de.benjaminborbe.checklist.api.ChecklistEntryIdentifier;
@@ -9,6 +7,8 @@ import de.benjaminborbe.checklist.api.ChecklistListIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class ChecklistEntryBean extends EntityBase<ChecklistEntryIdentifier> implements ChecklistEntry, HasCreated, HasModified {
 

@@ -1,11 +1,11 @@
 package de.benjaminborbe.poker.api;
 
-import java.util.Collection;
-
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+
+import java.util.Collection;
 
 public interface PokerService {
 

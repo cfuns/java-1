@@ -1,16 +1,14 @@
 package de.benjaminborbe.scala.guice;
 
-import java.util.Arrays;
-import java.util.Collection;
-
+import com.google.inject.Module;
+import com.google.inject.servlet.ServletModule;
+import de.benjaminborbe.tools.guice.Modules;
+import de.benjaminborbe.tools.guice.ToolModule;
 import org.ops4j.peaberry.Peaberry;
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Module;
-import com.google.inject.servlet.ServletModule;
-
-import de.benjaminborbe.tools.guice.Modules;
-import de.benjaminborbe.tools.guice.ToolModule;
+import java.util.Arrays;
+import java.util.Collection;
 
 public class ScalaModules implements Modules {
 

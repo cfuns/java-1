@@ -1,8 +1,8 @@
 package de.benjaminborbe.analytics.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportValueDto;
+
+import java.util.Calendar;
 
 public class AnalyticsReportLogValueDto extends AnalyticsReportValueDto implements AnalyticsReportLogValue {
 

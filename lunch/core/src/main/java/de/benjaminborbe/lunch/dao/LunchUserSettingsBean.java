@@ -1,11 +1,11 @@
 package de.benjaminborbe.lunch.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class LunchUserSettingsBean extends EntityBase<LunchUserSettingsIdentifier> implements HasCreated, HasModified {
 

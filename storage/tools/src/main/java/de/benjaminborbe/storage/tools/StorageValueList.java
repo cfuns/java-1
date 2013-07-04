@@ -1,9 +1,9 @@
 package de.benjaminborbe.storage.tools;
 
+import de.benjaminborbe.storage.api.StorageValue;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import de.benjaminborbe.storage.api.StorageValue;
 
 public class StorageValueList extends ArrayList<StorageValue> implements List<StorageValue> {
 

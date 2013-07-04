@@ -1,7 +1,6 @@
 package de.benjaminborbe.storage.tools;
 
 import com.google.common.base.Predicate;
-
 import de.benjaminborbe.api.IteratorWithException;
 import de.benjaminborbe.tools.iterator.IteratorFilter;
 

@@ -1,19 +1,16 @@
 package de.benjaminborbe.mail.gui.service;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import de.benjaminborbe.dashboard.api.DashboardContentWidget;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.mail.gui.MailGuiConstants;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.dashboard.api.DashboardContentWidget;
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.mail.gui.MailGuiConstants;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Singleton
 public class MailGuiDashboardWidget implements DashboardContentWidget {

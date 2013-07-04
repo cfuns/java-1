@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SlashGuiPokerSlashGuiRule implements SlashGuiRule {
 
-	private ExtHttpServiceMock extHttpServiceMock;
+	private final ExtHttpServiceMock extHttpServiceMock;
 
 	@Inject
 	public SlashGuiPokerSlashGuiRule(final ExtHttpServiceMock extHttpServiceMock) {
@@ -19,7 +19,7 @@ public class SlashGuiPokerSlashGuiRule implements SlashGuiRule {
 
 	@Override
 	public Collection<SlashGuiRuleResult> getTarget(final HttpServletRequest request) {
-		List<SlashGuiRuleResult> result = new ArrayList<>();
+		final List<SlashGuiRuleResult> result = new ArrayList<>();
 		if (extHttpServiceMock.hasServletPath("/poker")) {
 			result.add(new SlashGuiRuleResult(50, request.getContextPath() + "/poker"));
 		}

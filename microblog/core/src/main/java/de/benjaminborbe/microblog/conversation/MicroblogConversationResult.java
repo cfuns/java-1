@@ -1,8 +1,8 @@
 package de.benjaminborbe.microblog.conversation;
 
-import java.util.List;
-
 import de.benjaminborbe.microblog.post.MicroblogPostResult;
+
+import java.util.List;
 
 public class MicroblogConversationResult {
 

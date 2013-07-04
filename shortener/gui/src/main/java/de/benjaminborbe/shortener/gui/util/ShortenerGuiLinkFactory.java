@@ -1,12 +1,11 @@
 package de.benjaminborbe.shortener.gui.util;
 
-import javax.servlet.http.HttpServletRequest;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.shortener.api.ShortenerUrlIdentifier;
 import de.benjaminborbe.shortener.gui.ShortenerGuiConstants;
 import de.benjaminborbe.tools.url.UrlUtil;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 public class ShortenerGuiLinkFactory {
 

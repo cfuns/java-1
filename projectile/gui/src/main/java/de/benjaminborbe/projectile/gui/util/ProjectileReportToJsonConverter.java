@@ -1,14 +1,13 @@
 package de.benjaminborbe.projectile.gui.util;
 
-import java.io.IOException;
-import java.util.Calendar;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.projectile.api.ProjectileSlacktimeReport;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
+
+import javax.inject.Inject;
+import java.io.IOException;
+import java.util.Calendar;
 
 public class ProjectileReportToJsonConverter {
 

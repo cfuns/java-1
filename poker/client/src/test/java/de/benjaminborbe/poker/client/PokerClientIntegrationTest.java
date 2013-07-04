@@ -13,7 +13,7 @@ public class PokerClientIntegrationTest {
 	@Test
 	public void testInject() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerClientModules());
-		PokerClient pokerClient = injector.getInstance(PokerClient.class);
+		final PokerClient pokerClient = injector.getInstance(PokerClient.class);
 		assertThat(pokerClient.getClass().getName(), is(PokerClient.class.getName()));
 	}
 }

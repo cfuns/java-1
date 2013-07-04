@@ -1,13 +1,11 @@
 package de.benjaminborbe.worktime.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.worktime.gui.guice.WorktimeGuiModulesMock;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class WorktimeGuiServletIntegrationTest {
 

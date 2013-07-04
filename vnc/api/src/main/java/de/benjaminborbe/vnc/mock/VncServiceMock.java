@@ -1,7 +1,5 @@
 package de.benjaminborbe.vnc.mock;
 
-import java.util.List;
-
 import de.benjaminborbe.vnc.api.VncKey;
 import de.benjaminborbe.vnc.api.VncKeyParser;
 import de.benjaminborbe.vnc.api.VncLocation;
@@ -9,6 +7,8 @@ import de.benjaminborbe.vnc.api.VncPixels;
 import de.benjaminborbe.vnc.api.VncScreenContent;
 import de.benjaminborbe.vnc.api.VncService;
 import de.benjaminborbe.vnc.api.VncServiceException;
+
+import java.util.List;
 
 public class VncServiceMock implements VncService {
 

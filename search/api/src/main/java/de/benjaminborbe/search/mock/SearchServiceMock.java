@@ -1,12 +1,12 @@
 package de.benjaminborbe.search.mock;
 
-import java.util.Arrays;
-import java.util.List;
-
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.search.api.SearchResult;
 import de.benjaminborbe.search.api.SearchService;
 import de.benjaminborbe.search.api.SearchServiceException;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class SearchServiceMock implements SearchService {
 

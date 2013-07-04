@@ -1,10 +1,9 @@
 package de.benjaminborbe.website.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
 import com.google.inject.AbstractModule;
-
 import de.benjaminborbe.cache.api.CacheService;
+
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class WebsiteOsgiModule extends AbstractModule {
 

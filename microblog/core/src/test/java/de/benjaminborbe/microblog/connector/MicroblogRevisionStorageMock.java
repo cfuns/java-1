@@ -1,9 +1,9 @@
 package de.benjaminborbe.microblog.connector;
 
-import javax.inject.Singleton;
-
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.revision.MicroblogRevisionStorage;
+
+import javax.inject.Singleton;
 
 @Singleton
 public class MicroblogRevisionStorageMock implements MicroblogRevisionStorage {

@@ -1,20 +1,18 @@
 package de.benjaminborbe.googlesearch.gui.service;
 
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.search.api.SearchSpecial;
+import de.benjaminborbe.tools.url.UrlUtil;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.search.api.SearchSpecial;
-import de.benjaminborbe.tools.url.UrlUtil;
 
 @Singleton
 public class GooglesearchGuiMapSpecialSearch implements SearchSpecial {

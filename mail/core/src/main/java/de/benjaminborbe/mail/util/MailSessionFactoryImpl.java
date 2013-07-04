@@ -1,15 +1,13 @@
 package de.benjaminborbe.mail.util;
 
-import javax.mail.Session;
-import javax.naming.Context;
-import javax.naming.NamingException;
-
+import de.benjaminborbe.tools.jndi.InitialContextCache;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.tools.jndi.InitialContextCache;
+import javax.mail.Session;
+import javax.naming.Context;
+import javax.naming.NamingException;
 
 @Singleton
 public class MailSessionFactoryImpl implements MailSessionFactory {

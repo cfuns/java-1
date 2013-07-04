@@ -1,7 +1,6 @@
 package de.benjaminborbe.gallery.util;
 
 import com.google.common.base.Predicate;
-
 import de.benjaminborbe.gallery.api.GalleryCollectionIdentifier;
 import de.benjaminborbe.gallery.dao.GalleryEntryBean;
 

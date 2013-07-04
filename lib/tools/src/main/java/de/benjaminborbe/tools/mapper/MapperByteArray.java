@@ -1,8 +1,8 @@
 package de.benjaminborbe.tools.mapper;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.tools.util.Base64Util;
+
+import javax.inject.Inject;
 
 public class MapperByteArray implements Mapper<byte[]> {
 

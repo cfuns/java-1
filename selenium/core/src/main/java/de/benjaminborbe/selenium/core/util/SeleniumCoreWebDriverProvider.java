@@ -1,68 +1,68 @@
 package de.benjaminborbe.selenium.core.util;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-
-import org.openqa.selenium.WebDriver;
-import org.slf4j.Logger;
-
 import de.benjaminborbe.selenium.core.config.SeleniumCoreConfig;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 public class SeleniumCoreWebDriverProvider implements Provider<SeleniumCoreWebDriver> {
 
-    private final Logger logger;
+	private final Logger logger;
 
-    private final SeleniumCoreConfig seleniumCoreConfig;
+	private final SeleniumCoreConfig seleniumCoreConfig;
 
-    private final ParseUtil parseUtil;
+	private final ParseUtil parseUtil;
 
-    private final SeleniumRemoteWebDriverCreator seleniumRemoteWebDriverCreator;
+	private final SeleniumRemoteWebDriverCreator seleniumRemoteWebDriverCreator;
 
-    private final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry;
+	private final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry;
 
-    private final SeleniumLocalFirefoxWebDriverCreator seleniumLocalFirefoxWebDriverCreator;
+	private final SeleniumLocalFirefoxWebDriverCreator seleniumLocalFirefoxWebDriverCreator;
 
-    private final SeleniumLocalChromeWebDriverCreator seleniumLocalChromeWebDriverCreator;
+	private final SeleniumLocalChromeWebDriverCreator seleniumLocalChromeWebDriverCreator;
 
-    @Inject
-    public SeleniumCoreWebDriverProvider(
-            final Logger logger,
-            final SeleniumCoreConfig seleniumCoreConfig,
-            final ParseUtil parseUtil,
-            final SeleniumRemoteWebDriverCreator seleniumRemoteWebDriverCreator,
-            final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry,
-            final SeleniumLocalFirefoxWebDriverCreator seleniumLocalFirefoxWebDriverCreator,
-            final SeleniumLocalChromeWebDriverCreator seleniumLocalChromeWebDriverCreator) {
-        this.logger = logger;
-        this.seleniumCoreConfig = seleniumCoreConfig;
-        this.parseUtil = parseUtil;
-        this.seleniumRemoteWebDriverCreator = seleniumRemoteWebDriverCreator;
-        this.seleniumCoreWebDriverRegistry = seleniumCoreWebDriverRegistry;
-        this.seleniumLocalFirefoxWebDriverCreator = seleniumLocalFirefoxWebDriverCreator;
-        this.seleniumLocalChromeWebDriverCreator = seleniumLocalChromeWebDriverCreator;
-    }
+	@Inject
+	public SeleniumCoreWebDriverProvider(
+		final Logger logger,
+		final SeleniumCoreConfig seleniumCoreConfig,
+		final ParseUtil parseUtil,
+		final SeleniumRemoteWebDriverCreator seleniumRemoteWebDriverCreator,
+		final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry,
+		final SeleniumLocalFirefoxWebDriverCreator seleniumLocalFirefoxWebDriverCreator,
+		final SeleniumLocalChromeWebDriverCreator seleniumLocalChromeWebDriverCreator
+	) {
+		this.logger = logger;
+		this.seleniumCoreConfig = seleniumCoreConfig;
+		this.parseUtil = parseUtil;
+		this.seleniumRemoteWebDriverCreator = seleniumRemoteWebDriverCreator;
+		this.seleniumCoreWebDriverRegistry = seleniumCoreWebDriverRegistry;
+		this.seleniumLocalFirefoxWebDriverCreator = seleniumLocalFirefoxWebDriverCreator;
+		this.seleniumLocalChromeWebDriverCreator = seleniumLocalChromeWebDriverCreator;
+	}
 
-    @Override
-    public SeleniumCoreWebDriver get() {
-        final String url = "http://" + seleniumCoreConfig.getSeleniumRemoteHost() + ":" + seleniumCoreConfig.getSeleniumRemotePort() + "/wd/hub";
-        try {
-            final WebDriver driver;
-            if (Boolean.TRUE.equals(seleniumCoreConfig.getSeleniumLocal())) {
-                logger.debug("create local driver");
-                // driver = seleniumLocalFirefoxWebDriverCreator.create();
-                driver = seleniumLocalChromeWebDriverCreator.create();
-            } else {
-                logger.debug("create remote driver");
-                driver = seleniumRemoteWebDriverCreator.create(parseUtil.parseURL(url));
-            }
+	@Override
+	public SeleniumCoreWebDriver get() {
+		final String url = "http://" + seleniumCoreConfig.getSeleniumRemoteHost() + ":" + seleniumCoreConfig.getSeleniumRemotePort() + "/wd/hub";
+		try {
+			final WebDriver driver;
+			if (Boolean.TRUE.equals(seleniumCoreConfig.getSeleniumLocal())) {
+				logger.debug("create local driver");
+				// driver = seleniumLocalFirefoxWebDriverCreator.create();
+				driver = seleniumLocalChromeWebDriverCreator.create();
+			} else {
+				logger.debug("create remote driver");
+				driver = seleniumRemoteWebDriverCreator.create(parseUtil.parseURL(url));
+			}
 
-            final SeleniumCoreWebDriver seleniumCoreWebDriver = new SeleniumCoreWebDriver(driver);
-            seleniumCoreWebDriverRegistry.add(seleniumCoreWebDriver);
-            return seleniumCoreWebDriver;
-        } catch (ParseException e) {
-            throw new SeleniumCoreWebDriverCreationException("parse selenium url failed: " + url, e);
-        }
-    }
+			final SeleniumCoreWebDriver seleniumCoreWebDriver = new SeleniumCoreWebDriver(driver);
+			seleniumCoreWebDriverRegistry.add(seleniumCoreWebDriver);
+			return seleniumCoreWebDriver;
+		} catch (ParseException e) {
+			throw new SeleniumCoreWebDriverCreationException("parse selenium url failed: " + url, e);
+		}
+	}
 }

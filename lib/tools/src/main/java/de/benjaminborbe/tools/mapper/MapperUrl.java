@@ -1,10 +1,9 @@
 package de.benjaminborbe.tools.mapper;
 
-import java.net.URL;
+import de.benjaminborbe.tools.util.ParseUtil;
 
 import javax.inject.Inject;
-
-import de.benjaminborbe.tools.util.ParseUtil;
+import java.net.URL;
 
 public class MapperUrl implements Mapper<URL> {
 

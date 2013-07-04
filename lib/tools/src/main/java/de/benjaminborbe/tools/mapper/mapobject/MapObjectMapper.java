@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.mapper.mapobject;
 
+import de.benjaminborbe.tools.mapper.MapException;
+
 import java.util.Collection;
 import java.util.Map;
-
-import de.benjaminborbe.tools.mapper.MapException;
 
 public interface MapObjectMapper<T> {
 

@@ -1,8 +1,8 @@
 package de.benjaminborbe.tools.guice;
 
-import java.util.Collection;
-
 import com.google.inject.Module;
+
+import java.util.Collection;
 
 public interface Modules {
 

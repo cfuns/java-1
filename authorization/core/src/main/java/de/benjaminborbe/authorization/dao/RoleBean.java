@@ -1,12 +1,12 @@
 package de.benjaminborbe.authorization.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.authorization.api.Role;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class RoleBean extends EntityBase<RoleIdentifier> implements Role, HasCreated, HasModified {
 

@@ -1,11 +1,11 @@
 package de.benjaminborbe.analytics.dao;
 
-import java.util.Collection;
-
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
+
+import java.util.Collection;
 
 public interface AnalyticsReportLogDao {
 

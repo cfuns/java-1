@@ -1,15 +1,13 @@
 package de.benjaminborbe.meta.guice;
 
-import java.util.Arrays;
-import java.util.Collection;
-
+import com.google.inject.Module;
+import com.google.inject.servlet.ServletModule;
+import de.benjaminborbe.tools.guice.Modules;
 import org.ops4j.peaberry.Peaberry;
 import org.osgi.framework.BundleContext;
 
-import com.google.inject.Module;
-import com.google.inject.servlet.ServletModule;
-
-import de.benjaminborbe.tools.guice.Modules;
+import java.util.Arrays;
+import java.util.Collection;
 
 public class MetaModules implements Modules {
 

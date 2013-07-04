@@ -1,11 +1,11 @@
 package de.benjaminborbe.website.link;
 
-import java.net.URL;
-
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.util.StringWidget;
 import de.benjaminborbe.website.util.TagWidget;
 import de.benjaminborbe.website.util.Target;
+
+import java.net.URL;
 
 public class LinkWidget extends TagWidget {
 

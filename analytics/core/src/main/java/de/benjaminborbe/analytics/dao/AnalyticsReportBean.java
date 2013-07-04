@@ -1,13 +1,13 @@
 package de.benjaminborbe.analytics.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class AnalyticsReportBean extends EntityBase<AnalyticsReportIdentifier> implements HasCreated, AnalyticsReport, HasModified {
 

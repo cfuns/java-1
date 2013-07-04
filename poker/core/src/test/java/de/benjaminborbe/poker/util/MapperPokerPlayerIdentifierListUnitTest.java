@@ -1,15 +1,14 @@
 package de.benjaminborbe.poker.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-
-import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class MapperPokerPlayerIdentifierListUnitTest {
 

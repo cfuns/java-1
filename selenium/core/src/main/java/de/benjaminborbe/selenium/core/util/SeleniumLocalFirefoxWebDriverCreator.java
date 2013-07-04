@@ -5,7 +5,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class SeleniumLocalFirefoxWebDriverCreator {
 
-    public WebDriver create() {
-        return new FirefoxDriver();
-    }
+	public WebDriver create() {
+		return new FirefoxDriver();
+	}
 }

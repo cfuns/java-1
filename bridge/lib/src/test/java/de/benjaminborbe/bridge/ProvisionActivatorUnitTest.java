@@ -1,15 +1,14 @@
 package de.benjaminborbe.bridge;
 
-import static org.junit.Assert.assertTrue;
+import org.easymock.EasyMock;
+import org.junit.Test;
 
+import javax.servlet.ServletContext;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
-import javax.servlet.ServletContext;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 public class ProvisionActivatorUnitTest {
 

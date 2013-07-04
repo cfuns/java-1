@@ -1,11 +1,10 @@
 package de.benjaminborbe.bookmark.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
+import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
 import org.junit.Test;
 
-import de.benjaminborbe.bookmark.api.BookmarkIdentifier;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class BookmarkBeanUnitTest {
 

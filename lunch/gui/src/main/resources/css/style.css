@@ -1,8 +1,8 @@
-.subscribed,.subscribed a {
+.subscribed, .subscribed a {
 	color: green;
 }
 
-.notsubscribed,.notsubscribed a {
+.notsubscribed, .notsubscribed a {
 	color: black;
 }
 

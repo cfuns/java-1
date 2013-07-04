@@ -1,11 +1,10 @@
 package de.benjaminborbe.tools.date;
 
-import java.util.TimeZone;
+import de.benjaminborbe.tools.util.ParseException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.tools.util.ParseException;
+import java.util.TimeZone;
 
 @Singleton
 public class TimeZoneUtilImpl implements TimeZoneUtil {

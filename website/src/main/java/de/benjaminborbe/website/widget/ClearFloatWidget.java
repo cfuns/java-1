@@ -1,12 +1,12 @@
 package de.benjaminborbe.website.widget;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.website.util.CompositeWidget;
 import de.benjaminborbe.website.util.SingleTagWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class ClearFloatWidget extends CompositeWidget {
 

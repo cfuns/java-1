@@ -1,11 +1,11 @@
 package de.benjaminborbe.authorization.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class PermissionBean extends EntityBase<PermissionIdentifier> implements HasCreated, HasModified {
 

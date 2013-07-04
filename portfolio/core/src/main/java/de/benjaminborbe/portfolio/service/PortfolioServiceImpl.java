@@ -1,11 +1,10 @@
 package de.benjaminborbe.portfolio.service;
 
+import de.benjaminborbe.portfolio.api.PortfolioService;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.portfolio.api.PortfolioService;
 
 @Singleton
 public class PortfolioServiceImpl implements PortfolioService {

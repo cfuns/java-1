@@ -1,13 +1,11 @@
 package de.benjaminborbe.gallery.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.gallery.gui.guice.GalleryGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class GalleryGuiCollectionListServletIntegrationTest {
 

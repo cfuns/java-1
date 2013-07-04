@@ -1,15 +1,14 @@
 package de.benjaminborbe.projectile.dao;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.projectile.api.ProjectileTeamIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.tools.ManyToManyRelationStorage;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 @Singleton
 public class ProjectileTeamUserManyToManyRelation extends ManyToManyRelationStorage<ProjectileTeamIdentifier, UserIdentifier> {

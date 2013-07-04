@@ -1,17 +1,16 @@
 package de.benjaminborbe.tools.mapper;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.tools.date.CurrentTime;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.TimeZone;
 
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
-import de.benjaminborbe.tools.date.CurrentTime;
+import static org.junit.Assert.assertEquals;
 
 public class MapperTimeZoneUnitTest {
 

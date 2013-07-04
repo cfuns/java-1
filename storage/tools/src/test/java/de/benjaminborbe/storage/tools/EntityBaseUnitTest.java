@@ -1,12 +1,11 @@
 package de.benjaminborbe.storage.tools;
 
+import de.benjaminborbe.api.IdentifierBase;
+import org.junit.Test;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-
-import org.junit.Test;
-
-import de.benjaminborbe.api.IdentifierBase;
 
 public class EntityBaseUnitTest {
 

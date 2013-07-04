@@ -1,12 +1,12 @@
 package de.benjaminborbe.search.gui.util;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
+
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
 
 public class SearchGuiTermHighlighterUnitTest {
 

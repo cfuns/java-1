@@ -1,13 +1,12 @@
 package de.benjaminborbe.website.util;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.html.api.Widget;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.html.api.Widget;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class ExceptionWidget extends CompositeWidget {
 

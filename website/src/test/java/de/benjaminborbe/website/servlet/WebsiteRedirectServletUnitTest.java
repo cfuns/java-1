@@ -1,12 +1,12 @@
 package de.benjaminborbe.website.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+
+import static org.junit.Assert.assertEquals;
 
 public class WebsiteRedirectServletUnitTest {
 

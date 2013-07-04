@@ -1,9 +1,9 @@
 package de.benjaminborbe.eventbus.api;
 
+import de.benjaminborbe.eventbus.api.Event.Type;
+
 import java.util.List;
 import java.util.Map;
-
-import de.benjaminborbe.eventbus.api.Event.Type;
 
 public interface EventbusService {
 

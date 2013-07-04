@@ -1,11 +1,10 @@
 package de.benjaminborbe.bookmark.gui.widget;
 
-import java.net.MalformedURLException;
-
-import javax.servlet.http.HttpServletRequest;
-
 import de.benjaminborbe.bookmark.gui.BookmarkGuiConstants;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import java.net.MalformedURLException;
 
 public class BookmarkCreateLink extends LinkRelativWidget {
 

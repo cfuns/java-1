@@ -61,7 +61,7 @@ public class SeleniumCoreActivator extends BaseBundleActivator {
 		super.onStopped();
 
 		final Collection<SeleniumCoreWebDriver> webDrivers = seleniumCoreWebDriverRegistry.getAll();
-		for (SeleniumCoreWebDriver driver : webDrivers) {
+		for (final SeleniumCoreWebDriver driver : webDrivers) {
 			try {
 				seleniumCoreWebDriverRegistry.remove(driver);
 				driver.close();

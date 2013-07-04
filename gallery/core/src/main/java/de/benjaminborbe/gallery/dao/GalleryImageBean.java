@@ -1,12 +1,12 @@
 package de.benjaminborbe.gallery.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.gallery.api.GalleryImage;
 import de.benjaminborbe.gallery.api.GalleryImageIdentifier;
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
+
+import java.util.Calendar;
 
 public class GalleryImageBean extends EntityBase<GalleryImageIdentifier> implements GalleryImage, HasCreated, HasModified {
 

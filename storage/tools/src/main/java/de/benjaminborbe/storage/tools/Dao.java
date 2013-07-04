@@ -1,11 +1,11 @@
 package de.benjaminborbe.storage.tools;
 
-import java.util.Collection;
-import java.util.Map;
-
 import de.benjaminborbe.api.Identifier;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageValue;
+
+import java.util.Collection;
+import java.util.Map;
 
 public interface Dao<E extends Entity<? extends I>, I extends Identifier<?>> {
 

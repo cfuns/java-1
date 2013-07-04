@@ -1,12 +1,11 @@
 package de.benjaminborbe.tools.thread;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import de.benjaminborbe.tools.util.Counter;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.tools.util.ThreadRunnerImpl;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class ThreadUtilUnitTest {
 

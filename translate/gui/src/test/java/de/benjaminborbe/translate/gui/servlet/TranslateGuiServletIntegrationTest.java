@@ -1,13 +1,11 @@
 package de.benjaminborbe.translate.gui.servlet;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 import com.google.inject.Injector;
-
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.translate.gui.guice.TranslateGuiModulesMock;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class TranslateGuiServletIntegrationTest {
 

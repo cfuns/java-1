@@ -1,8 +1,8 @@
 package de.benjaminborbe.tools.util;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.tools.date.CalendarUtil;
+
+import javax.inject.Inject;
 
 public class Duration {
 

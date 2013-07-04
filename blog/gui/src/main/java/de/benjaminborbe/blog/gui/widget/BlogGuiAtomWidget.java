@@ -1,16 +1,15 @@
 package de.benjaminborbe.blog.gui.widget;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import de.benjaminborbe.blog.gui.BlogGuiConstants;
 import de.benjaminborbe.blog.gui.atom.Entry;
 import de.benjaminborbe.blog.gui.atom.Feed;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class BlogGuiAtomWidget implements Widget {
 

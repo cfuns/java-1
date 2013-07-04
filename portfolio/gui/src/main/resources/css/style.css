@@ -17,7 +17,7 @@ a {
 	color: #FFFFFF;
 }
 
-.navi a,#languageSwitch a {
+.navi a, #languageSwitch a {
 	text-decoration: none;
 }
 
@@ -39,7 +39,7 @@ a {
 	padding: 5px;
 }
 
-#images .start .content,#images .end .content,#images .text .content {
+#images .start .content, #images .end .content, #images .text .content {
 	background-color: #202020;
 	height: 490px;
 	width: 490px;
@@ -55,7 +55,7 @@ a {
 	width: 99%;
 }
 
-#header,#content,#footer {
+#header, #content, #footer {
 	margin-left: 10px;
 }
 
@@ -74,7 +74,7 @@ a {
 	margin-left: 3px;
 }
 
-#logo .name,#logo .photography {
+#logo .name, #logo .photography {
 	font-weight: bold;
 	text-transform: uppercase;
 }
@@ -130,7 +130,7 @@ a {
 	line-height: 0;
 }
 
-.links ul,.textcontent ul {
+.links ul, .textcontent ul {
 	padding-left: 20px;
 }
 
@@ -139,7 +139,7 @@ a {
 	margin-bottom: 10px;
 }
 
-.textcontent h1,.textcontent h2 {
+.textcontent h1, .textcontent h2 {
 	margin-top: 10px;
 }
 
@@ -147,7 +147,7 @@ td {
 	vertical-align: top;
 }
 
-.textcontent input[type="text"],.textcontent textarea {
+.textcontent input[type="text"], .textcontent textarea {
 	width: 300px;
 	margin-left: 10px;
 	margin-right: 10px;

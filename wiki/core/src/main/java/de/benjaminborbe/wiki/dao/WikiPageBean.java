@@ -1,7 +1,5 @@
 package de.benjaminborbe.wiki.dao;
 
-import java.util.Calendar;
-
 import de.benjaminborbe.storage.tools.EntityBase;
 import de.benjaminborbe.storage.tools.HasCreated;
 import de.benjaminborbe.storage.tools.HasModified;
@@ -9,6 +7,8 @@ import de.benjaminborbe.wiki.api.WikiPage;
 import de.benjaminborbe.wiki.api.WikiPageContentType;
 import de.benjaminborbe.wiki.api.WikiPageIdentifier;
 import de.benjaminborbe.wiki.api.WikiSpaceIdentifier;
+
+import java.util.Calendar;
 
 public class WikiPageBean extends EntityBase<WikiPageIdentifier> implements WikiPage, HasCreated, HasModified {
 

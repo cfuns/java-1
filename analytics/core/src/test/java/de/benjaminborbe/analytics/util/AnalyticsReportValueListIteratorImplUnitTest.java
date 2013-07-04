@@ -1,23 +1,22 @@
 package de.benjaminborbe.analytics.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import de.benjaminborbe.analytics.api.AnalyticsReportValue;
+import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
+import de.benjaminborbe.analytics.api.AnalyticsServiceException;
+import de.benjaminborbe.tools.iterator.IteratorByList;
+import org.easymock.EasyMock;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import org.easymock.EasyMock;
-import org.junit.Test;
-
-import de.benjaminborbe.analytics.api.AnalyticsReportValue;
-import de.benjaminborbe.analytics.api.AnalyticsReportValueIterator;
-import de.benjaminborbe.analytics.api.AnalyticsServiceException;
-import de.benjaminborbe.tools.iterator.IteratorByList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class AnalyticsReportValueListIteratorImplUnitTest {
 

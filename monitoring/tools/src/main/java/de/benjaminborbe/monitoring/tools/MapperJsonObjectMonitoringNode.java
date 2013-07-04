@@ -1,11 +1,11 @@
 package de.benjaminborbe.monitoring.tools;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.monitoring.api.MonitoringNode;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
+
+import javax.inject.Inject;
 
 public class MapperJsonObjectMonitoringNode {
 

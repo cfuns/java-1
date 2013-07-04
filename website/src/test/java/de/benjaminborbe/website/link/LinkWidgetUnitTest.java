@@ -1,20 +1,18 @@
 package de.benjaminborbe.website.link;
 
-import static org.junit.Assert.assertEquals;
+import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.website.util.StringWidget;
+import de.benjaminborbe.website.util.Target;
+import org.easymock.EasyMock;
+import org.junit.Test;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-
-import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.website.util.StringWidget;
-import de.benjaminborbe.website.util.Target;
+import static org.junit.Assert.assertEquals;
 
 public class LinkWidgetUnitTest {
 

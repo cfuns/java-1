@@ -1,9 +1,9 @@
 package de.benjaminborbe.lunch.bean;
 
+import de.benjaminborbe.lunch.api.Lunch;
+
 import java.net.URL;
 import java.util.Date;
-
-import de.benjaminborbe.lunch.api.Lunch;
 
 public class LunchBean implements Lunch {
 

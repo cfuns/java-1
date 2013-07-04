@@ -1,14 +1,12 @@
 package de.benjaminborbe.microblog.util;
 
-import java.util.Collection;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPost;
 import de.benjaminborbe.microblog.api.MicroblogPostListener;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
+import java.util.Collection;
 
 public class MicroblogPostListenerNotification implements MicroblogPostListener {
 

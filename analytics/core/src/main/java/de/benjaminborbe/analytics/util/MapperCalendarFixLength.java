@@ -1,12 +1,11 @@
 package de.benjaminborbe.analytics.util;
 
-import java.util.Calendar;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.mapper.Mapper;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+
+import javax.inject.Inject;
+import java.util.Calendar;
 
 public class MapperCalendarFixLength implements Mapper<Calendar> {
 

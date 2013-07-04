@@ -1,8 +1,7 @@
 package de.benjaminborbe.message.util;
 
-import java.util.UUID;
-
 import javax.inject.Singleton;
+import java.util.UUID;
 
 @Singleton
 public class MessageLock {

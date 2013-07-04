@@ -1,8 +1,8 @@
 package de.benjaminborbe.tools.html;
 
-import java.util.Collection;
-
 import de.benjaminborbe.tools.util.ParseException;
+
+import java.util.Collection;
 
 public interface HtmlUtil {
 

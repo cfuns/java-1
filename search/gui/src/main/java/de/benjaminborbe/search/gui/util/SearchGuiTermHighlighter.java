@@ -1,15 +1,13 @@
 package de.benjaminborbe.search.gui.util;
 
+import de.benjaminborbe.tools.util.ComparatorLength;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
-import de.benjaminborbe.tools.util.ComparatorLength;
 
 public class SearchGuiTermHighlighter {
 

@@ -1,11 +1,11 @@
 package de.benjaminborbe.poker.util;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.card.PokerCardIdentifierBuilder;
 import de.benjaminborbe.tools.mapper.MapException;
 import de.benjaminborbe.tools.mapper.Mapper;
+
+import javax.inject.Inject;
 
 public class MapperPokerCardIdentifier implements Mapper<PokerCardIdentifier> {
 

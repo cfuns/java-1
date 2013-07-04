@@ -1,9 +1,9 @@
 package de.benjaminborbe.poker.util;
 
-import javax.inject.Inject;
-
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.tools.mapper.MapperListBase;
+
+import javax.inject.Inject;
 
 public class MapperPokerPlayerIdentifierList extends MapperListBase<PokerPlayerIdentifier> {
 

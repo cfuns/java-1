@@ -1,11 +1,11 @@
 package de.benjaminborbe.dashboard.dao;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.dashboard.api.DashboardIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Collection;
 
 public interface DashboardDao {
 

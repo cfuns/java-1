@@ -24,11 +24,10 @@
 
 package com.glavsoft.viewer.swing;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.image.MemoryImageSource;
-
 import com.glavsoft.drawing.SoftCursor;
+
+import java.awt.*;
+import java.awt.image.MemoryImageSource;
 
 public class SoftCursorImpl extends SoftCursor {
 

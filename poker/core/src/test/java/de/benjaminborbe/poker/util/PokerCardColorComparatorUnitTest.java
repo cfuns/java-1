@@ -1,10 +1,9 @@
 package de.benjaminborbe.poker.util;
 
-import static org.junit.Assert.assertEquals;
-
+import de.benjaminborbe.poker.api.PokerCardColor;
 import org.junit.Test;
 
-import de.benjaminborbe.poker.api.PokerCardColor;
+import static org.junit.Assert.assertEquals;
 
 public class PokerCardColorComparatorUnitTest {
 

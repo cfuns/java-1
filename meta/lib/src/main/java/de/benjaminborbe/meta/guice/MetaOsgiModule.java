@@ -1,12 +1,11 @@
 package de.benjaminborbe.meta.guice;
 
-import static org.ops4j.peaberry.Peaberry.service;
-
+import com.google.inject.AbstractModule;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 import org.osgi.service.obr.RepositoryAdmin;
 
-import com.google.inject.AbstractModule;
+import static org.ops4j.peaberry.Peaberry.service;
 
 public class MetaOsgiModule extends AbstractModule {
 

@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.guice;
 
-import javax.inject.Singleton;
-
 import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.tools.util.ThreadRunnerMock;
+
+import javax.inject.Singleton;
 
 public class ToolModuleMock extends ToolModuleBase {
 

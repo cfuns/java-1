@@ -1,12 +1,11 @@
 package de.benjaminborbe.search.gui.util;
 
-import java.net.MalformedURLException;
-
-import javax.servlet.http.HttpServletRequest;
-
 import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.search.gui.SearchGuiConstants;
 import de.benjaminborbe.website.link.LinkRelativWidget;
+
+import javax.servlet.http.HttpServletRequest;
+import java.net.MalformedURLException;
 
 public class SearchGuiLinkFactory {
 

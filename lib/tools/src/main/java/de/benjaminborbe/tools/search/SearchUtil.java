@@ -1,7 +1,6 @@
 package de.benjaminborbe.tools.search;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package de.benjaminborbe.search.api;
 
-import java.util.Collection;
-
 import de.benjaminborbe.html.api.Widget;
+
+import java.util.Collection;
 
 public interface SearchSpecial extends Widget {
 

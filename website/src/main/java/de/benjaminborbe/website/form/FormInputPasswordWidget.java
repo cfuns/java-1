@@ -1,8 +1,8 @@
 package de.benjaminborbe.website.form;
 
-import javax.servlet.http.HttpServletRequest;
-
 import de.benjaminborbe.website.util.SingleTagWidget;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class FormInputPasswordWidget extends FormInputBaseWidget {
 

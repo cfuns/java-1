@@ -1,9 +1,5 @@
 package de.benjaminborbe.microblog.conversation;
 
-import org.slf4j.Logger;
-
-import javax.inject.Inject;
-
 import de.benjaminborbe.microblog.api.MicroblogConversationIdentifier;
 import de.benjaminborbe.microblog.api.MicroblogPostIdentifier;
 import de.benjaminborbe.microblog.connector.MicroblogConnector;
@@ -11,6 +7,9 @@ import de.benjaminborbe.microblog.connector.MicroblogConnectorException;
 import de.benjaminborbe.microblog.post.MicroblogPostResult;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 public class MicroblogConversationFinderImpl implements MicroblogConversationFinder {
 

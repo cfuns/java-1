@@ -1,8 +1,8 @@
 package de.benjaminborbe.storage.tools;
 
-import java.io.Serializable;
-
 import de.benjaminborbe.api.Identifier;
+
+import java.io.Serializable;
 
 public interface Entity<I extends Identifier<?>> extends Serializable {
 

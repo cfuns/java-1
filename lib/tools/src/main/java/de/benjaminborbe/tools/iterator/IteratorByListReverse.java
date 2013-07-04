@@ -1,9 +1,9 @@
 package de.benjaminborbe.tools.iterator;
 
+import de.benjaminborbe.api.IteratorWithException;
+
 import java.util.Arrays;
 import java.util.List;
-
-import de.benjaminborbe.api.IteratorWithException;
 
 public class IteratorByListReverse<T, E extends Exception> implements IteratorWithException<T, E> {
 

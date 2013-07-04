@@ -1,12 +1,5 @@
 package de.benjaminborbe.authorization.service;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import org.easymock.EasyMock;
-import org.junit.Test;
-import org.slf4j.Logger;
-
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
@@ -15,6 +8,12 @@ import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.authorization.dao.RoleBean;
 import de.benjaminborbe.authorization.dao.RoleDao;
 import de.benjaminborbe.authorization.dao.UserRoleManyToManyRelation;
+import org.easymock.EasyMock;
+import org.junit.Test;
+import org.slf4j.Logger;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class AuthorizationServiceImplUnitTest {
 

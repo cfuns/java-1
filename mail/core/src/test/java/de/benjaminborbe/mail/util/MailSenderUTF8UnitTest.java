@@ -1,11 +1,10 @@
 package de.benjaminborbe.mail.util;
 
+import de.benjaminborbe.mail.api.MailDto;
 import org.easymock.EasyMock;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
-
-import de.benjaminborbe.mail.api.MailDto;
 
 public class MailSenderUTF8UnitTest {
 

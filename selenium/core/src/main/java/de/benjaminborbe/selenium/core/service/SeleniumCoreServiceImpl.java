@@ -143,7 +143,7 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 	@Override
 	public void closeDrivers(final SessionIdentifier sessionIdentifier) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
 		expectPermission(sessionIdentifier);
-		for (SeleniumCoreWebDriver driver : seleniumCoreWebDriverRegistry.getAll()) {
+		for (final SeleniumCoreWebDriver driver : seleniumCoreWebDriverRegistry.getAll()) {
 			if (!driver.isClosed()) {
 				seleniumCoreWebDriverRegistry.remove(driver);
 				try {
@@ -165,7 +165,7 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol = new SeleniumExecutionProtocolImpl();
 		final Collection<SeleniumCoreWebDriver> seleniumCoreWebDrivers = seleniumCoreWebDriverRegistry.getAll();
 		logger.debug("found " + seleniumCoreWebDrivers.size() + " drivers");
-		for (SeleniumCoreWebDriver driver : seleniumCoreWebDrivers) {
+		for (final SeleniumCoreWebDriver driver : seleniumCoreWebDrivers) {
 			if (!driver.isClosed() && driver.check()) {
 				logger.debug("found open driver");
 				if (seleniumCoreActionExecutor.execute(driver, seleniumActionConfiguration, seleniumExecutionProtocol)) {

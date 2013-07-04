@@ -1,7 +1,6 @@
 package de.benjaminborbe.bookmark.dao;
 
 import com.google.common.base.Predicate;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
 
 public class BookmarkOwnerPredicate implements Predicate<BookmarkBean> {

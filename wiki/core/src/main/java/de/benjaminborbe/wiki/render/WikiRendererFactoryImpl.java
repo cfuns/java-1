@@ -1,9 +1,9 @@
 package de.benjaminborbe.wiki.render;
 
+import de.benjaminborbe.wiki.api.WikiPageContentType;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.wiki.api.WikiPageContentType;
 
 @Singleton
 public class WikiRendererFactoryImpl implements WikiRendererFactory {

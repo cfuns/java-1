@@ -1,11 +1,10 @@
 package de.benjaminborbe.tools.jndi;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 @Singleton
 public class JndiContextImpl implements JndiContext {

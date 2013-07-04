@@ -1,8 +1,8 @@
 package de.benjaminborbe.search.api;
 
-import java.util.List;
-
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+
+import java.util.List;
 
 public interface SearchService {
 

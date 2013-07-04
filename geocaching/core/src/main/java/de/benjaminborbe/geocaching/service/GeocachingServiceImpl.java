@@ -1,11 +1,10 @@
 package de.benjaminborbe.geocaching.service;
 
+import de.benjaminborbe.geocaching.api.GeocachingService;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.geocaching.api.GeocachingService;
 
 @Singleton
 public class GeocachingServiceImpl implements GeocachingService {

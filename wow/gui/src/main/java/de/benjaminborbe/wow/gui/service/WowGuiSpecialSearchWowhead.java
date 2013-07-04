@@ -1,13 +1,12 @@
 package de.benjaminborbe.wow.gui.service;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import de.benjaminborbe.tools.url.UrlUtil;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import de.benjaminborbe.tools.url.UrlUtil;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 @Singleton
 public class WowGuiSpecialSearchWowhead extends WowGuiSpecialSearchBase {

@@ -1,8 +1,8 @@
 package de.benjaminborbe.lucene.index.util;
 
-import java.io.IOException;
-
 import org.apache.lucene.store.Directory;
+
+import java.io.IOException;
 
 public interface LuceneIndexFactory {
 

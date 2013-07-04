@@ -1,12 +1,11 @@
 package de.benjaminborbe.navigation.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import de.benjaminborbe.navigation.api.NavigationEntry;
 import org.easymock.EasyMock;
 import org.junit.Test;
 
-import de.benjaminborbe.navigation.api.NavigationEntry;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class NavigationEntryRegistryUnitTest {
 
