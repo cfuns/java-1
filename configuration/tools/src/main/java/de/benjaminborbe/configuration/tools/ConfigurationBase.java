@@ -39,6 +39,30 @@ public abstract class ConfigurationBase {
 		}
 	}
 
+	protected Double getValueDouble(final ConfigurationDescriptionDouble configurationDescriptionDouble) {
+		try {
+			return parseUtil.parseDouble(getConfigurationValue(configurationDescriptionDouble));
+		} catch (final ConfigurationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return configurationDescriptionDouble.getDefaultValue();
+		} catch (final ParseException e) {
+			logger.trace(e.getClass().getName(), e);
+			return configurationDescriptionDouble.getDefaultValue();
+		}
+	}
+
+	protected Float getValueFloat(final ConfigurationDescriptionFloat configurationDescriptionFloat) {
+		try {
+			return parseUtil.parseFloat(getConfigurationValue(configurationDescriptionFloat));
+		} catch (final ConfigurationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return configurationDescriptionFloat.getDefaultValue();
+		} catch (final ParseException e) {
+			logger.trace(e.getClass().getName(), e);
+			return configurationDescriptionFloat.getDefaultValue();
+		}
+	}
+
 	protected Long getValueLong(final ConfigurationDescriptionLong configurationDescriptionLong) {
 		try {
 			return parseUtil.parseLong(getConfigurationValue(configurationDescriptionLong));
