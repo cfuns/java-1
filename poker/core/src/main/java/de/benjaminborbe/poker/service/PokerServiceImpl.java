@@ -653,6 +653,17 @@ public class PokerServiceImpl implements PokerService {
 			}
 
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
+
+			final double minRaiseFactor = pokerConfig.getMinRaiseFactor();
+			if (minRaiseFactor >= 1 && game.getBet() * minRaiseFactor > amount) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("raise to low!")));
+			}
+
+			final double maxRaiseFactor = pokerConfig.getMaxRaiseFactor();
+			if (maxRaiseFactor >= 1 && game.getBet() * maxRaiseFactor < amount) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("raise to high!")));
+			}
+
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			bid(game, player, amount);
 			game.setActivePosition((game.getActivePosition() + 1) % (game.getActivePlayers().size()));

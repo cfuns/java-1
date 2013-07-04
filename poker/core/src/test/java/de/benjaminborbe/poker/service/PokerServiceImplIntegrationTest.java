@@ -422,6 +422,95 @@ public class PokerServiceImplIntegrationTest {
 	}
 
 	@Test
+	public void testRaiseLimits() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(createPlayerDto("playerC", 10000));
+		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer(createPlayerDto("playerD", 10000));
+		service.joinGame(gameIdentifier, playerIdentifierA);
+		service.joinGame(gameIdentifier, playerIdentifierB);
+		service.joinGame(gameIdentifier, playerIdentifierC);
+		service.joinGame(gameIdentifier, playerIdentifierD);
+		service.startGame(gameIdentifier);
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertEquals(new Long(100), game.getBet());
+			assertEquals(new Long(150), game.getPot());
+		}
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			try {
+				service.raise(gameIdentifier, activePlayer, 180);
+				fail("raise should fail, min raise 2xBet");
+			} catch (ValidationException e) {
+			}
+		}
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.raise(gameIdentifier, activePlayer, 200);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertEquals(new Long(200), game.getBet());
+			assertEquals(new Long(350), game.getPot());
+		}
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.call(gameIdentifier, activePlayer);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertEquals(new Long(200), game.getBet());
+			assertEquals(new Long(550), game.getPot());
+		}
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			try {
+				service.raise(gameIdentifier, activePlayer, 2100);
+				fail("raise should fail, max raise 2xBet");
+			} catch (ValidationException e) {
+			}
+		}
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.raise(gameIdentifier, activePlayer, 2000);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertEquals(new Long(2000), game.getBet());
+			assertEquals(new Long(2500), game.getPot());
+		}
+
+		{
+			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
+			assertNotNull(activePlayer);
+			service.call(gameIdentifier, activePlayer);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertEquals(new Long(2000), game.getBet());
+			assertEquals(new Long(4400), game.getPot());
+		}
+	}
+
+	@Test
 	public void testMaxBid() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
@@ -436,21 +525,21 @@ public class PokerServiceImplIntegrationTest {
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
 
-		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerMaxBid"), "1000");
+		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerMaxBid"), "500");
 		configurationServiceCache.flush();
-		assertEquals(1000l, config.getMaxBid());
+		assertEquals(500l, config.getMaxBid());
 
 		{
 			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
 			assertNotNull(activePlayer);
-			service.raise(gameIdentifier, activePlayer, 1000l);
+			service.raise(gameIdentifier, activePlayer, 500l);
 		}
 
 		{
 			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
 			assertNotNull(activePlayer);
 			try {
-				service.raise(gameIdentifier, activePlayer, 1001l);
+				service.raise(gameIdentifier, activePlayer, 501l);
 				fail("ValidationException expected");
 			} catch (final ValidationException e) {
 				assertNotNull(e);
@@ -463,7 +552,7 @@ public class PokerServiceImplIntegrationTest {
 		{
 			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
 			assertNotNull(activePlayer);
-			service.raise(gameIdentifier, activePlayer, 1001l);
+			service.raise(gameIdentifier, activePlayer, 1000l);
 		}
 	}
 
@@ -474,6 +563,9 @@ public class PokerServiceImplIntegrationTest {
 		final ConfigurationServiceCache configurationServiceCache = injector.getInstance(ConfigurationServiceCache.class);
 		final PokerConfig config = injector.getInstance(PokerConfig.class);
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
+
+		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerMaxRaiseFactor"), "1000");
+		configurationServiceCache.flush();
 
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
 		final int startCredits = 10000;
