@@ -90,6 +90,7 @@ public class PokerGuiGameStatusJsonServlet extends PokerGuiJsonServlet {
 			jsonPlayer.put("playerId", player.getId());
 			jsonPlayer.put("playerName", player.getName());
 			jsonPlayer.put("playerCredits", player.getAmount());
+			jsonPlayer.put("playerBet", player.getBet());
 			final JSONArray jsonPlayerCards = new JSONArraySimple();
 			for (PokerCardIdentifier cid : player.getCards()) {
 				jsonPlayerCards.add(cid);

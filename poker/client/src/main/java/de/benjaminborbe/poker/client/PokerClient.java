@@ -61,21 +61,9 @@ public class PokerClient {
 
 	public static void main(final String[] args) {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerClientModules());
-		final String baseUrl = "http://bb";
+		final String baseUrl = "http://bb/bb";
 		final ThreadRunner threadRunner = injector.getInstance(ThreadRunner.class);
-
-		threadRunner.run("playerC", new Runnable() {
-
-			@Override
-			public void run() {
-				final String token = "d830c7fd-a0eb-4c1a-8997-a87b310206c6";
-				final String playerId = "fd0e8ed0-7bd9-45cc-b72d-18f1ef51d199";
-				final PokerClient client = injector.getInstance(PokerClient.class);
-				client.run(baseUrl, token, playerId);
-			}
-		});
-
-		threadRunner.run("bborbe", new Runnable() {
+		threadRunner.run("a", new Runnable() {
 
 			@Override
 			public void run() {
@@ -86,9 +74,31 @@ public class PokerClient {
 			}
 		});
 
+		threadRunner.run("b", new Runnable() {
+
+			@Override
+			public void run() {
+				final String token = "848eafa5-f0c9-48fe-9342-f082379eb217";
+				final String playerId = "8800b805-3186-4b39-a934-710d2d807ef0";
+				final PokerClient client = injector.getInstance(PokerClient.class);
+				client.run(baseUrl, token, playerId);
+			}
+		});
+
+		threadRunner.run("c", new Runnable() {
+
+			@Override
+			public void run() {
+				final String token = "d830c7fd-a0eb-4c1a-8997-a87b310206c6";
+				final String playerId = "fd0e8ed0-7bd9-45cc-b72d-18f1ef51d199";
+				final PokerClient client = injector.getInstance(PokerClient.class);
+				client.run(baseUrl, token, playerId);
+			}
+		});
+
 		try {
-			// 30 sec
-			Thread.sleep(30 * 1000);
+			// 5min
+			Thread.sleep(5 * 60 * 1000);
 		} catch (final InterruptedException e) {
 		}
 
@@ -145,7 +155,7 @@ public class PokerClient {
 		final MapParameter parameter = new MapParameter();
 		parameter.add("token", token);
 		parameter.add("player_id", playerId);
-		return urlUtil.buildUrl(baseUrl + "/bb/poker/call/json", parameter);
+		return urlUtil.buildUrl(baseUrl + "/poker/call/json", parameter);
 	}
 
 	@SuppressWarnings("unused")
@@ -153,7 +163,7 @@ public class PokerClient {
 		final MapParameter parameter = new MapParameter();
 		parameter.add("token", token);
 		parameter.add("player_id", playerId);
-		return urlUtil.buildUrl(baseUrl + "/bb/poker/fold/json", parameter);
+		return urlUtil.buildUrl(baseUrl + "/poker/fold/json", parameter);
 	}
 
 	@SuppressWarnings("unused")
@@ -162,14 +172,14 @@ public class PokerClient {
 		parameter.add("token", token);
 		parameter.add("player_id", playerId);
 		parameter.add("amount", String.valueOf(amount));
-		return urlUtil.buildUrl(baseUrl + "/bb/poker/raise/json", parameter);
+		return urlUtil.buildUrl(baseUrl + "/poker/raise/json", parameter);
 	}
 
 	private String getStatusUrl(final String baseUrl, final String token, final String playerId) throws UnsupportedEncodingException {
 		final MapParameter parameter = new MapParameter();
 		parameter.add("token", token);
 		parameter.add("player_id", playerId);
-		return urlUtil.buildUrl(baseUrl + "/bb/poker/status/json", parameter);
+		return urlUtil.buildUrl(baseUrl + "/poker/status/json", parameter);
 	}
 
 }
