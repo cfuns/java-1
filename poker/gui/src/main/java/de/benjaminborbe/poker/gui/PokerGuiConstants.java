@@ -78,4 +78,5 @@ public interface PokerGuiConstants {
 
 	String URL_GAME_STATUS_JSON = "/game/status/json";
 
+	String URL_GAME_DASHBOARD_STATUS_JSON = "/dashboard/status/json";
 }

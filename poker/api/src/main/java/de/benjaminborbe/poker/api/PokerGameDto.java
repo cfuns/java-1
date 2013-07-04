@@ -14,7 +14,7 @@ public class PokerGameDto implements PokerGame {
 
 	private Long pot;
 
-	private List<PokerCardIdentifier> cards;
+	private List<PokerCardIdentifier> boardCards;
 
 	private List<PokerPlayerIdentifier> players;
 
@@ -26,9 +26,16 @@ public class PokerGameDto implements PokerGame {
 
 	private PokerGameIdentifier id;
 
+	private List<PokerCardIdentifier> cards;
+
 	@Override
 	public Long getMaxBid() {
 		return maxBid;
+	}
+
+	@Override
+	public List<PokerCardIdentifier> getCards() {
+		return cards;
 	}
 
 	public void setMaxBid(final Long maxBid) {
@@ -72,21 +79,8 @@ public class PokerGameDto implements PokerGame {
 	}
 
 	@Override
-	public List<PokerCardIdentifier> getCards() {
-		return cards;
-	}
-
-	public void setCards(final List<PokerCardIdentifier> cards) {
-		this.cards = cards;
-	}
-
-	@Override
 	public List<PokerPlayerIdentifier> getPlayers() {
 		return players;
-	}
-
-	public void setPlayers(final List<PokerPlayerIdentifier> players) {
-		this.players = players;
 	}
 
 	@Override
@@ -124,4 +118,21 @@ public class PokerGameDto implements PokerGame {
 	public void setId(final PokerGameIdentifier id) {
 		this.id = id;
 	}
+
+	public List<PokerCardIdentifier> getBoardCards() {
+		return boardCards;
+	}
+
+	public void setBoardCards(final List<PokerCardIdentifier> boardCards) {
+		this.boardCards = boardCards;
+	}
+
+	public void setPlayers(final List<PokerPlayerIdentifier> players) {
+		this.players = players;
+	}
+
+	public void setCards(final List<PokerCardIdentifier> cards) {
+		this.cards = cards;
+	}
+
 }

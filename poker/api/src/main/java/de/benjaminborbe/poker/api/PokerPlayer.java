@@ -1,8 +1,9 @@
 package de.benjaminborbe.poker.api;
 
-import java.util.Collection;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface PokerPlayer {
 
@@ -19,5 +20,7 @@ public interface PokerPlayer {
 	String getToken();
 
 	Collection<UserIdentifier> getOwners();
+
+	List<PokerCardIdentifier> getCards();
 
 }

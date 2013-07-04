@@ -1,8 +1,8 @@
 package de.benjaminborbe.poker.gui.config;
 
-import java.util.Collection;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+
+import java.util.Collection;
 
 public interface PokerGuiConfig {
 
@@ -10,4 +10,5 @@ public interface PokerGuiConfig {
 
 	boolean isJsonApiEnabled();
 
+	String getJsonApiDashboardToken();
 }

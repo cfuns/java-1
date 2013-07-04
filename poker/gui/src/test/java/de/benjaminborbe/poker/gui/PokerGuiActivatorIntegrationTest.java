@@ -68,6 +68,7 @@ public class PokerGuiActivatorIntegrationTest {
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_RAISE_JSON);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_STATUS_JSON);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_STATUS_JSON);
+		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_DASHBOARD_STATUS_JSON);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());
 		for (final String path : paths) {
 			assertTrue("no servlet for path " + path + " registered", extHttpServiceMock.hasServletPath(path));
@@ -134,6 +135,7 @@ public class PokerGuiActivatorIntegrationTest {
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<>();
 		names.add(NavigationEntry.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {

@@ -1,8 +1,9 @@
 package de.benjaminborbe.poker.api;
 
-import java.util.Collection;
-
 import de.benjaminborbe.authentication.api.UserIdentifier;
+
+import java.util.Collection;
+import java.util.List;
 
 public class PokerPlayerDto implements PokerPlayer {
 
@@ -19,6 +20,16 @@ public class PokerPlayerDto implements PokerPlayer {
 	private Long bet;
 
 	private String token;
+
+	public void setCards(final List<PokerCardIdentifier> cards) {
+		this.cards = cards;
+	}
+
+	public void setOwners(final Collection<UserIdentifier> owners) {
+		this.owners = owners;
+	}
+
+	private List<PokerCardIdentifier> cards;
 
 	@Override
 	public PokerPlayerIdentifier getId() {
@@ -78,8 +89,9 @@ public class PokerPlayerDto implements PokerPlayer {
 		return owners;
 	}
 
-	public void setOwners(final Collection<UserIdentifier> owners) {
-		this.owners = owners;
+	@Override
+	public List<PokerCardIdentifier> getCards() {
+		return cards;
 	}
 
 }

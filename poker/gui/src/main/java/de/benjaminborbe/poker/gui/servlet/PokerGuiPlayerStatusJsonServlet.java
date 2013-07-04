@@ -7,6 +7,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
@@ -75,6 +76,14 @@ public class PokerGuiPlayerStatusJsonServlet extends PokerGuiPlayerJsonServlet {
 			for (final PokerPlayerIdentifier pid : game.getPlayers()) {
 				jsonPlayers.add(pid);
 			}
+			jsonObject.put("players", jsonPlayers);
+
+			final JSONArray jsonCards = new JSONArraySimple();
+			for (PokerCardIdentifier cid : game.getBoardCards()) {
+				jsonCards.add(cid);
+			}
+			jsonObject.put("cards", jsonCards);
+
 		}
 		jsonObject.put("playerCredits", player.getAmount());
 		jsonObject.put("playerName", player.getName());

@@ -131,7 +131,6 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		this.players = players;
 	}
 
-	@Override
 	public List<PokerCardIdentifier> getCards() {
 		return cards;
 	}

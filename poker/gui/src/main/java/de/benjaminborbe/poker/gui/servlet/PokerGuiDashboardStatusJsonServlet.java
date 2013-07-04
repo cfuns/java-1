@@ -10,6 +10,7 @@ import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
@@ -32,14 +33,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Singleton
-public class PokerGuiGameStatusJsonServlet extends PokerGuiJsonServlet {
+public class PokerGuiDashboardStatusJsonServlet extends PokerGuiJsonServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private final PokerService pokerService;
 
+	private final PokerGuiConfig pokerGuiConfig;
+
 	@Inject
-	public PokerGuiGameStatusJsonServlet(
+	public PokerGuiDashboardStatusJsonServlet(
 		final Logger logger,
 		final UrlUtil urlUtil,
 		final AuthenticationService authenticationService,
@@ -52,6 +55,7 @@ public class PokerGuiGameStatusJsonServlet extends PokerGuiJsonServlet {
 	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerGuiConfig);
 		this.pokerService = pokerService;
+		this.pokerGuiConfig = pokerGuiConfig;
 	}
 
 	@Override
@@ -71,20 +75,37 @@ public class PokerGuiGameStatusJsonServlet extends PokerGuiJsonServlet {
 		jsonObject.put("gameSmallBlind", game.getSmallBlind());
 		jsonObject.put("gameActivePlayer", pokerService.getActivePlayer(game.getId()));
 
-		// add boardCards
+		// add board cards
 		final JSONArray jsonBoardCards = new JSONArraySimple();
 		for (PokerCardIdentifier card : game.getBoardCards()) {
 			jsonBoardCards.add(card);
 		}
 		jsonObject.put("boardCards", jsonBoardCards);
 
-		// players
+		// add players
 		final JSONArray jsonPlayers = new JSONArraySimple();
 		for (final PokerPlayerIdentifier pid : game.getPlayers()) {
-			jsonPlayers.add(pid);
+			PokerPlayer player = pokerService.getPlayer(pid);
+			JSONObject jsonPlayer = new JSONObjectSimple();
+			jsonPlayer.put("playerId", player.getId());
+			jsonPlayer.put("playerName", player.getName());
+			jsonPlayer.put("playerCredits", player.getAmount());
+			final JSONArray jsonPlayerCards = new JSONArraySimple();
+			for (PokerCardIdentifier cid : player.getCards()) {
+				jsonPlayerCards.add(cid);
+			}
+			jsonPlayer.put("playerCards", jsonPlayerCards);
+			jsonPlayers.add(jsonPlayer);
 		}
-		jsonObject.put("gamePlayers", jsonPlayers);
+		jsonObject.put("players", jsonPlayers);
 
 		printJson(response, jsonObject);
+	}
+
+	@Override
+	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
+		if (!pokerGuiConfig.getJsonApiDashboardToken().equals(request.getParameter(PokerGuiConstants.PARAMETER_TOKEN))) {
+			throw new PermissionDeniedException("invalid token");
+		}
 	}
 }

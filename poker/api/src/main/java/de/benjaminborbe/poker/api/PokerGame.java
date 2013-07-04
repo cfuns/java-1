@@ -14,7 +14,7 @@ public interface PokerGame {
 
 	List<PokerPlayerIdentifier> getPlayers();
 
-	List<PokerCardIdentifier> getCards();
+	List<PokerCardIdentifier> getBoardCards();
 
 	Long getPot();
 
@@ -25,4 +25,6 @@ public interface PokerGame {
 	Long getBet();
 
 	Long getMaxBid();
+
+	List<PokerCardIdentifier> getCards();
 }
