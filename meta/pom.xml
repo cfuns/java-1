@@ -16,6 +16,7 @@
 		<module>office</module>
 		<module>devel</module>
 		<module>selenium</module>
+		<module>poker</module>
 	</modules>
 	<dependencies>
 		<dependency>

@@ -26,6 +26,10 @@ packagedevel:
 	cd bridge/war/devel && make installwotest
 deploydevel:
 	cd bridge/war/devel && make deployforce
+packagepoker:
+	cd bridge/war/poker && make installwotest
+deploypoker:
+	cd bridge/war/poker && make deployforce
 packageselenium:
 	cd bridge/war/selenium && make installwotest
 deployselenium:

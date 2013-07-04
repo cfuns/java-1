@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+				 version="3.0">
+	<display-name>BB Osgi-Bridge</display-name>
+	<description>BB Osgi-Bridge</description>
+	<destributable/>
+	<welcome-file-list>
+		<welcome-file>/</welcome-file>
+	</welcome-file-list>
+	<!-- StartupListener -->
+	<listener>
+		<listener-class>de.benjaminborbe.bridge.StartupListener</listener-class>
+	</listener>
+	<filter>
+		<filter-name>SetCharacterEncoding</filter-name>
+		<filter-class>de.benjaminborbe.bridge.filter.SetCharacterEncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SetCharacterEncoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- Proxy -->
+	<servlet>
+		<servlet-name>proxy</servlet-name>
+		<servlet-class>org.apache.felix.http.proxy.ProxyServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>proxy</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<!-- The timeout value is specified in minutes. -->
+	<session-config>
+		<session-timeout>525600</session-timeout>
+		<cookie-config>
+			<max-age>31536000</max-age>
+		</cookie-config>
+	</session-config>
+	<resource-ref>
+		<description>Kiosk Database Connection</description>
+		<res-ref-name>jdbc/kiosk</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+</web-app>
