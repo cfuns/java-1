@@ -21,7 +21,7 @@ public class SlashGuiPokerSlashGuiRule implements SlashGuiRule {
 	public Collection<SlashGuiRuleResult> getTarget(final HttpServletRequest request) {
 		List<SlashGuiRuleResult> result = new ArrayList<>();
 		if (extHttpServiceMock.hasServletPath("/poker")) {
-			result.add(new SlashGuiRuleResult(1, request.getContextPath() + "/poker"));
+			result.add(new SlashGuiRuleResult(50, request.getContextPath() + "/poker"));
 		}
 		return result;
 	}

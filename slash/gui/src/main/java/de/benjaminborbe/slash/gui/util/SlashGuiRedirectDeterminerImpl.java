@@ -1,6 +1,5 @@
 package de.benjaminborbe.slash.gui.util;
 
-import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ComparatorUtil;
 import org.slf4j.Logger;
@@ -16,8 +15,6 @@ public class SlashGuiRedirectDeterminerImpl implements SlashGuiRedirectDetermine
 
 	private final Logger logger;
 
-	private final AuthenticationService authenticationService;
-
 	private final SlashGuiRuleRegistry slashGuiRuleRegistry;
 
 	private final ComparatorUtil comparatorUtil;
@@ -25,27 +22,23 @@ public class SlashGuiRedirectDeterminerImpl implements SlashGuiRedirectDetermine
 	@Inject
 	public SlashGuiRedirectDeterminerImpl(
 		final Logger logger,
-		final AuthenticationService authenticationService,
 		final SlashGuiRuleRegistry slashGuiRuleRegistry,
 		final ComparatorUtil comparatorUtil
 	) {
 		this.logger = logger;
-		this.authenticationService = authenticationService;
 		this.slashGuiRuleRegistry = slashGuiRuleRegistry;
 		this.comparatorUtil = comparatorUtil;
 	}
 
 	@Override
 	public String getTarget(final HttpServletRequest request) {
-//		for (String servletPath : extHttpServiceMock.getServletPaths()) {
-//			logger.debug("registered servlet: " + servletPath);
-//		}
 		List<SlashGuiRuleResult> slashGuiRuleResults = new ArrayList<>();
 		for (SlashGuiRule slashGuiRule : slashGuiRuleRegistry.getAll()) {
 			slashGuiRuleResults.addAll(slashGuiRule.getTarget(request));
 		}
+		logger.debug("found " + slashGuiRuleResults.size() + " posible targets");
 
-		List<SlashGuiRuleResult> rules = comparatorUtil.sort(slashGuiRuleResults, new ComparatorBase<SlashGuiRuleResult, Integer>() {
+		comparatorUtil.sort(slashGuiRuleResults, new ComparatorBase<SlashGuiRuleResult, Integer>() {
 
 			public Integer getValue(final SlashGuiRuleResult o) {
 				return o.getPrio();
@@ -57,10 +50,11 @@ public class SlashGuiRedirectDeterminerImpl implements SlashGuiRedirectDetermine
 			}
 		});
 
-		if (slashGuiRuleResults.isEmpty()) {
-			return request.getContextPath() + "/" + DEFAULT_TARGET;
-		} else {
+		if (!slashGuiRuleResults.isEmpty()) {
 			return slashGuiRuleResults.get(0).getTarget();
 		}
+
+		logger.debug("no target found, use default");
+		return request.getContextPath() + "/" + DEFAULT_TARGET;
 	}
 }

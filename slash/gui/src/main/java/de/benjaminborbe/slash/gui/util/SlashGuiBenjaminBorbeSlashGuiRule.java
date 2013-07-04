@@ -30,21 +30,18 @@ public class SlashGuiBenjaminBorbeSlashGuiRule implements SlashGuiRule {
 	@Override
 	public Collection<SlashGuiRuleResult> getTarget(final HttpServletRequest request) {
 		List<SlashGuiRuleResult> result = new ArrayList<>();
-		final String serverName = request.getServerName();
-		if (serverName.contains("benjamin-borbe") || serverName.contains("benjaminborbe")) {
-			try {
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				if (authenticationService.isLoggedIn(sessionIdentifier)) {
-					if (extHttpServiceMock.hasServletPath("/servlet")) {
-						result.add(new SlashGuiRuleResult(100, request.getContextPath() + "/search"));
-					}
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+			if (authenticationService.isLoggedIn(sessionIdentifier)) {
+				if (extHttpServiceMock.hasServletPath("/search")) {
+					result.add(new SlashGuiRuleResult(100, request.getContextPath() + "/search"));
 				}
-			} catch (final AuthenticationServiceException e) {
-				logger.warn(e.getClass().getName());
 			}
-			if (extHttpServiceMock.hasServletPath("/portfolio")) {
-				result.add(new SlashGuiRuleResult(50, "/portfolio"));
-			}
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName());
+		}
+		if (extHttpServiceMock.hasServletPath("/portfolio")) {
+			result.add(new SlashGuiRuleResult(50, "/portfolio"));
 		}
 		return result;
 	}
