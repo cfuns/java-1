@@ -25,9 +25,11 @@ import java.io.UnsupportedEncodingException;
 
 public class PokerClient {
 
-	private static final int DELAY = 200;
+	private static final int DELAY = 10;
 
 	private static final int TIMEOUT = 5000;
+
+	private static boolean running = true;
 
 	private final Logger logger;
 
@@ -40,8 +42,6 @@ public class PokerClient {
 	private final HttpUtil httpUtil;
 
 	private final JSONParser jsonParser;
-
-	private static boolean running = true;
 
 	@Inject
 	public PokerClient(
@@ -106,7 +106,7 @@ public class PokerClient {
 	}
 
 	private void run(final String baseUrl, final String token, final String playerId) {
-		logger.debug("run");
+		logger.info("run for player: " + playerId);
 
 		while (running) {
 			try {
@@ -116,24 +116,24 @@ public class PokerClient {
 				if (statusObject instanceof JSONObject) {
 					final JSONObject statusJsonObject = (JSONObject) statusObject;
 					if ("true".equals(String.valueOf(statusJsonObject.get("gameRunning")))) {
-						logger.debug("game running");
+						logger.info("game is running");
 						if (playerId.equals(String.valueOf(statusJsonObject.get("gameActivePlayer")))) {
-							logger.debug("active player");
+							logger.info("current player is active");
 							final String callContent = getContent(getCallUrl(baseUrl, token, playerId));
 							final Object callObject = jsonParser.parse(callContent);
 							if (statusObject instanceof JSONObject) {
 								final JSONObject callJsonObject = (JSONObject) callObject;
 								if ("true".equals(String.valueOf(callJsonObject.get("success")))) {
-									logger.debug("call success");
+									logger.info("call success");
 								} else {
-									logger.debug("call failed: " + callJsonObject.get("error"));
+									logger.info("call failed: " + callJsonObject.get("error"));
 								}
 							}
 						} else {
-							logger.debug("not active player");
+							logger.info("current player is not active");
 						}
 					} else {
-						logger.debug("game not running");
+						logger.info("game is not running");
 					}
 				}
 				try {
