@@ -7,6 +7,7 @@ import de.benjaminborbe.tools.osgi.BaseGuiceFilter;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.test.BundleActivatorTestUtil;
+import org.apache.felix.http.api.ExtHttpService;
 import org.junit.Test;
 
 import javax.servlet.Filter;
@@ -112,6 +113,7 @@ public class SlashGuiActivatorIntegrationTest {
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<>();
+		names.add(ExtHttpService.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

@@ -9,7 +9,10 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.FilterInfo;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
+import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 
 import javax.inject.Inject;
@@ -30,6 +33,9 @@ public class SlashGuiActivator extends HttpBundleActivator {
 
 	@Inject
 	private SlashGuiSessionTestServlet slashGuiSessionTestServlet;
+
+	@Inject
+	private ExtHttpServiceMock extHttpServiceMock;
 
 	public SlashGuiActivator() {
 		super(SlashGuiConstants.NAME);
@@ -65,4 +71,10 @@ public class SlashGuiActivator extends HttpBundleActivator {
 		return result;
 	}
 
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		result.add(new ServiceInfo(ExtHttpService.class, extHttpServiceMock));
+		return result;
+	}
 }

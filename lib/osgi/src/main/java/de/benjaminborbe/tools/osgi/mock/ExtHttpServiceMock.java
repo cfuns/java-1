@@ -9,6 +9,7 @@ import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.NamespaceException;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+@Singleton
 public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
 	private final Map<Servlet, String> servletAlias = new HashMap<>();
@@ -28,6 +30,8 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 	private final Map<String, String> resourceAlias = new HashMap<>();
 
 	private final Map<Filter, String> filterAlias = new HashMap<>();
+
+	private final UrlUtil urlUtil;
 
 	private int unregisterServletCallCounter;
 
@@ -41,8 +45,6 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
 	private int registerResourceCallCounter;
 
-	private final UrlUtil urlUtil;
-
 	@Inject
 	public ExtHttpServiceMock(final UrlUtil urlUtil) {
 		this.urlUtil = urlUtil;
@@ -54,6 +56,10 @@ public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
 	public Collection<Servlet> getServlets() {
 		return servletAlias.keySet();
+	}
+
+	public Collection<String> getServletPaths() {
+		return servletAlias.values();
 	}
 
 	@Override

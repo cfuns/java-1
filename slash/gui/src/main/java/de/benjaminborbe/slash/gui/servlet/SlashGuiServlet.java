@@ -2,10 +2,9 @@ package de.benjaminborbe.slash.gui.servlet;
 
 import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
-import de.benjaminborbe.authentication.api.AuthenticationServiceException;
-import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.slash.gui.util.SlashGuiRedirectDeterminer;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -24,11 +23,11 @@ public class SlashGuiServlet extends WebsiteServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private static final String DEFAULT_TARGET = "search";
-
 	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
+
+	private final SlashGuiRedirectDeterminer slashGuiRedirectDeterminer;
 
 	@Inject
 	public SlashGuiServlet(
@@ -38,11 +37,12 @@ public class SlashGuiServlet extends WebsiteServlet {
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
-		final AuthorizationService authorizationService
+		final AuthorizationService authorizationService, final SlashGuiRedirectDeterminer slashGuiRedirectDeterminer
 	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.authenticationService = authenticationService;
+		this.slashGuiRedirectDeterminer = slashGuiRedirectDeterminer;
 	}
 
 	@Override
@@ -52,28 +52,7 @@ public class SlashGuiServlet extends WebsiteServlet {
 		final HttpContext context
 	) throws ServletException, IOException {
 		logger.trace("service");
-		response.sendRedirect(buildRedirectTargetPath(request));
-	}
-
-	protected String buildRedirectTargetPath(final HttpServletRequest request) {
-		final String serverName = request.getServerName();
-		if (serverName.contains("benjamin-borbe") || serverName.contains("benjaminborbe")) {
-			try {
-				final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-				if (authenticationService.isLoggedIn(sessionIdentifier)) {
-					return request.getContextPath() + "/search";
-				}
-			} catch (final AuthenticationServiceException e) {
-				logger.warn(e.getClass().getName());
-			}
-			return request.getContextPath() + "/portfolio";
-		} else if (serverName.contains("harteslicht.de") || serverName.contains("harteslicht.com")) {
-			return request.getContextPath() + "/blog";
-		} else if (serverName.contains("rocketnews") || serverName.contains("rocketsource")) {
-			return request.getContextPath() + "/wiki";
-		} else {
-			return request.getContextPath() + "/" + DEFAULT_TARGET;
-		}
+		response.sendRedirect(slashGuiRedirectDeterminer.getTarget(request));
 	}
 
 	@Override

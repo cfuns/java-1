@@ -8,7 +8,6 @@ import de.benjaminborbe.wow.core.guice.WowModules;
 import de.benjaminborbe.wow.core.xmpp.WowXmppCommandRegistry;
 import de.benjaminborbe.xmpp.api.XmppCommand;
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -36,14 +35,6 @@ public class WowActivator extends BaseBundleActivator {
 			result.add(new ServiceInfo(XmppCommand.class, command, command.getName()));
 		}
 		return result;
-	}
-
-	@Override
-	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new WowServiceTracker(wowRegistry, context,
-		// WowService.class));
-		return serviceTrackers;
 	}
 
 }

@@ -8,7 +8,6 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -33,14 +32,6 @@ public class LogglyActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
 		result.add(new ServiceInfo(LogglyService.class, logglyService));
 		return result;
-	}
-
-	@Override
-	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new LogglyServiceTracker(logglyRegistry, context,
-		// LogglyService.class));
-		return serviceTrackers;
 	}
 
 	@Override

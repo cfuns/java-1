@@ -6,7 +6,6 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.wiki.api.WikiService;
 import de.benjaminborbe.wiki.guice.WikiModules;
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -30,11 +29,4 @@ public class WikiActivator extends BaseBundleActivator {
 		return result;
 	}
 
-	@Override
-	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new WikiServiceTracker(wikiRegistry, context,
-		// WikiService.class));
-		return serviceTrackers;
-	}
 }

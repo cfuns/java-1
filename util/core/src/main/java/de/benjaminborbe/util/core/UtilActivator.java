@@ -6,7 +6,6 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.util.api.UtilService;
 import de.benjaminborbe.util.core.guice.UtilModules;
 import org.osgi.framework.BundleContext;
-import org.osgi.util.tracker.ServiceTracker;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -30,11 +29,4 @@ public class UtilActivator extends BaseBundleActivator {
 		return result;
 	}
 
-	@Override
-	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
-		// serviceTrackers.add(new UtilServiceTracker(utilRegistry, context,
-		// UtilService.class));
-		return serviceTrackers;
-	}
 }
