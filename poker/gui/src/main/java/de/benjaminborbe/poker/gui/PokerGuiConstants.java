@@ -22,6 +22,10 @@ public interface PokerGuiConstants {
 
 	String PARAMETER_REFERER = "referer";
 
+	String PARAMETER_PLAYER_AMOUNT = "player_amount";
+
+	String PARAMETER_PLAYER_OWNERS = "player_owners";
+
 	String URL_ACTION_CALL = "/call";
 
 	String URL_ACTION_CALL_JSON = "/call/json";
@@ -54,8 +58,6 @@ public interface PokerGuiConstants {
 
 	String URL_GAME_VIEW = "/game/view";
 
-	String URL_PLAYER_STATUS_JSON = "/status/json";
-
 	String URL_HOME = "/";
 
 	String URL_PLAYER_CREATE = "/player/create";
@@ -68,15 +70,12 @@ public interface PokerGuiConstants {
 
 	String URL_API_HELP = "/api/help";
 
-	String PARAMETER_PLAYER_OWNERS = "player_owners";
-
 	String URL_GAME_UPDATE = "/game/update";
 
 	String URL_PLAYER_UPDATE = "/player/update";
 
-	String PARAMETER_PLAYER_AMOUNT = "player_amount";
+	String URL_PLAYER_STATUS_JSON = "/status/json";
 
 	String URL_GAME_STATUS_JSON = "/game/status/json";
 
-	String URL_GAME_DASHBOARD_STATUS_JSON = "/dashboard/status/json";
 }

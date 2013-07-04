@@ -5,31 +5,30 @@ import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
 import de.benjaminborbe.poker.gui.guice.PokerGuiModules;
 import de.benjaminborbe.poker.gui.service.PokerGuiNavigationEntry;
-import de.benjaminborbe.poker.gui.servlet.PokerGuiActionCallJsonServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiActionCallServlet;
-import de.benjaminborbe.poker.gui.servlet.PokerGuiActionFoldJsonServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiActionFoldServlet;
-import de.benjaminborbe.poker.gui.servlet.PokerGuiActionRaiseJsonServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiActionRaiseServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiApiHelpServlet;
-import de.benjaminborbe.poker.gui.servlet.PokerGuiDashboardStatusJsonServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameCreateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameDeleteServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameJoinServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameLeaveServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameListServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStartServlet;
-import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStatusJsonServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameStopServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameUpdateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameViewServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerCreateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerDeleteServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerListServlet;
-import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerStatusJsonServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerUpdateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiPlayerViewServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiServlet;
+import de.benjaminborbe.poker.gui.servlet.json.PokerGuiActionCallJsonServlet;
+import de.benjaminborbe.poker.gui.servlet.json.PokerGuiActionFoldJsonServlet;
+import de.benjaminborbe.poker.gui.servlet.json.PokerGuiActionRaiseJsonServlet;
+import de.benjaminborbe.poker.gui.servlet.json.PokerGuiGameStatusJsonServlet;
+import de.benjaminborbe.poker.gui.servlet.json.PokerGuiPlayerStatusJsonServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -43,9 +42,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PokerGuiActivator extends HttpBundleActivator {
-
-	@Inject
-	private PokerGuiDashboardStatusJsonServlet pokerGuiDashboardStatusJsonServlet;
 
 	@Inject
 	private PokerGuiGameStatusJsonServlet pokerGuiGameStatusJsonServlet;
@@ -161,7 +157,6 @@ public class PokerGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(pokerGuiActionRaiseJsonServlet, PokerGuiConstants.URL_ACTION_RAISE_JSON));
 		result.add(new ServletInfo(pokerGuiPlayerStatusJsonServlet, PokerGuiConstants.URL_PLAYER_STATUS_JSON));
 		result.add(new ServletInfo(pokerGuiGameStatusJsonServlet, PokerGuiConstants.URL_GAME_STATUS_JSON));
-		result.add(new ServletInfo(pokerGuiDashboardStatusJsonServlet, PokerGuiConstants.URL_GAME_DASHBOARD_STATUS_JSON));
 		return result;
 	}
 

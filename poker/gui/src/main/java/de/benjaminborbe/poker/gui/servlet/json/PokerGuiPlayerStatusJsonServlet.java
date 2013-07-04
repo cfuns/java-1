@@ -1,14 +1,14 @@
-package de.benjaminborbe.poker.gui.servlet;
+package de.benjaminborbe.poker.gui.servlet.json;
 
 import com.google.inject.Provider;
-import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
-import de.benjaminborbe.lib.validation.ValidationResultImpl;
+import de.benjaminborbe.poker.api.PokerCardIdentifier;
+import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
@@ -17,6 +17,8 @@ import de.benjaminborbe.poker.gui.PokerGuiConstants;
 import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONArray;
+import de.benjaminborbe.tools.json.JSONArraySimple;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
@@ -30,14 +32,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Singleton
-public class PokerGuiActionFoldJsonServlet extends PokerGuiPlayerJsonServlet {
+public class PokerGuiPlayerStatusJsonServlet extends PokerGuiPlayerJsonServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private final PokerService pokerService;
 
 	@Inject
-	public PokerGuiActionFoldJsonServlet(
+	public PokerGuiPlayerStatusJsonServlet(
 		final Logger logger,
 		final UrlUtil urlUtil,
 		final AuthenticationService authenticationService,
@@ -55,16 +57,41 @@ public class PokerGuiActionFoldJsonServlet extends PokerGuiPlayerJsonServlet {
 	@Override
 	protected void doAction(final HttpServletRequest request, final HttpServletResponse response) throws PokerServiceException, ValidationException,
 		ServletException, IOException, PermissionDeniedException, LoginRequiredException {
+		final JSONObject jsonObject = new JSONObjectSimple();
 		final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
 		final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
-		if (player.getGame() == null) {
-			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("player has no game")));
+		jsonObject.put("gameId", player.getGame());
+		if (player.getGame() != null) {
+			final PokerGame game = pokerService.getGame(player.getGame());
+			jsonObject.put("gameBid", game.getBet());
+			jsonObject.put("gameBigBlind", game.getBigBlind());
+			jsonObject.put("gameName", game.getName());
+			jsonObject.put("gamePot", game.getPot());
+			jsonObject.put("gameMaxBid", game.getMaxBid());
+			jsonObject.put("gameRound", game.getRound());
+			jsonObject.put("gameRunning", game.getRunning());
+			jsonObject.put("gameSmallBlind", game.getSmallBlind());
+			jsonObject.put("gameActivePlayer", pokerService.getActivePlayer(player.getGame()));
+			final JSONArray jsonPlayers = new JSONArraySimple();
+			for (final PokerPlayerIdentifier pid : game.getPlayers()) {
+				jsonPlayers.add(pid);
+			}
+			jsonObject.put("players", jsonPlayers);
+
+			final JSONArray jsonBoardCards = new JSONArraySimple();
+			for (PokerCardIdentifier cid : game.getBoardCards()) {
+				jsonBoardCards.add(cid);
+			}
+			jsonObject.put("boardCards", jsonBoardCards);
 		}
-
-		pokerService.fold(player.getGame(), playerIdentifier);
-
-		final JSONObject jsonObject = new JSONObjectSimple();
-		jsonObject.put("success", "true");
+		final JSONArray jsonPlayerCards = new JSONArraySimple();
+		for (final PokerCardIdentifier cid : player.getCards()) {
+			jsonPlayerCards.add(cid);
+		}
+		jsonObject.put("playerCards", jsonPlayerCards);
+		jsonObject.put("playerId", player.getId());
+		jsonObject.put("playerName", player.getName());
+		jsonObject.put("playerCredits", player.getAmount());
 		printJson(response, jsonObject);
 	}
 }

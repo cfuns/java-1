@@ -1,19 +1,26 @@
-package de.benjaminborbe.poker.gui.servlet;
+package de.benjaminborbe.poker.gui.servlet.json;
 
 import com.google.inject.Provider;
 import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.lib.validation.ValidationResultImpl;
+import de.benjaminborbe.poker.api.PokerPlayer;
+import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
+import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
+import de.benjaminborbe.poker.gui.PokerGuiConstants;
 import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
+import de.benjaminborbe.tools.json.JSONObject;
+import de.benjaminborbe.tools.json.JSONObjectSimple;
 import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.website.servlet.WebsiteJsonServlet;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -25,14 +32,14 @@ import java.io.IOException;
 import java.util.Collection;
 
 @Singleton
-public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
+public class PokerGuiActionCallJsonServlet extends PokerGuiPlayerJsonServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
-	private final PokerGuiConfig pokerGuiConfig;
+	private final PokerService pokerService;
 
 	@Inject
-	public PokerGuiJsonServlet(
+	public PokerGuiActionCallJsonServlet(
 		final Logger logger,
 		final UrlUtil urlUtil,
 		final AuthenticationService authenticationService,
@@ -40,19 +47,12 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
+		final PokerService pokerService,
 		final PokerGuiConfig pokerGuiConfig
 	) {
-		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
-		this.pokerGuiConfig = pokerGuiConfig;
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService, pokerGuiConfig);
+		this.pokerService = pokerService;
 	}
-
-	@Override
-	public boolean isEnabled() {
-		return pokerGuiConfig.isJsonApiEnabled();
-	}
-
-	protected abstract void doAction(final HttpServletRequest request, final HttpServletResponse response) throws PokerServiceException,
-		ValidationException, ServletException, IOException, PermissionDeniedException, LoginRequiredException;
 
 	@Override
 	protected void doService(
@@ -61,8 +61,19 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 		final HttpContext context
 	) throws ServletException, IOException,
 		PermissionDeniedException, LoginRequiredException {
+
 		try {
-			doAction(request, response);
+			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
+			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
+			if (player.getGame() == null) {
+				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("player has no game")));
+			}
+
+			pokerService.call(player.getGame(), playerIdentifier);
+
+			final JSONObject jsonObject = new JSONObjectSimple();
+			jsonObject.put("success", "true");
+			printJson(response, jsonObject);
 		} catch (final ValidationException e) {
 			final Collection<ValidationError> errors = e.getErrors();
 			final StringBuffer sb = new StringBuffer();
@@ -76,4 +87,8 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 		}
 	}
 
+	@Override
+	protected void doAction(final HttpServletRequest request, final HttpServletResponse response) throws PokerServiceException, ValidationException,
+		ServletException, IOException, PermissionDeniedException, LoginRequiredException {
+	}
 }

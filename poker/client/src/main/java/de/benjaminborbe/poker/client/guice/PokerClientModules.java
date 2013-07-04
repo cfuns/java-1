@@ -1,6 +1,7 @@
 package de.benjaminborbe.poker.client.guice;
 
 import com.google.inject.Module;
+import de.benjaminborbe.httpdownloader.core.guice.HttpdownloaderCoreModule;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.guice.ToolModule;
 
@@ -15,6 +16,7 @@ public class PokerClientModules implements Modules {
 		final List<Module> modules = new ArrayList<>();
 		modules.add(new PokerClientModule());
 		modules.add(new ToolModule());
+		modules.add(new HttpdownloaderCoreModule());
 		return modules;
 	}
 }

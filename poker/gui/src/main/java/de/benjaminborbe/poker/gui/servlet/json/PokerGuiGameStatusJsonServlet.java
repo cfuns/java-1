@@ -1,4 +1,4 @@
-package de.benjaminborbe.poker.gui.servlet;
+package de.benjaminborbe.poker.gui.servlet.json;
 
 import com.google.inject.Provider;
 import de.benjaminborbe.api.ValidationException;
@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Singleton
-public class PokerGuiDashboardStatusJsonServlet extends PokerGuiJsonServlet {
+public class PokerGuiGameStatusJsonServlet extends PokerGuiJsonServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -42,7 +42,7 @@ public class PokerGuiDashboardStatusJsonServlet extends PokerGuiJsonServlet {
 	private final PokerGuiConfig pokerGuiConfig;
 
 	@Inject
-	public PokerGuiDashboardStatusJsonServlet(
+	public PokerGuiGameStatusJsonServlet(
 		final Logger logger,
 		final UrlUtil urlUtil,
 		final AuthenticationService authenticationService,
@@ -80,7 +80,7 @@ public class PokerGuiDashboardStatusJsonServlet extends PokerGuiJsonServlet {
 		for (PokerCardIdentifier card : game.getBoardCards()) {
 			jsonBoardCards.add(card);
 		}
-		jsonObject.put("boardCards", jsonBoardCards);
+		jsonObject.put("gameBoardCards", jsonBoardCards);
 
 		// add players
 		final JSONArray jsonPlayers = new JSONArraySimple();
