@@ -3,6 +3,7 @@ package de.benjaminborbe.poker.config;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionDouble;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionLong;
 import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -22,6 +23,10 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 	private final ConfigurationDescriptionLong autoFoldTimeout = new ConfigurationDescriptionLong(0l, "PokerAutoFoldTimeout", "Poker Auto Fold Timeout");
 
 	private final ConfigurationDescriptionLong maxBid = new ConfigurationDescriptionLong(100000l, "PokerMaxBid", "Poker Max Bid");
+
+	private final ConfigurationDescriptionDouble minRaiseFactor = new ConfigurationDescriptionDouble(2d, "PokerMinRaiseFactor", "Poker Min Raise Factor");
+
+	private final ConfigurationDescriptionDouble maxRaiseFactor = new ConfigurationDescriptionDouble(10d, "PokerMaxRaiseFactor", "Poker Max Raise Factor");
 
 	@Inject
 	public PokerConfigImpl(
@@ -60,6 +65,16 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 	@Override
 	public boolean isCreditsNegativeAllowed() {
 		return Boolean.TRUE.equals(getValueBoolean(creditsNegativeAllowed));
+	}
+
+	@Override
+	public double getMinRaiseFactor() {
+		return getValueDouble(minRaiseFactor);
+	}
+
+	@Override
+	public double getMaxRaiseFactor() {
+		return getValueDouble(maxRaiseFactor);
 	}
 
 }

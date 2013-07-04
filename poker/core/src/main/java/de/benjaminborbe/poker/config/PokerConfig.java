@@ -1,8 +1,8 @@
 package de.benjaminborbe.poker.config;
 
-import java.util.Collection;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+
+import java.util.Collection;
 
 public interface PokerConfig {
 
@@ -15,4 +15,16 @@ public interface PokerConfig {
 	long getMaxBid();
 
 	boolean isCreditsNegativeAllowed();
+
+	/*
+	 * disabled: < 1
+	 * enabled: > 1
+	 */
+	double getMinRaiseFactor();
+
+	/*
+	 * disabled: < 1
+	 * enabled: > 1
+	 */
+	double getMaxRaiseFactor();
 }
