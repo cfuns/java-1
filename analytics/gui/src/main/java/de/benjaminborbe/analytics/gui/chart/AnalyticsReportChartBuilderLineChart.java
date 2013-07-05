@@ -81,8 +81,22 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 				final List<AnalyticsReportValue> reportValues = reportValueIterator.next();
 				for (int i = 0; i < reportValues.size(); ++i) {
 					final AnalyticsReportValue reportValue = reportValues.get(i);
-					tooltips.get(i).add(calendarUtil.toDateTimeString(reportValue.getDate()));
-					values.get(i).add(reportValue.getValue() != null ? df.format(reportValue.getValue()) : null);
+
+					final String key;
+					if (reportValue != null && reportValue.getDate() != null) {
+						key = calendarUtil.toDateTimeString(reportValue.getDate());
+					} else {
+						key = null;
+					}
+					tooltips.get(i).add(key);
+
+					final String value;
+					if (reportValue != null && reportValue.getValue() != null) {
+						value = df.format(reportValue.getValue());
+					} else {
+						value = null;
+					}
+					values.get(i).add(value);
 				}
 			}
 			widgets.add(new JavascriptWidget(buildContent(tooltips, values, reportIdentifiers)));

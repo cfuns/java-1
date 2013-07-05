@@ -64,11 +64,25 @@ public class AnalyticsReportChartBuilderTable implements AnalyticsReportChartBui
 			final List<AnalyticsReportValue> reportValues = reportValueIterator.next();
 			final TableRowWidget row = new TableRowWidget();
 			{
-				row.addCell(calendarUtil.toDateTimeString(reportValues.get(0).getDate()));
+				final AnalyticsReportValue analyticsReportValue = reportValues.get(0);
+				final String value;
+				if (analyticsReportValue != null) {
+					value = calendarUtil.toDateTimeString(analyticsReportValue.getDate());
+				} else {
+					value = null;
+				}
+				row.addCell(value);
 			}
 			for (final AnalyticsReportValue reportValue : reportValues) {
-				final TableCellWidget cell = new TableCellWidget(df.format(reportValue.getValue()));
-				cell.addAttribute("sorttable_customkey", df.format(reportValue.getValue()));
+				final Double reportValueValue;
+				if (reportValue != null) {
+					reportValueValue = reportValue.getValue();
+				} else {
+					reportValueValue = null;
+				}
+				final String value = reportValueValue != null ? df.format(reportValueValue) : null;
+				final TableCellWidget cell = new TableCellWidget(value);
+				cell.addAttribute("sorttable_customkey", value);
 				row.addCell(cell);
 			}
 			table.addRow(row);
