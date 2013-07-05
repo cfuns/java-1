@@ -40,9 +40,9 @@ public class PokerPlayerBeanMapper extends MapObjectMapperAdapter<PokerPlayerBea
 
 	public static final String GAME_ID = "game";
 
-	private static final String CARDS = "cards";
+	public static final String CARDS = "cards";
 
-	private static final String TOKEN = "token";
+	public static final String TOKEN = "token";
 
 	public static final String OWNERS = "owners";
 
