@@ -478,7 +478,7 @@ public class PokerServiceImpl implements PokerService {
 			game.setActivePosition((game.getActivePosition() + 1) % (game.getActivePlayers().size()));
 			game.setActivePositionTime(calendarUtil.now());
 
-			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.POT).add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.BET));
+			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.POT).add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.ACTIVE_POSITION_TIME).add(PokerGameBeanMapper.BET));
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.BET));
 
 			completeTurn(game);
@@ -637,7 +637,7 @@ public class PokerServiceImpl implements PokerService {
 		// set game bet
 		game.setBet(game.getBigBlind());
 
-		pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.BUTTON_POSITION).add(PokerGameBeanMapper.CARDS).add(PokerGameBeanMapper.CARD_POSITION).add(PokerGameBeanMapper.ROUND).add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.POT)
+		pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.BUTTON_POSITION).add(PokerGameBeanMapper.CARDS).add(PokerGameBeanMapper.CARD_POSITION).add(PokerGameBeanMapper.ROUND).add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.ACTIVE_POSITION_TIME).add(PokerGameBeanMapper.POT)
 			.add(PokerGameBeanMapper.BET).add(PokerGameBeanMapper.ACTIVE_PLAYERS).add(PokerGameBeanMapper.BOARD_CARDS));
 	}
 
@@ -670,7 +670,7 @@ public class PokerServiceImpl implements PokerService {
 			game.setActivePosition((game.getActivePosition() + 1) % (game.getActivePlayers().size()));
 			game.setActivePositionTime(calendarUtil.now());
 
-			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.POT).add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.BET));
+			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.POT).add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.ACTIVE_POSITION_TIME).add(PokerGameBeanMapper.BET));
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.BET));
 
 			completeTurn(game);
@@ -695,7 +695,7 @@ public class PokerServiceImpl implements PokerService {
 			game.setActivePosition(game.getActivePosition() % (game.getActivePlayers().size()));
 			game.setActivePositionTime(calendarUtil.now());
 
-			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.ACTIVE_PLAYERS));
+			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.ACTIVE_POSITION_TIME).add(PokerGameBeanMapper.ACTIVE_PLAYERS));
 
 			completeTurn(game);
 		} catch (final StorageException e) {
@@ -841,7 +841,7 @@ public class PokerServiceImpl implements PokerService {
 			pokerGameDao.save(
 				game,
 				new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.RUNNING).add(PokerGameBeanMapper.CARDS).add(PokerGameBeanMapper.CARD_POSITION).add(PokerGameBeanMapper.BUTTON_POSITION).add(PokerGameBeanMapper.ROUND).add(PokerGameBeanMapper.ACTIVE_PLAYERS)
-					.add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.BOARD_CARDS).add(PokerGameBeanMapper.BET));
+					.add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.ACTIVE_POSITION_TIME).add(PokerGameBeanMapper.BOARD_CARDS).add(PokerGameBeanMapper.BET));
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {

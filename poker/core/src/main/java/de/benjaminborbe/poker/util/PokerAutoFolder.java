@@ -33,18 +33,21 @@ public class PokerAutoFolder {
 
 	public void run() {
 		try {
+			logger.debug("poker auto fold cron iterate of games started");
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
 			while (i.hasNext()) {
 				final PokerGameBean game = i.next();
 				handle(game);
 			}
+			logger.debug("poker auto fold cron iterate of games finished");
 		} catch (final EntityIteratorException | StorageException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
 
 	private void handle(final PokerGameBean game) {
-		if (Boolean.TRUE.equals(game.getRunning()) && game.getAutoFoldTimeout() != null && game.getAutoFoldTimeout() > 0) {
+		logger.debug("poker auto fold handle game " + game.getId() + " started");
+		if (Boolean.TRUE.equals(game.getRunning()) && game.getActivePositionTime() != null && game.getAutoFoldTimeout() != null && game.getAutoFoldTimeout() > 0) {
 			logger.debug("auto fold game " + game.getId());
 			final long timeout = game.getAutoFoldTimeout();
 			if ((currentTime.currentTimeMillis() - game.getActivePositionTime().getTimeInMillis()) > timeout) {
@@ -58,5 +61,6 @@ public class PokerAutoFolder {
 				logger.debug("timeout not reached => skip");
 			}
 		}
+		logger.debug("poker auto fold handle game " + game.getId() + " finished");
 	}
 }

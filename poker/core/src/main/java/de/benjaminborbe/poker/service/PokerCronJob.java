@@ -30,10 +30,11 @@ public class PokerCronJob implements CronJob {
 	@Override
 	public void execute() {
 		if (pokerConfig.isCronEnabled()) {
-			logger.trace("poker cron => started");
+			logger.debug("poker cron => started");
 			pokerAutoFolder.run();
+			logger.debug("poker cron => finished");
 		} else {
-			logger.trace("poker cron => skip");
+			logger.debug("poker cron => skip");
 		}
 	}
 
