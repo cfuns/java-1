@@ -98,7 +98,7 @@ public class PokerClient {
 
 		try {
 			// 5min
-			Thread.sleep(5 * 60 * 1000);
+			Thread.sleep(10 * 5 * 60 * 1000);
 		} catch (final InterruptedException e) {
 		}
 

@@ -61,7 +61,9 @@ public class PokerGuiActionFoldJsonServlet extends PokerGuiPlayerJsonServlet {
 			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("player has no game")));
 		}
 
-		pokerService.fold(player.getGame(), playerIdentifier);
+		synchronized (pokerService) {
+			pokerService.fold(player.getGame(), playerIdentifier);
+		}
 
 		final JSONObject jsonObject = new JSONObjectSimple();
 		jsonObject.put("success", "true");

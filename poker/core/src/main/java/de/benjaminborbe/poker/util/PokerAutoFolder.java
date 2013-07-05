@@ -45,13 +45,17 @@ public class PokerAutoFolder {
 
 	private void handle(final PokerGameBean game) {
 		if (Boolean.TRUE.equals(game.getRunning()) && game.getAutoFoldTimeout() != null && game.getAutoFoldTimeout() > 0) {
+			logger.debug("auto fold game " + game.getId());
 			final long timeout = game.getAutoFoldTimeout();
 			if ((currentTime.currentTimeMillis() - game.getActivePositionTime().getTimeInMillis()) > timeout) {
+				logger.debug("timeout reached => fold");
 				try {
 					pokerService.fold(game.getId(), pokerService.getActivePlayer(game.getId()));
 				} catch (PokerServiceException | ValidationException e) {
 					logger.debug(e.getClass().getName(), e);
 				}
+			} else {
+				logger.debug("timeout not reached => skip");
 			}
 		}
 	}

@@ -69,7 +69,9 @@ public class PokerGuiActionRaiseJsonServlet extends PokerGuiPlayerJsonServlet {
 			}
 
 			final long amount = parseUtil.parseLong(request.getParameter(PokerGuiConstants.PARAMETER_AMOUNT));
-			pokerService.raise(player.getGame(), playerIdentifier, amount);
+			synchronized (pokerService) {
+				pokerService.raise(player.getGame(), playerIdentifier, amount);
+			}
 
 			final JSONObject jsonObject = new JSONObjectSimple();
 			jsonObject.put("success", "true");
