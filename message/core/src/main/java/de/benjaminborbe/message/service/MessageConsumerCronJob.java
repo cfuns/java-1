@@ -10,7 +10,7 @@ import javax.inject.Inject;
 public class MessageConsumerCronJob implements CronJob {
 
 	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "*/15 * * * * ?";
+	private static final String SCHEDULE_EXPRESSION = "*/3 * * * * ?";
 
 	private final Provider<MessageConsumerExchanger> messageConsumerExchangerProvider;
 

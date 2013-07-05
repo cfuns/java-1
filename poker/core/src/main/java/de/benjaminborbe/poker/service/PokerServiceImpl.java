@@ -162,7 +162,7 @@ public class PokerServiceImpl implements PokerService {
 			bean.setPot(0l);
 			bean.setCardPosition(0);
 			bean.setMaxBid(pokerConfig.getMaxBid());
-			bean.setAutoFoldTimeout(pokerConfig.getAutoFoldTimeout());
+			bean.setAutoCallTimeout(pokerConfig.getAutoFoldTimeout());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {

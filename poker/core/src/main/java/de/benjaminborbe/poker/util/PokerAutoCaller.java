@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 
-public class PokerAutoFolder {
+public class PokerAutoCaller {
 
 	private final PokerGameDao pokerGameDao;
 
@@ -24,7 +24,7 @@ public class PokerAutoFolder {
 	private final PokerService pokerService;
 
 	@Inject
-	public PokerAutoFolder(final Logger logger, final PokerGameDao pokerGameDao, final CurrentTime currentTime, final PokerService pokerService) {
+	public PokerAutoCaller(final Logger logger, final PokerGameDao pokerGameDao, final CurrentTime currentTime, final PokerService pokerService) {
 		this.logger = logger;
 		this.pokerGameDao = pokerGameDao;
 		this.currentTime = currentTime;
@@ -33,27 +33,27 @@ public class PokerAutoFolder {
 
 	public void run() {
 		try {
-			logger.debug("poker auto fold cron iterate of games started");
+			logger.debug("poker auto caller cron iterate of games started");
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
 			while (i.hasNext()) {
 				final PokerGameBean game = i.next();
 				handle(game);
 			}
-			logger.debug("poker auto fold cron iterate of games finished");
+			logger.debug("poker auto caller cron iterate of games finished");
 		} catch (final EntityIteratorException | StorageException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
 
 	private void handle(final PokerGameBean game) {
-		logger.debug("poker auto fold handle game " + game.getId() + " started");
-		if (Boolean.TRUE.equals(game.getRunning()) && game.getActivePositionTime() != null && game.getAutoFoldTimeout() != null && game.getAutoFoldTimeout() > 0) {
-			logger.debug("auto fold game " + game.getId());
-			final long timeout = game.getAutoFoldTimeout();
+		logger.debug("poker auto caller handle game " + game.getId() + " started");
+		if (Boolean.TRUE.equals(game.getRunning()) && game.getActivePositionTime() != null && game.getAutoCallTimeout() != null && game.getAutoCallTimeout() > 0) {
+			logger.debug("auto caller game " + game.getId());
+			final long timeout = game.getAutoCallTimeout();
 			if ((currentTime.currentTimeMillis() - game.getActivePositionTime().getTimeInMillis()) > timeout) {
-				logger.debug("timeout reached => fold");
+				logger.debug("timeout reached => call");
 				try {
-					pokerService.fold(game.getId(), pokerService.getActivePlayer(game.getId()));
+					pokerService.call(game.getId(), pokerService.getActivePlayer(game.getId()));
 				} catch (PokerServiceException | ValidationException e) {
 					logger.debug(e.getClass().getName(), e);
 				}
@@ -61,6 +61,6 @@ public class PokerAutoFolder {
 				logger.debug("timeout not reached => skip");
 			}
 		}
-		logger.debug("poker auto fold handle game " + game.getId() + " finished");
+		logger.debug("poker auto caller handle game " + game.getId() + " finished");
 	}
 }

@@ -68,7 +68,7 @@ public class PokerGameBeanMapperUnitTest {
 		result.add(new Object[]{PokerGameBeanMapper.CARDS, "HEARTS_TEN"});
 		result.add(new Object[]{PokerGameBeanMapper.BOARD_CARDS, "HEARTS_TEN"});
 		result.add(new Object[]{PokerGameBeanMapper.MAX_BID, "1000"});
-		result.add(new Object[]{PokerGameBeanMapper.AUTO_FOLD_TIMEOUT, "1337"});
+		result.add(new Object[]{PokerGameBeanMapper.AUTO_CALL_TIMEOUT, "1337"});
 		return result;
 	}
 

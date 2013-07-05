@@ -54,7 +54,7 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Long maxBid;
 
-	private Long autoFoldTimeout;
+	private Long autoCallTimeout;
 
 	@Override
 	public Long getBigBlind() {
@@ -223,12 +223,12 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		this.activePositionTime = activePositionTime;
 	}
 
-	public Long getAutoFoldTimeout() {
-		return autoFoldTimeout;
+	public Long getAutoCallTimeout() {
+		return autoCallTimeout;
 	}
 
-	public void setAutoFoldTimeout(final Long autoFoldTimeout) {
-		this.autoFoldTimeout = autoFoldTimeout;
+	public void setAutoCallTimeout(final Long autoCallTimeout) {
+		this.autoCallTimeout = autoCallTimeout;
 	}
 
 }
