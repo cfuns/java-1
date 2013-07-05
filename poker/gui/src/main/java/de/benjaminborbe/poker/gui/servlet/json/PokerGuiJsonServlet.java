@@ -51,6 +51,16 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 		return pokerGuiConfig.isJsonApiEnabled();
 	}
 
+	@Override
+	public boolean isLoginRequired() {
+		return false;
+	}
+
+	@Override
+	public boolean isAdminRequired() {
+		return false;
+	}
+
 	protected abstract void doAction(final HttpServletRequest request, final HttpServletResponse response) throws PokerServiceException,
 		ValidationException, ServletException, IOException, PermissionDeniedException, LoginRequiredException;
 
