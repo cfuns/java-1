@@ -88,7 +88,7 @@ public class MicroblogGuiServletUnitTest {
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(startTime), endTime)).andReturn(startTime);
 		EasyMock.replay(parseUtil);
 
-		final Map<String, String> data = new HashMap<>();
+		final Map<String, String> data = new HashMap<String, String>();
 
 		final HttpContext httpContext = EasyMock.createMock(HttpContext.class);
 		EasyMock.expect(httpContext.getData()).andReturn(data).anyTimes();
@@ -98,7 +98,7 @@ public class MicroblogGuiServletUnitTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<>(httpContext);
+		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<HttpContext>(httpContext);
 		final MicroblogService microblogRevisionStorage = EasyMock.createMock(MicroblogService.class);
 		EasyMock.expect(microblogRevisionStorage.getLatestPostIdentifier()).andReturn(null);
 		EasyMock.replay(microblogRevisionStorage);

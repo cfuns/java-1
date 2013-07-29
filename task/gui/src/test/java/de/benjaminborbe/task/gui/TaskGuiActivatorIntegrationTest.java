@@ -43,7 +43,7 @@ public class TaskGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASKCONTEXT_USER_REMOVE);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_FIRST);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_TASK_LAST);
@@ -108,7 +108,7 @@ public class TaskGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CSS);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_JS);
 		paths.add("/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_IMAGES);
@@ -134,7 +134,7 @@ public class TaskGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		names.add(NavigationEntry.class.getName());
 		names.add(DashboardContentWidget.class.getName());
 		names.add(SearchSpecial.class.getName());

@@ -43,7 +43,7 @@ public class LunchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_BOOKED);
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_HOME);
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_ARCHIV);
@@ -94,7 +94,7 @@ public class LunchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_CSS);
 		paths.add("/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_JS);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
@@ -118,7 +118,7 @@ public class LunchGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		names.add(NavigationEntry.class.getName());
 		names.add(NavigationEntry.class.getName());
 		names.add(NavigationEntry.class.getName());

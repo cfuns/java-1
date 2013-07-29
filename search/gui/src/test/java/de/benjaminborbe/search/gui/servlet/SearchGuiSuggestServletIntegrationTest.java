@@ -31,7 +31,7 @@ public class SearchGuiSuggestServletIntegrationTest {
 	public void testBuildJson() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SearchGuiModulesMock());
 		final SearchGuiSuggestServlet searchServlet = injector.getInstance(SearchGuiSuggestServlet.class);
-		final List<SearchResult> bookmarks = new ArrayList<>();
+		final List<SearchResult> bookmarks = new ArrayList<SearchResult>();
 		final SearchResult searchResult = EasyMock.createMock(SearchResult.class);
 		EasyMock.expect(searchResult.getUrl()).andReturn("http://www.google.com");
 		EasyMock.expect(searchResult.getTitle()).andReturn("Google");

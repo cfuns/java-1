@@ -43,7 +43,7 @@ public class PokerGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_HOME);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_API_HELP);
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_ACTION_CALL);
@@ -109,7 +109,7 @@ public class PokerGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_CSS);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
@@ -132,7 +132,7 @@ public class PokerGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		names.add(NavigationEntry.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());

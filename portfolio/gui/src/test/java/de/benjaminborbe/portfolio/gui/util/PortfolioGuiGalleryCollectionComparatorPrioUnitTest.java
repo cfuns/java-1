@@ -17,12 +17,12 @@ public class PortfolioGuiGalleryCollectionComparatorPrioUnitTest {
 		final PortfolioGuiGalleryCollectionComparatorPrio galleryComparatorPrio = new PortfolioGuiGalleryCollectionComparatorPrio();
 
 		{
-			final List<GalleryCollection> list = new ArrayList<>();
+			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
 			Collections.sort(list, galleryComparatorPrio);
 		}
 
 		{
-			final List<GalleryCollection> list = new ArrayList<>();
+			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
 			list.add(build("a", 1l));
 			list.add(build("b", 2l));
 			list.add(build("c", 3l));
@@ -33,7 +33,7 @@ public class PortfolioGuiGalleryCollectionComparatorPrioUnitTest {
 		}
 
 		{
-			final List<GalleryCollection> list = new ArrayList<>();
+			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
 			list.add(build("a", 1l));
 			list.add(build("b", 2l));
 			list.add(build("c", null));

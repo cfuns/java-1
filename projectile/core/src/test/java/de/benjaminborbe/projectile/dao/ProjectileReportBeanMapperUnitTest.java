@@ -43,7 +43,7 @@ public class ProjectileReportBeanMapperUnitTest {
 
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{"id", "1337"});
 		result.add(new Object[]{"created", "123456"});
 		result.add(new Object[]{"modified", "123456"});
@@ -71,7 +71,7 @@ public class ProjectileReportBeanMapperUnitTest {
 	}
 
 	private ProjectileReportBeanMapper getProjectileReportBeanMapper() {
-		final Provider<ProjectileReportBean> provider = new ProviderMock<>(ProjectileReportBean.class);
+		final Provider<ProjectileReportBean> provider = new ProviderMock<ProjectileReportBean>(ProjectileReportBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -93,7 +93,7 @@ public class ProjectileReportBeanMapperUnitTest {
 	@Test
 	public void testMap() throws Exception {
 		final ProjectileReportBeanMapper mapper = getProjectileReportBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final ProjectileReportBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

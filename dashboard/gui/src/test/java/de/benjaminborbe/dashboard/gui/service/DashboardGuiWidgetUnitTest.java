@@ -17,7 +17,7 @@ public class DashboardGuiWidgetUnitTest {
 
 	@Test
 	public void testSortWidgets() {
-		final List<DashboardContentWidget> result = new ArrayList<>();
+		final List<DashboardContentWidget> result = new ArrayList<DashboardContentWidget>();
 		result.add(buildDashboardWidgetWithPrio(42, "a"));
 		result.add(buildDashboardWidgetWithPrio(42, "b"));
 		result.add(buildDashboardWidgetWithPrio(1, "a"));

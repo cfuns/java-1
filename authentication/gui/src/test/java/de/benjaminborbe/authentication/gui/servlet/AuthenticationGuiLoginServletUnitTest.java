@@ -68,7 +68,7 @@ public class AuthenticationGuiLoginServletUnitTest {
 		EasyMock.expect(request.getParameterNames()).andReturn(new EnumerationEmpty<String>()).anyTimes();
 		EasyMock.replay(request);
 
-		final Map<String, String> data = new HashMap<>();
+		final Map<String, String> data = new HashMap<String, String>();
 
 		final HttpContext httpContext = EasyMock.createMock(HttpContext.class);
 		EasyMock.expect(httpContext.getData()).andReturn(data).anyTimes();
@@ -101,7 +101,7 @@ public class AuthenticationGuiLoginServletUnitTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<>(httpContext);
+		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<HttpContext>(httpContext);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);

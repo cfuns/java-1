@@ -95,7 +95,7 @@ public class GalleryGuiCollectionListServletUnitTest {
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(startTime), endTime)).andReturn(startTime);
 		EasyMock.replay(parseUtil);
 
-		final Map<String, String> data = new HashMap<>();
+		final Map<String, String> data = new HashMap<String, String>();
 
 		final HttpContext httpContext = EasyMock.createMock(HttpContext.class);
 		EasyMock.expect(httpContext.getData()).andReturn(data).anyTimes();
@@ -105,7 +105,7 @@ public class GalleryGuiCollectionListServletUnitTest {
 		navigationWidget.render(request, response, httpContext);
 		EasyMock.replay(navigationWidget);
 
-		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<>(httpContext);
+		final Provider<HttpContext> httpContextProvider = new ProviderAdapter<HttpContext>(httpContext);
 
 		final SessionIdentifier sessionIdentifier = EasyMock.createMock(SessionIdentifier.class);
 		EasyMock.replay(sessionIdentifier);

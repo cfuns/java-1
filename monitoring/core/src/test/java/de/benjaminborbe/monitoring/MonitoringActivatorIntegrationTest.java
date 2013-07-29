@@ -43,7 +43,7 @@ public class MonitoringActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		names.add(MonitoringService.class.getName());
 		names.add(CronJob.class.getName());
 		names.add(CronJob.class.getName());

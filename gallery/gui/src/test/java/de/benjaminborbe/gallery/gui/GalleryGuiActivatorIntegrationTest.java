@@ -42,7 +42,7 @@ public class GalleryGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GROUP_UPDATE);
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GROUP_CREATE);
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_GROUP_DELETE);
@@ -100,7 +100,7 @@ public class GalleryGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + GalleryGuiConstants.NAME + GalleryGuiConstants.URL_CSS);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {

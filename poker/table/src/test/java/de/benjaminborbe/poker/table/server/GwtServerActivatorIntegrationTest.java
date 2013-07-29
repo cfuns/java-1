@@ -39,7 +39,7 @@ public class GwtServerActivatorIntegrationTest {
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
 		assertEquals(1, extHttpServiceMock.getRegisterResourceCallCounter());
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + PokerTableServerConstants.NAME + "/Home");
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
@@ -62,7 +62,7 @@ public class GwtServerActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

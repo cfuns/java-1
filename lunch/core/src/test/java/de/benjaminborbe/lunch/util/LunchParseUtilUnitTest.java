@@ -66,7 +66,7 @@ public class LunchParseUtilUnitTest {
 		sb.append("</tr>");
 		sb.append("</tbody></table>");
 
-		final Set<String> result = new HashSet<>(lunchParseUtil.extractSubscribedUser(sb.toString()));
+		final Set<String> result = new HashSet<String>(lunchParseUtil.extractSubscribedUser(sb.toString()));
 		assertThat(result, is(notNullValue()));
 		assertThat(result.size(), is(2));
 		assertThat(result.contains("Vorname1 Nachname1"), is(true));

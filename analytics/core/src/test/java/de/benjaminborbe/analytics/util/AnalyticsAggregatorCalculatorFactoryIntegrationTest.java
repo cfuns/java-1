@@ -22,7 +22,7 @@ public class AnalyticsAggregatorCalculatorFactoryIntegrationTest {
 
 	@Parameters(name = "{index} - {0}")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		for (final AnalyticsReportAggregation analyticsReportAggregation : AnalyticsReportAggregation.values()) {
 			result.add(new Object[]{analyticsReportAggregation});
 		}

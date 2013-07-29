@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 public class MonitoringNodeBeanMapperUnitTest {
 
 	private MonitoringNodeBeanMapper getMonitoringNodeBeanMapper() {
-		final Provider<MonitoringNodeBean> monitoringNodeBeanProvider = new ProviderMock<>(MonitoringNodeBean.class);
+		final Provider<MonitoringNodeBean> monitoringNodeBeanProvider = new ProviderMock<MonitoringNodeBean>(MonitoringNodeBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -65,7 +65,7 @@ public class MonitoringNodeBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final MonitoringNodeBean bean = mapper.map(data);
 			assertEquals(value, bean.getName());

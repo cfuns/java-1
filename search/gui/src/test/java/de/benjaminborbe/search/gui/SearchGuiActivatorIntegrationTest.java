@@ -44,7 +44,7 @@ public class SearchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_OSD);
 		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH);
 		paths.add("/" + SearchGuiConstants.NAME + SearchGuiConstants.URL_SEARCH_JSON);
@@ -120,7 +120,7 @@ public class SearchGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		names.add(SearchWidget.class.getName());
 		names.add(DashboardContentWidget.class.getName());
 		names.add(NavigationEntry.class.getName());

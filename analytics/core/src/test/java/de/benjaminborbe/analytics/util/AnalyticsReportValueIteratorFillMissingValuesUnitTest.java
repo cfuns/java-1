@@ -94,7 +94,7 @@ public class AnalyticsReportValueIteratorFillMissingValuesUnitTest {
 	public void testFillWithUnnecessaryValues() throws Exception {
 		final AnalyticsReportInterval analyticsReportInterval = AnalyticsReportInterval.YEAR;
 		final AnalyticsIntervalUtil analyticsIntervalUtil = new AnalyticsIntervalUtil();
-		final List<AnalyticsReportValue> values = new ArrayList<>();
+		final List<AnalyticsReportValue> values = new ArrayList<AnalyticsReportValue>();
 		values.add(buildAnalyticsReportValue(2012, 1, new Double(1)));
 		values.add(buildAnalyticsReportValue(2012, 0, new Double(2)));
 		values.add(buildAnalyticsReportValue(2009, 4, new Double(3)));

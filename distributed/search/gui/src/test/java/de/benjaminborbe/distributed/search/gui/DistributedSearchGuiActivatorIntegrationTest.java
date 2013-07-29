@@ -42,7 +42,7 @@ public class DistributedSearchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_HOME);
 		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_PAGE);
 		paths.add("/" + DistributedSearchGuiConstants.NAME + DistributedSearchGuiConstants.URL_REBUILD_ALL);
@@ -89,7 +89,7 @@ public class DistributedSearchGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
@@ -111,7 +111,7 @@ public class DistributedSearchGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {

@@ -21,17 +21,17 @@ public class PortfolioGuiGalleryCollectionComparatorUnitTest {
 		final PortfolioGuiGalleryCollectionComparator galleryComparator = new PortfolioGuiGalleryCollectionComparator(galleryComparatorName, galleryComparatorPrio);
 
 		{
-			final List<GalleryCollection> list = new ArrayList<>();
+			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
 			Collections.sort(list, galleryComparator);
 		}
 
 		{
-			final List<GalleryCollection> list = new ArrayList<>();
+			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
 			list.add(build("name", 1l));
 			Collections.sort(list, galleryComparator);
 		}
 		{
-			final List<GalleryCollection> list = new ArrayList<>();
+			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
 			list.add(build("a", 1l));
 			list.add(build("c", 1l));
 			list.add(build("b", 1l));
@@ -41,7 +41,7 @@ public class PortfolioGuiGalleryCollectionComparatorUnitTest {
 			assertEquals("c", list.get(2).getName());
 		}
 		{
-			final List<GalleryCollection> list = new ArrayList<>();
+			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
 			list.add(build("a", null));
 			list.add(build("c", null));
 			list.add(build("b", null));
@@ -51,7 +51,7 @@ public class PortfolioGuiGalleryCollectionComparatorUnitTest {
 			assertEquals("c", list.get(2).getName());
 		}
 		{
-			final List<GalleryCollection> list = new ArrayList<>();
+			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
 			list.add(build("a", 2l));
 			list.add(build("c", 1l));
 			list.add(build("b", 2l));
@@ -61,7 +61,7 @@ public class PortfolioGuiGalleryCollectionComparatorUnitTest {
 			assertEquals("c", list.get(2).getName());
 		}
 		{
-			final List<GalleryCollection> list = new ArrayList<>();
+			final List<GalleryCollection> list = new ArrayList<GalleryCollection>();
 			list.add(build("a", null));
 			list.add(build("c", 1l));
 			list.add(build("b", null));

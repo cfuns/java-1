@@ -16,7 +16,7 @@ public class AnalyticsAggregatorCalculatorSumUnitTest {
 	public void testAggreate() throws Exception {
 		final AnalyticsAggregatorCalculatorSum calc = new AnalyticsAggregatorCalculatorSum();
 		final Calendar calendar = Calendar.getInstance();
-		final List<AnalyticsReportValue> values = new ArrayList<>();
+		final List<AnalyticsReportValue> values = new ArrayList<AnalyticsReportValue>();
 
 		{
 			final AnalyticsReportValue result = calc.aggregate(calendar, values);

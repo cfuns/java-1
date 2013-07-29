@@ -42,7 +42,7 @@ public class ProjectileGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_HOME);
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_USER_CURRENT);
 		paths.add("/" + ProjectileGuiConstants.NAME + ProjectileGuiConstants.URL_REPORT_USER_ALL);
@@ -98,7 +98,7 @@ public class ProjectileGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
 		for (final String path : paths) {
 			assertTrue("no resource for path " + path + " registered", extHttpServiceMock.hasResource(path));
@@ -120,7 +120,7 @@ public class ProjectileGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {

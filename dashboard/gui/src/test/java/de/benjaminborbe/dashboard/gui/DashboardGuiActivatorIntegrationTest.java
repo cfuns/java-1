@@ -43,7 +43,7 @@ public class DashboardGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + DashboardGuiConstants.NAME + DashboardGuiConstants.URL_HOME);
 		paths.add("/" + DashboardGuiConstants.NAME + DashboardGuiConstants.URL_CONFIGURE);
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterServletCallCounter());

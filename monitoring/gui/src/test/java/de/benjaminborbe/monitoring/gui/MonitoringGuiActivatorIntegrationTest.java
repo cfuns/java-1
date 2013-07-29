@@ -42,7 +42,7 @@ public class MonitoringGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_HOME);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_CHECK);
 		paths.add("/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_LIST);
@@ -125,7 +125,7 @@ public class MonitoringGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		names.add(NavigationEntry.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {

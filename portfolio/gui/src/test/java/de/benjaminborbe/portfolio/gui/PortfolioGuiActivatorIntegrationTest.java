@@ -44,7 +44,7 @@ public class PortfolioGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_GALLERY);
 		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_CONTACT);
 		paths.add("/" + PortfolioGuiConstants.NAME + PortfolioGuiConstants.URL_IMAGE);
@@ -76,7 +76,7 @@ public class PortfolioGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/portfolio.*");
 		paths.add("/portfolio.*");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterFilterCallCounter());
@@ -101,7 +101,7 @@ public class PortfolioGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + PortfolioGuiConstants.NAME + "/images");
 		paths.add("/" + PortfolioGuiConstants.NAME + "/css");
 		paths.add("/" + PortfolioGuiConstants.NAME + "/js");
@@ -126,7 +126,7 @@ public class PortfolioGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

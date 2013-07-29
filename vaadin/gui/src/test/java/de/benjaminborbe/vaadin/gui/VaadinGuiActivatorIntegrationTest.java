@@ -98,7 +98,7 @@ public class VaadinGuiActivatorIntegrationTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new VaadinGuiModulesMock());
 		final VaadinGuiActivator activator = injector.getInstance(VaadinGuiActivator.class);
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

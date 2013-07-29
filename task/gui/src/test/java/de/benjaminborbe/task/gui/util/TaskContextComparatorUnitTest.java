@@ -17,7 +17,7 @@ public class TaskContextComparatorUnitTest {
 		final TaskContextComparator c = new TaskContextComparator();
 
 		{
-			final List<TaskContext> list = new ArrayList<>();
+			final List<TaskContext> list = new ArrayList<TaskContext>();
 			list.add(build("a"));
 			list.add(build("B"));
 			list.add(build("c"));

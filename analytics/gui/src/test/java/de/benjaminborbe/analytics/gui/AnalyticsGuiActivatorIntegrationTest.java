@@ -43,7 +43,7 @@ public class AnalyticsGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_LIST);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_VIEW);
 		paths.add("/" + AnalyticsGuiConstants.NAME + AnalyticsGuiConstants.URL_REPORT_CREATE);
@@ -95,7 +95,7 @@ public class AnalyticsGuiActivatorIntegrationTest {
 		};
 		final BundleActivatorTestUtil bundleActivatorTestUtil = new BundleActivatorTestUtil();
 		final ExtHttpServiceMock extHttpServiceMock = bundleActivatorTestUtil.startBundle(activator);
-		final List<String> paths = new ArrayList<>();
+		final List<String> paths = new ArrayList<String>();
 		paths.add("/" + AnalyticsGuiConstants.NAME + "/js");
 		paths.add("/" + AnalyticsGuiConstants.NAME + "/css");
 		assertEquals(paths.size(), extHttpServiceMock.getRegisterResourceCallCounter());
@@ -119,7 +119,7 @@ public class AnalyticsGuiActivatorIntegrationTest {
 		bundleActivatorTestUtil.startBundle(activator);
 
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		names.add(NavigationEntry.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
