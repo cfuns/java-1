@@ -67,14 +67,14 @@ public class CronActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new CronJobServiceTracker(logger, quartz, cronJobRegistry, context, CronJob.class));
 		return serviceTrackers;
 	}
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronController.class, cronController));
 		result.add(new ServiceInfo(CronService.class, cronService));
 		result.add(new ServiceInfo(MessageConsumer.class, cronMessageConsumer));

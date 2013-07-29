@@ -24,7 +24,7 @@ public class FilestorageActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(FilestorageService.class, filestorageService));
 		return result;
 	}

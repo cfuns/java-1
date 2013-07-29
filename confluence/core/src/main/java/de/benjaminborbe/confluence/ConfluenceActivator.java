@@ -39,7 +39,7 @@ public class ConfluenceActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(ConfluenceService.class, confluenceService));
 		result.add(new ServiceInfo(SearchServiceComponent.class, confluenceSearchServiceComponent, confluenceSearchServiceComponent.getClass().getName()));
 		result.add(new ServiceInfo(CronJob.class, confluenceRefreshCronJob, confluenceRefreshCronJob.getClass().getName()));

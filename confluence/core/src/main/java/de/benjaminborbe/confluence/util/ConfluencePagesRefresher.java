@@ -51,7 +51,9 @@ public class ConfluencePagesRefresher {
 					}
 				}
 				logger.debug("refresh of " + counter + " confluenceInstances finished");
-			} catch (final StorageException | EntityIteratorException e) {
+			} catch (final StorageException e) {
+				logger.warn(e.getClass().getName(), e);
+			} catch (EntityIteratorException e) {
 				logger.warn(e.getClass().getName(), e);
 			} finally {
 				logger.debug("refresh finished");
@@ -175,7 +177,9 @@ public class ConfluencePagesRefresher {
 					} else {
 						logger.debug("skip page " + page.getTitle());
 					}
-				} catch (final IndexerServiceException | ParseException | StorageException e) {
+				} catch (final IndexerServiceException e) {
+					logger.warn(e.getClass().getName(), e);
+				} catch (StorageException e) {
 					logger.warn(e.getClass().getName(), e);
 				}
 			}

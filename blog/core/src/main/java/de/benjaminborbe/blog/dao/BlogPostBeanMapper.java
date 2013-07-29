@@ -36,7 +36,7 @@ public class BlogPostBeanMapper extends MapObjectMapperAdapter<BlogPostBean> {
 		final MapperUserIdentifier mapperUserIdentifier,
 		final MapperBlogPostIdentifier mapperBlogPostIdentifier, final MapperCalendar mapperCalendar, final MapperString mapperString
 	) {
-		final List<StringObjectMapper<BlogPostBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<BlogPostBean>> result = new ArrayList<StringObjectMapper<BlogPostBean>>();
 		result.add(new StringObjectMapperAdapter<BlogPostBean, BlogPostIdentifier>("id", mapperBlogPostIdentifier));
 		result.add(new StringObjectMapperAdapter<BlogPostBean, UserIdentifier>("creator", mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<BlogPostBean, String>("title", mapperString));

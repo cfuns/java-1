@@ -50,7 +50,7 @@ public class PokerGameBeanMapperUnitTest {
 
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{PokerGameBeanMapper.ID, "1337"});
 		result.add(new Object[]{PokerGameBeanMapper.NAME, "bla"});
 		result.add(new Object[]{PokerGameBeanMapper.CREATED, "123456"});
@@ -73,7 +73,7 @@ public class PokerGameBeanMapperUnitTest {
 	}
 
 	private PokerGameBeanMapper getPokerGameBeanMapper() {
-		final Provider<PokerGameBean> beanProvider = new ProviderMock<>(PokerGameBean.class);
+		final Provider<PokerGameBean> beanProvider = new ProviderMock<PokerGameBean>(PokerGameBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -102,7 +102,7 @@ public class PokerGameBeanMapperUnitTest {
 	@Test
 	public void testMaxRetryCounter() throws Exception {
 		final PokerGameBeanMapper mapper = getPokerGameBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final PokerGameBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

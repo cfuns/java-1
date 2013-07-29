@@ -20,7 +20,7 @@ import java.util.Properties;
 @Singleton
 public class SeleniumConfigurationXmlServiceManager {
 
-	private final Map<SeleniumConfigurationIdentifier, ServiceRegistration> services = new HashMap<>();
+	private final Map<SeleniumConfigurationIdentifier, ServiceRegistration> services = new HashMap<SeleniumConfigurationIdentifier, ServiceRegistration>();
 
 	private final Logger logger;
 

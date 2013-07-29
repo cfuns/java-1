@@ -20,7 +20,7 @@ public class PokerWinnerCalculator {
 	}
 
 	public Collection<PokerPlayerIdentifier> getWinners(final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards) {
-		final List<PokerPlayerIdentifier> result = new ArrayList<>();
+		final List<PokerPlayerIdentifier> result = new ArrayList<PokerPlayerIdentifier>();
 		for (final Entry<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> e : playerCards.entrySet()) {
 			if (result.isEmpty()) {
 				result.add(e.getKey());

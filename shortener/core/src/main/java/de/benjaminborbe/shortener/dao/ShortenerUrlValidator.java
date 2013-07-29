@@ -37,7 +37,7 @@ public class ShortenerUrlValidator extends ValidatorBase<ShortenerUrlBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<ShortenerUrlBean>> buildRules() {
-		final Map<String, ValidatorRule<ShortenerUrlBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<ShortenerUrlBean>> result = new HashMap<String, ValidatorRule<ShortenerUrlBean>>();
 
 		// url
 		{
@@ -47,7 +47,7 @@ public class ShortenerUrlValidator extends ValidatorBase<ShortenerUrlBean> {
 				@Override
 				public Collection<ValidationError> validate(final ShortenerUrlBean bean) {
 					final String value = bean.getUrl();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

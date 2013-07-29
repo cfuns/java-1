@@ -22,7 +22,7 @@ public abstract class BaseBundleActivator implements BundleActivator {
 
 	private Injector injector;
 
-	private final Set<ServiceRegistration> serviceRegistrations = new HashSet<>();
+	private final Set<ServiceRegistration> serviceRegistrations = new HashSet<ServiceRegistration>();
 
 	private Injector getInjector(final BundleContext context) {
 		if (getInjector() == null)
@@ -108,14 +108,14 @@ public abstract class BaseBundleActivator implements BundleActivator {
 	}
 
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>();
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>();
 		return result;
 	}
 
 	protected abstract Modules getModules(BundleContext context);
 
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> result = new HashSet<>();
+		final Set<ServiceTracker> result = new HashSet<ServiceTracker>();
 		return result;
 	}
 

@@ -65,7 +65,9 @@ public class GalleryGuiEntryShareServlet extends GalleryGuiWebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryEntryIdentifier galleryEntryIdentifier = galleryService.createEntryIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_ENTRY_ID));
 			galleryService.shareEntry(sessionIdentifier, galleryEntryIdentifier);
-		} catch (final GalleryServiceException | AuthenticationServiceException e) {
+		} catch (final GalleryServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

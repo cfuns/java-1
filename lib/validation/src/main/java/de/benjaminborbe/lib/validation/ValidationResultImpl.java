@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class ValidationResultImpl implements ValidationResult {
 
-	private final Set<ValidationError> errors = new HashSet<>();
+	private final Set<ValidationError> errors = new HashSet<ValidationError>();
 
 	public ValidationResultImpl() {
 	}

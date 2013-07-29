@@ -33,7 +33,7 @@ public class VirtNetworkValidator extends ValidatorBase<VirtNetworkBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<VirtNetworkBean>> buildRules() {
-		final Map<String, ValidatorRule<VirtNetworkBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<VirtNetworkBean>> result = new HashMap<String, ValidatorRule<VirtNetworkBean>>();
 
 		// name
 		{
@@ -43,7 +43,7 @@ public class VirtNetworkValidator extends ValidatorBase<VirtNetworkBean> {
 				@Override
 				public Collection<ValidationError> validate(final VirtNetworkBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -60,7 +60,7 @@ public class VirtNetworkValidator extends ValidatorBase<VirtNetworkBean> {
 				@Override
 				public Collection<ValidationError> validate(final VirtNetworkBean bean) {
 					final VirtNetworkIdentifier value = bean.getId();
-					final List<ValidationConstraint<VirtNetworkIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<VirtNetworkIdentifier>> constraints = new ArrayList<ValidationConstraint<VirtNetworkIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<VirtNetworkIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}

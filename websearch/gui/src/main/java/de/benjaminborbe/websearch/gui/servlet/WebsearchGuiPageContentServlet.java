@@ -82,7 +82,9 @@ public class WebsearchGuiPageContentServlet extends WebsiteServlet {
 			streamUtil.copy(inputStream, outputStream);
 			inputStream.close();
 			outputStream.close();
-		} catch (WebsearchServiceException | AuthenticationServiceException e) {
+		} catch (WebsearchServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		} finally {
 

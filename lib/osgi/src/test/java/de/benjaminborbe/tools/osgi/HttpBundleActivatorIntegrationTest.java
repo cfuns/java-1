@@ -49,7 +49,7 @@ public class HttpBundleActivatorIntegrationTest {
 
 				@Override
 				public Collection<Module> getModules() {
-					final Set<Module> result = new HashSet<>();
+					final Set<Module> result = new HashSet<Module>();
 					result.add(new HttpBundleActivatorModuleMock());
 					return result;
 				}
@@ -110,7 +110,7 @@ public class HttpBundleActivatorIntegrationTest {
 
 			@Override
 			public Collection<ServiceInfo> getServiceInfos() {
-				final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+				final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 				result.add(new ServiceInfo(name, service, properties));
 				return result;
 			}

@@ -12,7 +12,7 @@ import java.util.Map;
 @Singleton
 public class MonitoringCheckRegistry extends RegistryBase<MonitoringCheck> {
 
-	private final Map<MonitoringCheckIdentifier, MonitoringCheck> checks = new HashMap<>();
+	private final Map<MonitoringCheckIdentifier, MonitoringCheck> checks = new HashMap<MonitoringCheckIdentifier, MonitoringCheck>();
 
 	@Inject
 	public MonitoringCheckRegistry(

@@ -102,6 +102,10 @@ public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
 					final String msg = "parse xml failed!";
 					logger.warn(msg, e);
 					widgets.add(msg);
+				} catch (AuthenticationServiceException e) {
+					final String msg = "parse xml failed!";
+					logger.warn(msg, e);
+					widgets.add(msg);
 				}
 			}
 
@@ -111,7 +115,7 @@ public class SeleniumGuiConfigurationRunXmlServlet extends WebsiteHtmlServlet {
 			widgets.add(form);
 
 			return widgets;
-		} catch (SeleniumServiceException | AuthenticationServiceException e) {
+		} catch (SeleniumServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

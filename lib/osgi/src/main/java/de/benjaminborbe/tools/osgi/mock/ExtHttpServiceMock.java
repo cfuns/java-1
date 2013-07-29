@@ -25,11 +25,11 @@ import java.util.Map;
 @Singleton
 public class ExtHttpServiceMock implements ExtHttpService, Bundle {
 
-	private final Map<Servlet, String> servletAlias = new HashMap<>();
+	private final Map<Servlet, String> servletAlias = new HashMap<Servlet, String>();
 
-	private final Map<String, String> resourceAlias = new HashMap<>();
+	private final Map<String, String> resourceAlias = new HashMap<String, String>();
 
-	private final Map<Filter, String> filterAlias = new HashMap<>();
+	private final Map<Filter, String> filterAlias = new HashMap<Filter, String>();
 
 	private final UrlUtil urlUtil;
 

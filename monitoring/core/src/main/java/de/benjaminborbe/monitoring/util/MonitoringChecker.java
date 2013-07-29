@@ -63,7 +63,7 @@ public class MonitoringChecker {
 
 	public void check(final MonitoringNodeBean node) throws StorageException {
 		final Collection<MonitoringNodeBean> a = Arrays.asList();
-		check(node, new MonitoringNodeTree<>(a));
+		check(node, new MonitoringNodeTree<MonitoringNodeBean>(a));
 	}
 
 	private void check(final List<MonitoringNodeBean> nodes, final MonitoringNodeTree<MonitoringNodeBean> tree) throws StorageException {
@@ -160,15 +160,17 @@ public class MonitoringChecker {
 		@Override
 		public void run() {
 			try {
-				final List<MonitoringNodeBean> beans = new ArrayList<>();
+				final List<MonitoringNodeBean> beans = new ArrayList<MonitoringNodeBean>();
 				final EntityIterator<MonitoringNodeBean> i = monitoringNodeDao.getEntityIterator();
 				while (i.hasNext()) {
 					final MonitoringNodeBean bean = i.next();
 					beans.add(bean);
 				}
-				final MonitoringNodeTree<MonitoringNodeBean> tree = new MonitoringNodeTree<>(beans);
+				final MonitoringNodeTree<MonitoringNodeBean> tree = new MonitoringNodeTree<MonitoringNodeBean>(beans);
 				check(tree.getRootNodes(), tree);
-			} catch (final EntityIteratorException | StorageException e) {
+			} catch (final StorageException e) {
+				logger.warn(e.getClass().getName(), e);
+			} catch (EntityIteratorException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}

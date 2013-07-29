@@ -15,7 +15,7 @@ public class DurationUtilUnitTest {
 		final Duration duration = EasyMock.createMock(Duration.class);
 		EasyMock.replay(duration);
 
-		final Provider<Duration> p = new ProviderAdapter<>(duration);
+		final Provider<Duration> p = new ProviderAdapter<Duration>(duration);
 		final DurationUtil durationUtil = new DurationUtil(p);
 		assertNotNull(durationUtil.getDuration());
 		assertEquals(duration, durationUtil.getDuration());

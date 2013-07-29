@@ -175,7 +175,7 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 				.addDefaultValue(task.getDescription()));
 			{
 				final FormSelectboxWidget contextSelectBox = new FormSelectboxWidget(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID).addLabel("Context");
-				final List<TaskContext> taskContexts = new ArrayList<>(taskService.getTaskContexts(sessionIdentifier));
+				final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier));
 				Collections.sort(taskContexts, new TaskContextComparator());
 				contextSelectBox.addOption("", "none");
 				for (final TaskContext taskContext : taskContexts) {
@@ -228,7 +228,9 @@ public class TaskGuiTaskUpdateServlet extends TaskGuiWebsiteHtmlServlet {
 			widgets.add(links);
 
 			return widgets;
-		} catch (final TaskServiceException | AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (final TaskServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

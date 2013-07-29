@@ -32,7 +32,7 @@ public class LunchGuiConfigImpl extends ConfigurationBase implements LunchGuiCon
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(authToken);
 		return result;
 	}

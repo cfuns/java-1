@@ -10,7 +10,7 @@ import java.util.Map;
 @Singleton
 public class MessageConsumerRegistry extends RegistryBase<MessageConsumer> {
 
-	private final Map<String, MessageConsumer> data = new HashMap<>();
+	private final Map<String, MessageConsumer> data = new HashMap<String, MessageConsumer>();
 
 	@Override
 	protected void onElementAdded(final MessageConsumer object) {

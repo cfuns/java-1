@@ -49,7 +49,7 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 		final List<String> words = searchUtil.buildSearchParts(query);
 
 		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
-		final List<SearchResult> results = new ArrayList<>();
+		final List<SearchResult> results = new ArrayList<SearchResult>();
 		try {
 			final List<BookmarkMatch> bookmarks = bookmarkService.searchBookmarks(sessionIdentifier, maxResults, words);
 			final int max = Math.min(maxResults, bookmarks.size());
@@ -61,7 +61,11 @@ public class BookmarkSearchServiceComponent implements SearchServiceComponent {
 				}
 			}
 			logger.trace("search found " + results.size() + " bookmarks");
-		} catch (final BookmarkServiceException | LoginRequiredException | PermissionDeniedException e) {
+		} catch (final BookmarkServiceException e) {
+			logger.trace(e.getClass().getName(), e);
+		} catch (PermissionDeniedException e) {
+			logger.trace(e.getClass().getName(), e);
+		} catch (LoginRequiredException e) {
 			logger.trace(e.getClass().getName(), e);
 		}
 		return results;

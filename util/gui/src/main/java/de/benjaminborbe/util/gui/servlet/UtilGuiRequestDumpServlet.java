@@ -137,7 +137,7 @@ public class UtilGuiRequestDumpServlet extends WebsiteHtmlServlet {
 	}
 
 	private List<String> getValues(final Enumeration enumeration) {
-		final List<String> values = new ArrayList<>();
+		final List<String> values = new ArrayList<String>();
 		while (enumeration.hasMoreElements()) {
 			values.add(toString(enumeration.nextElement()));
 		}

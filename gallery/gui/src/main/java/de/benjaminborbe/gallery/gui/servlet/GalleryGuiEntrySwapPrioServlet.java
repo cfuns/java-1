@@ -66,7 +66,9 @@ public class GalleryGuiEntrySwapPrioServlet extends GalleryGuiWebsiteServlet {
 			final GalleryEntryIdentifier galleryEntryIdentifierA = galleryService.createEntryIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_ENTRY_ID_A));
 			final GalleryEntryIdentifier galleryEntryIdentifierB = galleryService.createEntryIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_ENTRY_ID_B));
 			galleryService.swapEntryPrio(sessionIdentifier, galleryEntryIdentifierA, galleryEntryIdentifierB);
-		} catch (final GalleryServiceException | AuthenticationServiceException e) {
+		} catch (final GalleryServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

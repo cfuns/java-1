@@ -128,7 +128,7 @@ public class SeleniumCoreServiceImpl implements SeleniumService {
 		final SessionIdentifier sessionIdentifier
 	) throws SeleniumServiceException, LoginRequiredException, PermissionDeniedException {
 		expectPermission(sessionIdentifier);
-		return new ArrayList<>(seleniumConfigurationRegistry.getAll());
+		return new ArrayList<SeleniumConfiguration>(seleniumConfigurationRegistry.getAll());
 	}
 
 	@Override

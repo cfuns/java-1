@@ -142,7 +142,9 @@ public class SearchGuiJsonServlet extends WebsiteJsonServlet {
 			} else {
 				printError(response, "parameter required: " + SearchGuiConstants.PARAMETER_AUTH_TOKEN + " and " + SearchGuiConstants.PARAMETER_SEARCH);
 			}
-		} catch (final SearchServiceException | AuthenticationServiceException e) {
+		} catch (final SearchServiceException e) {
+			printException(response, e);
+		} catch (AuthenticationServiceException e) {
 			printException(response, e);
 		}
 	}

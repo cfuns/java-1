@@ -16,7 +16,7 @@ public class ValidationConstraintValidator {
 	}
 
 	public <T> Collection<ValidationError> validate(final String name, final T value, final Collection<ValidationConstraint<T>> constraints) {
-		final List<ValidationError> result = new ArrayList<>();
+		final List<ValidationError> result = new ArrayList<ValidationError>();
 		for (final ValidationConstraint<T> constraint : constraints) {
 			if (constraint.precondition(value) && !constraint.validate(value)) {
 				result.add(new ValidationErrorSimple(name + " is invalid"));

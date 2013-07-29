@@ -64,7 +64,7 @@ public class ConfluencePageBeanMapper extends MapObjectMapperAdapter<ConfluenceP
 		final MapperCalendar mapperCalendar,
 		final MapperUrl mapperUrl
 	) {
-		final List<StringObjectMapper<ConfluencePageBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<ConfluencePageBean>> result = new ArrayList<StringObjectMapper<ConfluencePageBean>>();
 		result.add(new StringObjectMapperAdapter<ConfluencePageBean, ConfluencePageIdentifier>(ID, mapperConfluencePageIdentifier));
 		result.add(new StringObjectMapperAdapter<ConfluencePageBean, UserIdentifier>(OWNER, mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<ConfluencePageBean, ConfluenceInstanceIdentifier>(INSTANCE_ID, mapperConfluenceInstanceIdentifier));

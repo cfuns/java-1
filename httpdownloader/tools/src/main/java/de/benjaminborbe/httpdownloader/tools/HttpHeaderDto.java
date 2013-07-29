@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class HttpHeaderDto implements HttpHeader {
 
-	private final Map<String, List<String>> header = new HashMap<>();
+	private final Map<String, List<String>> header = new HashMap<String, List<String>>();
 
 	@Override
 	public String getValue(final String name) {

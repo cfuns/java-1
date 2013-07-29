@@ -161,7 +161,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	}
 
 	protected List<StorageValue> getFieldNames(final E entity) throws MapException {
-		final List<StorageValue> result = new ArrayList<>();
+		final List<StorageValue> result = new ArrayList<StorageValue>();
 		for (final String fieldName : mapper.map(entity).keySet()) {
 			result.add(new StorageValue(fieldName, getEncoding()));
 		}
@@ -188,14 +188,14 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public void load(final E entity, final Collection<StorageValue> fieldNames) throws StorageException {
-		final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), new ArrayList<>(
+		final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(entity.getId().getId(), getEncoding()), new ArrayList<StorageValue>(
 			fieldNames));
 		load(entity, fieldNames, values);
 	}
 
 	private void load(final E entity, final Collection<StorageValue> fieldNames, final List<StorageValue> values) throws StorageException {
 		try {
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			final Iterator<StorageValue> fi = fieldNames.iterator();
 			final Iterator<StorageValue> vi = values.iterator();
 			while (fi.hasNext() && vi.hasNext()) {
@@ -204,7 +204,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				data.put(fieldname.getString(), fieldvalue != null ? fieldvalue.getString() : null);
 			}
 			mapper.map(data, entity);
-		} catch (final MapException | UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
+			throw new StorageException(e);
+		} catch (MapException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -217,7 +219,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 			}
 			final E entity = create();
 			final List<StorageValue> fieldNames = getFieldNames(entity);
-			final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(id.getId(), getEncoding()), new ArrayList<>(fieldNames));
+			final List<StorageValue> values = storageService.get(getColumnFamily(), new StorageValue(id.getId(), getEncoding()), new ArrayList<StorageValue>(fieldNames));
 			load(entity, fieldNames, values);
 			if (entity.getId() != null && entity.getId().getId() != null) {
 				return entity;
@@ -234,7 +236,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		logger.trace("load - id: " + id);
 		final E entity = create();
 		final Collection<StorageValue> columnNames = row.getColumnNames();
-		final Map<String, String> data = new HashMap<>();
+		final Map<String, String> data = new HashMap<String, String>();
 		for (final StorageValue columnName : columnNames) {
 			final StorageValue columnValue = row.getValue(columnName);
 			data.put(columnName != null ? columnName.getString() : null, columnValue != null ? columnValue.getString() : null);
@@ -274,13 +276,13 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				}
 			}
 
-			final Map<StorageValue, StorageValue> data = new HashMap<>();
+			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 			if (fieldNames == null) {
 				for (final Entry<String, String> e : mapper.map(entity).entrySet()) {
 					data.put(new StorageValue(e.getKey(), getEncoding()), new StorageValue(e.getValue(), getEncoding()));
 				}
 			} else {
-				final List<String> fields = new ArrayList<>();
+				final List<String> fields = new ArrayList<String>();
 				for (final StorageValue fieldName : fieldNames) {
 					fields.add(fieldName.getString());
 				}
@@ -297,7 +299,9 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 				logger.warn("onPostSave failed", e);
 			}
 
-		} catch (final MapException | UnsupportedEncodingException e) {
+		} catch (final MapException e) {
+			throw new StorageException(e);
+		} catch (UnsupportedEncodingException e) {
 			throw new StorageException(e);
 		}
 	}
@@ -315,13 +319,13 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 	@Override
 	public Collection<E> load(final Collection<I> ids) throws StorageException {
 		try {
-			final Set<StorageValue> keys = new HashSet<>();
+			final Set<StorageValue> keys = new HashSet<StorageValue>();
 			for (final I id : ids) {
 				keys.add(new StorageValue(id.getId(), getEncoding()));
 			}
 			final List<StorageValue> columnNames = getFieldNames(create());
 			final Collection<List<StorageValue>> data = storageService.get(getColumnFamily(), keys, columnNames);
-			final Set<E> result = new HashSet<>();
+			final Set<E> result = new HashSet<E>();
 			for (final List<StorageValue> columnValues : data) {
 				final E entity = create();
 				load(entity, columnNames, columnValues);
@@ -377,7 +381,11 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		public E next() throws EntityIteratorException {
 			try {
 				return rowToBean(r.next());
-			} catch (final StorageException | MapException | UnsupportedEncodingException e) {
+			} catch (final UnsupportedEncodingException e) {
+				throw new EntityIteratorException(e);
+			} catch (final StorageException e) {
+				throw new EntityIteratorException(e);
+			} catch (MapException e) {
 				throw new EntityIteratorException(e);
 			}
 		}
@@ -408,7 +416,11 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 					}
 				}
 				return false;
-			} catch (final StorageException | UnsupportedEncodingException | IdentifierBuilderException e) {
+			} catch (final IdentifierBuilderException e) {
+				throw new IdentifierIteratorException(e);
+			} catch (final UnsupportedEncodingException e) {
+				throw new IdentifierIteratorException(e);
+			} catch (final StorageException e) {
 				throw new IdentifierIteratorException(e);
 			}
 		}

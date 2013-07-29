@@ -29,7 +29,7 @@ public class WowActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(WowService.class, wowService));
 		for (final XmppCommand command : wowCommandRegistry.getAll()) {
 			result.add(new ServiceInfo(XmppCommand.class, command, command.getName()));

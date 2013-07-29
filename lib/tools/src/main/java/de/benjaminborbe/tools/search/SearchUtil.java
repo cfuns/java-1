@@ -11,7 +11,7 @@ public class SearchUtil {
 	}
 
 	public List<String> buildSearchParts(final String searchQuery) {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		for (final String word : buildSearchTermIterator(searchQuery)) {
 			result.add(word);
 		}

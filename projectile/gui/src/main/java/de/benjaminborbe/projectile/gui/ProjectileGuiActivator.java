@@ -86,7 +86,7 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(projectileGuiTeamViewServlet, ProjectileGuiConstants.URL_TEAM_VIEW));
 		result.add(new ServletInfo(projectileGuiServlet, ProjectileGuiConstants.URL_HOME));
 		result.add(new ServletInfo(projectileGuiSlacktimeServlet, ProjectileGuiConstants.URL_REPORT_USER_CURRENT));
@@ -106,7 +106,7 @@ public class ProjectileGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, projectileGuiNavigationEntry));
 		return result;
 	}

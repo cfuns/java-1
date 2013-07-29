@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 public class ConfluencePageBeanMapperUnitTest {
 
 	private ConfluencePageBeanMapper getConfluencePageBeanMapper() {
-		final Provider<ConfluencePageBean> confluencePageBeanProvider = new ProviderMock<>(ConfluencePageBean.class);
+		final Provider<ConfluencePageBean> confluencePageBeanProvider = new ProviderMock<ConfluencePageBean>(ConfluencePageBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -60,7 +60,7 @@ public class ConfluencePageBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final ConfluencePageBean bean = mapper.map(data);
 			assertEquals(value, bean.getPageId());

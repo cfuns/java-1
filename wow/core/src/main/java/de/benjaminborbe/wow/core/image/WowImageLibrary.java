@@ -27,7 +27,7 @@ public class WowImageLibrary {
 	}
 
 	private Collection<Pixels> getFileAsPixels(final String... fileNames) throws IOException {
-		final List<Pixels> result = new ArrayList<>();
+		final List<Pixels> result = new ArrayList<Pixels>();
 		for (final String filename : fileNames) {
 			result.add(getFileAsPixels(filename));
 		}

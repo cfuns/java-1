@@ -58,7 +58,7 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 	@Override
 	public List<LuceneIndexSearchResult> search(final String indexName, final String searchQuery, final int hitsPerPage) {
 		logger.debug("search in index: " + indexName + " for " + searchQuery);
-		final List<LuceneIndexSearchResult> result = new ArrayList<>();
+		final List<LuceneIndexSearchResult> result = new ArrayList<LuceneIndexSearchResult>();
 		try {
 			final Directory index = indexFactory.getLuceneIndex(indexName);
 
@@ -95,14 +95,16 @@ public class LuceneIndexServiceImpl implements LuceneIndexService {
 				result.add(buildSearchResult(indexName, document));
 			}
 
-		} catch (final IOException | ParseException e) {
+		} catch (final ParseException e) {
+			logger.error(e.getClass().getName(), e);
+		} catch (final IOException e) {
 			logger.error(e.getClass().getName(), e);
 		}
 		return result;
 	}
 
 	private String[] buildFields() {
-		final List<String> fields = new ArrayList<>();
+		final List<String> fields = new ArrayList<String>();
 		for (final LuceneIndexField field : LuceneIndexField.values()) {
 			fields.add(field.getFieldName());
 		}

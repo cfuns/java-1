@@ -65,7 +65,7 @@ public class WorktimeGuiServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Collection<Widget> getWidgets() {
-		final Set<Widget> result = new HashSet<>();
+		final Set<Widget> result = new HashSet<Widget>();
 		result.add(worktimeDashboardWidget);
 		return result;
 	}

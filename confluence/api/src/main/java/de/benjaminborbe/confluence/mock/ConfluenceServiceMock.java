@@ -29,7 +29,7 @@ public class ConfluenceServiceMock implements ConfluenceService {
 
 	@Override
 	public Collection<ConfluenceInstanceIdentifier> getConfluenceInstanceIdentifiers(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException {
-		return new ArrayList<>();
+		return new ArrayList<ConfluenceInstanceIdentifier>();
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class ConfluenceServiceMock implements ConfluenceService {
 
 	@Override
 	public Collection<ConfluenceInstance> getConfluenceInstances(final SessionIdentifier sessionIdentifier) throws ConfluenceServiceException {
-		return new ArrayList<>();
+		return new ArrayList<ConfluenceInstance>();
 	}
 
 	@Override

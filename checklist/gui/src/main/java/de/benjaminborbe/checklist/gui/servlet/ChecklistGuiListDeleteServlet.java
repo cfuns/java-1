@@ -65,7 +65,9 @@ public class ChecklistGuiListDeleteServlet extends ChecklistGuiWebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ChecklistListIdentifier checklistIdentifier = new ChecklistListIdentifier(request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_ID));
 			checklistService.delete(sessionIdentifier, checklistIdentifier);
-		} catch (final AuthenticationServiceException | ChecklistServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ChecklistServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

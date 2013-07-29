@@ -152,7 +152,9 @@ public class WebsearchGuiPageShowServlet extends WebsiteHtmlServlet {
 			widgets.add(formWidget);
 
 			return widgets;
-		} catch (WebsearchServiceException | AuthenticationServiceException e) {
+		} catch (WebsearchServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

@@ -105,7 +105,9 @@ public class MicroblogServiceImpl implements MicroblogService {
 		try {
 			final MicroblogPost microblogPost = microblogConnector.getPost(microblogPostIdentifier);
 			microblogPostMailer.mailPost(microblogPost);
-		} catch (final MicroblogPostNotifierException | MicroblogConnectorException e) {
+		} catch (final MicroblogPostNotifierException e) {
+			throw new MicroblogServiceException(e);
+		} catch (MicroblogConnectorException e) {
 			throw new MicroblogServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -153,7 +155,9 @@ public class MicroblogServiceImpl implements MicroblogService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			return microblogConversationFinder.findIdentifier(microblogPostIdentifier);
-		} catch (final MicroblogConnectorException | ParseException e) {
+		} catch (final MicroblogConnectorException e) {
+			throw new MicroblogServiceException(e);
+		} catch (ParseException e) {
 			throw new MicroblogServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -182,7 +186,9 @@ public class MicroblogServiceImpl implements MicroblogService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			microblogPostUpdater.update(microblogPostIdentifier);
-		} catch (final AuthorizationServiceException | MicroblogConnectorException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new MicroblogServiceException(e);
+		} catch (MicroblogConnectorException e) {
 			throw new MicroblogServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)

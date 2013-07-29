@@ -34,7 +34,7 @@ public class GalleryCollectionValidator extends ValidatorBase<GalleryCollectionB
 
 	@Override
 	protected Map<String, ValidatorRule<GalleryCollectionBean>> buildRules() {
-		final Map<String, ValidatorRule<GalleryCollectionBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<GalleryCollectionBean>> result = new HashMap<String, ValidatorRule<GalleryCollectionBean>>();
 
 		// name
 		{
@@ -44,7 +44,7 @@ public class GalleryCollectionValidator extends ValidatorBase<GalleryCollectionB
 				@Override
 				public Collection<ValidationError> validate(final GalleryCollectionBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

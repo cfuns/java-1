@@ -75,7 +75,7 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 		try {
 			logger.debug("search - index: " + index + " words: " + StringUtils.join(words, ','));
 
-			final List<DistributedIndexSearchResultIteratorCurrent> iterators = new ArrayList<>();
+			final List<DistributedIndexSearchResultIteratorCurrent> iterators = new ArrayList<DistributedIndexSearchResultIteratorCurrent>();
 			for (final String word : words) {
 				iterators.add(new DistributedIndexSearchResultIteratorCurrent(distributedIndexWordDao.search(buildWordId(index, word))));
 			}
@@ -104,7 +104,7 @@ public class DistributedIndexServiceImpl implements DistributedIndexService {
 	public Map<String, Integer> getEntryRatingForWord(final String index, final String word) throws DistributedIndexServiceException {
 		try {
 			logger.debug("getEntryRatingForWord - index: " + index + " word: " + word);
-			final Map<String, Integer> data = new HashMap<>();
+			final Map<String, Integer> data = new HashMap<String, Integer>();
 			final DistributedIndexSearchResultIteratorCurrent iterator = new DistributedIndexSearchResultIteratorCurrent(distributedIndexWordDao.search(buildWordId(index, word)));
 
 			while (iterator.hasNext()) {

@@ -67,7 +67,7 @@ public class TaskGuiTaskFirstServlet extends TaskGuiWebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 			logger.trace("move task " + taskIdentifier + " first");
-			final List<Task> tasks = new ArrayList<>(taskService.getTasks(sessionIdentifier, false));
+			final List<Task> tasks = new ArrayList<Task>(taskService.getTasks(sessionIdentifier, false));
 			final int pos = findPosition(tasks, taskIdentifier);
 			logger.trace("found task at pos " + pos);
 			for (int i = pos - 1; i >= 0; i--) {
@@ -76,7 +76,9 @@ public class TaskGuiTaskFirstServlet extends TaskGuiWebsiteServlet {
 				taskService.swapPrio(sessionIdentifier, taskIdentifier, task.getId());
 			}
 			logger.trace("done");
-		} catch (final AuthenticationServiceException | TaskServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (TaskServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

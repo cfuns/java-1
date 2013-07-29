@@ -25,7 +25,7 @@ public class VncKeyParserImpl implements VncKeyParser {
 
 	@Override
 	public List<VncKey> parseKeys(final String keyString) throws VncKeyParseException {
-		final List<VncKey> result = new ArrayList<>();
+		final List<VncKey> result = new ArrayList<VncKey>();
 		final char[] chars = keyString.toCharArray();
 		for (int i = 0; i < chars.length; ++i) {
 			result.add(parseKey(chars[i]));

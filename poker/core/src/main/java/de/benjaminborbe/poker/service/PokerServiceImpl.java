@@ -113,12 +113,14 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("getGameIdentifiers");
 			final IdentifierIterator<PokerGameIdentifier> i = pokerGameDao.getIdentifierIterator();
-			final List<PokerGameIdentifier> result = new ArrayList<>();
+			final List<PokerGameIdentifier> result = new ArrayList<PokerGameIdentifier>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final IdentifierIteratorException | StorageException e) {
+		} catch (final IdentifierIteratorException e) {
+			throw new PokerServiceException(e);
+		} catch (StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
 		}
@@ -544,10 +546,10 @@ public class PokerServiceImpl implements PokerService {
 		// showdown
 		else {
 			logger.debug("showdown - calc winnners");
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
 			for (final PokerPlayerIdentifier playerIdentifier : game.getActivePlayers()) {
 				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
-				final List<PokerCardIdentifier> cards = new ArrayList<>();
+				final List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
 				cards.addAll(game.getBoardCards());
 				cards.addAll(player.getCards());
 				playerCards.put(playerIdentifier, cards);
@@ -709,12 +711,14 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("getGames");
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
-			final List<PokerGame> result = new ArrayList<>();
+			final List<PokerGame> result = new ArrayList<PokerGame>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException | EntityIteratorException e) {
+		} catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		} catch (EntityIteratorException e) {
 			throw new PokerServiceException(e);
 		} finally {
 		}
@@ -725,12 +729,14 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("getPlayers");
 			final EntityIterator<PokerPlayerBean> i = pokerPlayerDao.getEntityIterator();
-			final List<PokerPlayer> result = new ArrayList<>();
+			final List<PokerPlayer> result = new ArrayList<PokerPlayer>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException | EntityIteratorException e) {
+		} catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		} catch (EntityIteratorException e) {
 			throw new PokerServiceException(e);
 		} finally {
 		}
@@ -783,7 +789,7 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("getGames - running: " + running);
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
-			final List<PokerGame> result = new ArrayList<>();
+			final List<PokerGame> result = new ArrayList<PokerGame>();
 			while (i.hasNext()) {
 				final PokerGameBean game = i.next();
 				if (Boolean.TRUE.equals(game.getRunning()) == running) {
@@ -791,7 +797,9 @@ public class PokerServiceImpl implements PokerService {
 				}
 			}
 			return result;
-		} catch (final StorageException | EntityIteratorException e) {
+		} catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		} catch (EntityIteratorException e) {
 			throw new PokerServiceException(e);
 		} finally {
 		}

@@ -47,7 +47,7 @@ public class UrlUtilImpl implements UrlUtil {
 		final StringWriter sw = new StringWriter();
 		sw.append(path);
 		if (!parameter.isEmpty()) {
-			final List<String> keys = new ArrayList<>(parameter.keySet());
+			final List<String> keys = new ArrayList<String>(parameter.keySet());
 			Collections.sort(keys, new Sort());
 			boolean first = false;
 			for (final String key : keys) {

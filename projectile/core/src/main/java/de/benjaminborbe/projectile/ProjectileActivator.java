@@ -39,7 +39,7 @@ public class ProjectileActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, projectileFetchMailReportCronJob, projectileFetchMailReportCronJob.getClass().getName()));
 		result.add(new ServiceInfo(ProjectileService.class, projectileService));
 		for (final ConfigurationDescription configuration : projectileConfig.getConfigurations()) {

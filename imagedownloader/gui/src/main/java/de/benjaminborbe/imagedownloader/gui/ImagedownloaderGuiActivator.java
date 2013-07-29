@@ -28,7 +28,7 @@ public class ImagedownloaderGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(imagedownloaderGuiServlet, ImagedownloaderGuiConstants.URL_HOME));
 		return result;
 	}

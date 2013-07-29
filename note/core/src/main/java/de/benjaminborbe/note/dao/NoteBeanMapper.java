@@ -48,7 +48,7 @@ public class NoteBeanMapper extends MapObjectMapperAdapter<NoteBean> {
 		final MapperUserIdentifier mapperUserIdentifier, final MapperNoteIdentifier mapperNoteIdentifier,
 		final MapperCalendar mapperCalendar, final MapperString mapperString
 	) {
-		final List<StringObjectMapper<NoteBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<NoteBean>> result = new ArrayList<StringObjectMapper<NoteBean>>();
 		result.add(new StringObjectMapperAdapter<NoteBean, NoteIdentifier>(ID, mapperNoteIdentifier));
 		result.add(new StringObjectMapperAdapter<NoteBean, UserIdentifier>(OWNER, mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<NoteBean, String>(TITLE, mapperString));

@@ -13,7 +13,7 @@ public class PokerClientModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		final List<Module> modules = new ArrayList<>();
+		final List<Module> modules = new ArrayList<Module>();
 		modules.add(new PokerClientModule());
 		modules.add(new ToolModule());
 		modules.add(new HttpdownloaderCoreModule());

@@ -55,7 +55,9 @@ public abstract class BookmarkGuiWebsiteRedirectServlet extends WebsiteRedirectS
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(BookmarkService.PERMISSION);
 			authorizationService.expectPermission(sessionIdentifier, permissionIdentifier);
-		} catch (final AuthorizationServiceException | AuthenticationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

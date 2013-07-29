@@ -132,7 +132,7 @@ public abstract class ChecklistGuiListFormServlet extends ChecklistGuiWebsiteHtm
 
 	private ChecklistList buildList(final HttpServletRequest request) throws ValidationException {
 		final ChecklistListDto result = new ChecklistListDto();
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		result.setId(new ChecklistListIdentifier(request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_ID)));
 		result.setName(request.getParameter(ChecklistGuiConstants.PARAMETER_LIST_NAME));
 		if (!errors.isEmpty()) {

@@ -33,7 +33,7 @@ public class WikiSpaceBeanMapper extends MapObjectMapperAdapter<WikiSpaceBean> {
 		final MapperWikiSpaceIdentifier mapperWikiSpaceIdentifier, final MapperString mapperString,
 		final MapperCalendar mapperCalendar
 	) {
-		final List<StringObjectMapper<WikiSpaceBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<WikiSpaceBean>> result = new ArrayList<StringObjectMapper<WikiSpaceBean>>();
 		result.add(new StringObjectMapperAdapter<WikiSpaceBean, WikiSpaceIdentifier>("id", mapperWikiSpaceIdentifier));
 		result.add(new StringObjectMapperAdapter<WikiSpaceBean, String>("name", mapperString));
 		result.add(new StringObjectMapperAdapter<WikiSpaceBean, Calendar>("created", mapperCalendar));

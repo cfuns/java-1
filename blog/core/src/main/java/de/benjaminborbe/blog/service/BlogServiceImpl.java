@@ -92,7 +92,11 @@ public class BlogServiceImpl implements BlogService {
 				logger.debug("blogPost created");
 				return id;
 			}
-		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final StorageException e) {
+			throw new BlogServiceException(e);
+		} catch (final AuthenticationServiceException e) {
+			throw new BlogServiceException(e);
+		} catch (final AuthorizationServiceException e) {
 			throw new BlogServiceException(e);
 		}
 	}
@@ -122,7 +126,11 @@ public class BlogServiceImpl implements BlogService {
 				logger.debug("blogPost updated");
 				blogPostDao.save(blogPost);
 			}
-		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final StorageException e) {
+			throw new BlogServiceException(e);
+		} catch (final AuthenticationServiceException e) {
+			throw new BlogServiceException(e);
+		} catch (final AuthorizationServiceException e) {
 			throw new BlogServiceException(e);
 		}
 	}
@@ -135,13 +143,15 @@ public class BlogServiceImpl implements BlogService {
 	public List<BlogPost> getLatestBlogPosts() throws BlogServiceException {
 		try {
 			logger.debug("getLatestBlogPosts");
-			final List<BlogPost> result = new ArrayList<>();
+			final List<BlogPost> result = new ArrayList<BlogPost>();
 			final EntityIterator<BlogPostBean> i = blogPostDao.getEntityIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException | EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
+			throw new BlogServiceException(e);
+		} catch (final StorageException e) {
 			throw new BlogServiceException(e);
 		}
 	}
@@ -150,13 +160,19 @@ public class BlogServiceImpl implements BlogService {
 	public Collection<BlogPostIdentifier> getBlogPostIdentifiers(final SessionIdentifier sessionIdentifier) throws BlogServiceException, LoginRequiredException {
 		try {
 			expectPermission();
-			final List<BlogPostIdentifier> result = new ArrayList<>();
+			final List<BlogPostIdentifier> result = new ArrayList<BlogPostIdentifier>();
 			final IdentifierIterator<BlogPostIdentifier> i = blogPostDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException | IdentifierIteratorException e) {
+		} catch (final StorageException e) {
+			throw new BlogServiceException(e);
+		} catch (IdentifierIteratorException e) {
+			throw new BlogServiceException(e);
+		} catch (AuthorizationServiceException e) {
+			throw new BlogServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new BlogServiceException(e);
 		}
 	}
@@ -176,7 +192,11 @@ public class BlogServiceImpl implements BlogService {
 			} else {
 				return result;
 			}
-		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final StorageException e) {
+			throw new BlogServiceException(e);
+		} catch (AuthorizationServiceException e) {
+			throw new BlogServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new BlogServiceException(e);
 		}
 	}
@@ -190,7 +210,11 @@ public class BlogServiceImpl implements BlogService {
 		try {
 			expectPermission();
 			blogPostDao.delete(blogPostIdentifier);
-		} catch (final StorageException | AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final StorageException e) {
+			throw new BlogServiceException(e);
+		} catch (AuthorizationServiceException e) {
+			throw new BlogServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new BlogServiceException(e);
 		}
 	}

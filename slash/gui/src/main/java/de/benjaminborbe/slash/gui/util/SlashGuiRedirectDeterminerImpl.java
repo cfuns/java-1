@@ -32,7 +32,7 @@ public class SlashGuiRedirectDeterminerImpl implements SlashGuiRedirectDetermine
 
 	@Override
 	public String getTarget(final HttpServletRequest request) {
-		final List<SlashGuiRuleResult> slashGuiRuleResults = new ArrayList<>();
+		final List<SlashGuiRuleResult> slashGuiRuleResults = new ArrayList<SlashGuiRuleResult>();
 		for (final SlashGuiRule slashGuiRule : slashGuiRuleRegistry.getAll()) {
 			slashGuiRuleResults.addAll(slashGuiRule.getTarget(request));
 		}

@@ -39,6 +39,7 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.xml.rpc.ServiceException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -160,7 +161,13 @@ public class LunchServiceImpl implements LunchService {
 			final String username = lunchConfig.getConfluenceUsername();
 			final String password = lunchConfig.getConfluencePassword();
 			return wikiConnector.extractLunchs(spaceKey, username, password, fullname, date);
-		} catch (final AuthorizationServiceException | java.rmi.RemoteException | ServiceException | ParseException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new LunchServiceException(e);
+		} catch (ServiceException e) {
+			throw new LunchServiceException(e);
+		} catch (RemoteException e) {
+			throw new LunchServiceException(e);
+		} catch (ParseException e) {
 			throw new LunchServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -212,12 +219,18 @@ public class LunchServiceImpl implements LunchService {
 			final String confluencePassword = lunchConfig.getConfluencePassword();
 			final Collection<String> list = wikiConnector.extractSubscriptions(confluenceSpaceKey, confluenceUsername, confluencePassword, day);
 
-			final List<KioskUser> result = new ArrayList<>();
+			final List<KioskUser> result = new ArrayList<KioskUser>();
 			for (final String username : list) {
 				result.add(buildUser(username));
 			}
 			return result;
-		} catch (final KioskServiceException | ParseException | ServiceException | java.rmi.RemoteException e) {
+		} catch (final KioskServiceException e) {
+			throw new LunchServiceException(e);
+		} catch (ServiceException e) {
+			throw new LunchServiceException(e);
+		} catch (RemoteException e) {
+			throw new LunchServiceException(e);
+		} catch (ParseException e) {
 			throw new LunchServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -290,7 +303,11 @@ public class LunchServiceImpl implements LunchService {
 			notification.setSubject(subject);
 			notification.setMessage(message);
 			notificationService.notify(notification);
-		} catch (final NotificationServiceException | ValidationException | AuthenticationServiceException e) {
+		} catch (final NotificationServiceException e) {
+			logger.warn("send book mail failed", e);
+		} catch (AuthenticationServiceException e) {
+			logger.warn("send book mail failed", e);
+		} catch (ValidationException e) {
 			logger.warn("send book mail failed", e);
 		}
 	}
@@ -299,7 +316,7 @@ public class LunchServiceImpl implements LunchService {
 	public Collection<KioskUser> getBookedUser(final Calendar day) throws LunchServiceException, LoginRequiredException,
 		PermissionDeniedException {
 		try {
-			final List<KioskUser> result = new ArrayList<>();
+			final List<KioskUser> result = new ArrayList<KioskUser>();
 			for (final KioskUser user : kioskService.getBookingsForDay(day, LunchConstants.MITTAG_EAN)) {
 				result.add(user);
 			}

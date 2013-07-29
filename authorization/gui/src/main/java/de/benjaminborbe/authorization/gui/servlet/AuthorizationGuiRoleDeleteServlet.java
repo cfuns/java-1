@@ -63,7 +63,9 @@ public class AuthorizationGuiRoleDeleteServlet extends WebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(request.getParameter(AuthorizationGuiConstants.PARAMETER_ROLE_ID));
 			authorizationService.deleteRole(sessionIdentifier, roleIdentifier);
-		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (AuthorizationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

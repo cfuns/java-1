@@ -93,13 +93,13 @@ public class SystemstatusDiskspaceFreeMbMonitoringCheck implements MonitoringChe
 
 	@Override
 	public Collection<ValidationError> validate(final Map<String, String> parameter) {
-		final List<ValidationError> result = new ArrayList<>();
+		final List<ValidationError> result = new ArrayList<ValidationError>();
 
 		// memory_free_mb
 		{
 			try {
 				final long memoryFreeMb = getFreeMb(parameter);
-				final List<ValidationConstraint<Long>> constraints = new ArrayList<>();
+				final List<ValidationConstraint<Long>> constraints = new ArrayList<ValidationConstraint<Long>>();
 				constraints.add(new ValidationConstraintNotNull<Long>());
 				constraints.add(new ValidationConstraintLongGE(0));
 				result.addAll(validationConstraintValidator.validate(DISKSPACE_FREE_MB, memoryFreeMb, constraints));

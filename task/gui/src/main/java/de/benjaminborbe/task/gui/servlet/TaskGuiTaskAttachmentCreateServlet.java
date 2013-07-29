@@ -111,8 +111,8 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final Map<String, FileItem> files = new HashMap<>();
-			final Map<String, String> parameter = new HashMap<>();
+			final Map<String, FileItem> files = new HashMap<String, FileItem>();
+			final Map<String, String> parameter = new HashMap<String, String>();
 
 			final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			if (isMultipart) {
@@ -163,7 +163,11 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 							throw new RedirectException(taskGuiLinkFactory.taskViewUrl(request, taskIdentifier));
 						}
 					}
-				} catch (final FileUploadException | SAXException | TikaException e) {
+				} catch (final FileUploadException e) {
+					widgets.add("file upload failed");
+				} catch (final SAXException e) {
+					widgets.add("file upload failed");
+				} catch (final TikaException e) {
 					widgets.add("file upload failed");
 				} catch (ValidationException e) {
 					widgets.add("file upload failed");
@@ -189,7 +193,9 @@ public class TaskGuiTaskAttachmentCreateServlet extends TaskGuiWebsiteHtmlServle
 			widgets.add(links);
 
 			return widgets;
-		} catch (final TaskServiceException | AuthenticationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (final TaskServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

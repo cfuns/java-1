@@ -56,7 +56,7 @@ public class RegisteredServletSearchServiceComponent implements SearchServiceCom
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.trace("search: queryString: " + StringUtils.join(words, ",") + " maxResults: " + maxResults);
-		final List<SearchResult> results = new ArrayList<>();
+		final List<SearchResult> results = new ArrayList<SearchResult>();
 		final BeanSearcher<String> beanSearch = new BeanSearchImpl();
 		final List<BeanMatch<String>> matches = beanSearch.search(servletPathRegistry.getAll(), maxResults, words);
 		for (final BeanMatch<String> match : matches) {

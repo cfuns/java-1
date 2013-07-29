@@ -113,7 +113,11 @@ public class AuthenticationGuiUserCreateServlet extends WebsiteHtmlServlet {
 			widgets.add(form);
 
 			return widgets;
-		} catch (final AuthenticationServiceException | SuperAdminRequiredException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		} catch (final SuperAdminRequiredException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

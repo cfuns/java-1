@@ -59,7 +59,7 @@ public class ConnectionDialog extends JDialog {
 
 	private JCheckBox useSshTunnelingCheckbox;
 
-	private final JComboBox<ConnectionParams> serverNameCombo;
+	private final JComboBox serverNameCombo;
 
 	private JTextField sshUserField;
 
@@ -97,7 +97,7 @@ public class ConnectionDialog extends JDialog {
 
 		int gridRow = 0;
 
-		serverNameCombo = new JComboBox<>();
+		serverNameCombo = new JComboBox();
 		connectionsHistory = new ConnectionsHistory(logger, connectionParams);
 		initConnectionsHistoryCombo();
 		settings.copySerializedFieldsFrom(connectionsHistory.getSettings(connectionParams));

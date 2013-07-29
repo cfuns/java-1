@@ -35,7 +35,7 @@ public class TaskAttachmentValidator extends ValidatorBase<TaskAttachmentBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<TaskAttachmentBean>> buildRules() {
-		final Map<String, ValidatorRule<TaskAttachmentBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<TaskAttachmentBean>> result = new HashMap<String, ValidatorRule<TaskAttachmentBean>>();
 
 		// id
 		{
@@ -45,7 +45,7 @@ public class TaskAttachmentValidator extends ValidatorBase<TaskAttachmentBean> {
 				@Override
 				public Collection<ValidationError> validate(final TaskAttachmentBean bean) {
 					final TaskAttachmentIdentifier value = bean.getId();
-					final List<ValidationConstraint<TaskAttachmentIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<TaskAttachmentIdentifier>> constraints = new ArrayList<ValidationConstraint<TaskAttachmentIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<TaskAttachmentIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<TaskAttachmentIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -61,7 +61,7 @@ public class TaskAttachmentValidator extends ValidatorBase<TaskAttachmentBean> {
 				@Override
 				public Collection<ValidationError> validate(final TaskAttachmentBean bean) {
 					final TaskIdentifier value = bean.getTask();
-					final List<ValidationConstraint<TaskIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<TaskIdentifier>> constraints = new ArrayList<ValidationConstraint<TaskIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<TaskIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<TaskIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -77,7 +77,7 @@ public class TaskAttachmentValidator extends ValidatorBase<TaskAttachmentBean> {
 				@Override
 				public Collection<ValidationError> validate(final TaskAttachmentBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

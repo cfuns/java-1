@@ -71,7 +71,7 @@ public class TaskGuiUtil {
 		final int nameLength
 	) throws TaskServiceException,
 		LoginRequiredException, PermissionDeniedException {
-		final List<String> names = new ArrayList<>();
+		final List<String> names = new ArrayList<String>();
 		Task parent = taskCache.getParent(sessionIdentifier, task);
 		while (parent != null) {
 			names.add(stringUtil.shortenDots(parent.getName(), nameLength));
@@ -112,7 +112,7 @@ public class TaskGuiUtil {
 	}
 
 	public List<TaskContextIdentifier> createTaskContextIdentifiers(final List<String> taskContextIds) throws TaskServiceException, LoginRequiredException {
-		final List<TaskContextIdentifier> result = new ArrayList<>();
+		final List<TaskContextIdentifier> result = new ArrayList<TaskContextIdentifier>();
 		if (taskContextIds != null) {
 			for (final String taskContextId : taskContextIds) {
 				result.add(taskService.createTaskContextIdentifier(taskContextId));
@@ -122,14 +122,14 @@ public class TaskGuiUtil {
 	}
 
 	public List<Task> getOnlyChilds(final Collection<Task> allTasks) {
-		final Set<TaskIdentifier> parents = new HashSet<>();
+		final Set<TaskIdentifier> parents = new HashSet<TaskIdentifier>();
 		for (final Task task : allTasks) {
 			final TaskIdentifier parentId = task.getParentId();
 			if (parentId != null) {
 				parents.add(parentId);
 			}
 		}
-		final List<Task> result = new ArrayList<>();
+		final List<Task> result = new ArrayList<Task>();
 		for (final Task task : allTasks) {
 			if (!parents.contains(task.getId())) {
 				result.add(task);
@@ -140,7 +140,7 @@ public class TaskGuiUtil {
 
 	public List<Task> filterNotStarted(final List<Task> tasks, final TimeZone timeZone) {
 		final TaskStartReadyPredicate taskStartReadyPredicate = new TaskStartReadyPredicate(logger, calendarUtil, timeZone);
-		final List<Task> result = new ArrayList<>();
+		final List<Task> result = new ArrayList<Task>();
 		for (final Task task : tasks) {
 			if (taskStartReadyPredicate.apply(task)) {
 				result.add(task);
@@ -179,7 +179,7 @@ public class TaskGuiUtil {
 		}
 		task.setFocus(TaskFocus.INBOX);
 
-		final List<String> remainingTokens = new ArrayList<>();
+		final List<String> remainingTokens = new ArrayList<String>();
 
 		final StringTokenizer st = new StringTokenizer(text, " ");
 		while (st.hasMoreTokens()) {
@@ -250,7 +250,7 @@ public class TaskGuiUtil {
 	}
 
 	private List<String> filterEmpty(final String... values) {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		for (final String value : values) {
 			if (value != null && value.length() > 0) {
 				result.add(value);

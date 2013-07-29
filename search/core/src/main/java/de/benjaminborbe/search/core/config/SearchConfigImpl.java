@@ -30,7 +30,7 @@ public class SearchConfigImpl extends ConfigurationBase implements SearchConfig 
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(isUrlSearchActive);
 		return result;
 	}

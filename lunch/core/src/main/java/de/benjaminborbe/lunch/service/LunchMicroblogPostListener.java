@@ -75,7 +75,9 @@ public class LunchMicroblogPostListener implements MicroblogPostListener {
 				if (logger.isTraceEnabled())
 					logger.trace("isLunch = false, skip");
 			}
-		} catch (final StorageException | IdentifierIteratorException e) {
+		} catch (final StorageException e) {
+			logger.debug(e.getClass().getName(), e);
+		} catch (IdentifierIteratorException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}

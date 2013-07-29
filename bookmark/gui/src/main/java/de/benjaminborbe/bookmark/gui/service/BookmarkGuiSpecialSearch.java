@@ -72,7 +72,16 @@ public class BookmarkGuiSpecialSearch implements SearchSpecial {
 				widgets.add(new BrWidget());
 				widgets.render(request, response, context);
 			}
-		} catch (final AuthenticationServiceException | BookmarkServiceException | LoginRequiredException | PermissionDeniedException e) {
+		} catch (final AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		} catch (PermissionDeniedException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		} catch (BookmarkServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		} catch (LoginRequiredException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}

@@ -40,7 +40,9 @@ public class LunchUserNotifierNotification implements LunchUserNotifier {
 			notification.setSubject(subject);
 			notification.setMessage(sb.toString());
 			notificationService.notify(notification);
-		} catch (NotificationServiceException | ValidationException e) {
+		} catch (NotificationServiceException e) {
+			throw new LunchUserNotifierException(e);
+		} catch (ValidationException e) {
 			throw new LunchUserNotifierException(e);
 		}
 	}

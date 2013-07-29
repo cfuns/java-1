@@ -76,7 +76,7 @@ public class StorageRowIteratorWhereIntegrationTest {
 
 		final String encoding = config.getEncoding();
 		final StorageValue id = new StorageValue("a", encoding);
-		final Map<StorageValue, StorageValue> data = new HashMap<>();
+		final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 		final StorageValue key = new StorageValue(StorageTestUtil.FIELD_NAME, encoding);
 		final StorageValue value = new StorageValue("value", encoding);
 		data.put(key, value);
@@ -84,7 +84,7 @@ public class StorageRowIteratorWhereIntegrationTest {
 		daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, id, data);
 
 		final List<StorageValue> columnNames = Arrays.asList(new StorageValue(StorageTestUtil.FIELD_NAME, encoding));
-		final Map<StorageValue, StorageValue> where = new HashMap<>();
+		final Map<StorageValue, StorageValue> where = new HashMap<StorageValue, StorageValue>();
 		where.put(key, value);
 
 		final StorageRowIteratorWhere i = new StorageRowIteratorWhere(storageConnectionPool, config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, encoding, columnNames, where);

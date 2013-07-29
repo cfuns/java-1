@@ -43,7 +43,9 @@ public class MessageUnlock {
 					}
 				}
 				logger.trace("unlock message finished");
-			} catch (final StorageException | EntityIteratorException e) {
+			} catch (final StorageException e) {
+				logger.warn(e.getClass().getName(), e);
+			} catch (EntityIteratorException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}

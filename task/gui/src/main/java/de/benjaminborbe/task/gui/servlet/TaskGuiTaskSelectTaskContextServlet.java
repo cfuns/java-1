@@ -67,7 +67,11 @@ public class TaskGuiTaskSelectTaskContextServlet extends TaskGuiWebsiteServlet {
 			final TaskIdentifier taskIdentifier = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID));
 			final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID));
 			taskService.taskSelectTaskContext(sessionIdentifier, taskIdentifier, taskContextIdentifier);
-		} catch (final AuthenticationServiceException | ValidationException | TaskServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ValidationException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (TaskServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

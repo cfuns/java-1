@@ -51,7 +51,7 @@ public class PokerCardsFullHouseComparator implements Comparator<Collection<Poke
 	}
 
 	private List<PokerCardValue> buildList(final Collection<PokerCardIdentifier> cards, final int length) {
-		final List<PokerCardValue> list = new ArrayList<>();
+		final List<PokerCardValue> list = new ArrayList<PokerCardValue>();
 		final MapList<PokerCardValue, PokerCardIdentifier> map = buildMap(cards);
 		for (final Entry<PokerCardValue, List<PokerCardIdentifier>> e : map.entrySet()) {
 			if (e.getValue().size() >= length) {
@@ -62,7 +62,7 @@ public class PokerCardsFullHouseComparator implements Comparator<Collection<Poke
 	}
 
 	private MapList<PokerCardValue, PokerCardIdentifier> buildMap(final Collection<PokerCardIdentifier> cards) {
-		final MapList<PokerCardValue, PokerCardIdentifier> result = new MapList<>();
+		final MapList<PokerCardValue, PokerCardIdentifier> result = new MapList<PokerCardValue, PokerCardIdentifier>();
 		for (final PokerCardIdentifier card : cards) {
 			result.add(card.getValue(), card);
 		}

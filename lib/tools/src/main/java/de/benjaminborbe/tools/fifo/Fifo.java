@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Fifo<T> {
 
-	private final LinkedList<T> data = new LinkedList<>();
+	private final LinkedList<T> data = new LinkedList<T>();
 
 	public Fifo() {
 	}

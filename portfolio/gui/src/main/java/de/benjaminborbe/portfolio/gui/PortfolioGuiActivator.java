@@ -46,7 +46,7 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(portfolioGuiGalleryServlet, PortfolioGuiConstants.URL_GALLERY));
 		result.add(new ServletInfo(portfolioGuiContactServlet, PortfolioGuiConstants.URL_CONTACT));
 		result.add(new ServletInfo(portfolioGuiImageServlet, PortfolioGuiConstants.URL_IMAGE));
@@ -56,14 +56,14 @@ public class PortfolioGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<FilterInfo> getFilterInfos() {
-		final Set<FilterInfo> result = new HashSet<>(super.getFilterInfos());
+		final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
 		result.add(new FilterInfo(portfolioCacheFilter, ".*", 500));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		result.add(new ResourceInfo("/js", "js"));
 		result.add(new ResourceInfo("/images", "images"));

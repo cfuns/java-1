@@ -99,7 +99,7 @@ public class ProjectileReportCheck implements MonitoringCheck {
 
 	@Override
 	public Collection<ValidationError> validate(final Map<String, String> parameter) {
-		final List<ValidationError> result = new ArrayList<>();
+		final List<ValidationError> result = new ArrayList<ValidationError>();
 		return result;
 	}
 

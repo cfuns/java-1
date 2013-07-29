@@ -10,7 +10,7 @@ import java.util.Map;
 @Singleton
 public class CronJobRegistryImpl implements CronJobRegistry {
 
-	private final Map<String, CronJob> data = new HashMap<>();
+	private final Map<String, CronJob> data = new HashMap<String, CronJob>();
 
 	@Override
 	public void remove(final CronJob cronJob) {

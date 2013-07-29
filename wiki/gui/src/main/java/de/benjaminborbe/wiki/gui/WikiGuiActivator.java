@@ -71,7 +71,7 @@ public class WikiGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(wikiGuiDashboardServlet, WikiGuiConstants.WIKI_GUI_DASHBOARD_SERVLET_URL));
 		result.add(new ServletInfo(wikiGuiPageEditServlet, WikiGuiConstants.WIKI_GUI_PAGE_EDIT_SERVLET_URL));
 		result.add(new ServletInfo(wikiGuiPageCreateServlet, WikiGuiConstants.WIKI_GUI_PAGE_CREATE_SERVLET_URL));
@@ -87,14 +87,14 @@ public class WikiGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, wikiGuiNavigationEntry));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		result.add(new ResourceInfo("/js", "js"));
 		return result;

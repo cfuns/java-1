@@ -49,7 +49,7 @@ public class ChecklistEntryBeanMapper extends MapObjectMapperAdapter<ChecklistEn
 		final MapperBoolean mapperBoolean,
 		final MapperCalendar mapperCalendar
 	) {
-		final List<StringObjectMapper<ChecklistEntryBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<ChecklistEntryBean>> result = new ArrayList<StringObjectMapper<ChecklistEntryBean>>();
 		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, ChecklistEntryIdentifier>("id", mapperEntryIdentifier));
 		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, ChecklistListIdentifier>(LIST_ID, mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<ChecklistEntryBean, UserIdentifier>(OWNER, mapperUserIdentifier));

@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class ManyToManyRelationCache<A extends Identifier<?>, B extends Identifier<?>> implements ManyToManyRelation<A, B> {
 
-	private final Map<String, Boolean> data = new HashMap<>();
+	private final Map<String, Boolean> data = new HashMap<String, Boolean>();
 
 	@Inject
 	public ManyToManyRelationCache() {
@@ -37,7 +37,7 @@ public class ManyToManyRelationCache<A extends Identifier<?>, B extends Identifi
 
 	@Override
 	public void removeB(final B identifierB) throws StorageException {
-		final Set<String> remove = new HashSet<>();
+		final Set<String> remove = new HashSet<String>();
 		for (final String key : data.keySet()) {
 			if (key.contains("-" + identifierB)) {
 				remove.add(key);
@@ -50,7 +50,7 @@ public class ManyToManyRelationCache<A extends Identifier<?>, B extends Identifi
 
 	@Override
 	public void removeA(final A identifierA) throws StorageException {
-		final Set<String> remove = new HashSet<>();
+		final Set<String> remove = new HashSet<String>();
 		for (final String key : data.keySet()) {
 			if (key.contains(identifierA + "-")) {
 				remove.add(key);

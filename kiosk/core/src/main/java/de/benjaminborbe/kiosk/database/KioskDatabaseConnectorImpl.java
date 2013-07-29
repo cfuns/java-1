@@ -55,7 +55,15 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 
 			logger.debug("did not find customerNumber");
 			return null;
-		} catch (final SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException | NamingException e) {
+		} catch (final SQLException e) {
+			throw new KioskDatabaseConnectorException(e);
+		} catch (ClassNotFoundException e) {
+			throw new KioskDatabaseConnectorException(e);
+		} catch (NamingException e) {
+			throw new KioskDatabaseConnectorException(e);
+		} catch (InstantiationException e) {
+			throw new KioskDatabaseConnectorException(e);
+		} catch (IllegalAccessException e) {
 			throw new KioskDatabaseConnectorException(e);
 		} finally {
 			if (statement != null) {
@@ -90,7 +98,7 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		try {
-			final List<KioskUserBean> result = new ArrayList<>();
+			final List<KioskUserBean> result = new ArrayList<KioskUserBean>();
 
 			logger.debug("getBookingsForDay " + calendarUtil.toDateString(calendar));
 
@@ -121,7 +129,15 @@ public class KioskDatabaseConnectorImpl implements KioskDatabaseConnector {
 			}
 
 			return result;
-		} catch (final SQLException | ClassNotFoundException | IllegalAccessException | InstantiationException | NamingException e) {
+		} catch (final SQLException e) {
+			throw new KioskDatabaseConnectorException(e);
+		} catch (ClassNotFoundException e) {
+			throw new KioskDatabaseConnectorException(e);
+		} catch (NamingException e) {
+			throw new KioskDatabaseConnectorException(e);
+		} catch (InstantiationException e) {
+			throw new KioskDatabaseConnectorException(e);
+		} catch (IllegalAccessException e) {
 			throw new KioskDatabaseConnectorException(e);
 		} finally {
 			if (statement != null) {

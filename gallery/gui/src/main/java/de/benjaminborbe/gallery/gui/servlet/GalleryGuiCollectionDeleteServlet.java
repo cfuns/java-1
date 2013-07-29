@@ -65,7 +65,9 @@ public class GalleryGuiCollectionDeleteServlet extends GalleryGuiWebsiteServlet 
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryCollectionIdentifier galleryCollectionIdentifier = galleryService.createCollectionIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_COLLECTION_ID));
 			galleryService.deleteCollection(sessionIdentifier, galleryCollectionIdentifier);
-		} catch (final GalleryServiceException | AuthenticationServiceException e) {
+		} catch (final GalleryServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

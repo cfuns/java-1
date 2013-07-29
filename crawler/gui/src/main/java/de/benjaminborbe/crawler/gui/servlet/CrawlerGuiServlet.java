@@ -41,13 +41,13 @@ import java.io.IOException;
 @Singleton
 public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 
+	public static final long DEFAULT_DEPTH = 0;
+
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Crawler";
 
 	private static final int TIMEOUT = 5000;
-
-	public static final long DEFAULT_DEPTH = 0;
 
 	private final ParseUtil parseUtil;
 
@@ -120,7 +120,9 @@ public class CrawlerGuiServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			crawlerService.expectPermission(sessionIdentifier);
-		} catch (AuthenticationServiceException | CrawlerException e) {
+		} catch (AuthenticationServiceException e) {
+			throw new PermissionDeniedException("auth failed", e);
+		} catch (CrawlerException e) {
 			throw new PermissionDeniedException("auth failed", e);
 		}
 	}

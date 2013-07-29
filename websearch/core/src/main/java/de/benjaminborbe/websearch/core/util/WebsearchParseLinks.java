@@ -71,7 +71,11 @@ public class WebsearchParseLinks {
 					page.setTimeout(mathUtil.maxInteger(timeout, page.getTimeout()));
 					pageDao.save(page, new StorageValueList(pageDao.getEncoding()).add(WebsearchPageBeanMapper.DEPTH).add(WebsearchPageBeanMapper.TIMEOUT));
 				}
-			} catch (MalformedURLException | StorageException | ParseException e) {
+			} catch (MalformedURLException e) {
+				logger.debug(e.getClass().getName(), e);
+			} catch (StorageException e) {
+				logger.debug(e.getClass().getName(), e);
+			} catch (ParseException e) {
 				logger.debug(e.getClass().getName(), e);
 			}
 		}
@@ -159,7 +163,7 @@ public class WebsearchParseLinks {
 		}
 
 		final String[] parts = uri.split("/");
-		final List<String> p = new ArrayList<>();
+		final List<String> p = new ArrayList<String>();
 		for (int i = parts.length - 1; i >= 0; i--) {
 			final String part = parts[i];
 			if (part != null && !part.isEmpty()) {

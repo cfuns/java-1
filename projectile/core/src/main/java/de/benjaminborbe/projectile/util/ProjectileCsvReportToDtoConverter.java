@@ -27,7 +27,7 @@ public class ProjectileCsvReportToDtoConverter {
 
 	public List<ProjectileCsvReportToDto> convert(final Calendar date, final String csvString) throws ParseException {
 		logger.debug("convert");
-		final List<ProjectileCsvReportToDto> result = new ArrayList<>();
+		final List<ProjectileCsvReportToDto> result = new ArrayList<ProjectileCsvReportToDto>();
 		if (csvString == null) {
 			return result;
 		}

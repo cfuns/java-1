@@ -34,7 +34,7 @@ public class GalleryImageValidator extends ValidatorBase<GalleryImageBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<GalleryImageBean>> buildRules() {
-		final Map<String, ValidatorRule<GalleryImageBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<GalleryImageBean>> result = new HashMap<String, ValidatorRule<GalleryImageBean>>();
 
 		// content
 		{
@@ -44,7 +44,7 @@ public class GalleryImageValidator extends ValidatorBase<GalleryImageBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryImageBean bean) {
 					final byte[] value = bean.getContent();
-					final List<ValidationConstraint<byte[]>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<byte[]>> constraints = new ArrayList<ValidationConstraint<byte[]>>();
 					constraints.add(new ValidationConstraintNotNull<byte[]>());
 					constraints.add(new ValidationConstraintByteArrayMinLength(1));
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -60,7 +60,7 @@ public class GalleryImageValidator extends ValidatorBase<GalleryImageBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryImageBean bean) {
 					final String value = bean.getContentType();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

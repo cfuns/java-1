@@ -48,7 +48,7 @@ public class CapabilityContainer {
 		this.logger = logger;
 	}
 
-	private final Map<Integer, RfbCapabilityInfo> caps = new HashMap<>();
+	private final Map<Integer, RfbCapabilityInfo> caps = new HashMap<Integer, RfbCapabilityInfo>();
 
 	public void add(final RfbCapabilityInfo capabilityInfo) {
 		caps.put(capabilityInfo.getCode(), capabilityInfo);
@@ -78,7 +78,7 @@ public class CapabilityContainer {
 	}
 
 	public Collection<EncodingType> getEnabledEncodingTypes() {
-		final Collection<EncodingType> types = new LinkedList<>();
+		final Collection<EncodingType> types = new LinkedList<EncodingType>();
 		for (final RfbCapabilityInfo c : caps.values()) {
 			if (c.isEnabled()) {
 				types.add(EncodingType.byId(c.getCode()));

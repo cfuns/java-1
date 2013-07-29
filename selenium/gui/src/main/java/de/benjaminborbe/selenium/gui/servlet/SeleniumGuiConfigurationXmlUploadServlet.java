@@ -96,7 +96,9 @@ public class SeleniumGuiConfigurationXmlUploadServlet extends WebsiteHtmlServlet
 			widgets.add(form);
 
 			return widgets;
-		} catch (AuthenticationServiceException | SeleniumConfigurationXmlServiceException e) {
+		} catch (AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (SeleniumConfigurationXmlServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

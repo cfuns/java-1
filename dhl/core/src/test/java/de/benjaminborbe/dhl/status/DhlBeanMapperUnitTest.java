@@ -46,7 +46,7 @@ public class DhlBeanMapperUnitTest {
 
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{"id", "1337"});
 		result.add(new Object[]{"created", "123456"});
 		result.add(new Object[]{"modified", "123456"});
@@ -59,7 +59,7 @@ public class DhlBeanMapperUnitTest {
 	}
 
 	private DhlBeanMapper getDhlBeanMapper() {
-		final Provider<DhlBean> provider = new ProviderMock<>(DhlBean.class);
+		final Provider<DhlBean> provider = new ProviderMock<DhlBean>(DhlBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -82,7 +82,7 @@ public class DhlBeanMapperUnitTest {
 	@Test
 	public void testMap() throws Exception {
 		final DhlBeanMapper mapper = getDhlBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final DhlBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

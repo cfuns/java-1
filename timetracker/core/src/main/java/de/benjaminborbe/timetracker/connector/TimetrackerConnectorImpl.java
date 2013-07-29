@@ -63,9 +63,9 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 		try {
 			logger.debug("isCompleted");
 			final URL url = new URL("https://timetracker.rp.seibert-media.net/timetracker/ajax/getTasksAndBookings");
-			final Map<String, String> parameter = new HashMap<>();
+			final Map<String, String> parameter = new HashMap<String, String>();
 			parameter.put("date", dateUtil.germanDateString(date));
-			final Map<String, String> cookies = new HashMap<>();
+			final Map<String, String> cookies = new HashMap<String, String>();
 			cookies.put("JSESSIONID", sessionId);
 			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(TIMEOUT).addCookies(cookies).addParameters(parameter).addHttpMethod(HttpMethod.POST).build());
 			final String content = httpUtil.getContent(httpResponse);
@@ -92,7 +92,11 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			}
 			// System.err.println("content: " + content);
 			return false;
-		} catch (final HttpdownloaderServiceException | JSONParseException | IOException e) {
+		} catch (final HttpdownloaderServiceException e) {
+			throw new TimetrackerConnectorException(e);
+		} catch (final JSONParseException e) {
+			throw new TimetrackerConnectorException(e);
+		} catch (final IOException e) {
 			throw new TimetrackerConnectorException(e);
 		}
 	}
@@ -102,7 +106,7 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 		try {
 			logger.debug("getSessionId");
 			final URL url = parseUtil.parseURL("https://timetracker.rp.seibert-media.net/timetracker/authentication/signIn/login");
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put("username", username);
 			data.put("password", password);
 			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(TIMEOUT).addHttpMethod(HttpMethod.POST).build());
@@ -116,7 +120,13 @@ public class TimetrackerConnectorImpl implements TimetrackerConnector {
 			} else {
 				return null;
 			}
-		} catch (final ParseException | IOException | HttpdownloaderServiceException e) {
+		} catch (final ParseException e) {
+			logger.debug(e.getClass().getSimpleName(), e);
+			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
+		} catch (final IOException e) {
+			logger.debug(e.getClass().getSimpleName(), e);
+			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
+		} catch (final HttpdownloaderServiceException e) {
 			logger.debug(e.getClass().getSimpleName(), e);
 			throw new TimetrackerConnectorException(e.getClass().getSimpleName(), e);
 		}

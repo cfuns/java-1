@@ -32,14 +32,14 @@ public class PermissionBeanMapperUnitTest {
 		final String permissionName = "myPermission";
 		{
 			final PermissionBeanMapper mapper = getMapper();
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put("id", permissionName);
 			final PermissionBean permissionBean = mapper.map(data);
 			assertEquals(permissionName, permissionBean.getId().getId());
 		}
 		{
 			final PermissionBeanMapper mapper = getMapper();
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			final PermissionBean permissionBean = mapper.map(data);
 			assertNull(permissionBean.getId());
 		}
@@ -49,7 +49,7 @@ public class PermissionBeanMapperUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final Provider<PermissionBean> permissionBeanProvider = new ProviderMock<>(PermissionBean.class);
+		final Provider<PermissionBean> permissionBeanProvider = new ProviderMock<PermissionBean>(PermissionBean.class);
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final CurrentTime currentTime = new CurrentTimeImpl();

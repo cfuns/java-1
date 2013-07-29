@@ -29,7 +29,7 @@ public class TaskValidator extends ValidatorBase<TaskBean> {
 
 		@Override
 		public Collection<ValidationError> validate(final TaskBean bean) {
-			final Set<ValidationError> result = new HashSet<>();
+			final Set<ValidationError> result = new HashSet<ValidationError>();
 			if (bean.getDue() != null && bean.getStart() != null && calendarUtil.isLT(bean.getDue(), bean.getStart())) {
 				result.add(new ValidationErrorSimple("Due must be greater than start!"));
 			}
@@ -54,7 +54,7 @@ public class TaskValidator extends ValidatorBase<TaskBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<TaskBean>> buildRules() {
-		final Map<String, ValidatorRule<TaskBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<TaskBean>> result = new HashMap<String, ValidatorRule<TaskBean>>();
 
 		// id
 		{
@@ -64,7 +64,7 @@ public class TaskValidator extends ValidatorBase<TaskBean> {
 				@Override
 				public Collection<ValidationError> validate(final TaskBean bean) {
 					final TaskIdentifier value = bean.getId();
-					final List<ValidationConstraint<TaskIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<TaskIdentifier>> constraints = new ArrayList<ValidationConstraint<TaskIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<TaskIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<TaskIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -80,7 +80,7 @@ public class TaskValidator extends ValidatorBase<TaskBean> {
 				@Override
 				public Collection<ValidationError> validate(final TaskBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -103,7 +103,7 @@ public class TaskValidator extends ValidatorBase<TaskBean> {
 				@Override
 				public Collection<ValidationError> validate(final TaskBean bean) {
 					final TaskFocus value = bean.getFocus();
-					final List<ValidationConstraint<TaskFocus>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<TaskFocus>> constraints = new ArrayList<ValidationConstraint<TaskFocus>>();
 					constraints.add(new ValidationConstraintNotNull<TaskFocus>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}

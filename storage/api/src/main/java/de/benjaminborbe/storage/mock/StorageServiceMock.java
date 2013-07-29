@@ -134,7 +134,7 @@ public class StorageServiceMock implements StorageService {
 		}
 	}
 
-	private final HashMap<String, HashMap<StorageValue, HashMap<StorageValue, StorageValue>>> storageData = new HashMap<>();
+	private final HashMap<String, HashMap<StorageValue, HashMap<StorageValue, StorageValue>>> storageData = new HashMap<String, HashMap<StorageValue, HashMap<StorageValue, StorageValue>>>();
 
 	private final Logger logger;
 
@@ -178,12 +178,12 @@ public class StorageServiceMock implements StorageService {
 	public void set(final String columnFamily, final StorageValue id, final StorageValue key, final StorageValue value) {
 		HashMap<StorageValue, HashMap<StorageValue, StorageValue>> cfData = storageData.get(columnFamily);
 		if (cfData == null) {
-			cfData = new HashMap<>();
+			cfData = new HashMap<StorageValue, HashMap<StorageValue, StorageValue>>();
 			storageData.put(columnFamily, cfData);
 		}
 		HashMap<StorageValue, StorageValue> idData = cfData.get(id);
 		if (idData == null) {
-			idData = new HashMap<>();
+			idData = new HashMap<StorageValue, StorageValue>();
 			cfData.put(id, idData);
 		}
 		idData.put(key, value);
@@ -193,14 +193,14 @@ public class StorageServiceMock implements StorageService {
 	public void set(final String columnFamily, final StorageValue id, final Map<StorageValue, StorageValue> data) {
 		HashMap<StorageValue, HashMap<StorageValue, StorageValue>> cfData = storageData.get(columnFamily);
 		if (cfData == null) {
-			cfData = new HashMap<>();
+			cfData = new HashMap<StorageValue, HashMap<StorageValue, StorageValue>>();
 			storageData.put(columnFamily, cfData);
 		}
 		final HashMap<StorageValue, StorageValue> idData;
 		if (cfData.containsKey(id)) {
 			idData = cfData.get(id);
 		} else {
-			idData = new HashMap<>();
+			idData = new HashMap<StorageValue, StorageValue>();
 			cfData.put(id, idData);
 		}
 
@@ -212,13 +212,13 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public StorageIterator keyIterator(final String columnFamily) throws StorageException {
-		final Map<StorageValue, StorageValue> where = new HashMap<>();
+		final Map<StorageValue, StorageValue> where = new HashMap<StorageValue, StorageValue>();
 		return keyIterator(columnFamily, where);
 	}
 
 	@Override
 	public List<StorageValue> get(final String columnFamily, final StorageValue id, final List<StorageValue> keys) throws StorageException {
-		final List<StorageValue> result = new ArrayList<>();
+		final List<StorageValue> result = new ArrayList<StorageValue>();
 		for (final StorageValue key : keys) {
 			result.add(get(columnFamily, id, key));
 		}
@@ -246,14 +246,14 @@ public class StorageServiceMock implements StorageService {
 		final HashMap<StorageValue, HashMap<StorageValue, StorageValue>> cfData = storageData.get(columnFamily);
 		final List<StorageValue> values;
 		if (cfData == null) {
-			values = new ArrayList<>();
+			values = new ArrayList<StorageValue>();
 		} else {
-			values = new ArrayList<>(cfData.keySet());
+			values = new ArrayList<StorageValue>(cfData.keySet());
 		}
 
 		logger.debug("found " + values.size() + " in cf " + columnFamily);
 
-		final List<StorageValue> result = new ArrayList<>();
+		final List<StorageValue> result = new ArrayList<StorageValue>();
 		for (final StorageValue value : values) {
 			boolean match = true;
 
@@ -359,7 +359,7 @@ public class StorageServiceMock implements StorageService {
 		final Collection<StorageValue> keys,
 		final List<StorageValue> columnNames
 	) throws StorageException {
-		final List<List<StorageValue>> result = new ArrayList<>();
+		final List<List<StorageValue>> result = new ArrayList<List<StorageValue>>();
 		for (final StorageValue key : keys) {
 			result.add(get(columnFamily, key, columnNames));
 		}

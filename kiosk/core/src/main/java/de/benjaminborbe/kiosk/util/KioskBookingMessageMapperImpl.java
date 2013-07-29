@@ -18,11 +18,11 @@ public class KioskBookingMessageMapperImpl implements KioskBookingMessageMapper 
 
 	@Inject
 	public KioskBookingMessageMapperImpl(final Provider<KioskBookingMessage> lunchBookingMessageProvider, final MapperLong mapperLong) {
-		mapper = new JsonObjectMapper<>(lunchBookingMessageProvider, build(mapperLong));
+		mapper = new JsonObjectMapper<KioskBookingMessage>(lunchBookingMessageProvider, build(mapperLong));
 	}
 
 	private Collection<StringObjectMapper<KioskBookingMessage>> build(final MapperLong mapperLong) {
-		final List<StringObjectMapper<KioskBookingMessage>> result = new ArrayList<>();
+		final List<StringObjectMapper<KioskBookingMessage>> result = new ArrayList<StringObjectMapper<KioskBookingMessage>>();
 		result.add(new StringObjectMapperAdapter<KioskBookingMessage, Long>(CUSTOMER, mapperLong));
 		result.add(new StringObjectMapperAdapter<KioskBookingMessage, Long>(EAN, mapperLong));
 		return result;

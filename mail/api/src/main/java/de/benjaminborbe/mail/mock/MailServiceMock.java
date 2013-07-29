@@ -12,7 +12,7 @@ import java.util.List;
 @Singleton
 public class MailServiceMock implements MailService {
 
-	private final List<Mail> mails = new ArrayList<>();
+	private final List<Mail> mails = new ArrayList<Mail>();
 
 	@Inject
 	public MailServiceMock() {

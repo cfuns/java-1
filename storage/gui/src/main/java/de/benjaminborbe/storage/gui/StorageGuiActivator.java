@@ -58,7 +58,7 @@ public class StorageGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(storageGuiServlet, StorageGuiConstants.URL_HOME));
 		result.add(new ServletInfo(storageReadServlet, StorageGuiConstants.URL_READ));
 		result.add(new ServletInfo(storageWriteServlet, StorageGuiConstants.URL_WRITE));
@@ -71,7 +71,7 @@ public class StorageGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, storageGuiNavigationEntry));
 		return result;
 	}

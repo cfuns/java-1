@@ -104,15 +104,28 @@ public abstract class WebsiteServlet extends HttpServlet {
 					onPermissionDenied(request, response, context);
 				}
 			}
-		} catch (final ServiceUnavailableException | AuthorizationServiceException | AuthenticationServiceException e) {
-			final String title = "Exception in Servlet: " + getClass().getName();
-			final ListWidget row = new ListWidget();
-			row.add(new H1Widget(title));
-			row.add(new ExceptionWidget(e));
-			logger.warn("Exception in WebsiteServlet: " + getClass().getName(), e);
-			final Widget widget = new HtmlWidget(new HeadWidget(title, new HashSet<JavascriptResource>(), new HashSet<CssResource>()), new BodyWidget(row));
-			widget.render(request, response, context);
+		} catch (final ServiceUnavailableException e) {
+			handleException(request, response, context, e);
+		} catch (final AuthorizationServiceException e) {
+			handleException(request, response, context, e);
+		} catch (final AuthenticationServiceException e) {
+			handleException(request, response, context, e);
 		}
+	}
+
+	private void handleException(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		final HttpContext context,
+		final Exception e
+	) throws IOException {
+		final String title = "Exception in Servlet: " + getClass().getName();
+		final ListWidget row = new ListWidget();
+		row.add(new H1Widget(title));
+		row.add(new ExceptionWidget(e));
+		logger.warn("Exception in WebsiteServlet: " + getClass().getName(), e);
+		final Widget widget = new HtmlWidget(new HeadWidget(title, new HashSet<JavascriptResource>(), new HashSet<CssResource>()), new BodyWidget(row));
+		widget.render(request, response, context);
 	}
 
 	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
@@ -194,7 +207,7 @@ public abstract class WebsiteServlet extends HttpServlet {
 		if (e.hasMoreElements()) {
 			referer.append("?");
 		}
-		final List<String> pairs = new ArrayList<>();
+		final List<String> pairs = new ArrayList<String>();
 		while (e.hasMoreElements()) {
 			final String name = e.nextElement();
 			final String[] values = request.getParameterValues(name);

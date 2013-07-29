@@ -35,7 +35,7 @@ public class AnalyticsGuiLinkFactory {
 	}
 
 	private List<String> toArray(final List<AnalyticsReportIdentifier> reportIdentifiers) {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		for (final AnalyticsReportIdentifier reportIdentifier : reportIdentifiers) {
 			result.add(reportIdentifier.getId());
 		}

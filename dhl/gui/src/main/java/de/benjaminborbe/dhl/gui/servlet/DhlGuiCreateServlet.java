@@ -132,7 +132,7 @@ public class DhlGuiCreateServlet extends DhlWebsiteHtmlServlet {
 	) throws ValidationException, DhlServiceException,
 		LoginRequiredException, PermissionDeniedException {
 
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		long zip = 0;
 		try {
 			zip = parseUtil.parseLong(zipString);

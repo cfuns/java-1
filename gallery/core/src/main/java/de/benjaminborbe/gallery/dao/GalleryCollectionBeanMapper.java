@@ -44,7 +44,7 @@ public class GalleryCollectionBeanMapper extends MapObjectMapperAdapter<GalleryC
 		final MapperBoolean mapperBoolean,
 		final MapperCalendar mapperCalendar
 	) {
-		final List<StringObjectMapper<GalleryCollectionBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<GalleryCollectionBean>> result = new ArrayList<StringObjectMapper<GalleryCollectionBean>>();
 		result.add(new StringObjectMapperAdapter<GalleryCollectionBean, GalleryCollectionIdentifier>("id", mapperGalleryCollectionIdentifier));
 		result.add(new StringObjectMapperAdapter<GalleryCollectionBean, GalleryGroupIdentifier>("groupId", mapperGalleryGroupIdentifier));
 		result.add(new StringObjectMapperAdapter<GalleryCollectionBean, String>("name", mapperString));

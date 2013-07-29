@@ -34,7 +34,7 @@ public class LuceneIndexConfigImpl extends ConfigurationBase implements LuceneIn
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(indexDirectory);
 		return result;
 	}

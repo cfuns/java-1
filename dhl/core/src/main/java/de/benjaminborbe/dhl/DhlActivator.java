@@ -29,7 +29,7 @@ public class DhlActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DhlService.class, dhlService));
 		result.add(new ServiceInfo(CronJob.class, dhlCheckCronJob, dhlCheckCronJob.getClass().getName()));
 		return result;

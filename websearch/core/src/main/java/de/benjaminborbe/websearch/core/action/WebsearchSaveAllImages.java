@@ -38,7 +38,9 @@ public class WebsearchSaveAllImages {
 			try {
 				logger.trace("handle page " + websearchPageBean.getUrl());
 				websearchSaveAllImage.saveImage(websearchPageBean);
-			} catch (NoSuchAlgorithmException | IOException e) {
+			} catch (NoSuchAlgorithmException e) {
+				logger.warn("save image " + websearchPageBean.getId() + " failed", e);
+			} catch (IOException e) {
 				logger.warn("save image " + websearchPageBean.getId() + " failed", e);
 			}
 		}

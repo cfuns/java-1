@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class CacheServiceMock implements CacheService {
 
-	private final Map<String, String> data = new HashMap<>();
+	private final Map<String, String> data = new HashMap<String, String>();
 
 	public CacheServiceMock() {
 	}

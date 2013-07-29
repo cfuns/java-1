@@ -38,7 +38,11 @@ public class DistributedIndexSearchResultIteratorAdapter implements DistributedI
 		try {
 			final StorageColumn storageColumn = storageColumnIterator.next();
 			return distributedIndexSearchResultMapper.fromString(storageColumn.getColumnName().getString());
-		} catch (final StorageException | UnsupportedEncodingException | MapException e) {
+		} catch (final StorageException e) {
+			throw new DistributedIndexServiceException(e);
+		} catch (final UnsupportedEncodingException e) {
+			throw new DistributedIndexServiceException(e);
+		} catch (final MapException e) {
 			throw new DistributedIndexServiceException(e);
 		}
 	}

@@ -50,7 +50,7 @@ public class DistributedSearchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(distributedSearchGuiServlet, DistributedSearchGuiConstants.URL_HOME));
 		result.add(new ServletInfo(distributedSearchGuiPageServlet, DistributedSearchGuiConstants.URL_PAGE));
 		result.add(new ServletInfo(distributedSearchGuiRebuildAllServlet, DistributedSearchGuiConstants.URL_REBUILD_ALL));
@@ -61,7 +61,7 @@ public class DistributedSearchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, distributedSearchGuiNavigationEntry));
 		return result;
 	}

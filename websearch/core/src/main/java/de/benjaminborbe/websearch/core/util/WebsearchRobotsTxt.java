@@ -9,7 +9,7 @@ public class WebsearchRobotsTxt {
 
 	private static final String DEFAULT_UA = "*";
 
-	private final Map<String, Set<String>> useragentUriList = new HashMap<>();
+	private final Map<String, Set<String>> useragentUriList = new HashMap<String, Set<String>>();
 
 	public WebsearchRobotsTxt() {
 	}
@@ -40,7 +40,7 @@ public class WebsearchRobotsTxt {
 		if (useragentUriList.containsKey(useragent)) {
 			uris = useragentUriList.get(useragent);
 		} else {
-			uris = new HashSet<>();
+			uris = new HashSet<String>();
 			useragentUriList.put(useragent, uris);
 		}
 		uris.add(uri);

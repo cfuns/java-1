@@ -38,7 +38,7 @@ public class WorktimeGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(worktimeServlet, "/"));
 		result.add(new ServletInfo(worktimeGuiInOfficeServlet, "/inOffice"));
 		return result;
@@ -46,7 +46,7 @@ public class WorktimeGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, worktimeDashboardWidget, worktimeDashboardWidget.getClass().getName()));
 		return result;
 	}

@@ -61,7 +61,7 @@ class SeleniumConfigurationSimple implements SeleniumConfiguration {
 	@Override
 	public List<SeleniumActionConfiguration> getActionConfigurations() {
 		try {
-			final List<SeleniumActionConfiguration> list = new ArrayList<>();
+			final List<SeleniumActionConfiguration> list = new ArrayList<SeleniumActionConfiguration>();
 			list.add(new SeleniumActionConfigurationGetUrl("open heise", new URL("http://www.heise.de")));
 			list.add(new SeleniumActionConfigurationClick("click themen_aktuell", "//*[@id=\"themen_aktuell\"]/ol/li[4]/a"));
 			list.add(new SeleniumActionConfigurationExpectText("find headline mitte_uebersicht", "//*[@id=\"mitte_uebersicht\"]/div[1]/h1", "Facebook – nicht nur eine Erfolgsgeschichte"));

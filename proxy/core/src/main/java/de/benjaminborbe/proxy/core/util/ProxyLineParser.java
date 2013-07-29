@@ -93,7 +93,7 @@ public class ProxyLineParser {
 		}
 		final String key = line.substring(0, pos);
 		final String valueString = line.substring(pos + 2);
-		final Map<String, List<String>> result = new HashMap<>();
+		final Map<String, List<String>> result = new HashMap<String, List<String>>();
 		result.put(key, Arrays.asList(valueString.split(", ")));
 		return result;
 	}

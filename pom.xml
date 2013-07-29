@@ -31,9 +31,9 @@
 	<properties>
 		<!-- Print unit test results into files instead of console -->
 		<unitTestUseFile>true</unitTestUseFile>
-		<!-- tell the compiler it should use 1.7 -->
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<!-- tell the compiler it should use 1.6 -->
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
 		<!-- Sourcefiles UTF-8 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- OSGI-Test includes -->

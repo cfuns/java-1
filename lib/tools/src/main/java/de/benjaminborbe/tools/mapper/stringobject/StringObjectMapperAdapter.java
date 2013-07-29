@@ -27,7 +27,13 @@ public class StringObjectMapperAdapter<B, T> implements StringObjectMapper<B> {
 	public String map(final B bean) throws MapException {
 		try {
 			return mapper.toString((T) PropertyUtils.getProperty(bean, getName()));
-		} catch (final IllegalAccessException | ClassCastException | NoSuchMethodException | InvocationTargetException e) {
+		} catch (ClassCastException e) {
+			throw new MapException(e);
+		} catch (NoSuchMethodException e) {
+			throw new MapException(e);
+		} catch (InvocationTargetException e) {
+			throw new MapException(e);
+		} catch (IllegalAccessException e) {
 			throw new MapException(e);
 		}
 	}
@@ -36,7 +42,11 @@ public class StringObjectMapperAdapter<B, T> implements StringObjectMapper<B> {
 	public void map(final B bean, final String value) throws MapException {
 		try {
 			PropertyUtils.setProperty(bean, getName(), mapper.fromString(value));
-		} catch (final IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+		} catch (final InvocationTargetException e) {
+			throw new MapException(e);
+		} catch (NoSuchMethodException e) {
+			throw new MapException(e);
+		} catch (IllegalAccessException e) {
 			throw new MapException(e);
 		}
 	}

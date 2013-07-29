@@ -55,7 +55,9 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 		try {
 			seleniumService.expectPermission(sessionIdentifier);
 			return seleniumConfigurationXmlDao.list();
-		} catch (StorageException | SeleniumServiceException e) {
+		} catch (StorageException e) {
+			throw new SeleniumConfigurationXmlServiceException(e);
+		} catch (SeleniumServiceException e) {
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}
 	}
@@ -80,7 +82,11 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 			seleniumConfigurationXmlDao.save(bean);
 			seleniumConfigurationXmlServiceManager.onAdded(id);
 			return id;
-		} catch (ParseException | StorageException | SeleniumServiceException e) {
+		} catch (ParseException e) {
+			throw new SeleniumConfigurationXmlServiceException(e);
+		} catch (StorageException e) {
+			throw new SeleniumConfigurationXmlServiceException(e);
+		} catch (SeleniumServiceException e) {
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}
 	}
@@ -94,7 +100,9 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 			logger.debug("deleteXml");
 			seleniumConfigurationXmlDao.delete(seleniumConfigurationIdentifier);
 			seleniumConfigurationXmlServiceManager.onRemoved(seleniumConfigurationIdentifier);
-		} catch (StorageException | SeleniumServiceException e) {
+		} catch (StorageException e) {
+			throw new SeleniumConfigurationXmlServiceException(e);
+		} catch (SeleniumServiceException e) {
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}
 	}
@@ -106,7 +114,9 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 		try {
 			seleniumService.expectPermission(sessionIdentifier);
 			return seleniumConfigurationXmlDao.load(id);
-		} catch (StorageException | SeleniumServiceException e) {
+		} catch (StorageException e) {
+			throw new SeleniumConfigurationXmlServiceException(e);
+		} catch (SeleniumServiceException e) {
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}
 	}
@@ -118,7 +128,9 @@ public class SeleniumConfigurationXmlServiceImpl implements SeleniumConfiguratio
 		try {
 			seleniumService.expectPermission(sessionIdentifier);
 			return seleniumConfigurationXmlDao.exists(seleniumConfigurationIdentifier);
-		} catch (StorageException | SeleniumServiceException e) {
+		} catch (StorageException e) {
+			throw new SeleniumConfigurationXmlServiceException(e);
+		} catch (SeleniumServiceException e) {
 			throw new SeleniumConfigurationXmlServiceException(e);
 		}
 	}

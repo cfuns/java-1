@@ -92,7 +92,7 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		final MapperPokerPlayerIdentifierList mapperPlayerIdentifierList,
 		final MapperInteger mapperInteger
 	) {
-		final List<StringObjectMapper<PokerGameBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<PokerGameBean>> result = new ArrayList<StringObjectMapper<PokerGameBean>>();
 		result.add(new StringObjectMapperAdapter<PokerGameBean, PokerGameIdentifier>(ID, mapperPokerGameIdentifier));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Calendar>(CREATED, mapperCalendar));

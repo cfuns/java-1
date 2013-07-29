@@ -104,7 +104,7 @@ public class TaskGuiTaskContextUserServlet extends TaskGuiWebsiteHtmlServlet {
 			}
 
 			widgets.add(new H2Widget("Users"));
-			final List<UserIdentifier> list = new ArrayList<>(taskService.getTaskContextUsers(taskContextIdentifier));
+			final List<UserIdentifier> list = new ArrayList<UserIdentifier>(taskService.getTaskContextUsers(taskContextIdentifier));
 			final UlWidget ul = new UlWidget();
 			for (final UserIdentifier user : list) {
 				final ListWidget row = new ListWidget();

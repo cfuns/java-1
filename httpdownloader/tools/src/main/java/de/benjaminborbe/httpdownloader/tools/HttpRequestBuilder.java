@@ -54,7 +54,7 @@ public class HttpRequestBuilder {
 	private String buildCookieString(final Map<String, String> cookies) {
 		boolean first = true;
 		final StringWriter result = new StringWriter();
-		final List<String> keys = new ArrayList<>(cookies.keySet());
+		final List<String> keys = new ArrayList<String>(cookies.keySet());
 		Collections.sort(keys);
 		for (final String key : keys) {
 			if (first) {

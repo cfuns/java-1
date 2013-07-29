@@ -91,7 +91,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 	protected abstract String getTitle();
 
 	protected Collection<Widget> getWidgets() {
-		final Set<Widget> widgets = new HashSet<>();
+		final Set<Widget> widgets = new HashSet<Widget>();
 		try {
 			widgets.add(navigationWidget);
 		} catch (final Exception e) {
@@ -208,7 +208,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 
 	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
 		logger.trace("getJavascriptResources");
-		final List<JavascriptResource> result = new ArrayList<>();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		final Collection<Widget> widgets = getWidgets();
 		logger.trace("found " + widgets.size() + " widgets");
 		for (final Widget widget : widgets) {
@@ -224,7 +224,7 @@ public abstract class WebsiteHtmlServlet extends WebsiteWidgetServlet {
 
 	protected Collection<CssResource> getCssResources(final HttpServletRequest request, final HttpServletResponse response) {
 		logger.trace("getCssResources");
-		final Set<CssResource> result = new HashSet<>();
+		final Set<CssResource> result = new HashSet<CssResource>();
 		final Collection<Widget> widgets = getWidgets();
 		logger.trace("found " + widgets.size() + " widgets");
 		for (final Widget widget : widgets) {

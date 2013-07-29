@@ -42,7 +42,7 @@ public class VirtNetworkBeanMapperUnitTest {
 
 	@Parameterized.Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{VirtNetworkBeanMapper.ID, "1337"});
 		result.add(new Object[]{VirtNetworkBeanMapper.NAME, "testNetwork"});
 		result.add(new Object[]{VirtNetworkBeanMapper.CREATED, "12345678"});
@@ -52,7 +52,7 @@ public class VirtNetworkBeanMapperUnitTest {
 	}
 
 	private VirtNetworkBeanMapper getVirtNetworkBeanMapper() {
-		final Provider<VirtNetworkBean> provider = new ProviderMock<>(VirtNetworkBean.class);
+		final Provider<VirtNetworkBean> provider = new ProviderMock<VirtNetworkBean>(VirtNetworkBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -74,7 +74,7 @@ public class VirtNetworkBeanMapperUnitTest {
 	@Test
 	public void testMap() throws Exception {
 		final VirtNetworkBeanMapper mapper = getVirtNetworkBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final VirtNetworkBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

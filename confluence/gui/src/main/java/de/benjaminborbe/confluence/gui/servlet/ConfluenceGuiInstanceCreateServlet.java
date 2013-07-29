@@ -146,7 +146,7 @@ public class ConfluenceGuiInstanceCreateServlet extends WebsiteHtmlServlet {
 		final String expireString, final String sharedString, final String delayString, final String activatedString, final String owner
 	) throws ValidationException,
 		ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		int expire = 0;
 		{
 			try {

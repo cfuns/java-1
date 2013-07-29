@@ -31,7 +31,7 @@ public class QueueUnitTest {
 
 		final Counter counter = new Counter();
 		final ThreadRunner threadRunner = new ThreadRunnerImpl();
-		final Queue<Message> queue = new Queue<>(logger, threadRunner, new QueueConsumer<Message>() {
+		final Queue<Message> queue = new Queue<Message>(logger, threadRunner, new QueueConsumer<Message>() {
 
 			@Override
 			public void consume(final Message message) {

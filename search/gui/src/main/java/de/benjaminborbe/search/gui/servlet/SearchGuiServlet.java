@@ -61,7 +61,7 @@ public class SearchGuiServlet extends SearchGuiWebsiteHtmlServlet {
 
 	@Override
 	protected Collection<Widget> getWidgets() {
-		final Set<Widget> result = new HashSet<>();
+		final Set<Widget> result = new HashSet<Widget>();
 		result.add(searchWidget);
 		return result;
 	}

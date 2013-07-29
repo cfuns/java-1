@@ -102,7 +102,23 @@ public class TaskGuiSpecialSearch implements SearchSpecial {
 				widgets.add(taskGuiLinkFactory.tasksNext(request));
 				widgets.render(request, response, context);
 			}
-		} catch (final TaskServiceException | AuthenticationServiceException | ValidationException | PermissionDeniedException | LoginRequiredException e) {
+		} catch (final TaskServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		} catch (PermissionDeniedException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		} catch (AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		} catch (ValidationException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		} catch (LoginRequiredException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);

@@ -52,7 +52,7 @@ public class AnalyticsReportValidator extends ValidatorBase<AnalyticsReportBean>
 
 	@Override
 	protected Map<String, ValidatorRule<AnalyticsReportBean>> buildRules() {
-		final Map<String, ValidatorRule<AnalyticsReportBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<AnalyticsReportBean>> result = new HashMap<String, ValidatorRule<AnalyticsReportBean>>();
 
 		// id
 		{
@@ -62,7 +62,7 @@ public class AnalyticsReportValidator extends ValidatorBase<AnalyticsReportBean>
 				@Override
 				public Collection<ValidationError> validate(final AnalyticsReportBean bean) {
 					final AnalyticsReportIdentifier value = bean.getId();
-					final List<ValidationConstraint<AnalyticsReportIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<AnalyticsReportIdentifier>> constraints = new ArrayList<ValidationConstraint<AnalyticsReportIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<AnalyticsReportIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -77,7 +77,7 @@ public class AnalyticsReportValidator extends ValidatorBase<AnalyticsReportBean>
 				@Override
 				public Collection<ValidationError> validate(final AnalyticsReportBean bean) {
 					final AnalyticsReportAggregation value = bean.getAggregation();
-					final List<ValidationConstraint<AnalyticsReportAggregation>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<AnalyticsReportAggregation>> constraints = new ArrayList<ValidationConstraint<AnalyticsReportAggregation>>();
 					constraints.add(new ValidationConstraintNotNull<AnalyticsReportAggregation>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -92,7 +92,7 @@ public class AnalyticsReportValidator extends ValidatorBase<AnalyticsReportBean>
 				@Override
 				public Collection<ValidationError> validate(final AnalyticsReportBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

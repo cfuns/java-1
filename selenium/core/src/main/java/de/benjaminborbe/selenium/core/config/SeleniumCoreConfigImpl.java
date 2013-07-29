@@ -34,7 +34,7 @@ public class SeleniumCoreConfigImpl extends ConfigurationBase implements Seleniu
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(remoteHost);
 		result.add(remotePort);
 		result.add(local);

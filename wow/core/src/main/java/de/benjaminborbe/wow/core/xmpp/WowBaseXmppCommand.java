@@ -29,7 +29,7 @@ public abstract class WowBaseXmppCommand implements XmppCommand {
 
 	protected List<String> parseArgs(final String command) {
 		logger.debug("parseArgs - command: " + command);
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		for (final String part : parseArg(command).split(" ")) {
 			final String value = part.trim();
 			if (value.length() > 0) {

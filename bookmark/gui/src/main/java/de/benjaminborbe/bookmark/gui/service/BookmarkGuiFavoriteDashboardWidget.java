@@ -65,7 +65,16 @@ public class BookmarkGuiFavoriteDashboardWidget implements DashboardContentWidge
 			widgets.add(ul);
 			widgets.add(new LinkRelativWidget(request, "/bookmark", "more"));
 			widgets.render(request, response, context);
-		} catch (final LoginRequiredException | AuthenticationServiceException | BookmarkServiceException | PermissionDeniedException e) {
+		} catch (final LoginRequiredException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		} catch (PermissionDeniedException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		} catch (BookmarkServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			widget.render(request, response, context);
+		} catch (AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			widget.render(request, response, context);
 		}

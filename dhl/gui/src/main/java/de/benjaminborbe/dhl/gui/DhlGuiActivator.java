@@ -54,7 +54,7 @@ public class DhlGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(dhlGuiServlet, DhlGuiConstants.URL_SLASH));
 		result.add(new ServletInfo(dhlGuiSendStatusServlet, DhlGuiConstants.URL_NOTIFY_STATUS));
 		result.add(new ServletInfo(dhlGuiCreateServlet, DhlGuiConstants.URL_CREATE));
@@ -66,7 +66,7 @@ public class DhlGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, dhlGuiNavigationEntry));
 		return result;
 	}

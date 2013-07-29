@@ -9,7 +9,7 @@ public class Head2Part implements Part {
 
 	private final String head1;
 
-	private final List<Head3Part> h3s = new ArrayList<>();
+	private final List<Head3Part> h3s = new ArrayList<Head3Part>();
 
 	public Head2Part(final String head1, final String title) {
 		this.head1 = head1;

@@ -67,7 +67,11 @@ public class MicroblogGuiNotificationDeactivateServlet extends WebsiteServlet {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final String keyword = request.getParameter(MicroblogGuiConstants.PARAEMTER_NOTIFICATION_KEYWORD);
 			microblogService.deactivateNotification(userIdentifier, keyword);
-		} catch (final AuthenticationServiceException | ValidationException | MicroblogServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (MicroblogServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ValidationException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

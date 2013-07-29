@@ -12,7 +12,7 @@ public class SearchTermIteratorCamelCase extends IteratorWithoutExceptionBase<St
 
 	private final IteratorWithoutException<String> iterator;
 
-	private final Queue<String> words = new LinkedList<>();
+	private final Queue<String> words = new LinkedList<String>();
 
 	public SearchTermIteratorCamelCase(final IteratorWithoutException<String> iterator) {
 		this.iterator = iterator;
@@ -34,7 +34,7 @@ public class SearchTermIteratorCamelCase extends IteratorWithoutExceptionBase<St
 	}
 
 	private List<String> buildWords(final String content) {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		final char[] chars = content.toCharArray();
 		if (chars.length > 1 && Character.isUpperCase(chars[0]) && Character.isLowerCase(chars[1])) {
 			int startPos = 0;

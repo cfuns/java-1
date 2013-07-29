@@ -36,7 +36,7 @@ public class MicroblogSearchServiceComponent implements SearchServiceComponent {
 
 		@Override
 		protected Map<String, String> getSearchValues(final IndexSearchResult bean) {
-			final Map<String, String> values = new HashMap<>();
+			final Map<String, String> values = new HashMap<String, String>();
 			values.put(TITLE, bean.getTitle());
 			values.put(CONTENT, bean.getContent());
 			values.put(URL, bean.getURL());
@@ -45,7 +45,7 @@ public class MicroblogSearchServiceComponent implements SearchServiceComponent {
 
 		@Override
 		protected Map<String, Integer> getSearchPrio() {
-			final Map<String, Integer> values = new HashMap<>();
+			final Map<String, Integer> values = new HashMap<String, Integer>();
 			values.put(TITLE, 2);
 			values.put(CONTENT, 1);
 			values.put(URL, 2);
@@ -71,7 +71,7 @@ public class MicroblogSearchServiceComponent implements SearchServiceComponent {
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 		logger.debug("search - query: " + query);
-		final List<SearchResult> result = new ArrayList<>();
+		final List<SearchResult> result = new ArrayList<SearchResult>();
 		try {
 			final List<String> words = searchUtil.buildSearchParts(query);
 			final List<IndexSearchResult> indexResults = indexSearcherService.search(MicroblogConstants.INDEX, StringUtils.join(words, " "), MicroblogConstants.SEARCH_LIMIT);

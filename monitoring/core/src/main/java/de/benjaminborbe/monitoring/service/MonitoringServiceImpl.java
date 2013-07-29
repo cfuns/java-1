@@ -198,13 +198,15 @@ public class MonitoringServiceImpl implements MonitoringService {
 			expectMonitoringAdminPermission(sessionIdentifier);
 			logger.debug("listNodes");
 
-			final List<MonitoringNode> result = new ArrayList<>();
+			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
 			final EntityIterator<MonitoringNodeBean> ni = monitoringNodeDao.getEntityIterator();
 			while (ni.hasNext()) {
 				result.add(monitoringNodeBuilder.build(ni.next()));
 			}
 			return result;
-		} catch (final EntityIteratorException | StorageException e) {
+		} catch (final EntityIteratorException e) {
+			throw new MonitoringServiceException(e);
+		} catch (StorageException e) {
 			throw new MonitoringServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -258,7 +260,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			expectMonitoringViewOrAdminPermission(sessionIdentifier);
 			logger.debug("getCheckResults");
 
-			final List<MonitoringNode> result = new ArrayList<>();
+			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
 			final EntityIterator<MonitoringNodeBean> ni = monitoringNodeDao.getEntityIterator();
 			while (ni.hasNext()) {
 				final MonitoringNodeBean node = ni.next();
@@ -267,7 +269,9 @@ public class MonitoringServiceImpl implements MonitoringService {
 				}
 			}
 			return result;
-		} catch (final StorageException | EntityIteratorException e) {
+		} catch (final StorageException e) {
+			throw new MonitoringServiceException(e);
+		} catch (EntityIteratorException e) {
 			throw new MonitoringServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -381,7 +385,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 
 	@Override
 	public Collection<MonitoringCheck> getMonitoringCheckTypes() throws MonitoringServiceException {
-		final List<MonitoringCheck> result = new ArrayList<>();
+		final List<MonitoringCheck> result = new ArrayList<MonitoringCheck>();
 		for (final MonitoringCheck type : monitoringCheckRegistry.getAll()) {
 			result.add(type);
 		}
@@ -412,7 +416,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 			expectAuthToken(token);
 			logger.debug("getCheckResults");
 
-			final List<MonitoringNode> result = new ArrayList<>();
+			final List<MonitoringNode> result = new ArrayList<MonitoringNode>();
 			final EntityIterator<MonitoringNodeBean> ni = monitoringNodeDao.getEntityIterator();
 			while (ni.hasNext()) {
 				final MonitoringNodeBean node = ni.next();
@@ -421,7 +425,9 @@ public class MonitoringServiceImpl implements MonitoringService {
 				}
 			}
 			return result;
-		} catch (final StorageException | EntityIteratorException e) {
+		} catch (final StorageException e) {
+			throw new MonitoringServiceException(e);
+		} catch (EntityIteratorException e) {
 			throw new MonitoringServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)

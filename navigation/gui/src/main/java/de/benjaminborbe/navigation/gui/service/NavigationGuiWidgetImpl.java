@@ -77,7 +77,7 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 	}
 
 	protected List<NavigationEntry> sort(final Collection<NavigationEntry> all) {
-		final List<NavigationEntry> result = new ArrayList<>(all);
+		final List<NavigationEntry> result = new ArrayList<NavigationEntry>(all);
 		Collections.sort(result, new NavigationEntryComparator());
 		return result;
 	}

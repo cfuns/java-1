@@ -18,7 +18,7 @@ public class QueueBuilder {
 	}
 
 	public <M> Queue<M> buildQueue(final QueueConsumer<M> queueConsumer) {
-		return new Queue<>(logger, threadRunner, queueConsumer);
+		return new Queue<M>(logger, threadRunner, queueConsumer);
 	}
 
 }

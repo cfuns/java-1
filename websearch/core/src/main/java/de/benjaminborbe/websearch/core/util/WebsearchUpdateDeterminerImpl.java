@@ -46,12 +46,12 @@ public class WebsearchUpdateDeterminerImpl implements WebsearchUpdateDeterminer 
 		final List<WebsearchConfigurationBean> configurations = createStartPages();
 		final EntityIterator<WebsearchPageBean> pages = pageDao.getEntityIterator();
 		final WebsearchUpdateRequiredPredicate websearchExpiredPredicate = new WebsearchUpdateRequiredPredicate(logger, calendarUtil, configurations);
-		return new EntityIteratorFilter<>(pages, websearchExpiredPredicate);
+		return new EntityIteratorFilter<WebsearchPageBean>(pages, websearchExpiredPredicate);
 	}
 
 	private List<WebsearchConfigurationBean> createStartPages() throws StorageException, EntityIteratorException {
 		final EntityIterator<WebsearchConfigurationBean> configurationsIterator = configurationDao.getActivatedEntityIterator();
-		final List<WebsearchConfigurationBean> configurations = new ArrayList<>();
+		final List<WebsearchConfigurationBean> configurations = new ArrayList<WebsearchConfigurationBean>();
 		while (configurationsIterator.hasNext()) {
 			final WebsearchConfigurationBean configuration = configurationsIterator.next();
 			configurations.add(configuration);

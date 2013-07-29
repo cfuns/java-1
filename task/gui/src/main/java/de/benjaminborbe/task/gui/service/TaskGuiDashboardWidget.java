@@ -163,7 +163,7 @@ public class TaskGuiDashboardWidget implements DashboardContentWidget, RequireCs
 
 	@Override
 	public List<CssResource> getCssResource(final HttpServletRequest request, final HttpServletResponse response) {
-		final List<CssResource> list = new ArrayList<>();
+		final List<CssResource> list = new ArrayList<CssResource>();
 		list.add(new CssResourceImpl(request.getContextPath() + "/" + TaskGuiConstants.NAME + TaskGuiConstants.URL_CSS_STYLE));
 		return list;
 	}

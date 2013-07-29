@@ -33,7 +33,7 @@ public class NotificationTypeBeanMapper extends MapObjectMapperAdapter<Notificat
 		final MapperCalendar mapperCalendar,
 		final MapperNotificationTypeIdentifier mapperNotificationTypeIdentifier
 	) {
-		final List<StringObjectMapper<NotificationTypeBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<NotificationTypeBean>> result = new ArrayList<StringObjectMapper<NotificationTypeBean>>();
 		result.add(new StringObjectMapperAdapter<NotificationTypeBean, NotificationTypeIdentifier>("id", mapperNotificationTypeIdentifier));
 		result.add(new StringObjectMapperAdapter<NotificationTypeBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<NotificationTypeBean, Calendar>("modified", mapperCalendar));

@@ -69,7 +69,7 @@ public class MonitoringGuiNodeListJsonServlet extends WebsiteJsonServlet {
 		try {
 			logger.debug("doService");
 			final String token = request.getParameter(MonitoringGuiConstants.PARAMETER_AUTH_TOKEN);
-			final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<>(monitoringService.getCheckResults(token));
+			final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<MonitoringNode>(monitoringService.getCheckResults(token));
 			final JSONObject object = new JSONObjectSimple();
 			final JSONArray nodeResults = new JSONArraySimple();
 			object.put("results", nodeResults);

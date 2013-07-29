@@ -102,7 +102,7 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		// create serviceTracker for ExtHttpService
 		{
 			final ServiceTracker serviceTracker = new ServiceTracker(context, ExtHttpService.class.getName(), null) {
@@ -126,17 +126,17 @@ public abstract class HttpBundleActivator extends BaseBundleActivator {
 	}
 
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>();
+		final Set<ServletInfo> result = new HashSet<ServletInfo>();
 		return result;
 	}
 
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>();
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>();
 		return result;
 	}
 
 	protected Collection<FilterInfo> getFilterInfos() {
-		final Set<FilterInfo> result = new HashSet<>();
+		final Set<FilterInfo> result = new HashSet<FilterInfo>();
 		result.add(new FilterInfo(guiceFilter, ".*", 999));
 		return result;
 	}

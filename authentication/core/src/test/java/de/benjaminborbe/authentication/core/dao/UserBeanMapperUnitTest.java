@@ -48,7 +48,7 @@ public class UserBeanMapperUnitTest {
 
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{UserBeanMapper.ID, "1337"});
 		result.add(new Object[]{UserBeanMapper.CREATED, "123456"});
 		result.add(new Object[]{UserBeanMapper.MODIFIED, "123456"});
@@ -67,7 +67,7 @@ public class UserBeanMapperUnitTest {
 	}
 
 	private UserBeanMapper getUserBeanMapper() {
-		final Provider<UserBean> taskBeanProvider = new ProviderMock<>(UserBean.class);
+		final Provider<UserBean> taskBeanProvider = new ProviderMock<UserBean>(UserBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -92,7 +92,7 @@ public class UserBeanMapperUnitTest {
 	@Test
 	public void testMap() throws Exception {
 		final UserBeanMapper mapper = getUserBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final UserBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

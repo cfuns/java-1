@@ -65,7 +65,9 @@ public class MonitoringGuiNodeSilentServlet extends WebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MonitoringNodeIdentifier monitoringNodeIdentifier = monitoringService.createNodeIdentifier(request.getParameter(MonitoringGuiConstants.PARAMETER_NODE_ID));
 			monitoringService.silentNode(sessionIdentifier, monitoringNodeIdentifier);
-		} catch (final AuthenticationServiceException | MonitoringServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (MonitoringServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
@@ -83,7 +85,9 @@ public class MonitoringGuiNodeSilentServlet extends WebsiteServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			monitoringService.expectMonitoringAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException | MonitoringServiceException e) {
+		} catch (final MonitoringServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

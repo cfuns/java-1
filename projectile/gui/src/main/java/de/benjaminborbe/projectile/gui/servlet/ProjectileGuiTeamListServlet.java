@@ -116,7 +116,9 @@ public class ProjectileGuiTeamListServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(ProjectileService.PERMISSION_ADMIN);
 			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
-		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

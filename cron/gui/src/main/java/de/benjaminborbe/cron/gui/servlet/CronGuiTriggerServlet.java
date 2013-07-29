@@ -65,7 +65,9 @@ public class CronGuiTriggerServlet extends WebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final CronIdentifier cronIdentifier = cronService.createCronIdentifier(request.getParameter(CronGuiConstants.PARAMETER_CRON_ID));
 			cronService.triggerCron(sessionIdentifier, cronIdentifier);
-		} catch (final AuthenticationServiceException | CronServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (CronServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

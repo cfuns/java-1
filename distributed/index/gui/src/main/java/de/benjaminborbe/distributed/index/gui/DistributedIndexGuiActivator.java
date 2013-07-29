@@ -42,7 +42,7 @@ public class DistributedIndexGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(distributedIndexGuiServlet, DistributedIndexGuiConstants.URL_HOME));
 		result.add(new ServletInfo(distributedIndexGuiEntryInfoServlet, DistributedIndexGuiConstants.URL_ENTRY_INFO));
 		result.add(new ServletInfo(distributedIndexGuiWordInfoServlet, DistributedIndexGuiConstants.URL_WORD_INFO));
@@ -51,7 +51,7 @@ public class DistributedIndexGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, distributedIndexGuiNavigationEntry));
 		return result;
 	}

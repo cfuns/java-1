@@ -18,7 +18,7 @@ public class WebsearchPageDaoSubPagesAction {
 		final String urlPrefix,
 		final EntityIterator<WebsearchPageBean> entityIterator
 	) throws EntityIteratorException {
-		final Set<WebsearchPageBean> result = new HashSet<>();
+		final Set<WebsearchPageBean> result = new HashSet<WebsearchPageBean>();
 		while (entityIterator.hasNext()) {
 			final WebsearchPageBean page = entityIterator.next();
 			if (page.getUrl().toExternalForm().startsWith(urlPrefix)) {

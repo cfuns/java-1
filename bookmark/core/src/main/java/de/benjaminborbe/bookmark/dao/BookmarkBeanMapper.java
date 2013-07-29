@@ -44,7 +44,7 @@ public class BookmarkBeanMapper extends MapObjectMapperAdapter<BookmarkBean> {
 		final MapperUserIdentifier mapperUserIdentifier,
 		final MapperListString mapperListString
 	) {
-		final List<StringObjectMapper<BookmarkBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<BookmarkBean>> result = new ArrayList<StringObjectMapper<BookmarkBean>>();
 		result.add(new StringObjectMapperAdapter<BookmarkBean, BookmarkIdentifier>("id", mapperBookmarkIdentifier));
 		result.add(new StringObjectMapperAdapter<BookmarkBean, UserIdentifier>("owner", mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<BookmarkBean, String>("name", mapperString));

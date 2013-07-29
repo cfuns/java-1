@@ -10,7 +10,7 @@ import java.util.Collection;
 @Singleton
 public class MicroblogNotification {
 
-	private final MapList<UserIdentifier, String> keywords = new MapList<>();
+	private final MapList<UserIdentifier, String> keywords = new MapList<UserIdentifier, String>();
 
 	@Inject
 	public MicroblogNotification() {

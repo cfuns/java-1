@@ -81,7 +81,7 @@ public class UtilGuiTimeServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 		final long time = parseUtil.parseLong(request.getParameter(UtilGuiConstants.PARAMETER_TIME), calendarUtil.getTime());
-		final List<TimeZone> timezones = new ArrayList<>();
+		final List<TimeZone> timezones = new ArrayList<TimeZone>();
 		timezones.add(timeZoneUtil.getUTCTimeZone());
 		timezones.add(timeZoneUtil.getEuropeBerlinTimeZone());
 		final UlWidget ul = new UlWidget();

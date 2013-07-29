@@ -64,7 +64,9 @@ public class TaskGuiTaskContextDeleteServlet extends TaskGuiWebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final TaskContextIdentifier taskContextIdentifier = taskService.createTaskContextIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASKCONTEXT_ID));
 			taskService.deleteContextTask(sessionIdentifier, taskContextIdentifier);
-		} catch (final AuthenticationServiceException | TaskServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (TaskServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

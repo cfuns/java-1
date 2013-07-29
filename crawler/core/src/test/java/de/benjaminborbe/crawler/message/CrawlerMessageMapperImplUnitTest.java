@@ -20,7 +20,7 @@ public class CrawlerMessageMapperImplUnitTest {
 	@Test
 	public void testMapDepth() throws Exception {
 		final ParseUtil parseUtil = new ParseUtilImpl();
-		final Provider<CrawlerMessage> messageProvider = new ProviderMock<>(CrawlerMessage.class);
+		final Provider<CrawlerMessage> messageProvider = new ProviderMock<CrawlerMessage>(CrawlerMessage.class);
 		final MapperUrl mapperUrl = new MapperUrl(parseUtil);
 		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
 		final MapperLong mapperLong = new MapperLong(parseUtil);

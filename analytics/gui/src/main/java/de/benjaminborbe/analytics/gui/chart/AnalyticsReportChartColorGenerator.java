@@ -43,7 +43,7 @@ public class AnalyticsReportChartColorGenerator {
 		}
 	}
 
-	private final List<Color> colors = new ArrayList<>();
+	private final List<Color> colors = new ArrayList<Color>();
 
 	@Inject
 	public AnalyticsReportChartColorGenerator() {
@@ -87,7 +87,7 @@ public class AnalyticsReportChartColorGenerator {
 
 	public List<String> getColors(final int amount) {
 		final int limit = Math.min(colors.size(), amount);
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		if (limit == 0) {
 			return result;
 		}

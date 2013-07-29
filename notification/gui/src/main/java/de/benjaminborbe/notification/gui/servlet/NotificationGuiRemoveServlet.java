@@ -70,7 +70,9 @@ public class NotificationGuiRemoveServlet extends WebsiteServlet {
 				.getParameter(NotificationGuiConstants.PARAMETER_TYPE));
 			logger.info("deactive media " + notificationMediaIdentifier + " for type " + notificationTypeIdentifier);
 			notificationService.remove(sessionIdentifier, notificationMediaIdentifier, notificationTypeIdentifier);
-		} catch (final AuthenticationServiceException | NotificationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (NotificationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

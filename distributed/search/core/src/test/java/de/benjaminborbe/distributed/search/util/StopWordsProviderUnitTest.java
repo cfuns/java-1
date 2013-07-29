@@ -16,7 +16,7 @@ public class StopWordsProviderUnitTest {
 		EasyMock.replay(logger);
 
 		final StopWordsImpl stopWordsImpl = new StopWordsImpl(logger);
-		final StopWordsProvider provider = new StopWordsProvider(new ProviderAdapter<>(stopWordsImpl));
+		final StopWordsProvider provider = new StopWordsProvider(new ProviderAdapter<StopWordsImpl>(stopWordsImpl));
 		final StopWords stopWords = provider.get();
 		assertThat(stopWords.contains("about"), is(true));
 		assertThat(stopWords.contains("foobar"), is(false));

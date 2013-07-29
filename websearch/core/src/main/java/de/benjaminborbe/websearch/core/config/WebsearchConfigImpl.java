@@ -38,7 +38,7 @@ public class WebsearchConfigImpl extends ConfigurationBase implements WebsearchC
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(refreshLimit);
 		result.add(cronEnabled);
 		result.add(saveImages);

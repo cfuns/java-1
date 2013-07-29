@@ -41,7 +41,7 @@ public class SeleniumCoreActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(SeleniumService.class, seleniumService));
 		for (final ConfigurationDescription configuration : seleniumCoreConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
@@ -51,7 +51,7 @@ public class SeleniumCoreActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new SeleniumConfigurationServiceTracker(seleniumConfigurationRegistry, context, SeleniumConfiguration.class));
 		return serviceTrackers;
 	}

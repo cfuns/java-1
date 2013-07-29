@@ -13,7 +13,7 @@ public class BookmarkGuiKeywordUtil {
 	}
 
 	public List<String> buildKeywords(final String keywords) {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		if (keywords != null) {
 			final String[] parts = keywords.toLowerCase().split("\\s+");
 			for (final String keyword : parts) {

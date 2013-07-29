@@ -58,7 +58,7 @@ public class ConfluenceGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(confluenceGuiInstanceCreateServlet, ConfluenceGuiConstants.URL_INSTANCE_CREATE));
 		result.add(new ServletInfo(confluenceGuiInstanceListServlet, ConfluenceGuiConstants.URL_INSTANCE_LIST));
 		result.add(new ServletInfo(confluenceGuiInstanceDeleteServlet, ConfluenceGuiConstants.URL_INSTANCE_DELETE));
@@ -71,7 +71,7 @@ public class ConfluenceGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, confluenceGuiNavigationEntry));
 		return result;
 	}

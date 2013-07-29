@@ -32,7 +32,7 @@ public class SeleniumConfigurationXmlBeanMapper extends MapObjectMapperAdapter<S
 	private static Collection<StringObjectMapper<SeleniumConfigurationXmlBean>> buildMappings(
 		final MapperSeleniumConfigurationIdentifier mapperSeleniumConfigurationXmlIdentifier, final MapperCalendar mapperCalendar, final MapperString mapperString
 	) {
-		final List<StringObjectMapper<SeleniumConfigurationXmlBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<SeleniumConfigurationXmlBean>> result = new ArrayList<StringObjectMapper<SeleniumConfigurationXmlBean>>();
 		result.add(new StringObjectMapperAdapter<SeleniumConfigurationXmlBean, SeleniumConfigurationIdentifier>("id", mapperSeleniumConfigurationXmlIdentifier));
 		result.add(new StringObjectMapperAdapter<SeleniumConfigurationXmlBean, String>("xml", mapperString));
 		result.add(new StringObjectMapperAdapter<SeleniumConfigurationXmlBean, Calendar>("created", mapperCalendar));

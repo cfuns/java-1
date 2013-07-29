@@ -46,7 +46,13 @@ public class MicroblogPostNotifierImpl implements MicroblogPostNotifier {
 			logger.debug("mailConversation with rev " + rev);
 			final NotificationDto notificationDto = buildNotificationDto(rev);
 			notificationService.notify(notificationDto);
-		} catch (final NotificationServiceException | MicroblogConnectorException | ValidationException | AuthenticationServiceException e) {
+		} catch (final NotificationServiceException e) {
+			throw new MicroblogPostNotifierException("MailSendException", e);
+		} catch (MicroblogConnectorException e) {
+			throw new MicroblogPostNotifierException("MailSendException", e);
+		} catch (AuthenticationServiceException e) {
+			throw new MicroblogPostNotifierException("MailSendException", e);
+		} catch (ValidationException e) {
 			throw new MicroblogPostNotifierException("MailSendException", e);
 		}
 	}

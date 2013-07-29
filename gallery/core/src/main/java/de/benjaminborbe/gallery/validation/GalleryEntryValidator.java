@@ -16,7 +16,7 @@ public class GalleryEntryValidator extends ValidatorBase<GalleryEntryBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<GalleryEntryBean>> buildRules() {
-		final Map<String, ValidatorRule<GalleryEntryBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<GalleryEntryBean>> result = new HashMap<String, ValidatorRule<GalleryEntryBean>>();
 		return result;
 	}
 

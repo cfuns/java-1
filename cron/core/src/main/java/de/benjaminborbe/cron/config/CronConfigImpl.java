@@ -27,7 +27,7 @@ public class CronConfigImpl extends ConfigurationBase implements CronConfig {
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(autoStart);
 		return result;
 	}

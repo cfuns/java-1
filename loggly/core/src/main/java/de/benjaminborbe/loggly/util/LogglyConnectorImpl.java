@@ -237,7 +237,7 @@ public class LogglyConnectorImpl implements LogglyConnector {
 			}, new ThreadPoolExecutor.DiscardOldestPolicy());
 		pool.allowCoreThreadTimeOut(true);
 
-		retryQueue = new LinkedBlockingQueue<>(logglyConfig.getBacklog());
+		retryQueue = new LinkedBlockingQueue<LogglyEntry>(logglyConfig.getBacklog());
 
 		final Thread retryThread = new Thread(new RetryRunnable(), "Loggly Retry Thread");
 		retryThread.setDaemon(true);

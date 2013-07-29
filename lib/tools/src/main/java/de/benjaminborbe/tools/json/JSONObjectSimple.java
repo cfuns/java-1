@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class JSONObjectSimple implements JSONObject, Map<String, Object> {
 
-	private final Map<String, Object> data = new HashMap<>();
+	private final Map<String, Object> data = new HashMap<String, Object>();
 
 	@Override
 	public void writeJSONString(final Writer out) throws IOException {

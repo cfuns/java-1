@@ -66,7 +66,7 @@ public class BookmarkBean extends EntityBase<BookmarkIdentifier> implements Book
 
 	@Override
 	public List<String> getKeywords() {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		if (keywords != null) {
 			for (final String keyword : keywords) {
 				if (keyword != null && !keyword.isEmpty()) {

@@ -78,12 +78,12 @@ public class DnsServerMonitoringCheck implements MonitoringCheck {
 
 	@Override
 	public Collection<ValidationError> validate(final Map<String, String> parameter) {
-		final List<ValidationError> result = new ArrayList<>();
+		final List<ValidationError> result = new ArrayList<ValidationError>();
 
 		// DNS_SERVER_NAME
 		{
 			final String value = parameter.get(DNS_SERVER_NAME);
-			final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 			constraints.add(new ValidationConstraintNotNull<String>());
 			constraints.add(new ValidationConstraintStringMinLength(1));
 			constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -93,7 +93,7 @@ public class DnsServerMonitoringCheck implements MonitoringCheck {
 		// DNS_SERVER_NAME
 		{
 			final String value = parameter.get(DNS_LOOKUP_NAME);
-			final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 			constraints.add(new ValidationConstraintNotNull<String>());
 			constraints.add(new ValidationConstraintStringMinLength(1));
 			constraints.add(new ValidationConstraintStringMaxLength(255));

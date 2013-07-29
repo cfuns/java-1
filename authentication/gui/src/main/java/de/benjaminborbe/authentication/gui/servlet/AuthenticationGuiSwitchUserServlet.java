@@ -60,7 +60,11 @@ public class AuthenticationGuiSwitchUserServlet extends WebsiteServlet {
 			if (userIdentifier != null) {
 				authenticationService.switchUser(sessionIdentifier, userIdentifier);
 			}
-		} catch (final AuthenticationServiceException | LoginRequiredException | SuperAdminRequiredException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (SuperAdminRequiredException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (LoginRequiredException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

@@ -12,7 +12,7 @@ public class FifoUnitTest {
 
 	@Test(expected = FifoIndexOutOfBoundsException.class)
 	public void testOutOfBounds() throws Exception {
-		final Fifo<Object> fifo = new Fifo<>();
+		final Fifo<Object> fifo = new Fifo<Object>();
 		fifo.add(new Object());
 		assertNotNull(fifo.get(0));
 		fifo.get(1);
@@ -21,7 +21,7 @@ public class FifoUnitTest {
 
 	@Test
 	public void testSize() {
-		final Fifo<Object> fifo = new Fifo<>();
+		final Fifo<Object> fifo = new Fifo<Object>();
 		assertEquals(0, fifo.size());
 		fifo.add(new Object());
 		assertEquals(1, fifo.size());
@@ -29,7 +29,7 @@ public class FifoUnitTest {
 
 	@Test
 	public void testAddGet() throws Exception {
-		final Fifo<Object> fifo = new Fifo<>();
+		final Fifo<Object> fifo = new Fifo<Object>();
 		final Object o1 = "a";
 		fifo.add(o1);
 		assertEquals(o1, fifo.get(0));
@@ -45,7 +45,7 @@ public class FifoUnitTest {
 
 	@Test
 	public void testFirst() throws Exception {
-		final Fifo<Object> fifo = new Fifo<>();
+		final Fifo<Object> fifo = new Fifo<Object>();
 		final Object o1 = "1";
 		fifo.add(o1);
 		final Object o2 = "2";
@@ -66,7 +66,7 @@ public class FifoUnitTest {
 
 	@Test
 	public void testLast() throws Exception {
-		final Fifo<Object> fifo = new Fifo<>();
+		final Fifo<Object> fifo = new Fifo<Object>();
 		final Object o1 = "1";
 		fifo.add(o1);
 		final Object o2 = "2";
@@ -86,7 +86,7 @@ public class FifoUnitTest {
 	}
 
 	public void testRemove() throws Exception {
-		final Fifo<Object> fifo = new Fifo<>();
+		final Fifo<Object> fifo = new Fifo<Object>();
 		final Object o1 = "1";
 		fifo.add(o1);
 		final Object o2 = "2";

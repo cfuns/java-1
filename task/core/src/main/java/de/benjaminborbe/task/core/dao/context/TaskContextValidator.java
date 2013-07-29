@@ -53,7 +53,8 @@ public class TaskContextValidator extends ValidatorBase<TaskContextBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<TaskContextBean>> buildRules() {
-		final Map<String, ValidatorRule<TaskContextBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<TaskContextBean>> result = new HashMap<String, ValidatorRule<TaskContextBean>
+			>();
 
 		// id
 		{
@@ -63,7 +64,7 @@ public class TaskContextValidator extends ValidatorBase<TaskContextBean> {
 				@Override
 				public Collection<ValidationError> validate(final TaskContextBean bean) {
 					final TaskContextIdentifier value = bean.getId();
-					final List<ValidationConstraint<TaskContextIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<TaskContextIdentifier>> constraints = new ArrayList<ValidationConstraint<TaskContextIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<TaskContextIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<TaskContextIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -79,7 +80,7 @@ public class TaskContextValidator extends ValidatorBase<TaskContextBean> {
 				@Override
 				public Collection<ValidationError> validate(final TaskContextBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

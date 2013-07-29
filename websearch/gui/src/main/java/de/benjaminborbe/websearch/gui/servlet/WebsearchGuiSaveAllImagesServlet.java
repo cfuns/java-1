@@ -79,7 +79,11 @@ public class WebsearchGuiSaveAllImagesServlet extends WebsiteHtmlServlet {
 			websearchService.saveImages(sessionIdentifier);
 			widgets.add("save all images finished");
 			return widgets;
-		} catch (final AuthenticationServiceException | WebsearchServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		} catch (WebsearchServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

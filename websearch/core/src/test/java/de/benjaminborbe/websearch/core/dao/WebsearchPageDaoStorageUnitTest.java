@@ -52,7 +52,7 @@ public class WebsearchPageDaoStorageUnitTest {
 		EasyMock.replay(logger);
 
 		final StorageService storageService = new StorageServiceMock(logger);
-		final Provider<WebsearchPageBean> provider = new ProviderMock<>(WebsearchPageBean.class);
+		final Provider<WebsearchPageBean> provider = new ProviderMock<WebsearchPageBean>(WebsearchPageBean.class);
 		final WebsearchPageDaoSubPagesAction websearchPageDaoSubPagesAction = new WebsearchPageDaoSubPagesAction();
 		final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier = new MapperWebsearchPageIdentifier();
 		final CurrentTime currentTime = new CurrentTimeImpl();
@@ -128,7 +128,7 @@ public class WebsearchPageDaoStorageUnitTest {
 			EasyMock.replay(websearchPageContentUpdateHandler);
 
 			final WebsearchPageDaoStorage dao = new WebsearchPageDaoStorage(null, storageService, null, null, null, null, null, websearchPageContentUpdateHandler);
-			final List<StorageValue> fieldNames = new ArrayList<>();
+			final List<StorageValue> fieldNames = new ArrayList<StorageValue>();
 			dao.onPostSave(entity, fieldNames);
 
 			EasyMock.verify(websearchPageContentUpdateHandler);

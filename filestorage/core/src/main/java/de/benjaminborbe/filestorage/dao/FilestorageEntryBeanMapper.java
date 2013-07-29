@@ -47,7 +47,7 @@ public class FilestorageEntryBeanMapper extends MapObjectMapperAdapter<Filestora
 		final MapperString mapperString,
 		final MapperByteArray mapperByteArray
 	) {
-		final List<StringObjectMapper<FilestorageEntryBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<FilestorageEntryBean>> result = new ArrayList<StringObjectMapper<FilestorageEntryBean>>();
 		result.add(new StringObjectMapperAdapter<FilestorageEntryBean, FilestorageEntryIdentifier>(ID, mapperFilestorageEntryIdentifier));
 		result.add(new StringObjectMapperAdapter<FilestorageEntryBean, String>(FILENAME, mapperString));
 		result.add(new StringObjectMapperAdapter<FilestorageEntryBean, String>(CONTENT_TYPE, mapperString));

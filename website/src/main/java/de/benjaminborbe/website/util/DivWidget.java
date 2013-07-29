@@ -17,7 +17,7 @@ public class DivWidget extends TagWidget implements HasClass<DivWidget>, HasId<D
 
 	private static final String TAG = "div";
 
-	private final Set<String> classes = new HashSet<>();
+	private final Set<String> classes = new HashSet<String>();
 
 	private String id;
 

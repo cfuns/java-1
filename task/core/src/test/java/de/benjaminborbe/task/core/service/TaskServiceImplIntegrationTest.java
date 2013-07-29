@@ -792,7 +792,7 @@ public class TaskServiceImplIntegrationTest {
 
 		final SessionIdentifier sessionIdentifier = getLoginSession(authenticationService, USERNAME);
 
-		final List<TaskContextIdentifier> taskContextIdentifiers = new ArrayList<>();
+		final List<TaskContextIdentifier> taskContextIdentifiers = new ArrayList<TaskContextIdentifier>();
 		assertNotNull(taskService.getTasks(sessionIdentifier, true, taskContextIdentifiers));
 	}
 

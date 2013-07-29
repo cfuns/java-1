@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class NotificationNotifierRegistry extends RegistryBase<NotificationNotifier> {
 
-	private final Map<NotificationMediaIdentifier, NotificationNotifier> data = new HashMap<>();
+	private final Map<NotificationMediaIdentifier, NotificationNotifier> data = new HashMap<NotificationMediaIdentifier, NotificationNotifier>();
 
 	@Inject
 	public NotificationNotifierRegistry(final NotificationNotifierMail notifcationNotifierMail, final NotificationNotifierXmpp notifcationNotifierXmpp) {

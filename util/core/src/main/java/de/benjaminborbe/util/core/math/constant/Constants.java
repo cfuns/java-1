@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Constants {
 
-	private final Map<String, HasValue> constants = new HashMap<>();
+	private final Map<String, HasValue> constants = new HashMap<String, HasValue>();
 
 	public Constants() {
 		constants.put("pi", new Constant("3.14159"));

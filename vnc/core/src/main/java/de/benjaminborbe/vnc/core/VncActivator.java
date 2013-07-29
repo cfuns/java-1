@@ -29,7 +29,7 @@ public class VncActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(VncService.class, vncService));
 		for (final XmppCommand command : vncXmppCommandRegistry.getAll()) {
 			result.add(new ServiceInfo(XmppCommand.class, command, command.getName()));

@@ -25,7 +25,7 @@ public class BundleResolverImpl implements BundleResolver {
 	}
 
 	protected List<String> parseValue(final String value) {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		if (value == null) {
 			return result;
 		}

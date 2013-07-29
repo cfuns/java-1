@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 public class BlogPostBeanMapperUnitTest {
 
 	private BlogPostBeanMapper getBlogPostBeanMapper() {
-		final Provider<BlogPostBean> beanProvider = new ProviderMock<>(BlogPostBean.class);
+		final Provider<BlogPostBean> beanProvider = new ProviderMock<BlogPostBean>(BlogPostBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -56,7 +56,7 @@ public class BlogPostBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final BlogPostBean bean = mapper.map(data);
 			assertEquals(value, bean.getId());

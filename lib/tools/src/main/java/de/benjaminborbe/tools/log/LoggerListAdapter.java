@@ -11,7 +11,7 @@ public class LoggerListAdapter implements Logger {
 
 	private final Logger primaryLogger;
 
-	private final List<Logger> loggers = new ArrayList<>();
+	private final List<Logger> loggers = new ArrayList<Logger>();
 
 	@Inject
 	public LoggerListAdapter(final Logger primaryLogger, final Logger... loggers) {

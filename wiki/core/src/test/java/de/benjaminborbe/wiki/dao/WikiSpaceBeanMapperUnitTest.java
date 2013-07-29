@@ -42,7 +42,7 @@ public class WikiSpaceBeanMapperUnitTest {
 
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{"id", "1337"});
 		result.add(new Object[]{"name", "bla"});
 		result.add(new Object[]{"created", "123456"});
@@ -51,7 +51,7 @@ public class WikiSpaceBeanMapperUnitTest {
 	}
 
 	private WikiSpaceBeanMapper getWikiSpaceBeanMapper() {
-		final Provider<WikiSpaceBean> beanProvider = new ProviderMock<>(WikiSpaceBean.class);
+		final Provider<WikiSpaceBean> beanProvider = new ProviderMock<WikiSpaceBean>(WikiSpaceBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -71,7 +71,7 @@ public class WikiSpaceBeanMapperUnitTest {
 	@Test
 	public void testMaxRetryCounter() throws Exception {
 		final WikiSpaceBeanMapper mapper = getWikiSpaceBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final WikiSpaceBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

@@ -29,7 +29,7 @@ public class MapperHttpHeader implements Mapper<HttpHeader> {
 			if (object instanceof JSONObjectSimple) {
 				final JSONObjectSimple jsonObjectSimple = (JSONObjectSimple) object;
 				for (final String key : jsonObjectSimple.keySet()) {
-					final List<String> vs = new ArrayList<>();
+					final List<String> vs = new ArrayList<String>();
 					final Object values = jsonObjectSimple.get(key);
 					if (values instanceof JSONArraySimple) {
 						final JSONArraySimple jsonArraySimple = (JSONArraySimple) values;

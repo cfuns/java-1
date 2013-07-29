@@ -138,7 +138,7 @@ public class GalleryGuiCollectionCreateServlet extends GalleryGuiWebsiteHtmlServ
 
 		Long prio;
 		Boolean shared;
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		{
 			try {
 				if (prioString == null || prioString.length() == 0) {

@@ -47,7 +47,7 @@ public class XmppHelpMessageListener implements MessageListener {
 	}
 
 	private List<String> getCommands() {
-		final List<String> commands = new ArrayList<>();
+		final List<String> commands = new ArrayList<String>();
 		for (final XmppCommand command : xmppCommandRegistry.getAll()) {
 			commands.add(command.getName());
 		}

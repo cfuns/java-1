@@ -90,7 +90,7 @@ public class MicroblogGuiNotificationDeactivateJsonServlet extends WebsiteJsonSe
 				microblogService.deactivateNotification(new UserIdentifier(login), keyword);
 				result = true;
 			} catch (final ValidationException e) {
-				final List<String> messages = new ArrayList<>();
+				final List<String> messages = new ArrayList<String>();
 				for (final ValidationError error : e.getErrors()) {
 					messages.add(error.getMessage());
 				}

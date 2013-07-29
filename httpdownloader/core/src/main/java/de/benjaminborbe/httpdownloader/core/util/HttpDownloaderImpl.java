@@ -273,7 +273,7 @@ public class HttpDownloaderImpl implements HttpDownloader {
 	protected String buildCookieString(final Map<String, String> cookies) {
 		final StringWriter result = new StringWriter();
 		boolean first = true;
-		final List<String> keys = new ArrayList<>(cookies.keySet());
+		final List<String> keys = new ArrayList<String>(cookies.keySet());
 		Collections.sort(keys);
 		for (final String key : keys) {
 			if (first) {

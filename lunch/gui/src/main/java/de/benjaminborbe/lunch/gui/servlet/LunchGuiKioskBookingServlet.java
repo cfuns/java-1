@@ -142,7 +142,7 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 				widgets.add(new DivWidget(links));
 			}
 
-			final List<KioskUser> users = new ArrayList<>(lunchService.getSubscribeUser(calendar));
+			final List<KioskUser> users = new ArrayList<KioskUser>(lunchService.getSubscribeUser(calendar));
 			Collections.sort(users, new KioskUserComparator());
 
 			final FormWidget form = new FormWidget().addId("bookings");
@@ -187,7 +187,7 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 	}
 
 	private Collection<Long> build(final String[] users) throws ParseException {
-		final List<Long> result = new ArrayList<>();
+		final List<Long> result = new ArrayList<Long>();
 		for (final String user : users) {
 			result.add(parseUtil.parseLong(user));
 		}
@@ -201,7 +201,9 @@ public class LunchGuiKioskBookingServlet extends LunchGuiHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(LunchService.PERMISSION_BOOKING);
 			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
-		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

@@ -31,7 +31,7 @@ public class LuceneIndexActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(LuceneIndexService.class, indexerService));
 		for (final ConfigurationDescription configuration : indexConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
@@ -49,7 +49,7 @@ public class LuceneIndexActivator extends BaseBundleActivator {
 			} catch (final ClassNotFoundException e) {
 				// nop
 			}
-			final NamedSPILoader<Codec> loader = new NamedSPILoader<>(Codec.class);
+			final NamedSPILoader<Codec> loader = new NamedSPILoader<Codec>(Codec.class);
 			Codec.setDefault(loader.lookup("Lucene40"));
 			Codec.getDefault();
 		} finally {

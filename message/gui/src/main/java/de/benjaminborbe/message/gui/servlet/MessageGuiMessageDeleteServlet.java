@@ -65,7 +65,9 @@ public class MessageGuiMessageDeleteServlet extends WebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MessageIdentifier messageIdentifier = messageService.createMessageIdentifier(request.getParameter(MessageGuiConstants.PARAMETER_MESSAGE_ID));
 			messageService.deleteById(sessionIdentifier, messageIdentifier);
-		} catch (final AuthenticationServiceException | MessageServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (MessageServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

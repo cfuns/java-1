@@ -92,7 +92,9 @@ public class VncServiceImpl implements VncService {
 		try {
 			logger.trace("keyPress - key: " + key);
 			vncConnector.keyPress(key);
-		} catch (final VncConnectorException | VncKeyTranslaterException e) {
+		} catch (final VncKeyTranslaterException e) {
+			throw new VncServiceException(e);
+		} catch (final VncConnectorException e) {
 			throw new VncServiceException(e);
 		}
 	}
@@ -102,7 +104,9 @@ public class VncServiceImpl implements VncService {
 		try {
 			logger.trace("keyRelease - key: " + key);
 			vncConnector.keyRelease(key);
-		} catch (final VncConnectorException | VncKeyTranslaterException e) {
+		} catch (final VncKeyTranslaterException e) {
+			throw new VncServiceException(e);
+		} catch (final VncConnectorException e) {
 			throw new VncServiceException(e);
 		}
 	}
@@ -148,7 +152,9 @@ public class VncServiceImpl implements VncService {
 		try {
 			logger.trace("storeImageContent");
 			vncStoreImageContentAction.storeImage();
-		} catch (final VncConnectorException | IOException e) {
+		} catch (final IOException e) {
+			throw new VncServiceException(e);
+		} catch (final VncConnectorException e) {
 			throw new VncServiceException(e);
 		}
 	}
@@ -158,7 +164,9 @@ public class VncServiceImpl implements VncService {
 		try {
 			logger.trace("storeImageContent - name: " + name);
 			vncStoreImageContentAction.storeImage(name);
-		} catch (final VncConnectorException | IOException e) {
+		} catch (final IOException e) {
+			throw new VncServiceException(e);
+		} catch (final VncConnectorException e) {
 			throw new VncServiceException(e);
 		}
 	}

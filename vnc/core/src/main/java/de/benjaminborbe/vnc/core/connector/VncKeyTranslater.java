@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class VncKeyTranslater {
 
-	private final Map<VncKey, Integer> map = new HashMap<>();
+	private final Map<VncKey, Integer> map = new HashMap<VncKey, Integer>();
 
 	@Inject
 	public VncKeyTranslater() {

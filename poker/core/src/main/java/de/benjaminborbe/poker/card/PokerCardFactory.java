@@ -16,7 +16,7 @@ public class PokerCardFactory {
 	}
 
 	public Collection<PokerCardIdentifier> getCards() {
-		final List<PokerCardIdentifier> result = new ArrayList<>();
+		final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
 		for (final PokerCardColor color : PokerCardColor.values()) {
 			for (final PokerCardValue value : PokerCardValue.values()) {
 				result.add(new PokerCardIdentifier(color, value));

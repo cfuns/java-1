@@ -95,7 +95,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(authenticationGuiServlet, AuthenticationGuiConstants.URL_SLASH));
 		result.add(new ServletInfo(authenticationGuiLoginServlet, AuthenticationGuiConstants.URL_LOGIN));
 		result.add(new ServletInfo(authenticationGuiStatusServlet, AuthenticationGuiConstants.URL_USER_STATUS));
@@ -116,7 +116,7 @@ public class AuthenticationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		for (final ConfigurationDescription configuration : authenticationGuiConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
 		}

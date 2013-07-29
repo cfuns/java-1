@@ -32,7 +32,9 @@ public class WebsearchSaveImageCrawlerNotify implements CrawlerNotifier {
 		if (websearchConfig.saveImages()) {
 			try {
 				websearchSaveAllImage.saveImage(httpResponse);
-			} catch (NoSuchAlgorithmException | IOException e) {
+			} catch (NoSuchAlgorithmException e) {
+				logger.debug("saveImage failed", e);
+			} catch (IOException e) {
 				logger.debug("saveImage failed", e);
 			}
 		}

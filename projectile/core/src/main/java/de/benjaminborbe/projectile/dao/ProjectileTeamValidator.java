@@ -33,7 +33,7 @@ public class ProjectileTeamValidator extends ValidatorBase<ProjectileTeamBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<ProjectileTeamBean>> buildRules() {
-		final Map<String, ValidatorRule<ProjectileTeamBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<ProjectileTeamBean>> result = new HashMap<String, ValidatorRule<ProjectileTeamBean>>();
 
 		// id
 		{
@@ -43,7 +43,7 @@ public class ProjectileTeamValidator extends ValidatorBase<ProjectileTeamBean> {
 				@Override
 				public Collection<ValidationError> validate(final ProjectileTeamBean bean) {
 					final ProjectileTeamIdentifier value = bean.getId();
-					final List<ValidationConstraint<ProjectileTeamIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<ProjectileTeamIdentifier>> constraints = new ArrayList<ValidationConstraint<ProjectileTeamIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<ProjectileTeamIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -58,7 +58,7 @@ public class ProjectileTeamValidator extends ValidatorBase<ProjectileTeamBean> {
 				@Override
 				public Collection<ValidationError> validate(final ProjectileTeamBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

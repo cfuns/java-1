@@ -36,7 +36,7 @@ public class WebsearchConfigurationValidator extends ValidatorBase<WebsearchConf
 
 	@Override
 	protected Map<String, ValidatorRule<WebsearchConfigurationBean>> buildRules() {
-		final Map<String, ValidatorRule<WebsearchConfigurationBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<WebsearchConfigurationBean>> result = new HashMap<String, ValidatorRule<WebsearchConfigurationBean>>();
 
 		// activated
 		{
@@ -46,7 +46,7 @@ public class WebsearchConfigurationValidator extends ValidatorBase<WebsearchConf
 				@Override
 				public Collection<ValidationError> validate(final WebsearchConfigurationBean bean) {
 					final Boolean value = bean.getActivated();
-					final List<ValidationConstraint<Boolean>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Boolean>> constraints = new ArrayList<ValidationConstraint<Boolean>>();
 					constraints.add(new ValidationConstraintNotNull<Boolean>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -61,7 +61,7 @@ public class WebsearchConfigurationValidator extends ValidatorBase<WebsearchConf
 				@Override
 				public Collection<ValidationError> validate(final WebsearchConfigurationBean bean) {
 					final Long value = bean.getDelay();
-					final List<ValidationConstraint<Long>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Long>> constraints = new ArrayList<ValidationConstraint<Long>>();
 					constraints.add(new ValidationConstraintNotNull<Long>());
 					constraints.add(new ValidationConstraintLongGE(0));
 					constraints.add(new ValidationConstraintLongLE(10000));
@@ -78,7 +78,7 @@ public class WebsearchConfigurationValidator extends ValidatorBase<WebsearchConf
 				@Override
 				public Collection<ValidationError> validate(final WebsearchConfigurationBean bean) {
 					final List<String> value = bean.getExcludes();
-					final List<ValidationConstraint<List<String>>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<List<String>>> constraints = new ArrayList<ValidationConstraint<List<String>>>();
 					constraints.add(new ValidationConstraintNotNull<List<String>>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -93,7 +93,7 @@ public class WebsearchConfigurationValidator extends ValidatorBase<WebsearchConf
 				@Override
 				public Collection<ValidationError> validate(final WebsearchConfigurationBean bean) {
 					final Integer value = bean.getExpire();
-					final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 					constraints.add(new ValidationConstraintNotNull<Integer>());
 					constraints.add(new ValidationConstraintIntegerGE(0));
 					constraints.add(new ValidationConstraintIntegerLE(365));
@@ -110,7 +110,7 @@ public class WebsearchConfigurationValidator extends ValidatorBase<WebsearchConf
 				@Override
 				public Collection<ValidationError> validate(final WebsearchConfigurationBean bean) {
 					final UserIdentifier value = bean.getOwner();
-					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<ValidationConstraint<UserIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<UserIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -125,7 +125,7 @@ public class WebsearchConfigurationValidator extends ValidatorBase<WebsearchConf
 				@Override
 				public Collection<ValidationError> validate(final WebsearchConfigurationBean bean) {
 					final URL value = bean.getUrl();
-					final List<ValidationConstraint<URL>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<URL>> constraints = new ArrayList<ValidationConstraint<URL>>();
 					constraints.add(new ValidationConstraintNotNull<URL>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}

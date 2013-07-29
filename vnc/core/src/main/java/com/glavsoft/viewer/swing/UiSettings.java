@@ -51,7 +51,7 @@ public class UiSettings {
 
 	private double scalePercent = 100;
 
-	private final List<IChangeSettingsListener> listeners = new LinkedList<>();
+	private final List<IChangeSettingsListener> listeners = new LinkedList<IChangeSettingsListener>();
 
 	public UiSettings() {
 		scalePercent = 100;

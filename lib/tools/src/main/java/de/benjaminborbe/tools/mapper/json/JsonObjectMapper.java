@@ -22,14 +22,13 @@ public class JsonObjectMapper<T> {
 
 	private final List<StringObjectMapper<T>> mappings;
 
-	@SafeVarargs
 	public JsonObjectMapper(final Provider<T> provider, final StringObjectMapper<T>... mapSingles) {
 		this(provider, Arrays.asList(mapSingles));
 	}
 
 	public JsonObjectMapper(final Provider<T> provider, final Collection<StringObjectMapper<T>> mapSingles) {
 		this.provider = provider;
-		this.mappings = new ArrayList<>(mapSingles);
+		this.mappings = new ArrayList<StringObjectMapper<T>>(mapSingles);
 	}
 
 	public String toJson(final T bean) throws MapException {

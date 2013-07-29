@@ -50,7 +50,7 @@ public class WebsearchPageBeanMapperUnitTest {
 
 	@Parameterized.Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() throws UnsupportedEncodingException {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{WebsearchPageBeanMapper.ID, "1337"});
 		result.add(new Object[]{WebsearchPageBeanMapper.LAST_VISIT, "123456"});
 		result.add(new Object[]{WebsearchPageBeanMapper.MODIFIED, "123456"});
@@ -65,7 +65,7 @@ public class WebsearchPageBeanMapperUnitTest {
 	}
 
 	private WebsearchPageBeanMapper getWebsearchPageBeanMapper() {
-		final Provider<WebsearchPageBean> beanProvider = new ProviderMock<>(WebsearchPageBean.class);
+		final Provider<WebsearchPageBean> beanProvider = new ProviderMock<WebsearchPageBean>(WebsearchPageBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
@@ -88,7 +88,7 @@ public class WebsearchPageBeanMapperUnitTest {
 	@Test
 	public void testMapping() throws Exception {
 		final WebsearchPageBeanMapper mapper = getWebsearchPageBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final WebsearchPageBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

@@ -29,7 +29,7 @@ public class MessageConfigImpl extends ConfigurationBase implements MessageConfi
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(consumerAmount);
 		return result;
 	}

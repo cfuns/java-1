@@ -114,7 +114,7 @@ public class ProjectileGuiReportTeamAllServlet extends WebsiteHtmlServlet {
 	@Override
 	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<JavascriptResource> result = new ArrayList<>();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
 		return result;
 	}
@@ -126,7 +126,9 @@ public class ProjectileGuiReportTeamAllServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(ProjectileService.PERMISSION_ADMIN);
 			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
-		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

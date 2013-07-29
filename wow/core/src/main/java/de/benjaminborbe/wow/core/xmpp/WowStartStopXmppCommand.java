@@ -33,7 +33,7 @@ public abstract class WowStartStopXmppCommand extends WowBaseXmppCommand {
 		}
 	}
 
-	protected final ThreadResult<Boolean> running = new ThreadResult<>(false);
+	protected final ThreadResult<Boolean> running = new ThreadResult<Boolean>(false);
 
 	private final Logger logger;
 

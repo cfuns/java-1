@@ -82,7 +82,15 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 				columns = client.get_slice(key, columnParent, predicate, consistency_level);
 			}
 			return columns != null && columns.size() > columnPos;
-		} catch (final StorageConnectionPoolException | TimedOutException | UnavailableException | TException | InvalidRequestException e) {
+		} catch (final InvalidRequestException e) {
+			throw new StorageException(e);
+		} catch (UnavailableException e) {
+			throw new StorageException(e);
+		} catch (TException e) {
+			throw new StorageException(e);
+		} catch (StorageConnectionPoolException e) {
+			throw new StorageException(e);
+		} catch (TimedOutException e) {
 			throw new StorageException(e);
 		} finally {
 			if (connection != null)

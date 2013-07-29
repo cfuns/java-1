@@ -29,7 +29,7 @@ public class WebsearchRobotsTxtUtil {
 
 	private final Logger logger;
 
-	private final Map<String, WebsearchRobotsTxt> cache = new HashMap<>();
+	private final Map<String, WebsearchRobotsTxt> cache = new HashMap<String, WebsearchRobotsTxt>();
 
 	@Inject
 	public WebsearchRobotsTxtUtil(
@@ -66,7 +66,11 @@ public class WebsearchRobotsTxtUtil {
 				final WebsearchRobotsTxt robotstxt = websearchRobotsTxtParser.parseRobotsTxt(content);
 				cache.put(robotsTxtUrl, robotstxt);
 				return robotstxt;
-			} catch (final ParseException | IOException | HttpdownloaderServiceException e) {
+			} catch (final ParseException e) {
+				logger.trace("download robots.txt failed!", e);
+			} catch (HttpdownloaderServiceException e) {
+				logger.trace("download robots.txt failed!", e);
+			} catch (IOException e) {
 				logger.trace("download robots.txt failed!", e);
 			}
 			final WebsearchRobotsTxt robotstxt = new WebsearchRobotsTxt();

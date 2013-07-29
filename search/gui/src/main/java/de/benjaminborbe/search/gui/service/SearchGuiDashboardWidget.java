@@ -73,7 +73,7 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 
 	@Override
 	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
-		final List<JavascriptResource> result = new ArrayList<>();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		result.add(new JavascriptResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"));
 		result.add(new JavascriptResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"));
 		return result;
@@ -82,7 +82,7 @@ public class SearchGuiDashboardWidget implements DashboardContentWidget, Require
 	@Override
 	public List<CssResource> getCssResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<CssResource> result = new ArrayList<>();
+		final List<CssResource> result = new ArrayList<CssResource>();
 		result.add(new CssResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"));
 		result.add(new CssResourceImpl(contextPath + "/search/css/style.css"));
 		return result;

@@ -31,9 +31,9 @@ public class AuthenticationServiceMock implements AuthenticationService {
 
 	public static final String USER_PASSWORD = "Test123!";
 
-	private final Map<UserIdentifier, String> userPassword = new HashMap<>();
+	private final Map<UserIdentifier, String> userPassword = new HashMap<UserIdentifier, String>();
 
-	private final Map<SessionIdentifier, UserIdentifier> sessionUser = new HashMap<>();
+	private final Map<SessionIdentifier, UserIdentifier> sessionUser = new HashMap<SessionIdentifier, UserIdentifier>();
 
 	@Inject
 	public AuthenticationServiceMock() {

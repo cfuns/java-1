@@ -38,6 +38,6 @@ public class GalleryGroupDaoStorage extends DaoStorage<GalleryGroupBean, Gallery
 
 	@Override
 	public EntityIterator<GalleryGroupBean> getEntityIteratorShared() throws StorageException {
-		return new EntityIteratorFilter<>(getEntityIterator(), new SharedPredicate<GalleryGroupBean>());
+		return new EntityIteratorFilter<GalleryGroupBean>(getEntityIterator(), new SharedPredicate<GalleryGroupBean>());
 	}
 }

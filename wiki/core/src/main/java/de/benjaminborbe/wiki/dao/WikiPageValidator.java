@@ -65,7 +65,7 @@ public class WikiPageValidator extends ValidatorBase<WikiPageBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<WikiPageBean>> buildRules() {
-		final Map<String, ValidatorRule<WikiPageBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<WikiPageBean>> result = new HashMap<String, ValidatorRule<WikiPageBean>>();
 
 		// id
 		{
@@ -75,7 +75,7 @@ public class WikiPageValidator extends ValidatorBase<WikiPageBean> {
 				@Override
 				public Collection<ValidationError> validate(final WikiPageBean bean) {
 					final WikiPageIdentifier value = bean.getId();
-					final List<ValidationConstraint<WikiPageIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<WikiPageIdentifier>> constraints = new ArrayList<ValidationConstraint<WikiPageIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<WikiPageIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<WikiPageIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -91,7 +91,7 @@ public class WikiPageValidator extends ValidatorBase<WikiPageBean> {
 				@Override
 				public Collection<ValidationError> validate(final WikiPageBean bean) {
 					final String value = bean.getTitle();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

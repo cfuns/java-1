@@ -167,7 +167,7 @@ public class PokerGuiPlayerUpdateServlet extends WebsiteHtmlServlet {
 	)
 		throws PokerServiceException, ValidationException {
 
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		long credits = 0;
 		try {
 			credits = parseUtil.parseLong(creditsString);
@@ -189,7 +189,7 @@ public class PokerGuiPlayerUpdateServlet extends WebsiteHtmlServlet {
 	}
 
 	private Collection<UserIdentifier> buildUsers(final String owners) throws AuthenticationServiceException {
-		final List<UserIdentifier> users = new ArrayList<>();
+		final List<UserIdentifier> users = new ArrayList<UserIdentifier>();
 		for (final String owner : owners.split("[^a-z]")) {
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(owner);
 			if (authenticationService.existsUser(userIdentifier)) {
@@ -205,7 +205,9 @@ public class PokerGuiPlayerUpdateServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			pokerService.expectPokerAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException | PokerServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (PokerServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

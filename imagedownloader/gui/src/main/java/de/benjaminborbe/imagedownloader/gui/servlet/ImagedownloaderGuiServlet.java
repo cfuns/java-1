@@ -118,7 +118,7 @@ public class ImagedownloaderGuiServlet extends WebsiteHtmlServlet {
 		final String minWidthString,
 		final String minHeightString
 	) throws ValidationException, ImagedownloaderServiceException {
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		URL url = null;
 		{
 			try {

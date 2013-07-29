@@ -97,8 +97,10 @@ public class NotificationServiceImpl implements NotificationService {
 					logger.warn("send notification  via " + notifier.getNotificationMediaIdentifier() + " failed", e);
 				}
 			}
-		} catch (final StorageException | NotificationNotifierException e1) {
+		} catch (final StorageException e1) {
 			throw new NotificationServiceException(e1);
+		} catch (NotificationNotifierException e) {
+			throw new NotificationServiceException(e);
 		}
 	}
 
@@ -116,13 +118,15 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public Collection<NotificationTypeIdentifier> getNotificationTypeIdentifiers() throws NotificationServiceException {
 		try {
-			final List<NotificationTypeIdentifier> result = new ArrayList<>();
+			final List<NotificationTypeIdentifier> result = new ArrayList<NotificationTypeIdentifier>();
 			final IdentifierIterator<NotificationTypeIdentifier> i = notificationTypeDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException | IdentifierIteratorException e) {
+		} catch (final StorageException e) {
+			throw new NotificationServiceException(e);
+		} catch (IdentifierIteratorException e) {
 			throw new NotificationServiceException(e);
 		}
 	}
@@ -140,7 +144,9 @@ public class NotificationServiceImpl implements NotificationService {
 		try {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			notificationMediaDao.add(userIdentifier, notificationTypeIdentifier, notificationMediaIdentifier);
-		} catch (final StorageException | AuthenticationServiceException e) {
+		} catch (final StorageException e) {
+			throw new NotificationServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new NotificationServiceException(e);
 		}
 	}
@@ -153,7 +159,9 @@ public class NotificationServiceImpl implements NotificationService {
 		try {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			notificationMediaDao.remove(userIdentifier, notificationTypeIdentifier, notificationMediaIdentifier);
-		} catch (final StorageException | AuthenticationServiceException e) {
+		} catch (final StorageException e) {
+			throw new NotificationServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new NotificationServiceException(e);
 		}
 	}
@@ -166,7 +174,9 @@ public class NotificationServiceImpl implements NotificationService {
 		try {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			return notificationMediaDao.has(userIdentifier, notificationTypeIdentifier, notificationMediaIdentifier);
-		} catch (final StorageException | AuthenticationServiceException e) {
+		} catch (final StorageException e) {
+			throw new NotificationServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new NotificationServiceException(e);
 		}
 	}

@@ -35,7 +35,7 @@ public class IndexConfigImpl extends ConfigurationBase implements IndexConfig {
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(indexDistributedEnabled);
 		result.add(indexLuceneEnabled);
 		return result;

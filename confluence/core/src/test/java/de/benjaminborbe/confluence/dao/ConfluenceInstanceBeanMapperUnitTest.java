@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 public class ConfluenceInstanceBeanMapperUnitTest {
 
 	private ConfluenceInstanceBeanMapper getConfluenceInstanceBeanMapper() {
-		final Provider<ConfluenceInstanceBean> confluenceInstanceBeanProvider = new ProviderMock<>(ConfluenceInstanceBean.class);
+		final Provider<ConfluenceInstanceBean> confluenceInstanceBeanProvider = new ProviderMock<ConfluenceInstanceBean>(ConfluenceInstanceBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -63,7 +63,7 @@ public class ConfluenceInstanceBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final ConfluenceInstanceBean bean = mapper.map(data);
 			assertEquals(value, bean.getOwner());

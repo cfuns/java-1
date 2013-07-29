@@ -10,7 +10,7 @@ public class ToolModules implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		final Set<Module> result = new HashSet<>();
+		final Set<Module> result = new HashSet<Module>();
 		result.add(new ToolModule());
 		return result;
 	}

@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 public class GalleryImageBeanMapperUnitTest {
 
 	private GalleryImageBeanMapper getGalleryImageBeanMapper() {
-		final Provider<GalleryImageBean> taskBeanProvider = new ProviderMock<>(GalleryImageBean.class);
+		final Provider<GalleryImageBean> taskBeanProvider = new ProviderMock<GalleryImageBean>(GalleryImageBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 

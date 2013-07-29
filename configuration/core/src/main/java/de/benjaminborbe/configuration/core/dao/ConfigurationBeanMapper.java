@@ -31,7 +31,7 @@ public class ConfigurationBeanMapper extends MapObjectMapperAdapter<Configuratio
 		final MapperString mapperString,
 		final MapperCalendar mapperCalendar, final MapperConfigurationIdentifier mapperConfigurationIdentifier
 	) {
-		final List<StringObjectMapper<ConfigurationBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<ConfigurationBean>> result = new ArrayList<StringObjectMapper<ConfigurationBean>>();
 		result.add(new StringObjectMapperAdapter<ConfigurationBean, ConfigurationIdentifier>("id", mapperConfigurationIdentifier));
 		result.add(new StringObjectMapperAdapter<ConfigurationBean, String>("value", mapperString));
 		result.add(new StringObjectMapperAdapter<ConfigurationBean, Calendar>("created", mapperCalendar));

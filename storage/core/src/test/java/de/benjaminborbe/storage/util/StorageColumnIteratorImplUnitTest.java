@@ -33,7 +33,7 @@ public class StorageColumnIteratorImplUnitTest {
 	private static final boolean reversed = false;
 
 	private List<ColumnOrSuperColumn> buildColumn(final int size) throws UnsupportedEncodingException {
-		final List<ColumnOrSuperColumn> result = new ArrayList<>();
+		final List<ColumnOrSuperColumn> result = new ArrayList<ColumnOrSuperColumn>();
 		for (int i = 0; i < size; ++i) {
 			final byte[] name = ("columnName" + i).getBytes(encoding);
 			final byte[] value = ("columnValue" + i).getBytes(encoding);

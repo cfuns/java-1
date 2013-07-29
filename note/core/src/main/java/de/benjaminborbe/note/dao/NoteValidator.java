@@ -35,7 +35,7 @@ public class NoteValidator extends ValidatorBase<NoteBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<NoteBean>> buildRules() {
-		final Map<String, ValidatorRule<NoteBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<NoteBean>> result = new HashMap<String, ValidatorRule<NoteBean>>();
 
 		// id
 		{
@@ -45,7 +45,7 @@ public class NoteValidator extends ValidatorBase<NoteBean> {
 				@Override
 				public Collection<ValidationError> validate(final NoteBean bean) {
 					final NoteIdentifier value = bean.getId();
-					final List<ValidationConstraint<NoteIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<NoteIdentifier>> constraints = new ArrayList<ValidationConstraint<NoteIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<NoteIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<NoteIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -61,7 +61,7 @@ public class NoteValidator extends ValidatorBase<NoteBean> {
 				@Override
 				public Collection<ValidationError> validate(final NoteBean bean) {
 					final UserIdentifier value = bean.getOwner();
-					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<ValidationConstraint<UserIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<UserIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<UserIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -77,7 +77,7 @@ public class NoteValidator extends ValidatorBase<NoteBean> {
 				@Override
 				public Collection<ValidationError> validate(final NoteBean bean) {
 					final String value = bean.getTitle();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -94,7 +94,7 @@ public class NoteValidator extends ValidatorBase<NoteBean> {
 				@Override
 				public Collection<ValidationError> validate(final NoteBean bean) {
 					final String value = bean.getContent();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}

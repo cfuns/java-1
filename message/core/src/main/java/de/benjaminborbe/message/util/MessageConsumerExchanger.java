@@ -113,7 +113,9 @@ public class MessageConsumerExchanger {
 			}
 			logger.trace("exchange message - finished");
 			return true;
-		} catch (final StorageException | IdentifierIteratorException e) {
+		} catch (final StorageException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (IdentifierIteratorException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		return false;

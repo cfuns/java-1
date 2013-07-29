@@ -17,7 +17,7 @@ public abstract class MapObjectMapperBase<T> implements MapObjectMapper<T> {
 
 	@Override
 	public Map<String, String> map(final T object) throws MapException {
-		final Map<String, String> data = new HashMap<>();
+		final Map<String, String> data = new HashMap<String, String>();
 		map(object, data);
 		return data;
 	}
@@ -31,7 +31,7 @@ public abstract class MapObjectMapperBase<T> implements MapObjectMapper<T> {
 
 	@Override
 	public Map<String, String> map(final T object, final Collection<String> fieldNames) throws MapException {
-		final Map<String, String> data = new HashMap<>();
+		final Map<String, String> data = new HashMap<String, String>();
 		map(object, data, fieldNames);
 		return data;
 	}

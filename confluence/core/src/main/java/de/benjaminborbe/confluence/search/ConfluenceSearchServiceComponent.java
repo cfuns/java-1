@@ -40,7 +40,7 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 		@Override
 		protected Map<String, String> getSearchValues(final IndexSearchResult bean) {
-			final Map<String, String> values = new HashMap<>();
+			final Map<String, String> values = new HashMap<String, String>();
 			values.put(TITLE, bean.getTitle());
 			values.put(CONTENT, bean.getContent());
 			values.put(URL, bean.getURL());
@@ -49,7 +49,7 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 		@Override
 		protected Map<String, Integer> getSearchPrio() {
-			final Map<String, Integer> values = new HashMap<>();
+			final Map<String, Integer> values = new HashMap<String, Integer>();
 			values.put(TITLE, 2);
 			values.put(CONTENT, 1);
 			values.put(URL, 2);
@@ -86,7 +86,7 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
-		final List<IndexSearchResult> indexResults = new ArrayList<>();
+		final List<IndexSearchResult> indexResults = new ArrayList<IndexSearchResult>();
 		final List<String> words = searchUtil.buildSearchParts(query);
 		try {
 			logger.trace("search");
@@ -104,7 +104,7 @@ public class ConfluenceSearchServiceComponent implements SearchServiceComponent 
 
 		final BeanSearcher<IndexSearchResult> beanSearcher = new BeanSearcherImpl();
 		final List<BeanMatch<IndexSearchResult>> beanResults = beanSearcher.search(indexResults, maxResults, words);
-		final List<SearchResult> result = new ArrayList<>();
+		final List<SearchResult> result = new ArrayList<SearchResult>();
 		for (final BeanMatch<IndexSearchResult> beanResult : beanResults) {
 			if (result.size() < maxResults) {
 				result.add(map(beanResult));

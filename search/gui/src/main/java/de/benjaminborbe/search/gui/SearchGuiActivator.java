@@ -76,14 +76,14 @@ public class SearchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		return result;
 	}
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(searchServlet, SearchGuiConstants.URL_SEARCH));
 		result.add(new ServletInfo(searchGuiJsonServlet, SearchGuiConstants.URL_SEARCH_JSON));
 		result.add(new ServletInfo(searchSuggestServlet, SearchGuiConstants.URL_SEARCH_SUGGEST));
@@ -95,7 +95,7 @@ public class SearchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, searchDashboardWidget, searchDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchWidget.class, searchWidget));
 		result.add(new ServiceInfo(NavigationEntry.class, searchGuiNavigationEntry));
@@ -107,7 +107,7 @@ public class SearchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new SearchGuiSpecialSearchServiceTracker(searchGuiSpecialSearchRegistry, context, SearchSpecial.class));
 		return serviceTrackers;
 	}

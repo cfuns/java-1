@@ -38,7 +38,9 @@ public class MicroblogPostRefresher {
 					}
 				}
 				logger.trace("done");
-			} catch (final MicroblogRevisionStorageException | MicroblogConnectorException e) {
+			} catch (final MicroblogRevisionStorageException e) {
+				logger.warn(e.getClass().getName(), e);
+			} catch (MicroblogConnectorException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}

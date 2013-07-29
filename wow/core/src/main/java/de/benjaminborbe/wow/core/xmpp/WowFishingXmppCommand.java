@@ -31,11 +31,11 @@ import java.util.List;
 
 public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 
-	private final ThreadResult<Integer> counter = new ThreadResult<>();
+	private final ThreadResult<Integer> counter = new ThreadResult<Integer>();
 
-	private final ThreadResult<Coordinate> wowAppIconLocation = new ThreadResult<>();
+	private final ThreadResult<Coordinate> wowAppIconLocation = new ThreadResult<Coordinate>();
 
-	private final ThreadResult<Coordinate> fishingButtonLocation = new ThreadResult<>();
+	private final ThreadResult<Coordinate> fishingButtonLocation = new ThreadResult<Coordinate>();
 
 	private final Logger logger;
 
@@ -69,7 +69,7 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 	@Override
 	public void runAction() {
 		try {
-			final List<Action> actions = new ArrayList<>();
+			final List<Action> actions = new ArrayList<Action>();
 			if (counter.get() % 20 == 0) {
 				actions.add(new WowKeyTypeAction(logger, vncService, "jump", running, VncKey.K_SPACE));
 			}
@@ -84,15 +84,15 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 			actions.add(new WowFindPixelsLocationAction(logger, vncService, pixelFinder, "find fishing button location", running, fishingButtonLocation, wowImageLibrary
 				.getFishingButton(), 60));
 			actions.add(new WowMouseMoveAction(logger, vncService, "move mouse to fishing button", running, fishingButtonLocation));
-			final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<>();
+			final ThreadResult<VncPixels> pixelsBeforeFishing = new ThreadResult<VncPixels>();
 			actions.add(new WowTakePixelsAction(logger, vncService, "take pixels before fishing", running, pixelsBeforeFishing));
 			if (DEBUG) {
 				actions.add(new WowTakeScreenshotAction(logger, vncService, "take screenshot before", "before", running));
 			}
 			actions.add(new WowMouseClickAction(logger, vncService, "click fishing button", running));
 			actions.add(new WowSleepAction(logger, "sleep", running, 2000));
-			final ThreadResult<Coordinate> baitLocation = new ThreadResult<>();
-			final ThreadResult<VncPixels> pixelsAfterFishing = new ThreadResult<>();
+			final ThreadResult<Coordinate> baitLocation = new ThreadResult<Coordinate>();
+			final ThreadResult<VncPixels> pixelsAfterFishing = new ThreadResult<VncPixels>();
 			if (DEBUG) {
 				actions.add(new WowTakeScreenshotAction(logger, vncService, "take screenshot after", "after", running));
 			}
@@ -102,7 +102,9 @@ public class WowFishingXmppCommand extends WowStartStopXmppCommand {
 			actions.add(new WowWaitOnFishAction(logger, vncService, "wait on fish", running, baitLocation));
 			actions.add(new WowMouseClickAction(logger, vncService, "click on bait button", running));
 			actionChainRunner.run(actions);
-		} catch (final IOException | VncServiceException e) {
+		} catch (final VncServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+		} catch (final IOException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}

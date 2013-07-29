@@ -33,7 +33,7 @@ public class NotificationConfigImpl extends ConfigurationBase implements Notific
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(emailFrom);
 		return result;
 	}

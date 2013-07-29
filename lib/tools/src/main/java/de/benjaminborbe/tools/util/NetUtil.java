@@ -27,7 +27,7 @@ public class NetUtil {
 	}
 
 	public Collection<String> getHostnames() throws SocketException {
-		final Set<String> result = new HashSet<>();
+		final Set<String> result = new HashSet<String>();
 		final Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 		while (interfaces.hasMoreElements()) {
 			final NetworkInterface nic = interfaces.nextElement();

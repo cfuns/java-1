@@ -44,7 +44,7 @@ public class ConfluenceInstanceBeanMapper extends MapObjectMapperAdapter<Conflue
 		final MapperUserIdentifier mapperUserIdentifier, final MapperString mapperString, final MapperLong mapperLong, final MapperBoolean mapperBoolean,
 		final MapperInteger mapperInteger, final MapperCalendar mapperCalendar
 	) {
-		final List<StringObjectMapper<ConfluenceInstanceBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<ConfluenceInstanceBean>> result = new ArrayList<StringObjectMapper<ConfluenceInstanceBean>>();
 		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, ConfluenceInstanceIdentifier>("id", mapperConfluenceInstanceIdentifier));
 		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, UserIdentifier>("owner", mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<ConfluenceInstanceBean, String>("url", mapperString));

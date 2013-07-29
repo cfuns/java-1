@@ -87,7 +87,7 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected Collection<Widget> getWidgets() {
-		final Set<Widget> result = new HashSet<>(super.getWidgets());
+		final Set<Widget> result = new HashSet<Widget>(super.getWidgets());
 		result.add(dashboardWidget);
 		return result;
 	}
@@ -109,7 +109,9 @@ public class DashboardGuiServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(DashboardService.PERMISSION);
 			authorizationService.expectPermission(sessionIdentifier, permissionIdentifier);
-		} catch (final AuthorizationServiceException | AuthenticationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

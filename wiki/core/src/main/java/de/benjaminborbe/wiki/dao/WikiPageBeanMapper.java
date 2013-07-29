@@ -53,7 +53,7 @@ public class WikiPageBeanMapper extends MapObjectMapperAdapter<WikiPageBean> {
 		final MapperWikiPageIdentifier mapperWikiPageIdentifier, final MapperString mapperString,
 		final MapperWikiSpaceIdentifier mapperWikiSpaceIdentifier, final MapperCalendar mapperCalendar, final MapperWikiPageContentType mapperWikiPageContentType
 	) {
-		final List<StringObjectMapper<WikiPageBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<WikiPageBean>> result = new ArrayList<StringObjectMapper<WikiPageBean>>();
 		result.add(new StringObjectMapperAdapter<WikiPageBean, WikiPageIdentifier>(ID, mapperWikiPageIdentifier));
 		result.add(new StringObjectMapperAdapter<WikiPageBean, WikiSpaceIdentifier>(SPACE, mapperWikiSpaceIdentifier));
 		result.add(new StringObjectMapperAdapter<WikiPageBean, String>(TITLE, mapperString));

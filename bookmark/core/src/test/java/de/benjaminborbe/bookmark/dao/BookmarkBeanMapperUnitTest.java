@@ -35,7 +35,7 @@ public class BookmarkBeanMapperUnitTest {
 	@Test
 	public void testId() throws Exception {
 
-		final List<List<String>> values = new ArrayList<>();
+		final List<List<String>> values = new ArrayList<List<String>>();
 		values.add(new ArrayList<String>());
 		values.add(Arrays.asList("a"));
 		values.add(Arrays.asList("a", "b"));
@@ -50,7 +50,7 @@ public class BookmarkBeanMapperUnitTest {
 				assertEquals(data.get(fieldname), value.isEmpty() ? null : StringUtil.join(value, ","));
 			}
 			{
-				final Map<String, String> data = new HashMap<>();
+				final Map<String, String> data = new HashMap<String, String>();
 				data.put(fieldname, value.isEmpty() ? null : StringUtil.join(value, ","));
 				final BookmarkBean bean = mapper.map(data);
 				assertEquals(value.size(), bean.getKeywords().size());
@@ -60,7 +60,7 @@ public class BookmarkBeanMapperUnitTest {
 	}
 
 	private BookmarkBeanMapper getBookmarkBeanMapper() {
-		final Provider<BookmarkBean> provider = new ProviderMock<>(BookmarkBean.class);
+		final Provider<BookmarkBean> provider = new ProviderMock<BookmarkBean>(BookmarkBean.class);
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);

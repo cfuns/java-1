@@ -135,7 +135,7 @@ public class BookmarkGuiListServlet extends BookmarkGuiWebsiteHtmlServlet {
 	}
 
 	protected String keywordsToString(final Bookmark bookmark) {
-		final List<String> keywords = new ArrayList<>();
+		final List<String> keywords = new ArrayList<String>();
 		if (bookmark.getKeywords() != null) {
 			keywords.addAll(bookmark.getKeywords());
 		}
@@ -150,7 +150,7 @@ public class BookmarkGuiListServlet extends BookmarkGuiWebsiteHtmlServlet {
 
 	@Override
 	protected Collection<Widget> getWidgets() {
-		return new HashSet<>();
+		return new HashSet<Widget>();
 	}
 
 }

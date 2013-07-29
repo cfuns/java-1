@@ -50,7 +50,7 @@ public class DashboardGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(dashboardServlet, DashboardGuiConstants.URL_HOME));
 		result.add(new ServletInfo(dashboardGuiConfigureServlet, DashboardGuiConstants.URL_CONFIGURE));
 		return result;
@@ -58,14 +58,14 @@ public class DashboardGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		return result;
 	}
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardWidget.class, dashboardWidget));
 		result.add(new ServiceInfo(NavigationEntry.class, dashboardGuiNavigationEntry));
 		return result;
@@ -73,7 +73,7 @@ public class DashboardGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new DashboardGuiWidgetServiceTracker(dashboardWidgetRegistry, context, DashboardContentWidget.class));
 		return serviceTrackers;
 	}

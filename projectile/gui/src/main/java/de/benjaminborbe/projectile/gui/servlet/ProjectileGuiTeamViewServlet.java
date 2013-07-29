@@ -103,7 +103,7 @@ public class ProjectileGuiTeamViewServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ProjectileTeamIdentifier projectileTeamIdentifier = new ProjectileTeamIdentifier(request.getParameter(ProjectileGuiConstants.PARAMETER_TEAM_ID));
 			final ProjectileTeam team = projectileService.getTeam(sessionIdentifier, projectileTeamIdentifier);
-			final List<UserIdentifier> users = new ArrayList<>(projectileService.getUsersForTeam(sessionIdentifier, projectileTeamIdentifier));
+			final List<UserIdentifier> users = new ArrayList<UserIdentifier>(projectileService.getUsersForTeam(sessionIdentifier, projectileTeamIdentifier));
 			Collections.sort(users, new UserComparator());
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle() + " " + team.getName()));
@@ -156,7 +156,9 @@ public class ProjectileGuiTeamViewServlet extends WebsiteHtmlServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PermissionIdentifier roleIdentifier = authorizationService.createPermissionIdentifier(ProjectileService.PERMISSION_ADMIN);
 			authorizationService.expectPermission(sessionIdentifier, roleIdentifier);
-		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

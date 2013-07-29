@@ -88,7 +88,7 @@ public class TaskGuiTaskContextListServlet extends TaskGuiWebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 			final UlWidget ul = new UlWidget();
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			final List<TaskContext> taskContexts = new ArrayList<>(taskService.getTaskContexts(sessionIdentifier));
+			final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier));
 			Collections.sort(taskContexts, new TaskContextComparator());
 			for (final TaskContext taskContext : taskContexts) {
 				final ListWidget row = new ListWidget();

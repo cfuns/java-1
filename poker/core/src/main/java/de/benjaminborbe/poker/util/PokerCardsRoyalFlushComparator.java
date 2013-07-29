@@ -46,7 +46,7 @@ public class PokerCardsRoyalFlushComparator implements Comparator<Collection<Pok
 		final MapList<PokerCardColor, PokerCardIdentifier> map = pokerCardUtil.groupByColor(cards);
 		for (final List<PokerCardIdentifier> v : map.values()) {
 			final List<PokerCardIdentifier> values = comparatorUtil.sort(v, pokerCardComparator);
-			final List<PokerCardIdentifier> result = new ArrayList<>();
+			final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
 			if (values.size() >= 5) {
 				final PokerCardIdentifier first = values.get(values.size() - 1);
 				if (PokerCardValue.ACE.equals(first.getValue())) {

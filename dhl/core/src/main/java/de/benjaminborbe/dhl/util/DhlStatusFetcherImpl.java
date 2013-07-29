@@ -52,7 +52,11 @@ public class DhlStatusFetcherImpl implements DhlStatusFetcher {
 			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addTimeout(TIMEOUT).build());
 			final String content = httpUtil.getContent(httpResponse);
 			return dhlStatusParser.parseCurrentStatus(dhl, content);
-		} catch (IOException | ParseException | HttpdownloaderServiceException e) {
+		} catch (IOException e) {
+			throw new DhlStatusFetcherException("fetch dlh status failed!", e);
+		} catch (HttpdownloaderServiceException e) {
+			throw new DhlStatusFetcherException("fetch dlh status failed!", e);
+		} catch (ParseException e) {
 			throw new DhlStatusFetcherException("fetch dlh status failed!", e);
 		}
 	}

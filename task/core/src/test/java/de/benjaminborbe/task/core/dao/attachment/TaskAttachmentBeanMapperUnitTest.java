@@ -43,7 +43,7 @@ public class TaskAttachmentBeanMapperUnitTest {
 
 	@Parameterized.Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{TaskAttachmentBeanMapper.ID, "1337"});
 		result.add(new Object[]{TaskAttachmentBeanMapper.CREATED, "123456"});
 		result.add(new Object[]{TaskAttachmentBeanMapper.MODIFIED, "123456"});
@@ -54,7 +54,7 @@ public class TaskAttachmentBeanMapperUnitTest {
 	}
 
 	private TaskAttachmentBeanMapper getTaskAttachmentBeanMapper() {
-		final Provider<TaskAttachmentBean> beanProvider = new ProviderMock<>(TaskAttachmentBean.class);
+		final Provider<TaskAttachmentBean> beanProvider = new ProviderMock<TaskAttachmentBean>(TaskAttachmentBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -77,7 +77,7 @@ public class TaskAttachmentBeanMapperUnitTest {
 	@Test
 	public void testMaxRetryCounter() throws Exception {
 		final TaskAttachmentBeanMapper mapper = getTaskAttachmentBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final TaskAttachmentBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

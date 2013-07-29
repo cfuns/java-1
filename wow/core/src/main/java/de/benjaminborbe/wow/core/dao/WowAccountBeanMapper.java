@@ -35,7 +35,7 @@ public class WowAccountBeanMapper extends MapObjectMapperAdapter<WowAccountBean>
 		final MapperWowAccountIdentifier mapperWowAccountIdentifier,
 		final MapperUserIdentifier mapperUserIdentifier, final MapperString mapperString, final MapperCalendar mapperCalendar
 	) {
-		final List<StringObjectMapper<WowAccountBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<WowAccountBean>> result = new ArrayList<StringObjectMapper<WowAccountBean>>();
 		result.add(new StringObjectMapperAdapter<WowAccountBean, WowAccountIdentifier>("id", mapperWowAccountIdentifier));
 		result.add(new StringObjectMapperAdapter<WowAccountBean, UserIdentifier>("owner", mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<WowAccountBean, String>("email", mapperString));

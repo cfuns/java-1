@@ -41,8 +41,8 @@ public class WowLogoutAction extends WowBaseXmppCommand {
 		try {
 			vncService.connect();
 
-			final List<Action> actions = new ArrayList<>();
-			final ThreadResult<Boolean> running = new ThreadResult<>(true);
+			final List<Action> actions = new ArrayList<Action>();
+			final ThreadResult<Boolean> running = new ThreadResult<Boolean>(true);
 			// sleep
 			{
 				actions.add(new WowSleepAction(logger, "sleep", running, 2000));

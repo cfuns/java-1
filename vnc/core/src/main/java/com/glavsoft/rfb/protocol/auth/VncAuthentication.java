@@ -82,7 +82,17 @@ public class VncAuthentication extends AuthHandler {
 			final Cipher desCipher = Cipher.getInstance("DES/ECB/NoPadding");
 			desCipher.init(Cipher.ENCRYPT_MODE, secretKey);
 			return desCipher.doFinal(challenge);
-		} catch (final NoSuchAlgorithmException | InvalidKeySpecException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
+		} catch (final NoSuchPaddingException e) {
+			throw new CryptoException("Cannot encrypt challenge", e);
+		} catch (final IllegalBlockSizeException e) {
+			throw new CryptoException("Cannot encrypt challenge", e);
+		} catch (final BadPaddingException e) {
+			throw new CryptoException("Cannot encrypt challenge", e);
+		} catch (final InvalidKeyException e) {
+			throw new CryptoException("Cannot encrypt challenge", e);
+		} catch (final InvalidKeySpecException e) {
+			throw new CryptoException("Cannot encrypt challenge", e);
+		} catch (final NoSuchAlgorithmException e) {
 			throw new CryptoException("Cannot encrypt challenge", e);
 		}
 	}

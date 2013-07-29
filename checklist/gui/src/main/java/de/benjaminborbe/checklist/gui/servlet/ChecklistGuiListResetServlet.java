@@ -70,7 +70,11 @@ public class ChecklistGuiListResetServlet extends ChecklistGuiWebsiteServlet {
 			for (final ChecklistEntry entry : checklistService.getEntries(sessionIdentifier, checklistListIdentifier)) {
 				checklistService.uncomplete(sessionIdentifier, entry.getId());
 			}
-		} catch (final AuthenticationServiceException | ValidationException | ChecklistServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ChecklistServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ValidationException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

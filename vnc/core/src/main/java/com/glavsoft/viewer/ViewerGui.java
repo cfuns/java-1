@@ -304,7 +304,10 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 					connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
 					logger.debug(e.getMessage());
 				}
-			} catch (final IOException | FatalException e) {
+			} catch (final FatalException e) {
+				connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
+				logger.debug(e.getMessage());
+			} catch (final IOException e) {
 				connectionManager.showReconnectDialog("Connection Error", "Connection Error" + ": " + e.getMessage());
 				logger.debug(e.getMessage());
 			}
@@ -362,7 +365,7 @@ public class ViewerGui extends JApplet implements Viewer, Runnable, IRfbSessionL
 
 		containerManager.addZoomButtons();
 
-		kbdButtons = new LinkedList<>();
+		kbdButtons = new LinkedList<JComponent>();
 
 		buttonsBar.createStrut();
 

@@ -42,9 +42,9 @@ public class BottomNaviWidget implements Widget {
 	protected List<GalleryCollection> getGalleries() throws GalleryServiceException {
 		final GalleryGroupIdentifier gi = galleryService.getGroupByNameShared(PortfolioGuiConstants.GROUP_NAME_NAVI_BOTTON);
 		if (gi == null) {
-			return new ArrayList<>();
+			return new ArrayList<GalleryCollection>();
 		}
-		final List<GalleryCollection> galleries = new ArrayList<>(galleryService.getCollectionsWithGroupShared(gi));
+		final List<GalleryCollection> galleries = new ArrayList<GalleryCollection>(galleryService.getCollectionsWithGroupShared(gi));
 		Collections.sort(galleries, galleryComparator);
 		return galleries;
 	}

@@ -38,7 +38,7 @@ public class AnalyticsReportBeanMapper extends MapObjectMapperAdapter<AnalyticsR
 		final MapperAnalyticsReportIdentifier mapperListIdentifier, final MapperString mapperString,
 		final MapperCalendar mapperCalendar, final MapperAnalyticsReportAggregation mapperAnalyticsReportAggregation
 	) {
-		final List<StringObjectMapper<AnalyticsReportBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<AnalyticsReportBean>> result = new ArrayList<StringObjectMapper<AnalyticsReportBean>>();
 		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, AnalyticsReportIdentifier>("id", mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, AnalyticsReportAggregation>("aggregation", mapperAnalyticsReportAggregation));

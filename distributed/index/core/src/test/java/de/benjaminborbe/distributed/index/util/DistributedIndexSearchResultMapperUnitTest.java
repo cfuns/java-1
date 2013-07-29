@@ -59,7 +59,7 @@ public class DistributedIndexSearchResultMapperUnitTest {
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final DistributedIndexSearchResultMapper mapper = new DistributedIndexSearchResultMapper(parseUtil);
 
-		final List<String> columnNames = new ArrayList<>();
+		final List<String> columnNames = new ArrayList<String>();
 		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(0, "defaultSpace", "a")));
 		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(10, "defaultSpace", "a")));
 		columnNames.add(mapper.toString(new DistributedIndexSearchResultImpl(200, "defaultSpace", "a")));

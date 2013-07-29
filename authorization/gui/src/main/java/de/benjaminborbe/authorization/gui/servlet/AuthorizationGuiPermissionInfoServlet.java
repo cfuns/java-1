@@ -104,10 +104,12 @@ public class AuthorizationGuiPermissionInfoServlet extends WebsiteHtmlServlet {
 			widgets.add(ul);
 
 			return widgets;
-		} catch (final AuthorizationServiceException | AuthenticationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			return exceptionWidget;
+			return new ExceptionWidget(e);
+		} catch (AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			return new ExceptionWidget(e);
 		}
 	}
 }

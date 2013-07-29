@@ -109,7 +109,7 @@ public class StorageServiceImpl implements StorageService {
 	public void set(final String columnFamily, final StorageValue id, final StorageValue key, final StorageValue value) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			final Map<StorageValue, StorageValue> data = new HashMap<>();
+			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 			data.put(key, value);
 			set(columnFamily, id, data);
 		} finally {

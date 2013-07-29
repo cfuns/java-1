@@ -16,7 +16,7 @@ public class PokerCardFactoryUnitTest {
 		final PokerCardFactory pokerCardFactory = new PokerCardFactory();
 		assertNotNull(pokerCardFactory.getCards());
 		assertEquals(52, pokerCardFactory.getCards().size());
-		final Set<PokerCardIdentifier> cards = new HashSet<>();
+		final Set<PokerCardIdentifier> cards = new HashSet<PokerCardIdentifier>();
 		for (final PokerCardIdentifier card : pokerCardFactory.getCards()) {
 			cards.add(card);
 		}

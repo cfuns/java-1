@@ -19,17 +19,17 @@ public class AutoCompletionComboEditorDocument extends PlainDocument {
 
 	private static final long serialVersionUID = -3763461783463836821L;
 
-	private final ComboBoxModel<?> model;
+	private final ComboBoxModel model;
 
 	private boolean selecting;
 
-	private final JComboBox<?> comboBox;
+	private final JComboBox comboBox;
 
 	private final boolean hidePopupOnFocusLoss;
 
 	private final JTextComponent editor;
 
-	public AutoCompletionComboEditorDocument(final JComboBox<?> comboBox) {
+	public AutoCompletionComboEditorDocument(final JComboBox comboBox) {
 		this.comboBox = comboBox;
 		this.model = comboBox.getModel();
 		this.editor = (JTextComponent) comboBox.getEditor().getEditorComponent();

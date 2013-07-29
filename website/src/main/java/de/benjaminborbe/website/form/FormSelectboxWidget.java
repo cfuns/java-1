@@ -35,7 +35,7 @@ public class FormSelectboxWidget extends CompositeWidget implements FormElementW
 		}
 	}
 
-	private final List<Option> options = new ArrayList<>();
+	private final List<Option> options = new ArrayList<Option>();
 
 	private String name;
 

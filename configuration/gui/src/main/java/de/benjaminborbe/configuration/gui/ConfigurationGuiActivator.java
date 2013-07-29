@@ -39,7 +39,7 @@ public class ConfigurationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(configurationGuiListServlet, ConfigurationGuiConstants.URL_LIST));
 		result.add(new ServletInfo(configurationGuiUpdateServlet, ConfigurationGuiConstants.URL_UPDATE));
 		return result;
@@ -47,14 +47,14 @@ public class ConfigurationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, configurationGuiNavigationEntry));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		return result;
 	}

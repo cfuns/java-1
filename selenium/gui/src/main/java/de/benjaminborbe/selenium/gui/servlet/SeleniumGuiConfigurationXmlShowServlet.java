@@ -94,7 +94,11 @@ public class SeleniumGuiConfigurationXmlShowServlet extends WebsiteHtmlServlet {
 
 			widgets.add(new PreWidget(xml.getXml()));
 			return widgets;
-		} catch (SeleniumServiceException | SeleniumConfigurationXmlServiceException | AuthenticationServiceException e) {
+		} catch (SeleniumServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (SeleniumConfigurationXmlServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

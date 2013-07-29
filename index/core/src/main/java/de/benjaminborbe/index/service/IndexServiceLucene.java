@@ -45,7 +45,7 @@ public class IndexServiceLucene implements IndexService {
 	@Override
 	public List<IndexSearchResult> search(final String index, final String searchQuery, final int limit) throws IndexerServiceException {
 		try {
-			final List<IndexSearchResult> result = new ArrayList<>();
+			final List<IndexSearchResult> result = new ArrayList<IndexSearchResult>();
 			for (final LuceneIndexSearchResult r : luceneIndexService.search(index, searchQuery, limit)) {
 				result.add(new IndexSearchResultImpl(r.getIndex(), r.getURL(), r.getTitle(), r.getContent()));
 			}

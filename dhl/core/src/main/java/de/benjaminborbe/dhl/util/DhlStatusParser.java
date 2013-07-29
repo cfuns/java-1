@@ -57,7 +57,7 @@ public class DhlStatusParser {
 
 	public List<DhlStatus> parseAllStatus(final Dhl dhl, final String htmlContent) {
 		logger.trace("parseHtml for " + dhl.getTrackingNumber());
-		final List<DhlStatus> result = new ArrayList<>();
+		final List<DhlStatus> result = new ArrayList<DhlStatus>();
 		final Document document = Jsoup.parse(htmlContent);
 		final Elements tables = document.getElementsByAttributeValue("class", "full eventList");
 		logger.trace("tables " + tables.size());

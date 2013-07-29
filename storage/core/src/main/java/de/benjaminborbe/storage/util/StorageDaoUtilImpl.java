@@ -256,14 +256,14 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			predicate.setColumn_names(buildByteBufferList(columnNames));
 			final List<ColumnOrSuperColumn> columns = client.get_slice(ByteBuffer.wrap(key.getByte()), column_parent, predicate, consistency_level);
 
-			final Map<StorageValue, StorageValue> data = new HashMap<>();
+			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 			for (final ColumnOrSuperColumn column : columns) {
 				final StorageValue name = new StorageValue(column.getColumn().getName(), config.getEncoding());
 				final StorageValue value = new StorageValue(column.getColumn().getValue(), config.getEncoding());
 				data.put(name, value);
 			}
 
-			final List<StorageValue> result = new ArrayList<>();
+			final List<StorageValue> result = new ArrayList<StorageValue>();
 
 			for (final StorageValue columnName : columnNames) {
 				final StorageValue value = data.get(columnName);
@@ -281,7 +281,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 	}
 
 	private List<ByteBuffer> buildByteBufferList(final Collection<StorageValue> columnNames) throws UnsupportedEncodingException {
-		final List<ByteBuffer> result = new ArrayList<>();
+		final List<ByteBuffer> result = new ArrayList<ByteBuffer>();
 		for (final StorageValue columnName : columnNames) {
 			result.add(ByteBuffer.wrap(columnName.getByte()));
 		}
@@ -381,7 +381,7 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
 
 			final int count = 100;
-			final Map<StorageValue, StorageValue> result = new HashMap<>();
+			final Map<StorageValue, StorageValue> result = new HashMap<StorageValue, StorageValue>();
 
 			final ColumnParent columnParent = new ColumnParent(columnFamily);
 			final SlicePredicate predicate = new SlicePredicate();
@@ -447,19 +447,19 @@ public class StorageDaoUtilImpl implements StorageDaoUtil {
 			predicate.setColumn_names(buildByteBufferList(columnNames));
 			final Map<ByteBuffer, List<ColumnOrSuperColumn>> columnsData = client.multiget_slice(buildByteBufferList(keys), column_parent, predicate, consistency_level);
 
-			final List<List<StorageValue>> results = new ArrayList<>();
+			final List<List<StorageValue>> results = new ArrayList<List<StorageValue>>();
 
 			for (final Entry<ByteBuffer, List<ColumnOrSuperColumn>> e : columnsData.entrySet()) {
 				final List<ColumnOrSuperColumn> columns = e.getValue();
 
-				final Map<StorageValue, StorageValue> data = new HashMap<>();
+				final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 				for (final ColumnOrSuperColumn column : columns) {
 					final StorageValue name = new StorageValue(column.getColumn().getName(), config.getEncoding());
 					final StorageValue value = new StorageValue(column.getColumn().getValue(), config.getEncoding());
 					data.put(name, value);
 				}
 
-				final List<StorageValue> result = new ArrayList<>();
+				final List<StorageValue> result = new ArrayList<StorageValue>();
 
 				for (final StorageValue columnName : columnNames) {
 					final StorageValue value = data.get(columnName);

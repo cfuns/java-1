@@ -60,7 +60,7 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, bookmarkGuiFavoriteDashboardWidget, bookmarkGuiFavoriteDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, searchGuiSpecialSearchBookmark, searchGuiSpecialSearchBookmark.getClass().getName()));
 		result.add(new ServiceInfo(NavigationEntry.class, bookmarkGuiNavigationEntry));
@@ -69,7 +69,7 @@ public class BookmarkGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(bookmarkGuiServlet, "/"));
 		result.add(new ServletInfo(bookmarkGuiListServlet, BookmarkGuiConstants.URL_LIST));
 		result.add(new ServletInfo(bookmarkGuiCreateServlet, BookmarkGuiConstants.URL_CREATE));

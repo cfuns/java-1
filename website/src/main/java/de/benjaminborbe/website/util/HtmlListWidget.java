@@ -11,7 +11,7 @@ import java.util.List;
 
 public class HtmlListWidget implements Widget {
 
-	private final List<Widget> widgets = new ArrayList<>();
+	private final List<Widget> widgets = new ArrayList<Widget>();
 
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {

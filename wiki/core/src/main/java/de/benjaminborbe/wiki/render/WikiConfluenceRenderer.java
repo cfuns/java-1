@@ -24,7 +24,7 @@ public class WikiConfluenceRenderer implements WikiRenderer {
 	public String render(final String markup) {
 		logger.debug("render");
 		final Headlines headlines = new Headlines();
-		final List<Part> parts = new ArrayList<>();
+		final List<Part> parts = new ArrayList<Part>();
 		final String[] lines = markup.split("\n");
 		boolean codeOpen = false;
 		boolean ulOpen = false;

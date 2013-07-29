@@ -66,7 +66,11 @@ public class WebsearchGuiConfigurationDeleteServlet extends WebsiteServlet {
 			final WebsearchConfigurationIdentifier websearchConfigurationIdentifier = websearchService.createConfigurationIdentifier(request
 				.getParameter(WebsearchGuiConstants.PARAMETER_CONFIGURATION_ID));
 			websearchService.deleteConfiguration(sessionIdentifier, websearchConfigurationIdentifier);
-		} catch (final WebsearchServiceException | LoginRequiredException | AuthenticationServiceException e) {
+		} catch (final WebsearchServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (LoginRequiredException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

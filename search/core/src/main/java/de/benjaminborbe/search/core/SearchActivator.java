@@ -40,14 +40,14 @@ public class SearchActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new SearchServiceComponentServiceTracker(searchServiceComponentRegistry, context, SearchServiceComponent.class));
 		return serviceTrackers;
 	}
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(SearchService.class, searchService));
 		result.add(new ServiceInfo(SearchServiceComponent.class, urlSearchServiceComponent, urlSearchServiceComponent.getClass().getName()));
 		for (final ConfigurationDescription configuration : searchConfig.getConfigurations()) {

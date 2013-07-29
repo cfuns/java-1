@@ -83,7 +83,13 @@ public class TaskGuiTaskStartLaterServlet extends TaskGuiWebsiteServlet {
 			taskDto.setDue(due);
 
 			taskService.updateTask(sessionIdentifier, taskDto);
-		} catch (final AuthenticationServiceException | ParseException | ValidationException | TaskServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ValidationException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ParseException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (TaskServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

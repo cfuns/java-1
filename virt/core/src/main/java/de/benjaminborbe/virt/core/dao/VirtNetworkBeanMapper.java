@@ -48,7 +48,7 @@ public class VirtNetworkBeanMapper extends MapObjectMapperAdapter<VirtNetworkBea
 		final MapperVirtNetworkIdentifier mapperVirtNetworkIdentifier,
 		final MapperVirtIpAddress mapperVirtIpAddress
 	) {
-		final List<StringObjectMapper<VirtNetworkBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<VirtNetworkBean>> result = new ArrayList<StringObjectMapper<VirtNetworkBean>>();
 		result.add(new StringObjectMapperAdapter<VirtNetworkBean, VirtNetworkIdentifier>(ID, mapperVirtNetworkIdentifier));
 		result.add(new StringObjectMapperAdapter<VirtNetworkBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<VirtNetworkBean, Calendar>(CREATED, mapperCalendar));

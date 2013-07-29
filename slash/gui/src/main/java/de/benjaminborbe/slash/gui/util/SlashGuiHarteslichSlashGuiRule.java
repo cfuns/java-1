@@ -19,7 +19,7 @@ public class SlashGuiHarteslichSlashGuiRule implements SlashGuiRule {
 
 	@Override
 	public Collection<SlashGuiRuleResult> getTarget(final HttpServletRequest request) {
-		final List<SlashGuiRuleResult> result = new ArrayList<>();
+		final List<SlashGuiRuleResult> result = new ArrayList<SlashGuiRuleResult>();
 		final String serverName = request.getServerName();
 		if (serverName.contains("harteslicht.de") || serverName.contains("harteslicht.com")) {
 			if (extHttpServiceMock.hasServletPath("/blog")) {

@@ -44,7 +44,7 @@ public class WikiPageBeanMapperUnitTest {
 
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{"id", "1337"});
 		result.add(new Object[]{"title", "bla"});
 		result.add(new Object[]{"space", "foo"});
@@ -57,7 +57,7 @@ public class WikiPageBeanMapperUnitTest {
 	}
 
 	private WikiPageBeanMapper getWikiPageBeanMapper() {
-		final Provider<WikiPageBean> beanProvider = new ProviderMock<>(WikiPageBean.class);
+		final Provider<WikiPageBean> beanProvider = new ProviderMock<WikiPageBean>(WikiPageBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -79,7 +79,7 @@ public class WikiPageBeanMapperUnitTest {
 	@Test
 	public void testMaxRetryCounter() throws Exception {
 		final WikiPageBeanMapper mapper = getWikiPageBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final WikiPageBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

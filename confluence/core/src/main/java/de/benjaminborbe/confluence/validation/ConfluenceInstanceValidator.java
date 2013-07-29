@@ -56,7 +56,7 @@ public class ConfluenceInstanceValidator extends ValidatorBase<ConfluenceInstanc
 
 	@Override
 	protected Map<String, ValidatorRule<ConfluenceInstanceBean>> buildRules() {
-		final Map<String, ValidatorRule<ConfluenceInstanceBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<ConfluenceInstanceBean>> result = new HashMap<String, ValidatorRule<ConfluenceInstanceBean>>();
 
 		// expire
 		{
@@ -66,7 +66,7 @@ public class ConfluenceInstanceValidator extends ValidatorBase<ConfluenceInstanc
 				@Override
 				public Collection<ValidationError> validate(final ConfluenceInstanceBean bean) {
 					final Integer value = bean.getExpire();
-					final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 					constraints.add(new ValidationConstraintNotNull<Integer>());
 					constraints.add(new ValidationConstraintIntegerGT(0));
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -82,7 +82,7 @@ public class ConfluenceInstanceValidator extends ValidatorBase<ConfluenceInstanc
 				@Override
 				public Collection<ValidationError> validate(final ConfluenceInstanceBean bean) {
 					final String value = bean.getUrl();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -100,7 +100,7 @@ public class ConfluenceInstanceValidator extends ValidatorBase<ConfluenceInstanc
 				@Override
 				public Collection<ValidationError> validate(final ConfluenceInstanceBean bean) {
 					final String value = bean.getUsername();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -117,7 +117,7 @@ public class ConfluenceInstanceValidator extends ValidatorBase<ConfluenceInstanc
 				@Override
 				public Collection<ValidationError> validate(final ConfluenceInstanceBean bean) {
 					final String value = bean.getPassword();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -133,7 +133,7 @@ public class ConfluenceInstanceValidator extends ValidatorBase<ConfluenceInstanc
 
 				@Override
 				public Collection<ValidationError> validate(final ConfluenceInstanceBean bean) {
-					final Set<ValidationError> result = new HashSet<>();
+					final Set<ValidationError> result = new HashSet<ValidationError>();
 					if (Boolean.TRUE.equals(bean.getActivated())) {
 						final String url = bean.getUrl();
 						final String username = bean.getUsername();
@@ -160,7 +160,7 @@ public class ConfluenceInstanceValidator extends ValidatorBase<ConfluenceInstanc
 				@Override
 				public Collection<ValidationError> validate(final ConfluenceInstanceBean bean) {
 					final UserIdentifier value = bean.getOwner();
-					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<ValidationConstraint<UserIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<UserIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}

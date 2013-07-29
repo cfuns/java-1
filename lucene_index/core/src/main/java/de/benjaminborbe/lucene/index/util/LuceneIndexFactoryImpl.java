@@ -17,7 +17,7 @@ public class LuceneIndexFactoryImpl implements LuceneIndexFactory {
 
 	private final Logger logger;
 
-	private final Map<String, FSDirectory> indexes = new HashMap<>();
+	private final Map<String, FSDirectory> indexes = new HashMap<String, FSDirectory>();
 
 	private final LuceneIndexConfig indexConfig;
 

@@ -16,7 +16,7 @@ public class SpanWidget extends TagWidget implements HasClass<SpanWidget> {
 
 	private static final String TAG = "span";
 
-	private final Set<String> classes = new HashSet<>();
+	private final Set<String> classes = new HashSet<String>();
 
 	public SpanWidget(final Widget contentWidget) {
 		super(TAG, contentWidget);

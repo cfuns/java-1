@@ -46,7 +46,11 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 			try {
 				final StorageColumn column = i.next();
 				return buildAnalyticsReportValue(column.getColumnName().getString(), column.getColumnValue().getString());
-			} catch (final StorageException | ParseException | UnsupportedEncodingException e) {
+			} catch (final StorageException e) {
+				throw new AnalyticsServiceException(e);
+			} catch (ParseException e) {
+				throw new AnalyticsServiceException(e);
+			} catch (UnsupportedEncodingException e) {
 				throw new AnalyticsServiceException(e);
 			}
 		}

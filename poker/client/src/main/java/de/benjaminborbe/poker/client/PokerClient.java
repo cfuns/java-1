@@ -140,7 +140,15 @@ public class PokerClient {
 					Thread.sleep(DELAY);
 				} catch (final InterruptedException e) {
 				}
-			} catch (JSONParseException | ParseException | HttpdownloaderServiceException | IOException e) {
+			} catch (JSONParseException e) {
+				logger.warn(e.getClass().getSimpleName(), e);
+			} catch (ParseException e) {
+				logger.warn(e.getClass().getSimpleName(), e);
+			} catch (HttpdownloaderServiceException e) {
+				logger.warn(e.getClass().getSimpleName(), e);
+			} catch (UnsupportedEncodingException e) {
+				logger.warn(e.getClass().getSimpleName(), e);
+			} catch (IOException e) {
 				logger.warn(e.getClass().getSimpleName(), e);
 			}
 		}

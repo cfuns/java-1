@@ -46,7 +46,7 @@ public class NotificationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(notificationGuiListServlet, NotificationGuiConstants.URL_LIST));
 		result.add(new ServletInfo(notificationGuiSendServlet, NotificationGuiConstants.URL_SEND));
 		result.add(new ServletInfo(notificationGuiAddServlet, NotificationGuiConstants.URL_ADD));
@@ -56,7 +56,7 @@ public class NotificationGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, notificationGuiNavigationEntry));
 		return result;
 	}

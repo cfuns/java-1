@@ -91,7 +91,7 @@ public class SlashGuiSessionTestServlet extends WebsiteHtmlServlet {
 		widgets.add("Hostnames: ");
 		try {
 			final UlWidget ul = new UlWidget();
-			final List<String> hostnames = new ArrayList<>(netUtil.getHostnames());
+			final List<String> hostnames = new ArrayList<String>(netUtil.getHostnames());
 			Collections.sort(hostnames);
 			for (final String hostname : hostnames) {
 				ul.add(hostname);

@@ -65,7 +65,7 @@ public class TaskGuiWidgetFactory {
 		final TaskDueExpiredPredicate taskDueExpiredPredicate = new TaskDueExpiredPredicate(logger, calendarUtil, timeZone);
 		final TaskDueNotExpiredPredicate taskDueNotExpiredPredicate = new TaskDueNotExpiredPredicate(logger, calendarUtil, timeZone);
 
-		final List<Task> result = new ArrayList<>();
+		final List<Task> result = new ArrayList<Task>();
 		result.addAll(Collections2.filter(tasks, taskDueExpiredPredicate));
 		result.addAll(Collections2.filter(tasks, taskDueTodayPredicate));
 		result.addAll(Collections2.filter(tasks, taskDueNotExpiredPredicate));

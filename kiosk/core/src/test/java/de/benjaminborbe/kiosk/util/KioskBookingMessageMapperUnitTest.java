@@ -46,7 +46,7 @@ public class KioskBookingMessageMapperUnitTest {
 		EasyMock.replay(logger);
 
 		final ParseUtil parseUtil = new ParseUtilImpl();
-		final Provider<KioskBookingMessage> p = new ProviderMock<>(KioskBookingMessage.class);
+		final Provider<KioskBookingMessage> p = new ProviderMock<KioskBookingMessage>(KioskBookingMessage.class);
 		final MapperLong mapperLong = new MapperLong(parseUtil);
 		return new KioskBookingMessageMapperImpl(p, mapperLong);
 	}

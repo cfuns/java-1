@@ -41,7 +41,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<GalleryGroupBean>> buildRules() {
-		final Map<String, ValidatorRule<GalleryGroupBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<GalleryGroupBean>> result = new HashMap<String, ValidatorRule<GalleryGroupBean>>();
 		{
 			final String field = GalleryGroupBeanMapper.ID;
 			result.put(field, new ValidatorRule<GalleryGroupBean>() {
@@ -49,7 +49,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryGroupBean bean) {
 					final GalleryGroupIdentifier value = bean.getId();
-					final List<ValidationConstraint<GalleryGroupIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<GalleryGroupIdentifier>> constraints = new ArrayList<ValidationConstraint<GalleryGroupIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<GalleryGroupIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<GalleryGroupIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -63,7 +63,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryGroupBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -79,7 +79,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryGroupBean bean) {
 					final Integer value = bean.getPreviewLongSideMaxLength();
-					final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 					constraints.add(new ValidationConstraintOr<Integer>().add(new ValidationConstraintNull<Integer>()).add(new ValidationConstraintAnd<Integer>().add(new ValidationConstraintNotNull<Integer>()).add(new ValidationConstraintIntegerGE(0))));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -92,7 +92,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryGroupBean bean) {
 					final Integer value = bean.getPreviewLongSideMinLength();
-					final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 					constraints.add(new ValidationConstraintOr<Integer>().add(new ValidationConstraintNull<Integer>()).add(new ValidationConstraintAnd<Integer>().add(new ValidationConstraintNotNull<Integer>()).add(new ValidationConstraintIntegerGE(0))));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -105,7 +105,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryGroupBean bean) {
 					final Integer value = bean.getPreviewShortSideMaxLength();
-					final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 					constraints.add(new ValidationConstraintOr<Integer>().add(new ValidationConstraintNull<Integer>()).add(new ValidationConstraintAnd<Integer>().add(new ValidationConstraintNotNull<Integer>()).add(new ValidationConstraintIntegerGE(0))));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -118,7 +118,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryGroupBean bean) {
 					final Integer value = bean.getPreviewShortSideMinLength();
-					final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 					constraints.add(new ValidationConstraintOr<Integer>().add(new ValidationConstraintNull<Integer>()).add(new ValidationConstraintAnd<Integer>().add(new ValidationConstraintNotNull<Integer>()).add(new ValidationConstraintIntegerGE(0))));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -131,7 +131,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryGroupBean bean) {
 					final Integer value = bean.getLongSideMaxLength();
-					final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 					constraints.add(new ValidationConstraintOr<Integer>().add(new ValidationConstraintNull<Integer>()).add(new ValidationConstraintAnd<Integer>().add(new ValidationConstraintNotNull<Integer>()).add(new ValidationConstraintIntegerGE(0))));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -144,7 +144,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryGroupBean bean) {
 					final Integer value = bean.getLongSideMinLength();
-					final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 					constraints.add(new ValidationConstraintOr<Integer>().add(new ValidationConstraintNull<Integer>()).add(new ValidationConstraintAnd<Integer>().add(new ValidationConstraintNotNull<Integer>()).add(new ValidationConstraintIntegerGE(0))));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -157,7 +157,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryGroupBean bean) {
 					final Integer value = bean.getShortSideMaxLength();
-					final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 					constraints.add(new ValidationConstraintOr<Integer>().add(new ValidationConstraintNull<Integer>()).add(new ValidationConstraintAnd<Integer>().add(new ValidationConstraintNotNull<Integer>()).add(new ValidationConstraintIntegerGE(0))));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -170,7 +170,7 @@ public class GalleryGroupValidator extends ValidatorBase<GalleryGroupBean> {
 				@Override
 				public Collection<ValidationError> validate(final GalleryGroupBean bean) {
 					final Integer value = bean.getShortSideMinLength();
-					final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 					constraints.add(new ValidationConstraintOr<Integer>().add(new ValidationConstraintNull<Integer>()).add(new ValidationConstraintAnd<Integer>().add(new ValidationConstraintNotNull<Integer>()).add(new ValidationConstraintIntegerGE(0))));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}

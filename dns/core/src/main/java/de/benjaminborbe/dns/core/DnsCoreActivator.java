@@ -29,7 +29,7 @@ public class DnsCoreActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DnsService.class, dnsService));
 		result.add(new ServiceInfo(MonitoringCheck.class, dnsServerMonitoringCheck));
 		return result;

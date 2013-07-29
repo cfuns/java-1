@@ -41,7 +41,7 @@ public class Utils {
 		if (icons != null) {
 			return icons;
 		}
-		icons = new LinkedList<>();
+		icons = new LinkedList<Image>();
 		URL resource = Utils.class.getResource("/com/glavsoft/viewer/images/tightvnc-logo-16x16.png");
 		Image image = resource != null ? Toolkit.getDefaultToolkit().getImage(resource) : null;
 		if (image != null) {

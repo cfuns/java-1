@@ -66,11 +66,22 @@ public class LdapConnector {
 		} catch (final NamingException e) {
 			logger.trace(e.getClass().getName(), e);
 			return false;
-		} catch (final KeyManagementException | IOException | CertificateException | KeyStoreException | NoSuchAlgorithmException e) {
+		} catch (final KeyManagementException e) {
+			logger.debug(e.getClass().getName(), e);
+			throw new LdapException(e);
+		} catch (CertificateException e) {
+			logger.debug(e.getClass().getName(), e);
+			throw new LdapException(e);
+		} catch (NoSuchAlgorithmException e) {
+			logger.debug(e.getClass().getName(), e);
+			throw new LdapException(e);
+		} catch (KeyStoreException e) {
+			logger.debug(e.getClass().getName(), e);
+			throw new LdapException(e);
+		} catch (IOException e) {
 			logger.debug(e.getClass().getName(), e);
 			throw new LdapException(e);
 		}
-
 	}
 
 	public String getFullname(final String username) throws LdapException {
@@ -96,14 +107,24 @@ public class LdapConnector {
 			}
 			logger.debug("no user found " + username);
 			return null;
-		} catch (final NamingException | IOException | CertificateException | KeyStoreException | NoSuchAlgorithmException | KeyManagementException e) {
+		} catch (final NamingException e) {
+			throw new LdapException(e);
+		} catch (CertificateException e) {
+			throw new LdapException(e);
+		} catch (NoSuchAlgorithmException e) {
+			throw new LdapException(e);
+		} catch (KeyStoreException e) {
+			throw new LdapException(e);
+		} catch (IOException e) {
+			throw new LdapException(e);
+		} catch (KeyManagementException e) {
 			throw new LdapException(e);
 		}
 	}
 
 	public Collection<String> getUsernames() throws LdapException {
 		try {
-			final Set<String> result = new HashSet<>();
+			final Set<String> result = new HashSet<String>();
 			final Hashtable<String, String> env = getReadEnv();
 			final DirContext ctx = getDirContext(env);
 
@@ -117,7 +138,17 @@ public class LdapConnector {
 				result.add(String.valueOf(cn));
 			}
 			return result;
-		} catch (final NamingException | IOException | CertificateException | KeyStoreException | NoSuchAlgorithmException | KeyManagementException e) {
+		} catch (final NamingException e) {
+			throw new LdapException(e);
+		} catch (CertificateException e) {
+			throw new LdapException(e);
+		} catch (NoSuchAlgorithmException e) {
+			throw new LdapException(e);
+		} catch (KeyStoreException e) {
+			throw new LdapException(e);
+		} catch (IOException e) {
+			throw new LdapException(e);
+		} catch (KeyManagementException e) {
 			throw new LdapException(e);
 		}
 	}
@@ -136,7 +167,7 @@ public class LdapConnector {
 	}
 
 	private Hashtable<String, String> getBaseEnv() {
-		final Hashtable<String, String> env = new Hashtable<>();
+		final Hashtable<String, String> env = new Hashtable<String, String>();
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		env.put(Context.PROVIDER_URL, authenticationConfig.getProviderUrl());
 		env.put(Context.SECURITY_AUTHENTICATION, "simple");

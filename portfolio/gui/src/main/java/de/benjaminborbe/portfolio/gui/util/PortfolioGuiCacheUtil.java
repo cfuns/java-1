@@ -40,7 +40,7 @@ public class PortfolioGuiCacheUtil {
 	}
 
 	public List<String> getCacheAbleExtentions() {
-		final List<String> exts = new ArrayList<>();
+		final List<String> exts = new ArrayList<String>();
 		exts.add("css");
 		exts.add("js");
 		exts.add("gif");

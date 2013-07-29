@@ -31,7 +31,7 @@ public class DnsCoreServiceImpl implements DnsService {
 	@Override
 	public List<String> lookup(final String dnsServer, final String hostname) throws DnsServiceException {
 		try {
-			final List<String> result = new ArrayList<>();
+			final List<String> result = new ArrayList<String>();
 			logger.debug("lookup - server: " + dnsServer + " host: " + hostname);
 			final Lookup lookup = new Lookup(hostname, Type.ANY);
 			lookup.setResolver(new SimpleResolver(dnsServer));
@@ -55,7 +55,9 @@ public class DnsCoreServiceImpl implements DnsService {
 				}
 			}
 			return result;
-		} catch (TextParseException | UnknownHostException e) {
+		} catch (TextParseException e) {
+			throw new DnsServiceException(e);
+		} catch (UnknownHostException e) {
 			throw new DnsServiceException(e);
 		}
 	}

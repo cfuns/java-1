@@ -57,7 +57,7 @@ public abstract class LunchGuiHtmlServlet extends WebsiteHtmlServlet {
 
 	@Override
 	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
-		final List<JavascriptResource> result = new ArrayList<>(super.getJavascriptResources(request, response));
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>(super.getJavascriptResources(request, response));
 		result.add(new JavascriptResourceImpl(request.getContextPath() + "/" + LunchGuiConstants.NAME + LunchGuiConstants.URL_JS_SCRIPT));
 		return result;
 	}

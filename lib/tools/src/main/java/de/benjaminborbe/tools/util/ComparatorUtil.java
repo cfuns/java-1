@@ -18,7 +18,7 @@ public class ComparatorUtil {
 		if (collection instanceof List) {
 			list = (List<T>) collection;
 		} else {
-			list = new ArrayList<>(collection);
+			list = new ArrayList<T>(collection);
 		}
 		Collections.sort(list, comparator);
 		return list;
@@ -29,7 +29,7 @@ public class ComparatorUtil {
 		if (collection instanceof List) {
 			list = (List<T>) collection;
 		} else {
-			list = new ArrayList<>(collection);
+			list = new ArrayList<T>(collection);
 		}
 		Collections.sort(list);
 		return list;

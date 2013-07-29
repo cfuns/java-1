@@ -66,8 +66,8 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new DivWidget().addId("chart"));
 
-			final List<List<String>> tooltips = new ArrayList<>();
-			final List<List<String>> values = new ArrayList<>();
+			final List<List<String>> tooltips = new ArrayList<List<String>>();
+			final List<List<String>> values = new ArrayList<List<String>>();
 			final DecimalFormat df = new DecimalFormat("#####0.0");
 
 			for (int i = 0; i < reportIdentifiers.size(); ++i) {
@@ -189,8 +189,8 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		}
 		final StringBuilder sb = new StringBuilder();
 
-		final IteratorWithException<String, IteratorException> ti = new IteratorByListReverse<>(tooltips);
-		final IteratorWithException<String, IteratorException> vi = new IteratorByListReverse<>(values);
+		final IteratorWithException<String, IteratorException> ti = new IteratorByListReverse<String, IteratorException>(tooltips);
+		final IteratorWithException<String, IteratorException> vi = new IteratorByListReverse<String, IteratorException>(values);
 		boolean first = true;
 		while (ti.hasNext() && vi.hasNext()) {
 			final String tooltip = ti.next();
@@ -215,7 +215,7 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 	@Override
 	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<JavascriptResource> result = new ArrayList<>();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		result.add(new JavascriptResourceImpl(request.getScheme() + "://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"));
 		result.add(new JavascriptResourceImpl(contextPath + "/" + AnalyticsGuiConstants.NAME + "/js/raphael.js"));
 		result.add(new JavascriptResourceImpl(contextPath + "/" + AnalyticsGuiConstants.NAME + "/js/elycharts.min.js"));

@@ -53,7 +53,7 @@ public class UserValidator extends ValidatorBase<UserBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<UserBean>> buildRules() {
-		final Map<String, ValidatorRule<UserBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<UserBean>> result = new HashMap<String, ValidatorRule<UserBean>>();
 
 		// id
 		{
@@ -62,7 +62,7 @@ public class UserValidator extends ValidatorBase<UserBean> {
 
 				@Override
 				public Collection<ValidationError> validate(final UserBean bean) {
-					final Set<ValidationError> result = new HashSet<>();
+					final Set<ValidationError> result = new HashSet<ValidationError>();
 					try {
 						final UserIdentifier value = bean.getId();
 						if (value == null || value.getId() == null || value.getId().length() == 0) {
@@ -89,7 +89,7 @@ public class UserValidator extends ValidatorBase<UserBean> {
 				@Override
 				public Collection<ValidationError> validate(final UserBean bean) {
 					final String emailValue = bean.getEmail();
-					final List<ValidationConstraint<String>> emailConstraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> emailConstraints = new ArrayList<ValidationConstraint<String>>();
 					emailConstraints.add(new ValidationConstraintNotNull<String>());
 					emailConstraints.add(new ValidationConstraintStringMinLength(1));
 					emailConstraints.add(new ValidationConstraintStringMaxLength(255));
@@ -97,7 +97,7 @@ public class UserValidator extends ValidatorBase<UserBean> {
 					final Collection<ValidationError> emailResult = validationConstraintValidator.validate(field, emailValue, emailConstraints);
 
 					final String emailNewValue = bean.getEmailNew();
-					final List<ValidationConstraint<String>> emailNewConstraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> emailNewConstraints = new ArrayList<ValidationConstraint<String>>();
 					emailNewConstraints.add(new ValidationConstraintNotNull<String>());
 					emailNewConstraints.add(new ValidationConstraintStringMinLength(1));
 					emailNewConstraints.add(new ValidationConstraintStringMaxLength(255));
@@ -121,7 +121,7 @@ public class UserValidator extends ValidatorBase<UserBean> {
 				@Override
 				public Collection<ValidationError> validate(final UserBean bean) {
 					final String value = bean.getEmailNew();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintOr<String>().add(new ValidationConstraintNull<String>()).add(
 						new ValidationConstraintAnd<String>().add(new ValidationConstraintStringMinLength(1)).add(new ValidationConstraintStringMaxLength(255))
 							.add(new ValidationConstraintStringEmail())));

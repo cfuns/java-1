@@ -54,7 +54,7 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 			logger.debug("getGalleryImages id: " + galleryIdentifier);
 			final Predicate<GalleryEntryBean> p = new GalleryPredicate(galleryIdentifier);
 			final EntityIterator<GalleryEntryBean> i = getEntityIterator();
-			final List<GalleryEntryBean> result = new ArrayList<>();
+			final List<GalleryEntryBean> result = new ArrayList<GalleryEntryBean>();
 			while (i.hasNext()) {
 				final GalleryEntryBean image = i.next();
 				if (p.apply(image)) {
@@ -70,7 +70,7 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 	@Override
 	public Collection<GalleryEntryIdentifier> getGalleryImageIdentifiers(final GalleryCollectionIdentifier galleryIdentifier) throws StorageException {
 		final Collection<GalleryEntryBean> images = getGalleryImages(galleryIdentifier);
-		final Set<GalleryEntryIdentifier> result = new HashSet<>();
+		final Set<GalleryEntryIdentifier> result = new HashSet<GalleryEntryIdentifier>();
 		for (final GalleryEntryBean image : images) {
 			result.add(image.getId());
 		}
@@ -79,7 +79,7 @@ public class GalleryEntryDaoStorage extends DaoStorage<GalleryEntryBean, Gallery
 
 	@Override
 	public EntityIterator<GalleryEntryBean> getEntityIteratorShared() throws StorageException {
-		return new EntityIteratorFilter<>(getEntityIterator(), new SharedPredicate<GalleryEntryBean>());
+		return new EntityIteratorFilter<GalleryEntryBean>(getEntityIterator(), new SharedPredicate<GalleryEntryBean>());
 	}
 
 }

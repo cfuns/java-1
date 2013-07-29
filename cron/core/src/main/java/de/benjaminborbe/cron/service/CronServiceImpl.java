@@ -64,7 +64,7 @@ public class CronServiceImpl implements CronService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 
-			final List<CronIdentifier> result = new ArrayList<>();
+			final List<CronIdentifier> result = new ArrayList<CronIdentifier>();
 
 			for (final CronJob cron : cronJobRegistry.getAll()) {
 				result.add(createCronIdentifier(cron.getClass().getName()));
@@ -87,7 +87,11 @@ public class CronServiceImpl implements CronService {
 		try {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			cronMessageSender.send(cronIdentifier.getId());
-		} catch (final AuthorizationServiceException | MessageServiceException | MapException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new CronServiceException(e);
+		} catch (MessageServiceException e) {
+			throw new CronServiceException(e);
+		} catch (MapException e) {
 			throw new CronServiceException(e);
 		}
 	}

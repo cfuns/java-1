@@ -84,26 +84,26 @@ public class StorageExporterIntegrationTest {
 
 		{
 			final String id = idGeneratorUUID.nextId();
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put("a", "a");
 			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 		{
 			final String id = idGeneratorUUID.nextId();
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put("a", "b");
 			data.put("b", "b");
 			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 		{
 			final String id = idGeneratorUUID.nextId();
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put("c", "c");
 			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
 		}
 		{
 			final String id = idGeneratorUUID.nextId();
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put("c", "'");
 			data.put("d", "\"");
 			daoUtil.insert(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY, c(id, encoding), c(data, encoding));
@@ -120,7 +120,7 @@ public class StorageExporterIntegrationTest {
 	}
 
 	private Map<StorageValue, StorageValue> c(final Map<String, String> data, final String encoding) {
-		final Map<StorageValue, StorageValue> result = new HashMap<>();
+		final Map<StorageValue, StorageValue> result = new HashMap<StorageValue, StorageValue>();
 		for (final Entry<String, String> e : data.entrySet()) {
 			result.put(c(e.getKey(), encoding), c(e.getValue(), encoding));
 		}

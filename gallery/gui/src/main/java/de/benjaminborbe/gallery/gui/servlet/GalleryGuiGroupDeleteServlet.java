@@ -65,7 +65,11 @@ public class GalleryGuiGroupDeleteServlet extends GalleryGuiWebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final GalleryGroupIdentifier galleryGroupIdentifier = galleryService.createGroupIdentifier(request.getParameter(GalleryGuiConstants.PARAMETER_GROUP_ID));
 			galleryService.deleteGroup(sessionIdentifier, galleryGroupIdentifier);
-		} catch (final GalleryServiceException | LoginRequiredException | AuthenticationServiceException e) {
+		} catch (final GalleryServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (LoginRequiredException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

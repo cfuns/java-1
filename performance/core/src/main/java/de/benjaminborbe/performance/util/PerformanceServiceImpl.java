@@ -27,7 +27,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 
 	private final Logger logger;
 
-	private final Map<String, Long> data = new HashMap<>();
+	private final Map<String, Long> data = new HashMap<String, Long>();
 
 	@Inject
 	public PerformanceServiceImpl(final Logger logger) {
@@ -48,7 +48,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 	}
 
 	protected List<PerformanceEntry> buildPerformanceEntries() {
-		final List<PerformanceEntry> result = new ArrayList<>();
+		final List<PerformanceEntry> result = new ArrayList<PerformanceEntry>();
 		for (final Entry<String, Long> e : data.entrySet()) {
 			result.add(new PerformanceEntry(e.getKey(), e.getValue()));
 		}

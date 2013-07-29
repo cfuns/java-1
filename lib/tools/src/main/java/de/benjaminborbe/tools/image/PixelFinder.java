@@ -21,7 +21,7 @@ public class PixelFinder {
 	}
 
 	public Collection<Coordinate> find(final Pixels image, final Pixels subImage, final int matchInPercent) {
-		final List<Coordinate> result = new ArrayList<>();
+		final List<Coordinate> result = new ArrayList<Coordinate>();
 		for (int xi = 1; xi <= image.getWidth() - subImage.getWidth() + 1; ++xi) {
 			for (int yi = 1; yi <= image.getHeight() - subImage.getHeight() + 1; ++yi) {
 				if (isMatch(image, subImage, xi, yi, matchInPercent)) {

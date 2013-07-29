@@ -31,7 +31,7 @@ public class RunOnlyOnceATimeAsync {
 
 	private final ThreadRunner threadRunner;
 
-	private final ThreadResult<Boolean> running = new ThreadResult<>(false);
+	private final ThreadResult<Boolean> running = new ThreadResult<Boolean>(false);
 
 	@Inject
 	public RunOnlyOnceATimeAsync(final Logger logger, final ThreadRunner threadRunner) {

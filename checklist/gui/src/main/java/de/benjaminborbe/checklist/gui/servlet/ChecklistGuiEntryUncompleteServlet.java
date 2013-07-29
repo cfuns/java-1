@@ -66,7 +66,11 @@ public class ChecklistGuiEntryUncompleteServlet extends ChecklistGuiWebsiteServl
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final ChecklistEntryIdentifier identifier = new ChecklistEntryIdentifier(request.getParameter(ChecklistGuiConstants.PARAMETER_ENTRY_ID));
 			checklistService.uncomplete(sessionIdentifier, identifier);
-		} catch (final AuthenticationServiceException | ValidationException | ChecklistServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ChecklistServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ValidationException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

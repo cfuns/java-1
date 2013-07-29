@@ -111,7 +111,11 @@ public class DhlGuiListServlet extends DhlWebsiteHtmlServlet {
 			widgets.add(ul);
 			widgets.add(new DhlGuiCreateDhlIdentifierLink(request));
 			return widgets;
-		} catch (final AuthenticationServiceException | DhlServiceException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (AuthorizationServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (DhlServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

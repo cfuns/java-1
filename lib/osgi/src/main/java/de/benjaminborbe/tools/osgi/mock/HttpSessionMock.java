@@ -10,7 +10,7 @@ import java.util.Vector;
 @SuppressWarnings("deprecation")
 public class HttpSessionMock implements HttpSession {
 
-	private final HashMap<String, Object> attributes = new HashMap<>();
+	private final HashMap<String, Object> attributes = new HashMap<String, Object>();
 
 	public Object getAttribute(final String arg0) {
 		return attributes.get(arg0);

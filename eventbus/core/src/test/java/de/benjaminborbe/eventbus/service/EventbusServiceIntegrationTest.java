@@ -33,7 +33,7 @@ public class EventbusServiceIntegrationTest {
 		assertNotNull(Eventbus);
 		assertEquals(EventbusServiceImpl.class, Eventbus.getClass());
 
-		final List<EventbusInitializedEvent> events = new ArrayList<>();
+		final List<EventbusInitializedEvent> events = new ArrayList<EventbusInitializedEvent>();
 
 		assertEquals(0, Eventbus.getHandlerCount(EventbusInitializedEvent.TYPE));
 		assertFalse(Eventbus.isEventHandled(EventbusInitializedEvent.TYPE));

@@ -56,7 +56,7 @@ public class BeanSearcherUnitTest {
 	public void testSearch() {
 		final BeanSearcher<Bean> beanSearcher = new BeanSearchImpl();
 		final int limit = Integer.MAX_VALUE;
-		final List<Bean> beans = new ArrayList<>();
+		final List<Bean> beans = new ArrayList<Bean>();
 		assertEquals(0, beanSearcher.search(beans, limit, Arrays.asList("hello", "world")).size());
 		beans.add(buildBean("test", "bla"));
 		assertEquals(0, beanSearcher.search(beans, limit, Arrays.asList("hello", "world")).size());
@@ -75,7 +75,7 @@ public class BeanSearcherUnitTest {
 		final BeanSearcher<Bean> beanSearcher = new BeanSearchImpl();
 		final int limit = Integer.MAX_VALUE;
 		{
-			final List<Bean> beans = new ArrayList<>();
+			final List<Bean> beans = new ArrayList<Bean>();
 			beans.add(buildBean("hello", "world"));
 			assertEquals(1, beanSearcher.search(beans, limit, Arrays.asList("hello")).size());
 			assertEquals(2 * 1000 / 3, beanSearcher.search(beans, limit, Arrays.asList("hello")).get(0).getMatchCounter());
@@ -83,21 +83,21 @@ public class BeanSearcherUnitTest {
 			assertEquals(1 * 1000 / 3, beanSearcher.search(beans, limit, Arrays.asList("world")).get(0).getMatchCounter());
 		}
 		{
-			final List<Bean> beans = new ArrayList<>();
+			final List<Bean> beans = new ArrayList<Bean>();
 			beans.add(buildBean("hello", "world"));
 			assertEquals(1, beanSearcher.search(beans, limit, Arrays.asList("hello", "world")).size());
 			assertEquals(3 * 1000 / 3, beanSearcher.search(beans, limit, Arrays.asList("hello", "world")).get(0).getMatchCounter());
 		}
 
 		{
-			final List<Bean> beans = new ArrayList<>();
+			final List<Bean> beans = new ArrayList<Bean>();
 			beans.add(buildBean("hello", "world world world world world"));
 			assertEquals(1, beanSearcher.search(beans, limit, Arrays.asList("world")).size());
 			assertEquals(5 * 1000 / 3, beanSearcher.search(beans, limit, Arrays.asList("world")).get(0).getMatchCounter());
 		}
 
 		{
-			final List<Bean> beans = new ArrayList<>();
+			final List<Bean> beans = new ArrayList<Bean>();
 			beans.add(buildBean("hello", "world world world world world world"));
 			assertEquals(1, beanSearcher.search(beans, limit, Arrays.asList("world")).size());
 			assertEquals(5 * 1000 / 3, beanSearcher.search(beans, limit, Arrays.asList("world")).get(0).getMatchCounter());

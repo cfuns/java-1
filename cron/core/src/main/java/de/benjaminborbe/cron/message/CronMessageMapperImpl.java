@@ -18,11 +18,11 @@ public class CronMessageMapperImpl implements CronMessageMapper {
 
 	@Inject
 	public CronMessageMapperImpl(final Provider<CronMessage> messageProvider, final MapperString mapperString) {
-		mapper = new JsonObjectMapper<>(messageProvider, build(mapperString));
+		mapper = new JsonObjectMapper<CronMessage>(messageProvider, build(mapperString));
 	}
 
 	private Collection<StringObjectMapper<CronMessage>> build(final MapperString mapperString) {
-		final List<StringObjectMapper<CronMessage>> result = new ArrayList<>();
+		final List<StringObjectMapper<CronMessage>> result = new ArrayList<StringObjectMapper<CronMessage>>();
 		result.add(new StringObjectMapperAdapter<CronMessage, String>("name", mapperString));
 		return result;
 	}

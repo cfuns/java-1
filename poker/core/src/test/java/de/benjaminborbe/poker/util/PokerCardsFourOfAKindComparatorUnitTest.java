@@ -55,7 +55,7 @@ public class PokerCardsFourOfAKindComparatorUnitTest {
 	}
 
 	private Collection<PokerCardIdentifier> buildCards(final PokerCardValue... values) {
-		final List<PokerCardIdentifier> result = new ArrayList<>();
+		final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
 		for (final PokerCardValue value : values) {
 			result.add(new PokerCardIdentifier(PokerCardColor.CLUBS, value));
 		}

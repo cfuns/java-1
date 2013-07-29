@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class UlWidget extends CompositeWidget implements HasClass<UlWidget>, HasId<UlWidget> {
 
-	private final Set<String> classes = new HashSet<>();
+	private final Set<String> classes = new HashSet<String>();
 
 	private final ListWidget list = new ListWidget();
 

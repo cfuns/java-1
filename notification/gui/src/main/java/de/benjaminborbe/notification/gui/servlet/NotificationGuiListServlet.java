@@ -120,7 +120,15 @@ public class NotificationGuiListServlet extends WebsiteHtmlServlet {
 			}
 
 			return widgets;
-		} catch (final AuthenticationServiceException | NotificationServiceException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		} catch (NotificationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		} catch (AuthorizationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

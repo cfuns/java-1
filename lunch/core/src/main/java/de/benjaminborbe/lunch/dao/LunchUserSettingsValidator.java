@@ -71,7 +71,7 @@ public class LunchUserSettingsValidator extends ValidatorBase<LunchUserSettingsB
 
 	@Override
 	protected Map<String, ValidatorRule<LunchUserSettingsBean>> buildRules() {
-		final Map<String, ValidatorRule<LunchUserSettingsBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<LunchUserSettingsBean>> result = new HashMap<String, ValidatorRule<LunchUserSettingsBean>>();
 
 		// id
 		{
@@ -81,7 +81,7 @@ public class LunchUserSettingsValidator extends ValidatorBase<LunchUserSettingsB
 				@Override
 				public Collection<ValidationError> validate(final LunchUserSettingsBean bean) {
 					final LunchUserSettingsIdentifier value = bean.getId();
-					final List<ValidationConstraint<LunchUserSettingsIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<LunchUserSettingsIdentifier>> constraints = new ArrayList<ValidationConstraint<LunchUserSettingsIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<LunchUserSettingsIdentifier>());
 					constraints.add(new ValidationConstraintUsername("alle", "root", "admin"));
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -96,7 +96,7 @@ public class LunchUserSettingsValidator extends ValidatorBase<LunchUserSettingsB
 
 				@Override
 				public Collection<ValidationError> validate(final LunchUserSettingsBean bean) {
-					final Set<ValidationError> result = new HashSet<>();
+					final Set<ValidationError> result = new HashSet<ValidationError>();
 					final UserIdentifier owner = bean.getOwner();
 					try {
 						if (!authenticationService.existsUser(owner)) {

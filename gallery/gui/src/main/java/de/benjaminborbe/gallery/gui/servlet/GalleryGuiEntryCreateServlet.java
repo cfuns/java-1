@@ -109,8 +109,8 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiWebsiteHtmlServlet {
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 
-			final Map<String, FileItem> files = new HashMap<>();
-			final Map<String, String> parameter = new HashMap<>();
+			final Map<String, FileItem> files = new HashMap<String, FileItem>();
+			final Map<String, String> parameter = new HashMap<String, String>();
 			final boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			if (isMultipart) {
 				logger.info("isMultipart");
@@ -227,7 +227,7 @@ public class GalleryGuiEntryCreateServlet extends GalleryGuiWebsiteHtmlServlet {
 
 		Long prio;
 		Boolean shared;
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		{
 			try {
 				if (prioString == null || prioString.length() == 0) {

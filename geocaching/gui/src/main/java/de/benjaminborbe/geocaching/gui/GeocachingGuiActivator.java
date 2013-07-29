@@ -32,7 +32,7 @@ public class GeocachingGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(geocachingGuiServlet, "/"));
 		result.add(new ServletInfo(geocachingGuiCurrentLocationOnGoogleMapsServlet, "/loc"));
 		return result;

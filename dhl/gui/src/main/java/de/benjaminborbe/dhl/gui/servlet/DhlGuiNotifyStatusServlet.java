@@ -83,7 +83,9 @@ public class DhlGuiNotifyStatusServlet extends DhlWebsiteHtmlServlet {
 			dhlService.notifyStatus(sessionIdentifier, dhlIdentifier);
 			widgets.add("status mailed");
 			return widgets;
-		} catch (final DhlServiceException | AuthenticationServiceException e) {
+		} catch (final DhlServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

@@ -21,9 +21,9 @@ public class HeadWidget implements Widget {
 
 	private String title;
 
-	private final List<JavascriptResource> javascriptResources = new ArrayList<>();
+	private final List<JavascriptResource> javascriptResources = new ArrayList<JavascriptResource>();
 
-	private final List<CssResource> cssResources = new ArrayList<>();
+	private final List<CssResource> cssResources = new ArrayList<CssResource>();
 
 	private final ListWidget widgets = new ListWidget();
 

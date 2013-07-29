@@ -41,7 +41,9 @@ public class ConfigurationServiceJndi implements ConfigurationService {
 				logger.trace("name: " + name + " value: " + value);
 				return String.valueOf(value);
 			}
-		} catch (final NameNotFoundException | NoInitialContextException e) {
+		} catch (final NoInitialContextException e) {
+			// nop
+		} catch (final NameNotFoundException e) {
 			// nop
 		} catch (final NamingException e) {
 			logger.debug(e.getClass().getName(), e);

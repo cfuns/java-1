@@ -37,7 +37,7 @@ public class GwtServerActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>();
+		final Set<ServletInfo> result = new HashSet<ServletInfo>();
 
 		result.add(new ServletInfo(gwtServlet, GwtServerConstants.URL_HOME));
 		result.add(new ServletInfo(gwtHomeServlet, GwtServerConstants.URL_HOME_HTML));
@@ -47,7 +47,7 @@ public class GwtServerActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo("/Home", "Home"));
 		return result;
 	}

@@ -16,14 +16,13 @@ public class MapObjectMapperAdapter<T> extends MapObjectMapperBase<T> {
 
 	private final List<StringObjectMapper<T>> mappings;
 
-	@SafeVarargs
 	public MapObjectMapperAdapter(final Provider<T> provider, final StringObjectMapper<T>... mapSingles) {
 		this(provider, Arrays.asList(mapSingles));
 	}
 
 	public MapObjectMapperAdapter(final Provider<T> provider, final Collection<StringObjectMapper<T>> mapSingles) {
 		super(provider);
-		mappings = new ArrayList<>(mapSingles);
+		mappings = new ArrayList<StringObjectMapper<T>>(mapSingles);
 	}
 
 	@Override
@@ -63,6 +62,6 @@ public class MapObjectMapperAdapter<T> extends MapObjectMapperBase<T> {
 	}
 
 	private Set<String> toSet(final Collection<String> fieldNames) {
-		return new HashSet<>(fieldNames);
+		return new HashSet<String>(fieldNames);
 	}
 }

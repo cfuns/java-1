@@ -63,7 +63,7 @@ public class StorageColumnIteratorMock implements StorageColumnIterator {
 	private final Iterator<StorageColumn> i;
 
 	public StorageColumnIteratorMock(final Map<StorageValue, StorageValue> data) {
-		final List<StorageColumn> columns = new ArrayList<>();
+		final List<StorageColumn> columns = new ArrayList<StorageColumn>();
 		if (data != null) {
 			for (final Entry<StorageValue, StorageValue> e : data.entrySet()) {
 				columns.add(new StorageColumnImpl(e.getKey(), e.getValue()));

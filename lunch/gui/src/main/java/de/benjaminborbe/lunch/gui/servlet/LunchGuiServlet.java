@@ -56,7 +56,7 @@ public class LunchGuiServlet extends LunchGuiBaseServlet {
 		final SessionIdentifier sessionIdentifier,
 		final String fullname
 	) throws LunchServiceException, LoginRequiredException, PermissionDeniedException {
-		return new ArrayList<>(lunchService.getLunchs(sessionIdentifier, fullname));
+		return new ArrayList<Lunch>(lunchService.getLunchs(sessionIdentifier, fullname));
 	}
 
 }

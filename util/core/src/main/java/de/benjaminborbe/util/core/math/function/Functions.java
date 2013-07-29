@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class Functions {
 
-	private final Set<String> functions = new HashSet<>(Arrays.asList("add"));
+	private final Set<String> functions = new HashSet<String>(Arrays.asList("add"));
 
 	public boolean existsByName(final String name) {
 		return functions.contains(name);

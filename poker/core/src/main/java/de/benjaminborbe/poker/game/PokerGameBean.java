@@ -38,13 +38,13 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Integer buttonPosition;
 
-	private List<PokerPlayerIdentifier> players = new ArrayList<>();
+	private List<PokerPlayerIdentifier> players = new ArrayList<PokerPlayerIdentifier>();
 
-	private List<PokerPlayerIdentifier> activePlayers = new ArrayList<>();
+	private List<PokerPlayerIdentifier> activePlayers = new ArrayList<PokerPlayerIdentifier>();
 
-	private List<PokerCardIdentifier> cards = new ArrayList<>();
+	private List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
 
-	private List<PokerCardIdentifier> boardCards = new ArrayList<>();
+	private List<PokerCardIdentifier> boardCards = new ArrayList<PokerCardIdentifier>();
 
 	private Integer cardPosition;
 

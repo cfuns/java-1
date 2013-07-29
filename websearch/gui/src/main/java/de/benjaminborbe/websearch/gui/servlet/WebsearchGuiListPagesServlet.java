@@ -124,7 +124,7 @@ public class WebsearchGuiListPagesServlet extends WebsiteHtmlServlet {
 	}
 
 	protected List<WebsearchPage> sortPages(final Collection<WebsearchPage> pages) {
-		final List<WebsearchPage> result = new ArrayList<>(pages);
+		final List<WebsearchPage> result = new ArrayList<WebsearchPage>(pages);
 		Collections.sort(result, new PageComparator());
 		return result;
 	}

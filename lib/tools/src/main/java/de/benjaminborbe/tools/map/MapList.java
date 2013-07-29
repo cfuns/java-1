@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class MapList<K, V> {
 
-	private final Map<K, List<V>> data = new HashMap<>();
+	private final Map<K, List<V>> data = new HashMap<K, List<V>>();
 
 	public void add(final K key, final V value) {
 		get(key).add(value);

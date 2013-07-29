@@ -68,7 +68,11 @@ public class SeleniumGuiConfigurationXmlDeleteServlet extends WebsiteServlet {
 			final SeleniumConfigurationIdentifier seleniumConfigurationIdentifier = seleniumService.createSeleniumConfigurationIdentifier(request
 				.getParameter(SeleniumGuiConstants.PARAMETER_CONFIGURATION_ID));
 			seleniumConfigurationXmlService.deleteXml(sessionIdentifier, seleniumConfigurationIdentifier);
-		} catch (final SeleniumConfigurationXmlServiceException | AuthenticationServiceException | SeleniumServiceException e) {
+		} catch (final SeleniumConfigurationXmlServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (SeleniumServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

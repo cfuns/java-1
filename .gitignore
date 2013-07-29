@@ -1,3 +1,7 @@
+bridge/war/poker/de.benjaminborbe.bridge.war.poker.iml
+bridge/war/selenium/de.benjaminborbe.bridge.war.selenium.iml
+meta/poker/de.benjaminborbe.meta.poker.iml
+meta/selenium/de.benjaminborbe.meta.selenium.iml
 httpdownloader/tools/de.benjaminborbe.storage.httpdownloader.iml
 selenium/configuration/xml/de.benjaminborbe.selenium.configuration.xml.iml
 selenium/parser/de.benjaminborbe.selenium.parser.iml

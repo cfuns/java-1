@@ -121,7 +121,9 @@ public class MessageServiceImpl implements MessageService {
 				messageDao.save(bean);
 				track(analyticsReportIdentifierMessageInsert);
 			}
-		} catch (final StorageException | ValidationException e) {
+		} catch (final StorageException e) {
+			throw new MessageServiceException(e);
+		} catch (ValidationException e) {
 			throw new MessageServiceException(e);
 		}
 	}
@@ -180,7 +182,11 @@ public class MessageServiceImpl implements MessageService {
 				final MessageIdentifier messageIdentifier = i.next();
 				messageDao.delete(messageIdentifier);
 			}
-		} catch (final AuthorizationServiceException | IdentifierIteratorException | StorageException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new MessageServiceException(e);
+		} catch (StorageException e) {
+			throw new MessageServiceException(e);
+		} catch (IdentifierIteratorException e) {
 			throw new MessageServiceException(e);
 		}
 	}
@@ -192,14 +198,18 @@ public class MessageServiceImpl implements MessageService {
 
 			logger.debug("getMessages");
 
-			final List<Message> result = new ArrayList<>();
+			final List<Message> result = new ArrayList<Message>();
 			final EntityIterator<MessageBean> i = messageDao.getEntityIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 
 			return result;
-		} catch (final AuthorizationServiceException | EntityIteratorException | StorageException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new MessageServiceException(e);
+		} catch (StorageException e) {
+			throw new MessageServiceException(e);
+		} catch (EntityIteratorException e) {
 			throw new MessageServiceException(e);
 		}
 	}
@@ -212,7 +222,9 @@ public class MessageServiceImpl implements MessageService {
 			authorizationService.expectAdminRole(sessionIdentifier);
 			logger.debug("get message with id: " + messageIdentifier);
 			return messageDao.load(messageIdentifier);
-		} catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new MessageServiceException(e);
+		} catch (StorageException e) {
 			throw new MessageServiceException(e);
 		}
 	}
@@ -229,7 +241,9 @@ public class MessageServiceImpl implements MessageService {
 			logger.debug("deleteById - message: " + messageIdentifier);
 
 			messageDao.delete(messageIdentifier);
-		} catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new MessageServiceException(e);
+		} catch (StorageException e) {
 			throw new MessageServiceException(e);
 		}
 	}

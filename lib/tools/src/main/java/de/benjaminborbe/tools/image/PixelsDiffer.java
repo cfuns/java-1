@@ -24,7 +24,7 @@ public class PixelsDiffer {
 	public List<Coordinate> diff(final Pixels pixelsA, final Pixels pixelsB, final PixelFilter pixelFilter) {
 		logger.debug("diff");
 
-		final List<Coordinate> result = new ArrayList<>();
+		final List<Coordinate> result = new ArrayList<Coordinate>();
 		if (pixelsA.getWidth() != pixelsB.getWidth() || pixelsA.getHeight() != pixelsB.getHeight()) {
 			throw new IllegalArgumentException("different size");
 		}

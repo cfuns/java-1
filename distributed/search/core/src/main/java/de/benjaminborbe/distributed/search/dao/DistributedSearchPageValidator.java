@@ -50,7 +50,7 @@ public class DistributedSearchPageValidator extends ValidatorBase<DistributedSea
 
 	@Override
 	protected Map<String, ValidatorRule<DistributedSearchPageBean>> buildRules() {
-		final Map<String, ValidatorRule<DistributedSearchPageBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<DistributedSearchPageBean>> result = new HashMap<String, ValidatorRule<DistributedSearchPageBean>>();
 
 		// index
 		{
@@ -60,7 +60,7 @@ public class DistributedSearchPageValidator extends ValidatorBase<DistributedSea
 				@Override
 				public Collection<ValidationError> validate(final DistributedSearchPageBean bean) {
 					final String value = bean.getIndex();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

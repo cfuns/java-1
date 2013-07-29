@@ -18,9 +18,9 @@ import java.util.Set;
 
 public class TableRowWidget extends CompositeWidget implements Widget, HasClass<TableRowWidget> {
 
-	private final Set<String> classes = new HashSet<>();
+	private final Set<String> classes = new HashSet<String>();
 
-	private final List<TableCellWidget> cells = new ArrayList<>();
+	private final List<TableCellWidget> cells = new ArrayList<TableCellWidget>();
 
 	@Override
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {

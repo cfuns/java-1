@@ -156,7 +156,9 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 			}
 
 			return new DivWidget(widgets).addClass("taskView");
-		} catch (final AuthenticationServiceException | TaskServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (TaskServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}
@@ -281,7 +283,7 @@ public class TaskGuiTaskViewServlet extends TaskGuiWebsiteHtmlServlet {
 
 		// taskContext
 		{
-			final List<TaskContext> taskContexts = new ArrayList<>(taskService.getTaskContexts(sessionIdentifier));
+			final List<TaskContext> taskContexts = new ArrayList<TaskContext>(taskService.getTaskContexts(sessionIdentifier));
 			Collections.sort(taskContexts, new TaskContextComparator());
 			final ListWidget contextList = new ListWidget();
 			contextList.add("Context: ");

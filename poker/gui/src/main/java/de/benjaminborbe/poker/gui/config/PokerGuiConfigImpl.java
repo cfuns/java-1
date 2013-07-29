@@ -32,7 +32,7 @@ public class PokerGuiConfigImpl extends ConfigurationBase implements PokerGuiCon
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(jsonApiEnabled);
 		result.add(dashboardToken);
 		return result;

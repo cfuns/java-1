@@ -56,7 +56,7 @@ public class Queue<M> {
 		this.logger = logger;
 		this.threadRunner = threadRunner;
 		this.queueConsumer = queueConsumer;
-		this.queue = new LinkedBlockingQueue<>();
+		this.queue = new LinkedBlockingQueue<M>();
 	}
 
 	public void put(final M message) {

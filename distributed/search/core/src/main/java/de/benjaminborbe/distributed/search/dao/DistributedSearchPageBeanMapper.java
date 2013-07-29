@@ -46,7 +46,7 @@ public class DistributedSearchPageBeanMapper extends MapObjectMapperAdapter<Dist
 		final MapperDistributedSearchPageIdentifier mapperEntryIdentifier,
 		final MapperString mapperString, final MapperCalendar mapperCalendar
 	) {
-		final List<StringObjectMapper<DistributedSearchPageBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<DistributedSearchPageBean>> result = new ArrayList<StringObjectMapper<DistributedSearchPageBean>>();
 		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, DistributedSearchPageIdentifier>(ID, mapperEntryIdentifier));
 		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, String>(INDEX, mapperString));
 		result.add(new StringObjectMapperAdapter<DistributedSearchPageBean, String>(TITLE, mapperString));

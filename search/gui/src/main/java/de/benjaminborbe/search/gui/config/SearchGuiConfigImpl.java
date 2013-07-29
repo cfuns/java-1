@@ -30,7 +30,7 @@ public class SearchGuiConfigImpl extends ConfigurationBase implements SearchGuiC
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(authToken);
 		return result;
 	}

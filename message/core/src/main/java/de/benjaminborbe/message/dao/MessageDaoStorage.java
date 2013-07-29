@@ -63,6 +63,6 @@ public class MessageDaoStorage extends DaoStorage<MessageBean, MessageIdentifier
 
 	@Override
 	public EntityIterator<MessageBean> findExpired() throws StorageException {
-		return new EntityIteratorFilter<>(getEntityIterator(), new MessageLockExpiredPredicate());
+		return new EntityIteratorFilter<MessageBean>(getEntityIterator(), new MessageLockExpiredPredicate());
 	}
 }

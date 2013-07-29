@@ -88,7 +88,7 @@ public class SearchGuiSuggestServlet extends WebsiteWidgetServlet {
 				searchResults = searchService.search(sessionIdentifier, queryString, MAX_RESULTS);
 				logger.trace("found " + searchResults.size() + " searchResults");
 			} else {
-				searchResults = new ArrayList<>();
+				searchResults = new ArrayList<SearchResult>();
 			}
 			final JSONArray obj = buildJson(searchResults);
 			final StringWriter sw = new StringWriter();

@@ -11,7 +11,7 @@ import java.util.Map;
 @Singleton
 public class CacheServiceImpl implements CacheService {
 
-	private final Map<String, String> data = new HashMap<>();
+	private final Map<String, String> data = new HashMap<String, String>();
 
 	@Inject
 	public CacheServiceImpl() {

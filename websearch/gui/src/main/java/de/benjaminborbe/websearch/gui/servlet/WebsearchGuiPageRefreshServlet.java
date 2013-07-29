@@ -70,7 +70,11 @@ public class WebsearchGuiPageRefreshServlet extends WebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final WebsearchPageIdentifier page = websearchService.createPageIdentifier(parseUtil.parseURL(request.getParameter(WebsearchGuiConstants.PARAMETER_PAGE_ID)));
 			websearchService.refreshPage(sessionIdentifier, page);
-		} catch (final AuthenticationServiceException | WebsearchServiceException | ParseException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (WebsearchServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ParseException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

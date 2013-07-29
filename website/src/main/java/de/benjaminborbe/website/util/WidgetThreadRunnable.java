@@ -16,7 +16,7 @@ public class WidgetThreadRunnable implements Runnable {
 
 	private final Widget widget;
 
-	private final ThreadResult<String> threadResult = new ThreadResult<>();
+	private final ThreadResult<String> threadResult = new ThreadResult<String>();
 
 	private final HttpContext context;
 

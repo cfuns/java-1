@@ -55,7 +55,9 @@ public class CrawlerServiceImpl implements CrawlerService {
 			logger.trace("processCrawlerInstruction");
 			final CrawlerMessage message = new CrawlerMessage(crawlerInstruction.getUrl(), crawlerInstruction.getDepth(), crawlerInstruction.getTimeout());
 			messageService.sendMessage(CrawlerConstants.MESSSAGE_TYPE, String.valueOf(crawlerInstruction.getUrl()), crawlerMessageMapper.map(message));
-		} catch (final MapException | MessageServiceException e) {
+		} catch (final MessageServiceException e) {
+			throw new CrawlerException(e);
+		} catch (final MapException e) {
 			throw new CrawlerException(e);
 		}
 	}

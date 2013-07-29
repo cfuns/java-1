@@ -24,7 +24,7 @@ public abstract class ValidatorBase<T> implements Validator<T> {
 
 	@Override
 	public final Collection<ValidationError> validate(final T object) {
-		final Set<ValidationError> result = new HashSet<>();
+		final Set<ValidationError> result = new HashSet<ValidationError>();
 		for (final ValidatorRule<T> value : buildRules().values()) {
 			result.addAll(value.validate(object));
 		}
@@ -33,7 +33,7 @@ public abstract class ValidatorBase<T> implements Validator<T> {
 
 	@Override
 	public final Collection<ValidationError> validate(final T object, final Collection<String> fields) {
-		final Set<ValidationError> result = new HashSet<>();
+		final Set<ValidationError> result = new HashSet<ValidationError>();
 		for (final Entry<String, ValidatorRule<T>> e : buildRules().entrySet()) {
 			if (fields.contains(e.getKey())) {
 				result.addAll(e.getValue().validate(object));

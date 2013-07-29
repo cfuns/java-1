@@ -122,9 +122,10 @@ public class AuthorizationGuiUserInfoServlet extends WebsiteHtmlServlet {
 			widgets.add(ul);
 			widgets.add(authorizationGuiLinkFactory.userAddRole(request, userIdentifier));
 			return widgets;
-		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			return exceptionWidget;
+		} catch (final AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (AuthorizationServiceException e) {
+			return new ExceptionWidget(e);
 		}
 	}
 

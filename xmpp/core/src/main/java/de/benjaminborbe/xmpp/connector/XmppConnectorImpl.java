@@ -142,7 +142,7 @@ public class XmppConnectorImpl implements XmppConnector {
 
 	@Override
 	public List<XmppUser> getUsers() {
-		final List<XmppUser> users = new ArrayList<>();
+		final List<XmppUser> users = new ArrayList<XmppUser>();
 		final Roster roster = connection.getRoster();
 		final Collection<RosterEntry> entries = roster.getEntries();
 		for (final RosterEntry entry : entries) {

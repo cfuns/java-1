@@ -22,9 +22,9 @@ public class TableCellWidget extends CompositeWidget implements Widget, HasClass
 
 	private Widget content;
 
-	private final Set<String> classes = new HashSet<>();
+	private final Set<String> classes = new HashSet<String>();
 
-	private final Map<String, String> attributes = new HashMap<>();
+	private final Map<String, String> attributes = new HashMap<String, String>();
 
 	public TableCellWidget() {
 	}

@@ -86,7 +86,15 @@ public class StorageRowIteratorImpl implements StorageRowIterator {
 				currentPos = 1;
 			}
 			return currentPos < cols.size();
-		} catch (final InvalidRequestException | StorageConnectionPoolException | TException | TimedOutException | UnavailableException e) {
+		} catch (final UnavailableException e) {
+			throw new StorageException(e);
+		} catch (InvalidRequestException e) {
+			throw new StorageException(e);
+		} catch (StorageConnectionPoolException e) {
+			throw new StorageException(e);
+		} catch (TException e) {
+			throw new StorageException(e);
+		} catch (TimedOutException e) {
 			throw new StorageException(e);
 		} finally {
 			storageConnectionPool.releaseConnection(connection);
@@ -94,7 +102,7 @@ public class StorageRowIteratorImpl implements StorageRowIterator {
 	}
 
 	private List<ByteBuffer> buildColumnNames(final List<StorageValue> columnNames) throws UnsupportedEncodingException {
-		final List<ByteBuffer> result = new ArrayList<>();
+		final List<ByteBuffer> result = new ArrayList<ByteBuffer>();
 		for (final StorageValue columnName : columnNames) {
 			result.add(ByteBuffer.wrap(columnName.getByte()));
 		}
@@ -107,7 +115,7 @@ public class StorageRowIteratorImpl implements StorageRowIterator {
 			if (hasNext()) {
 				final KeySlice keySlice = cols.get(currentPos);
 				range.setStart_key(keySlice.getKey());
-				final Map<StorageValue, StorageValue> data = new HashMap<>();
+				final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 				for (final ColumnOrSuperColumn c : keySlice.getColumns()) {
 					final Column column = c.getColumn();
 					data.put(new StorageValue(column.getName(), encoding), new StorageValue(column.getValue(), encoding));

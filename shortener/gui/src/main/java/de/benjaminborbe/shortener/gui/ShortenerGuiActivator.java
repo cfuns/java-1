@@ -32,7 +32,7 @@ public class ShortenerGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(shortenerGuiServlet, ShortenerGuiConstants.URL_HOME));
 		result.add(new ServletInfo(shortenerGuiRedirectServlet, ShortenerGuiConstants.URL_REDIRECT, true));
 		return result;

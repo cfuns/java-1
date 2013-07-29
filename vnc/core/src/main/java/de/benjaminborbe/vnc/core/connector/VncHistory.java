@@ -10,7 +10,7 @@ import java.util.List;
 @Singleton
 public class VncHistory {
 
-	private final List<ClientToServerMessage> list = new ArrayList<>();
+	private final List<ClientToServerMessage> list = new ArrayList<ClientToServerMessage>();
 
 	@Inject
 	public VncHistory() {

@@ -50,7 +50,7 @@ public class PokerCardsStraightFlushComparator implements Comparator<Collection<
 		for (final List<PokerCardIdentifier> v : map.values()) {
 			final List<PokerCardIdentifier> values = comparatorUtil.sort(v, pokerCardComparator);
 			for (int start = values.size() - 1; start >= 4; --start) {
-				final List<PokerCardIdentifier> result = new ArrayList<>();
+				final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
 				result.add(values.get(start));
 				for (int i = start - 1; i >= 0; --i) {
 					if (values.get(i).getValue().getValue() == values.get(i + 1).getValue().getValue() - 1) {

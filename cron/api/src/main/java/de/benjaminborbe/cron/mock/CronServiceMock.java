@@ -16,7 +16,7 @@ public class CronServiceMock implements CronService {
 
 	@Override
 	public List<CronExecutionInfo> getLatestExecutionInfos(final int amount) {
-		return new ArrayList<>();
+		return new ArrayList<CronExecutionInfo>();
 	}
 
 	@Override

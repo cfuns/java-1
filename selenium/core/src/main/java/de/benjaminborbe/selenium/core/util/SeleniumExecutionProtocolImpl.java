@@ -7,11 +7,11 @@ import java.util.List;
 
 public class SeleniumExecutionProtocolImpl implements SeleniumExecutionProtocol {
 
-	private final List<String> messages = new ArrayList<>();
+	private final List<String> messages = new ArrayList<String>();
 
-	private final List<String> infos = new ArrayList<>();
+	private final List<String> infos = new ArrayList<String>();
 
-	private final List<String> errors = new ArrayList<>();
+	private final List<String> errors = new ArrayList<String>();
 
 	private boolean completed;
 

@@ -52,7 +52,7 @@ public class MessageBeanMapper extends MapObjectMapperAdapter<MessageBean> {
 		final MapperMessageIdentifier mapperMessageIdentifier, final MapperString mapperString,
 		final MapperCalendar mapperCalendar, final MapperLong mapperLong
 	) {
-		final List<StringObjectMapper<MessageBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<MessageBean>> result = new ArrayList<StringObjectMapper<MessageBean>>();
 		result.add(new StringObjectMapperAdapter<MessageBean, MessageIdentifier>(ID, mapperMessageIdentifier));
 		result.add(new StringObjectMapperAdapter<MessageBean, String>(CONTENT, mapperString));
 		result.add(new StringObjectMapperAdapter<MessageBean, String>(TYPE, mapperString));

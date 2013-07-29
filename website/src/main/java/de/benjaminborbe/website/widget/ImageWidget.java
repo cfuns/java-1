@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class ImageWidget extends CompositeWidget implements HasClass<ImageWidget> {
 
-	private final Set<String> classes = new HashSet<>();
+	private final Set<String> classes = new HashSet<String>();
 
 	private String path;
 

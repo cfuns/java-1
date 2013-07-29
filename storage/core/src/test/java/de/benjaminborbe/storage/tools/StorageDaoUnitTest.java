@@ -39,7 +39,7 @@ public class StorageDaoUnitTest {
 		EasyMock.replay(logger);
 
 		final StorageService storageService = new StorageServiceMock(logger);
-		final Provider<TestBean> beanProvider = new ProviderMock<>(TestBean.class);
+		final Provider<TestBean> beanProvider = new ProviderMock<TestBean>(TestBean.class);
 		final MapObjectMapper<TestBean> mapper = new TestBeanMapper(beanProvider);
 		final IdentifierBuilder<String, TestIdentifier> builder = new TestIdentifierBuilder();
 		final CalendarUtil calendarUtil = EasyMock.createMock(CalendarUtil.class);

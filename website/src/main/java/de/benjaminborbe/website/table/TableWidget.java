@@ -19,11 +19,11 @@ import java.util.Set;
 
 public class TableWidget extends CompositeWidget implements Widget, HasId<TableWidget>, HasClass<TableWidget> {
 
-	private final Set<String> classes = new HashSet<>();
+	private final Set<String> classes = new HashSet<String>();
 
 	private String id;
 
-	private final List<TableRowWidget> rows = new ArrayList<>();
+	private final List<TableRowWidget> rows = new ArrayList<TableRowWidget>();
 
 	private TableHeadWidget head;
 

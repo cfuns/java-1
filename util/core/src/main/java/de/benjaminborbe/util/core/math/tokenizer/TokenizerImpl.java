@@ -21,7 +21,7 @@ public class TokenizerImpl implements Tokenizer {
 	}
 
 	public List<String> tokenize(final char[] chars) {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 
 		int numberStart = -1;
 		int numberEnd = -1;

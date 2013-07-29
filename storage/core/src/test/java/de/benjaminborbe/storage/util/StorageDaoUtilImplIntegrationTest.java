@@ -85,7 +85,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		assertEquals(0, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY));
 
 		final StorageValue id = new StorageValue("a", encoding);
-		final Map<StorageValue, StorageValue> data = new HashMap<>();
+		final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 		final StorageValue key = new StorageValue(StorageTestUtil.FIELD_NAME, encoding);
 		final StorageValue value = new StorageValue("valueA\nvalueB", encoding);
 		data.put(key, value);
@@ -126,7 +126,7 @@ public class StorageDaoUtilImplIntegrationTest {
 			final StorageValue id = new StorageValue(idString, encoding);
 			counter++;
 
-			final Map<StorageValue, StorageValue> data = new HashMap<>();
+			final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 			final StorageValue key = new StorageValue(StorageTestUtil.FIELD_NAME, encoding);
 			final StorageValue value = new StorageValue("valueA", encoding);
 			data.put(key, value);
@@ -155,7 +155,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		assertEquals(0, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY));
 		for (int id = 1; id <= max; ++id) {
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			final String key = StorageTestUtil.FIELD_NAME;
 			data.put(key + "_a", String.valueOf(id));
 			data.put(key + "_b", String.valueOf(id));
@@ -176,7 +176,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		final String encoding = config.getEncoding();
 
 		for (int i = 1; i <= 1000; ++i) {
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			final String key = StorageTestUtil.FIELD_NAME;
 			final String value = "valueA";
 			data.put(key, value);
@@ -213,7 +213,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		// Connection zur Datenbank oeffnen
 
-		final Map<String, String> data = new HashMap<>();
+		final Map<String, String> data = new HashMap<String, String>();
 		final String id = StorageTestUtil.REPLICATION_FACTOR;
 		final String key = StorageTestUtil.FIELD_NAME;
 
@@ -253,7 +253,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final int limit = 10;
 		for (int i = 1; i <= limit; ++i) {
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			final String key = StorageTestUtil.FIELD_NAME;
 			final String value = "valueA";
 			data.put(key, value);
@@ -290,7 +290,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final int limit = 10;
 		for (int i = 1; i <= limit; ++i) {
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			final String key = StorageTestUtil.FIELD_NAME;
 			final String value = "valueA";
 			data.put(key, value);
@@ -301,7 +301,7 @@ public class StorageDaoUtilImplIntegrationTest {
 		}
 
 		for (int i = 1; i <= limit; ++i) {
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			final String key = StorageTestUtil.FIELD_NAME;
 			final String value = "valueB";
 			data.put(key, value);
@@ -445,7 +445,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final int count = 1000;
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			for (int i = 1; i <= count; ++i) {
 				data.put("key" + i, "value" + i);
 			}
@@ -471,7 +471,7 @@ public class StorageDaoUtilImplIntegrationTest {
 
 		final int limit = 1000;
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			for (int i = 1; i <= limit; ++i) {
 				data.put("key" + i, "value" + i);
 			}
@@ -555,7 +555,7 @@ public class StorageDaoUtilImplIntegrationTest {
 	}
 
 	private Map<StorageValue, StorageValue> c(final Map<String, String> data, final String encoding) {
-		final Map<StorageValue, StorageValue> result = new HashMap<>();
+		final Map<StorageValue, StorageValue> result = new HashMap<StorageValue, StorageValue>();
 		for (final Entry<String, String> e : data.entrySet()) {
 			result.put(c(e.getKey(), encoding), c(e.getValue(), encoding));
 		}

@@ -99,7 +99,9 @@ public class AnalyticsGuiReportsRebuildServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			analyticsService.expectAnalyticsAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException | AnalyticsServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AnalyticsServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

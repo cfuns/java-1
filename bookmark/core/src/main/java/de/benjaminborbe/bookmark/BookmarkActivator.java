@@ -38,7 +38,7 @@ public class BookmarkActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(BookmarkService.class, bookmarkService));
 		result.add(new ServiceInfo(ExtHttpService.class, myExtHttpService));
 		result.add(new ServiceInfo(SearchServiceComponent.class, bookmarkSearchService, bookmarkSearchService.getClass().getName()));

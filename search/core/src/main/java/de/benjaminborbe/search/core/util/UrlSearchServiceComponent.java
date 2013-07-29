@@ -38,7 +38,7 @@ public class UrlSearchServiceComponent implements SearchServiceComponent {
 	@Override
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 		logger.trace("search");
-		final List<SearchResult> result = new ArrayList<>();
+		final List<SearchResult> result = new ArrayList<SearchResult>();
 		try {
 			if (query != null && searchConfig.isUrlSearchActive()) {
 				final String queryTrimed = query.trim();

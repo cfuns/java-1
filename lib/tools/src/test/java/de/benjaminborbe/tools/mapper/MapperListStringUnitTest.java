@@ -36,7 +36,7 @@ public class MapperListStringUnitTest {
 			assertEquals(values, map.fromString(valuesString));
 		}
 		{
-			final List<String> values = new ArrayList<>();
+			final List<String> values = new ArrayList<String>();
 			final MapperListString map = new MapperListString();
 			final String valuesString = map.toString(values);
 			assertEquals(values, map.fromString(valuesString));

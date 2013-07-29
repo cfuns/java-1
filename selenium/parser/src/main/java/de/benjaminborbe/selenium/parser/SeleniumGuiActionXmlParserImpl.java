@@ -50,7 +50,9 @@ public class SeleniumGuiActionXmlParserImpl implements SeleniumGuiActionXmlParse
 			final Document doc = sb.build(new StringReader(xml));
 			return parse(doc.getRootElement());
 
-		} catch (JDOMException | IOException e) {
+		} catch (JDOMException e) {
+			throw new ParseException(e);
+		} catch (IOException e) {
 			throw new ParseException(e);
 		}
 	}

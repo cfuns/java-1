@@ -78,7 +78,7 @@ public class UtilGuiPasswordGeneratorServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		final UlWidget ul = new UlWidget();
 
-		final List<PasswordCharacter> passwordCharacters = new ArrayList<>();
+		final List<PasswordCharacter> passwordCharacters = new ArrayList<PasswordCharacter>();
 		if ("true".equals(request.getParameter(UtilGuiConstants.PARAMETER_PASSWORD_UPPER))) {
 			passwordCharacters.add(PasswordCharacter.UPPER);
 		}

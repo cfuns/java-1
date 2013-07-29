@@ -28,7 +28,7 @@ public class NotificationNotifierDeterminer {
 		final NotificationTypeIdentifier type
 	) throws NotificationNotifierException {
 		try {
-			final List<NotificationNotifier> result = new ArrayList<>();
+			final List<NotificationNotifier> result = new ArrayList<NotificationNotifier>();
 			for (final NotificationMediaIdentifier notificationMediaIdentifier : notificationMediaDao.get(userIdentifier, type)) {
 				final NotificationNotifier n = notifcationNotifierRegistry.get(notificationMediaIdentifier);
 				if (n != null) {

@@ -54,7 +54,9 @@ public class DhlStatusNotifierImpl implements DhlStatusNotifier {
 			notification.setSubject(buildSubject(status));
 			notification.setMessage(buildContent(status));
 			notificationService.notify(notification);
-		} catch (NotificationServiceException | ValidationException e) {
+		} catch (NotificationServiceException e) {
+			throw new DhlStatusNotifierException(e);
+		} catch (ValidationException e) {
 			throw new DhlStatusNotifierException(e);
 		}
 	}

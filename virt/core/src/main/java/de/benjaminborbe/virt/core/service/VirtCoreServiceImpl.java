@@ -81,11 +81,14 @@ public class VirtCoreServiceImpl implements VirtService {
 				throw new ValidationException(errors);
 			}
 
-			virtNetworkDao.save(bean);
+			virtNetworkDao.save(bean
+			);
 
 			return bean.getId();
 
-		} catch (StorageException | AuthorizationServiceException e) {
+		} catch (StorageException e) {
+			throw new VirtServiceException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new VirtServiceException(e);
 		}
 	}
@@ -146,9 +149,10 @@ public class VirtCoreServiceImpl implements VirtService {
 		try {
 			authorizationService.expectPermission(sessionIdentifier, getDefaultPermission());
 			return virtNetworkDao.load(networkIdentifier);
-		} catch (AuthorizationServiceException | StorageException e) {
+		} catch (AuthorizationServiceException e) {
+			throw new VirtServiceException(e);
+		} catch (StorageException e) {
 			throw new VirtServiceException(e);
 		}
 	}
-
 }

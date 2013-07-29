@@ -135,7 +135,11 @@ public class SeleniumGuiConfigurationListServlet extends WebsiteHtmlServlet {
 			widgets.add(new BrWidget());
 
 			return widgets;
-		} catch (SeleniumServiceException | SeleniumConfigurationXmlServiceException | AuthenticationServiceException e) {
+		} catch (SeleniumServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (SeleniumConfigurationXmlServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

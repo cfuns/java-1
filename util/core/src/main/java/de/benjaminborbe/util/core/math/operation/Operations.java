@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Operations {
 
-	private final Map<String, Operation> operations = new HashMap<>();
+	private final Map<String, Operation> operations = new HashMap<String, Operation>();
 
 	public Operations() {
 		operations.put("+", new Addition());

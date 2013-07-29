@@ -38,7 +38,7 @@ public class ProxyCoreConfigImpl extends ConfigurationBase implements ProxyCoreC
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(conversationHistory);
 		result.add(conversationCrawler);
 		result.add(randomPort);

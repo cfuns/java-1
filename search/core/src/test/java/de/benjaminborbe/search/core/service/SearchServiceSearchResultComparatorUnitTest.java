@@ -51,7 +51,7 @@ public class SearchServiceSearchResultComparatorUnitTest {
 		final SearchServiceSearchResultComparatorMatches c = new SearchServiceSearchResultComparatorMatches();
 		final SearchServiceSearchResultComparator comparator = new SearchServiceSearchResultComparator(a, b, c);
 
-		final List<SearchResult> list = new ArrayList<>();
+		final List<SearchResult> list = new ArrayList<SearchResult>();
 		list.add(createComponent("URL"));
 		list.add(createComponent("GOOGLE"));
 		list.add(createComponent("CONFLUENCE"));
@@ -74,7 +74,7 @@ public class SearchServiceSearchResultComparatorUnitTest {
 	public void testPrio() {
 		final SearchServiceSearchResultComparatorPrio comparator = new SearchServiceSearchResultComparatorPrio();
 
-		final List<SearchResult> list = new ArrayList<>();
+		final List<SearchResult> list = new ArrayList<SearchResult>();
 		list.add(createComponent("URL"));
 		list.add(createComponent("GOOGLE"));
 		list.add(createComponent("CONFLUENCE"));
@@ -97,7 +97,7 @@ public class SearchServiceSearchResultComparatorUnitTest {
 	public void testName() {
 		final SearchServiceSearchResultComparatorName comparator = new SearchServiceSearchResultComparatorName();
 
-		final List<SearchResult> list = new ArrayList<>();
+		final List<SearchResult> list = new ArrayList<SearchResult>();
 		list.add(createComponent("URL"));
 		list.add(createComponent("GOOGLE"));
 		list.add(createComponent("CONFLUENCE"));
@@ -124,7 +124,7 @@ public class SearchServiceSearchResultComparatorUnitTest {
 		final SearchServiceSearchResultComparatorMatches c = new SearchServiceSearchResultComparatorMatches();
 		final SearchServiceSearchResultComparator comparator = new SearchServiceSearchResultComparator(a, b, c);
 
-		final List<SearchResult> list = new ArrayList<>();
+		final List<SearchResult> list = new ArrayList<SearchResult>();
 		list.add(createComponent("URL", 1));
 		list.add(createComponent("GOOGLE", 2));
 		list.add(createComponent("CONFLUENCE", 3));

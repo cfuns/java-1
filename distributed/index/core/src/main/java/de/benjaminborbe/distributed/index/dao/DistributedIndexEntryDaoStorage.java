@@ -43,7 +43,7 @@ public class DistributedIndexEntryDaoStorage implements DistributedIndexEntryDao
 	@Override
 	public DistributedIndexEntryBean load(final DistributedIndexEntryIdentifier id) throws StorageException {
 		try {
-			final Map<String, Integer> data = new HashMap<>();
+			final Map<String, Integer> data = new HashMap<String, Integer>();
 			final Map<StorageValue, StorageValue> row = storageService.get(COLUMN_FAMILY, new StorageValue(id.getId(), DistributedIndexConstants.ENCODING));
 			for (final Entry<StorageValue, StorageValue> e : row.entrySet()) {
 				data.put(e.getKey().getString(), mapperInteger.fromString(e.getValue().getString()));
@@ -66,7 +66,7 @@ public class DistributedIndexEntryDaoStorage implements DistributedIndexEntryDao
 
 	@Override
 	public void save(final DistributedIndexEntryBean bean) throws StorageException {
-		final Map<StorageValue, StorageValue> data = new HashMap<>();
+		final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 		for (final Entry<String, Integer> e : bean.getData().entrySet()) {
 			data.put(new StorageValue(e.getKey(), DistributedIndexConstants.ENCODING), new StorageValue(mapperInteger.toString(e.getValue()), DistributedIndexConstants.ENCODING));
 		}

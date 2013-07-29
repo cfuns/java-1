@@ -181,7 +181,7 @@ public class TaskNextWidget extends CompositeWidget {
 		}
 
 		if (task.getRepeatDue() != null && task.getRepeatDue() > 0 || task.getRepeatStart() != null && task.getRepeatStart() > 0) {
-			final List<String> parts = new ArrayList<>();
+			final List<String> parts = new ArrayList<String>();
 			if (task.getRepeatDue() != null && task.getRepeatDue() > 0) {
 				parts.add("due: " + task.getRepeatDue() + " day");
 			}

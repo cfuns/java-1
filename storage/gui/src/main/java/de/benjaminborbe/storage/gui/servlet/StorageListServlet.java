@@ -81,7 +81,7 @@ public class StorageListServlet extends StorageHtmlServlet {
 				widgets.add("value=");
 				widgets.add(new BrWidget());
 				final StorageIterator i = persistentStorageService.keyIterator(columnFamily);
-				final List<String> keys = new ArrayList<>();
+				final List<String> keys = new ArrayList<String>();
 				while (i.hasNext()) {
 					keys.add(i.next().getString());
 				}

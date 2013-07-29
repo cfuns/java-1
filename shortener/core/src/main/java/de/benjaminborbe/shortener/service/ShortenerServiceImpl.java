@@ -88,7 +88,9 @@ public class ShortenerServiceImpl implements ShortenerService {
 				return null;
 			}
 			return parseUtil.parseURL(bean.getUrl());
-		} catch (final StorageException | ParseException e) {
+		} catch (final StorageException e) {
+			throw new ShortenerServiceException(e);
+		} catch (final ParseException e) {
 			throw new ShortenerServiceException(e);
 		} finally {
 		}

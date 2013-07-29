@@ -59,7 +59,7 @@ public class XmppConfigImpl extends ConfigurationBase implements XmppConfig {
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(username);
 		result.add(password);
 		result.add(serverHost);

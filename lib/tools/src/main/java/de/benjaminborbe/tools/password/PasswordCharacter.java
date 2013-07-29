@@ -12,7 +12,7 @@ public enum PasswordCharacter {
 
 	private final char[] characters;
 
-	private final Set<Character> characterSet = new HashSet<>();
+	private final Set<Character> characterSet = new HashSet<Character>();
 
 	private PasswordCharacter(final char... characters) {
 		this.characters = characters;

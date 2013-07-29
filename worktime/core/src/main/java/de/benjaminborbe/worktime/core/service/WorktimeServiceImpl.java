@@ -88,10 +88,10 @@ public class WorktimeServiceImpl implements WorktimeService {
 	@Override
 	public List<Workday> getTimes(final int days) {
 		logger.trace("get times for " + days + " days");
-		final Set<Workday> workdays = new HashSet<>();
+		final Set<Workday> workdays = new HashSet<Workday>();
 		final Collection<Calendar> calendars = getLastDays(days);
 
-		final Set<Thread> threads = new HashSet<>();
+		final Set<Thread> threads = new HashSet<Thread>();
 		for (final Calendar calendar : calendars) {
 			threads.add(threadRunner.run("workday-calc", new WorkdayCalcRunnable(calendar, workdays)));
 		}
@@ -102,7 +102,7 @@ public class WorktimeServiceImpl implements WorktimeService {
 				// nop
 			}
 		}
-		final List<Workday> result = new ArrayList<>(workdays);
+		final List<Workday> result = new ArrayList<Workday>(workdays);
 		Collections.sort(result, new WorkdayComparator());
 		return result;
 	}
@@ -122,7 +122,7 @@ public class WorktimeServiceImpl implements WorktimeService {
 	}
 
 	protected Collection<Calendar> getLastDays(final int amount) {
-		final List<Calendar> calendars = new ArrayList<>();
+		final List<Calendar> calendars = new ArrayList<Calendar>();
 		final Calendar now = calendarUtil.now(timeZoneUtil.getUTCTimeZone());
 		for (int i = 0; i < amount; ++i) {
 			calendars.add(calendarUtil.subDays(now, i));

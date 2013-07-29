@@ -33,7 +33,7 @@ public class MessageValidator extends ValidatorBase<MessageBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<MessageBean>> buildRules() {
-		final Map<String, ValidatorRule<MessageBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<MessageBean>> result = new HashMap<String, ValidatorRule<MessageBean>>();
 
 		// id
 		{
@@ -43,7 +43,7 @@ public class MessageValidator extends ValidatorBase<MessageBean> {
 				@Override
 				public Collection<ValidationError> validate(final MessageBean bean) {
 					final MessageIdentifier value = bean.getId();
-					final List<ValidationConstraint<MessageIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<MessageIdentifier>> constraints = new ArrayList<ValidationConstraint<MessageIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<MessageIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<MessageIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -59,7 +59,7 @@ public class MessageValidator extends ValidatorBase<MessageBean> {
 				@Override
 				public Collection<ValidationError> validate(final MessageBean bean) {
 					final String value = bean.getType();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					return validationConstraintValidator.validate(field, value, constraints);

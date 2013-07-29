@@ -64,7 +64,7 @@ public class EventbusIntegrationTest extends TestCaseOsgi {
 		assertNotNull(Eventbus);
 		assertEquals("de.benjaminborbe.eventbus.service.EventbusServiceImpl", Eventbus.getClass().getName());
 
-		final List<EventbusInitializedEvent> events = new ArrayList<>();
+		final List<EventbusInitializedEvent> events = new ArrayList<EventbusInitializedEvent>();
 
 		assertEquals(0, Eventbus.getHandlerCount(EventbusInitializedEvent.TYPE));
 		assertFalse(Eventbus.isEventHandled(EventbusInitializedEvent.TYPE));

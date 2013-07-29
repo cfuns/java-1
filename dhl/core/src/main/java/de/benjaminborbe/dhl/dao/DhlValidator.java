@@ -36,7 +36,7 @@ public class DhlValidator extends ValidatorBase<DhlBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<DhlBean>> buildRules() {
-		final Map<String, ValidatorRule<DhlBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<DhlBean>> result = new HashMap<String, ValidatorRule<DhlBean>>();
 
 		// id
 		{
@@ -46,7 +46,7 @@ public class DhlValidator extends ValidatorBase<DhlBean> {
 				@Override
 				public Collection<ValidationError> validate(final DhlBean bean) {
 					final DhlIdentifier value = bean.getId();
-					final List<ValidationConstraint<DhlIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<DhlIdentifier>> constraints = new ArrayList<ValidationConstraint<DhlIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<DhlIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<DhlIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -62,7 +62,7 @@ public class DhlValidator extends ValidatorBase<DhlBean> {
 				@Override
 				public Collection<ValidationError> validate(final DhlBean bean) {
 					final UserIdentifier value = bean.getOwner();
-					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<ValidationConstraint<UserIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<UserIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<UserIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -78,7 +78,7 @@ public class DhlValidator extends ValidatorBase<DhlBean> {
 				@Override
 				public Collection<ValidationError> validate(final DhlBean bean) {
 					final String value = bean.getTrackingNumber();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -95,7 +95,7 @@ public class DhlValidator extends ValidatorBase<DhlBean> {
 				@Override
 				public Collection<ValidationError> validate(final DhlBean bean) {
 					final Long value = bean.getZip();
-					final List<ValidationConstraint<Long>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Long>> constraints = new ArrayList<ValidationConstraint<Long>>();
 					constraints.add(new ValidationConstraintNotNull<Long>());
 					constraints.add(new ValidationConstraintLongGT(0));
 					return validationConstraintValidator.validate(field, value, constraints);

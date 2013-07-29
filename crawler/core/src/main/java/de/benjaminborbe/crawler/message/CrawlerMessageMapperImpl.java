@@ -32,11 +32,11 @@ public class CrawlerMessageMapperImpl implements CrawlerMessageMapper {
 		final MapperInteger mapperInteger,
 		final MapperLong mapperLong
 	) {
-		mapper = new JsonObjectMapper<>(messageProvider, build(mapperUrl, mapperInteger, mapperLong));
+		mapper = new JsonObjectMapper<CrawlerMessage>(messageProvider, build(mapperUrl, mapperInteger, mapperLong));
 	}
 
 	private Collection<StringObjectMapper<CrawlerMessage>> build(final MapperUrl mapperUrl, final MapperInteger mapperInteger, final MapperLong mapperLong) {
-		final List<StringObjectMapper<CrawlerMessage>> result = new ArrayList<>();
+		final List<StringObjectMapper<CrawlerMessage>> result = new ArrayList<StringObjectMapper<CrawlerMessage>>();
 		result.add(new StringObjectMapperAdapter<CrawlerMessage, URL>(URL, mapperUrl));
 		result.add(new StringObjectMapperAdapter<CrawlerMessage, Integer>(TIMEOUT, mapperInteger));
 		result.add(new StringObjectMapperAdapter<CrawlerMessage, Long>(DEPTH, mapperLong));

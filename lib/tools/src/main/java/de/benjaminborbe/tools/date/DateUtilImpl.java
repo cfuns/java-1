@@ -43,7 +43,9 @@ public class DateUtilImpl implements DateUtil {
 		final SimpleDateFormat datetimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			return datetimeformat.parse(datetime);
-		} catch (final NullPointerException | java.text.ParseException e) {
+		} catch (final java.text.ParseException e) {
+			throw new ParseException(e);
+		} catch (final NullPointerException e) {
 			throw new ParseException(e);
 		}
 	}
@@ -53,7 +55,9 @@ public class DateUtilImpl implements DateUtil {
 		final SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			return dateformat.parse(date);
-		} catch (final NullPointerException | java.text.ParseException e) {
+		} catch (final java.text.ParseException e) {
+			throw new ParseException(e);
+		} catch (final NullPointerException e) {
 			throw new ParseException(e);
 		}
 	}

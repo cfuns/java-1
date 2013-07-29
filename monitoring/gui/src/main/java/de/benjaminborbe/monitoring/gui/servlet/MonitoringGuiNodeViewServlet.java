@@ -85,9 +85,10 @@ public class MonitoringGuiNodeViewServlet extends MonitoringWebsiteHtmlServlet {
 			widgets.add(new PreWidget(node.getException()));
 
 			return widgets;
-		} catch (final MonitoringServiceException | AuthenticationServiceException e) {
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			return exceptionWidget;
+		} catch (final MonitoringServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
 		}
 	}
 

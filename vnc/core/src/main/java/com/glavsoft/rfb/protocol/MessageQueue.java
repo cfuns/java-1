@@ -41,7 +41,7 @@ public class MessageQueue {
 
 	public MessageQueue(final Logger logger) {
 		this.logger = logger;
-		queue = new LinkedBlockingQueue<>();
+		queue = new LinkedBlockingQueue<ClientToServerMessage>();
 	}
 
 	public void put(final ClientToServerMessage message) {

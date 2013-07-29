@@ -16,7 +16,7 @@ import java.util.Map;
 @Singleton
 public class HttpCacheFilter extends HttpFilter {
 
-	private final Map<String, HttpCacheEntry> cache = new HashMap<>();
+	private final Map<String, HttpCacheEntry> cache = new HashMap<String, HttpCacheEntry>();
 
 	@Inject
 	public HttpCacheFilter(final Logger logger) {

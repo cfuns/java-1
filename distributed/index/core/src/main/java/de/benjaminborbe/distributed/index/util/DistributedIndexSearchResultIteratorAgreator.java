@@ -15,7 +15,7 @@ public class DistributedIndexSearchResultIteratorAgreator implements Distributed
 
 	private final List<DistributedIndexSearchResultIteratorCurrent> iterators;
 
-	private final List<Map<String, Integer>> cache = new ArrayList<>();
+	private final List<Map<String, Integer>> cache = new ArrayList<Map<String, Integer>>();
 
 	private DistributedIndexSearchResult next;
 

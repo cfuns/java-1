@@ -35,7 +35,7 @@ public class GalleryImageBeanMapper extends MapObjectMapperAdapter<GalleryImageB
 		final MapperGalleryImageIdentifier mapperGalleryImageIdentifier, final MapperString mapperString,
 		final MapperByteArray mapperByteArray, final MapperCalendar mapperCalendar
 	) {
-		final List<StringObjectMapper<GalleryImageBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<GalleryImageBean>> result = new ArrayList<StringObjectMapper<GalleryImageBean>>();
 		result.add(new StringObjectMapperAdapter<GalleryImageBean, GalleryImageIdentifier>("id", mapperGalleryImageIdentifier));
 		result.add(new StringObjectMapperAdapter<GalleryImageBean, String>("contentType", mapperString));
 		result.add(new StringObjectMapperAdapter<GalleryImageBean, String>("name", mapperString));

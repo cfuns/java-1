@@ -24,7 +24,7 @@ public class CrawlerNotifierUnitTest {
 		EasyMock.expectLastCall().times(1);
 		EasyMock.replay(clientCrawlerNotifier);
 
-		final Set<CrawlerNotifier> crawlerNotifiers = new HashSet<>();
+		final Set<CrawlerNotifier> crawlerNotifiers = new HashSet<CrawlerNotifier>();
 		crawlerNotifiers.add(clientCrawlerNotifier);
 
 		final CrawlerNotifierRegistry crawlerNotifierRegistry = EasyMock.createMock(CrawlerNotifierRegistry.class);

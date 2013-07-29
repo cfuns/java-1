@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Headlines {
 
-	private final List<Head1Part> h1s = new ArrayList<>();
+	private final List<Head1Part> h1s = new ArrayList<Head1Part>();
 
 	public Part createHead1Part(final String title) {
 		final Head1Part p = new Head1Part(title);

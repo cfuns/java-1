@@ -51,7 +51,7 @@ public class BlogGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(blogGuiLatestPostsServlet, BlogGuiConstants.URL_HOME));
 		result.add(new ServletInfo(blogGuiAddPostServlet, BlogGuiConstants.POST_ADD_URL));
 		result.add(new ServletInfo(blogGuiDeletePostServlet, BlogGuiConstants.POST_DELETE_URL));
@@ -62,14 +62,14 @@ public class BlogGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, blogGuiNavigationEntry));
 		return result;
 	}
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo("/images", "images"));
 		result.add(new ResourceInfo("/css", "css"));
 		result.add(new ResourceInfo("/js", "js"));

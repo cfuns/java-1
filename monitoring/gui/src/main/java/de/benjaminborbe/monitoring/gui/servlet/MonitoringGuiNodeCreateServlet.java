@@ -125,7 +125,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final MonitoringCheckIdentifier type = getType(checkType);
 			final Collection<String> requiredParameters = monitoringService.getRequireParameter(sessionIdentifier, type);
-			final Map<String, String> parameter = new HashMap<>();
+			final Map<String, String> parameter = new HashMap<String, String>();
 			for (final String requiredParameter : requiredParameters) {
 				final String value = stringUtil.trim(request.getParameter(MonitoringGuiConstants.PARAMETER_PREFIX + requiredParameter));
 				parameter.put(requiredParameter, (value == null || value.isEmpty()) ? null : value);
@@ -189,7 +189,7 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 		final String checkTypeString, final Map<String, String> parameter, final String activeString, final String silentString
 	) throws ValidationException,
 		MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		final MonitoringCheckIdentifier checkType = new MonitoringCheckIdentifier(checkTypeString);
 		final boolean active = parseUtil.parseBoolean(activeString, false);
 		final boolean silent = parseUtil.parseBoolean(silentString, false);
@@ -219,7 +219,9 @@ public class MonitoringGuiNodeCreateServlet extends MonitoringWebsiteHtmlServlet
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			monitoringService.expectMonitoringAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException | MonitoringServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (MonitoringServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class ModifierButtonEventListener {
 
-	final Map<Integer, JToggleButton> buttons = new HashMap<>();
+	final Map<Integer, JToggleButton> buttons = new HashMap<Integer, JToggleButton>();
 
 	public void addButton(final int keyCode, final JToggleButton button) {
 		buttons.put(keyCode, button);

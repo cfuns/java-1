@@ -19,7 +19,7 @@ public class CronExecutionHistory {
 
 	private final int MAX_SIZE = 100;
 
-	private final Fifo<CronExecutionInfo> infos = new Fifo<>();
+	private final Fifo<CronExecutionInfo> infos = new Fifo<CronExecutionInfo>();
 
 	private final CalendarUtil calendarUtil;
 
@@ -47,7 +47,7 @@ public class CronExecutionHistory {
 			return result;
 		} catch (final FifoIndexOutOfBoundsException e) {
 			logger.debug("FifoIndexOutOfBoundsException", e);
-			return new ArrayList<>();
+			return new ArrayList<CronExecutionInfo>();
 		}
 	}
 

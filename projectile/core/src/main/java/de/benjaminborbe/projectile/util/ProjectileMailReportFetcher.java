@@ -19,11 +19,13 @@ import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,7 +57,7 @@ public class ProjectileMailReportFetcher {
 				final int count = fldr.getMessageCount();
 				logger.debug(count + " total messages");
 
-				final Map<String, Date> subjectSendDate = new HashMap<>();
+				final Map<String, Date> subjectSendDate = new HashMap<String, Date>();
 
 				// Message numbers start at 1
 				for (int i = 1; i <= count; i++) {
@@ -115,7 +117,17 @@ public class ProjectileMailReportFetcher {
 				// "true" actually deletes flagged messages from folder
 				fldr.close(true);
 				logger.debug("close connection to " + host);
-			} catch (final ParseException | StorageException | IOException | MessagingException e) {
+			} catch (final ParseException e) {
+				logger.warn(e.getClass().getName(), e);
+			} catch (UnsupportedEncodingException e) {
+				logger.warn(e.getClass().getName(), e);
+			} catch (StorageException e) {
+				logger.warn(e.getClass().getName(), e);
+			} catch (IOException e) {
+				logger.warn(e.getClass().getName(), e);
+			} catch (NoSuchProviderException e) {
+				logger.warn(e.getClass().getName(), e);
+			} catch (MessagingException e) {
 				logger.warn(e.getClass().getName(), e);
 			} finally {
 				if (store != null) {

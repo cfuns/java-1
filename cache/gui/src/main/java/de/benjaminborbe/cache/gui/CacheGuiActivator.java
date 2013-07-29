@@ -28,7 +28,7 @@ public class CacheGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(cacheGuiServlet, CacheGuiConstants.URL_HOME));
 		return result;
 	}

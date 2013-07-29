@@ -132,7 +132,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluenceInstanceDao.save(confluenceInstance);
 
 			return confluenceInstanceIdentifier;
-		} catch (final StorageException | AuthenticationServiceException e) {
+		} catch (final StorageException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new ConfluenceServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());
@@ -179,7 +181,13 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 				throw new ValidationException(errors);
 			}
 			confluenceInstanceDao.save(confluenceInstance);
-		} catch (final StorageException | IndexerServiceException | EntityIteratorException | AuthenticationServiceException e) {
+		} catch (final StorageException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (EntityIteratorException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (IndexerServiceException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new ConfluenceServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());
@@ -217,7 +225,11 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			removeContent(confluenceInstanceIdentifier);
 
 			confluenceInstanceDao.delete(confluenceInstanceIdentifier);
-		} catch (final StorageException | IndexerServiceException | EntityIteratorException e) {
+		} catch (final StorageException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (EntityIteratorException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (IndexerServiceException e) {
 			throw new ConfluenceServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());
@@ -245,12 +257,14 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			expectPermission(sessionIdentifier);
 
 			final IdentifierIterator<ConfluenceInstanceIdentifier> i = confluenceInstanceDao.getIdentifierIterator();
-			final List<ConfluenceInstanceIdentifier> result = new ArrayList<>();
+			final List<ConfluenceInstanceIdentifier> result = new ArrayList<ConfluenceInstanceIdentifier>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final IdentifierIteratorException | StorageException e) {
+		} catch (final IdentifierIteratorException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (StorageException e) {
 			throw new ConfluenceServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());
@@ -274,12 +288,14 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			expectPermission(sessionIdentifier);
 
 			final EntityIterator<ConfluenceInstanceBean> i = confluenceInstanceDao.getEntityIterator();
-			final List<ConfluenceInstance> result = new ArrayList<>();
+			final List<ConfluenceInstance> result = new ArrayList<ConfluenceInstance>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException | EntityIteratorException e) {
+		} catch (final StorageException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (EntityIteratorException e) {
 			throw new ConfluenceServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());
@@ -332,7 +348,15 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			confluencePageRefresher.refreshPage(confluencePageIdentifier);
 
 			return true;
-		} catch (IndexerServiceException | ConfluenceXmlRpcClientException | StorageException | MalformedURLException | ParseException e) {
+		} catch (IndexerServiceException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (ConfluenceXmlRpcClientException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (StorageException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (MalformedURLException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (ParseException e) {
 			throw new ConfluenceServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());
@@ -349,7 +373,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 			expectPermission(sessionIdentifier);
 
 			return confluencePageDao.findPageByUrl(confluenceInstanceIdentifier, pageUrl);
-		} catch (StorageException | IdentifierIteratorException e) {
+		} catch (StorageException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (IdentifierIteratorException e) {
 			throw new ConfluenceServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());
@@ -370,7 +396,9 @@ public class ConfluenceServiceImpl implements ConfluenceService {
 				bean.setLastVisit(null);
 				confluencePageDao.save(bean);
 			}
-		} catch (final StorageException | EntityIteratorException e) {
+		} catch (final StorageException e) {
+			throw new ConfluenceServiceException(e);
+		} catch (EntityIteratorException e) {
 			throw new ConfluenceServiceException(e);
 		} finally {
 			logger.trace("duration " + duration.getTime());

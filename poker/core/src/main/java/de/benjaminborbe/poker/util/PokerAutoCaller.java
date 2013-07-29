@@ -40,7 +40,9 @@ public class PokerAutoCaller {
 				handle(game);
 			}
 			logger.debug("poker auto caller cron iterate of games finished");
-		} catch (final EntityIteratorException | StorageException e) {
+		} catch (final EntityIteratorException e) {
+			logger.debug(e.getClass().getName(), e);
+		} catch (StorageException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}
@@ -54,7 +56,9 @@ public class PokerAutoCaller {
 				logger.debug("timeout reached => call");
 				try {
 					pokerService.call(game.getId(), pokerService.getActivePlayer(game.getId()));
-				} catch (PokerServiceException | ValidationException e) {
+				} catch (PokerServiceException e) {
+					logger.debug(e.getClass().getName(), e);
+				} catch (ValidationException e) {
 					logger.debug(e.getClass().getName(), e);
 				}
 			} else {

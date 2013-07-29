@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class CacheSimple<Key, Value> implements Cache<Key, Value> {
 
-	private final Map<Key, CacheEntry<Value>> data = new HashMap<>();
+	private final Map<Key, CacheEntry<Value>> data = new HashMap<Key, CacheEntry<Value>>();
 
 	private final long maxAge = 30 * 1000; // 30 sec
 
@@ -21,7 +21,7 @@ public class CacheSimple<Key, Value> implements Cache<Key, Value> {
 
 	@Override
 	public void put(final Key configurationDescription, final Value value) {
-		data.put(configurationDescription, new CacheEntry<>(value, System.currentTimeMillis() + maxAge));
+		data.put(configurationDescription, new CacheEntry<Value>(value, System.currentTimeMillis() + maxAge));
 	}
 
 	@Override

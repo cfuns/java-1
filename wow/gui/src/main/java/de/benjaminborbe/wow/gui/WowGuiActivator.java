@@ -42,14 +42,14 @@ public class WowGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(wowGuiServlet, "/"));
 		return result;
 	}
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(SearchSpecial.class, specialSearchWowhead, specialSearchWowhead.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, specialSearchThottbot, specialSearchThottbot.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, specialSearchBuffed, specialSearchBuffed.getClass().getName()));

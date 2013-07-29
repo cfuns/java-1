@@ -7,7 +7,7 @@ public class MapperListBase<T> implements Mapper<List<T>> {
 	private final MapperCollectionBase<T> mapper;
 
 	public MapperListBase(final Mapper<T> mapper) {
-		this.mapper = new MapperCollectionBase<>(mapper);
+		this.mapper = new MapperCollectionBase<T>(mapper);
 	}
 
 	@Override

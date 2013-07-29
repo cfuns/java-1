@@ -63,7 +63,13 @@ public class InOfficeCheckHttpContent {
 			}
 			final String content = httpUtil.getContent(httpResponse);
 			return content != null && content.contains(matchString);
-		} catch (final HttpdownloaderServiceException | ParseException | IOException e) {
+		} catch (final HttpdownloaderServiceException e) {
+			logger.warn(e.getClass().getName());
+			return false;
+		} catch (ParseException e) {
+			logger.warn(e.getClass().getName());
+			return false;
+		} catch (IOException e) {
 			logger.warn(e.getClass().getName());
 			return false;
 		}

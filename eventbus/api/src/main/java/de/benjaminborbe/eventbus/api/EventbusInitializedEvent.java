@@ -2,7 +2,7 @@ package de.benjaminborbe.eventbus.api;
 
 public class EventbusInitializedEvent extends Event<EventbusInitializedEventHandler> {
 
-	public static final Type<EventbusInitializedEventHandler> TYPE = new Type<>();
+	public static final Type<EventbusInitializedEventHandler> TYPE = new Type<EventbusInitializedEventHandler>();
 
 	public EventbusInitializedEvent() {
 

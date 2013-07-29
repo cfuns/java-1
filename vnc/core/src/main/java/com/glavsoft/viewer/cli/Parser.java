@@ -36,9 +36,9 @@ import java.util.Map;
  */
 public class Parser {
 
-	private final Map<String, Option> options = new LinkedHashMap<>();
+	private final Map<String, Option> options = new LinkedHashMap<String, Option>();
 
-	private final List<String> plainOptions = new ArrayList<>();
+	private final List<String> plainOptions = new ArrayList<String>();
 
 	private boolean isSetPlainOptions = false;
 

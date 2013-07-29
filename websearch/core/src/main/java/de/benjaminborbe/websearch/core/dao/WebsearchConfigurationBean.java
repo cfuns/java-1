@@ -22,7 +22,7 @@ public class WebsearchConfigurationBean extends EntityBase<WebsearchConfiguratio
 
 	private UserIdentifier owner;
 
-	private List<String> excludes = new ArrayList<>();
+	private List<String> excludes = new ArrayList<String>();
 
 	private Calendar modified;
 

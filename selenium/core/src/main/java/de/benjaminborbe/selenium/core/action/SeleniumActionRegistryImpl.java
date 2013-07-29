@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class SeleniumActionRegistryImpl implements SeleniumActionRegistry, Registry<SeleniumAction> {
 
-	private final Map<Class<? extends SeleniumActionConfiguration>, SeleniumAction> data = new HashMap<>();
+	private final Map<Class<? extends SeleniumActionConfiguration>, SeleniumAction> data = new HashMap<Class<? extends SeleniumActionConfiguration>, SeleniumAction>();
 
 	@Inject
 	public SeleniumActionRegistryImpl(

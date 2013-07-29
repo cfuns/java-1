@@ -31,7 +31,7 @@ public class LunchUserSettingsBeanMapper extends MapObjectMapperAdapter<LunchUse
 		final MapperListIdentifier mapperListIdentifier,
 		final MapperCalendar mapperCalendar, final MapperBoolean mapperBoolean
 	) {
-		final List<StringObjectMapper<LunchUserSettingsBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<LunchUserSettingsBean>> result = new ArrayList<StringObjectMapper<LunchUserSettingsBean>>();
 		result.add(new StringObjectMapperAdapter<LunchUserSettingsBean, LunchUserSettingsIdentifier>("id", mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<LunchUserSettingsBean, Boolean>("notificationActivated", mapperBoolean));
 		result.add(new StringObjectMapperAdapter<LunchUserSettingsBean, Calendar>("created", mapperCalendar));

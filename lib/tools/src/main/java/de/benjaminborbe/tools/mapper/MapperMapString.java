@@ -30,7 +30,7 @@ public class MapperMapString implements Mapper<Map<String, String>> {
 			final Object object = jsonParser.parse(json);
 			if (object instanceof JSONObject) {
 				final JSONObject jsonObject = (JSONObject) object;
-				final Map<String, String> result = new HashMap<>();
+				final Map<String, String> result = new HashMap<String, String>();
 
 				for (final Entry<String, Object> e : jsonObject.entrySet()) {
 					result.put(asString(e.getKey()), asString(e.getValue()));

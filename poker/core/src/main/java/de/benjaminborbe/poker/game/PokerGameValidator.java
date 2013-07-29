@@ -34,7 +34,7 @@ public class PokerGameValidator extends ValidatorBase<PokerGameBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<PokerGameBean>> buildRules() {
-		final Map<String, ValidatorRule<PokerGameBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<PokerGameBean>> result = new HashMap<String, ValidatorRule<PokerGameBean>>();
 
 		// id
 		{
@@ -44,7 +44,7 @@ public class PokerGameValidator extends ValidatorBase<PokerGameBean> {
 				@Override
 				public Collection<ValidationError> validate(final PokerGameBean bean) {
 					final PokerGameIdentifier value = bean.getId();
-					final List<ValidationConstraint<PokerGameIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<PokerGameIdentifier>> constraints = new ArrayList<ValidationConstraint<PokerGameIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<PokerGameIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<PokerGameIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -60,7 +60,7 @@ public class PokerGameValidator extends ValidatorBase<PokerGameBean> {
 				@Override
 				public Collection<ValidationError> validate(final PokerGameBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

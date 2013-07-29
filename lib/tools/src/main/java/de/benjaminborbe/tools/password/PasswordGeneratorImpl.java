@@ -27,7 +27,7 @@ public class PasswordGeneratorImpl implements PasswordGenerator {
 	}
 
 	protected List<Character> combine(final Collection<PasswordCharacter> characters) {
-		final List<Character> cs = new ArrayList<>();
+		final List<Character> cs = new ArrayList<Character>();
 		for (final PasswordCharacter character : characters) {
 			cs.addAll(toCharacter(character.getCharacters()));
 		}

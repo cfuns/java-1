@@ -74,7 +74,7 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 	@Override
 	public Collection<WorktimeValue> findByDate(final Calendar calendar) throws StorageException {
 		logger.trace("findByDate");
-		final Set<WorktimeValue> result = new HashSet<>();
+		final Set<WorktimeValue> result = new HashSet<WorktimeValue>();
 		final String dateString = calendarUtil.toDateString(calendar);
 		final StorageIterator i = storageService.keyIterator(COLUMNFAMILY, new StorageValueMap(getEncoding()).add(FIELD_DATE, dateString));
 		while (i.hasNext()) {
@@ -84,7 +84,9 @@ public class WorktimeStorageServiceImpl implements WorktimeStorageService {
 				final String inOfficeString = list.get(0).getString();
 				final String dateTimeString = list.get(1).getString();
 				result.add(new WorktimeValueImpl(calendarUtil.parseDateTime(timeZoneUtil.getUTCTimeZone(), dateTimeString), parseUtil.parseBoolean(inOfficeString)));
-			} catch (final ParseException | UnsupportedEncodingException e) {
+			} catch (final ParseException e) {
+				logger.error(e.getClass().getName(), e);
+			} catch (UnsupportedEncodingException e) {
 				logger.error(e.getClass().getName(), e);
 			}
 		}

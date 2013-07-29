@@ -16,7 +16,7 @@ public class ValidationConstraintValidatorMock extends ValidationConstraintValid
 
 	@Override
 	public <T> Collection<ValidationError> validate(final String name, final T value, final Collection<ValidationConstraint<T>> constraints) {
-		final List<ValidationError> result = new ArrayList<>();
+		final List<ValidationError> result = new ArrayList<ValidationError>();
 		return result;
 	}
 }

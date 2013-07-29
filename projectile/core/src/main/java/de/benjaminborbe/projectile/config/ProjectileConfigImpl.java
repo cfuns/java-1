@@ -43,7 +43,7 @@ public class ProjectileConfigImpl extends ConfigurationBase implements Projectil
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(authToken);
 		result.add(pop3Login);
 		result.add(pop3Password);

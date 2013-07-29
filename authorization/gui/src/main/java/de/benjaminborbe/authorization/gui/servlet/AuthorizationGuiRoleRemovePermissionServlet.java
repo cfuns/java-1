@@ -65,7 +65,9 @@ public class AuthorizationGuiRoleRemovePermissionServlet extends WebsiteServlet 
 			final PermissionIdentifier permissionIdentifier = authorizationService.createPermissionIdentifier(request.getParameter(AuthorizationGuiConstants.PARAMETER_PERMISSION_ID));
 			final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(request.getParameter(AuthorizationGuiConstants.PARAMETER_ROLE_ID));
 			authorizationService.removePermissionRole(sessionIdentifier, permissionIdentifier, roleIdentifier);
-		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (AuthorizationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

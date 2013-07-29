@@ -20,11 +20,11 @@ public class MailJsonMapper {
 
 	@Inject
 	public MailJsonMapper(final Provider<MailDto> provider, final MapperString mapperString) {
-		mapper = new JsonObjectMapper<>(provider, build(mapperString));
+		mapper = new JsonObjectMapper<MailDto>(provider, build(mapperString));
 	}
 
 	private Collection<StringObjectMapper<MailDto>> build(final MapperString mapperString) {
-		final List<StringObjectMapper<MailDto>> result = new ArrayList<>();
+		final List<StringObjectMapper<MailDto>> result = new ArrayList<StringObjectMapper<MailDto>>();
 		result.add(new StringObjectMapperAdapter<MailDto, String>("from", mapperString));
 		result.add(new StringObjectMapperAdapter<MailDto, String>("to", mapperString));
 		result.add(new StringObjectMapperAdapter<MailDto, String>("subject", mapperString));

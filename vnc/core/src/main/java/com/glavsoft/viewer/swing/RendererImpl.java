@@ -88,7 +88,11 @@ public class RendererImpl extends Renderer implements ImageObserver {
 		Toolkit.getDefaultToolkit().prepareImage(jpegImage, -1, -1, this);
 		try {
 			barier.await(3, TimeUnit.SECONDS);
-		} catch (final InterruptedException | TimeoutException | BrokenBarrierException e) {
+		} catch (final InterruptedException e) {
+			// nop
+		} catch (BrokenBarrierException e) {
+			// nop
+		} catch (TimeoutException e) {
 			// nop
 		}
 		final Graphics graphics = offscreanImage.getGraphics();
@@ -101,7 +105,9 @@ public class RendererImpl extends Renderer implements ImageObserver {
 		if (isReady) {
 			try {
 				barier.await();
-			} catch (final InterruptedException | BrokenBarrierException e) {
+			} catch (final BrokenBarrierException e) {
+				// nop
+			} catch (InterruptedException e) {
 				// nop
 			}
 		}

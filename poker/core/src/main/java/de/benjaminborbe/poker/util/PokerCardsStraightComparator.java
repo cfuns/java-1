@@ -40,7 +40,7 @@ public class PokerCardsStraightComparator implements Comparator<Collection<Poker
 		final List<PokerCardValue> list = pokerCardUtil.sort(pokerCardUtil.unique(pokerCardUtil.values(cards)));
 
 		for (int start = list.size() - 1; start >= 4; --start) {
-			final List<PokerCardValue> result = new ArrayList<>();
+			final List<PokerCardValue> result = new ArrayList<PokerCardValue>();
 			result.add(list.get(start));
 			for (int i = start - 1; i >= 0; --i) {
 				if (list.get(i).getValue() == list.get(i + 1).getValue() - 1) {

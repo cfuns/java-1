@@ -35,7 +35,7 @@ public class ChecklistEntryValidator extends ValidatorBase<ChecklistEntryBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<ChecklistEntryBean>> buildRules() {
-		final Map<String, ValidatorRule<ChecklistEntryBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<ChecklistEntryBean>> result = new HashMap<String, ValidatorRule<ChecklistEntryBean>>();
 
 		// name
 		{
@@ -45,7 +45,7 @@ public class ChecklistEntryValidator extends ValidatorBase<ChecklistEntryBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistEntryBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -62,7 +62,7 @@ public class ChecklistEntryValidator extends ValidatorBase<ChecklistEntryBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistEntryBean bean) {
 					final ChecklistEntryIdentifier value = bean.getId();
-					final List<ValidationConstraint<ChecklistEntryIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<ChecklistEntryIdentifier>> constraints = new ArrayList<ValidationConstraint<ChecklistEntryIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<ChecklistEntryIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -77,7 +77,7 @@ public class ChecklistEntryValidator extends ValidatorBase<ChecklistEntryBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistEntryBean bean) {
 					final ChecklistListIdentifier value = bean.getListId();
-					final List<ValidationConstraint<ChecklistListIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<ChecklistListIdentifier>> constraints = new ArrayList<ValidationConstraint<ChecklistListIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<ChecklistListIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -92,7 +92,7 @@ public class ChecklistEntryValidator extends ValidatorBase<ChecklistEntryBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistEntryBean bean) {
 					final UserIdentifier value = bean.getOwner();
-					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<ValidationConstraint<UserIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<UserIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -107,7 +107,7 @@ public class ChecklistEntryValidator extends ValidatorBase<ChecklistEntryBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistEntryBean bean) {
 					final Boolean value = bean.getCompleted();
-					final List<ValidationConstraint<Boolean>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Boolean>> constraints = new ArrayList<ValidationConstraint<Boolean>>();
 					constraints.add(new ValidationConstraintNotNull<Boolean>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}

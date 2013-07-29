@@ -36,7 +36,7 @@ import static org.junit.Assert.assertEquals;
 public class TaskBeanMapperUnitTest {
 
 	private TaskBeanMapper getTaskBeanMapper() {
-		final Provider<TaskBean> taskBeanProvider = new ProviderMock<>(TaskBean.class);
+		final Provider<TaskBean> taskBeanProvider = new ProviderMock<TaskBean>(TaskBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -73,7 +73,7 @@ public class TaskBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final TaskBean bean = mapper.map(data);
 			assertEquals(value, bean.getId());
@@ -92,7 +92,7 @@ public class TaskBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), value);
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, value);
 			final TaskBean bean = mapper.map(data);
 			assertEquals(value, bean.getName());
@@ -111,7 +111,7 @@ public class TaskBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final TaskBean bean = mapper.map(data);
 			assertEquals(value, bean.getCompleted());
@@ -130,7 +130,7 @@ public class TaskBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final TaskBean bean = mapper.map(data);
 			assertEquals(value, bean.getDescription());
@@ -149,7 +149,7 @@ public class TaskBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final TaskBean bean = mapper.map(data);
 			assertEquals(value, bean.getOwner());
@@ -168,7 +168,7 @@ public class TaskBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final TaskBean bean = mapper.map(data);
 			assertEquals(value, bean.getDuration());
@@ -191,7 +191,7 @@ public class TaskBeanMapperUnitTest {
 			assertEquals(String.valueOf(ms), data.get(fieldname));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(ms));
 			final TaskBean bean = mapper.map(data);
 			assertEquals(value.getTimeInMillis(), bean.getCreated().getTimeInMillis());
@@ -214,7 +214,7 @@ public class TaskBeanMapperUnitTest {
 			assertEquals(String.valueOf(ms), data.get(fieldname));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(ms));
 			final TaskBean bean = mapper.map(data);
 			assertEquals(value.getTimeInMillis(), bean.getModified().getTimeInMillis());
@@ -237,7 +237,7 @@ public class TaskBeanMapperUnitTest {
 			assertEquals(String.valueOf(ms), data.get(fieldname));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(ms));
 			final TaskBean bean = mapper.map(data);
 			assertEquals(value.getTimeInMillis(), bean.getStart().getTimeInMillis());
@@ -260,7 +260,7 @@ public class TaskBeanMapperUnitTest {
 			assertEquals(String.valueOf(ms), data.get(fieldname));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(ms));
 			final TaskBean bean = mapper.map(data);
 			assertEquals(value.getTimeInMillis(), bean.getDue().getTimeInMillis());

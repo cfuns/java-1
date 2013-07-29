@@ -17,7 +17,7 @@ import java.util.Map;
 @Singleton
 public class EventbusServiceImpl implements EventbusService {
 
-	private final Map<Type<EventHandler>, List<EventHandler>> handlers = new HashMap<>();
+	private final Map<Type<EventHandler>, List<EventHandler>> handlers = new HashMap<Type<EventHandler>, List<EventHandler>>();
 
 	private final Logger logger;
 
@@ -32,7 +32,7 @@ public class EventbusServiceImpl implements EventbusService {
 		logger.trace("CoreEventbus - register handler: " + handler.toString() + " for type: " + type.toString());
 		List<EventHandler> eventHandlers = handlers.get(type);
 		if (eventHandlers == null) {
-			eventHandlers = new ArrayList<>();
+			eventHandlers = new ArrayList<EventHandler>();
 			handlers.put((Type<EventHandler>) type, eventHandlers);
 		}
 		eventHandlers.add(handler);

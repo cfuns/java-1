@@ -67,7 +67,7 @@ public class StorageConfigImpl extends ConfigurationBase implements StorageConfi
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(hostname);
 		result.add(port);
 		result.add(keyspace);

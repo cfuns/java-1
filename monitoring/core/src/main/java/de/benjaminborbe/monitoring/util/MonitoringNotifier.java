@@ -55,7 +55,7 @@ public class MonitoringNotifier {
 		@Override
 		public void run() {
 			try {
-				final List<MonitoringNode> nodes = new ArrayList<>();
+				final List<MonitoringNode> nodes = new ArrayList<MonitoringNode>();
 
 				final EntityIterator<MonitoringNodeBean> i = monitoringNodeDao.getEntityIterator();
 				while (i.hasNext()) {
@@ -63,8 +63,8 @@ public class MonitoringNotifier {
 					nodes.add(monitoringNodeBuilder.build(bean));
 				}
 
-				final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<>(nodes);
-				final List<MonitoringNode> results = new ArrayList<>();
+				final MonitoringNodeTree<MonitoringNode> tree = new MonitoringNodeTree<MonitoringNode>(nodes);
+				final List<MonitoringNode> results = new ArrayList<MonitoringNode>();
 				handle(results, tree.getRootNodes(), tree);
 				if (results.isEmpty()) {
 					logger.debug("no errors found => skip mail");
@@ -81,18 +81,24 @@ public class MonitoringNotifier {
 							notification.setSubject(subject);
 							notification.setMessage(message);
 							notificationService.notify(notification);
-						} catch (NotificationServiceException | ValidationException e) {
+						} catch (ValidationException e) {
+							logger.warn("notify user failed", e);
+						} catch (NotificationServiceException e) {
 							logger.warn("notify user failed", e);
 						}
 					}
 				}
-			} catch (final EntityIteratorException | AuthorizationServiceException | StorageException e) {
+			} catch (final EntityIteratorException e) {
+				logger.warn("notify failed", e);
+			} catch (StorageException e) {
+				logger.warn("notify failed", e);
+			} catch (AuthorizationServiceException e) {
 				logger.warn("notify failed", e);
 			}
 		}
 
 		private void handle(final List<MonitoringNode> results, final List<MonitoringNode> list, final MonitoringNodeTree<MonitoringNode> tree) {
-			Collections.sort(list, new MonitoringNodeComparator<>());
+			Collections.sort(list, new MonitoringNodeComparator<MonitoringNode>());
 			for (final MonitoringNode node : list) {
 				final String label = buildLabel(node);
 				if (Boolean.TRUE.equals(node.getActive())) {

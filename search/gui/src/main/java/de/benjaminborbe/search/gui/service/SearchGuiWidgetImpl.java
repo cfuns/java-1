@@ -124,7 +124,11 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 				final List<SearchResult> results = searchService.search(sessionIdentifier, searchQuery, MAX_RESULTS);
 				printSearchResults(request, response, context, results, words);
 			}
-		} catch (final AuthenticationServiceException | SearchServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
+			exceptionWidget.render(request, response, context);
+		} catch (SearchServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
 			exceptionWidget.render(request, response, context);
@@ -212,7 +216,7 @@ public class SearchGuiWidgetImpl implements SearchWidget {
 	}
 
 	private List<String> buildEscapedWords(final List<String> words) {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		for (final String word : words) {
 			result.add(StringEscapeUtils.escapeHtml(word));
 		}

@@ -48,7 +48,7 @@ public class WebsearchActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CrawlerNotifier.class, websearchUpdatePageCrawlerNotify));
 		result.add(new ServiceInfo(CrawlerNotifier.class, websearchSaveImageCrawlerNotify));
 		result.add(new ServiceInfo(SearchServiceComponent.class, websearchSearchServiceComponent, websearchSearchServiceComponent.getClass().getName()));

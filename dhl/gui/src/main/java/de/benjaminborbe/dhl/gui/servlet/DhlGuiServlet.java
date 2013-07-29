@@ -90,9 +90,10 @@ public class DhlGuiServlet extends DhlWebsiteHtmlServlet {
 
 			widgets.add(ul);
 			return widgets;
-		} catch (final AuthorizationServiceException | AuthenticationServiceException e) {
-			final ExceptionWidget exceptionWidget = new ExceptionWidget(e);
-			return exceptionWidget;
+		} catch (final AuthorizationServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
 		}
 	}
 }

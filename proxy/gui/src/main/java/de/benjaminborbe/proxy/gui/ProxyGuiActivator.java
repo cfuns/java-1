@@ -54,14 +54,14 @@ public class ProxyGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, proxyGuiNavigationEntry));
 		return result;
 	}
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(proxyGuiServlet, ProxyGuiConstants.URL_HOME));
 		result.add(new ServletInfo(proxyGuiAdminServlet, ProxyGuiConstants.URL_ADMIN));
 		result.add(new ServletInfo(proxyGuiStartServlet, ProxyGuiConstants.URL_START));

@@ -65,7 +65,9 @@ public class TaskGuiTaskSwapPrioServlet extends TaskGuiWebsiteServlet {
 			final TaskIdentifier taskIdentifierA = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID_A));
 			final TaskIdentifier taskIdentifierB = taskService.createTaskIdentifier(request.getParameter(TaskGuiConstants.PARAMETER_TASK_ID_B));
 			taskService.swapPrio(sessionIdentifier, taskIdentifierA, taskIdentifierB);
-		} catch (final AuthenticationServiceException | TaskServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (TaskServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

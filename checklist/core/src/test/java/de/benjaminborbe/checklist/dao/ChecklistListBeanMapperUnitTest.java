@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 public class ChecklistListBeanMapperUnitTest {
 
 	private ChecklistListBeanMapper getChecklistListBeanMapper() {
-		final Provider<ChecklistListBean> taskBeanProvider = new ProviderMock<>(ChecklistListBean.class);
+		final Provider<ChecklistListBean> taskBeanProvider = new ProviderMock<ChecklistListBean>(ChecklistListBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -57,7 +57,7 @@ public class ChecklistListBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final ChecklistListBean bean = mapper.map(data);
 			assertEquals(value, bean.getId());

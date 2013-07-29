@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 
 public class AnalyticsReportValueListIteratorImpl implements AnalyticsReportValueListIterator {
 
-	private final List<AnalyticsReportValueIteratorCurrent> analyticsReportValueIterators = new ArrayList<>();
+	private final List<AnalyticsReportValueIteratorCurrent> analyticsReportValueIterators = new ArrayList<AnalyticsReportValueIteratorCurrent>();
 
 	private List<AnalyticsReportValue> next;
 
@@ -41,7 +41,7 @@ public class AnalyticsReportValueListIteratorImpl implements AnalyticsReportValu
 			}
 
 			if (nextDate != null) {
-				final List<AnalyticsReportValue> result = new ArrayList<>();
+				final List<AnalyticsReportValue> result = new ArrayList<AnalyticsReportValue>();
 				for (final AnalyticsReportValueIteratorCurrent analyticsReportValueIterator : analyticsReportValueIterators) {
 					final AnalyticsReportValue current = analyticsReportValueIterator.getCurrent();
 					if (current != null && current.getDate().equals(nextDate)) {

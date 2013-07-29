@@ -34,7 +34,7 @@ public class KioskActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(KioskService.class, kioskService));
 		result.add(new ServiceInfo(MessageConsumer.class, kioskBookingMessageConsumer));
 		for (final ConfigurationDescription configuration : kioskConfig.getConfigurations()) {

@@ -146,12 +146,12 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 
 	@Override
 	public Collection<ValidationError> validate(final Map<String, String> parameter) {
-		final List<ValidationError> result = new ArrayList<>();
+		final List<ValidationError> result = new ArrayList<ValidationError>();
 
 		// url
 		{
 			final String url = parameter.get(URL);
-			final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+			final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 			constraints.add(new ValidationConstraintNotNull<String>());
 			constraints.add(new ValidationConstraintStringUrl());
 			result.addAll(validationConstraintValidator.validate(URL, url, constraints));
@@ -161,7 +161,7 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 		{
 			try {
 				final int timeout = parseUtil.parseInt(parameter.get(TIMEOUT));
-				final List<ValidationConstraint<Integer>> constraints = new ArrayList<>();
+				final List<ValidationConstraint<Integer>> constraints = new ArrayList<ValidationConstraint<Integer>>();
 				constraints.add(new ValidationConstraintNotNull<Integer>());
 				constraints.add(new ValidationConstraintIntegerGE(0));
 				constraints.add(new ValidationConstraintIntegerLE(60000));

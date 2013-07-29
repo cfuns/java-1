@@ -87,7 +87,11 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			} else {
 				throw new MicroblogConnectorException("can't find latest revision");
 			}
-		} catch (final HttpdownloaderServiceException | ParseException | IOException e) {
+		} catch (final HttpdownloaderServiceException e) {
+			throw new MicroblogConnectorException(e);
+		} catch (ParseException e) {
+			throw new MicroblogConnectorException(e);
+		} catch (IOException e) {
 			throw new MicroblogConnectorException(e);
 		}
 	}
@@ -110,7 +114,11 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 				logger.trace("conversationUrl=" + conversationUrl);
 			final Calendar date = extractCalendar(pageContent);
 			return new MicroblogPostResult(microblogPostIdentifier, content, author, url, conversationUrl, date);
-		} catch (final ParseException | HttpdownloaderServiceException | IOException e) {
+		} catch (final ParseException e) {
+			throw new MicroblogConnectorException(e);
+		} catch (HttpdownloaderServiceException e) {
+			throw new MicroblogConnectorException(e);
+		} catch (IOException e) {
 			throw new MicroblogConnectorException(e);
 		}
 	}
@@ -233,13 +241,17 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			}
 			final String conversationUrl = pageContent.substring(open + 6, close);
 			return buildMicroblogConversationResult(conversationUrl, pageContent);
-		} catch (final ParseException | IOException | HttpdownloaderServiceException e) {
+		} catch (final ParseException e) {
+			throw new MicroblogConnectorException(e);
+		} catch (HttpdownloaderServiceException e) {
+			throw new MicroblogConnectorException(e);
+		} catch (IOException e) {
 			throw new MicroblogConnectorException(e);
 		}
 	}
 
 	protected MicroblogConversationResult buildMicroblogConversationResult(final String conversationUrl, final String pageContent) throws ParseException {
-		final List<MicroblogPostResult> list = new ArrayList<>();
+		final List<MicroblogPostResult> list = new ArrayList<MicroblogPostResult>();
 		int itemIndexOpen = pageContent.indexOf("<item>");
 		int itemIndexClose = pageContent.indexOf("</item>", itemIndexOpen);
 		while (itemIndexOpen != -1 && itemIndexClose != -1) {

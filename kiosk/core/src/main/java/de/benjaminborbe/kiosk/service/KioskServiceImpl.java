@@ -65,7 +65,9 @@ public class KioskServiceImpl implements KioskService {
 			final String id = customer + "_" + ean;
 			final Calendar startTime = calendarUtil.getCalendar(currentTime.currentTimeMillis() + DELAY);
 			messageService.sendMessage(KioskConstants.BOOKING_MESSAGE_TYPE, id, kioskBookingMessageMapper.map(bookingMessage), startTime);
-		} catch (final MessageServiceException | MapException e) {
+		} catch (final MessageServiceException e) {
+			throw new KioskServiceException(e);
+		} catch (MapException e) {
 			throw new KioskServiceException(e);
 		}
 	}
@@ -84,7 +86,7 @@ public class KioskServiceImpl implements KioskService {
 	public Collection<KioskUser> getBookingsForDay(final Calendar calendar, final long ean) throws KioskServiceException {
 		try {
 			logger.debug("getBookingsForDay - calendar: " + calendarUtil.toDateString(calendar) + " ean: " + ean);
-			final List<KioskUser> result = new ArrayList<>();
+			final List<KioskUser> result = new ArrayList<KioskUser>();
 			for (final KioskUserBean user : kioskDatabaseConnector.getBookingsForDay(calendar, ean)) {
 				result.add(user);
 			}

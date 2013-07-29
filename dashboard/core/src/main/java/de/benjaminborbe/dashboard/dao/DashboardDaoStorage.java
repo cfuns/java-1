@@ -27,7 +27,7 @@ public class DashboardDaoStorage implements DashboardDao {
 
 	@Override
 	public Collection<DashboardIdentifier> getSelectedDashboards(final UserIdentifier userIdentifier) throws StorageException, UnsupportedEncodingException {
-		final List<DashboardIdentifier> result = new ArrayList<>();
+		final List<DashboardIdentifier> result = new ArrayList<DashboardIdentifier>();
 		final StorageColumnIterator columnIterator = storageService.columnIterator(COLUMN_FAMILY, new StorageValue(String.valueOf(userIdentifier), storageService.getEncoding()));
 		while (columnIterator.hasNext()) {
 			final StorageColumn column = columnIterator.next();

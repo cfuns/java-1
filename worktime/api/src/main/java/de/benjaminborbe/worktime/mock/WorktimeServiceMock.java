@@ -11,7 +11,7 @@ public class WorktimeServiceMock implements WorktimeService {
 
 	@Override
 	public List<Workday> getTimes(final int days) throws WorktimeServiceException {
-		return new ArrayList<>();
+		return new ArrayList<Workday>();
 	}
 
 	@Override

@@ -40,7 +40,7 @@ public class MicroblogConfigImpl extends ConfigurationBase implements MicroblogC
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(cronEnabled);
 		result.add(mailEnabled);
 		result.add(microblogRssFeed);

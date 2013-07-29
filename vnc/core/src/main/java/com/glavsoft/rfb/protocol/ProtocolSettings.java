@@ -150,7 +150,7 @@ public class ProtocolSettings implements Serializable {
 		bitsPerPixel = 0;// DEFAULT_BITS_PER_PIXEL;
 		refine();
 
-		listeners = new LinkedList<>();
+		listeners = new LinkedList<IChangeSettingsListener>();
 		tunnelingCapabilities = new CapabilityContainer(logger);
 		authCapabilities = new CapabilityContainer(logger);
 		serverMessagesCapabilities = new CapabilityContainer(logger);
@@ -265,7 +265,7 @@ public class ProtocolSettings implements Serializable {
 	}
 
 	public void refine() {
-		final LinkedHashSet<EncodingType> encodings = new LinkedHashSet<>();
+		final LinkedHashSet<EncodingType> encodings = new LinkedHashSet<EncodingType>();
 		if (EncodingType.RAW_ENCODING == preferredEncoding) {
 			// when RAW selected send no ordinary encodings so only default RAW encoding will be
 			// enabled

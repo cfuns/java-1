@@ -66,7 +66,9 @@ public class ConfluenceGuiInstanceDeleteServlet extends WebsiteServlet {
 			final ConfluenceInstanceIdentifier confluenceInstanceIdentifier = confluenceService.createConfluenceInstanceIdentifier(
 				request.getParameter(ConfluenceGuiConstants.PARAMETER_INSTANCE_ID));
 			confluenceService.deleteConfluenceInstance(sessionIdentifier, confluenceInstanceIdentifier);
-		} catch (final AuthenticationServiceException | ConfluenceServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ConfluenceServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

@@ -11,7 +11,7 @@ import java.util.Set;
 @Singleton
 public class ValidatorRegistryImpl implements ValidatorRegistry {
 
-	private final Map<Class<?>, Set<Validator<?>>> data = new HashMap<>();
+	private final Map<Class<?>, Set<Validator<?>>> data = new HashMap<Class<?>, Set<Validator<?>>>();
 
 	@Inject
 	public ValidatorRegistryImpl() {
@@ -22,7 +22,7 @@ public class ValidatorRegistryImpl implements ValidatorRegistry {
 		if (data.containsKey(clazz)) {
 			return data.get(clazz);
 		} else {
-			return new HashSet<>();
+			return new HashSet<Validator<?>>();
 		}
 	}
 
@@ -32,7 +32,7 @@ public class ValidatorRegistryImpl implements ValidatorRegistry {
 		if (data.containsKey(validator.getType())) {
 			list = data.get(validator.getType());
 		} else {
-			list = new HashSet<>();
+			list = new HashSet<Validator<?>>();
 			data.put(validator.getType(), list);
 		}
 		list.add(validator);

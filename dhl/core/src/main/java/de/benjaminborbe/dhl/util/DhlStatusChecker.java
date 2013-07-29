@@ -59,11 +59,15 @@ public class DhlStatusChecker {
 							logger.debug("can't find new status");
 						}
 					}
-				} catch (final DhlStatusFetcherException | DhlStatusNotifierException e) {
+				} catch (final DhlStatusFetcherException e) {
+					logger.error(e.getClass().getSimpleName(), e);
+				} catch (DhlStatusNotifierException e) {
 					logger.error(e.getClass().getSimpleName(), e);
 				}
 			}
-		} catch (final StorageException | EntityIteratorException e) {
+		} catch (final StorageException e) {
+			logger.error(e.getClass().getSimpleName(), e);
+		} catch (EntityIteratorException e) {
 			logger.error(e.getClass().getSimpleName(), e);
 		}
 	}

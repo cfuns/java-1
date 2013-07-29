@@ -47,7 +47,7 @@ public class PortfolioLayoutWidget extends CompositeWidget implements Widget {
 
 	private final PortfolioGuiLinkFactory portfolioLinkFactory;
 
-	private Collection<GalleryEntry> galleryEntries = new HashSet<>();
+	private Collection<GalleryEntry> galleryEntries = new HashSet<GalleryEntry>();
 
 	@Inject
 	public PortfolioLayoutWidget(

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class AnalyticsAggregatorCalculatorFactory {
 
-	private final Map<AnalyticsReportAggregation, AnalyticsAggregatorCalculator> data = new HashMap<>();
+	private final Map<AnalyticsReportAggregation, AnalyticsAggregatorCalculator> data = new HashMap<AnalyticsReportAggregation, AnalyticsAggregatorCalculator>();
 
 	@Inject
 	public AnalyticsAggregatorCalculatorFactory(

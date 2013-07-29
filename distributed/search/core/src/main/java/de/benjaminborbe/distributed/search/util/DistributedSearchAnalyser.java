@@ -36,7 +36,7 @@ public class DistributedSearchAnalyser {
 	}
 
 	public Map<String, Integer> parseWordRating(final String... contents) {
-		final Map<String, Integer> result = new HashMap<>();
+		final Map<String, Integer> result = new HashMap<String, Integer>();
 		for (final String content : contents) {
 			parseWordRating(content, 1, result);
 		}

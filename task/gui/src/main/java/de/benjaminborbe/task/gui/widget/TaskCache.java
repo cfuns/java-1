@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class TaskCache {
 
-	private final Map<TaskIdentifier, Task> tasks = new HashMap<>();
+	private final Map<TaskIdentifier, Task> tasks = new HashMap<TaskIdentifier, Task>();
 
 	private final Logger logger;
 
@@ -69,7 +69,7 @@ public class TaskCache {
 	}
 
 	public List<Task> getChildTasks(final TaskIdentifier parentId) {
-		final List<Task> result = new ArrayList<>();
+		final List<Task> result = new ArrayList<Task>();
 		for (final Task task : tasks.values()) {
 			logger.trace("getChildTasks compare " + parentId + " eq " + task.getParentId());
 			if ((task.getParentId() == null && parentId == null) || (task.getParentId() != null && parentId != null && task.getParentId().equals(parentId))) {

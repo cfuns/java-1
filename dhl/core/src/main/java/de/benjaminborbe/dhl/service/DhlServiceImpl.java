@@ -100,7 +100,13 @@ public class DhlServiceImpl implements DhlService {
 			final DhlBean dhl = dhlDao.load(dhlIdentifier);
 			final DhlStatus newStatus = dhlStatusFetcher.fetchStatus(dhl);
 			dhlStatusNotifier.notify(dhl.getOwner(), newStatus);
-		} catch (final DhlStatusFetcherException | StorageException | AuthorizationServiceException | DhlStatusNotifierException e) {
+		} catch (final DhlStatusFetcherException e) {
+			throw new DhlServiceException(e);
+		} catch (StorageException e) {
+			throw new DhlServiceException(e);
+		} catch (AuthorizationServiceException e) {
+			throw new DhlServiceException(e);
+		} catch (DhlStatusNotifierException e) {
 			throw new DhlServiceException(e);
 		}
 	}
@@ -112,7 +118,7 @@ public class DhlServiceImpl implements DhlService {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 
 			logger.debug("getRegisteredDhlIdentifiers");
-			final List<DhlIdentifier> result = new ArrayList<>();
+			final List<DhlIdentifier> result = new ArrayList<DhlIdentifier>();
 			final EntityIterator<DhlBean> i = dhlDao.getEntityIterator();
 			while (i.hasNext()) {
 				final DhlBean bean = i.next();
@@ -121,7 +127,13 @@ public class DhlServiceImpl implements DhlService {
 				}
 			}
 			return result;
-		} catch (final StorageException | AuthorizationServiceException | EntityIteratorException | AuthenticationServiceException e) {
+		} catch (final StorageException e) {
+			throw new DhlServiceException(e);
+		} catch (EntityIteratorException e) {
+			throw new DhlServiceException(e);
+		} catch (AuthorizationServiceException e) {
+			throw new DhlServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new DhlServiceException(e);
 		}
 	}
@@ -134,7 +146,9 @@ public class DhlServiceImpl implements DhlService {
 
 			logger.debug("removeTracking");
 			dhlDao.delete(dhlIdentifier);
-		} catch (final StorageException | AuthorizationServiceException e) {
+		} catch (final StorageException e) {
+			throw new DhlServiceException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new DhlServiceException(e);
 		}
 	}
@@ -147,7 +161,11 @@ public class DhlServiceImpl implements DhlService {
 
 			final Dhl dhl = dhlDao.load(dhlIdentifier);
 			return dhlUrlBuilder.buildUrl(dhl);
-		} catch (final ParseException | StorageException | AuthorizationServiceException e) {
+		} catch (final ParseException e) {
+			throw new DhlServiceException(e);
+		} catch (StorageException e) {
+			throw new DhlServiceException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new DhlServiceException(e);
 		}
 	}
@@ -178,7 +196,11 @@ public class DhlServiceImpl implements DhlService {
 
 			dhlDao.save(bean);
 			return id;
-		} catch (final StorageException | AuthorizationServiceException | AuthenticationServiceException e) {
+		} catch (final StorageException e) {
+			throw new DhlServiceException(e);
+		} catch (AuthorizationServiceException e) {
+			throw new DhlServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new DhlServiceException(e);
 		}
 	}
@@ -191,7 +213,7 @@ public class DhlServiceImpl implements DhlService {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 
 			logger.debug("getRegisteredDhlIdentifiers");
-			final List<Dhl> result = new ArrayList<>();
+			final List<Dhl> result = new ArrayList<Dhl>();
 			final EntityIterator<DhlBean> i = dhlDao.getEntityIterator();
 			while (i.hasNext()) {
 				final DhlBean bean = i.next();
@@ -200,7 +222,13 @@ public class DhlServiceImpl implements DhlService {
 				}
 			}
 			return result;
-		} catch (final StorageException | AuthorizationServiceException | EntityIteratorException | AuthenticationServiceException e) {
+		} catch (final StorageException e) {
+			throw new DhlServiceException(e);
+		} catch (EntityIteratorException e) {
+			throw new DhlServiceException(e);
+		} catch (AuthorizationServiceException e) {
+			throw new DhlServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new DhlServiceException(e);
 		}
 	}

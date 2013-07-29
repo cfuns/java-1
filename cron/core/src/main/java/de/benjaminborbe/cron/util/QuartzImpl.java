@@ -29,7 +29,7 @@ public class QuartzImpl implements Quartz {
 
 	private final SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 
-	private final Map<Class<? extends CronJob>, JobKey> jobDetails = new HashMap<>();
+	private final Map<Class<? extends CronJob>, JobKey> jobDetails = new HashMap<Class<? extends CronJob>, JobKey>();
 
 	private Scheduler sched = null;
 

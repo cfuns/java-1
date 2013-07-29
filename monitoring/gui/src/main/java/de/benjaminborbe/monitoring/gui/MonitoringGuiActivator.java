@@ -83,7 +83,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, monitoringGuiNavigationEntry, monitoringGuiNavigationEntry.getClass().getName()));
 
 		return result;
@@ -91,7 +91,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(monitoringGuiServlet, MonitoringGuiConstants.URL_HOME));
 		result.add(new ServletInfo(monitoringGuiNodeCheckServlet, MonitoringGuiConstants.URL_NODE_CHECK));
 		result.add(new ServletInfo(monitoringGuiNodeJsonServlet, MonitoringGuiConstants.URL_NODE_JSON));
@@ -110,7 +110,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo("/css", "css"));
 		return result;
 	}

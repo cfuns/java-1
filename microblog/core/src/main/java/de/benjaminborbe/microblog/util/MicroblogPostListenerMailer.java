@@ -56,7 +56,13 @@ public class MicroblogPostListenerMailer implements MicroblogPostListener {
 					microblogPostMailer.mailPost(microblogPost);
 				}
 			}
-		} catch (final MicroblogPostNotifierException | MicroblogConversationNotifierException | MicroblogConnectorException | ParseException e) {
+		} catch (final MicroblogPostNotifierException e) {
+			logger.debug(e.getClass().getName(), e);
+		} catch (MicroblogConnectorException e) {
+			logger.debug(e.getClass().getName(), e);
+		} catch (MicroblogConversationNotifierException e) {
+			logger.debug(e.getClass().getName(), e);
+		} catch (ParseException e) {
 			logger.debug(e.getClass().getName(), e);
 		}
 	}

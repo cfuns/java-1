@@ -35,7 +35,7 @@ public class PokerCardsTwoPairComparator implements Comparator<Collection<PokerC
 	}
 
 	private Collection<PokerCardIdentifier> buildRemaining(final Collection<PokerCardIdentifier> cards, final List<PokerCardIdentifier> list) {
-		final List<PokerCardIdentifier> result = new ArrayList<>();
+		final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
 		for (final PokerCardIdentifier card : cards) {
 			if (!list.contains(card)) {
 				result.add(card);
@@ -45,7 +45,7 @@ public class PokerCardsTwoPairComparator implements Comparator<Collection<PokerC
 	}
 
 	private List<PokerCardIdentifier> buildList(final Collection<PokerCardIdentifier> cards) {
-		final List<PokerCardIdentifier> list = new ArrayList<>();
+		final List<PokerCardIdentifier> list = new ArrayList<PokerCardIdentifier>();
 		final MapList<PokerCardValue, PokerCardIdentifier> map = buildMap(cards);
 		for (final Entry<PokerCardValue, List<PokerCardIdentifier>> e : map.entrySet()) {
 			if (e.getValue().size() == 2) {
@@ -56,7 +56,7 @@ public class PokerCardsTwoPairComparator implements Comparator<Collection<PokerC
 	}
 
 	private MapList<PokerCardValue, PokerCardIdentifier> buildMap(final Collection<PokerCardIdentifier> cards) {
-		final MapList<PokerCardValue, PokerCardIdentifier> result = new MapList<>();
+		final MapList<PokerCardValue, PokerCardIdentifier> result = new MapList<PokerCardValue, PokerCardIdentifier>();
 		for (final PokerCardIdentifier card : cards) {
 			result.add(card.getValue(), card);
 		}

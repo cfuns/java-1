@@ -139,7 +139,7 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 		final String expireString, final String delayString, final String activatedString
 	) throws WebsearchServiceException, LoginRequiredException, PermissionDeniedException,
 		ValidationException {
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		URL url;
 		{
 			try {
@@ -150,7 +150,7 @@ public class WebsearchGuiConfigurationCreateServlet extends WebsiteHtmlServlet {
 			}
 		}
 
-		final List<String> excludes = new ArrayList<>();
+		final List<String> excludes = new ArrayList<String>();
 		{
 			if (excludesString != null) {
 				final String[] parts = excludesString.split(",");

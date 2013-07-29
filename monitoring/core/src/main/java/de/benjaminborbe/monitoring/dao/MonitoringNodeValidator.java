@@ -87,7 +87,7 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<MonitoringNodeBean>> buildRules() {
-		final Map<String, ValidatorRule<MonitoringNodeBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<MonitoringNodeBean>> result = new HashMap<String, ValidatorRule<MonitoringNodeBean>>();
 
 		// id
 		{
@@ -97,7 +97,7 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 				@Override
 				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
 					final MonitoringNodeIdentifier value = bean.getId();
-					final List<ValidationConstraint<MonitoringNodeIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<MonitoringNodeIdentifier>> constraints = new ArrayList<ValidationConstraint<MonitoringNodeIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<MonitoringNodeIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -112,7 +112,7 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 				@Override
 				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -129,7 +129,7 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 				@Override
 				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
 					final MonitoringCheckIdentifier value = bean.getCheckType();
-					final List<ValidationConstraint<MonitoringCheckIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<MonitoringCheckIdentifier>> constraints = new ArrayList<ValidationConstraint<MonitoringCheckIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<MonitoringCheckIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -143,9 +143,9 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 
 				@Override
 				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
-					final List<ValidationError> errors = new ArrayList<>();
+					final List<ValidationError> errors = new ArrayList<ValidationError>();
 					final Map<String, String> value = bean.getParameter();
-					final List<ValidationConstraint<Map<String, String>>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<Map<String, String>>> constraints = new ArrayList<ValidationConstraint<Map<String, String>>>();
 					constraints.add(new ValidationConstraintNotNull<Map<String, String>>());
 					errors.addAll(validationConstraintValidator.validate(field, value, constraints));
 					final MonitoringCheck check = monitoringCheckRegistry.get(bean.getCheckType());
@@ -165,10 +165,10 @@ public class MonitoringNodeValidator extends ValidatorBase<MonitoringNodeBean> {
 				@Override
 				public Collection<ValidationError> validate(final MonitoringNodeBean bean) {
 					final MonitoringNodeIdentifier value = bean.getParentId();
-					final List<ValidationConstraint<MonitoringNodeIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<MonitoringNodeIdentifier>> constraints = new ArrayList<ValidationConstraint<MonitoringNodeIdentifier>>();
 
 					// null
-					final ValidationConstraint<MonitoringNodeIdentifier> v1 = new ValidationConstraintNull<>();
+					final ValidationConstraint<MonitoringNodeIdentifier> v1 = new ValidationConstraintNull<MonitoringNodeIdentifier>();
 
 					// not null
 					final ValidationConstraint<MonitoringNodeIdentifier> v2 = new ValidationConstraintAnd<MonitoringNodeIdentifier>()

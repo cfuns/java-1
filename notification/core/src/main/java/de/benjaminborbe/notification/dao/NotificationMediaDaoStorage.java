@@ -57,7 +57,7 @@ public class NotificationMediaDaoStorage implements NotificationMediaDao {
 	public Collection<NotificationMediaIdentifier> get(final UserIdentifier userIdentifier, final NotificationTypeIdentifier type) throws StorageException {
 		try {
 			logger.debug("get - user: " + userIdentifier + " type: " + type);
-			final List<NotificationMediaIdentifier> result = new ArrayList<>();
+			final List<NotificationMediaIdentifier> result = new ArrayList<NotificationMediaIdentifier>();
 			final Map<StorageValue, StorageValue> data = storageService.get(COLUMN_FAMILY, getKey(userIdentifier, type));
 			for (final NotificationMediaIdentifier notificationMediaIdentifier : notifcationNotifierRegistry.getMedias()) {
 				final StorageValue v = data.get(getValue(notificationMediaIdentifier.getId()));

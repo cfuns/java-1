@@ -10,7 +10,7 @@ public class ProviderMockUnitTest {
 
 	@Test
 	public void testProvider() throws Exception {
-		final Provider<TestBean> provider = new ProviderMock<>(TestBean.class);
+		final Provider<TestBean> provider = new ProviderMock<TestBean>(TestBean.class);
 		final TestBean bean = provider.get();
 		assertNotNull(bean);
 		assertEquals(TestBean.class, bean.getClass());

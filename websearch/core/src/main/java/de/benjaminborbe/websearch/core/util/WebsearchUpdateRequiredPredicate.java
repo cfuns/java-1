@@ -85,7 +85,7 @@ public class WebsearchUpdateRequiredPredicate implements Predicate<WebsearchPage
 
 	private List<WebsearchConfigurationBean> getConfigurationForPage(final WebsearchPageBean page, final Collection<WebsearchConfigurationBean> configurations)
 		throws EntityIteratorException {
-		final List<WebsearchConfigurationBean> result = new ArrayList<>();
+		final List<WebsearchConfigurationBean> result = new ArrayList<WebsearchConfigurationBean>();
 		if (page == null) {
 			logger.warn("parameter page is null");
 			return result;

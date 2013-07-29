@@ -82,7 +82,7 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(websearchGuiServlet, WebsearchGuiConstants.URL_HOME));
 		result.add(new ServletInfo(websearchGuiRefreshPagesServlet, WebsearchGuiConstants.URL_REFRESH));
 		result.add(new ServletInfo(websearchGuiListPagesServlet, WebsearchGuiConstants.URL_LIST));
@@ -101,7 +101,7 @@ public class WebsearchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, websearchGuiNavigationEntry));
 		return result;
 	}

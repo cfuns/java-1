@@ -40,11 +40,11 @@ public class MapperCollectionBase<T> implements Mapper<Collection<T>> {
 
 	@Override
 	public List<T> fromString(final String values) throws MapException {
-		final List<T> result = new ArrayList<>();
+		final List<T> result = new ArrayList<T>();
 		if (values != null) {
 			final char[] chars = values.toCharArray();
 			boolean nextEscaped = false;
-			final List<Character> value = new ArrayList<>();
+			final List<Character> value = new ArrayList<Character>();
 			for (int i = 0; i < chars.length; ++i) {
 				final char c = chars[i];
 				if (nextEscaped) {

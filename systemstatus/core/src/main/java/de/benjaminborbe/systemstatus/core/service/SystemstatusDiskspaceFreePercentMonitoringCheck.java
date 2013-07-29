@@ -97,13 +97,13 @@ public class SystemstatusDiskspaceFreePercentMonitoringCheck implements Monitori
 
 	@Override
 	public Collection<ValidationError> validate(final Map<String, String> parameter) {
-		final List<ValidationError> result = new ArrayList<>();
+		final List<ValidationError> result = new ArrayList<ValidationError>();
 
 		// memory_free_mb
 		{
 			try {
 				final long memoryFreePercent = getFreePercent(parameter);
-				final List<ValidationConstraint<Long>> constraints = new ArrayList<>();
+				final List<ValidationConstraint<Long>> constraints = new ArrayList<ValidationConstraint<Long>>();
 				constraints.add(new ValidationConstraintNotNull<Long>());
 				constraints.add(new ValidationConstraintLongGE(0));
 				constraints.add(new ValidationConstraintLongLE(100));

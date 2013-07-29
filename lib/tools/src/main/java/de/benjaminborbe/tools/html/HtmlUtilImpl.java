@@ -48,7 +48,7 @@ public class HtmlUtilImpl implements HtmlUtil {
 			return null;
 		}
 		final HtmlContentIterator i = new HtmlContentIterator(htmlTagParser, content);
-		final List<String> parts = new ArrayList<>();
+		final List<String> parts = new ArrayList<String>();
 		while (i.hasNext()) {
 			parts.add(i.next());
 		}
@@ -57,7 +57,7 @@ public class HtmlUtilImpl implements HtmlUtil {
 
 	@Override
 	public Collection<String> parseLinks(final String htmlContent) {
-		final Set<String> result = new HashSet<>();
+		final Set<String> result = new HashSet<String>();
 		if (htmlContent == null || htmlContent.length() == 0) {
 			logger.trace("no htmlcontent to parse");
 			return result;

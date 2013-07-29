@@ -36,7 +36,7 @@ public class ProjectileReportBeanMapper extends MapObjectMapperAdapter<Projectil
 		final MapperProjectileReportIdentifier mapperListIdentifier, final MapperString mapperString,
 		final MapperCalendar mapperCalendar, final MapperDouble mapperDouble
 	) {
-		final List<StringObjectMapper<ProjectileReportBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<ProjectileReportBean>> result = new ArrayList<StringObjectMapper<ProjectileReportBean>>();
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, ProjectileReportIdentifier>("id", mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<ProjectileReportBean, String>(USERNAME, mapperString));
 

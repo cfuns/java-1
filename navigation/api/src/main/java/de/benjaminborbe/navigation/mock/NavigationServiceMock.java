@@ -10,7 +10,7 @@ public class NavigationServiceMock implements NavigationService {
 
 	@Override
 	public Collection<NavigationEntry> getNavigationEntries() {
-		return new HashSet<>();
+		return new HashSet<NavigationEntry>();
 	}
 
 }

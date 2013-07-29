@@ -142,7 +142,7 @@ public class SearchServiceImpl implements SearchService {
 			}
 		}
 
-		final List<SearchServiceComponent> searchServiceComponents = new ArrayList<>(searchServiceComponentRegistry.getAll());
+		final List<SearchServiceComponent> searchServiceComponents = new ArrayList<SearchServiceComponent>(searchServiceComponentRegistry.getAll());
 		logger.trace("searchServiceComponents " + searchServiceComponents.size());
 		return search(searchServiceComponents, query, sessionIdentifier, maxResults);
 	}
@@ -154,13 +154,13 @@ public class SearchServiceImpl implements SearchService {
 		final int maxResults
 	) {
 
-		final List<Thread> threads = new ArrayList<>();
-		final List<ThreadResult<List<SearchResult>>> threadResults = new ArrayList<>();
+		final List<Thread> threads = new ArrayList<Thread>();
+		final List<ThreadResult<List<SearchResult>>> threadResults = new ArrayList<ThreadResult<List<SearchResult>>>();
 
 		for (final SearchServiceComponent searchServiceComponent : searchServiceComponents) {
 			logger.trace("search in searchServiceComponent: " + searchServiceComponent.getClass().getSimpleName());
 
-			final ThreadResult<List<SearchResult>> threadResult = new ThreadResult<>();
+			final ThreadResult<List<SearchResult>> threadResult = new ThreadResult<List<SearchResult>>();
 			threadResults.add(threadResult);
 			threads.add(threadRunner.run("search", new SearchThreadRunner(searchServiceComponent, threadResult, sessionIdentifier, query, maxResults)));
 		}
@@ -173,7 +173,7 @@ public class SearchServiceImpl implements SearchService {
 			}
 		}
 
-		final List<SearchResult> result = new ArrayList<>();
+		final List<SearchResult> result = new ArrayList<SearchResult>();
 		for (final ThreadResult<List<SearchResult>> threadResult : threadResults) {
 			final List<SearchResult> list = threadResult.get();
 			if (list != null) {
@@ -192,7 +192,7 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public List<String> getSearchComponentNames() {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		for (final SearchServiceComponent cs : searchServiceComponentRegistry.getAll()) {
 			result.add(cs.getClass().getName());
 		}

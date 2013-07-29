@@ -59,7 +59,7 @@ public class TaskGuiLinkFactory {
 	}
 
 	private MapParameter getLoopThrough(final HttpServletRequest request) {
-		final List<String> parameters = new ArrayList<>();
+		final List<String> parameters = new ArrayList<String>();
 		parameters.add(TaskGuiConstants.PARAMETER_SELECTED_TASKCONTEXT_ID);
 		parameters.add(TaskGuiConstants.PARAMETER_SELECTED_TASKFOCUS);
 
@@ -113,7 +113,7 @@ public class TaskGuiLinkFactory {
 	public Widget taskContextSwitch(final HttpServletRequest request, final TaskContext taskContext) throws MalformedURLException, UnsupportedEncodingException {
 		final MapParameter parameter = getLoopThrough(request);
 
-		final Set<String> ids = new HashSet<>();
+		final Set<String> ids = new HashSet<String>();
 		final List<String> ls = taskGuiUtil.getSelectedTaskContextIds(request);
 		if (ls != null) {
 			ids.addAll(ls);

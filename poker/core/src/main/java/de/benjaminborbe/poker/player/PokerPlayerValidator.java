@@ -34,7 +34,7 @@ public class PokerPlayerValidator extends ValidatorBase<PokerPlayerBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<PokerPlayerBean>> buildRules() {
-		final Map<String, ValidatorRule<PokerPlayerBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<PokerPlayerBean>> result = new HashMap<String, ValidatorRule<PokerPlayerBean>>();
 
 		// id
 		{
@@ -44,7 +44,7 @@ public class PokerPlayerValidator extends ValidatorBase<PokerPlayerBean> {
 				@Override
 				public Collection<ValidationError> validate(final PokerPlayerBean bean) {
 					final PokerPlayerIdentifier value = bean.getId();
-					final List<ValidationConstraint<PokerPlayerIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<PokerPlayerIdentifier>> constraints = new ArrayList<ValidationConstraint<PokerPlayerIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<PokerPlayerIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<PokerPlayerIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -60,7 +60,7 @@ public class PokerPlayerValidator extends ValidatorBase<PokerPlayerBean> {
 				@Override
 				public Collection<ValidationError> validate(final PokerPlayerBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -77,7 +77,7 @@ public class PokerPlayerValidator extends ValidatorBase<PokerPlayerBean> {
 				@Override
 				public Collection<ValidationError> validate(final PokerPlayerBean bean) {
 					final String value = bean.getToken();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

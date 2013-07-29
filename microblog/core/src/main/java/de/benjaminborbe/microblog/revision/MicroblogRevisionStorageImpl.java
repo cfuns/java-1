@@ -49,7 +49,9 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 		} catch (final ParseException e) {
 			logger.trace("ParseException", e);
 			return null;
-		} catch (final StorageException | UnsupportedEncodingException e) {
+		} catch (final StorageException e) {
+			throw new MicroblogRevisionStorageException(e.getClass().getName(), e);
+		} catch (UnsupportedEncodingException e) {
 			throw new MicroblogRevisionStorageException(e.getClass().getName(), e);
 		}
 	}

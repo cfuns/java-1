@@ -32,7 +32,7 @@ public class PokerPlayerBean extends EntityBase<PokerPlayerIdentifier> implement
 
 	private PokerGameIdentifier game;
 
-	private List<PokerCardIdentifier> cards = new ArrayList<>();
+	private List<PokerCardIdentifier> cards = new ArrayList<PokerCardIdentifier>();
 
 	private Collection<UserIdentifier> owners;
 

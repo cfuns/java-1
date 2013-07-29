@@ -62,7 +62,7 @@ public class SeleniumGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(seleniumGuiConfigurationListServlet, SeleniumGuiConstants.URL_CONFIGURATION_LIST));
 		result.add(new ServletInfo(seleniumGuiConfigurationRunServlet, SeleniumGuiConstants.URL_CONFIGURATION_RUN));
 		result.add(new ServletInfo(seleniumGuiConfigurationRunXmlServlet, SeleniumGuiConstants.URL_CONFIGURATION_XML_RUN));
@@ -76,7 +76,7 @@ public class SeleniumGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, seleniumGuiNavigationEntry));
 		return result;
 	}

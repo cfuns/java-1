@@ -140,7 +140,7 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 		final String valueString
 	) throws AnalyticsServiceException,
 		ValidationException, PermissionDeniedException, LoginRequiredException {
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		Calendar calendar = null;
 		{
 			try {
@@ -170,7 +170,7 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 	@Override
 	protected List<JavascriptResource> getJavascriptResources(final HttpServletRequest request, final HttpServletResponse response) {
 		final String contextPath = request.getContextPath();
-		final List<JavascriptResource> result = new ArrayList<>();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		result.add(new JavascriptResourceImpl(contextPath + "/js/sorttable.js"));
 		return result;
 	}
@@ -180,7 +180,9 @@ public class AnalyticsGuiReportAddDataServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			analyticsService.expectAnalyticsAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException | AnalyticsServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AnalyticsServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

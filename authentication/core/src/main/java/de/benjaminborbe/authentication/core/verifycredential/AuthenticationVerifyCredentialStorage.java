@@ -67,7 +67,11 @@ public class AuthenticationVerifyCredentialStorage implements AuthenticationVeri
 				logger.info("verifyCredential password missmatch");
 				return false;
 			}
-		} catch (final StorageException | InvalidKeySpecException | NoSuchAlgorithmException e) {
+		} catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (InvalidKeySpecException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (NoSuchAlgorithmException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		}
 	}

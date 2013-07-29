@@ -38,12 +38,12 @@ public class BookmarkDaoStorage extends DaoStorage<BookmarkBean, BookmarkIdentif
 
 	@Override
 	public EntityIterator<BookmarkBean> getFavorites(final UserIdentifier userIdentifier) throws StorageException {
-		return new EntityIteratorFilter<>(getByUsername(userIdentifier), new BookmarkFavoritePredicate());
+		return new EntityIteratorFilter<BookmarkBean>(getByUsername(userIdentifier), new BookmarkFavoritePredicate());
 	}
 
 	@Override
 	public EntityIterator<BookmarkBean> getByUsername(final UserIdentifier userIdentifier) throws StorageException {
-		return new EntityIteratorFilter<>(getEntityIterator(), new BookmarkOwnerPredicate(userIdentifier));
+		return new EntityIteratorFilter<BookmarkBean>(getEntityIterator(), new BookmarkOwnerPredicate(userIdentifier));
 	}
 
 }

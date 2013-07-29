@@ -127,7 +127,7 @@ public class AnalyticsGuiReportAddDataJsonServlet extends WebsiteJsonServlet {
 		final String valueString
 	) throws AnalyticsServiceException, ValidationException,
 		PermissionDeniedException, LoginRequiredException {
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 
 		double value = 0;
 		{

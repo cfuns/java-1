@@ -960,7 +960,7 @@ public class Keymap {
 	});
 
 	private static Map<Integer, Integer> toMap(final int[][] keys) {
-		final Map<Integer, Integer> keyMap = new HashMap<>();
+		final Map<Integer, Integer> keyMap = new HashMap<Integer, Integer>();
 		for (final int[] km : keys) {
 			keyMap.put(km[1], km[0]);
 		}

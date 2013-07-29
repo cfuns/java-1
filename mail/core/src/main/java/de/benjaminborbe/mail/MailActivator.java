@@ -29,7 +29,7 @@ public class MailActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(MailService.class, mailService));
 		result.add(new ServiceInfo(MessageConsumer.class, mailMessageConsumer));
 		return result;

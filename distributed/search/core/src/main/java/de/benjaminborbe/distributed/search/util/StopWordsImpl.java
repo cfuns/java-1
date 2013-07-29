@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class StopWordsImpl implements StopWords {
 
-	private final Set<String> words = new HashSet<>();
+	private final Set<String> words = new HashSet<String>();
 
 	private final Logger logger;
 

@@ -37,7 +37,7 @@ public class BookmarkValidator extends ValidatorBase<BookmarkBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<BookmarkBean>> buildRules() {
-		final Map<String, ValidatorRule<BookmarkBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<BookmarkBean>> result = new HashMap<String, ValidatorRule<BookmarkBean>>();
 
 		// name
 		{
@@ -47,7 +47,7 @@ public class BookmarkValidator extends ValidatorBase<BookmarkBean> {
 				@Override
 				public Collection<ValidationError> validate(final BookmarkBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -64,7 +64,7 @@ public class BookmarkValidator extends ValidatorBase<BookmarkBean> {
 				@Override
 				public Collection<ValidationError> validate(final BookmarkBean bean) {
 					final String value = bean.getUrl();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -82,7 +82,7 @@ public class BookmarkValidator extends ValidatorBase<BookmarkBean> {
 				@Override
 				public Collection<ValidationError> validate(final BookmarkBean bean) {
 					final List<String> value = bean.getKeywords();
-					final List<ValidationConstraint<List<String>>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<List<String>>> constraints = new ArrayList<ValidationConstraint<List<String>>>();
 					constraints.add(new ValidationConstraintNotNull<List<String>>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}

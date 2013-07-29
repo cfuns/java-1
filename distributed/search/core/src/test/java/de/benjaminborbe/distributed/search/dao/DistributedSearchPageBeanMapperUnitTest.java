@@ -42,7 +42,7 @@ public class DistributedSearchPageBeanMapperUnitTest {
 
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{"id", "1337"});
 		result.add(new Object[]{"index", "bla"});
 		result.add(new Object[]{"title", "bla"});
@@ -54,7 +54,7 @@ public class DistributedSearchPageBeanMapperUnitTest {
 	}
 
 	private DistributedSearchPageBeanMapper getDistributedSearchPageBeanMapper() {
-		final Provider<DistributedSearchPageBean> beanProvider = new ProviderMock<>(DistributedSearchPageBean.class);
+		final Provider<DistributedSearchPageBean> beanProvider = new ProviderMock<DistributedSearchPageBean>(DistributedSearchPageBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -74,7 +74,7 @@ public class DistributedSearchPageBeanMapperUnitTest {
 	@Test
 	public void testMapping() throws Exception {
 		final DistributedSearchPageBeanMapper mapper = getDistributedSearchPageBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final DistributedSearchPageBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

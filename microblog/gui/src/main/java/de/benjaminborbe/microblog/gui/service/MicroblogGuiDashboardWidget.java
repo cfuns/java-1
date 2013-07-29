@@ -60,7 +60,7 @@ public class MicroblogGuiDashboardWidget implements DashboardContentWidget, Requ
 
 	@Override
 	public List<CssResource> getCssResource(final HttpServletRequest request, final HttpServletResponse response) {
-		return new ArrayList<>();
+		return new ArrayList<CssResource>();
 	}
 
 	@Override

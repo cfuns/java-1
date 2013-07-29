@@ -50,7 +50,9 @@ public class SeleniumGuiConfigurationXmlParserImpl implements SeleniumGuiConfigu
 
 			return parse(rootElement);
 
-		} catch (JDOMException | IOException e) {
+		} catch (JDOMException e) {
+			throw new ParseException(e);
+		} catch (IOException e) {
 			throw new ParseException(e);
 		}
 	}
@@ -69,7 +71,7 @@ public class SeleniumGuiConfigurationXmlParserImpl implements SeleniumGuiConfigu
 				seleniumConfiguration.setCloseWindow(parseUtil.parseBoolean(close.getText()));
 			}
 
-			final ArrayList<SeleniumActionConfiguration> list = new ArrayList<>();
+			final ArrayList<SeleniumActionConfiguration> list = new ArrayList<SeleniumActionConfiguration>();
 			seleniumConfiguration.setActions(list);
 
 			final Element actionsElement = rootElement.getChild("actions");

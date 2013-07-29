@@ -102,7 +102,9 @@ public class ProxyRequestHandler {
 			threadRunner.run("proxyConversationNotifier", new ProxyConversationNotifierRunnable(requestContent, responseContent, line, duration));
 
 			logger.debug("handle proxy request finished");
-		} catch (IOException | ParseException e) {
+		} catch (IOException e) {
+			logger.debug(e.getClass().getName(), e);
+		} catch (ParseException e) {
 			logger.debug(e.getClass().getName(), e);
 		} finally {
 			try {

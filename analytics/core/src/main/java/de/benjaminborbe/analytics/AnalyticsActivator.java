@@ -34,7 +34,7 @@ public class AnalyticsActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(AnalyticsService.class, analyticsService));
 		result.add(new ServiceInfo(CronJob.class, analyticsAggregationCronJob, analyticsAggregationCronJob.getClass().getName()));
 		for (final ConfigurationDescription configuration : analyticsConfig.getConfigurations()) {

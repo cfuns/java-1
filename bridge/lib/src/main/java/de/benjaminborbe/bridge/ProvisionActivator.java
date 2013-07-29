@@ -52,7 +52,7 @@ public final class ProvisionActivator implements BundleActivator {
 	public void start(final BundleContext context) throws Exception {
 		servletContext.setAttribute(BundleContext.class.getName(), context);
 
-		installed = new ArrayList<>();
+		installed = new ArrayList<Bundle>();
 
 		for (final URL url : orderBundles(findBundles(), getProperties())) {
 			servletContext.log("Installing bundle [" + url + "]");
@@ -81,8 +81,8 @@ public final class ProvisionActivator implements BundleActivator {
 	 * sortieren
 	 */
 	protected List<URL> orderBundles(final List<URL> bundles, final Properties props) {
-		final List<URL> result = new ArrayList<>();
-		final Set<URL> availableBundles = new HashSet<>(bundles);
+		final List<URL> result = new ArrayList<URL>();
+		final Set<URL> availableBundles = new HashSet<URL>(bundles);
 		// Reinfolge aus Konfig lesen
 		final List<String> installBundles = getInstallConfigOrders(BUNDLE_PREFIX, props);
 
@@ -114,7 +114,7 @@ public final class ProvisionActivator implements BundleActivator {
 	}
 
 	protected List<String> getInstallConfigOrders(final String prefix, final Properties props) {
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		int i = 1;
 		while (props.containsKey(prefix + i)) {
 			result.add(props.getProperty(prefix + i).toString());
@@ -134,7 +134,7 @@ public final class ProvisionActivator implements BundleActivator {
 	}
 
 	private List<URL> findBundles() throws Exception {
-		final ArrayList<URL> list = new ArrayList<>();
+		final ArrayList<URL> list = new ArrayList<URL>();
 		for (final Object o : this.servletContext.getResourcePaths("/WEB-INF/bundles/")) {
 			final String name = (String) o;
 			if (name.endsWith(".jar")) {

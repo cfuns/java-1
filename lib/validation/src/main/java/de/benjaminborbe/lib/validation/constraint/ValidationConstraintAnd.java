@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ValidationConstraintAnd<T> implements ValidationConstraint<T> {
 
-	private final List<ValidationConstraint<T>> validationConstraints = new ArrayList<>();
+	private final List<ValidationConstraint<T>> validationConstraints = new ArrayList<ValidationConstraint<T>>();
 
 	public ValidationConstraintAnd() {
 	}

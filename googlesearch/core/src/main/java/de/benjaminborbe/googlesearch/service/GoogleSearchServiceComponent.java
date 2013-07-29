@@ -38,33 +38,6 @@ import java.util.Map;
 @Singleton
 public class GoogleSearchServiceComponent implements SearchServiceComponent {
 
-	private final class BeanSearchImpl extends BeanSearcher<SearchResult> {
-
-		private static final String URL = "url";
-
-		private static final String DESCRIPTION = "description";
-
-		private static final String TITLE = "title";
-
-		@Override
-		protected Map<String, String> getSearchValues(final SearchResult bean) {
-			final Map<String, String> values = new HashMap<>();
-			values.put(TITLE, bean.getTitle());
-			values.put(DESCRIPTION, bean.getDescription());
-			values.put(URL, bean.getUrl());
-			return values;
-		}
-
-		@Override
-		protected Map<String, Integer> getSearchPrio() {
-			final Map<String, Integer> values = new HashMap<>();
-			values.put(TITLE, 2);
-			values.put(DESCRIPTION, 1);
-			values.put(URL, 2);
-			return values;
-		}
-	}
-
 	private static final String PREFIX = "https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=";
 
 	private static final String SEARCH_TYPE = "Google";
@@ -108,7 +81,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	public List<SearchResult> search(final SessionIdentifier sessionIdentifier, final String query, final int maxResults) {
 		final List<String> words = searchUtil.buildSearchParts(query);
 		logger.trace("search");
-		final List<SearchResult> result = new ArrayList<>();
+		final List<SearchResult> result = new ArrayList<SearchResult>();
 		// https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=foo
 		try {
 			final URL url = buildQueryUrl(words);
@@ -119,7 +92,13 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 			for (final BeanMatch<SearchResult> beanResult : beanResults) {
 				result.add(map(beanResult));
 			}
-		} catch (final HttpdownloaderServiceException | IOException | ParseException | JSONParseException e) {
+		} catch (final HttpdownloaderServiceException e) {
+			logger.error(e.getClass().getName(), e);
+		} catch (final IOException e) {
+			logger.error(e.getClass().getName(), e);
+		} catch (final ParseException e) {
+			logger.error(e.getClass().getName(), e);
+		} catch (final JSONParseException e) {
 			logger.error(e.getClass().getName(), e);
 		}
 
@@ -137,7 +116,7 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	}
 
 	protected List<SearchResult> buildResults(final String content) throws JSONParseException, ParseException {
-		final List<SearchResult> searchResults = new ArrayList<>();
+		final List<SearchResult> searchResults = new ArrayList<SearchResult>();
 		final Object object = jsonParser.parse(content);
 		if (object instanceof JSONObject) {
 			final JSONObject root = (JSONObject) object;
@@ -170,5 +149,32 @@ public class GoogleSearchServiceComponent implements SearchServiceComponent {
 	@Override
 	public Collection<String> getAliases() {
 		return Arrays.asList("google");
+	}
+
+	private final class BeanSearchImpl extends BeanSearcher<SearchResult> {
+
+		private static final String URL = "url";
+
+		private static final String DESCRIPTION = "description";
+
+		private static final String TITLE = "title";
+
+		@Override
+		protected Map<String, String> getSearchValues(final SearchResult bean) {
+			final Map<String, String> values = new HashMap<String, String>();
+			values.put(TITLE, bean.getTitle());
+			values.put(DESCRIPTION, bean.getDescription());
+			values.put(URL, bean.getUrl());
+			return values;
+		}
+
+		@Override
+		protected Map<String, Integer> getSearchPrio() {
+			final Map<String, Integer> values = new HashMap<String, Integer>();
+			values.put(TITLE, 2);
+			values.put(DESCRIPTION, 1);
+			values.put(URL, 2);
+			return values;
+		}
 	}
 }

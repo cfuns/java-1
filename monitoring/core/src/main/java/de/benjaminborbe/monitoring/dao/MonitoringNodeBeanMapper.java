@@ -76,7 +76,7 @@ public class MonitoringNodeBeanMapper extends MapObjectMapperAdapter<MonitoringN
 		final MapperBoolean mapperBoolean,
 		final MapperInteger mapperInteger
 	) {
-		final List<StringObjectMapper<MonitoringNodeBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<MonitoringNodeBean>> result = new ArrayList<StringObjectMapper<MonitoringNodeBean>>();
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringNodeIdentifier>(ID, mapperMonitoringNodeIdentifier));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringNodeIdentifier>(PARENT_ID, mapperMonitoringNodeIdentifier));
 		result.add(new StringObjectMapperAdapter<MonitoringNodeBean, MonitoringCheckIdentifier>(CHECK_TYPE, mapperMonitoringCheck));

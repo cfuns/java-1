@@ -64,7 +64,7 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 		final String token = service.login(username, password);
 		final RemotePageSummary[] remotePageSummaries = service.getPages(token, spaceKey);
 
-		final List<Lunch> result = new ArrayList<>();
+		final List<Lunch> result = new ArrayList<Lunch>();
 		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
 			if (isLunchPage(remotePageSummary) && isLunchDateTodayOrFuture(remotePageSummary, date)) {
 				logger.trace("'" + remotePageSummary.getTitle() + "' is lunch page");
@@ -147,7 +147,7 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 		final String token = service.login(username, password);
 		final RemotePageSummary[] remotePageSummaries = service.getPages(token, spaceKey);
 		logger.debug("found " + remotePageSummaries + " pages");
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		for (final RemotePageSummary remotePageSummary : remotePageSummaries) {
 			if (isLunchPage(remotePageSummary) && isLunchDate(remotePageSummary, date)) {
 				logger.debug("found lunchpage for date " + calendarUtil.toDateString(date) + " => " + remotePageSummary.getTitle());

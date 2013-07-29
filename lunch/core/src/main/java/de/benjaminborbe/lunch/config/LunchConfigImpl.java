@@ -48,7 +48,7 @@ public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(confluenceSpaceKey);
 		result.add(confluenceUsername);
 		result.add(confluencePassword);
@@ -64,7 +64,7 @@ public class LunchConfigImpl extends ConfigurationBase implements LunchConfig {
 	@Override
 	public List<String> getMittagNotifyKeywords() {
 		final String value = getValueString(mittagNotifyKeywords);
-		final List<String> result = new ArrayList<>();
+		final List<String> result = new ArrayList<String>();
 		if (value != null) {
 			for (final String part : value.split(",")) {
 				result.add(part.trim());

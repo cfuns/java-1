@@ -49,7 +49,7 @@ public class TaskAttachmentBeanMapper extends MapObjectMapperAdapter<TaskAttachm
 		final MapperTaskIdentifier mapperTaskIdentifier, final MapperTaskAttachmentIdentifier mapperTaskAttachmentIdentifier, final MapperString mapperString,
 		final MapperCalendar mapperCalendar, final MapperFilestorageEntryIdentifier mapperFilestorageEntryIdentifier
 	) {
-		final List<StringObjectMapper<TaskAttachmentBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<TaskAttachmentBean>> result = new ArrayList<StringObjectMapper<TaskAttachmentBean>>();
 		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, TaskAttachmentIdentifier>(ID, mapperTaskAttachmentIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, String>(NAME, mapperString));
 		result.add(new StringObjectMapperAdapter<TaskAttachmentBean, TaskIdentifier>(TASK, mapperTaskIdentifier));

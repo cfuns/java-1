@@ -65,13 +65,15 @@ public class WikiServiceImpl implements WikiService {
 	public Collection<WikiSpaceIdentifier> getSpaceIdentifiers() throws WikiServiceException {
 		logger.trace("getSpaceIdentifiers");
 		try {
-			final List<WikiSpaceIdentifier> result = new ArrayList<>();
+			final List<WikiSpaceIdentifier> result = new ArrayList<WikiSpaceIdentifier>();
 			final IdentifierIterator<WikiSpaceIdentifier> i = wikiSpaceDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException | IdentifierIteratorException e) {
+		} catch (final IdentifierIteratorException e) {
+			throw new WikiServiceException(e);
+		} catch (final StorageException e) {
 			throw new WikiServiceException(e);
 		}
 	}
@@ -80,7 +82,7 @@ public class WikiServiceImpl implements WikiService {
 	public Collection<WikiPageIdentifier> getPageIdentifiers(final WikiSpaceIdentifier wikiSpaceIdentifier) throws WikiServiceException {
 		logger.trace("getPageIdentifiers");
 		try {
-			final List<WikiPageIdentifier> result = new ArrayList<>();
+			final List<WikiPageIdentifier> result = new ArrayList<WikiPageIdentifier>();
 			final EntityIterator<WikiPageBean> i = wikiPageDao.getEntityIterator();
 			while (i.hasNext()) {
 				final WikiPageBean bean = i.next();
@@ -89,7 +91,9 @@ public class WikiServiceImpl implements WikiService {
 				}
 			}
 			return result;
-		} catch (final StorageException | EntityIteratorException e) {
+		} catch (final EntityIteratorException e) {
+			throw new WikiServiceException(e);
+		} catch (final StorageException e) {
 			throw new WikiServiceException(e);
 		}
 	}

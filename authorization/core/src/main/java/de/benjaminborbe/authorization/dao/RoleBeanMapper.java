@@ -24,7 +24,7 @@ public class RoleBeanMapper extends MapObjectMapperAdapter<RoleBean> {
 	}
 
 	private static Collection<StringObjectMapper<RoleBean>> buildMappings(final MapperCalendar mapperCalendar, final MapperRoleIdentifier mapperRoleIdentifier) {
-		final List<StringObjectMapper<RoleBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<RoleBean>> result = new ArrayList<StringObjectMapper<RoleBean>>();
 		result.add(new StringObjectMapperAdapter<RoleBean, RoleIdentifier>("id", mapperRoleIdentifier));
 		result.add(new StringObjectMapperAdapter<RoleBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<RoleBean, Calendar>("modified", mapperCalendar));

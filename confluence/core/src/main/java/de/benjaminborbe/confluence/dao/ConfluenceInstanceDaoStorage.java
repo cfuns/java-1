@@ -38,7 +38,7 @@ public class ConfluenceInstanceDaoStorage extends DaoStorage<ConfluenceInstanceB
 
 	@Override
 	public EntityIterator<ConfluenceInstanceBean> getActivatedEntityIterator() throws StorageException {
-		return new EntityIteratorFilter<>(getEntityIterator(), new ConfluenceInstanceActivatedPredicate());
+		return new EntityIteratorFilter<ConfluenceInstanceBean>(getEntityIterator(), new ConfluenceInstanceActivatedPredicate());
 	}
 
 }

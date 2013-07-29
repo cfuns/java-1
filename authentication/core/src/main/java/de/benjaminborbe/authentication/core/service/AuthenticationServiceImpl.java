@@ -256,7 +256,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			logger.info("registerd user " + userIdentifier);
 			login(sessionIdentifier, userIdentifier, password);
 			return userIdentifier;
-		} catch (final StorageException | ParseException | ShortenerServiceException | MailServiceException | InvalidKeySpecException | NoSuchAlgorithmException e) {
+		} catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (InvalidKeySpecException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (ParseException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (NoSuchAlgorithmException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (ShortenerServiceException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (MailServiceException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -361,7 +371,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 			logger.info("set password => true");
 			return true;
-		} catch (final StorageException | InvalidKeySpecException | NoSuchAlgorithmException e) {
+		} catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (InvalidKeySpecException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (NoSuchAlgorithmException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -400,13 +414,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectLoggedIn(sessionIdentifier);
-			final Set<UserIdentifier> result = new HashSet<>();
+			final Set<UserIdentifier> result = new HashSet<UserIdentifier>();
 			final IdentifierIterator<UserIdentifier> i = userDao.getIdentifierIterator();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final StorageException | IdentifierIteratorException e) {
+		} catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (IdentifierIteratorException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -595,7 +611,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 			sendEmailVerify(user, shortenUrl, validateEmailUrl);
 			userDao.save(user);
-		} catch (final StorageException | ParseException | ShortenerServiceException | MailServiceException e) {
+		} catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (ParseException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (MailServiceException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (ShortenerServiceException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -665,7 +687,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			userDao.save(user);
 
 			return user.getId();
-		} catch (final NoSuchAlgorithmException | InvalidKeySpecException | StorageException | AuthenticationGeneratePasswordFailedException e) {
+		} catch (final NoSuchAlgorithmException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (InvalidKeySpecException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (AuthenticationGeneratePasswordFailedException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -707,7 +735,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("email missmatch")));
 			}
 			sendPasswordLostEmail(user, shortenUrl, resetUrl);
-		} catch (final StorageException | MailServiceException | ShortenerServiceException | ParseException e) {
+		} catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (ParseException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (MailServiceException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (ShortenerServiceException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -755,7 +789,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				throw new ValidationException(errors);
 			}
 			userDao.save(user);
-		} catch (final StorageException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+		} catch (final StorageException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (InvalidKeySpecException e) {
+			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
+		} catch (NoSuchAlgorithmException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)

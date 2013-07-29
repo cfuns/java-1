@@ -79,7 +79,7 @@ public class StorageRowIteratorImplIntegrationTest {
 		assertEquals(0, daoUtil.count(config.getKeySpace(), StorageTestUtil.COLUMNFAMILY));
 
 		final StorageValue id = new StorageValue("a", encoding);
-		final Map<StorageValue, StorageValue> data = new HashMap<>();
+		final Map<StorageValue, StorageValue> data = new HashMap<StorageValue, StorageValue>();
 		final StorageValue key = new StorageValue(StorageTestUtil.FIELD_NAME, encoding);
 		final StorageValue value = new StorageValue("value", encoding);
 		data.put(key, value);

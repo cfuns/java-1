@@ -61,11 +61,11 @@ public class StorageTestUtil {
 			}
 
 			// Erstellt einen neuen KeySpace
-			final List<CfDef> cfDefList = new ArrayList<>();
+			final List<CfDef> cfDefList = new ArrayList<CfDef>();
 			cfDefList.add(input);
 			// NetworkTopologyStrategy.class.getName()
 			final KsDef ksdef = new KsDef(keySpace, "org.apache.cassandra.locator.NetworkTopologyStrategy", cfDefList);
-			final Map<String, String> strategy_options = new HashMap<>();
+			final Map<String, String> strategy_options = new HashMap<String, String>();
 			// strategy_options.put("replication_factor", REPLICATION_FACTOR);
 			strategy_options.put("datacenter1", "1");
 			ksdef.setStrategy_options(strategy_options);

@@ -45,7 +45,7 @@ public class WebsearchConfigurationBeanMapper extends MapObjectMapperAdapter<Web
 		final MapperUserIdentifier mapperUserIdentifier, final MapperUrl mapperUrl, final MapperBoolean MapperBoolean, final MapperCalendar mapperCalendar,
 		final MapperLong MapperLong, final MapperInteger MapperInteger, final MapperListString MapperStringList
 	) {
-		final List<StringObjectMapper<WebsearchConfigurationBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<WebsearchConfigurationBean>> result = new ArrayList<StringObjectMapper<WebsearchConfigurationBean>>();
 		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, WebsearchConfigurationIdentifier>("id", mapperWebsearchConfigurationIdentifier));
 		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, UserIdentifier>("owner", mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<WebsearchConfigurationBean, URL>("url", mapperUrl));

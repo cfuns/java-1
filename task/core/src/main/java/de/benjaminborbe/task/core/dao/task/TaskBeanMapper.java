@@ -58,7 +58,7 @@ public class TaskBeanMapper extends MapObjectMapperAdapter<TaskBean> {
 		final MapperUserIdentifier mapperUserIdentifier, final MapperLong mapperLong, final MapperBoolean mapperBoolean, final MapperCalendar mapperCalendar,
 		final MapperInteger mapperInteger, final MapperTaskFocus mapperTaskFocus, final MapperTaskContextIdentifier mapperTaskContextIdentifier
 	) {
-		final List<StringObjectMapper<TaskBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<TaskBean>> result = new ArrayList<StringObjectMapper<TaskBean>>();
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>("id", mapperTaskIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskIdentifier>(PARENT_ID, mapperTaskIdentifier));
 		result.add(new StringObjectMapperAdapter<TaskBean, TaskContextIdentifier>(CONTEXT, mapperTaskContextIdentifier));

@@ -31,7 +31,7 @@ public class PermissionBeanMapper extends MapObjectMapperAdapter<PermissionBean>
 		final MapperCalendar mapperCalendar,
 		final MapperPermissionIdentifier mapperPermissionIdentifier
 	) {
-		final List<StringObjectMapper<PermissionBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<PermissionBean>> result = new ArrayList<StringObjectMapper<PermissionBean>>();
 		result.add(new StringObjectMapperAdapter<PermissionBean, PermissionIdentifier>("id", mapperPermissionIdentifier));
 		result.add(new StringObjectMapperAdapter<PermissionBean, Calendar>("created", mapperCalendar));
 		result.add(new StringObjectMapperAdapter<PermissionBean, Calendar>("modified", mapperCalendar));

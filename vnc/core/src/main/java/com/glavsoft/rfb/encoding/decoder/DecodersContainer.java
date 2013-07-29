@@ -36,7 +36,7 @@ import java.util.Map;
  */
 public class DecodersContainer {
 
-	private static final Map<EncodingType, Class<? extends Decoder>> knownDecoders = new HashMap<>();
+	private static final Map<EncodingType, Class<? extends Decoder>> knownDecoders = new HashMap<EncodingType, Class<? extends Decoder>>();
 
 	static {
 		knownDecoders.put(EncodingType.TIGHT, TightDecoder.class);
@@ -48,7 +48,7 @@ public class DecodersContainer {
 		// knownDecoders.put(EncodingType.RAW_ENCODING, RawDecoder.class);
 	}
 
-	private final Map<EncodingType, Decoder> decoders = new HashMap<>();
+	private final Map<EncodingType, Decoder> decoders = new HashMap<EncodingType, Decoder>();
 
 	private final Logger logger;
 
@@ -67,7 +67,9 @@ public class DecodersContainer {
 			if (EncodingType.ordinaryEncodings.contains(enc) && !decoders.containsKey(enc)) {
 				try {
 					decoders.put(enc, knownDecoders.get(enc).newInstance());
-				} catch (final InstantiationException | IllegalAccessException e) {
+				} catch (final IllegalAccessException e) {
+					logError(enc, e);
+				} catch (final InstantiationException e) {
 					logError(enc, e);
 				}
 			}

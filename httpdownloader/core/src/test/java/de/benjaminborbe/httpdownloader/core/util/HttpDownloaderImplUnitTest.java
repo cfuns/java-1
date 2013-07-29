@@ -11,7 +11,7 @@ public class HttpDownloaderImplUnitTest {
 
 	@Test
 	public void testbuildCookieString() {
-		final Map<String, String> data = new HashMap<>();
+		final Map<String, String> data = new HashMap<String, String>();
 		data.put("userId", "igbrown");
 		data.put("sessionId", "SID77689211949");
 		data.put("isAuthenticated", "true");

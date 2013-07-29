@@ -45,7 +45,7 @@ public class MonitoringActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, monitoringCheckCronJob, monitoringCheckCronJob.getClass().getName()));
 		result.add(new ServiceInfo(CronJob.class, monitoringMailCronJob, monitoringMailCronJob.getClass().getName()));
 		result.add(new ServiceInfo(MonitoringService.class, monitoringService));
@@ -57,7 +57,7 @@ public class MonitoringActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new MonitoringCheckServiceTracker(monitoringCheckRegistry, context, MonitoringCheck.class));
 		return serviceTrackers;
 	}

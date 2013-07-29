@@ -32,7 +32,7 @@ public class KioskGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(kioskGuiServlet, KioskGuiConstants.URL_HOME));
 		result.add(new ServletInfo(kioskGuiBookServlet, KioskGuiConstants.URL_BOOK));
 		return result;

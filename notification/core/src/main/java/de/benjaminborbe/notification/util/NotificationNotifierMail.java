@@ -47,7 +47,9 @@ public class NotificationNotifierMail implements NotificationNotifier {
 			final String contentType = "text/plain";
 			final MailDto mail = new MailDto(from, to, buildSubject(notification), buildMessage(notification), contentType);
 			mailService.send(mail);
-		} catch (final MailServiceException | AuthenticationServiceException e) {
+		} catch (final MailServiceException e) {
+			throw new NotificationNotifierException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new NotificationNotifierException(e);
 		}
 	}

@@ -132,7 +132,7 @@ public class PokerGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(pokerGuiServlet, PokerGuiConstants.URL_HOME));
 		result.add(new ServletInfo(pokerGuiApiHelpServlet, PokerGuiConstants.URL_API_HELP));
 		result.add(new ServletInfo(pokerGuiActionCallServlet, PokerGuiConstants.URL_ACTION_CALL));
@@ -162,7 +162,7 @@ public class PokerGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, pokerGuiNavigationEntry));
 		for (final ConfigurationDescription configuration : pokerGuiConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
@@ -172,7 +172,7 @@ public class PokerGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo(PokerGuiConstants.URL_CSS, "css"));
 		return result;
 	}

@@ -4,5 +4,4 @@ object HelloWorld {
 
   def msg() = "HelloWorld"
   def dopple(i: Int): Int = i * 2
-
 }

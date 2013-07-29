@@ -100,7 +100,9 @@ public class ClipboardControllerImpl implements ClipboardController, Runnable {
 		if (clipboard != null && clipboard.isDataFlavorAvailable(DataFlavor.stringFlavor)) {
 			try {
 				clipboardText = (String) clipboard.getData(DataFlavor.stringFlavor);
-			} catch (UnsupportedFlavorException | IOException e) {
+			} catch (IOException e) {
+				// ignore
+			} catch (UnsupportedFlavorException e) {
 				// ignore
 			}
 		} else {

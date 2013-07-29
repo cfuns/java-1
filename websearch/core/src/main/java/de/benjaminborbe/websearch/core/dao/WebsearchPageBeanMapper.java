@@ -68,7 +68,7 @@ public class WebsearchPageBeanMapper extends MapObjectMapperAdapter<WebsearchPag
 		final MapperInteger mapperInteger,
 		final MapperHttpContent mapperHttpContent, final MapperLong mapperLong
 	) {
-		final List<StringObjectMapper<WebsearchPageBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<WebsearchPageBean>> result = new ArrayList<StringObjectMapper<WebsearchPageBean>>();
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, WebsearchPageIdentifier>(ID, mapperWebsearchPageIdentifier));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, URL>(URL, mapperUrl));
 		result.add(new StringObjectMapperAdapter<WebsearchPageBean, Calendar>(LAST_VISIT, mapperCalendar));

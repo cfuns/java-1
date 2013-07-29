@@ -164,7 +164,7 @@ public class PokerCardsFlushComparatorUnitTest {
 	}
 
 	private Collection<PokerCardIdentifier> buildCards(final PokerCardIdentifier... values) {
-		final List<PokerCardIdentifier> result = new ArrayList<>();
+		final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
 		for (final PokerCardIdentifier value : values) {
 			result.add(value);
 		}

@@ -32,7 +32,7 @@ public class ConfluenceConfigImpl extends ConfigurationBase implements Confluenc
 
 	@Override
 	public Collection<ConfigurationDescription> getConfigurations() {
-		final Set<ConfigurationDescription> result = new HashSet<>();
+		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(refreshLimit);
 		result.add(cronEnabled);
 		return result;

@@ -34,7 +34,7 @@ public class ChecklistListValidator extends ValidatorBase<ChecklistListBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<ChecklistListBean>> buildRules() {
-		final Map<String, ValidatorRule<ChecklistListBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<ChecklistListBean>> result = new HashMap<String, ValidatorRule<ChecklistListBean>>();
 
 		// name
 		{
@@ -44,7 +44,7 @@ public class ChecklistListValidator extends ValidatorBase<ChecklistListBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistListBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -61,7 +61,7 @@ public class ChecklistListValidator extends ValidatorBase<ChecklistListBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistListBean bean) {
 					final ChecklistListIdentifier value = bean.getId();
-					final List<ValidationConstraint<ChecklistListIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<ChecklistListIdentifier>> constraints = new ArrayList<ValidationConstraint<ChecklistListIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<ChecklistListIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -76,7 +76,7 @@ public class ChecklistListValidator extends ValidatorBase<ChecklistListBean> {
 				@Override
 				public Collection<ValidationError> validate(final ChecklistListBean bean) {
 					final UserIdentifier value = bean.getOwner();
-					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<UserIdentifier>> constraints = new ArrayList<ValidationConstraint<UserIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<UserIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}

@@ -65,7 +65,9 @@ public class AnalyticsGuiReportDeleteServlet extends WebsiteServlet {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final AnalyticsReportIdentifier analyticsIdentifier = new AnalyticsReportIdentifier(request.getParameter(AnalyticsGuiConstants.PARAMETER_REPORT_ID));
 			analyticsService.deleteReport(sessionIdentifier, analyticsIdentifier);
-		} catch (final AuthenticationServiceException | AnalyticsServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (AnalyticsServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
@@ -78,7 +80,9 @@ public class AnalyticsGuiReportDeleteServlet extends WebsiteServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			analyticsService.expectAnalyticsAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException | AnalyticsServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AnalyticsServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

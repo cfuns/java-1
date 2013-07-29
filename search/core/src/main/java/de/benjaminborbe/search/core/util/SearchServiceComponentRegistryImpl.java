@@ -10,7 +10,7 @@ import java.util.Map;
 @Singleton
 public class SearchServiceComponentRegistryImpl extends RegistryBase<SearchServiceComponent> implements SearchServiceComponentRegistry {
 
-	private final Map<String, SearchServiceComponent> aliasMap = new HashMap<>();
+	private final Map<String, SearchServiceComponent> aliasMap = new HashMap<String, SearchServiceComponent>();
 
 	@Override
 	protected void onElementAdded(final SearchServiceComponent object) {

@@ -179,7 +179,7 @@ public class GalleryGuiGroupCreateServlet extends GalleryGuiWebsiteHtmlServlet {
 		galleryGroupDto.setLongSideMinLength(parseUtil.parseInt(longSideMinLength, null));
 		galleryGroupDto.setLongSideMaxLength(parseUtil.parseInt(longSideMaxLength, null));
 
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		{
 			try {
 				galleryGroupDto.setShared(parseUtil.parseBoolean(sharedString));

@@ -43,7 +43,7 @@ public class GalleryGroupBeanMapperUnitTest {
 
 	@Parameterized.Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
-		final List<Object[]> result = new ArrayList<>();
+		final List<Object[]> result = new ArrayList<Object[]>();
 		result.add(new Object[]{GalleryGroupBeanMapper.ID, "1337"});
 		result.add(new Object[]{GalleryGroupBeanMapper.CREATED, "1337"});
 		result.add(new Object[]{GalleryGroupBeanMapper.MODIFIED, "1337"});
@@ -61,7 +61,7 @@ public class GalleryGroupBeanMapperUnitTest {
 	}
 
 	private GalleryGroupBeanMapper getGalleryGroupBeanMapper() {
-		final Provider<GalleryGroupBean> provider = new ProviderMock<>(GalleryGroupBean.class);
+		final Provider<GalleryGroupBean> provider = new ProviderMock<GalleryGroupBean>(GalleryGroupBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -84,7 +84,7 @@ public class GalleryGroupBeanMapperUnitTest {
 	@Test
 	public void testMap() throws Exception {
 		final GalleryGroupBeanMapper mapper = getGalleryGroupBeanMapper();
-		final Map<String, String> inputData = new HashMap<>();
+		final Map<String, String> inputData = new HashMap<String, String>();
 		inputData.put(fieldName, fieldValue);
 		final GalleryGroupBean bean = mapper.map(inputData);
 		final Map<String, String> data = mapper.map(bean);

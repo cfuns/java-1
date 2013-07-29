@@ -75,14 +75,14 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, checklistGuiNavigationEntry));
 		return result;
 	}
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(checklistGuiListResetServlet, ChecklistGuiConstants.URL_LIST_RESET));
 		result.add(new ServletInfo(checklistGuiEntryCreateServlet, ChecklistGuiConstants.URL_ENTRY_CREATE));
 		result.add(new ServletInfo(checklistGuiEntryDeleteServlet, ChecklistGuiConstants.URL_ENTRY_DELETE));
@@ -99,7 +99,7 @@ public class ChecklistGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo(ChecklistGuiConstants.URL_IMAGES, "images"));
 		result.add(new ResourceInfo(ChecklistGuiConstants.URL_CSS, "css"));
 		return result;

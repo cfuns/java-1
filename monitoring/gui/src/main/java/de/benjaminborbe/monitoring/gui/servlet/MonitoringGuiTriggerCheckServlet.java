@@ -100,7 +100,9 @@ public class MonitoringGuiTriggerCheckServlet extends MonitoringWebsiteHtmlServl
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			monitoringService.expectMonitoringAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException | MonitoringServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (MonitoringServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

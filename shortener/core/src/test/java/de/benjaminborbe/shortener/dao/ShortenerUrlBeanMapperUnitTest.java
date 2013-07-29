@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 public class ShortenerUrlBeanMapperUnitTest {
 
 	private ShortenerUrlBeanMapper getShortenerUrlBeanMapper() {
-		final Provider<ShortenerUrlBean> beanProvider = new ProviderMock<>(ShortenerUrlBean.class);
+		final Provider<ShortenerUrlBean> beanProvider = new ProviderMock<ShortenerUrlBean>(ShortenerUrlBean.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
@@ -53,7 +53,7 @@ public class ShortenerUrlBeanMapperUnitTest {
 			assertEquals(data.get(fieldname), String.valueOf(value));
 		}
 		{
-			final Map<String, String> data = new HashMap<>();
+			final Map<String, String> data = new HashMap<String, String>();
 			data.put(fieldname, String.valueOf(value));
 			final ShortenerUrlBean bean = mapper.map(data);
 			assertEquals(value, bean.getId());

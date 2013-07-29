@@ -77,7 +77,9 @@ public class NoteServiceImpl implements NoteService {
 			final NoteBean note = noteDao.load(noteIdentifier);
 			authorizationService.expectUser(sessionIdentifier, note.getOwner());
 			return note;
-		} catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new NoteServiceException(e);
+		} catch (StorageException e) {
 			throw new NoteServiceException(e);
 		}
 	}
@@ -104,7 +106,11 @@ public class NoteServiceImpl implements NoteService {
 
 			noteDao.save(bean);
 			return id;
-		} catch (final AuthorizationServiceException | AuthenticationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new NoteServiceException(e);
+		} catch (StorageException e) {
+			throw new NoteServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new NoteServiceException(e);
 		}
 	}
@@ -131,7 +137,9 @@ public class NoteServiceImpl implements NoteService {
 			}
 
 			noteDao.save(bean);
-		} catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new NoteServiceException(e);
+		} catch (StorageException e) {
 			throw new NoteServiceException(e);
 		}
 	}
@@ -148,7 +156,9 @@ public class NoteServiceImpl implements NoteService {
 			final NoteBean note = noteDao.load(noteIdentifier);
 			authorizationService.expectUser(sessionIdentifier, note.getOwner());
 			noteDao.delete(note);
-		} catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new NoteServiceException(e);
+		} catch (StorageException e) {
 			throw new NoteServiceException(e);
 		}
 	}
@@ -160,12 +170,18 @@ public class NoteServiceImpl implements NoteService {
 			logger.debug("getNodes");
 			final UserIdentifier user = authenticationService.getCurrentUser(sessionIdentifier);
 			final EntityIterator<NoteBean> i = noteDao.getEntityIterator(user);
-			final List<Note> result = new ArrayList<>();
+			final List<Note> result = new ArrayList<Note>();
 			while (i.hasNext()) {
 				result.add(i.next());
 			}
 			return result;
-		} catch (final AuthenticationServiceException | EntityIteratorException | AuthorizationServiceException | StorageException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new NoteServiceException(e);
+		} catch (StorageException e) {
+			throw new NoteServiceException(e);
+		} catch (AuthorizationServiceException e) {
+			throw new NoteServiceException(e);
+		} catch (EntityIteratorException e) {
 			throw new NoteServiceException(e);
 		}
 	}

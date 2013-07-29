@@ -54,7 +54,9 @@ public abstract class DhlWebsiteHtmlServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(DhlService.PERMISSION));
-		} catch (final AuthenticationServiceException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

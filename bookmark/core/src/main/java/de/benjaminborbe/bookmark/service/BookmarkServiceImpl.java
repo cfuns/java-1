@@ -72,7 +72,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 		@Override
 		protected Map<String, String> getSearchValues(final Bookmark bookmark) {
-			final Map<String, String> values = new HashMap<>();
+			final Map<String, String> values = new HashMap<String, String>();
 			values.put(URL, bookmark.getUrl());
 			values.put(NAME, bookmark.getName());
 			values.put(DESCRIPTION, bookmark.getDescription());
@@ -82,7 +82,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 		@Override
 		protected Map<String, Integer> getSearchPrio() {
-			final Map<String, Integer> values = new HashMap<>();
+			final Map<String, Integer> values = new HashMap<String, Integer>();
 			values.put(URL, 2);
 			values.put(NAME, 2);
 			values.put(DESCRIPTION, 1);
@@ -135,13 +135,19 @@ public class BookmarkServiceImpl implements BookmarkService {
 			logger.trace("getBookmarks");
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final EntityIterator<BookmarkBean> i = bookmarkDao.getByUsername(userIdentifier);
-			final List<Bookmark> bookmarks = new ArrayList<>();
+			final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
 			while (i.hasNext()) {
 				bookmarks.add(i.next());
 			}
 			Collections.sort(bookmarks, bookmarkComparator);
 			return bookmarks;
-		} catch (final AuthorizationServiceException | StorageException | AuthenticationServiceException | EntityIteratorException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new BookmarkServiceException(e);
+		} catch (EntityIteratorException e) {
+			throw new BookmarkServiceException(e);
+		} catch (StorageException e) {
+			throw new BookmarkServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
@@ -155,13 +161,19 @@ public class BookmarkServiceImpl implements BookmarkService {
 			logger.trace("getBookmarkFavorite");
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			final EntityIterator<BookmarkBean> i = bookmarkDao.getFavorites(userIdentifier);
-			final List<Bookmark> bookmarks = new ArrayList<>();
+			final List<Bookmark> bookmarks = new ArrayList<Bookmark>();
 			while (i.hasNext()) {
 				bookmarks.add(i.next());
 			}
 			Collections.sort(bookmarks, bookmarkComparator);
 			return bookmarks;
-		} catch (final AuthorizationServiceException | StorageException | AuthenticationServiceException | EntityIteratorException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new BookmarkServiceException(e);
+		} catch (EntityIteratorException e) {
+			throw new BookmarkServiceException(e);
+		} catch (StorageException e) {
+			throw new BookmarkServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
@@ -176,7 +188,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 		final List<Bookmark> bookmarks = getBookmarks(sessionIdentifier);
 		final BeanSearcher<Bookmark> beanSearch = new BookmarkSearcher();
 		final List<BeanMatch<Bookmark>> matches = beanSearch.search(bookmarks, limit, words);
-		final List<BookmarkMatch> result = new ArrayList<>();
+		final List<BookmarkMatch> result = new ArrayList<BookmarkMatch>();
 		for (final BeanMatch<Bookmark> match : matches) {
 			result.add(new BookmarkMatchImpl(match));
 		}
@@ -211,7 +223,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 				throw new ValidationException(errors);
 			}
 			bookmarkDao.save(bookmark);
-		} catch (final AuthorizationServiceException | StorageException | AuthenticationServiceException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new BookmarkServiceException(e);
+		} catch (StorageException e) {
+			throw new BookmarkServiceException(e);
+		} catch (AuthenticationServiceException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
@@ -243,7 +259,9 @@ public class BookmarkServiceImpl implements BookmarkService {
 			}
 			authorizationService.expectUser(sessionIdentifier, bookmark.getOwner());
 			bookmarkDao.delete(bookmark);
-		} catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new BookmarkServiceException(e);
+		} catch (StorageException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
@@ -264,7 +282,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 
 			deleteBookmark(sessionIdentifier, bookmarkIdentifier);
 			createBookmark(sessionIdentifier, url, name, description, keywords);
-		} catch (final AuthorizationServiceException | StorageException | BookmarkDeletionException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new BookmarkServiceException(e);
+		} catch (StorageException e) {
+			throw new BookmarkServiceException(e);
+		} catch (BookmarkDeletionException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}
@@ -283,7 +305,9 @@ public class BookmarkServiceImpl implements BookmarkService {
 			final BookmarkBean bookmark = bookmarkDao.load(bookmarkIdentifier);
 			authorizationService.expectUser(sessionIdentifier, bookmark.getOwner());
 			return bookmark;
-		} catch (final AuthorizationServiceException | StorageException e) {
+		} catch (final AuthorizationServiceException e) {
+			throw new BookmarkServiceException(e);
+		} catch (StorageException e) {
 			throw new BookmarkServiceException(e);
 		}
 	}

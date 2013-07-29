@@ -27,7 +27,7 @@ public class TagWidget implements Widget {
 		}
 	}
 
-	private final Map<String, String> attributes = new HashMap<>();
+	private final Map<String, String> attributes = new HashMap<String, String>();
 
 	private final String tag;
 
@@ -84,7 +84,7 @@ public class TagWidget implements Widget {
 	}
 
 	private List<Entry<String, String>> sortEntrySet(final Set<Entry<String, String>> entrySet) {
-		final List<Entry<String, String>> result = new ArrayList<>(entrySet);
+		final List<Entry<String, String>> result = new ArrayList<Entry<String, String>>(entrySet);
 		Collections.sort(result, new EntrySetComparator());
 		return result;
 	}

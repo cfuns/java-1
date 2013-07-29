@@ -16,7 +16,7 @@ public class MonitoringNodeTree<N extends MonitoringHasParentId> {
 	}
 
 	public List<N> getRootNodes() {
-		final List<N> result = new ArrayList<>();
+		final List<N> result = new ArrayList<N>();
 		for (final N node : nodes) {
 			if (node.getParentId() == null) {
 				result.add(node);
@@ -26,7 +26,7 @@ public class MonitoringNodeTree<N extends MonitoringHasParentId> {
 	}
 
 	public List<N> getChildNodes(final MonitoringNodeIdentifier parentId) {
-		final List<N> result = new ArrayList<>();
+		final List<N> result = new ArrayList<N>();
 		for (final N node : nodes) {
 			if (parentId.equals(node.getParentId())) {
 				result.add(node);

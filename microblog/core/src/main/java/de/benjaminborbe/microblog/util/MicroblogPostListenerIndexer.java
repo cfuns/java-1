@@ -35,7 +35,9 @@ public class MicroblogPostListenerIndexer implements MicroblogPostListener {
 			final String url = microblogPost.getPostUrl();
 			final Calendar date = microblogPost.getDate();
 			indexService.addToIndex(MicroblogConstants.INDEX, parseUtil.parseURL(url), content, content, date);
-		} catch (final IndexerServiceException | ParseException e) {
+		} catch (final IndexerServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (ParseException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 	}

@@ -123,7 +123,11 @@ public class NotificationGuiSendServlet extends WebsiteHtmlServlet {
 			widgets.add(form);
 
 			return widgets;
-		} catch (final AuthenticationServiceException | NotificationServiceException e) {
+		} catch (final NotificationServiceException e) {
+			logger.debug(e.getClass().getName(), e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		} catch (final AuthenticationServiceException e) {
 			logger.debug(e.getClass().getName(), e);
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;

@@ -26,7 +26,7 @@ public class FormWidget extends CompositeWidget implements Widget, HasClass<Form
 
 	private FormEncType encType;
 
-	private final Set<String> classes = new HashSet<>();
+	private final Set<String> classes = new HashSet<String>();
 
 	private String id;
 

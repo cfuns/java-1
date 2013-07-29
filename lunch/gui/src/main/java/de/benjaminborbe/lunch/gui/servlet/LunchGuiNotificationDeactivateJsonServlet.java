@@ -84,7 +84,7 @@ public class LunchGuiNotificationDeactivateJsonServlet extends WebsiteJsonServle
 				lunchService.deactivateNotification(new UserIdentifier(login));
 				result = true;
 			} catch (final ValidationException e) {
-				final List<String> messages = new ArrayList<>();
+				final List<String> messages = new ArrayList<String>();
 				for (final ValidationError error : e.getErrors()) {
 					messages.add(error.getMessage());
 				}

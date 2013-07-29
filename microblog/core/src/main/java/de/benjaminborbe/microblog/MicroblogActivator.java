@@ -46,7 +46,7 @@ public class MicroblogActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CronJob.class, microblogCronJob, microblogCronJob.getClass().getName()));
 		result.add(new ServiceInfo(MicroblogService.class, microblogService));
 		result.add(new ServiceInfo(SearchServiceComponent.class, microblogSearchServiceComponent, microblogSearchServiceComponent.getClass().getName()));
@@ -58,7 +58,7 @@ public class MicroblogActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new MicroblogServiceTracker(microblogPostListenerRegistry, context, MicroblogPostListener.class));
 		return serviceTrackers;
 	}

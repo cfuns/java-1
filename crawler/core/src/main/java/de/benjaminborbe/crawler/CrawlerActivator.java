@@ -36,7 +36,7 @@ public class CrawlerActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(CrawlerService.class, crawlerService));
 		result.add(new ServiceInfo(MessageConsumer.class, crawlerMessageConsumer));
 		return result;
@@ -44,7 +44,7 @@ public class CrawlerActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new CrawlerNotifierServiceTracker(crawlerNotifierRegistry, context, CrawlerNotifier.class));
 		return serviceTrackers;
 	}

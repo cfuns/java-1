@@ -12,7 +12,7 @@ public class InitialContextCache {
 
 	private InitialContext initContext;
 
-	private final Map<String, Object> cache = new HashMap<>();
+	private final Map<String, Object> cache = new HashMap<String, Object>();
 
 	@Inject
 	public InitialContextCache() {

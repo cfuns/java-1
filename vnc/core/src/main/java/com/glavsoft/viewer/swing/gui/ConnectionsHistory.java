@@ -55,8 +55,8 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 	public ConnectionsHistory(final Logger logger, final ConnectionParams workingConnectionParams) {
 		this.logger = logger;
 		this.workingConnectionParams = workingConnectionParams;
-		settingsMap = new HashMap<>();
-		connections = new LinkedList<>();
+		settingsMap = new HashMap<ConnectionParams, ProtocolSettings>();
+		connections = new LinkedList<ConnectionParams>();
 		retrieve();
 	}
 
@@ -67,8 +67,8 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 			final byte[] emptyByteArray = new byte[0];
 			final String[] orderNums;
 			orderNums = connectionsHistoryNode.childrenNames();
-			final SortedMap<Integer, ConnectionParams> conns = new TreeMap<>();
-			final HashSet<ConnectionParams> uniques = new HashSet<>();
+			final SortedMap<Integer, ConnectionParams> conns = new TreeMap<Integer, ConnectionParams>();
+			final HashSet<ConnectionParams> uniques = new HashSet<ConnectionParams>();
 			for (final String orderNum : orderNums) {
 				int num = 0;
 				try {
@@ -174,7 +174,7 @@ public class ConnectionsHistory implements IChangeSettingsListener {
 	void reorderConnectionsList(final ConnectionParams connectionParams, final ProtocolSettings settings) {
 		while (connections.remove(connectionParams)) {/* empty - remove all occurrence */
 		}
-		final LinkedList<ConnectionParams> cpList = new LinkedList<>();
+		final LinkedList<ConnectionParams> cpList = new LinkedList<ConnectionParams>();
 		cpList.addAll(connections);
 
 		connections.clear();

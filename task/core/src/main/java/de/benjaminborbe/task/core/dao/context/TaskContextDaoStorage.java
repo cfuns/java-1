@@ -56,7 +56,7 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	@Override
 	public Collection<TaskContextBean> getTaskContextsByUser(final UserIdentifier userIdentifier) throws StorageException {
 		try {
-			final List<TaskContextBean> result = new ArrayList<>();
+			final List<TaskContextBean> result = new ArrayList<TaskContextBean>();
 			final EntityIterator<TaskContextBean> i = getEntityIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)));
 			while (i.hasNext()) {
 				final TaskContextBean task = i.next();
@@ -71,7 +71,7 @@ public class TaskContextDaoStorage extends DaoStorage<TaskContextBean, TaskConte
 	@Override
 	public Collection<TaskContextIdentifier> getTaskContextIdentifiersByUser(final UserIdentifier userIdentifier) throws StorageException {
 		try {
-			final List<TaskContextIdentifier> result = new ArrayList<>();
+			final List<TaskContextIdentifier> result = new ArrayList<TaskContextIdentifier>();
 			final IdentifierIterator<TaskContextIdentifier> i = getIdentifierIterator(new StorageValueMap(getEncoding()).add(TaskContextBeanMapper.OWNER, String.valueOf(userIdentifier)));
 			while (i.hasNext()) {
 				result.add(i.next());

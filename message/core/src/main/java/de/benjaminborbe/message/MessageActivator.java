@@ -45,7 +45,7 @@ public class MessageActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(MessageService.class, messageService));
 		result.add(new ServiceInfo(CronJob.class, messageConsumerCronJob, messageConsumerCronJob.getClass().getName()));
 		result.add(new ServiceInfo(CronJob.class, messageUnlockCronJob, messageUnlockCronJob.getClass().getName()));
@@ -57,7 +57,7 @@ public class MessageActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
-		final Set<ServiceTracker> serviceTrackers = new HashSet<>(super.getServiceTrackers(context));
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
 		serviceTrackers.add(new MessageConsumerTracker(logger, messageConsumerRegistry, context, MessageConsumer.class));
 		return serviceTrackers;
 	}

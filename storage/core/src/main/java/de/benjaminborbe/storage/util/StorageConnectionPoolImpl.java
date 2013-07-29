@@ -36,8 +36,8 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 		this.storageConfig = storageConfig;
 		this.maxConnections = storageConfig.getMaxConnections();
 		this.aliveCheck = storageConfig.getAliveCheck();
-		this.freeConnections = new LinkedBlockingQueue<>(maxConnections);
-		this.allConnections = new LinkedBlockingQueue<>(maxConnections);
+		this.freeConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
+		this.allConnections = new LinkedBlockingQueue<StorageConnection>(maxConnections);
 	}
 
 	@Override
@@ -58,7 +58,9 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 				allConnections.offer(c);
 				return c;
 			}
-		} catch (final TTransportException | InterruptedException e) {
+		} catch (final TTransportException e) {
+			throw new StorageConnectionPoolException(e);
+		} catch (InterruptedException e) {
 			throw new StorageConnectionPoolException(e);
 		}
 	}

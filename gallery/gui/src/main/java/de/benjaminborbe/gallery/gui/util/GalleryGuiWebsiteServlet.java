@@ -53,9 +53,10 @@ public abstract class GalleryGuiWebsiteServlet extends WebsiteServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			galleryService.expectPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException | GalleryServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (GalleryServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}
-
 }

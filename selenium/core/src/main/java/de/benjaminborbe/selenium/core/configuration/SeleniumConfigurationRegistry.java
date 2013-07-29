@@ -13,7 +13,7 @@ import java.util.Map;
 @Singleton
 public class SeleniumConfigurationRegistry implements Registry<SeleniumConfiguration> {
 
-	private final Map<SeleniumConfigurationIdentifier, SeleniumConfiguration> data = new HashMap<>();
+	private final Map<SeleniumConfigurationIdentifier, SeleniumConfiguration> data = new HashMap<SeleniumConfigurationIdentifier, SeleniumConfiguration>();
 
 	@Inject
 	public SeleniumConfigurationRegistry() {

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class SearchServiceSearchResultComparatorPrio extends ComparatorBase<SearchResult, Integer> {
 
-	private final Map<String, Integer> prio = new HashMap<>();
+	private final Map<String, Integer> prio = new HashMap<String, Integer>();
 
 	@Inject
 	public SearchServiceSearchResultComparatorPrio() {

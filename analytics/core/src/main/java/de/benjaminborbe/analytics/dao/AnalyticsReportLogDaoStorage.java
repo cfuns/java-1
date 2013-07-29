@@ -48,7 +48,11 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 				final String columnName = column.getColumnName().getString();
 				final String[] parts = columnName.split(SEPERATOR);
 				return new AnalyticsReportLogValueDto(columnName, mapperCalendar.fromString(parts[0]), parseUtil.parseDouble(column.getColumnValue().getString()));
-			} catch (final StorageException | ParseException | UnsupportedEncodingException e) {
+			} catch (final StorageException e) {
+				throw new AnalyticsServiceException(e);
+			} catch (ParseException e) {
+				throw new AnalyticsServiceException(e);
+			} catch (UnsupportedEncodingException e) {
 				throw new AnalyticsServiceException(e);
 			}
 		}
@@ -102,7 +106,7 @@ public class AnalyticsReportLogDaoStorage implements AnalyticsReportLogDao {
 	@Override
 	public void delete(final AnalyticsReportIdentifier analyticsReportIdentifier, final Collection<String> columnNames) throws StorageException {
 		final String encoding = storageService.getEncoding();
-		final List<StorageValue> columns = new ArrayList<>();
+		final List<StorageValue> columns = new ArrayList<StorageValue>();
 		for (final String columnName : columnNames) {
 			columns.add(new StorageValue(columnName, encoding));
 		}

@@ -93,7 +93,9 @@ public class SeleniumGuiConfigurationRunServlet extends WebsiteHtmlServlet {
 			widgets.add(new SeleniumGuiExecuteWidget(seleniumExecutionProtocol));
 
 			return widgets;
-		} catch (SeleniumServiceException | AuthenticationServiceException e) {
+		} catch (SeleniumServiceException e) {
+			return new ExceptionWidget(e);
+		} catch (AuthenticationServiceException e) {
 			return new ExceptionWidget(e);
 		}
 	}

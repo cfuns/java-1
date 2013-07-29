@@ -11,7 +11,7 @@ import java.util.ListIterator;
 
 public class JSONArraySimple implements JSONArray {
 
-	private final List<Object> values = new ArrayList<>();
+	private final List<Object> values = new ArrayList<Object>();
 
 	@Override
 	public void writeJSONString(final Writer out) throws IOException {

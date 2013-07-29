@@ -45,7 +45,9 @@ public class SeleniumConfigurationXmlActivator extends BaseBundleActivator {
 					logger.warn("register failed", e);
 				}
 			}
-		} catch (IdentifierIteratorException | StorageException e) {
+		} catch (StorageException e) {
+			logger.warn("register failed", e);
+		} catch (IdentifierIteratorException e) {
 			logger.warn("register failed", e);
 		}
 	}
@@ -57,7 +59,7 @@ public class SeleniumConfigurationXmlActivator extends BaseBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(SeleniumConfigurationXmlService.class, seleniumConfigurationXmlService));
 		return result;
 	}

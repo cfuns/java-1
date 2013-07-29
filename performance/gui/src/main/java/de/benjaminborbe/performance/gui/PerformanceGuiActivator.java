@@ -33,14 +33,14 @@ public class PerformanceGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(performanceServlet, "/"));
 		return result;
 	}
 
 	@Override
 	protected Collection<FilterInfo> getFilterInfos() {
-		final Set<FilterInfo> result = new HashSet<>(super.getFilterInfos());
+		final Set<FilterInfo> result = new HashSet<FilterInfo>(super.getFilterInfos());
 		result.add(new FilterInfo(performanceFilter, ".*", 998, true));
 		return result;
 	}

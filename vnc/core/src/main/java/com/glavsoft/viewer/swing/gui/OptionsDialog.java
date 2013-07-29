@@ -403,8 +403,8 @@ public class OptionsDialog extends JDialog {
 
 		final ButtonGroup mouseCursorTrackGroup = new ButtonGroup();
 
-		mouseCursorTrackSelected = new RadioButtonSelectedState<>();
-		mouseCursorTrackMap = new HashMap<>();
+		mouseCursorTrackSelected = new RadioButtonSelectedState<LocalPointer>();
+		mouseCursorTrackMap = new HashMap<LocalPointer, JRadioButton>();
 
 		addRadioButton("Track remote cursor locally", LocalPointer.ON, mouseCursorTrackSelected, mouseCursorTrackMap, mouseCursorBox, mouseCursorTrackGroup);
 		addRadioButton("Let remote server deal with mouse cursor", LocalPointer.OFF, mouseCursorTrackSelected, mouseCursorTrackMap, mouseCursorBox, mouseCursorTrackGroup);

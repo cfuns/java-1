@@ -35,7 +35,7 @@ public class SearchQueryHistoryBeanMapper extends MapObjectMapperAdapter<SearchQ
 		final MapperSearchQueryHistoryIdentifier mapperListIdentifier,
 		final MapperString mapperString, final MapperCalendar mapperCalendar, final MapperUserIdentifier mapperUserIdentifier
 	) {
-		final List<StringObjectMapper<SearchQueryHistoryBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<SearchQueryHistoryBean>> result = new ArrayList<StringObjectMapper<SearchQueryHistoryBean>>();
 		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, SearchQueryHistoryIdentifier>("id", mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, UserIdentifier>("user", mapperUserIdentifier));
 		result.add(new StringObjectMapperAdapter<SearchQueryHistoryBean, String>("query", mapperString));

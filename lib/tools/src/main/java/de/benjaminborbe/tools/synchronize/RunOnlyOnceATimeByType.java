@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class RunOnlyOnceATimeByType {
 
-	private final Set<String> running = new HashSet<>();
+	private final Set<String> running = new HashSet<String>();
 
 	private final Logger logger;
 

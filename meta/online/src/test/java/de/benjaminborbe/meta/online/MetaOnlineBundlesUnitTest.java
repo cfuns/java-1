@@ -24,7 +24,7 @@ public class MetaOnlineBundlesUnitTest {
 		final List<String> names = bundleResolver.getBundleSymbolicNames();
 		assertNotNull(names);
 		assertTrue(names.size() > 0);
-		final Set<String> namesUnique = new HashSet<>(names);
+		final Set<String> namesUnique = new HashSet<String>(names);
 		assertEquals("dupplicate bundle!", names.size(), namesUnique.size());
 	}
 }

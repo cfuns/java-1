@@ -182,7 +182,7 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 	}
 
 	private List<AnalyticsReportIdentifier> buildReportIdentifiers(final String[] reportIds) {
-		final List<AnalyticsReportIdentifier> result = new ArrayList<>();
+		final List<AnalyticsReportIdentifier> result = new ArrayList<AnalyticsReportIdentifier>();
 		if (reportIds != null) {
 			for (final String reportId : reportIds) {
 				result.add(new AnalyticsReportIdentifier(reportId));
@@ -209,7 +209,9 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			analyticsService.expectAnalyticsViewOrAdminPermission(sessionIdentifier);
-		} catch (final AuthenticationServiceException | AnalyticsServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
+		} catch (AnalyticsServiceException e) {
 			throw new PermissionDeniedException(e);
 		}
 	}

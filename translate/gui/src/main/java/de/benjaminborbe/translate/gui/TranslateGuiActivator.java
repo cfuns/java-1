@@ -39,14 +39,14 @@ public class TranslateGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(translateGuiServlet, "/"));
 		return result;
 	}
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(DashboardContentWidget.class, translateDashboardWidget, translateDashboardWidget.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, translateGuiSpecialSearch, translateGuiSpecialSearch.getClass().getName()));
 		return result;

@@ -38,6 +38,6 @@ public class WebsearchConfigurationDaoStorage extends DaoStorage<WebsearchConfig
 
 	@Override
 	public EntityIterator<WebsearchConfigurationBean> getActivatedEntityIterator() throws StorageException {
-		return new EntityIteratorFilter<>(getEntityIterator(), new WebsearchConfigurationActivatedPredicate());
+		return new EntityIteratorFilter<WebsearchConfigurationBean>(getEntityIterator(), new WebsearchConfigurationActivatedPredicate());
 	}
 }

@@ -41,7 +41,7 @@ public class RunOnlyOnceATimeUnitTest {
 		EasyMock.replay(logger);
 
 		final RunOnlyOnceATime runOnlyOnceATime = new RunOnlyOnceATime(logger);
-		final ThreadResult<Long> threadResult = new ThreadResult<>();
+		final ThreadResult<Long> threadResult = new ThreadResult<Long>();
 		threadResult.set(0L);
 		final Runnable runnable = new MyRunnable(timeout, threadResult);
 
@@ -59,7 +59,7 @@ public class RunOnlyOnceATimeUnitTest {
 		EasyMock.replay(logger);
 
 		final RunOnlyOnceATime runOnlyOnceATime = new RunOnlyOnceATime(logger);
-		final ThreadResult<Long> threadResult = new ThreadResult<>();
+		final ThreadResult<Long> threadResult = new ThreadResult<Long>();
 		threadResult.set(0L);
 		final Runnable runnable = new MyRunnable(timeout, threadResult);
 

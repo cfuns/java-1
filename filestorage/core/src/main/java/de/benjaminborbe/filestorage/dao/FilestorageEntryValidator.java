@@ -34,7 +34,7 @@ public class FilestorageEntryValidator extends ValidatorBase<FilestorageEntryBea
 
 	@Override
 	protected Map<String, ValidatorRule<FilestorageEntryBean>> buildRules() {
-		final Map<String, ValidatorRule<FilestorageEntryBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<FilestorageEntryBean>> result = new HashMap<String, ValidatorRule<FilestorageEntryBean>>();
 
 		// id
 		{
@@ -44,7 +44,7 @@ public class FilestorageEntryValidator extends ValidatorBase<FilestorageEntryBea
 				@Override
 				public Collection<ValidationError> validate(final FilestorageEntryBean bean) {
 					final FilestorageEntryIdentifier value = bean.getId();
-					final List<ValidationConstraint<FilestorageEntryIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<FilestorageEntryIdentifier>> constraints = new ArrayList<ValidationConstraint<FilestorageEntryIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<FilestorageEntryIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<FilestorageEntryIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -60,7 +60,7 @@ public class FilestorageEntryValidator extends ValidatorBase<FilestorageEntryBea
 				@Override
 				public Collection<ValidationError> validate(final FilestorageEntryBean bean) {
 					final byte[] value = bean.getContent();
-					final List<ValidationConstraint<byte[]>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<byte[]>> constraints = new ArrayList<ValidationConstraint<byte[]>>();
 					constraints.add(new ValidationConstraintNotNull<byte[]>());
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
@@ -75,7 +75,7 @@ public class FilestorageEntryValidator extends ValidatorBase<FilestorageEntryBea
 				@Override
 				public Collection<ValidationError> validate(final FilestorageEntryBean bean) {
 					final String value = bean.getContentType();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
@@ -92,7 +92,7 @@ public class FilestorageEntryValidator extends ValidatorBase<FilestorageEntryBea
 				@Override
 				public Collection<ValidationError> validate(final FilestorageEntryBean bean) {
 					final String value = bean.getFilename();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

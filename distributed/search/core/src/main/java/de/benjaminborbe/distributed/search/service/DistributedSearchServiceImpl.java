@@ -96,7 +96,11 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			distributedSearchPageDao.save(distributedSearchPage);
 
 			distributedIndexService.add(index, url.toExternalForm(), buildData(distributedSearchPage));
-		} catch (final DistributedIndexServiceException | ValidationException | StorageException e) {
+		} catch (final DistributedIndexServiceException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final ValidationException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final StorageException e) {
 			throw new DistributedSearchServiceException(e);
 		}
 	}
@@ -107,7 +111,7 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			logger.debug("search - index: " + index + " searchQuery: " + searchQuery + " limit: " + limit);
 			final Collection<String> words = distributedSearchAnalyser.parseSearchTerm(searchQuery);
 			final DistributedIndexSearchResultIterator resultIterator = distributedIndexService.search(index, words);
-			final List<DistributedSearchResult> result = new ArrayList<>();
+			final List<DistributedSearchResult> result = new ArrayList<DistributedSearchResult>();
 			while (resultIterator.hasNext() && result.size() < limit) {
 				final DistributedSearchResult e = buildResult(resultIterator.next());
 				if (e != null) {
@@ -115,7 +119,9 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 				}
 			}
 			return result;
-		} catch (final DistributedIndexServiceException | StorageException e) {
+		} catch (final DistributedIndexServiceException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final StorageException e) {
 			throw new DistributedSearchServiceException(e);
 		}
 	}
@@ -151,7 +157,11 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 				distributedIndexService.remove(index, id.getPageId());
 			}
 			logger.debug("clear - finished");
-		} catch (final StorageException | DistributedIndexServiceException | IdentifierIteratorException e) {
+		} catch (final StorageException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final DistributedIndexServiceException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final IdentifierIteratorException e) {
 			throw new DistributedSearchServiceException(e);
 		}
 	}
@@ -161,7 +171,9 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 		try {
 			distributedIndexService.remove(index, url.toExternalForm());
 			distributedSearchPageDao.delete(new DistributedSearchPageIdentifier(index, url.toExternalForm()));
-		} catch (final StorageException | DistributedIndexServiceException e) {
+		} catch (final StorageException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final DistributedIndexServiceException e) {
 			throw new DistributedSearchServiceException(e);
 		}
 	}
@@ -178,7 +190,11 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			}
 
 			logger.debug("rebuildIndex - finished");
-		} catch (final StorageException | EntityIteratorException | DistributedIndexServiceException e) {
+		} catch (final StorageException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final EntityIteratorException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final DistributedIndexServiceException e) {
 			throw new DistributedSearchServiceException(e);
 		}
 	}
@@ -195,7 +211,11 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			}
 
 			logger.debug("rebuildIndex - finished");
-		} catch (final StorageException | EntityIteratorException | DistributedIndexServiceException e) {
+		} catch (final StorageException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final EntityIteratorException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final DistributedIndexServiceException e) {
 			throw new DistributedSearchServiceException(e);
 		}
 	}
@@ -221,7 +241,7 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 	}
 
 	private Map<String, Integer> buildData(final DistributedSearchPageBean bean) {
-		final Map<String, Integer> data = new HashMap<>();
+		final Map<String, Integer> data = new HashMap<String, Integer>();
 		distributedSearchAnalyser.parseWordRating(bean.getId().getPageId(), 3, data);
 		distributedSearchAnalyser.parseWordRating(bean.getTitle(), 3, data);
 		distributedSearchAnalyser.parseWordRating(bean.getContent(), 1, data);
@@ -235,7 +255,9 @@ public class DistributedSearchServiceImpl implements DistributedSearchService {
 			final DistributedSearchPageIdentifier distributedSearchPageIdentifier = new DistributedSearchPageIdentifier(index, url);
 			final DistributedSearchPageBean distributedSearchPage = distributedSearchPageDao.load(distributedSearchPageIdentifier);
 			rebuildPage(distributedSearchPage);
-		} catch (final DistributedIndexServiceException | StorageException e) {
+		} catch (final DistributedIndexServiceException e) {
+			throw new DistributedSearchServiceException(e);
+		} catch (final StorageException e) {
 			throw new DistributedSearchServiceException(e);
 		}
 	}

@@ -42,14 +42,14 @@ public class GooglesearchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(googlesearchGuiServlet, "/"));
 		return result;
 	}
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(SearchSpecial.class, searchGuiSpecialSearchGoogle, searchGuiSpecialSearchGoogle.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, googlesearchGuiMapSpecialSearch, googlesearchGuiMapSpecialSearch.getClass().getName()));
 		result.add(new ServiceInfo(SearchSpecial.class, googlesearchGuiYoutubeSpecialSearch, googlesearchGuiYoutubeSpecialSearch.getClass().getName()));

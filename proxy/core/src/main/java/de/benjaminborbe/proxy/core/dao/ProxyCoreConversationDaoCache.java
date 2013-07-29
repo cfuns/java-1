@@ -12,7 +12,7 @@ import java.util.Map;
 @Singleton
 public class ProxyCoreConversationDaoCache implements ProxyCoreConversationDao {
 
-	private final Map<ProxyConversationIdentifier, ProxyConversation> data = new HashMap<>();
+	private final Map<ProxyConversationIdentifier, ProxyConversation> data = new HashMap<ProxyConversationIdentifier, ProxyConversation>();
 
 	@Inject
 	public ProxyCoreConversationDaoCache() {

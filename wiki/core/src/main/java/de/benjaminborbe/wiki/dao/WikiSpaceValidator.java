@@ -61,7 +61,7 @@ public class WikiSpaceValidator extends ValidatorBase<WikiSpaceBean> {
 
 	@Override
 	protected Map<String, ValidatorRule<WikiSpaceBean>> buildRules() {
-		final Map<String, ValidatorRule<WikiSpaceBean>> result = new HashMap<>();
+		final Map<String, ValidatorRule<WikiSpaceBean>> result = new HashMap<String, ValidatorRule<WikiSpaceBean>>();
 
 		// id
 		{
@@ -71,7 +71,7 @@ public class WikiSpaceValidator extends ValidatorBase<WikiSpaceBean> {
 				@Override
 				public Collection<ValidationError> validate(final WikiSpaceBean bean) {
 					final WikiSpaceIdentifier value = bean.getId();
-					final List<ValidationConstraint<WikiSpaceIdentifier>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<WikiSpaceIdentifier>> constraints = new ArrayList<ValidationConstraint<WikiSpaceIdentifier>>();
 					constraints.add(new ValidationConstraintNotNull<WikiSpaceIdentifier>());
 					constraints.add(new ValidationConstraintIdentifier<WikiSpaceIdentifier>());
 					return validationConstraintValidator.validate(field, value, constraints);
@@ -87,7 +87,7 @@ public class WikiSpaceValidator extends ValidatorBase<WikiSpaceBean> {
 				@Override
 				public Collection<ValidationError> validate(final WikiSpaceBean bean) {
 					final String value = bean.getName();
-					final List<ValidationConstraint<String>> constraints = new ArrayList<>();
+					final List<ValidationConstraint<String>> constraints = new ArrayList<ValidationConstraint<String>>();
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));

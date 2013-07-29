@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class AnalyticsReportChartBuilderFactory implements RequireJavascriptResource {
 
-	private final Map<AnalyticsReportChartType, AnalyticsReportChartBuilder> builders = new HashMap<>();
+	private final Map<AnalyticsReportChartType, AnalyticsReportChartBuilder> builders = new HashMap<AnalyticsReportChartType, AnalyticsReportChartBuilder>();
 
 	@Inject
 	public AnalyticsReportChartBuilderFactory(final AnalyticsReportChartBuilderTable table, final AnalyticsReportChartBuilderLineChart lineChart) {
@@ -31,7 +31,7 @@ public class AnalyticsReportChartBuilderFactory implements RequireJavascriptReso
 
 	@Override
 	public List<JavascriptResource> getJavascriptResource(final HttpServletRequest request, final HttpServletResponse response) {
-		final List<JavascriptResource> result = new ArrayList<>();
+		final List<JavascriptResource> result = new ArrayList<JavascriptResource>();
 		for (final AnalyticsReportChartBuilder builder : builders.values()) {
 			result.addAll(builder.getJavascriptResource(request, response));
 		}

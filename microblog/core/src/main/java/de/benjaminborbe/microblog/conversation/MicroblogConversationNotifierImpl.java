@@ -53,7 +53,16 @@ public class MicroblogConversationNotifierImpl implements MicroblogConversationN
 			logger.debug("mailConversation with rev " + microblogConversationIdentifier);
 			final NotificationDto notification = buildNotificationDto(microblogConversationIdentifier);
 			notificationService.notify(notification);
-		} catch (final MicroblogConnectorException | NotificationServiceException | ValidationException | AuthenticationServiceException e) {
+		} catch (final MicroblogConnectorException e) {
+			logger.error("MicroblogConnectorException", e);
+			throw new MicroblogConversationNotifierException(e.getClass().getSimpleName(), e);
+		} catch (NotificationServiceException e) {
+			logger.error("MicroblogConnectorException", e);
+			throw new MicroblogConversationNotifierException(e.getClass().getSimpleName(), e);
+		} catch (AuthenticationServiceException e) {
+			logger.error("MicroblogConnectorException", e);
+			throw new MicroblogConversationNotifierException(e.getClass().getSimpleName(), e);
+		} catch (ValidationException e) {
 			logger.error("MicroblogConnectorException", e);
 			throw new MicroblogConversationNotifierException(e.getClass().getSimpleName(), e);
 		}

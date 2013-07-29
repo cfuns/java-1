@@ -10,7 +10,7 @@ public class ValidationConstraintOrUnitTest {
 	@Test
 	public void testValidate() throws Exception {
 		{
-			final ValidationConstraintOr<String> v = new ValidationConstraintOr<>();
+			final ValidationConstraintOr<String> v = new ValidationConstraintOr<String>();
 			assertThat(v.validate("bla"), is(false));
 		}
 		{

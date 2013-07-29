@@ -20,7 +20,7 @@ public class LuceneIndexServiceMock implements LuceneIndexService {
 
 	@Override
 	public List<LuceneIndexSearchResult> search(final String index, final String searchQuery, final int limit) throws LuceneIndexServiceException {
-		return new ArrayList<>();
+		return new ArrayList<LuceneIndexSearchResult>();
 	}
 
 	@Override

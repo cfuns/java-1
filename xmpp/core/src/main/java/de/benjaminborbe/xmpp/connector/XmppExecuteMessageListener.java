@@ -37,7 +37,7 @@ public class XmppExecuteMessageListener implements MessageListener, RegistryChan
 
 	private final Logger logger;
 
-	private final Set<XmppCommand> commands = new HashSet<>();
+	private final Set<XmppCommand> commands = new HashSet<XmppCommand>();
 
 	private final ThreadRunner threadRunner;
 

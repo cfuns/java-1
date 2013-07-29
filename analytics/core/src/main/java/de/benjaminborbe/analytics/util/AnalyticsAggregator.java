@@ -39,7 +39,7 @@ public class AnalyticsAggregator {
 			try {
 				logger.debug("aggregate started");
 
-				final MapList<String, AnalyticsReportBean> reportMap = new MapList<>();
+				final MapList<String, AnalyticsReportBean> reportMap = new MapList<String, AnalyticsReportBean>();
 
 				final EntityIterator<AnalyticsReportBean> i = analyticsReportDao.getEntityIterator();
 				while (i.hasNext()) {
@@ -113,8 +113,8 @@ public class AnalyticsAggregator {
 		final AnalyticsReportLogIterator i = analyticsReportLogDao.valueIterator(id);
 
 		// read chunkSize values to aggregate
-		final List<AnalyticsReportValue> values = new ArrayList<>();
-		final List<String> columnNames = new ArrayList<>();
+		final List<AnalyticsReportValue> values = new ArrayList<AnalyticsReportValue>();
+		final List<String> columnNames = new ArrayList<String>();
 		final long chunkSize = analyticsConfig.getAggregationChunkSize();
 		long counter = 0;
 		while (i.hasNext() && counter < chunkSize) {
@@ -162,7 +162,7 @@ public class AnalyticsAggregator {
 		final List<AnalyticsReportValue> values,
 		final AnalyticsReportInterval analyticsReportInterval
 	) {
-		final Map<String, List<AnalyticsReportValue>> data = new HashMap<>();
+		final Map<String, List<AnalyticsReportValue>> data = new HashMap<String, List<AnalyticsReportValue>>();
 		for (final AnalyticsReportValue value : values) {
 			final String key = buildKey(analyticsReportInterval, value.getDate());
 			final List<AnalyticsReportValue> list = data.get(key);

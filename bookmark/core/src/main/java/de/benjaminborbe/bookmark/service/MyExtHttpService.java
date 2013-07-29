@@ -18,7 +18,7 @@ public class MyExtHttpService implements ExtHttpService {
 
 	private final ServletPathRegistry registry;
 
-	private final Map<Servlet, String> servletAlias = new HashMap<>();
+	private final Map<Servlet, String> servletAlias = new HashMap<Servlet, String>();
 
 	@Inject
 	public MyExtHttpService(final ServletPathRegistry registry) {

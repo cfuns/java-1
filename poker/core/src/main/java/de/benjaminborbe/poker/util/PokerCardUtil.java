@@ -24,7 +24,7 @@ public class PokerCardUtil {
 	}
 
 	public MapList<PokerCardColor, PokerCardIdentifier> groupByColor(final Collection<PokerCardIdentifier> cards) {
-		final MapList<PokerCardColor, PokerCardIdentifier> result = new MapList<>();
+		final MapList<PokerCardColor, PokerCardIdentifier> result = new MapList<PokerCardColor, PokerCardIdentifier>();
 		for (final PokerCardIdentifier card : cards) {
 			result.add(card.getColor(), card);
 		}
@@ -32,7 +32,7 @@ public class PokerCardUtil {
 	}
 
 	public List<PokerCardValue> values(final Collection<PokerCardIdentifier> cards) {
-		final List<PokerCardValue> result = new ArrayList<>();
+		final List<PokerCardValue> result = new ArrayList<PokerCardValue>();
 		for (final PokerCardIdentifier card : cards) {
 			result.add(card.getValue());
 		}
@@ -40,7 +40,7 @@ public class PokerCardUtil {
 	}
 
 	public List<PokerCardColor> colors(final Collection<PokerCardIdentifier> cards) {
-		final List<PokerCardColor> result = new ArrayList<>();
+		final List<PokerCardColor> result = new ArrayList<PokerCardColor>();
 		for (final PokerCardIdentifier card : cards) {
 			result.add(card.getColor());
 		}
@@ -48,7 +48,7 @@ public class PokerCardUtil {
 	}
 
 	public List<PokerCardValue> unique(final List<PokerCardValue> values) {
-		final List<PokerCardValue> result = new ArrayList<>();
+		final List<PokerCardValue> result = new ArrayList<PokerCardValue>();
 		for (final PokerCardValue value : values) {
 			if (!result.contains(value)) {
 				result.add(value);

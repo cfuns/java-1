@@ -70,7 +70,9 @@ public class NotificationGuiAddServlet extends WebsiteServlet {
 				.getParameter(NotificationGuiConstants.PARAMETER_TYPE));
 			logger.info("active media " + notificationMediaIdentifier + " for type " + notificationTypeIdentifier);
 			notificationService.add(sessionIdentifier, notificationMediaIdentifier, notificationTypeIdentifier);
-		} catch (final AuthenticationServiceException | NotificationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (NotificationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 		}
 		final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));

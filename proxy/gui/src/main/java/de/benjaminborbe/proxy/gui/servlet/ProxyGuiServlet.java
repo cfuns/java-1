@@ -82,7 +82,9 @@ public class ProxyGuiServlet extends WebsiteServlet {
 			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
 			proxy(request, response);
-		} catch (NoSuchAlgorithmException | KeyManagementException e) {
+		} catch (KeyManagementException e) {
+			logger.warn(e.getClass().getName(), e);
+		} catch (NoSuchAlgorithmException e) {
 			logger.warn(e.getClass().getName(), e);
 		} finally {
 			HttpsURLConnection.setDefaultHostnameVerifier(orgHostnameVerifier);
@@ -108,7 +110,7 @@ public class ProxyGuiServlet extends WebsiteServlet {
 			connection.setReadTimeout(TIMEOUT);
 			connection.setConnectTimeout(TIMEOUT);
 
-			final List<String> allowedHeaders = new ArrayList<>();
+			final List<String> allowedHeaders = new ArrayList<String>();
 			allowedHeaders.add("user-agent");
 			allowedHeaders.add("accept");
 			allowedHeaders.add("accept-language");

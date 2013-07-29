@@ -21,28 +21,9 @@ import java.util.Set;
 @Singleton
 public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>> implements Dao<E, I> {
 
-	private final class IdentifierIteratorImpl implements IdentifierIterator<I> {
-
-		private final Iterator<I> iterator;
-
-		public IdentifierIteratorImpl() {
-			iterator = data.keySet().iterator();
-		}
-
-		@Override
-		public boolean hasNext() {
-			return iterator.hasNext();
-		}
-
-		@Override
-		public I next() {
-			return iterator.next();
-		}
-	}
-
 	protected final Logger logger;
 
-	private final Map<I, E> data = new HashMap<>();
+	private final Map<I, E> data = new HashMap<I, E>();
 
 	private final Provider<E> provider;
 
@@ -93,7 +74,7 @@ public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>
 
 	@Override
 	public EntityIterator<E> getEntityIterator() throws StorageException {
-		return new EntityIteratorImpl<>(data.values().iterator());
+		return new EntityIteratorImpl<E>(data.values().iterator());
 	}
 
 	@Override
@@ -127,7 +108,9 @@ public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>
 		try {
 			final Object value = PropertyUtils.getProperty(from, fieldname);
 			PropertyUtils.setProperty(to, fieldname, value);
-		} catch (final IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+		} catch (final InvocationTargetException e) {
+		} catch (final NoSuchMethodException e) {
+		} catch (final IllegalAccessException e) {
 		}
 	}
 
@@ -143,7 +126,7 @@ public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>
 
 	@Override
 	public Collection<E> load(final Collection<I> ids) throws StorageException {
-		final Set<E> result = new HashSet<>();
+		final Set<E> result = new HashSet<E>();
 		for (final I id : ids) {
 			result.add(load(id));
 		}
@@ -168,6 +151,25 @@ public abstract class DaoCache<E extends Entity<I>, I extends Identifier<String>
 			session.setId(id);
 			save(session);
 			return session;
+		}
+	}
+
+	private final class IdentifierIteratorImpl implements IdentifierIterator<I> {
+
+		private final Iterator<I> iterator;
+
+		public IdentifierIteratorImpl() {
+			iterator = data.keySet().iterator();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return iterator.hasNext();
+		}
+
+		@Override
+		public I next() {
+			return iterator.next();
 		}
 	}
 }

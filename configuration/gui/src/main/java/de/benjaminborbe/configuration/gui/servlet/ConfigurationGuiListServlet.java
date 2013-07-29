@@ -134,7 +134,7 @@ public class ConfigurationGuiListServlet extends WebsiteHtmlServlet {
 	}
 
 	private List<ConfigurationDescription> getConfigurationDescriptions() throws ConfigurationServiceException {
-		final List<ConfigurationDescription> list = new ArrayList<>(configurationService.listConfigurations());
+		final List<ConfigurationDescription> list = new ArrayList<ConfigurationDescription>(configurationService.listConfigurations());
 		Collections.sort(list, new ComparatorImplementation());
 		return list;
 	}

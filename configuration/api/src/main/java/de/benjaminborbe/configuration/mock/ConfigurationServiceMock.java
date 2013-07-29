@@ -14,7 +14,7 @@ import java.util.Map;
 @Singleton
 public class ConfigurationServiceMock implements ConfigurationService {
 
-	private final Map<ConfigurationIdentifier, String> data = new HashMap<>();
+	private final Map<ConfigurationIdentifier, String> data = new HashMap<ConfigurationIdentifier, String>();
 
 	@Inject
 	public ConfigurationServiceMock() {

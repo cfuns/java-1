@@ -44,7 +44,13 @@ public class DashboardServiceImpl implements DashboardService {
 			expectPermission(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			return dashboardDao.getSelectedDashboards(userIdentifier);
-		} catch (final AuthenticationServiceException | UnsupportedEncodingException | StorageException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new DashboardServiceException(e);
+		} catch (StorageException e) {
+			throw new DashboardServiceException(e);
+		} catch (AuthorizationServiceException e) {
+			throw new DashboardServiceException(e);
+		} catch (UnsupportedEncodingException e) {
 			throw new DashboardServiceException(e);
 		}
 	}
@@ -64,7 +70,11 @@ public class DashboardServiceImpl implements DashboardService {
 			expectPermission(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			dashboardDao.selectDashboard(userIdentifier, dashboardIdentifier);
-		} catch (final AuthenticationServiceException | StorageException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new DashboardServiceException(e);
+		} catch (StorageException e) {
+			throw new DashboardServiceException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new DashboardServiceException(e);
 		}
 	}
@@ -79,7 +89,11 @@ public class DashboardServiceImpl implements DashboardService {
 			expectPermission(sessionIdentifier);
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			dashboardDao.deselectDashboard(userIdentifier, dashboardIdentifier);
-		} catch (final AuthenticationServiceException | StorageException | AuthorizationServiceException e) {
+		} catch (final AuthenticationServiceException e) {
+			throw new DashboardServiceException(e);
+		} catch (StorageException e) {
+			throw new DashboardServiceException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new DashboardServiceException(e);
 		}
 	}

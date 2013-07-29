@@ -10,7 +10,7 @@ import java.util.Map;
 @Singleton
 public class JndiContextMock implements JndiContext {
 
-	private final Map<String, Object> values = new HashMap<>();
+	private final Map<String, Object> values = new HashMap<String, Object>();
 
 	@Inject
 	public JndiContextMock() {

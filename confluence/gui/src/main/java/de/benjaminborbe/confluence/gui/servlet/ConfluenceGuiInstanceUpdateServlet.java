@@ -169,7 +169,7 @@ public class ConfluenceGuiInstanceUpdateServlet extends WebsiteHtmlServlet {
 		final String owner
 	)
 		throws ValidationException, ConfluenceServiceException, LoginRequiredException, PermissionDeniedException {
-		final List<ValidationError> errors = new ArrayList<>();
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
 
 		int expire = 0;
 		{

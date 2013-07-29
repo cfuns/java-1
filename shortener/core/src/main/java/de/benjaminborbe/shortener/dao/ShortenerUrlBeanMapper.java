@@ -32,7 +32,7 @@ public class ShortenerUrlBeanMapper extends MapObjectMapperAdapter<ShortenerUrlB
 		final MapperShortenerUrlIdentifier shortenerUrlIdentifierMapper, final MapperString mapperString,
 		final MapperCalendar mapperCalendar
 	) {
-		final List<StringObjectMapper<ShortenerUrlBean>> result = new ArrayList<>();
+		final List<StringObjectMapper<ShortenerUrlBean>> result = new ArrayList<StringObjectMapper<ShortenerUrlBean>>();
 		result.add(new StringObjectMapperAdapter<ShortenerUrlBean, ShortenerUrlIdentifier>("id", shortenerUrlIdentifierMapper));
 		result.add(new StringObjectMapperAdapter<ShortenerUrlBean, String>("url", mapperString));
 		result.add(new StringObjectMapperAdapter<ShortenerUrlBean, Calendar>("created", mapperCalendar));

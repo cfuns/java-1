@@ -80,7 +80,7 @@ public class LunchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(lunchGuiKioskBookedServlet, LunchGuiConstants.URL_BOOKED));
 		result.add(new ServletInfo(lunchGuiKioskBooking, LunchGuiConstants.URL_BOOKING));
 		result.add(new ServletInfo(lunchGuiServlet, LunchGuiConstants.URL_HOME));
@@ -95,7 +95,7 @@ public class LunchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ResourceInfo> getResouceInfos() {
-		final Set<ResourceInfo> result = new HashSet<>(super.getResouceInfos());
+		final Set<ResourceInfo> result = new HashSet<ResourceInfo>(super.getResouceInfos());
 		result.add(new ResourceInfo(LunchGuiConstants.URL_CSS, "css"));
 		result.add(new ResourceInfo(LunchGuiConstants.URL_JS, "js"));
 		return result;
@@ -103,7 +103,7 @@ public class LunchGuiActivator extends HttpBundleActivator {
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
-		final Set<ServiceInfo> result = new HashSet<>(super.getServiceInfos());
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiNotificationNavigationEntry));
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiNavigationEntry));
 		result.add(new ServiceInfo(NavigationEntry.class, lunchGuiArchivNavigationEntry));

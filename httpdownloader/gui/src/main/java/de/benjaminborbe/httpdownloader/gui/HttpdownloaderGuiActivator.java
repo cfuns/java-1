@@ -28,7 +28,7 @@ public class HttpdownloaderGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(httpdownloaderGuiServlet, HttpdownloaderGuiConstants.URL_HOME));
 		return result;
 	}

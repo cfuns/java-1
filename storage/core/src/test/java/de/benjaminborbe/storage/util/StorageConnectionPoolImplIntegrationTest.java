@@ -80,7 +80,7 @@ public class StorageConnectionPoolImplIntegrationTest {
 			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
 		final StorageConnectionPool connectionPool = injector.getInstance(StorageConnectionPool.class);
-		final List<StorageConnection> connections = new ArrayList<>();
+		final List<StorageConnection> connections = new ArrayList<StorageConnection>();
 		try {
 			assertEquals(0, connectionPool.getConnections());
 			assertEquals(0, connectionPool.getFreeConnections());

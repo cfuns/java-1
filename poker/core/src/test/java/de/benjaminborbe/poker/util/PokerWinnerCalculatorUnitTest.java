@@ -22,20 +22,20 @@ public class PokerWinnerCalculatorUnitTest {
 	public void testCompareHighcard() throws Exception {
 		final PokerWinnerCalculator comparator = getComparator();
 		{
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
 			final Collection<PokerPlayerIdentifier> result = comparator.getWinners(playerCards);
 			assertNotNull(result);
 			assertEquals(0, result.size());
 		}
 		{
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
 			playerCards.put(new PokerPlayerIdentifier("playerA"), buildCards());
 			final Collection<PokerPlayerIdentifier> result = comparator.getWinners(playerCards);
 			assertNotNull(result);
 			assertEquals(1, result.size());
 		}
 		{
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
 			playerCards.put(new PokerPlayerIdentifier("playerA"), buildCards());
 			playerCards.put(new PokerPlayerIdentifier("playerB"), buildCards());
 			final Collection<PokerPlayerIdentifier> result = comparator.getWinners(playerCards);
@@ -43,7 +43,7 @@ public class PokerWinnerCalculatorUnitTest {
 			assertEquals(2, result.size());
 		}
 		{
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
 			playerCards.put(new PokerPlayerIdentifier("playerA"), buildCards(PokerCardValue.ACE));
 			playerCards.put(new PokerPlayerIdentifier("playerB"), buildCards(PokerCardValue.KING));
 			final Collection<PokerPlayerIdentifier> result = comparator.getWinners(playerCards);
@@ -51,7 +51,7 @@ public class PokerWinnerCalculatorUnitTest {
 			assertEquals(1, result.size());
 		}
 		{
-			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<>();
+			final Map<PokerPlayerIdentifier, Collection<PokerCardIdentifier>> playerCards = new HashMap<PokerPlayerIdentifier, Collection<PokerCardIdentifier>>();
 			playerCards.put(new PokerPlayerIdentifier("playerA"), buildCards(PokerCardValue.ACE, PokerCardValue.TWO));
 			playerCards.put(new PokerPlayerIdentifier("playerB"), buildCards(PokerCardValue.ACE, PokerCardValue.KING));
 			final Collection<PokerPlayerIdentifier> result = comparator.getWinners(playerCards);
@@ -84,7 +84,7 @@ public class PokerWinnerCalculatorUnitTest {
 	}
 
 	private Collection<PokerCardIdentifier> buildCards(final PokerCardValue... values) {
-		final List<PokerCardIdentifier> result = new ArrayList<>();
+		final List<PokerCardIdentifier> result = new ArrayList<PokerCardIdentifier>();
 		for (final PokerCardValue value : values) {
 			result.add(new PokerCardIdentifier(PokerCardColor.CLUBS, value));
 		}

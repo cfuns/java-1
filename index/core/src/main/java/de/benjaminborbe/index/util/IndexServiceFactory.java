@@ -31,7 +31,7 @@ public class IndexServiceFactory {
 	}
 
 	public List<IndexService> getIndexServices() {
-		final List<IndexService> indexServices = new ArrayList<>();
+		final List<IndexService> indexServices = new ArrayList<IndexService>();
 		if (indexConfig.isIndexDistributedEnabled()) {
 			indexServices.add(indexServiceDistributed);
 		}

@@ -32,7 +32,7 @@ public class FilestorageGuiActivator extends HttpBundleActivator {
 
 	@Override
 	protected Collection<ServletInfo> getServletInfos() {
-		final Set<ServletInfo> result = new HashSet<>(super.getServletInfos());
+		final Set<ServletInfo> result = new HashSet<ServletInfo>(super.getServletInfos());
 		result.add(new ServletInfo(filestorageGuiUploadServlet, FilestorageGuiConstants.URL_UPLOAD));
 		result.add(new ServletInfo(filestorageGuiDownloadServlet, FilestorageGuiConstants.URL_DOWNLOAD));
 		return result;
