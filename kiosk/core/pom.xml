@@ -51,10 +51,13 @@
 						<Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
-						<Import-Package>${felix_plugin_imports}</Import-Package>
+						<Import-Package>
+							${felix_plugin_imports},
+							de.benjaminborbe.kiosk.api
+						</Import-Package>
 						<Import-Service></Import-Service>
-						<Export-Package>de.benjaminborbe.kiosk.api</Export-Package>
-						<Export-Service></Export-Service>
+						<Export-Package></Export-Package>
+						<Export-Service>de.benjaminborbe.kiosk.api.KioskService</Export-Service>
 					</instructions>
 				</configuration>
 			</plugin>
