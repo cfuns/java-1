@@ -1,5 +1,6 @@
 package de.benjaminborbe.httpdownloader.tools;
 
+import de.benjaminborbe.httpdownloader.api.HttpHeader;
 import de.benjaminborbe.httpdownloader.api.HttpMethod;
 import de.benjaminborbe.httpdownloader.api.HttpRequest;
 
@@ -23,12 +24,36 @@ public class HttpRequestBuilder {
 		httpRequest.setHeader(httpHeader);
 	}
 
+	public HttpRequestBuilder copyRequest(final HttpRequest request) {
+		copyHeader(request.getHeader());
+		httpRequest.setFollowRedirects(request.getFollowRedirects());
+		httpRequest.setHttpMethod(request.getHttpMethod());
+		httpRequest.setParameter(request.getParameter());
+		httpRequest.setPassword(request.getPassword());
+		httpRequest.setSecure(request.getSecure());
+		httpRequest.setTimeout(request.getTimeout());
+		httpRequest.setUsername(request.getUsername());
+		return this;
+	}
+
+	public HttpRequestBuilder copyHeader(final HttpHeader header) {
+		for (String key : header.getKeys()) {
+			httpHeader.setHeader(key, header.getValues(key));
+		}
+		return this;
+	}
+
 	public HttpRequest build() {
 		return httpRequest;
 	}
 
 	public HttpRequestBuilder addSecure(final boolean secure) {
 		httpRequest.setSecure(secure);
+		return this;
+	}
+
+	public HttpRequestBuilder addFollowRedirects(final boolean followRedirects) {
+		httpRequest.setFollowRedirects(followRedirects);
 		return this;
 	}
 

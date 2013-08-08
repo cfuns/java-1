@@ -14,7 +14,10 @@ import de.benjaminborbe.httpdownloader.core.util.HttpdownloaderPostSecure;
 import de.benjaminborbe.httpdownloader.core.util.HttpdownloaderPostUnsecure;
 import de.benjaminborbe.httpdownloader.tools.HttpContentByteArray;
 import de.benjaminborbe.httpdownloader.tools.HttpHeaderDto;
+import de.benjaminborbe.httpdownloader.tools.HttpRequestBuilder;
 import de.benjaminborbe.httpdownloader.tools.HttpResponseDto;
+import de.benjaminborbe.tools.util.ParseException;
+import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -26,6 +29,8 @@ import java.util.Map;
 @Singleton
 public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 
+	public static final String LOCATION_HEADER_FIELD = "Location";
+
 	private final Logger logger;
 
 	private final HttpdownloaderGetSecure httpdownloaderGetSecure;
@@ -36,19 +41,23 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 
 	private final HttpdownloaderPostUnsecure httpdownloaderPostUnsecure;
 
+	private final ParseUtil parseUtil;
+
 	@Inject
 	public HttpdownloaderCoreServiceImpl(
 		final Logger logger,
 		final HttpdownloaderGetSecure httpdownloaderGetSecure,
 		final HttpdownloaderGetUnsecure httpdownloaderGetUnsecure,
 		final HttpdownloaderPostSecure httpdownloaderPostSecure,
-		final HttpdownloaderPostUnsecure httpdownloaderPostUnsecure
+		final HttpdownloaderPostUnsecure httpdownloaderPostUnsecure,
+		final ParseUtil parseUtil
 	) {
 		this.logger = logger;
 		this.httpdownloaderGetSecure = httpdownloaderGetSecure;
 		this.httpdownloaderGetUnsecure = httpdownloaderGetUnsecure;
 		this.httpdownloaderPostSecure = httpdownloaderPostSecure;
 		this.httpdownloaderPostUnsecure = httpdownloaderPostUnsecure;
+		this.parseUtil = parseUtil;
 	}
 
 	@Override
@@ -76,6 +85,30 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 			logger.debug("download url: '" + url + "'");
 			final HttpDownloadResult httpDownloadResult = httpdownloader.fetch(httpRequest);
 
+			// follow redirects
+			if (httpRequest.getFollowRedirects()) {
+				logger.trace("following redirects enabled");
+				if ((httpDownloadResult.getResponseCode() / 100) == 3) {
+					logger.trace("return is code 3xx");
+					final List<String> locations = httpDownloadResult.getHeaders().get(LOCATION_HEADER_FIELD);
+					if (locations != null) {
+						logger.trace("found " + locations.size() + locations);
+						for (String location : locations) {
+							try {
+								final URL locationUrl = parseUtil.parseURL(location);
+								HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(locationUrl).copyRequest(httpRequest);
+								return download(httpRequestBuilder.build(), httpdownloader);
+							} catch (ParseException e) {
+								logger.trace("illegal location to redirect to: " + location, e);
+							}
+						}
+					}
+					logger.warn("redirect returnCode, but valid location found");
+				}
+			} else {
+				logger.trace("following redirects disabled");
+			}
+
 			final HttpResponseDto httpResponse = new HttpResponseDto();
 			httpResponse.setReturnCode(httpDownloadResult.getResponseCode());
 			httpResponse.setUrl(url);
@@ -90,7 +123,6 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 				logger.trace("no header found");
 			}
 			httpResponse.setHeader(header);
-
 			return httpResponse;
 		} catch (HttpDownloaderException e) {
 			throw new HttpdownloaderServiceException(e);

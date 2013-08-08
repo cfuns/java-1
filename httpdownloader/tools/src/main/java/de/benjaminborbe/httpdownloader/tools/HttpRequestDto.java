@@ -14,26 +14,6 @@ public class HttpRequestDto implements HttpRequest {
 
 	private String password;
 
-	public void setParameter(final Map<String, String> parameter) {
-		this.parameter = parameter;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(final String password) {
-		this.password = password;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(final String username) {
-		this.username = username;
-	}
-
 	private HttpMethod httpMethod;
 
 	private Integer timeout;
@@ -46,8 +26,18 @@ public class HttpRequestDto implements HttpRequest {
 
 	private Boolean secure;
 
+	private Boolean followRedirects;
+
+	public void setFollowRedirects(final Boolean followRedirects) {
+		this.followRedirects = followRedirects;
+	}
+
 	public Integer getTimeout() {
 		return timeout;
+	}
+
+	public void setTimeout(final Integer timeout) {
+		this.timeout = timeout;
 	}
 
 	@Override
@@ -55,8 +45,8 @@ public class HttpRequestDto implements HttpRequest {
 		return parameter;
 	}
 
-	public void setTimeout(final Integer timeout) {
-		this.timeout = timeout;
+	public void setParameter(final Map<String, String> parameter) {
+		this.parameter = parameter;
 	}
 
 	public URL getUrl() {
@@ -116,12 +106,32 @@ public class HttpRequestDto implements HttpRequest {
 			.toString();
 	}
 
-	public void setSecure(final Boolean secure) {
-		this.secure = secure;
-	}
-
 	public Boolean getSecure() {
 		return secure;
 	}
 
+	@Override
+	public Boolean getFollowRedirects() {
+		return followRedirects;
+	}
+
+	public void setSecure(final Boolean secure) {
+		this.secure = secure;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(final String username) {
+		this.username = username;
+	}
 }

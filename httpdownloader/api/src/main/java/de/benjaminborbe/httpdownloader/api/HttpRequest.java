@@ -15,6 +15,8 @@ public interface HttpRequest {
 
 	Boolean getSecure();
 
+	Boolean getFollowRedirects();
+
 	Map<String, String> getParameter();
 
 	String getUsername();

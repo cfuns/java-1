@@ -51,6 +51,8 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 
 	private static final String PASSWORD = "password";
 
+	private static final String FOLLOW_REDIRECTS = "follow_redirects";
+
 	private final Logger logger;
 
 	private final ParseUtil parseUtil;
@@ -78,7 +80,7 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 
 	@Override
 	public Collection<String> getRequireParameters() {
-		return Arrays.asList(URL, TIMEOUT, TITLEMATCH, CONTENTMATCH, USERNAME, PASSWORD);
+		return Arrays.asList(URL, TIMEOUT, TITLEMATCH, CONTENTMATCH, USERNAME, PASSWORD, FOLLOW_REDIRECTS);
 	}
 
 	@Override
@@ -88,13 +90,15 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		final String contentMatch = parameter.get(CONTENTMATCH);
 		final String username = parameter.get(USERNAME);
 		final String password = parameter.get(PASSWORD);
+		final boolean followRedirects;
 		final int timeout;
 		try {
+			followRedirects = parseUtil.parseBoolean(parameter.get(FOLLOW_REDIRECTS), false);
 			timeout = parseUtil.parseInt(parameter.get(TIMEOUT));
 		} catch (final ParseException e) {
 			return new MonitoringCheckResultDto(this, false, "illegal paremter " + TIMEOUT);
 		}
-		return check(urlString, timeout, titleMatch, contentMatch, username, password);
+		return check(urlString, timeout, titleMatch, contentMatch, username, password, followRedirects);
 	}
 
 	private MonitoringCheckResult check(
@@ -103,12 +107,13 @@ public class MonitoringCheckHttp implements MonitoringCheck {
 		final String titleMatch,
 		final String contentMatch,
 		final String username,
-		final String password
+		final String password,
+		final boolean followRedirects
 	) {
 		URL url = null;
 		try {
 			url = new URL(urlString);
-			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addSecure(false).addTimeout(timeout).build());
+			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(url).addSecure(false).addTimeout(timeout).addFollowRedirects(followRedirects).build());
 			logger.trace("downloaded " + url + " in " + httpResponse.getDuration() + " ms");
 			if (httpResponse.getDuration() > timeout) {
 				final String msg = "timeout while downloading url: " + url;
