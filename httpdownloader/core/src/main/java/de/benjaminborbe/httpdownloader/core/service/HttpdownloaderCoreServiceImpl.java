@@ -31,6 +31,8 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 
 	public static final String LOCATION_HEADER_FIELD = "Location";
 
+	private static final int MAX_FOLLOW_REDIRECTS = 10;
+
 	private final Logger logger;
 
 	private final HttpdownloaderGetSecure httpdownloaderGetSecure;
@@ -80,13 +82,24 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 	}
 
 	private HttpResponse download(final HttpRequest httpRequest, final HttpdownloaderAction httpdownloader) throws HttpdownloaderServiceException {
+		return download(httpRequest, httpdownloader, 0);
+	}
+
+	private HttpResponse download(
+		final HttpRequest httpRequest,
+		final HttpdownloaderAction httpdownloader,
+		int redirectCounter
+	) throws HttpdownloaderServiceException {
+		if (redirectCounter > MAX_FOLLOW_REDIRECTS) {
+			throw new HttpdownloaderServiceException("max follow redirects (" + MAX_FOLLOW_REDIRECTS + ") reached");
+		}
 		try {
 			final URL url = httpRequest.getUrl();
 			logger.debug("download url: '" + url + "'");
 			final HttpDownloadResult httpDownloadResult = httpdownloader.fetch(httpRequest);
 
 			// follow redirects
-			if (httpRequest.getFollowRedirects()) {
+			if (Boolean.TRUE.equals(httpRequest.getFollowRedirects())) {
 				logger.trace("following redirects enabled");
 				if ((httpDownloadResult.getResponseCode() / 100) == 3) {
 					logger.trace("return is code 3xx");
@@ -97,7 +110,7 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 							try {
 								final URL locationUrl = parseUtil.parseURL(location);
 								HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(locationUrl).copyRequest(httpRequest);
-								return download(httpRequestBuilder.build(), httpdownloader);
+								return download(httpRequestBuilder.build(), httpdownloader, redirectCounter + 1);
 							} catch (ParseException e) {
 								logger.trace("illegal location to redirect to: " + location, e);
 							}
