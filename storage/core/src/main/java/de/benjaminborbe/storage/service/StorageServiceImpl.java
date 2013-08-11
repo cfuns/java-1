@@ -300,8 +300,7 @@ public class StorageServiceImpl implements StorageService {
 	public void restore(final String columnfamily, final String jsonContent) throws StorageException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.info("restore - columnfamily: " + columnfamily + " jsonContent: " + jsonContent);
-
+			logger.info("restore - columnfamily: " + columnfamily + " jsonContent-length: " + jsonContent.length());
 			storageImporter.importJson(config.getKeySpace(), columnfamily, jsonContent);
 		} catch (final Exception e) {
 			throw new StorageException(e);

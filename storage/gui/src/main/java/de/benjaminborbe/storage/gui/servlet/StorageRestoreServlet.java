@@ -110,6 +110,7 @@ public class StorageRestoreServlet extends StorageHtmlServlet {
 						final String columnfamily = parameter.get(StorageGuiConstants.PARAMETER_COLUMNFAMILY);
 						final FileItem item = files.get(StorageGuiConstants.PARAMETER_RESTORE_JSON);
 						final byte[] content = item.get();
+						logger.debug("json-content-length: " + content.length);
 						storageService.restore(columnfamily, new String(content, "UTF-8"));
 						widgets.add("json uploaded!");
 					} else {

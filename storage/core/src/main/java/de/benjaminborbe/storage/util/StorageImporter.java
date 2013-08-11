@@ -45,15 +45,18 @@ public class StorageImporter {
 			connection = storageConnectionPool.getConnection();
 			final Iface client = connection.getClient(keySpace);
 
-			logger.info("importJson - keySpace: " + keySpace + " columnfamily: " + columnFamily);
+			logger.info("importJson - keySpace: " + keySpace + " columnfamily: " + columnFamily + " started");
 
 			final ColumnParent column_parent = new ColumnParent(columnFamily);
 			final String encoding = "UTF-8";
 
+			logger.trace("parse json started");
 			final Object object = jsonParser.parse(jsonContent);
+			logger.trace("parse json completed");
 			if (object instanceof JSONObject) {
 				final JSONObject root = (JSONObject) object;
 				for (final Entry<String, Object> e : root.entrySet()) {
+					logger.trace("found json entry");
 					final Object keyObject = e.getKey();
 					final Object fieldsObject = e.getValue();
 					if (keyObject instanceof String && fieldsObject instanceof JSONArray) {
@@ -61,6 +64,7 @@ public class StorageImporter {
 						final byte[] key = Hex.hexToBytes((String) keyObject);
 
 						for (final Object valuesObject : fields) {
+							logger.trace("found json fields");
 							final JSONArray values = (JSONArray) valuesObject;
 							if (values.size() == 3) {
 
@@ -74,13 +78,15 @@ public class StorageImporter {
 								column.setTimestamp(timestamp);
 								final ConsistencyLevel consistency_level = ConsistencyLevel.ONE;
 
+								logger.trace("insert value started");
 								client.insert(ByteBuffer.wrap(key), column_parent, column, consistency_level);
+								logger.trace("insert value completed");
 							}
 						}
 					}
 				}
 			}
-
+			logger.info("importJson - keySpace: " + keySpace + " columnfamily: " + columnFamily + " finished");
 		} finally {
 			storageConnectionPool.releaseConnection(connection);
 		}
