@@ -139,7 +139,10 @@ drop column family gallery_collection;
 create column family gallery_collection with
   comparator = UTF8Type and
   key_validation_class = UTF8Type and
-  default_validation_class = UTF8Type;
+  default_validation_class = UTF8Type and
+  column_metadata = [
+    {column_name: shared, validation_class: UTF8Type, index_type: KEYS}
+  ];
   
 drop column family gallery_entry;
 create column family gallery_entry with
@@ -147,7 +150,8 @@ create column family gallery_entry with
   key_validation_class = UTF8Type and
   default_validation_class = UTF8Type and
   column_metadata = [
-    {column_name: collectionId, validation_class: UTF8Type, index_type: KEYS}
+    {column_name: collectionId, validation_class: UTF8Type, index_type: KEYS},
+    {column_name: shared, validation_class: UTF8Type, index_type: KEYS}
   ];
 
 drop column family gallery_image;
