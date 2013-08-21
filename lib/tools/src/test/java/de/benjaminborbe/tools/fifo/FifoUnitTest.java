@@ -4,8 +4,10 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 public class FifoUnitTest {
@@ -101,6 +103,43 @@ public class FifoUnitTest {
 			fail("execption expected");
 		} catch (final FifoIndexOutOfBoundsException e) {
 			assertNotNull(e);
+		}
+	}
+
+	@Test
+	public void testOrder() throws Exception {
+		final Fifo<String> fifo = new Fifo<String>();
+		final String o1 = "1";
+		fifo.add(o1);
+		final String o2 = "2";
+		fifo.add(o2);
+		final String o3 = "3";
+		fifo.add(o3);
+		{
+			final List<String> first = fifo.first(1);
+			assertThat(first.get(0), is(o1));
+		}
+		{
+			final List<String> first = fifo.first(3);
+			assertThat(first.get(0), is(o1));
+			assertThat(first.get(1), is(o2));
+			assertThat(first.get(2), is(o3));
+		}
+		{
+			final List<String> last = fifo.last(1);
+			assertThat(last.get(0), is(o3));
+		}
+		{
+			final List<String> last = fifo.last(3);
+			assertThat(last.get(0), is(o3));
+			assertThat(last.get(1), is(o2));
+			assertThat(last.get(2), is(o1));
+		}
+		{
+			final List<String> first = fifo.first(3);
+			assertThat(first.get(0), is(o1));
+			assertThat(first.get(1), is(o2));
+			assertThat(first.get(2), is(o3));
 		}
 	}
 }

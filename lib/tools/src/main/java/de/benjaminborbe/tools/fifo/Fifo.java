@@ -1,5 +1,6 @@
 package de.benjaminborbe.tools.fifo;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +45,10 @@ public class Fifo<T> {
 	public List<T> last(final int amount) throws FifoIndexOutOfBoundsException {
 		if (amount > data.size() || amount < 0)
 			throw new FifoIndexOutOfBoundsException("no such element");
-		final List<T> list = data.subList(data.size() - amount, data.size());
+		final List<T> list = new ArrayList<T>(amount);
+		for (T element : data.subList(data.size() - amount, data.size())) {
+			list.add(element);
+		}
 		Collections.reverse(list);
 		return list;
 	}
