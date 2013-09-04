@@ -32,7 +32,7 @@ public class ProjectileReportCheckUnitTest {
 		final TimeZoneUtil timeZoneUtil = new TimeZoneUtilImpl();
 		final CalendarUtil calendarUtil = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 
-		final ProjectileReportCheck check = new ProjectileReportCheck(logger, currentTime, null);
+		final ProjectileMonitoringCheckLocal check = new ProjectileMonitoringCheckLocal(logger, currentTime, null);
 		{
 			final Calendar calendar = calendarUtil.getCalendar(timeInMillis);
 			assertThat(check.getAgeInHours(calendar), is(0l));

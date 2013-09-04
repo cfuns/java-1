@@ -9,6 +9,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
+import de.benjaminborbe.httpdownloader.api.HttpdownloaderService;
+import de.benjaminborbe.httpdownloader.mock.HttpdownloaderServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.mock.StorageServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -22,6 +24,7 @@ public class ProjectileOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(HttpdownloaderService.class).to(HttpdownloaderServiceMock.class).in(Singleton.class);
 		bind(AnalyticsService.class).to(AnalyticsServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);

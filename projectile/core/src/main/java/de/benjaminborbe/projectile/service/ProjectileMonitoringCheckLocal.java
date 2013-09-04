@@ -20,9 +20,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class ProjectileReportCheck implements MonitoringCheck {
+public class ProjectileMonitoringCheckLocal implements MonitoringCheck {
 
 	public static final String ID = "7eecb245-cc68-4385-9a19-73e9a5f9ba62";
+
+	public static final String TITLE = "ProjectileMonitoringCheckLocal";
 
 	private final ProjectileReportDao projectileReportDao;
 
@@ -39,7 +41,7 @@ public class ProjectileReportCheck implements MonitoringCheck {
 	private final Logger logger;
 
 	@Inject
-	public ProjectileReportCheck(final Logger logger, final CurrentTime currentTime, final ProjectileReportDao projectileReportDao) {
+	public ProjectileMonitoringCheckLocal(final Logger logger, final CurrentTime currentTime, final ProjectileReportDao projectileReportDao) {
 		this.logger = logger;
 		this.currentTime = currentTime;
 		this.projectileReportDao = projectileReportDao;
@@ -52,7 +54,7 @@ public class ProjectileReportCheck implements MonitoringCheck {
 
 	@Override
 	public String getTitle() {
-		return "ProjectileReportCheck";
+		return TITLE;
 	}
 
 	@Override

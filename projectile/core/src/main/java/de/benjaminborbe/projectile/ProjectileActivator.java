@@ -7,7 +7,8 @@ import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.projectile.guice.ProjectileModules;
 import de.benjaminborbe.projectile.service.ProjectileMailReportFetcherCronJob;
-import de.benjaminborbe.projectile.service.ProjectileReportCheck;
+import de.benjaminborbe.projectile.service.ProjectileMonitoringCheckLocal;
+import de.benjaminborbe.projectile.service.ProjectileMonitoringCheckRemote;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -21,7 +22,10 @@ import java.util.Set;
 public class ProjectileActivator extends BaseBundleActivator {
 
 	@Inject
-	private ProjectileReportCheck projectileReportCheck;
+	private ProjectileMonitoringCheckRemote projectileMonitoringCheckRemote;
+
+	@Inject
+	private ProjectileMonitoringCheckLocal projectileMonitoringCheckLocal;
 
 	@Inject
 	private ProjectileService projectileService;
@@ -45,8 +49,8 @@ public class ProjectileActivator extends BaseBundleActivator {
 		for (final ConfigurationDescription configuration : projectileConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
 		}
-		result.add(new ServiceInfo(MonitoringCheck.class, projectileReportCheck, projectileReportCheck.getClass().getName()));
+		result.add(new ServiceInfo(MonitoringCheck.class, projectileMonitoringCheckLocal, projectileMonitoringCheckLocal.getClass().getName()));
+		result.add(new ServiceInfo(MonitoringCheck.class, projectileMonitoringCheckRemote, projectileMonitoringCheckRemote.getClass().getName()));
 		return result;
 	}
-
 }
