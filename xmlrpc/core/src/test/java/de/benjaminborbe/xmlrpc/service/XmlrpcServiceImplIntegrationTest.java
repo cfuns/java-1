@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class XmlrpcServiceImplIntegrationTest {
 
-	private final static String CONFLUENCE_URL = "http://confluence.benjamin-borbe.de/rpc/xmlrpc";
+	private final static String CONFLUENCE_URL = "https://www.benjamin-borbe.de/confluence/rpc/xmlrpc";
 
 	private final static String CONFLUENCE_USERNAME = "test";
 

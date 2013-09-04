@@ -28,6 +28,7 @@ public class ConfluenceXmlRpcClient {
 
 	public Object execute(final URL url, final String pMethodName, final Object[] pParams) throws ConfluenceXmlRpcClientException {
 		try {
+			logger.debug("execute url: " + url + " method: " + pMethodName);
 			track();
 			return xmlrpcService.execute(url, pMethodName, pParams);
 		} catch (final XmlrpcServiceException e) {

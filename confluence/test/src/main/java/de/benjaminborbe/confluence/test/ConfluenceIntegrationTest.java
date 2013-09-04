@@ -19,7 +19,7 @@ import java.util.Collection;
 
 public class ConfluenceIntegrationTest extends TestCaseOsgi {
 
-	private final static String CONFLUENCE_URL = "http://confluence.benjamin-borbe.de";
+	private final static String CONFLUENCE_URL = "https://www.benjamin-borbe.de/confluence";
 
 	private final static String CONFLUENCE_USERNAME = "test";
 
