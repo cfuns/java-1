@@ -25,7 +25,11 @@ public class CronExecutor {
 		final CronJob cronJob = cronJobRegistry.getByName(name);
 		if (cronJob != null) {
 			cronJob.execute();
-			cronExecutionHistory.add(name);
+			try {
+				cronExecutionHistory.add(name);
+			} catch (Exception e) {
+				logger.warn("add to cron-history failed", e);
+			}
 			logger.trace("execute - finished job: " + name);
 		} else {
 			logger.error("execute - found no cronJob for name: " + name);

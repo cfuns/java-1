@@ -38,30 +38,6 @@ import java.util.Map.Entry;
 @Singleton
 public class HttpDownloaderImpl implements HttpDownloader {
 
-	private final class HostnameVerifierAllowAll implements HostnameVerifier {
-
-		@Override
-		public boolean verify(final String arg0, final SSLSession arg1) {
-			return true;
-		}
-	}
-
-	private final class X509TrustManagerAllowAll implements X509TrustManager {
-
-		@Override
-		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-			return null;
-		}
-
-		@Override
-		public void checkClientTrusted(final java.security.cert.X509Certificate[] certs, final String authType) {
-		}
-
-		@Override
-		public void checkServerTrusted(final java.security.cert.X509Certificate[] certs, final String authType) {
-		}
-	}
-
 	private final Logger logger;
 
 	private final StreamUtil streamUtil;
@@ -106,7 +82,14 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			}
 			connection.connect();
 
-			final int responseCode = connection.getResponseCode();
+			final int responseCode;
+			try {
+				responseCode = connection.getResponseCode();
+			} catch (RuntimeException e) {
+				final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), null, null, null, null, -1);
+				logger.trace("downloadUrl " + url + " failed");
+				return httpDownloadResult;
+			}
 			try {
 				final String contentType = connection.getContentType();
 				final Encoding contentEncoding = extractEncoding(connection, contentType);
@@ -117,17 +100,17 @@ public class HttpDownloaderImpl implements HttpDownloader {
 					streamUtil.copy(inputStream, outputStream);
 					final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), outputStream.toByteArray(), contentType,
 						contentEncoding, headers, responseCode);
-					logger.trace("downloadUrl finished");
+					logger.trace("downloadUrl " + url + " finished");
 					return httpDownloadResult;
 				} catch (FileNotFoundException e) {
 					final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), null, contentType, contentEncoding, headers,
 						responseCode);
-					logger.trace("downloadUrl failed");
+					logger.trace("downloadUrl " + url + " failed");
 					return httpDownloadResult;
 				}
 			} catch (IOException e) {
 				final HttpDownloadResult httpDownloadResult = new HttpDownloadResultImpl(url, duration.getTime(), null, null, null, null, responseCode);
-				logger.trace("downloadUrl failed");
+				logger.trace("downloadUrl " + url + " failed");
 				return httpDownloadResult;
 			}
 		} finally {
@@ -295,6 +278,30 @@ public class HttpDownloaderImpl implements HttpDownloader {
 			return doDownloadUrl(url, timeout, username, password, httpHeader);
 		} catch (final IOException e) {
 			throw new HttpDownloaderException(e.getClass().getSimpleName() + " for url " + url, e);
+		}
+	}
+
+	private final class HostnameVerifierAllowAll implements HostnameVerifier {
+
+		@Override
+		public boolean verify(final String arg0, final SSLSession arg1) {
+			return true;
+		}
+	}
+
+	private final class X509TrustManagerAllowAll implements X509TrustManager {
+
+		@Override
+		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+			return null;
+		}
+
+		@Override
+		public void checkClientTrusted(final java.security.cert.X509Certificate[] certs, final String authType) {
+		}
+
+		@Override
+		public void checkServerTrusted(final java.security.cert.X509Certificate[] certs, final String authType) {
 		}
 	}
 }
