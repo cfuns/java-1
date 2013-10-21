@@ -1,14 +1,14 @@
 package de.benjaminborbe.message.config;
 
-import java.util.Collection;
-
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+
+import java.util.Collection;
 
 public interface MessageConfig {
 
-    Integer getConsumerAmount();
+	Integer getConsumerAmount();
 
-    Collection<ConfigurationDescription> getConfigurations();
+	Collection<ConfigurationDescription> getConfigurations();
 
-    String getScheduleExpression();
+	String getScheduleExpression();
 }
