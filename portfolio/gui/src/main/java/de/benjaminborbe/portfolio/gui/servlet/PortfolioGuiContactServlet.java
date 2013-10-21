@@ -63,9 +63,9 @@ public class PortfolioGuiContactServlet extends WebsiteWidgetServlet {
 		widgets.add(new H1Widget("Contact"));
 		widgets.add("Benjamin Borbe");
 		widgets.add(new BrWidget());
-		widgets.add("Darmstädter Landstr. 117");
+		widgets.add("Hauptstr. 163");
 		widgets.add(new BrWidget());
-		widgets.add("65462 Ginsheim-Gustavsburg");
+		widgets.add("55246 Mainz-Kostheim");
 		widgets.add(new BrWidget());
 		widgets.add("Mobil: 0178-1970808");
 		widgets.add(new BrWidget());
