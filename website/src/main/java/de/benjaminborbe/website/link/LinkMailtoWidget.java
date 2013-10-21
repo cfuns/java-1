@@ -32,7 +32,6 @@ public class LinkMailtoWidget extends CompositeWidget implements Widget {
 	protected Widget createWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws Exception {
 		final TagWidget a = new TagWidget("a", content);
 		a.addAttribute("href", "mailto:" + email);
-		a.render(request, response, context);
 		return a;
 	}
 }
