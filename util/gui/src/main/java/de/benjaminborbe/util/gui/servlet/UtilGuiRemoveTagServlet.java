@@ -14,6 +14,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormInputTextareaWidget;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
@@ -37,6 +38,8 @@ public class UtilGuiRemoveTagServlet extends WebsiteHtmlServlet {
 	private static final String TITLE = "Util - Remove Tag";
 
 	private static final String PARAMETER_CONTENT = "content";
+
+	private static final String PARAMETER_TAG = "tag";
 
 	private final Logger logger;
 
@@ -67,11 +70,11 @@ public class UtilGuiRemoveTagServlet extends WebsiteHtmlServlet {
 		this.parseUtil = parseUtil;
 	}
 
-	protected static String removeTag(String content, String tag) {
+	protected static String removeTag(final String content, final String tag) {
 		if (content == null) {
 			return content;
 		}
-		String pattern = "</?" + tag + "(|\\s[^>]+)>";
+		final String pattern = "</?" + tag + "(|\\s[^>]+)>";
 		return content.replaceAll(pattern, " ");
 	}
 
@@ -87,12 +90,14 @@ public class UtilGuiRemoveTagServlet extends WebsiteHtmlServlet {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(new H1Widget(getTitle()));
 
-		String content = request.getParameter(PARAMETER_CONTENT);
-		if (content != null && !content.isEmpty()) {
-			widgets.add(new PreWidget(removeTag(content, "span")));
+		final String content = request.getParameter(PARAMETER_CONTENT);
+		final String tag = request.getParameter(PARAMETER_TAG);
+		if (content != null && !content.isEmpty() && tag != null && !tag.isEmpty()) {
+			widgets.add(new PreWidget(removeTag(content, tag)));
 		}
 
 		final FormWidget form = new FormWidget();
+		form.addFormInputWidget(new FormInputTextWidget(PARAMETER_TAG).addLabel("Tag:").addDefaultValue("span"));
 		form.addFormInputWidget(new FormInputTextareaWidget(PARAMETER_CONTENT).addLabel("HTML:"));
 		form.addFormInputWidget(new FormInputSubmitWidget("remove"));
 		widgets.add(form);
