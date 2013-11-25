@@ -15,6 +15,7 @@ import de.benjaminborbe.util.gui.servlet.UtilGuiPasswordGeneratorServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPenMeServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiPentestServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiQUnitServlet;
+import de.benjaminborbe.util.gui.servlet.UtilGuiRemoveTagServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiRequestDumpServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiServlet;
 import de.benjaminborbe.util.gui.servlet.UtilGuiTimeConvertServlet;
@@ -68,6 +69,9 @@ public class UtilGuiActivator extends HttpBundleActivator {
 	@Inject
 	private UtilGuiNavigationEntry utilGuiNavigationEntry;
 
+	@Inject
+	private UtilGuiRemoveTagServlet utilGuiRemoveTagServlet;
+
 	public UtilGuiActivator() {
 		super(UtilGuiConstants.NAME);
 	}
@@ -92,6 +96,8 @@ public class UtilGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(utilGuiLogServlet, UtilGuiConstants.URL_LOG));
 		result.add(new ServletInfo(utilGuiUUIDGeneratorServlet, UtilGuiConstants.URL_UUID_GENERATOR));
 		result.add(new ServletInfo(utilGuiRequestDumpServlet, UtilGuiConstants.URL_DUMP_REQUEST));
+		result.add(new ServletInfo(utilGuiRemoveTagServlet, UtilGuiConstants.URL_REMOVE_TAG));
+
 		return result;
 	}
 

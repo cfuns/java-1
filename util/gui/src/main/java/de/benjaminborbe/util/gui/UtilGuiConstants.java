@@ -43,4 +43,6 @@ public interface UtilGuiConstants {
 	String PARAMETER_PASSWORD_SPECIAL = "password_special";
 
 	String URL_DUMP_REQUEST = "/dump";
+
+	String URL_REMOVE_TAG = "/removetag";
 }
