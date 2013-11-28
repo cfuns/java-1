@@ -22,6 +22,7 @@
 			<id>base</id>
 			<modules>
 				<module>core</module>
+				<module>memory</module>
 				<module>gui</module>
 				<module>tools</module>
 			</modules>
