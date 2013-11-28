@@ -12,7 +12,7 @@ import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.mock.IndexServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.mock.StorageServiceMock;
+import de.benjaminborbe.storage.memory.service.StorageServiceMemory;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 import de.benjaminborbe.xmlrpc.api.XmlrpcService;
@@ -32,7 +32,7 @@ public class ConfluenceOsgiModuleMock extends AbstractModule {
 		bind(IndexService.class).to(IndexServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
-		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
+		bind(StorageService.class).to(StorageServiceMemory.class).in(Singleton.class);
 		bind(LogService.class).to(LogServiceMock.class).in(Singleton.class);
 		bind(ExtHttpService.class).to(ExtHttpServiceMock.class).in(Singleton.class);
 	}

@@ -8,7 +8,7 @@ import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.mock.StorageServiceMock;
+import de.benjaminborbe.storage.memory.service.StorageServiceMemory;
 import de.benjaminborbe.systemstatus.api.SystemstatusService;
 import de.benjaminborbe.systemstatus.mock.SystemstatusServiceMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -22,7 +22,7 @@ public class SystemstatusGuiOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
+		bind(StorageService.class).to(StorageServiceMemory.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(SystemstatusService.class).to(SystemstatusServiceMock.class).in(Singleton.class);

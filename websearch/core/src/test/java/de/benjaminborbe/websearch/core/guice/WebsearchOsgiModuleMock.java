@@ -14,7 +14,7 @@ import de.benjaminborbe.httpdownloader.mock.HttpdownloaderServiceMock;
 import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.mock.IndexServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.mock.StorageServiceMock;
+import de.benjaminborbe.storage.memory.service.StorageServiceMemory;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 import org.apache.felix.http.api.ExtHttpService;
@@ -30,7 +30,7 @@ public class WebsearchOsgiModuleMock extends AbstractModule {
 		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
-		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
+		bind(StorageService.class).to(StorageServiceMemory.class).in(Singleton.class);
 		bind(CrawlerService.class).to(CrawlerServiceMock.class).in(Singleton.class);
 		bind(IndexService.class).to(IndexServiceMock.class).in(Singleton.class);
 		bind(LogService.class).to(LogServiceMock.class).in(Singleton.class);

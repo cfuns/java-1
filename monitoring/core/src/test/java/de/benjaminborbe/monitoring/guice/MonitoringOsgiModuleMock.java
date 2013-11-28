@@ -12,7 +12,7 @@ import de.benjaminborbe.mail.mock.MailServiceMock;
 import de.benjaminborbe.notification.api.NotificationService;
 import de.benjaminborbe.notification.mock.NotificationServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.mock.StorageServiceMock;
+import de.benjaminborbe.storage.memory.service.StorageServiceMemory;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 import org.apache.felix.http.api.ExtHttpService;
@@ -25,7 +25,7 @@ public class MonitoringOsgiModuleMock extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(HttpdownloaderService.class).to(HttpdownloaderServiceMock.class).in(Singleton.class);
-		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
+		bind(StorageService.class).to(StorageServiceMemory.class).in(Singleton.class);
 		bind(AuthorizationService.class).to(AuthorizationServiceMock.class).in(Singleton.class);
 		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);
 		bind(MailService.class).to(MailServiceMock.class).in(Singleton.class);

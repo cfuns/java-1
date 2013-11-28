@@ -1,4 +1,4 @@
-package de.benjaminborbe.storage.mock;
+package de.benjaminborbe.storage.memory.service;
 
 import de.benjaminborbe.api.NotImplementedException;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
-public class StorageServiceMock implements StorageService {
+public class StorageServiceMemory implements StorageService {
 
 	public static final String ENCODING = "UTF8";
 
@@ -139,7 +139,7 @@ public class StorageServiceMock implements StorageService {
 	private final Logger logger;
 
 	@Inject
-	public StorageServiceMock(final Logger logger) {
+	public StorageServiceMemory(final Logger logger) {
 		this.logger = logger;
 	}
 
@@ -340,12 +340,12 @@ public class StorageServiceMock implements StorageService {
 
 	@Override
 	public StorageColumnIterator columnIterator(final String columnFamily, final StorageValue key) throws StorageException {
-		return new StorageColumnIteratorMock(get(columnFamily, key));
+		return new StorageColumnIteratorMemory(get(columnFamily, key));
 	}
 
 	@Override
 	public StorageColumnIterator columnIteratorReversed(final String columnFamily, final StorageValue key) throws StorageException {
-		return new StorageColumnIteratorMock(get(columnFamily, key));
+		return new StorageColumnIteratorMemory(get(columnFamily, key));
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.mock.StorageServiceMock;
+import de.benjaminborbe.storage.memory.service.StorageServiceMemory;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.osgi.mock.LogServiceMock;
 import org.apache.felix.http.api.ExtHttpService;
@@ -20,7 +20,7 @@ public class SearchOsgiModuleMock extends AbstractModule {
 	protected void configure() {
 		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);
-		bind(StorageService.class).to(StorageServiceMock.class).in(Singleton.class);
+		bind(StorageService.class).to(StorageServiceMemory.class).in(Singleton.class);
 		bind(LogService.class).to(LogServiceMock.class).in(Singleton.class);
 		bind(ExtHttpService.class).to(ExtHttpServiceMock.class).in(Singleton.class);
 	}

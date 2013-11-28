@@ -4,7 +4,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.api.IdentifierBuilder;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.storage.mock.StorageServiceMock;
+import de.benjaminborbe.storage.memory.service.StorageServiceMemory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.mapobject.MapObjectMapper;
@@ -38,7 +38,7 @@ public class StorageDaoUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final StorageService storageService = new StorageServiceMock(logger);
+		final StorageService storageService = new StorageServiceMemory(logger);
 		final Provider<TestBean> beanProvider = new ProviderMock<TestBean>(TestBean.class);
 		final MapObjectMapper<TestBean> mapper = new TestBeanMapper(beanProvider);
 		final IdentifierBuilder<String, TestIdentifier> builder = new TestIdentifierBuilder();

@@ -1,4 +1,4 @@
-package de.benjaminborbe.storage.mock;
+package de.benjaminborbe.storage.memory.service;
 
 import de.benjaminborbe.storage.api.StorageColumn;
 import de.benjaminborbe.storage.api.StorageColumnIterator;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class StorageColumnIteratorMock implements StorageColumnIterator {
+public class StorageColumnIteratorMemory implements StorageColumnIterator {
 
 	private final class StorageColumnComparator implements Comparator<StorageColumn> {
 
@@ -62,7 +62,7 @@ public class StorageColumnIteratorMock implements StorageColumnIterator {
 
 	private final Iterator<StorageColumn> i;
 
-	public StorageColumnIteratorMock(final Map<StorageValue, StorageValue> data) {
+	public StorageColumnIteratorMemory(final Map<StorageValue, StorageValue> data) {
 		final List<StorageColumn> columns = new ArrayList<StorageColumn>();
 		if (data != null) {
 			for (final Entry<StorageValue, StorageValue> e : data.entrySet()) {

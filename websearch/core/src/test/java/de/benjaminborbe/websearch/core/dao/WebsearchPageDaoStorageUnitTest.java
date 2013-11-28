@@ -4,7 +4,7 @@ import com.google.inject.Provider;
 import de.benjaminborbe.httpdownloader.tools.HttpUtil;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
-import de.benjaminborbe.storage.mock.StorageServiceMock;
+import de.benjaminborbe.storage.memory.service.StorageServiceMemory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.CalendarUtilImpl;
 import de.benjaminborbe.tools.date.CurrentTime;
@@ -51,7 +51,7 @@ public class WebsearchPageDaoStorageUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 
-		final StorageService storageService = new StorageServiceMock(logger);
+		final StorageService storageService = new StorageServiceMemory(logger);
 		final Provider<WebsearchPageBean> provider = new ProviderMock<WebsearchPageBean>(WebsearchPageBean.class);
 		final WebsearchPageDaoSubPagesAction websearchPageDaoSubPagesAction = new WebsearchPageDaoSubPagesAction();
 		final MapperWebsearchPageIdentifier mapperWebsearchPageIdentifier = new MapperWebsearchPageIdentifier();
