@@ -56,7 +56,7 @@ public class StorageMemoryIntegrationTest extends TestCaseOsgi {
 	public void testGetStorageService() {
 		final StorageService storageService = getStorageService();
 		assertNotNull(storageService);
-		assertEquals("de.benjaminborbe.storage.memory.service.StorageServiceImpl", storageService.getClass().getName());
+		assertEquals("de.benjaminborbe.storage.memory.service.StorageServiceMemory", storageService.getClass().getName());
 	}
 
 }
