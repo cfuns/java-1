@@ -30,7 +30,8 @@
 		<profile>
 			<id>test</id>
 			<modules>
-				<module>test</module>
+				<module>core_test</module>
+				<module>memory_test</module>
 			</modules>
 		</profile>
 	</profiles>

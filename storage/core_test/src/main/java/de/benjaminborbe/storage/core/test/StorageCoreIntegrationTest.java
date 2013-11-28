@@ -1,4 +1,4 @@
-package de.benjaminborbe.storage.test;
+package de.benjaminborbe.storage.core.test;
 
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
@@ -8,7 +8,7 @@ import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-public class StorageIntegrationTest extends TestCaseOsgi {
+public class StorageCoreIntegrationTest extends TestCaseOsgi {
 
 	@Override
 	protected void setUp() throws Exception {
