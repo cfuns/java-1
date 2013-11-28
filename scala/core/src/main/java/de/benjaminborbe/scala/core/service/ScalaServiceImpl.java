@@ -1,4 +1,4 @@
-package de.benjaminborbe.scala.service;
+package de.benjaminborbe.scala.core.service;
 
 import de.benjaminborbe.scala.api.ScalaService;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ public class ScalaServiceImpl implements ScalaService {
 	@Override
 	public String helloWorld() {
 		logger.trace("execute");
-		return de.benjaminborbe.scala.util.HelloWorld.msg();
+		return de.benjaminborbe.scala.core.util.HelloWorld.msg();
 	}
 
 }

@@ -1,4 +1,4 @@
-package de.benjaminborbe.scala.guice;
+package de.benjaminborbe.scala.core.guice;
 
 import com.google.inject.AbstractModule;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;

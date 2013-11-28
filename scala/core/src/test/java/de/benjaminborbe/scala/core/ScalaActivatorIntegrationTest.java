@@ -1,8 +1,8 @@
-package de.benjaminborbe.scala;
+package de.benjaminborbe.scala.core;
 
 import com.google.inject.Injector;
 import de.benjaminborbe.scala.api.ScalaService;
-import de.benjaminborbe.scala.guice.ScalaModulesMock;
+import de.benjaminborbe.scala.core.guice.ScalaModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;

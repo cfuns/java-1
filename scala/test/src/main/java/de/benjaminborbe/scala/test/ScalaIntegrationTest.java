@@ -60,14 +60,14 @@ public class ScalaIntegrationTest extends TestCaseOsgi {
 		final Object serviceObject = getServiceObject(ScalaService.class.getName(), null);
 		final ScalaService service = (ScalaService) serviceObject;
 		assertNotNull(service);
-		assertEquals("de.benjaminborbe.scala.service.ScalaServiceImpl", service.getClass().getName());
+		assertEquals("de.benjaminborbe.scala.core.service.ScalaServiceImpl", service.getClass().getName());
 	}
 
 	public void testHello() {
 		final Object serviceObject = getServiceObject(ScalaService.class.getName(), null);
 		final ScalaService service = (ScalaService) serviceObject;
 		assertNotNull(service);
-		assertEquals("de.benjaminborbe.scala.service.ScalaServiceImpl", service.getClass().getName());
+		assertEquals("de.benjaminborbe.scala.core.service.ScalaServiceImpl", service.getClass().getName());
 		assertEquals("HelloWorld", service.helloWorld());
 	}
 

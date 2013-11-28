@@ -1,8 +1,8 @@
-package de.benjaminborbe.scala.guice;
+package de.benjaminborbe.scala.core.guice;
 
 import com.google.inject.AbstractModule;
 import de.benjaminborbe.scala.api.ScalaService;
-import de.benjaminborbe.scala.service.ScalaServiceImpl;
+import de.benjaminborbe.scala.core.service.ScalaServiceImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
 

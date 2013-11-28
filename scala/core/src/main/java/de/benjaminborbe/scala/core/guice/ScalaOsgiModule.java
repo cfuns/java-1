@@ -1,4 +1,4 @@
-package de.benjaminborbe.scala.guice;
+package de.benjaminborbe.scala.core.guice;
 
 import com.google.inject.AbstractModule;
 import org.apache.felix.http.api.ExtHttpService;

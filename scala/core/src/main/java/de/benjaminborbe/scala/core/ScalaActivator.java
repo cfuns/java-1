@@ -1,7 +1,7 @@
-package de.benjaminborbe.scala;
+package de.benjaminborbe.scala.core;
 
 import de.benjaminborbe.scala.api.ScalaService;
-import de.benjaminborbe.scala.guice.ScalaModules;
+import de.benjaminborbe.scala.core.guice.ScalaModules;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;

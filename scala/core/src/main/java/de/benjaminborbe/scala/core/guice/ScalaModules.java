@@ -1,4 +1,4 @@
-package de.benjaminborbe.scala.guice;
+package de.benjaminborbe.scala.core.guice;
 
 import com.google.inject.Module;
 import com.google.inject.servlet.ServletModule;
