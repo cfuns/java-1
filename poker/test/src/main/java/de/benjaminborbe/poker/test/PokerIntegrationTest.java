@@ -1,6 +1,7 @@
 package de.benjaminborbe.poker.test;
 
 import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.poker.api.PokerGameDto;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayerDto;
@@ -89,7 +90,7 @@ public class PokerIntegrationTest extends TestCaseOsgi {
 		final PokerPlayerDto firstPlayerDto = new PokerPlayerDto();
 		firstPlayerDto.setName(firstPlayerName);
 		firstPlayerDto.setAmount(startCredits);
-		firstPlayerDto.setOwners(new ArrayList());
+		firstPlayerDto.setOwners(new ArrayList<UserIdentifier>());
 
 		final PokerPlayerIdentifier firstPlayerId = pokerService.createPlayer(firstPlayerDto);
 		pokerService.joinGame(gameId, firstPlayerId);
@@ -97,7 +98,7 @@ public class PokerIntegrationTest extends TestCaseOsgi {
 		final PokerPlayerDto secondPlayer = new PokerPlayerDto();
 		secondPlayer.setName(secondPlayerName);
 		secondPlayer.setAmount(startCredits);
-		secondPlayer.setOwners(new ArrayList());
+		secondPlayer.setOwners(new ArrayList<UserIdentifier>());
 
 		final PokerPlayerIdentifier secondPlayerId = pokerService.createPlayer(secondPlayer);
 		pokerService.joinGame(gameId, secondPlayerId);

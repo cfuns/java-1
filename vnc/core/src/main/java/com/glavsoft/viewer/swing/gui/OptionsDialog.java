@@ -43,7 +43,7 @@ import java.util.Map;
 /**
  * Options dialog
  */
-@SuppressWarnings({"serial", "rawtypes", "unchecked"})
+@SuppressWarnings({"serial"})
 public class OptionsDialog extends JDialog {
 
 	private JSlider jpegQuality;

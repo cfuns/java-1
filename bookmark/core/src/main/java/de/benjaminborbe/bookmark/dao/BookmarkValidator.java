@@ -9,7 +9,6 @@ import de.benjaminborbe.lib.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringUrl;
-import de.benjaminborbe.tools.url.UrlUtil;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -22,12 +21,9 @@ public class BookmarkValidator extends ValidatorBase<BookmarkBean> {
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
-	private final UrlUtil urlUtil;
-
 	@Inject
-	public BookmarkValidator(final ValidationConstraintValidator validationConstraintValidator, final UrlUtil urlUtil) {
+	public BookmarkValidator(final ValidationConstraintValidator validationConstraintValidator) {
 		this.validationConstraintValidator = validationConstraintValidator;
-		this.urlUtil = urlUtil;
 	}
 
 	@Override

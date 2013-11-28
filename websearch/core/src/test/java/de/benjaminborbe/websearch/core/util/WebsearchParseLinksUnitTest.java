@@ -22,6 +22,7 @@ import static junit.framework.Assert.assertEquals;
 
 public class WebsearchParseLinksUnitTest {
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testParseLinks() throws Exception {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);

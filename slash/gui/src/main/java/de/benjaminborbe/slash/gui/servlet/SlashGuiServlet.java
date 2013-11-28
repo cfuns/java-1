@@ -25,8 +25,6 @@ public class SlashGuiServlet extends WebsiteServlet {
 
 	private final Logger logger;
 
-	private final AuthenticationService authenticationService;
-
 	private final SlashGuiRedirectDeterminer slashGuiRedirectDeterminer;
 
 	@Inject
@@ -37,11 +35,11 @@ public class SlashGuiServlet extends WebsiteServlet {
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
-		final AuthorizationService authorizationService, final SlashGuiRedirectDeterminer slashGuiRedirectDeterminer
+		final AuthorizationService authorizationService,
+		final SlashGuiRedirectDeterminer slashGuiRedirectDeterminer
 	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
-		this.authenticationService = authenticationService;
 		this.slashGuiRedirectDeterminer = slashGuiRedirectDeterminer;
 	}
 

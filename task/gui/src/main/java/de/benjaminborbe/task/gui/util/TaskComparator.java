@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 public class TaskComparator extends ComparatorChain<Task> {
 
+	@SuppressWarnings("unchecked")
 	@Inject
 	public TaskComparator(final TaskNameComparator name, final TaskPrioComparator prio) {
 		super(prio, name);

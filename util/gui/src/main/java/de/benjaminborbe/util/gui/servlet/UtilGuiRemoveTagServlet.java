@@ -43,12 +43,6 @@ public class UtilGuiRemoveTagServlet extends WebsiteHtmlServlet {
 
 	private final Logger logger;
 
-	private final CalendarUtil calendarUtil;
-
-	private final TimeZoneUtil timeZoneUtil;
-
-	private final ParseUtil parseUtil;
-
 	@Inject
 	public UtilGuiRemoveTagServlet(
 		final Logger logger,
@@ -62,12 +56,8 @@ public class UtilGuiRemoveTagServlet extends WebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final CacheService cacheService
 	) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil,
-			cacheService);
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.logger = logger;
-		this.calendarUtil = calendarUtil;
-		this.timeZoneUtil = timeZoneUtil;
-		this.parseUtil = parseUtil;
 	}
 
 	protected static String removeTag(final String content, final String tag) {

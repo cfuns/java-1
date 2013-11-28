@@ -27,8 +27,6 @@ public class PokerClient {
 
 	private static final int DELAY = 10;
 
-	private static final int TIMEOUT = 5000;
-
 	private static boolean running = true;
 
 	private final Logger logger;
@@ -140,15 +138,15 @@ public class PokerClient {
 					Thread.sleep(DELAY);
 				} catch (final InterruptedException e) {
 				}
-			} catch (JSONParseException e) {
+			} catch (final JSONParseException e) {
 				logger.warn(e.getClass().getSimpleName(), e);
-			} catch (ParseException e) {
+			} catch (final ParseException e) {
 				logger.warn(e.getClass().getSimpleName(), e);
-			} catch (HttpdownloaderServiceException e) {
+			} catch (final HttpdownloaderServiceException e) {
 				logger.warn(e.getClass().getSimpleName(), e);
-			} catch (UnsupportedEncodingException e) {
+			} catch (final UnsupportedEncodingException e) {
 				logger.warn(e.getClass().getSimpleName(), e);
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.warn(e.getClass().getSimpleName(), e);
 			}
 		}

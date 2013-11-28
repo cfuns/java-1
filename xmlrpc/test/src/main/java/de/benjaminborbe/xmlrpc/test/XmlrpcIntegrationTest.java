@@ -12,7 +12,7 @@ import java.net.URL;
 
 public class XmlrpcIntegrationTest extends TestCaseOsgi {
 
-	private final static String CONFLUENCE_URL = "http://confluence.benjamin-borbe.de/rpc/xmlrpc";
+	private final static String CONFLUENCE_URL = "https://www.benjamin-borbe.de/confluence/rpc/xmlrpc";
 
 	private final static String CONFLUENCE_USERNAME = "test";
 

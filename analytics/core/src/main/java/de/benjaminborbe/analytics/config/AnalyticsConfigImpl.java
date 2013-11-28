@@ -21,7 +21,7 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 
 	private final ConfigurationDescriptionBoolean cronActive = new ConfigurationDescriptionBoolean(false, AnalyticsConstants.CONFIG_CRON_ACTIVE, "Analytics Cron Active");
 
-	private final ConfigurationDescriptionLong aggregationChunkSize = new ConfigurationDescriptionLong(100l, AnalyticsConstants.CONFIG_AGGREGATION_CHUNK_SIZE,
+	private final ConfigurationDescriptionLong aggregationChunkSize = new ConfigurationDescriptionLong(100L, AnalyticsConstants.CONFIG_AGGREGATION_CHUNK_SIZE,
 		"Analytics Aggregation Chunk Size");
 
 	@Inject

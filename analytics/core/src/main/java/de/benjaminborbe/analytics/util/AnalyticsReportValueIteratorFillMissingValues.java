@@ -75,9 +75,9 @@ public class AnalyticsReportValueIteratorFillMissingValues implements AnalyticsR
 
 	private AnalyticsReportValue buildDefaultValue() {
 		if (AnalyticsReportAggregation.SUM.equals(analyticsReportAggregation)) {
-			return new AnalyticsReportValueDto(nextDate, new Double(0), 0l);
+			return new AnalyticsReportValueDto(nextDate, new Double(0), 0L);
 		} else {
-			return new AnalyticsReportValueDto(nextDate, null, 0l);
+			return new AnalyticsReportValueDto(nextDate, null, 0L);
 		}
 	}
 

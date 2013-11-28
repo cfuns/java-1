@@ -1,7 +1,6 @@
 package de.benjaminborbe.authentication.core.ldap;
 
 import de.benjaminborbe.authentication.core.config.AuthenticationConfig;
-import de.benjaminborbe.tools.util.ResourceUtil;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -29,13 +28,10 @@ public class LdapConnector {
 
 	private final Logger logger;
 
-	private final ResourceUtil resourceUtil;
-
 	@Inject
-	public LdapConnector(final Logger logger, final AuthenticationConfig authenticationConfig, final ResourceUtil resourceUtil) {
+	public LdapConnector(final Logger logger, final AuthenticationConfig authenticationConfig) {
 		this.logger = logger;
 		this.authenticationConfig = authenticationConfig;
-		this.resourceUtil = resourceUtil;
 	}
 
 	public boolean verify(final String username, final String password) throws LdapException {

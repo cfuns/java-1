@@ -24,8 +24,6 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 
 	public static final String COLUMNFAMILY = "websearch_page";
 
-	private final Logger logger;
-
 	private final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction;
 
 	private final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler;
@@ -38,10 +36,10 @@ public class WebsearchPageDaoStorage extends DaoStorage<WebsearchPageBean, Webse
 		final WebsearchPageDaoSubPagesAction pageDaoSubPagesAction,
 		final WebsearchPageBeanMapper pageBeanMapper,
 		final WebsearchPageIdentifierBuilder identifierBuilder,
-		final CalendarUtil calendarUtil, final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler
+		final CalendarUtil calendarUtil,
+		final WebsearchPageContentUpdateHandler websearchPageContentUpdateHandler
 	) {
 		super(logger, storageService, beanProvider, pageBeanMapper, identifierBuilder, calendarUtil);
-		this.logger = logger;
 		this.pageDaoSubPagesAction = pageDaoSubPagesAction;
 		this.websearchPageContentUpdateHandler = websearchPageContentUpdateHandler;
 	}

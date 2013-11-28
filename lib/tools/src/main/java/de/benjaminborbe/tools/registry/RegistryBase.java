@@ -30,7 +30,6 @@ public class RegistryBase<T> implements Registry<T> {
 	protected void onElementRemoved(final T object) {
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void add(final T... objects) {
 		for (final T object : objects) {

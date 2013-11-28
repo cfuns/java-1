@@ -14,7 +14,6 @@ import de.benjaminborbe.lib.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringMinLength;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringUrl;
-import de.benjaminborbe.tools.url.UrlUtil;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -28,8 +27,6 @@ import java.util.Set;
 
 public class ConfluenceInstanceValidator extends ValidatorBase<ConfluenceInstanceBean> {
 
-	private final UrlUtil urlUtil;
-
 	private final ValidationConstraintValidator validationConstraintValidator;
 
 	private final ConfluenceConnector confluenceConnector;
@@ -39,12 +36,10 @@ public class ConfluenceInstanceValidator extends ValidatorBase<ConfluenceInstanc
 	@Inject
 	public ConfluenceInstanceValidator(
 		final Logger logger,
-		final UrlUtil urlUtil,
 		final ValidationConstraintValidator validationConstraintValidator,
 		final ConfluenceConnector confluenceConnector
 	) {
 		this.logger = logger;
-		this.urlUtil = urlUtil;
 		this.validationConstraintValidator = validationConstraintValidator;
 		this.confluenceConnector = confluenceConnector;
 	}

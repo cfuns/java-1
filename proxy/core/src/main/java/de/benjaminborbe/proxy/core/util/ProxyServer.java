@@ -1,10 +1,7 @@
 package de.benjaminborbe.proxy.core.util;
 
 import de.benjaminborbe.proxy.core.config.ProxyCoreConfig;
-import de.benjaminborbe.tools.stream.StreamUtil;
-import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
-import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.RandomUtil;
 import de.benjaminborbe.tools.util.ThreadRunner;
 import org.slf4j.Logger;
@@ -18,29 +15,13 @@ import java.net.Socket;
 @Singleton
 public class ProxyServer {
 
-	private static final String NEWLINE = "\r\n";
-
 	private final Logger logger;
 
 	private final ProxyRequestHandler proxyRequestHandler;
 
-	private final DurationUtil durationUtil;
-
-	private final ParseUtil parseUtil;
-
-	private final ProxyLineReader proxyLineReader;
-
-	private final ProxyLineParser proxyLineParser;
-
 	private final ThreadRunner threadRunner;
 
-	private final StreamUtil streamUtil;
-
 	private final RandomUtil randomUtil;
-
-	private final IdGeneratorUUID idGenerator;
-
-	private final ProxyConversationNotifier proxyConversationNotifier;
 
 	private final ProxyCoreConfig proxyCoreConfig;
 
@@ -50,28 +31,15 @@ public class ProxyServer {
 	public ProxyServer(
 		final Logger logger,
 		final ProxyRequestHandler proxyRequestHandler,
-		final DurationUtil durationUtil,
-		final ParseUtil parseUtil,
-		final ProxyLineReader proxyLineReader,
-		final ProxyLineParser proxyLineParser,
 		final ThreadRunner threadRunner,
-		final StreamUtil streamUtil,
 		final RandomUtil randomUtil,
 		final IdGeneratorUUID idGenerator,
-		final ProxyConversationNotifier proxyConversationNotifier,
 		final ProxyCoreConfig proxyCoreConfig
 	) {
 		this.logger = logger;
 		this.proxyRequestHandler = proxyRequestHandler;
-		this.durationUtil = durationUtil;
-		this.parseUtil = parseUtil;
-		this.proxyLineReader = proxyLineReader;
-		this.proxyLineParser = proxyLineParser;
 		this.threadRunner = threadRunner;
-		this.streamUtil = streamUtil;
 		this.randomUtil = randomUtil;
-		this.idGenerator = idGenerator;
-		this.proxyConversationNotifier = proxyConversationNotifier;
 		this.proxyCoreConfig = proxyCoreConfig;
 	}
 
@@ -97,7 +65,7 @@ public class ProxyServer {
 			try {
 				logger.info("stop");
 				serverSocket.close();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				// nop
 			} finally {
 				serverSocket = null;
@@ -134,14 +102,14 @@ public class ProxyServer {
 						}
 					});
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.info(e.getClass().getName(), e);
 			} finally {
 				if (serverSocket != null)
 					try {
 						serverSocket.close();
 						serverSocket = null;
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						// nop
 					}
 			}

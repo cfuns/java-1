@@ -12,7 +12,6 @@ import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
-import de.benjaminborbe.util.gui.util.UtilLinkFactory;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
@@ -38,10 +37,6 @@ public class UtilGuiRequestDumpServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Util - Request - Dump";
 
-	private final Logger logger;
-
-	private final UtilLinkFactory utilLinkFactory;
-
 	@Inject
 	public UtilGuiRequestDumpServlet(
 		final Logger logger,
@@ -53,13 +48,9 @@ public class UtilGuiRequestDumpServlet extends WebsiteHtmlServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final AuthorizationService authorizationService,
-		final UtilLinkFactory utilLinkFactory,
 		final CacheService cacheService
 	) {
-		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil,
-			cacheService);
-		this.logger = logger;
-		this.utilLinkFactory = utilLinkFactory;
+		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 	}
 
 	@Override
@@ -90,7 +81,7 @@ public class UtilGuiRequestDumpServlet extends WebsiteHtmlServlet {
 				final ListWidget values = new ListWidget();
 				values.add(headerField);
 				values.add(" = ");
-				final Enumeration headerValues = request.getHeaders(headerField);
+				final Enumeration<?> headerValues = request.getHeaders(headerField);
 				boolean first = true;
 				while (headerValues.hasMoreElements()) {
 					if (first) {
@@ -136,7 +127,7 @@ public class UtilGuiRequestDumpServlet extends WebsiteHtmlServlet {
 		return getValues(request.getParameterNames());
 	}
 
-	private List<String> getValues(final Enumeration enumeration) {
+	private List<String> getValues(final Enumeration<?> enumeration) {
 		final List<String> values = new ArrayList<String>();
 		while (enumeration.hasMoreElements()) {
 			values.add(toString(enumeration.nextElement()));

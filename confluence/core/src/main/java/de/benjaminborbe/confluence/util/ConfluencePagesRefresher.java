@@ -10,18 +10,15 @@ import de.benjaminborbe.confluence.dao.ConfluenceInstanceBean;
 import de.benjaminborbe.confluence.dao.ConfluenceInstanceDao;
 import de.benjaminborbe.confluence.dao.ConfluencePageBean;
 import de.benjaminborbe.confluence.dao.ConfluencePageDao;
-import de.benjaminborbe.index.api.IndexService;
 import de.benjaminborbe.index.api.IndexerServiceException;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
-import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.list.ListUtil;
 import de.benjaminborbe.tools.synchronize.RunOnlyOnceATime;
 import de.benjaminborbe.tools.util.ParseException;
-import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -53,7 +50,7 @@ public class ConfluencePagesRefresher {
 				logger.debug("refresh of " + counter + " confluenceInstances finished");
 			} catch (final StorageException e) {
 				logger.warn(e.getClass().getName(), e);
-			} catch (EntityIteratorException e) {
+			} catch (final EntityIteratorException e) {
 				logger.warn(e.getClass().getName(), e);
 			} finally {
 				logger.debug("refresh finished");
@@ -65,21 +62,15 @@ public class ConfluencePagesRefresher {
 
 	private final Logger logger;
 
-	private final IndexService indexerService;
-
 	private final ConfluenceInstanceDao confluenceInstanceDao;
 
 	private final ConfluenceConnector confluenceConnector;
-
-	private final HtmlUtil htmlUtil;
 
 	private final ConfluencePageDao confluencePageDao;
 
 	private final CalendarUtil calendarUtil;
 
 	private final ConfluenceIndexUtil confluenceIndexUtil;
-
-	private final ParseUtil parseUtil;
 
 	private final RunOnlyOnceATime runOnlyOnceATime;
 
@@ -96,14 +87,11 @@ public class ConfluencePagesRefresher {
 	@Inject
 	public ConfluencePagesRefresher(
 		final Logger logger,
-		final ParseUtil parseUtil,
 		final RunOnlyOnceATime runOnlyOnceATime,
 		final CalendarUtil calendarUtil,
-		final IndexService indexerService,
 		final ConfluenceInstanceDao confluenceInstanceDao,
 		final ConfluencePageDao confluencePageDao,
 		final ConfluenceConnector confluenceConnector,
-		final HtmlUtil htmlUtil,
 		final ListUtil listUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final ConfluenceConfig confluenceConfig,
@@ -112,14 +100,11 @@ public class ConfluencePagesRefresher {
 		final ConfluencePageRefresher confluencePageRefresher
 	) {
 		this.logger = logger;
-		this.parseUtil = parseUtil;
 		this.runOnlyOnceATime = runOnlyOnceATime;
 		this.calendarUtil = calendarUtil;
-		this.indexerService = indexerService;
 		this.confluenceInstanceDao = confluenceInstanceDao;
 		this.confluencePageDao = confluencePageDao;
 		this.confluenceConnector = confluenceConnector;
-		this.htmlUtil = htmlUtil;
 		this.listUtil = listUtil;
 		this.timeZoneUtil = timeZoneUtil;
 		this.confluenceConfig = confluenceConfig;
@@ -179,7 +164,7 @@ public class ConfluencePagesRefresher {
 					}
 				} catch (final IndexerServiceException e) {
 					logger.warn(e.getClass().getName(), e);
-				} catch (StorageException e) {
+				} catch (final StorageException e) {
 					logger.warn(e.getClass().getName(), e);
 				}
 			}

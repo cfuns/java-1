@@ -11,6 +11,7 @@ import de.benjaminborbe.tools.date.CurrentTimeImpl;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
+import de.benjaminborbe.tools.stream.ChannelTools;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
@@ -20,10 +21,12 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.slf4j.Logger;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
 
 public class MicroblogIntegrationTest extends TestCaseOsgi {
 
@@ -33,20 +36,16 @@ public class MicroblogIntegrationTest extends TestCaseOsgi {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		final Socket socket = new Socket();
-		final SocketAddress endpoint = new InetSocketAddress("micro.rp.seibert-media.net", 443);
 		try {
-			socket.connect(endpoint, 500);
-
-			notFound = !socket.isConnected();
+			URL website = new URL("https://micro.rp.seibert-media.net");
+			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+			OutputStream fos = new ByteArrayOutputStream();
+			WritableByteChannel out = Channels.newChannel(fos);
+			new ChannelTools().fastChannelCopy(rbc, out);
 			notFound = false;
-		} catch (final IOException e) {
+		} catch (final Exception e) {
 			notFound = true;
 		} finally {
-			try {
-				socket.close();
-			} catch (final IOException e) {
-			}
 		}
 	}
 

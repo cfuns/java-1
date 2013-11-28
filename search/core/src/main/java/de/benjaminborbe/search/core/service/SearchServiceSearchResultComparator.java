@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 public class SearchServiceSearchResultComparator extends ComparatorChain<SearchResult> {
 
+	@SuppressWarnings("unchecked")
 	@Inject
 	public SearchServiceSearchResultComparator(
 		final SearchServiceSearchResultComparatorName searchServiceSearchResultComparatorName,

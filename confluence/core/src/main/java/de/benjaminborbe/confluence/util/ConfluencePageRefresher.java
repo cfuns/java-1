@@ -75,13 +75,11 @@ public class ConfluencePageRefresher {
 	}
 
 	public void refreshPage(
-		final ConfluenceConnectorSession confluenceConnectorSession,
-		final ConfluenceInstanceBean confluenceInstanceBean,
-		final ConfluencePageBean confluencePageBean,
-		final ConfluenceConnectorPage confluenceConnectorPage
-	) throws StorageException, ParseException, MalformedURLException, ConfluenceXmlRpcClientException, IndexerServiceException {
+		final ConfluenceConnectorSession confluenceConnectorSession, final ConfluenceInstanceBean confluenceInstanceBean,
+		final ConfluencePageBean confluencePageBean, final ConfluenceConnectorPage confluenceConnectorPage
+	) throws StorageException, ParseException, MalformedURLException,
+		ConfluenceXmlRpcClientException, IndexerServiceException {
 		logger.debug("update confluenceConnectorPage " + confluenceConnectorPage.getTitle());
-		final String confluenceBaseUrl = confluenceInstanceBean.getUrl();
 		final String content = confluenceConnector.getRenderedContent(confluenceConnectorSession, confluenceConnectorPage.getPageId());
 		logger.trace("confluenceConnectorPage-content: " + content);
 		final URL url = parseUtil.parseURL(confluenceConnectorPage.getUrl());
@@ -127,10 +125,10 @@ public class ConfluencePageRefresher {
 		return calendarUtil.parseDate(timeZoneUtil.getUTCTimeZone(), date, null);
 	}
 
-	public void refreshPage(final ConfluencePageIdentifier confluencePageIdentifier) throws StorageException, ParseException, ConfluenceXmlRpcClientException, MalformedURLException, IndexerServiceException {
+	public void refreshPage(final ConfluencePageIdentifier confluencePageIdentifier) throws StorageException, ParseException, ConfluenceXmlRpcClientException, MalformedURLException,
+		IndexerServiceException {
 		final ConfluencePageBean confluencePageBean = confluencePageDao.load(confluencePageIdentifier);
 		final ConfluenceInstanceBean confluenceInstanceBean = confluenceInstanceDao.load(confluencePageBean.getInstanceId());
-		final String confluenceBaseUrl = confluenceInstanceBean.getUrl();
 		final ConfluenceConnectorSession token = confluenceConnector.login(confluenceInstanceBean);
 		final ConfluenceConnectorPage confluenceConnectorPage = confluenceConnector.getPage(token, confluencePageBean.getPageId());
 		refreshPage(token, confluenceInstanceBean, confluencePageBean, confluenceConnectorPage);

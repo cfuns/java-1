@@ -68,6 +68,7 @@ public class ProxyRequestHandler {
 
 	public void handleRequest(final Socket clientSocket) {
 		Socket remoteSocket = null;
+		OutputStream remoteOutputStream = null;
 		try {
 			logger.trace("handle proxy request started");
 			final Duration duration = durationUtil.getDuration();
@@ -83,7 +84,7 @@ public class ProxyRequestHandler {
 			logger.debug("connected to " + hostname + ":" + port);
 			remoteSocket = new Socket(hostname, port);
 
-			final OutputStream remoteOutputStream = new OutputStreamCopy(remoteSocket.getOutputStream(), requestContent.getOutputStream());
+			remoteOutputStream = new OutputStreamCopy(remoteSocket.getOutputStream(), requestContent.getOutputStream());
 			remoteOutputStream.write(line.getBytes());
 			remoteOutputStream.write(NEWLINE.getBytes());
 
@@ -102,19 +103,27 @@ public class ProxyRequestHandler {
 			threadRunner.run("proxyConversationNotifier", new ProxyConversationNotifierRunnable(requestContent, responseContent, line, duration));
 
 			logger.debug("handle proxy request finished");
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.debug(e.getClass().getName(), e);
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			logger.debug(e.getClass().getName(), e);
 		} finally {
 			try {
-				clientSocket.close();
-			} catch (IOException e) {
+				if (clientSocket != null)
+					clientSocket.close();
+			} catch (final IOException e) {
 				// nop
 			}
 			try {
-				remoteSocket.close();
-			} catch (IOException e) {
+				if (remoteSocket != null)
+					remoteSocket.close();
+			} catch (final IOException e) {
+				// nop
+			}
+			try {
+				if (remoteOutputStream != null)
+					remoteOutputStream.close();
+			} catch (final IOException e) {
 				// nop
 			}
 		}
@@ -168,7 +177,7 @@ public class ProxyRequestHandler {
 				proxyConversation.setUrl(parseUtil.parseURL(proxyLineParser.parseUrl(line)));
 				proxyConversation.setDuration(duration.getTime());
 				proxyConversationNotifier.onProxyConversationCompleted(proxyConversation);
-			} catch (ParseException e) {
+			} catch (final ParseException e) {
 				logger.warn(e.getClass().getName(), e);
 			}
 		}

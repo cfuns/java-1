@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 public class PortfolioGuiGalleryCollectionComparator extends ComparatorChain<GalleryCollection> {
 
+	@SuppressWarnings("unchecked")
 	@Inject
 	public PortfolioGuiGalleryCollectionComparator(
 		final PortfolioGuiGalleryCollectionComparatorName galleryComparatorName,

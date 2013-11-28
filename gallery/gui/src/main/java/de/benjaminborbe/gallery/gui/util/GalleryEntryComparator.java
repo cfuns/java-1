@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 public class GalleryEntryComparator extends ComparatorChain<GalleryEntry> {
 
+	@SuppressWarnings("unchecked")
 	@Inject
 	public GalleryEntryComparator(final GalleryEntryComparatorName name, final GalleryEntryComparatorPrio prio) {
 		super(prio, name);

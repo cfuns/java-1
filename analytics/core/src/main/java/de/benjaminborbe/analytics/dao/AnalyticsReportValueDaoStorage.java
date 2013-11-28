@@ -48,9 +48,9 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 				return buildAnalyticsReportValue(column.getColumnName().getString(), column.getColumnValue().getString());
 			} catch (final StorageException e) {
 				throw new AnalyticsServiceException(e);
-			} catch (ParseException e) {
+			} catch (final ParseException e) {
 				throw new AnalyticsServiceException(e);
-			} catch (UnsupportedEncodingException e) {
+			} catch (final UnsupportedEncodingException e) {
 				throw new AnalyticsServiceException(e);
 			}
 		}
@@ -182,7 +182,7 @@ public class AnalyticsReportValueDaoStorage implements AnalyticsReportValueDao {
 		if (parts.length == 2) {
 			return new AnalyticsReportValueDto(calendar, parseUtil.parseDouble(parts[0]), parseUtil.parseLong(parts[1]));
 		} else {
-			return new AnalyticsReportValueDto(calendar, parseUtil.parseDouble(parts[0]), 1l);
+			return new AnalyticsReportValueDto(calendar, parseUtil.parseDouble(parts[0]), 1L);
 		}
 
 	}

@@ -31,11 +31,8 @@ public class ConfluenceConnectorImpl implements ConfluenceConnector {
 	}
 
 	@Override
-	public ConfluenceConnectorSession login(
-		final String confluenceBaseUrl,
-		final String username,
-		final String password
-	) throws MalformedURLException, ConfluenceXmlRpcClientException, ParseException {
+	public ConfluenceConnectorSession login(final String confluenceBaseUrl, final String username, final String password) throws MalformedURLException,
+		ConfluenceXmlRpcClientException, ParseException {
 		logger.debug("login");
 		try {
 			final String token = (String) execute(confluenceBaseUrl, "confluence2.login", new Object[]{username, password});
@@ -59,11 +56,7 @@ public class ConfluenceConnectorImpl implements ConfluenceConnector {
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public String getRenderedContent(
-		final ConfluenceConnectorSession session,
-		final String spaceName,
-		final String pageName
-	) throws MalformedURLException,
+	public String getRenderedContent(final ConfluenceConnectorSession session, final String spaceName, final String pageName) throws MalformedURLException,
 		ConfluenceXmlRpcClientException, ParseException {
 		logger.debug("getRenderedContent");
 		final Map page = (Map) execute(session.getBaseUrl(), "confluence" + session.getApiVersion() + ".getPage", new Object[]{session.getToken(), spaceName, pageName});
@@ -74,17 +67,17 @@ public class ConfluenceConnectorImpl implements ConfluenceConnector {
 	}
 
 	@Override
-	public String getRenderedContent(final ConfluenceConnectorSession session, final String pageId) throws MalformedURLException,
-		ConfluenceXmlRpcClientException, ParseException {
+	public String getRenderedContent(
+		final ConfluenceConnectorSession session,
+		final String pageId
+	) throws MalformedURLException, ConfluenceXmlRpcClientException, ParseException {
 		logger.debug("getRenderedContent");
 		return (String) execute(session.getBaseUrl(), "confluence" + session.getApiVersion() + ".renderContent", new Object[]{session.getToken(), "Main", pageId, ""});
 	}
 
 	@SuppressWarnings({"rawtypes"})
 	@Override
-	public Collection<String> getSpaceKeys(
-		final ConfluenceConnectorSession session
-	) throws MalformedURLException, ConfluenceXmlRpcClientException, ParseException {
+	public Collection<String> getSpaceKeys(final ConfluenceConnectorSession session) throws MalformedURLException, ConfluenceXmlRpcClientException, ParseException {
 		logger.debug("getSpaceKeys");
 		final Object[] spaces = (Object[]) execute(session.getBaseUrl(), "confluence" + session.getApiVersion() + ".getSpaces", new Object[]{session.getToken()});
 		final List<String> result = new ArrayList<String>();
@@ -96,10 +89,7 @@ public class ConfluenceConnectorImpl implements ConfluenceConnector {
 	}
 
 	@Override
-	public ConfluenceConnectorPage getPage(
-		final ConfluenceConnectorSession session,
-		final ConfluenceConnectorPageSummary confluenceConnectorPageSummary
-	)
+	public ConfluenceConnectorPage getPage(final ConfluenceConnectorSession session, final ConfluenceConnectorPageSummary confluenceConnectorPageSummary)
 		throws MalformedURLException, ConfluenceXmlRpcClientException, ParseException {
 		return getPage(session, confluenceConnectorPageSummary.getPageId());
 	}
@@ -109,8 +99,8 @@ public class ConfluenceConnectorImpl implements ConfluenceConnector {
 	public ConfluenceConnectorPage getPage(
 		final ConfluenceConnectorSession session,
 		final String pageId
-	) throws MalformedURLException,
-		ConfluenceXmlRpcClientException, ParseException {
+	) throws MalformedURLException, ConfluenceXmlRpcClientException,
+		ParseException {
 		logger.debug("getPages");
 		final Object pageObject = execute(session.getBaseUrl(), "confluence" + session.getApiVersion() + ".getPage", new Object[]{session.getToken(), pageId});
 		final Map page = (Map) pageObject;
@@ -138,8 +128,8 @@ public class ConfluenceConnectorImpl implements ConfluenceConnector {
 	public Collection<ConfluenceConnectorPageSummary> getPageSummaries(
 		final ConfluenceConnectorSession session,
 		final String spaceKey
-	)
-		throws MalformedURLException, ConfluenceXmlRpcClientException, ParseException {
+	) throws MalformedURLException,
+		ConfluenceXmlRpcClientException, ParseException {
 		logger.debug("getPages");
 		final Object[] pages = (Object[]) execute(session.getBaseUrl(), "confluence" + session.getApiVersion() + ".getPages", new Object[]{session.getToken(), spaceKey});
 		final List<ConfluenceConnectorPageSummary> result = new ArrayList<ConfluenceConnectorPageSummary>();
@@ -152,14 +142,16 @@ public class ConfluenceConnectorImpl implements ConfluenceConnector {
 
 	@Override
 	public List<ConfluenceConnectorLabel> getLabels(
-		final ConfluenceConnectorSession session, final String objectId
-	) throws ParseException, ConfluenceXmlRpcClientException, MalformedURLException {
+		final ConfluenceConnectorSession session,
+		final String objectId
+	) throws ParseException, ConfluenceXmlRpcClientException,
+		MalformedURLException {
 		logger.debug("getLabels");
 		final Object[] labels = (Object[]) execute(session.getBaseUrl(), "confluence" + session.getApiVersion() + ".getLabelsById", new Object[]{session.getToken(), objectId});
 		final List<ConfluenceConnectorLabel> result = new ArrayList<ConfluenceConnectorLabel>();
 		if (labels != null) {
 			for (final Object labelObject : labels) {
-				final Map label = (Map) labelObject;
+				final Map<?, ?> label = (Map<?, ?>) labelObject;
 				result.add(new ConfluenceConnectorLabel(String.valueOf(label.get("name"))));
 			}
 		}

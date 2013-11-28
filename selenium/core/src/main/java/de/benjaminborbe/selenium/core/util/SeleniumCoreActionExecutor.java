@@ -14,20 +14,16 @@ public class SeleniumCoreActionExecutor {
 	private final SeleniumActionRegistry seleniumActionRegistry;
 
 	@Inject
-	public SeleniumCoreActionExecutor(
-		final Logger logger,
-		final SeleniumActionRegistry seleniumActionRegistry
-	) {
+	public SeleniumCoreActionExecutor(final Logger logger, final SeleniumActionRegistry seleniumActionRegistry) {
 		this.logger = logger;
 		this.seleniumActionRegistry = seleniumActionRegistry;
 	}
 
 	public boolean execute(
-		final SeleniumCoreWebDriver driver,
-		final SeleniumActionConfiguration seleniumActionConfiguration,
+		final SeleniumCoreWebDriver driver, final SeleniumActionConfiguration seleniumActionConfiguration,
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol
 	) {
-		final SeleniumAction action = seleniumActionRegistry.get(seleniumActionConfiguration.getClass());
+		final SeleniumAction<SeleniumActionConfiguration> action = seleniumActionRegistry.get(seleniumActionConfiguration.getClass());
 		if (action == null) {
 			final String msg = "no action for type " + seleniumActionConfiguration.getClass() + " found!";
 			logger.warn(msg);

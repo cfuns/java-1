@@ -8,6 +8,7 @@ import java.util.Collection;
 
 public class PokerCardsComparator extends ComparatorChain<Collection<PokerCardIdentifier>> {
 
+	@SuppressWarnings("unchecked")
 	@Inject
 	public PokerCardsComparator(
 		final PokerCardsRoyalFlushComparator pokerCardsRoyalFlushComparator,

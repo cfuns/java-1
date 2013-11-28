@@ -21,6 +21,6 @@ public class AnalyticsAggregatorCalculatorMin implements AnalyticsAggregatorCalc
 				value = e.getValue();
 			}
 		}
-		return new AnalyticsReportValueDto(calendar, value, 1l);
+		return new AnalyticsReportValueDto(calendar, value, 1L);
 	}
 }

@@ -21,7 +21,6 @@ import de.benjaminborbe.monitoring.tools.MonitoringCheckResultDto;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParseException;
 import de.benjaminborbe.tools.json.JSONParser;
-import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
@@ -49,13 +48,11 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 
 	private final ValidationConstraintValidator validationConstraintValidator;
 
-	private final UrlUtil urlUtil;
-
 	private final HttpdownloaderService httpdownloaderService;
 
-	private final HttpUtil httpUtil;
-
 	private final JSONParser jsonParser;
+
+	private HttpUtil httpUtil;
 
 	@Inject
 	public MonitoringCheckRemote(
@@ -63,7 +60,6 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 		final ParseUtil parseUtil,
 		final JSONParser jsonParser,
 		final ValidationConstraintValidator validationConstraintValidator,
-		final UrlUtil urlUtil,
 		final HttpdownloaderService httpdownloaderService,
 		final HttpUtil httpUtil
 	) {
@@ -71,9 +67,7 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 		this.parseUtil = parseUtil;
 		this.jsonParser = jsonParser;
 		this.validationConstraintValidator = validationConstraintValidator;
-		this.urlUtil = urlUtil;
 		this.httpdownloaderService = httpdownloaderService;
-		this.httpUtil = httpUtil;
 	}
 
 	@Override
@@ -125,10 +119,10 @@ public class MonitoringCheckRemote implements MonitoringCheck {
 		} catch (final JSONParseException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
-		} catch (HttpdownloaderServiceException e) {
+		} catch (final HttpdownloaderServiceException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.warn(e.getClass().getName(), e);
 			return new MonitoringCheckResultDto(this, e, url);
 		}

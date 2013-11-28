@@ -12,13 +12,6 @@ import de.benjaminborbe.monitoring.check.MonitoringCheckRemote;
 import de.benjaminborbe.monitoring.check.MonitoringCheckTcp;
 import de.benjaminborbe.tools.json.JSONParser;
 import de.benjaminborbe.tools.json.JSONParserSimple;
-import de.benjaminborbe.tools.stream.ChannelTools;
-import de.benjaminborbe.tools.stream.StreamUtil;
-import de.benjaminborbe.tools.url.UrlUtil;
-import de.benjaminborbe.tools.url.UrlUtilImpl;
-import de.benjaminborbe.tools.util.Base64Util;
-import de.benjaminborbe.tools.util.Base64UtilImpl;
-import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.tools.util.ParseUtilImpl;
 import org.easymock.EasyMock;
@@ -37,18 +30,15 @@ public class MonitoringNodeValidatorUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final ValidationConstraintValidator validationConstraintValidator = new ValidationConstraintValidator();
-		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
-		final DurationUtil durationUtil = new DurationUtil(null);
-		final Base64Util base64Util = new Base64UtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final HttpdownloaderService httpdownloaderService = EasyMock.createMock(HttpdownloaderService.class);
 		final HttpUtil httpUtil = EasyMock.createMock(HttpUtil.class);
 		final MonitoringCheckHttp monitoringCheckHttp = new MonitoringCheckHttp(logger, parseUtil, validationConstraintValidator, httpdownloaderService, httpUtil);
 		final MonitoringCheckNop monitoringCheckNop = new MonitoringCheckNop();
 		final MonitoringCheckTcp monitoringCheckTcp = new MonitoringCheckTcp(logger, parseUtil, validationConstraintValidator);
-		final UrlUtil urlUtil = new UrlUtilImpl();
 		final JSONParser jsonParserSimple = new JSONParserSimple();
-		final MonitoringCheckRemote monitoringCheckRemote = new MonitoringCheckRemote(logger, parseUtil, jsonParserSimple, validationConstraintValidator, urlUtil, httpdownloaderService, httpUtil);
+		final MonitoringCheckRemote monitoringCheckRemote = new MonitoringCheckRemote(logger, parseUtil, jsonParserSimple, validationConstraintValidator, httpdownloaderService,
+			httpUtil);
 		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp, monitoringCheckRemote);
 
 		final MonitoringNodeDao monitoringNodeDao = EasyMock.createMock(MonitoringNodeDao.class);
@@ -85,18 +75,15 @@ public class MonitoringNodeValidatorUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final ValidationConstraintValidator validationConstraintValidator = new ValidationConstraintValidator();
-		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
-		final DurationUtil durationUtil = new DurationUtil(null);
-		final Base64Util base64Util = new Base64UtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final HttpdownloaderService httpdownloaderService = EasyMock.createMock(HttpdownloaderService.class);
 		final HttpUtil httpUtil = EasyMock.createMock(HttpUtil.class);
 		final MonitoringCheckHttp monitoringCheckHttp = new MonitoringCheckHttp(logger, parseUtil, validationConstraintValidator, httpdownloaderService, httpUtil);
 		final MonitoringCheckNop monitoringCheckNop = new MonitoringCheckNop();
 		final MonitoringCheckTcp monitoringCheckTcp = new MonitoringCheckTcp(logger, parseUtil, validationConstraintValidator);
-		final UrlUtil urlUtil = new UrlUtilImpl();
 		final JSONParser jsonParserSimple = new JSONParserSimple();
-		final MonitoringCheckRemote monitoringCheckRemote = new MonitoringCheckRemote(logger, parseUtil, jsonParserSimple, validationConstraintValidator, urlUtil, httpdownloaderService, httpUtil);
+		final MonitoringCheckRemote monitoringCheckRemote = new MonitoringCheckRemote(logger, parseUtil, jsonParserSimple, validationConstraintValidator, httpdownloaderService,
+			httpUtil);
 		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp, monitoringCheckRemote);
 
 		final MonitoringNodeDao monitoringNodeDao = EasyMock.createMock(MonitoringNodeDao.class);
@@ -134,18 +121,15 @@ public class MonitoringNodeValidatorUnitTest {
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
 		final ValidationConstraintValidator validationConstraintValidator = new ValidationConstraintValidator();
-		final StreamUtil streamUtil = new StreamUtil(new ChannelTools());
-		final DurationUtil durationUtil = new DurationUtil(null);
-		final Base64Util base64Util = new Base64UtilImpl();
 		final ParseUtil parseUtil = new ParseUtilImpl();
 		final HttpdownloaderService httpdownloaderService = EasyMock.createMock(HttpdownloaderService.class);
 		final HttpUtil httpUtil = EasyMock.createMock(HttpUtil.class);
 		final MonitoringCheckHttp monitoringCheckHttp = new MonitoringCheckHttp(logger, parseUtil, validationConstraintValidator, httpdownloaderService, httpUtil);
 		final MonitoringCheckNop monitoringCheckNop = new MonitoringCheckNop();
 		final MonitoringCheckTcp monitoringCheckTcp = new MonitoringCheckTcp(logger, parseUtil, validationConstraintValidator);
-		final UrlUtil urlUtil = new UrlUtilImpl();
 		final JSONParser jsonParserSimple = new JSONParserSimple();
-		final MonitoringCheckRemote monitoringCheckRemote = new MonitoringCheckRemote(logger, parseUtil, jsonParserSimple, validationConstraintValidator, urlUtil, httpdownloaderService, httpUtil);
+		final MonitoringCheckRemote monitoringCheckRemote = new MonitoringCheckRemote(logger, parseUtil, jsonParserSimple, validationConstraintValidator, httpdownloaderService,
+			httpUtil);
 		final MonitoringCheckRegistry monitoringCheckFactory = new MonitoringCheckRegistry(monitoringCheckHttp, monitoringCheckNop, monitoringCheckTcp, monitoringCheckRemote);
 
 		final MonitoringNodeDao monitoringNodeDao = EasyMock.createMock(MonitoringNodeDao.class);

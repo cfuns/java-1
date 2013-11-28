@@ -1,4 +1,6 @@
 storage/core_test/de.benjaminborbe.storage.test.iml
+storage/core_test/.classpath
+storage/memory_test/.classpath
 storage/memory_test/de.benjaminborbe.storage.memory.test.iml
 .idea
 .project
