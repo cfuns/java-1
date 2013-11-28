@@ -118,7 +118,12 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public Collection<PokerGame> getGames(final boolean running) throws PokerServiceException {
+	public Collection<PokerGame> getGamesRunning() throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public Collection<PokerGame> getGamesNotRunning() throws PokerServiceException {
 		return null;
 	}
 

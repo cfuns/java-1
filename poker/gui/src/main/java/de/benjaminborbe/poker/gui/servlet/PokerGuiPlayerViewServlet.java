@@ -119,8 +119,7 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 				widgets.add("Game: none");
 				widgets.add(new BrWidget());
 
-				final boolean running = false;
-				final Collection<PokerGame> games = pokerService.getGames(running);
+				final Collection<PokerGame> games = pokerService.getGamesNotRunning();
 				if (games.isEmpty()) {
 					widgets.add("no join able game found");
 				} else {

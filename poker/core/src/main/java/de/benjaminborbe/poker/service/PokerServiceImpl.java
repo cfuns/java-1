@@ -40,6 +40,7 @@ import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.list.ListUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
+import org.ops4j.peaberry.ServiceUnavailableException;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -500,6 +501,8 @@ public class PokerServiceImpl implements PokerService {
 				analyticsService.addReportValue(analyticsReportIdentifier, amount);
 			} catch (final AnalyticsServiceException e) {
 				logger.trace("trackPlayerAmount failed", e);
+			} catch (ServiceUnavailableException e) {
+				logger.trace("trackPlayerAmount failed", e);
 			}
 		}
 	}
@@ -785,7 +788,16 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public Collection<PokerGame> getGames(final boolean running) throws PokerServiceException {
+	public Collection<PokerGame> getGamesRunning() throws PokerServiceException {
+		return getGames(true);
+	}
+
+	@Override
+	public Collection<PokerGame> getGamesNotRunning() throws PokerServiceException {
+		return getGames(false);
+	}
+
+	private Collection<PokerGame> getGames(final boolean running) throws PokerServiceException {
 		try {
 			logger.debug("getGames - running: " + running);
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();

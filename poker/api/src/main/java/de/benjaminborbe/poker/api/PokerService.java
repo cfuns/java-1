@@ -57,7 +57,9 @@ public interface PokerService {
 
 	void deletePlayer(PokerPlayerIdentifier pokerPlayerIdentifier) throws PokerServiceException, ValidationException;
 
-	Collection<PokerGame> getGames(boolean running) throws PokerServiceException;
+	Collection<PokerGame> getGamesRunning() throws PokerServiceException;
+
+	Collection<PokerGame> getGamesNotRunning() throws PokerServiceException;
 
 	void stopGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException;
 

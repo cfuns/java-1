@@ -15,6 +15,8 @@ test:
 	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow test
 installwotest:
 	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow -Dmaven.test.skip=true install
+testcompile:
+	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow -Dmaven.test.skip=true compiler:testCompile
 update:
 	mvn -Pdefault,base,lib,meta,bridge,test,slow versions:display-dependency-updates | grep ' -> ' | perl ~/bin/unique.pl
 updateplugin:
