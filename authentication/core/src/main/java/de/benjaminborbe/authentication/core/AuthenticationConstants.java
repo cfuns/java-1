@@ -7,4 +7,6 @@ public interface AuthenticationConstants {
 
 	String CONFIG_EMAIL_FROM = "AuthenticationEmailFrom";
 
+	String SUPERADMIN_USER_NAME = "superadmin";
+
 }

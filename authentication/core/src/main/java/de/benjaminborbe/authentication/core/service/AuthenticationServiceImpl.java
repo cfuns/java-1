@@ -546,6 +546,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (userIdentifier == null) {
 				return false;
 			}
+			if (AuthenticationConstants.SUPERADMIN_USER_NAME.equals(userIdentifier.getId())) {
+				return true;
+			}
 			final UserBean user = userDao.load(userIdentifier);
 			if (user == null) {
 				return false;
