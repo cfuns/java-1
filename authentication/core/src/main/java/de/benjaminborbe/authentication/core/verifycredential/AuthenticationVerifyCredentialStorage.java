@@ -39,7 +39,7 @@ public class AuthenticationVerifyCredentialStorage implements AuthenticationVeri
 		try {
 			logger.trace("verifyCredential");
 
-			if (userIdentifier.getId() == null || userIdentifier.getId().length() == 0) {
+			if (userIdentifier == null || userIdentifier.getId() == null || userIdentifier.getId().length() == 0) {
 				logger.info("verifyCredential failed no user found with name " + userIdentifier);
 				return false;
 			}
