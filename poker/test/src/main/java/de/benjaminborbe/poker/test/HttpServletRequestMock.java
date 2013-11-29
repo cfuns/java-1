@@ -15,6 +15,8 @@ import java.util.Map;
 
 public class HttpServletRequestMock implements HttpServletRequest {
 
+	private final HttpSessionMock httpSession = new HttpSessionMock();
+
 	@Override
 	public String getAuthType() {
 		return null;
@@ -117,7 +119,7 @@ public class HttpServletRequestMock implements HttpServletRequest {
 
 	@Override
 	public HttpSession getSession() {
-		return null;
+		return httpSession;
 	}
 
 	@Override
