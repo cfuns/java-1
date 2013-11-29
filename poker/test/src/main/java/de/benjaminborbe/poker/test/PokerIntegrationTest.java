@@ -15,6 +15,8 @@ import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import javax.servlet.Servlet;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PokerIntegrationTest extends TestCaseOsgi {
@@ -67,6 +69,11 @@ public class PokerIntegrationTest extends TestCaseOsgi {
 	}
 
 	public void testSimpleGame() throws PokerServiceException, ValidationException {
+
+		/*
+		 * Arrange
+		 */
+
 		final long bigBlind = 1000L;
 		final String gameName = "testGame";
 		final String firstPlayerName = "firstPlayer";
@@ -118,6 +125,45 @@ public class PokerIntegrationTest extends TestCaseOsgi {
 		assertEquals(0, pokerService.getGamesNotRunning().size());
 		assertNotNull(pokerService.getGamesRunning());
 		assertEquals(1, pokerService.getGamesRunning().size());
+
+		/*
+		 * Act
+		 */
+		final BundleContext bundleContext = getContext();
+		assertNotNull(bundleContext);
+		final ExtHttpServiceHelper extHttpService = new ExtHttpServiceHelper();
+		final ServiceRegistration serviceRegistration = bundleContext.registerService(ExtHttpService.class.getName(), extHttpService, null);
+		assertNotNull(serviceRegistration);
+
+		final Servlet statusServlet = extHttpService.getServlet("/poker/game/status/json");
+		assertNotNull(statusServlet);
+
+		HttpServletRequestMock request = new HttpServletRequestMock();
+		HttpServletResponseMock response = new HttpServletResponseMock();
+
+		try {
+			statusServlet.service(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("unexpected exception: " + e.getClass().getName());
+		}
+
+		try {
+			response.getWriter().flush();
+		} catch (IOException e) {
+			fail("unexpected exception: " + e.getClass().getName());
+		}
+
+		/*
+		 * Assert
+		 */
+		System.err.println("bier:" + new String(response.getContent()));
 	}
 
+//	/poker/game/status/json
+//	/poker/raise/json
+//	/poker/call/json
+//	/poker/fold/json
+//	/poker/status/json
+//	/poker/game/join
 }
