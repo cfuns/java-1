@@ -43,6 +43,10 @@ public class MicroblogRevisionStorageImpl implements MicroblogRevisionStorage {
 		logger.trace("getLastRevision");
 		try {
 			final StorageValue value = storageService.get(COLUMNFAMILY, new StorageValue(ID, getEncoding()), new StorageValue(KEY, getEncoding()));
+			if (value == null){
+				logger.trace("no last revision found");
+				return null;
+			}
 			final long result = parseUtil.parseLong(value.getString());
 			logger.trace("getLastRevision - found " + result);
 			return new MicroblogPostIdentifier(result);
