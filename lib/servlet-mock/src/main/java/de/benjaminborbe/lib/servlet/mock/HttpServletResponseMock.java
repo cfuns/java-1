@@ -1,4 +1,4 @@
-package de.benjaminborbe.poker.test;
+package de.benjaminborbe.lib.servlet.mock;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;

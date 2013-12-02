@@ -19,5 +19,6 @@
 		<module>osgitest</module>
 		<module>validation</module>
 		<module>json</module>
+		<module>servlet-mock</module>
 	</modules>
 </project>

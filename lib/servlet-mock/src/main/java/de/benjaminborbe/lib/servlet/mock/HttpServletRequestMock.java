@@ -1,4 +1,4 @@
-package de.benjaminborbe.poker.test;
+package de.benjaminborbe.lib.servlet.mock;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
@@ -10,12 +10,15 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 public class HttpServletRequestMock implements HttpServletRequest {
 
 	private final HttpSessionMock httpSession = new HttpSessionMock();
+
+	private final Map<String, String> parameter = new HashMap<String, String>();
 
 	@Override
 	public String getAuthType() {
@@ -178,7 +181,7 @@ public class HttpServletRequestMock implements HttpServletRequest {
 
 	@Override
 	public String getParameter(final String name) {
-		return null;
+		return parameter.get(name);
 	}
 
 	@Override
@@ -193,7 +196,7 @@ public class HttpServletRequestMock implements HttpServletRequest {
 
 	@Override
 	public Map getParameterMap() {
-		return null;
+		return parameter;
 	}
 
 	@Override
@@ -282,5 +285,9 @@ public class HttpServletRequestMock implements HttpServletRequest {
 	@Override
 	public int getLocalPort() {
 		return 0;
+	}
+
+	public void setParameter(final String key, final String value) {
+		parameter.put(key, value);
 	}
 };
