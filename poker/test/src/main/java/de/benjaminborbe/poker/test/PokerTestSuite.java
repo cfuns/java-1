@@ -8,7 +8,9 @@ public class PokerTestSuite {
 
 	public static Test suite(final BundleContext bc) {
 		final OSGiTestSuite ots = new OSGiTestSuite("Poker Test Suite", bc);
-		ots.addTestSuite(PokerIntegrationTest.class);
+		ots.addTestSuite(PokerServicesIntegrationTest.class);
+		ots.addTestSuite(PokerApiDisabledIntegrationTest.class);
+		ots.addTestSuite(PokerStatusIntegrationTest.class);
 		return ots;
 	}
 }

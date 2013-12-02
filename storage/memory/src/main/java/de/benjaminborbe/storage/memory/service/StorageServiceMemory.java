@@ -11,6 +11,7 @@ import de.benjaminborbe.storage.api.StorageValue;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
+@Singleton
 public class StorageServiceMemory implements StorageService {
 
 	public static final String ENCODING = "UTF8";

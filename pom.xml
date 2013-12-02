@@ -27,7 +27,6 @@
 		</developer>
 	</developers>
 
-
 	<properties>
 		<!-- Print unit test results into files instead of console -->
 		<unitTestUseFile>true</unitTestUseFile>

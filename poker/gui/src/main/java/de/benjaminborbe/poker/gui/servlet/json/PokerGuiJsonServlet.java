@@ -29,6 +29,8 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
+	private final Logger logger;
+
 	private final PokerGuiConfig pokerGuiConfig;
 
 	@Inject
@@ -43,12 +45,15 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 		final PokerGuiConfig pokerGuiConfig
 	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
+		this.logger = logger;
 		this.pokerGuiConfig = pokerGuiConfig;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return pokerGuiConfig.isJsonApiEnabled();
+		final boolean jsonApiEnabled = pokerGuiConfig.isJsonApiEnabled();
+		logger.debug("jsonApiEnabled: " + jsonApiEnabled);
+		return jsonApiEnabled;
 	}
 
 	@Override

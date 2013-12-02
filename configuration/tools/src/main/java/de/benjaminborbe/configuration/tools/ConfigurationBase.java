@@ -27,7 +27,9 @@ public abstract class ConfigurationBase {
 	}
 
 	private String getConfigurationValue(final ConfigurationDescription configurationDescription) throws ConfigurationServiceException {
-		return configurationServiceCache.getConfigurationValue(configurationDescription);
+		final String value = configurationServiceCache.getConfigurationValue(configurationDescription);
+		logger.debug(configurationDescription.getId() + " = " + value);
+		return value;
 	}
 
 	protected String getValueString(final ConfigurationDescription configurationDescription) {
