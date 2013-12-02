@@ -1,10 +1,7 @@
 package de.benjaminborbe.tools.json;
 
-import javax.inject.Inject;
-
 public class JSONParserSimple implements JSONParser {
 
-	@Inject
 	public JSONParserSimple() {
 	}
 
