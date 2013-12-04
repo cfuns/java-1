@@ -1,5 +1,6 @@
 package de.benjaminborbe.configuration.mock;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
@@ -50,12 +51,20 @@ public class ConfigurationServiceMock implements ConfigurationService {
 
 	@Override
 	public Collection<ConfigurationDescription> listConfigurations() {
-		return null;
+		throw new RuntimeException("not implemeted");
 	}
 
 	@Override
 	public ConfigurationDescription getConfiguration(final ConfigurationIdentifier configurationIdentifier) throws ConfigurationServiceException {
-		return null;
+		throw new RuntimeException("not implemeted");
+	}
+
+	@Override
+	public void setConfigurationValue(
+		final ConfigurationDescription configurationDescription,
+		final String value
+	) throws ConfigurationServiceException, ValidationException {
+		setConfigurationValue(configurationDescription.getId(), value);
 	}
 
 }

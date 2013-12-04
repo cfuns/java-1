@@ -18,4 +18,8 @@ public interface ConfigurationService {
 
 	ConfigurationDescription getConfiguration(ConfigurationIdentifier configurationIdentifier) throws ConfigurationServiceException;
 
+	void setConfigurationValue(
+		ConfigurationDescription configurationDescription,
+		String value
+	) throws ConfigurationServiceException, ValidationException;
 }
