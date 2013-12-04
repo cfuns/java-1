@@ -16,6 +16,7 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
 import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormInputTextareaWidget;
+import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
@@ -86,7 +87,7 @@ public class UtilGuiRemoveTagServlet extends WebsiteHtmlServlet {
 			widgets.add(new PreWidget(removeTag(content, tag)));
 		}
 
-		final FormWidget form = new FormWidget();
+		final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
 		form.addFormInputWidget(new FormInputTextWidget(PARAMETER_TAG).addLabel("Tag:").addDefaultValue("span"));
 		form.addFormInputWidget(new FormInputTextareaWidget(PARAMETER_CONTENT).addLabel("HTML:"));
 		form.addFormInputWidget(new FormInputSubmitWidget("remove"));
