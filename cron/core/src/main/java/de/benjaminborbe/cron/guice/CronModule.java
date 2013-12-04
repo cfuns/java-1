@@ -1,8 +1,6 @@
 package de.benjaminborbe.cron.guice;
 
 import com.google.inject.AbstractModule;
-import de.benjaminborbe.configuration.tools.ConfigurationCache;
-import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.cron.api.CronService;
 import de.benjaminborbe.cron.config.CronConfig;
@@ -22,7 +20,7 @@ public class CronModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
+
 		bind(CronConfig.class).to(CronConfigImpl.class).in(Singleton.class);
 		bind(CronMessageMapper.class).to(CronMessageMapperImpl.class).in(Singleton.class);
 		bind(CronService.class).to(CronServiceImpl.class).in(Singleton.class);

@@ -1,10 +1,10 @@
 package de.benjaminborbe.storage.config;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
-import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
@@ -35,9 +35,9 @@ public class StorageConfigImpl extends ConfigurationBase implements StorageConfi
 	public StorageConfigImpl(
 		final Logger logger,
 		final ParseUtil parseUtil,
-		final ConfigurationServiceCache configurationServiceCache
+		final ConfigurationService configurationService
 	) {
-		super(logger, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationService);
 	}
 
 	@Override

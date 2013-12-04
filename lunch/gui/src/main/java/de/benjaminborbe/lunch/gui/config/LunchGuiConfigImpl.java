@@ -4,7 +4,6 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
-import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.lunch.gui.LunchGuiConstants;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
@@ -24,10 +23,9 @@ public class LunchGuiConfigImpl extends ConfigurationBase implements LunchGuiCon
 	public LunchGuiConfigImpl(
 		final Logger logger,
 		final ConfigurationService configurationService,
-		final ParseUtil parseUtil,
-		final ConfigurationServiceCache configurationServiceCache
+		final ParseUtil parseUtil
 	) {
-		super(logger, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationService);
 	}
 
 	@Override

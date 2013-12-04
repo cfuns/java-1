@@ -1,6 +1,7 @@
 package de.benjaminborbe.configuration.tools;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -14,20 +15,20 @@ public abstract class ConfigurationBase {
 
 	private final ParseUtil parseUtil;
 
-	private final ConfigurationServiceCache configurationServiceCache;
+	private final ConfigurationService configurationService;
 
 	public ConfigurationBase(
 		final Logger logger,
 		final ParseUtil parseUtil,
-		final ConfigurationServiceCache configurationServiceCache
+		final ConfigurationService configurationService
 	) {
 		this.logger = logger;
 		this.parseUtil = parseUtil;
-		this.configurationServiceCache = configurationServiceCache;
+		this.configurationService = configurationService;
 	}
 
 	private String getConfigurationValue(final ConfigurationDescription configurationDescription) throws ConfigurationServiceException {
-		final String value = configurationServiceCache.getConfigurationValue(configurationDescription);
+		final String value = configurationService.getConfigurationValue(configurationDescription);
 		logger.debug(configurationDescription.getId() + " = " + value);
 		return value;
 	}

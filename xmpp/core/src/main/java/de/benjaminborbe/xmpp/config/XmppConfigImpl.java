@@ -5,7 +5,6 @@ import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionInteger;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
-import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.xmpp.XmppConstants;
 import org.slf4j.Logger;
@@ -31,10 +30,9 @@ public class XmppConfigImpl extends ConfigurationBase implements XmppConfig {
 	public XmppConfigImpl(
 		final Logger logger,
 		final ConfigurationService configurationService,
-		final ParseUtil parseUtil,
-		final ConfigurationServiceCache configurationServiceCache
+		final ParseUtil parseUtil
 	) {
-		super(logger, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationService);
 	}
 
 	@Override

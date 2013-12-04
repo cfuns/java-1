@@ -1,8 +1,6 @@
 package de.benjaminborbe.kiosk.guice;
 
 import com.google.inject.AbstractModule;
-import de.benjaminborbe.configuration.tools.ConfigurationCache;
-import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.kiosk.api.KioskService;
 import de.benjaminborbe.kiosk.booking.KioskBookingConnector;
 import de.benjaminborbe.kiosk.booking.KioskBookingConnectorImpl;
@@ -22,7 +20,7 @@ public class KioskModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
+
 		bind(KioskConfig.class).to(KioskConfigImpl.class).in(Singleton.class);
 		bind(KioskDatabaseConnector.class).to(KioskDatabaseConnectorImpl.class).in(Singleton.class);
 		bind(KioskBookingConnector.class).to(KioskBookingConnectorImpl.class).in(Singleton.class);

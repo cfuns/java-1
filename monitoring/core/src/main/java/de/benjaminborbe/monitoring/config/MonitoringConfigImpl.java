@@ -5,7 +5,6 @@ import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
-import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.monitoring.MonitoringConstants;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
@@ -25,10 +24,9 @@ public class MonitoringConfigImpl extends ConfigurationBase implements Monitorin
 	public MonitoringConfigImpl(
 		final Logger logger,
 		final ConfigurationService configurationService,
-		final ParseUtil parseUtil,
-		final ConfigurationServiceCache configurationServiceCache
+		final ParseUtil parseUtil
 	) {
-		super(logger, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationService);
 	}
 
 	@Override

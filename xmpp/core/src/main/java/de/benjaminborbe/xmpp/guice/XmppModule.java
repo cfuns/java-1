@@ -1,8 +1,6 @@
 package de.benjaminborbe.xmpp.guice;
 
 import com.google.inject.AbstractModule;
-import de.benjaminborbe.configuration.tools.ConfigurationCache;
-import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import de.benjaminborbe.xmpp.api.XmppService;
 import de.benjaminborbe.xmpp.config.XmppConfig;
@@ -18,7 +16,7 @@ public class XmppModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
+
 		bind(XmppConnector.class).to(XmppConnectorImpl.class).in(Singleton.class);
 		bind(XmppConfig.class).to(XmppConfigImpl.class).in(Singleton.class);
 		bind(XmppService.class).to(XmppServiceImpl.class).in(Singleton.class);

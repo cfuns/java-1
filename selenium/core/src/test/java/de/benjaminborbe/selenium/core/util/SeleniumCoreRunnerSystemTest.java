@@ -4,7 +4,6 @@ import com.google.inject.Injector;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
-import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.lib.test.SystemTest;
 import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.SeleniumConfigurationIdentifier;
@@ -34,10 +33,8 @@ public class SeleniumCoreRunnerSystemTest {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumModulesMock());
 		final SeleniumCoreConfigurationExecutor runner = injector.getInstance(SeleniumCoreConfigurationExecutor.class);
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
-		final ConfigurationServiceCache configurationServiceCache = injector.getInstance(ConfigurationServiceCache.class);
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier(SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_HOST), "192.168.223.143");
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier(SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_PORT), 4444);
-		configurationServiceCache.flush();
 
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol = new SeleniumExecutionProtocolImpl();
 		runner.execute(new SeleniumConfigurationSimple(), seleniumExecutionProtocol);

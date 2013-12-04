@@ -1,8 +1,6 @@
 package de.benjaminborbe.monitoring.guice;
 
 import com.google.inject.AbstractModule;
-import de.benjaminborbe.configuration.tools.ConfigurationCache;
-import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.monitoring.api.MonitoringService;
 import de.benjaminborbe.monitoring.config.MonitoringConfig;
 import de.benjaminborbe.monitoring.config.MonitoringConfigImpl;
@@ -18,7 +16,7 @@ public class MonitoringModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
+
 		bind(MonitoringNodeDao.class).to(MonitoringNodeDaoStorage.class).in(Singleton.class);
 		bind(MonitoringConfig.class).to(MonitoringConfigImpl.class).in(Singleton.class);
 		bind(MonitoringService.class).to(MonitoringServiceImpl.class).in(Singleton.class);

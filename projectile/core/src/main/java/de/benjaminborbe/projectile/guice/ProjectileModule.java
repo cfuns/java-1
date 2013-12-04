@@ -1,8 +1,6 @@
 package de.benjaminborbe.projectile.guice;
 
 import com.google.inject.AbstractModule;
-import de.benjaminborbe.configuration.tools.ConfigurationCache;
-import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.projectile.api.ProjectileService;
 import de.benjaminborbe.projectile.config.ProjectileConfig;
 import de.benjaminborbe.projectile.config.ProjectileConfigImpl;
@@ -22,7 +20,7 @@ public class ProjectileModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
+
 		bind(ProjectileTeamDao.class).to(ProjectileTeamDaoStorage.class).in(Singleton.class);
 		bind(ProjectileReportDao.class).to(ProjectileReportDaoStorage.class).in(Singleton.class);
 		bind(ProjectileConfig.class).to(ProjectileConfigImpl.class).in(Singleton.class);

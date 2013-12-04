@@ -1,11 +1,11 @@
 package de.benjaminborbe.poker.config;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionDouble;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionLong;
-import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
@@ -32,9 +32,9 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 	public PokerConfigImpl(
 		final Logger logger,
 		final ParseUtil parseUtil,
-		final ConfigurationServiceCache configurationServiceCache
+		final ConfigurationService configurationService
 	) {
-		super(logger, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationService);
 	}
 
 	@Override

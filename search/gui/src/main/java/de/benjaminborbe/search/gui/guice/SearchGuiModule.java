@@ -1,8 +1,6 @@
 package de.benjaminborbe.search.gui.guice;
 
 import com.google.inject.AbstractModule;
-import de.benjaminborbe.configuration.tools.ConfigurationCache;
-import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.search.api.SearchWidget;
 import de.benjaminborbe.search.gui.config.SearchGuiConfig;
 import de.benjaminborbe.search.gui.config.SearchGuiConfigImpl;
@@ -18,7 +16,7 @@ public class SearchGuiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
+
 		bind(SearchGuiConfig.class).to(SearchGuiConfigImpl.class).in(Singleton.class);
 		bind(SearchGuiSpecialSearchFactory.class).to(SearchGuiSpecialSearchFactoryImpl.class).in(Singleton.class);
 		bind(SearchWidget.class).to(SearchGuiWidgetImpl.class).in(Singleton.class);

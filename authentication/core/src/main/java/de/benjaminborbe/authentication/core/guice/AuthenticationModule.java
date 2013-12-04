@@ -11,8 +11,6 @@ import de.benjaminborbe.authentication.core.dao.UserDaoStorage;
 import de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl;
 import de.benjaminborbe.authentication.core.verifycredential.AuthenticationVerifyCredential;
 import de.benjaminborbe.authentication.core.verifycredential.AuthenticationVerifyCredentialImpl;
-import de.benjaminborbe.configuration.tools.ConfigurationCache;
-import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.tools.log.LoggerSlf4Provider;
 import org.slf4j.Logger;
 
@@ -22,7 +20,7 @@ public class AuthenticationModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
+
 		bind(AuthenticationVerifyCredential.class).to(AuthenticationVerifyCredentialImpl.class).in(Singleton.class);
 		bind(AuthenticationConfig.class).to(AuthenticationConfigImpl.class).in(Singleton.class);
 		bind(UserDao.class).to(UserDaoStorage.class).in(Singleton.class);

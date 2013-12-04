@@ -1,8 +1,6 @@
 package de.benjaminborbe.proxy.core.guice;
 
 import com.google.inject.AbstractModule;
-import de.benjaminborbe.configuration.tools.ConfigurationCache;
-import de.benjaminborbe.configuration.tools.ConfigurationCacheImpl;
 import de.benjaminborbe.proxy.api.ProxyService;
 import de.benjaminborbe.proxy.core.config.ProxyCoreConfig;
 import de.benjaminborbe.proxy.core.config.ProxyCoreConfigImpl;
@@ -18,7 +16,7 @@ public class ProxyCoreModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(ConfigurationCache.class).to(ConfigurationCacheImpl.class);
+
 		bind(ProxyCoreConfig.class).to(ProxyCoreConfigImpl.class).in(Singleton.class);
 		bind(ProxyService.class).to(ProxyCoreServiceImpl.class).in(Singleton.class);
 		bind(Logger.class).toProvider(LoggerSlf4Provider.class).in(Singleton.class);

@@ -26,5 +26,4 @@ public class CacheServiceImpl implements CacheService {
 	public String get(final String key) throws CacheServiceException {
 		return data.get(key);
 	}
-
 }

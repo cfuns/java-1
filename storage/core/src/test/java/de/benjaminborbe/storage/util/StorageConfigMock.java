@@ -1,6 +1,6 @@
 package de.benjaminborbe.storage.util;
 
-import de.benjaminborbe.configuration.tools.ConfigurationServiceCache;
+import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.storage.config.StorageConfig;
 import de.benjaminborbe.storage.config.StorageConfigImpl;
 import de.benjaminborbe.tools.util.ParseUtil;
@@ -24,9 +24,9 @@ public class StorageConfigMock extends StorageConfigImpl implements StorageConfi
 	public StorageConfigMock(
 		final Logger logger,
 		final ParseUtil parseUtil,
-		final ConfigurationServiceCache configurationServiceCache
+		final ConfigurationService configurationService
 	) {
-		super(logger, parseUtil, configurationServiceCache);
+		super(logger, parseUtil, configurationService);
 	}
 
 	@Override
