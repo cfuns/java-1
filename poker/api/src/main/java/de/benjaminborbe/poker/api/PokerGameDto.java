@@ -1,5 +1,6 @@
 package de.benjaminborbe.poker.api;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class PokerGameDto implements PokerGame {
@@ -27,6 +28,10 @@ public class PokerGameDto implements PokerGame {
 	private PokerGameIdentifier id;
 
 	private List<PokerCardIdentifier> cards;
+
+	private Calendar activePositionTime;
+
+	private Long autoCallTimeout;
 
 	@Override
 	public Long getMaxBid() {
@@ -133,6 +138,24 @@ public class PokerGameDto implements PokerGame {
 
 	public void setCards(final List<PokerCardIdentifier> cards) {
 		this.cards = cards;
+	}
+
+	@Override
+	public Calendar getActivePositionTime() {
+		return activePositionTime;
+	}
+
+	public void setActivePositionTime(final Calendar activePositionTime) {
+		this.activePositionTime = activePositionTime;
+	}
+
+	@Override
+	public Long getAutoCallTimeout() {
+		return autoCallTimeout;
+	}
+
+	public void setAutoCallTimeout(final Long autoCallTimeout) {
+		this.autoCallTimeout = autoCallTimeout;
 	}
 
 }

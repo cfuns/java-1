@@ -1,5 +1,6 @@
 package de.benjaminborbe.poker.api;
 
+import java.util.Calendar;
 import java.util.List;
 
 public interface PokerGame {
@@ -27,4 +28,8 @@ public interface PokerGame {
 	Long getMaxBid();
 
 	List<PokerCardIdentifier> getCards();
+
+	Long getAutoCallTimeout();
+
+	Calendar getActivePositionTime();
 }

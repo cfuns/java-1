@@ -215,6 +215,7 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		this.maxBid = maxBid;
 	}
 
+	@Override
 	public Calendar getActivePositionTime() {
 		return activePositionTime;
 	}
@@ -223,6 +224,7 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 		this.activePositionTime = activePositionTime;
 	}
 
+	@Override
 	public Long getAutoCallTimeout() {
 		return autoCallTimeout;
 	}
