@@ -22,4 +22,9 @@ public class CacheServiceMock implements CacheService {
 	public String get(final String key) throws CacheServiceException {
 		return data.get(key);
 	}
+
+	@Override
+	public boolean contains(final String key) throws CacheServiceException {
+		return data.containsKey(key);
+	}
 }

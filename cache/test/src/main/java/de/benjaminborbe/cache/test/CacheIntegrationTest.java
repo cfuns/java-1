@@ -1,6 +1,7 @@
 package de.benjaminborbe.cache.test;
 
 import de.benjaminborbe.cache.api.CacheService;
+import de.benjaminborbe.cache.api.CacheServiceException;
 import de.benjaminborbe.test.osgi.TestCaseOsgi;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
 import de.benjaminborbe.tools.url.UrlUtilImpl;
@@ -57,10 +58,24 @@ public class CacheIntegrationTest extends TestCaseOsgi {
 	// }
 
 	public void testCacheService() {
-		final Object serviceObject = getServiceObject(CacheService.class.getName(), null);
-		final CacheService service = (CacheService) serviceObject;
+		final CacheService service = getCacheService();
 		assertNotNull(service);
 		assertEquals("de.benjaminborbe.cache.service.CacheServiceImpl", service.getClass().getName());
+	}
+
+	private CacheService getCacheService() {
+		final Object serviceObject = getServiceObject(CacheService.class.getName(), null);
+		return (CacheService) serviceObject;
+	}
+
+	public void testCacheGetSetContains() throws CacheServiceException {
+		final CacheService service = getCacheService();
+		final String key = "key123";
+		final String value = "value123";
+		assertFalse(service.contains(key));
+		service.set(key, value);
+		assertTrue(service.contains(key));
+		assertEquals(value, service.get(key));
 	}
 
 }
