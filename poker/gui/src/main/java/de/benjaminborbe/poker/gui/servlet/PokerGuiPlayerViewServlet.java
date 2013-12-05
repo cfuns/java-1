@@ -98,10 +98,14 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			final PokerPlayerIdentifier playerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
 			final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
 			final List<UserIdentifier> owners = comparatorUtil.sort(player.getOwners(), new UserIdentifierComparator());
+
 			widgets.add("Name: " + player.getName());
 			widgets.add(new BrWidget());
-			widgets.add("Credits: " + player.getAmount());
+
+			widgets.add("Credits: " + player.getAmount() + " ");
+			widgets.add(pokerGuiLinkFactory.createHistoryLink(request, "history", playerIdentifier));
 			widgets.add(new BrWidget());
+
 			if (pokerService.hasPokerAdminPermission(sessionIdentifier) || owners.contains(authenticationService.getCurrentUser(sessionIdentifier))) {
 				widgets.add("ID: " + player.getId());
 				widgets.add(new BrWidget());

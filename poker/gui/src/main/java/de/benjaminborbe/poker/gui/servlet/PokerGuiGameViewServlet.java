@@ -155,6 +155,10 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				widgets.add(getTimeRemainingAsString(game));
 				widgets.add(new BrWidget());
 
+				widgets.add("Credit History: ");
+				widgets.add(pokerGuiLinkFactory.createHistoryLink(request, "history", game.getPlayers()));
+				widgets.add(new BrWidget());
+
 				final PokerPlayerIdentifier playerIdentifier = pokerService.getActivePlayer(gameIdentifier);
 				if (playerIdentifier != null) {
 					widgets.add("ActivePlayer: ");

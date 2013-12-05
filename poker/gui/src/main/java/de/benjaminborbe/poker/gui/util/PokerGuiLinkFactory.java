@@ -13,6 +13,10 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class PokerGuiLinkFactory {
 
@@ -142,5 +146,33 @@ public class PokerGuiLinkFactory {
 	public Widget playerUpdate(final HttpServletRequest request, final PokerPlayerIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_UPDATE, new MapParameter().add(
 			PokerGuiConstants.PARAMETER_PLAYER_ID, id), "update");
+	}
+
+	private String createReportName(PokerPlayerIdentifier pokerPlayerIdentifier) {
+		return "PokerPlayerAmount-" + pokerPlayerIdentifier + "_LATEST";
+	}
+
+	public Widget createHistoryLink(
+		final HttpServletRequest request,
+		final String name,
+		final PokerPlayerIdentifier... playerIdentifiers
+	) throws MalformedURLException, UnsupportedEncodingException {
+		return createHistoryLink(request, name, Arrays.asList(playerIdentifiers));
+	}
+
+	public Widget createHistoryLink(
+		final HttpServletRequest request,
+		final String name,
+		final List<PokerPlayerIdentifier> players
+	) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/analytics/report/view", new MapParameter().add("chart_type", "LINECHART").add("report_interval", "MINUTE").add("report_id", createReportName(players)), name);
+	}
+
+	private Collection<String> createReportName(final Collection<PokerPlayerIdentifier> players) {
+		List<String> result = new ArrayList<String>();
+		for (PokerPlayerIdentifier pokerPlayerIdentifier : players) {
+			result.add(createReportName(pokerPlayerIdentifier));
+		}
+		return result;
 	}
 }
