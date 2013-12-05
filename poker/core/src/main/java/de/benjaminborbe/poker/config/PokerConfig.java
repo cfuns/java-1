@@ -10,7 +10,7 @@ public interface PokerConfig {
 
 	boolean isCronEnabled();
 
-	long getAutoCallTimeout();
+	long getAutoFoldTimeout();
 
 	long getMaxBid();
 

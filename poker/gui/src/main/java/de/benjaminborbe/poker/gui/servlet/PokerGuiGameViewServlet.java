@@ -147,8 +147,8 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				widgets.add(playerIdentifierToWidget(request, pokerService.getBigBlindPlayer(gameIdentifier)));
 				widgets.add(new BrWidget());
 
-				widgets.add("AutoRollTimeout: ");
-				widgets.add(getAutoRollTimeoutAsString(game));
+				widgets.add("AutoFoldTimeout: ");
+				widgets.add(getAutoFoldTimeoutAsString(game));
 				widgets.add(new BrWidget());
 
 				widgets.add("Time Remaining: ");
@@ -265,8 +265,8 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 		return String.valueOf(currentTime.currentTimeMillis() - game.getActivePositionTime().getTimeInMillis());
 	}
 
-	private String getAutoRollTimeoutAsString(final PokerGame game) {
-		return game.getAutoCallTimeout() != null ? String.valueOf(game.getAutoCallTimeout()) : "-";
+	private String getAutoFoldTimeoutAsString(final PokerGame game) {
+		return game.getAutoFoldTimeout() != null ? String.valueOf(game.getAutoFoldTimeout()) : "-";
 	}
 
 	public Widget playerIdentifierToWidget(

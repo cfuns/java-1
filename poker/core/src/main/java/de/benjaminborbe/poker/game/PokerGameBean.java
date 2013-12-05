@@ -54,11 +54,15 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Long maxBid;
 
-	private Long autoCallTimeout;
+	private Long autoFoldTimeout;
 
 	@Override
 	public Long getBigBlind() {
 		return bigBlind;
+	}
+
+	public void setBigBlind(final Long bigBlind) {
+		this.bigBlind = bigBlind;
 	}
 
 	@Override
@@ -67,37 +71,13 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 	}
 
 	@Override
-	public PokerGameIdentifier getId() {
-		return id;
-	}
-
-	@Override
-	public Calendar getModified() {
-		return modified;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public Boolean getRunning() {
-		return running;
-	}
-
-	@Override
-	public Long getSmallBlind() {
-		return smallBlind;
-	}
-
-	public void setBigBlind(final Long bigBlind) {
-		this.bigBlind = bigBlind;
-	}
-
-	@Override
 	public void setCreated(final Calendar created) {
 		this.created = created;
+	}
+
+	@Override
+	public PokerGameIdentifier getId() {
+		return id;
 	}
 
 	@Override
@@ -106,16 +86,36 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 	}
 
 	@Override
+	public Calendar getModified() {
+		return modified;
+	}
+
+	@Override
 	public void setModified(final Calendar modified) {
 		this.modified = modified;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	public void setName(final String name) {
 		this.name = name;
 	}
 
+	@Override
+	public Boolean getRunning() {
+		return running;
+	}
+
 	public void setRunning(final Boolean running) {
 		this.running = running;
+	}
+
+	@Override
+	public Long getSmallBlind() {
+		return smallBlind;
 	}
 
 	public void setSmallBlind(final Long smallBlind) {
@@ -225,12 +225,12 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 	}
 
 	@Override
-	public Long getAutoCallTimeout() {
-		return autoCallTimeout;
+	public Long getAutoFoldTimeout() {
+		return autoFoldTimeout;
 	}
 
-	public void setAutoCallTimeout(final Long autoCallTimeout) {
-		this.autoCallTimeout = autoCallTimeout;
+	public void setAutoFoldTimeout(final Long autoFoldTimeout) {
+		this.autoFoldTimeout = autoFoldTimeout;
 	}
 
 }

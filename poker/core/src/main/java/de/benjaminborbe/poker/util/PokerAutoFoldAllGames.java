@@ -9,19 +9,19 @@ import org.slf4j.Logger;
 
 import javax.inject.Inject;
 
-public class PokerAutoCallAllGames {
+public class PokerAutoFoldAllGames {
 
 	private final PokerGameDao pokerGameDao;
 
 	private final Logger logger;
 
-	private final PokerAutoCallGame pokerAutoCallGame;
+	private final PokerAutoFoldGame pokerAutoFoldGame;
 
 	@Inject
-	public PokerAutoCallAllGames(final Logger logger, final PokerGameDao pokerGameDao, final PokerAutoCallGame pokerAutoCallGame) {
+	public PokerAutoFoldAllGames(final Logger logger, final PokerGameDao pokerGameDao, final PokerAutoFoldGame pokerAutoFoldGame) {
 		this.logger = logger;
 		this.pokerGameDao = pokerGameDao;
-		this.pokerAutoCallGame = pokerAutoCallGame;
+		this.pokerAutoFoldGame = pokerAutoFoldGame;
 	}
 
 	public void processAllGames() {
@@ -30,7 +30,7 @@ public class PokerAutoCallAllGames {
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
 			while (i.hasNext()) {
 				final PokerGameBean game = i.next();
-				pokerAutoCallGame.processGame(game);
+				pokerAutoFoldGame.processGame(game);
 			}
 			logger.debug("poker auto caller cron iterate of games finished");
 		} catch (final EntityIteratorException e) {

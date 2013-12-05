@@ -20,7 +20,7 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 
 	private final ConfigurationDescriptionBoolean creditsNegativeAllowed = new ConfigurationDescriptionBoolean(false, "PokerCreditsNegativeAllowed", "Poker Credits Negative Allowed");
 
-	private final ConfigurationDescriptionLong autoCallTimeout = new ConfigurationDescriptionLong(0l, "PokerAutoCallTimeout", "Poker Auto Call Timeout in ms");
+	private final ConfigurationDescriptionLong autoFoldTimeout = new ConfigurationDescriptionLong(0l, "PokerAutoFoldTimeout", "Poker Auto Fold Timeout in ms");
 
 	private final ConfigurationDescriptionLong maxBid = new ConfigurationDescriptionLong(100000l, "PokerMaxBid", "Poker Max Bid");
 
@@ -41,7 +41,7 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 	public Collection<ConfigurationDescription> getConfigurations() {
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(cronEnabled);
-		result.add(autoCallTimeout);
+		result.add(autoFoldTimeout);
 		result.add(maxBid);
 		result.add(creditsNegativeAllowed);
 		return result;
@@ -53,8 +53,8 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 	}
 
 	@Override
-	public long getAutoCallTimeout() {
-		return getValueLong(autoCallTimeout);
+	public long getAutoFoldTimeout() {
+		return getValueLong(autoFoldTimeout);
 	}
 
 	@Override

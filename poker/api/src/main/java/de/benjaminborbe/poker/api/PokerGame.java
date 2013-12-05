@@ -29,7 +29,7 @@ public interface PokerGame {
 
 	List<PokerCardIdentifier> getCards();
 
-	Long getAutoCallTimeout();
+	Long getAutoFoldTimeout();
 
 	Calendar getActivePositionTime();
 }

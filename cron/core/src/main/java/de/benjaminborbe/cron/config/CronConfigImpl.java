@@ -16,6 +16,8 @@ public class CronConfigImpl extends ConfigurationBase implements CronConfig {
 
 	private final ConfigurationDescriptionBoolean autoStart = new ConfigurationDescriptionBoolean(false, "CronAutoStart", "Cron Auto Start");
 
+	private final ConfigurationDescriptionBoolean remoteCronAllowed = new ConfigurationDescriptionBoolean(false, "CronRemoteCronAllowed", "Cron Remote Cron Allowed");
+
 	@Inject
 	public CronConfigImpl(
 		final Logger logger,
@@ -29,12 +31,18 @@ public class CronConfigImpl extends ConfigurationBase implements CronConfig {
 	public Collection<ConfigurationDescription> getConfigurations() {
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(autoStart);
+		result.add(remoteCronAllowed);
 		return result;
 	}
 
 	@Override
 	public boolean autoStart() {
 		return Boolean.TRUE.equals(getValueBoolean(autoStart));
+	}
+
+	@Override
+	public boolean isRemoteCronAllowed() {
+		return Boolean.TRUE.equals(getValueBoolean(remoteCronAllowed));
 	}
 
 }

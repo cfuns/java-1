@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 
 import java.util.Calendar;
 
-public class PokerAutoCallGameUnitTest {
+public class PokerAutoFoldGameUnitTest {
 
 	@Test
 	public void testGameNotRunning() throws Exception {
@@ -25,8 +25,8 @@ public class PokerAutoCallGameUnitTest {
 		final Object[] mocks = new Object[]{pokerService, pokerGameBean, logger, pokerGameIdentifier, pokerTimecheck};
 		EasyMock.replay(mocks);
 
-		final PokerAutoCallGame pokerAutoCallGame = new PokerAutoCallGame(logger, pokerService, pokerTimecheck);
-		pokerAutoCallGame.processGame(pokerGameBean);
+		final PokerAutoFoldGame pokerAutoFoldGame = new PokerAutoFoldGame(logger, pokerService, pokerTimecheck);
+		pokerAutoFoldGame.processGame(pokerGameBean);
 
 		EasyMock.verify(mocks);
 	}
@@ -47,14 +47,14 @@ public class PokerAutoCallGameUnitTest {
 		EasyMock.expect(pokerGameBean.getId()).andReturn(pokerGameIdentifier);
 		EasyMock.expect(pokerGameBean.getRunning()).andReturn(true);
 		EasyMock.expect(pokerGameBean.getActivePositionTime()).andReturn(getActivePosition);
-		EasyMock.expect(pokerGameBean.getAutoCallTimeout()).andReturn(autoCallTimeout);
+		EasyMock.expect(pokerGameBean.getAutoFoldTimeout()).andReturn(autoCallTimeout);
 		EasyMock.expect(pokerTimecheck.timeoutReached(getActivePosition, autoCallTimeout)).andReturn(false);
 
 		final Object[] mocks = new Object[]{pokerService, pokerGameBean, logger, pokerGameIdentifier, getActivePosition, playerId};
 		EasyMock.replay(mocks);
 
-		final PokerAutoCallGame pokerAutoCallGame = new PokerAutoCallGame(logger, pokerService, pokerTimecheck);
-		pokerAutoCallGame.processGame(pokerGameBean);
+		final PokerAutoFoldGame pokerAutoFoldGame = new PokerAutoFoldGame(logger, pokerService, pokerTimecheck);
+		pokerAutoFoldGame.processGame(pokerGameBean);
 
 		EasyMock.verify(mocks);
 	}
@@ -75,16 +75,16 @@ public class PokerAutoCallGameUnitTest {
 		EasyMock.expect(pokerGameBean.getId()).andReturn(pokerGameIdentifier);
 		EasyMock.expect(pokerGameBean.getRunning()).andReturn(true);
 		EasyMock.expect(pokerGameBean.getActivePositionTime()).andReturn(getActivePosition);
-		EasyMock.expect(pokerGameBean.getAutoCallTimeout()).andReturn(autoCallTimeout);
+		EasyMock.expect(pokerGameBean.getAutoFoldTimeout()).andReturn(autoCallTimeout);
 		EasyMock.expect(pokerTimecheck.timeoutReached(getActivePosition, autoCallTimeout)).andReturn(true);
 		EasyMock.expect(pokerService.getActivePlayer(pokerGameIdentifier)).andReturn(playerId);
-		pokerService.call(pokerGameIdentifier, playerId);
+		pokerService.fold(pokerGameIdentifier, playerId);
 
 		final Object[] mocks = new Object[]{pokerService, pokerGameBean, logger, pokerGameIdentifier, getActivePosition, playerId, pokerTimecheck};
 		EasyMock.replay(mocks);
 
-		final PokerAutoCallGame pokerAutoCallGame = new PokerAutoCallGame(logger, pokerService, pokerTimecheck);
-		pokerAutoCallGame.processGame(pokerGameBean);
+		final PokerAutoFoldGame pokerAutoFoldGame = new PokerAutoFoldGame(logger, pokerService, pokerTimecheck);
+		pokerAutoFoldGame.processGame(pokerGameBean);
 
 		EasyMock.verify(mocks);
 	}

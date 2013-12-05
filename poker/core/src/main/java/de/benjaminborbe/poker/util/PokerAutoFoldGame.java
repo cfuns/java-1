@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import javax.inject.Inject;
 import java.util.Calendar;
 
-public class PokerAutoCallGame {
+public class PokerAutoFoldGame {
 
 	private final Logger logger;
 
@@ -19,7 +19,7 @@ public class PokerAutoCallGame {
 	private final PokerService pokerService;
 
 	@Inject
-	public PokerAutoCallGame(final Logger logger, final PokerService pokerService, final PokerTimecheck pokerTimecheck) {
+	public PokerAutoFoldGame(final Logger logger, final PokerService pokerService, final PokerTimecheck pokerTimecheck) {
 		this.logger = logger;
 		this.pokerTimecheck = pokerTimecheck;
 		this.pokerService = pokerService;
@@ -29,14 +29,14 @@ public class PokerAutoCallGame {
 		final PokerGameIdentifier pokerGameIdentifier = game.getId();
 		logger.debug("poker auto caller processGame game " + pokerGameIdentifier + " started");
 		if (Boolean.TRUE.equals(game.getRunning())) {
-			final Long autoCallTimeout = game.getAutoCallTimeout();
+			final Long autoCallTimeout = game.getAutoFoldTimeout();
 			final Calendar activePositionTime = game.getActivePositionTime();
 			if (activePositionTime != null && autoCallTimeout != null && autoCallTimeout > 0) {
 				logger.debug("auto caller game " + pokerGameIdentifier);
 				if (pokerTimecheck.timeoutReached(activePositionTime, autoCallTimeout)) {
 					try {
-						logger.debug("timeout reached => call");
-						pokerService.call(pokerGameIdentifier, pokerService.getActivePlayer(pokerGameIdentifier));
+						logger.debug("timeout reached => fold");
+						pokerService.fold(pokerGameIdentifier, pokerService.getActivePlayer(pokerGameIdentifier));
 					} catch (PokerServiceException e) {
 						logger.debug(e.getClass().getName(), e);
 					} catch (ValidationException e) {

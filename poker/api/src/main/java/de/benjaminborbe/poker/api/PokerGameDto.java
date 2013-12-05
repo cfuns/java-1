@@ -31,7 +31,11 @@ public class PokerGameDto implements PokerGame {
 
 	private Calendar activePositionTime;
 
-	private Long autoCallTimeout;
+	public void setAutoFoldTimeout(final Long autoFoldTimeout) {
+		this.autoFoldTimeout = autoFoldTimeout;
+	}
+
+	private Long autoFoldTimeout;
 
 	@Override
 	public Long getMaxBid() {
@@ -150,12 +154,8 @@ public class PokerGameDto implements PokerGame {
 	}
 
 	@Override
-	public Long getAutoCallTimeout() {
-		return autoCallTimeout;
-	}
-
-	public void setAutoCallTimeout(final Long autoCallTimeout) {
-		this.autoCallTimeout = autoCallTimeout;
+	public Long getAutoFoldTimeout() {
+		return autoFoldTimeout;
 	}
 
 }

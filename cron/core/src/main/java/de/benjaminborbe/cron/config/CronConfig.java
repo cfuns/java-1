@@ -9,4 +9,6 @@ public interface CronConfig {
 	Collection<ConfigurationDescription> getConfigurations();
 
 	boolean autoStart();
+
+	boolean isRemoteCronAllowed();
 }
