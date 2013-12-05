@@ -114,10 +114,6 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public void deletePlayer(final PokerPlayerIdentifier pokerPlayerIdentifier) throws PokerServiceException {
-	}
-
-	@Override
 	public Collection<PokerGame> getGamesRunning() throws PokerServiceException {
 		return null;
 	}
@@ -197,6 +193,12 @@ public class PokerServiceMock implements PokerService {
 		final SessionIdentifier sessionIdentifier, final PokerPlayerDto pokerPlayerDto
 	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
 		return null;
+	}
+
+	@Override
+	public void deletePlayer(
+		final SessionIdentifier sessionIdentifier, final PokerPlayerIdentifier playerIdentifier
+	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
 	}
 
 	@Override

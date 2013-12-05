@@ -84,25 +84,23 @@ public class PokerGuiPlayerDeleteServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 			final PokerPlayerIdentifier pokerPlayerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
-			pokerService.deletePlayer(pokerPlayerIdentifier);
-
-			final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
-			return widget;
+			pokerService.deletePlayer(sessionIdentifier, pokerPlayerIdentifier);
+			return new RedirectWidget(buildRefererUrl(request));
 		} catch (final PokerServiceException e) {
-			final ExceptionWidget widget = new ExceptionWidget(e);
-			return widget;
+			return new ExceptionWidget(e);
 		} catch (final ValidationException e) {
 			logger.trace("printContent");
 			final ListWidget widgets = new ListWidget();
 			widgets.add(new H1Widget(getTitle()));
 			widgets.add("delete player failed!");
 			widgets.add(new ValidationExceptionWidget(e));
-
 			widgets.add(new BrWidget());
 			widgets.add(pokerGuiLinkFactory.back(request));
-
 			return widgets;
+		} catch (AuthenticationServiceException e) {
+			return new ExceptionWidget(e);
 		}
 	}
 

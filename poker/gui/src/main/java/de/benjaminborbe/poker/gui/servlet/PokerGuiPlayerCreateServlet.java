@@ -167,7 +167,7 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 		final List<UserIdentifier> users = new ArrayList<UserIdentifier>();
 		for (final String owner : owners.split("[^a-z]")) {
 			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(owner);
-			if (authenticationService.existsUser(userIdentifier)) {
+			if (userIdentifier != null && authenticationService.existsUser(userIdentifier)) {
 				users.add(userIdentifier);
 			}
 		}

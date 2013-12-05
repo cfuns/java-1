@@ -1,6 +1,7 @@
 package de.benjaminborbe.analytics.mock;
 
 import de.benjaminborbe.analytics.api.AnalyticsReport;
+import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportDto;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
@@ -151,6 +152,11 @@ public class AnalyticsServiceMock implements AnalyticsService {
 
 	@Override
 	public void rebuildReports(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
+	}
+
+	@Override
+	public AnalyticsReportIdentifier createAnalyticsReportIdentifier(final String name, final AnalyticsReportAggregation aggregation) {
+		throw new RuntimeException("not implemented");
 	}
 
 }

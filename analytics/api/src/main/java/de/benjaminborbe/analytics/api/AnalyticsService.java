@@ -83,4 +83,6 @@ public interface AnalyticsService {
 		LoginRequiredException;
 
 	void rebuildReports(SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException;
+
+	AnalyticsReportIdentifier createAnalyticsReportIdentifier(String name, AnalyticsReportAggregation aggregation);
 }

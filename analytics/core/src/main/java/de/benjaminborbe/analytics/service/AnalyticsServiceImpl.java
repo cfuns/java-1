@@ -1,6 +1,7 @@
 package de.benjaminborbe.analytics.service;
 
 import de.benjaminborbe.analytics.api.AnalyticsReport;
+import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
 import de.benjaminborbe.analytics.api.AnalyticsReportDto;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
@@ -181,10 +182,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAnalyticsAdminPermission(sessionIdentifier);
-			logger.debug("createReport");
+			logger.debug("createReport - name: " + report.getName() + " description: " + report.getDescription());
 
 			final AnalyticsReportBean bean = analyticsReportDao.create();
-			bean.setId(new AnalyticsReportIdentifier(report.getName() + AnalyticsReportDao.SEPERATOR + report.getAggregation()));
+			bean.setId(createAnalyticsReportIdentifier(report.getName(), report.getAggregation()));
 			bean.setName(report.getName());
 			bean.setAggregation(report.getAggregation());
 			bean.setDescription(report.getDescription());
@@ -204,12 +205,19 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
+	public AnalyticsReportIdentifier createAnalyticsReportIdentifier(final String name, final AnalyticsReportAggregation aggregation) {
+		final AnalyticsReportIdentifier analyticsReportIdentifier = new AnalyticsReportIdentifier(name + AnalyticsReportDao.SEPERATOR + aggregation);
+		logger.debug("analyticsReportIdentifier: " + analyticsReportIdentifier);
+		return analyticsReportIdentifier;
+	}
+
+	@Override
 	public void deleteReport(final SessionIdentifier sessionIdentifier, final AnalyticsReportIdentifier analyticsIdentifier) throws AnalyticsServiceException,
 		PermissionDeniedException, LoginRequiredException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAnalyticsAdminPermission(sessionIdentifier);
-			logger.debug("deleteReport");
+			logger.debug("deleteReport - id: " + analyticsIdentifier);
 			analyticsReportValueDao.delete(analyticsIdentifier);
 			analyticsReportLogDao.delete(analyticsIdentifier);
 			analyticsReportDao.delete(analyticsIdentifier);

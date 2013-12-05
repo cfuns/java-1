@@ -56,6 +56,8 @@ import java.util.Map;
 @Singleton
 public class PokerServiceImpl implements PokerService {
 
+	public static final AnalyticsReportAggregation AGGREGATION = AnalyticsReportAggregation.LATEST;
+
 	private static final int START_CARDS = 2;
 
 	private final Logger logger;
@@ -224,12 +226,12 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	private void createReport(
-		SessionIdentifier sessionIdentifier,
+		final SessionIdentifier sessionIdentifier,
 		final PokerPlayerIdentifier pokerPlayerIdentifier,
 		final String playerName
 	) throws PermissionDeniedException, AnalyticsServiceException, LoginRequiredException, ValidationException {
-		AnalyticsReportDto report = new AnalyticsReportDto();
-		report.setAggregation(AnalyticsReportAggregation.LATEST);
+		final AnalyticsReportDto report = new AnalyticsReportDto();
+		report.setAggregation(AGGREGATION);
 		report.setName(createReportName(pokerPlayerIdentifier));
 		report.setDescription(playerName);
 		analyticsService.createReport(sessionIdentifier, report);
@@ -793,7 +795,10 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public void deletePlayer(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+	public void deletePlayer(
+		final SessionIdentifier sessionIdentifier,
+		final PokerPlayerIdentifier playerIdentifier
+	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
 		try {
 			logger.debug("deletePlayer - id: " + playerIdentifier);
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
@@ -806,7 +811,11 @@ public class PokerServiceImpl implements PokerService {
 				}
 			}
 			pokerPlayerDao.delete(playerIdentifier);
+			final AnalyticsReportIdentifier analyticsReportIdentifier = analyticsService.createAnalyticsReportIdentifier(createReportName(playerIdentifier), AGGREGATION);
+			analyticsService.deleteReport(sessionIdentifier, analyticsReportIdentifier);
 		} catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		} catch (AnalyticsServiceException e) {
 			throw new PokerServiceException(e);
 		} finally {
 		}
@@ -994,5 +1003,4 @@ public class PokerServiceImpl implements PokerService {
 		} finally {
 		}
 	}
-
 }

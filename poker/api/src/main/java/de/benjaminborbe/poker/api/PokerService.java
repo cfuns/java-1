@@ -53,8 +53,6 @@ public interface PokerService {
 
 	Collection<PokerPlayer> getPlayers() throws PokerServiceException;
 
-	void deletePlayer(PokerPlayerIdentifier pokerPlayerIdentifier) throws PokerServiceException, ValidationException;
-
 	Collection<PokerGame> getGamesRunning() throws PokerServiceException;
 
 	Collection<PokerGame> getGamesNotRunning() throws PokerServiceException;
@@ -86,5 +84,10 @@ public interface PokerService {
 	PokerPlayerIdentifier createPlayer(
 		SessionIdentifier sessionIdentifier,
 		PokerPlayerDto pokerPlayerDto
+	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException;
+
+	void deletePlayer(
+		SessionIdentifier sessionIdentifier,
+		PokerPlayerIdentifier playerIdentifier
 	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException;
 }
