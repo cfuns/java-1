@@ -2,6 +2,8 @@ package de.benjaminborbe.poker.service;
 
 import com.google.inject.Injector;
 import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
@@ -16,9 +18,12 @@ import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.config.PokerConfig;
 import de.benjaminborbe.poker.guice.PokerModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.easymock.EasyMock;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -61,6 +66,20 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testDelete() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final PokerService service = injector.getInstance(PokerService.class);
 		assertNotNull(service.getGameIdentifiers());
 		assertEquals(0, service.getGameIdentifiers().size());
@@ -70,7 +89,7 @@ public class PokerServiceImplIntegrationTest {
 		assertNotNull(service.getGameIdentifiers());
 		assertEquals(1, service.getGameIdentifiers().size());
 
-		final PokerPlayerIdentifier playerIdentifier = service.createPlayer(createPlayerDto("player", 10000));
+		final PokerPlayerIdentifier playerIdentifier = service.createPlayer(sessionIdentifier, createPlayerDto("player", 10000));
 		service.joinGame(gameIdentifier, playerIdentifier);
 
 		{
@@ -112,6 +131,20 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testStartGame() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
 		assertNotNull(gameIdentifier);
@@ -138,7 +171,7 @@ public class PokerServiceImplIntegrationTest {
 			assertNotNull(e);
 		}
 
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
 		assertNotNull(playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierA);
 
@@ -152,7 +185,7 @@ public class PokerServiceImplIntegrationTest {
 			assertNotNull(e);
 		}
 
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		assertNotNull(playerIdentifierB);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 
@@ -185,10 +218,24 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testHandCards() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -207,10 +254,24 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testBoardCards() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -252,10 +313,24 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testActivePlayerCall() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -274,10 +349,24 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testActivePlayerRaise() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -296,12 +385,26 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testCall() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
-		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(createPlayerDto("playerC", 10000));
-		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer(createPlayerDto("playerD", 10000));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(sessionIdentifier, createPlayerDto("playerC", 10000));
+		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer(sessionIdentifier, createPlayerDto("playerD", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.joinGame(gameIdentifier, playerIdentifierC);
@@ -354,12 +457,26 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testRaise() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
-		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(createPlayerDto("playerC", 10000));
-		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer(createPlayerDto("playerD", 10000));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(sessionIdentifier, createPlayerDto("playerC", 10000));
+		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer(sessionIdentifier, createPlayerDto("playerD", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.joinGame(gameIdentifier, playerIdentifierC);
@@ -424,12 +541,26 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testRaiseLimits() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
-		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(createPlayerDto("playerC", 10000));
-		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer(createPlayerDto("playerD", 10000));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(sessionIdentifier, createPlayerDto("playerC", 10000));
+		final PokerPlayerIdentifier playerIdentifierD = service.createPlayer(sessionIdentifier, createPlayerDto("playerD", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.joinGame(gameIdentifier, playerIdentifierC);
@@ -513,14 +644,28 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testMaxBid() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
 		final PokerConfig config = injector.getInstance(PokerConfig.class);
 		final ConfigurationService configurationService = injector.getInstance(ConfigurationService.class);
 		final PokerService service = injector.getInstance(PokerService.class);
 
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", 10000));
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", 10000));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
@@ -557,6 +702,20 @@ public class PokerServiceImplIntegrationTest {
 	@Test
 	public void testBidNegativeCredits() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
 		final PokerService service = injector.getInstance(PokerService.class);
 		final PokerConfig config = injector.getInstance(PokerConfig.class);
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
@@ -564,8 +723,8 @@ public class PokerServiceImplIntegrationTest {
 
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
 		final int startCredits = 10000;
-		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(createPlayerDto("playerA", startCredits));
-		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(createPlayerDto("playerB", startCredits));
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", startCredits));
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", startCredits));
 		service.joinGame(gameIdentifier, playerIdentifierA);
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);

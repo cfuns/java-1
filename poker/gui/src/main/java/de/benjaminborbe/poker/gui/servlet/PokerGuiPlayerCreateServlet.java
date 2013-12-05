@@ -104,8 +104,8 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 
 			if (name != null && owners != null && amount != null) {
 				try {
-
-					createPlayer(name, amount, buildUsers(owners));
+					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+					createPlayer(sessionIdentifier, name, amount, buildUsers(owners));
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -137,10 +137,11 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 	}
 
 	private void createPlayer(
+		final SessionIdentifier sessionIdentifier,
 		final String name,
 		final String creditsString,
 		final Collection<UserIdentifier> owners
-	) throws PokerServiceException, ValidationException {
+	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
 
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		long credits = 0;
@@ -157,7 +158,7 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 			playerDto.setName(name);
 			playerDto.setAmount(credits);
 			playerDto.setOwners(owners);
-			pokerService.createPlayer(playerDto);
+			pokerService.createPlayer(sessionIdentifier, playerDto);
 		}
 
 	}

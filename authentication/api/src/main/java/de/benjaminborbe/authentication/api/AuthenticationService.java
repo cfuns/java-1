@@ -26,8 +26,8 @@ public interface AuthenticationService {
 
 	UserIdentifier register(
 		SessionIdentifier sessionIdentifier,
-		final String shortenUrl,
-		final String validateEmailUrl,
+		String shortenUrl,
+		String validateEmailUrl,
 		String username,
 		String email,
 		String password
@@ -64,8 +64,8 @@ public interface AuthenticationService {
 
 	void updateUser(
 		SessionIdentifier sessionIdentifier,
-		final String shortenUrl,
-		final String validateEmailUrlString,
+		String shortenUrl,
+		String validateEmailUrlString,
 		String email,
 		String fullname,
 		String timeZone
@@ -76,7 +76,7 @@ public interface AuthenticationService {
 
 	void expectSuperAdmin(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
 
-	boolean verifyEmailToken(final UserIdentifier userIdentifier, String token) throws AuthenticationServiceException;
+	boolean verifyEmailToken(UserIdentifier userIdentifier, String token) throws AuthenticationServiceException;
 
 	UserIdentifier createUser(SessionIdentifier sessionId, UserDto userDto) throws AuthenticationServiceException, LoginRequiredException, ValidationException,
 		SuperAdminRequiredException;

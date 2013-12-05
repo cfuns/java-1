@@ -1,6 +1,7 @@
 package de.benjaminborbe.poker.test;
 
-import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
@@ -12,7 +13,7 @@ import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.api.PokerPlayerDto;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
-import de.benjaminborbe.poker.api.PokerServiceException;
+import de.benjaminborbe.test.osgi.TestUtil;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParseException;
 import de.benjaminborbe.tools.json.JSONParser;
@@ -26,7 +27,11 @@ import java.util.ArrayList;
 
 public class PokerStatusIntegrationTest extends PokerIntegrationTest {
 
-	public void testSimpleGame() throws PokerServiceException, ValidationException {
+	private final String validateEmailBaseUrl = "http://example.com/test";
+
+	private final String shortenUrl = "http://bb/bb/s";
+
+	public void testSimpleGame() throws Exception {
 		/*
 		 * Arrange
 		 */
@@ -39,6 +44,11 @@ public class PokerStatusIntegrationTest extends PokerIntegrationTest {
 		} catch (ConfigurationServiceException e) {
 			fail("unexpected exception: " + e);
 		}
+
+		final SessionIdentifier sessionIdentifier = new SessionIdentifier(TestUtil.SESSION_ID);
+		final AuthenticationService authenticationService = getAuthenticationService();
+		final UserIdentifier userIdentifier = authenticationService.register(sessionIdentifier, shortenUrl, validateEmailBaseUrl, TestUtil.LOGIN_ADMIN, TestUtil.EMAIL, TestUtil.PASSWORD);
+		assertNotNull(userIdentifier);
 
 		final long bigBlind = 1000L;
 		final String gameName = "testGame";
@@ -65,7 +75,7 @@ public class PokerStatusIntegrationTest extends PokerIntegrationTest {
 		firstPlayerDto.setAmount(startCredits);
 		firstPlayerDto.setOwners(new ArrayList<UserIdentifier>());
 
-		final PokerPlayerIdentifier firstPlayerId = pokerService.createPlayer(firstPlayerDto);
+		final PokerPlayerIdentifier firstPlayerId = pokerService.createPlayer(sessionIdentifier, firstPlayerDto);
 		pokerService.joinGame(gameId, firstPlayerId);
 
 		final PokerPlayerDto secondPlayer = new PokerPlayerDto();
@@ -73,7 +83,7 @@ public class PokerStatusIntegrationTest extends PokerIntegrationTest {
 		secondPlayer.setAmount(startCredits);
 		secondPlayer.setOwners(new ArrayList<UserIdentifier>());
 
-		final PokerPlayerIdentifier secondPlayerId = pokerService.createPlayer(secondPlayer);
+		final PokerPlayerIdentifier secondPlayerId = pokerService.createPlayer(sessionIdentifier, secondPlayer);
 		pokerService.joinGame(gameId, secondPlayerId);
 
 		assertNotNull(pokerService.getGames());

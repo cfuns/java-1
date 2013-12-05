@@ -184,17 +184,19 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
-	public PokerPlayerIdentifier createPlayer(final PokerPlayerDto playerDto) throws PokerServiceException, ValidationException {
-		return null;
-	}
-
-	@Override
 	public PokerGameIdentifier createGame(final PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException {
 		return null;
 	}
 
 	@Override
 	public void updateGame(final PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException {
+	}
+
+	@Override
+	public PokerPlayerIdentifier createPlayer(
+		final SessionIdentifier sessionIdentifier, final PokerPlayerDto pokerPlayerDto
+	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
+		return null;
 	}
 
 	@Override

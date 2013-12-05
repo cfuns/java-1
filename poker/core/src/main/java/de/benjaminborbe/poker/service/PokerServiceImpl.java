@@ -1,5 +1,7 @@
 package de.benjaminborbe.poker.service;
 
+import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
+import de.benjaminborbe.analytics.api.AnalyticsReportDto;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
@@ -183,7 +185,10 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
-	public PokerPlayerIdentifier createPlayer(final PokerPlayerDto pokerPlayerDto) throws PokerServiceException, ValidationException {
+	public PokerPlayerIdentifier createPlayer(
+		final SessionIdentifier sessionIdentifier,
+		final PokerPlayerDto pokerPlayerDto
+	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
 		try {
 			logger.debug("createPlayer - name: " + pokerPlayerDto.getName());
 
@@ -205,13 +210,29 @@ public class PokerServiceImpl implements PokerService {
 			}
 
 			pokerPlayerDao.save(bean);
+
+			createReport(sessionIdentifier, id, pokerPlayerDto.getName());
 			trackPlayerAmount(bean.getId(), bean.getAmount());
 
 			return id;
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
+		} catch (AnalyticsServiceException e) {
+			throw new PokerServiceException(e);
 		} finally {
 		}
+	}
+
+	private void createReport(
+		SessionIdentifier sessionIdentifier,
+		final PokerPlayerIdentifier pokerPlayerIdentifier,
+		final String playerName
+	) throws PermissionDeniedException, AnalyticsServiceException, LoginRequiredException, ValidationException {
+		AnalyticsReportDto report = new AnalyticsReportDto();
+		report.setAggregation(AnalyticsReportAggregation.LATEST);
+		report.setName(createReportName(pokerPlayerIdentifier));
+		report.setDescription(playerName);
+		analyticsService.createReport(sessionIdentifier, report);
 	}
 
 	@Override
@@ -496,7 +517,7 @@ public class PokerServiceImpl implements PokerService {
 	private void trackPlayerAmount(final PokerPlayerIdentifier id, final Long amount) {
 		if (amount != null) {
 			try {
-				final String reportName = "PokerPlayerAmount-" + id.getId();
+				final String reportName = createReportName(id);
 				final AnalyticsReportIdentifier analyticsReportIdentifier = analyticsService.createAnalyticsReportIdentifier(reportName);
 				analyticsService.addReportValue(analyticsReportIdentifier, amount);
 			} catch (final AnalyticsServiceException e) {
@@ -505,6 +526,10 @@ public class PokerServiceImpl implements PokerService {
 				logger.trace("trackPlayerAmount failed", e);
 			}
 		}
+	}
+
+	private String createReportName(final PokerPlayerIdentifier id) {
+		return "PokerPlayerAmount-" + id.getId();
 	}
 
 	private void completeTurn(final PokerGameBean game) throws StorageException, ValidationException, PokerServiceException {

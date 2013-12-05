@@ -33,8 +33,6 @@ public interface PokerService {
 
 	Collection<PokerCardIdentifier> getBoardCards(PokerGameIdentifier gameIdentifier) throws PokerServiceException;
 
-	PokerPlayerIdentifier createPlayer(PokerPlayerDto playerDto) throws PokerServiceException, ValidationException;
-
 	void updatePlayer(PokerPlayerDto playerDto) throws PokerServiceException, ValidationException;
 
 	PokerPlayerIdentifier createPlayerIdentifier(String id) throws PokerServiceException;
@@ -85,4 +83,8 @@ public interface PokerService {
 
 	void updateGame(PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException;
 
+	PokerPlayerIdentifier createPlayer(
+		SessionIdentifier sessionIdentifier,
+		PokerPlayerDto pokerPlayerDto
+	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException;
 }
