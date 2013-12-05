@@ -29,7 +29,7 @@ public abstract class ConfigurationBase {
 
 	private String getConfigurationValue(final ConfigurationDescription configurationDescription) throws ConfigurationServiceException {
 		final String value = configurationService.getConfigurationValue(configurationDescription);
-		logger.debug(configurationDescription.getId() + " = " + value);
+		//logger.debug(configurationDescription.getId() + " = " + value);
 		return value;
 	}
 

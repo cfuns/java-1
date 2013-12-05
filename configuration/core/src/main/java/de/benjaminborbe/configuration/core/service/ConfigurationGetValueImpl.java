@@ -1,6 +1,7 @@
 package de.benjaminborbe.configuration.core.service;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.configuration.core.dao.ConfigurationBean;
 import de.benjaminborbe.configuration.core.dao.ConfigurationDao;
@@ -24,16 +25,21 @@ public class ConfigurationGetValueImpl implements ConfigurationGetValue {
 	@Override
 	public String getConfigurationValue(final ConfigurationDescription configuration) throws ConfigurationServiceException {
 		try {
-			logger.trace("getConfigurationValue");
-			final ConfigurationBean configurationBean = configurationDao.load(configuration.getId());
-			if (configurationBean != null) {
-				return configurationBean.getValue();
-			} else {
-				return configuration.getDefaultValueAsString();
-			}
+			final ConfigurationIdentifier configurationIdentifier = configuration.getId();
+			final String result = getValue(configurationIdentifier, configuration);
+			logger.debug("getConfigurationValue key:" + configurationIdentifier + " result: " + result);
+			return result;
 		} catch (final StorageException e) {
 			return configuration.getDefaultValueAsString();
 		}
 	}
 
+	private String getValue(final ConfigurationIdentifier configurationIdentifier, final ConfigurationDescription configuration) throws StorageException {
+		final ConfigurationBean configurationBean = configurationDao.load(configurationIdentifier);
+		if (configurationBean != null) {
+			return configurationBean.getValue();
+		} else {
+			return configuration.getDefaultValueAsString();
+		}
+	}
 }

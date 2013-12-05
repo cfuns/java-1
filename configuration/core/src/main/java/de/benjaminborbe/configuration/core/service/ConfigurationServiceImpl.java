@@ -1,6 +1,7 @@
 package de.benjaminborbe.configuration.core.service;
 
 import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.cache.api.CacheServiceException;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
@@ -53,7 +54,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
 	public String getConfigurationValue(final ConfigurationDescription configurationDescription) throws ConfigurationServiceException {
-		return configurationGetValue.getConfigurationValue(configurationDescription);
+		try {
+			return configurationGetValue.getConfigurationValue(configurationDescription);
+		} catch (CacheServiceException e) {
+			throw new ConfigurationServiceException(e);
+		}
 	}
 
 	@Override
@@ -70,7 +75,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 		final ConfigurationDescription configurationDescription,
 		final String value
 	) throws ConfigurationServiceException, ValidationException {
-		configurationSetValue.setConfigurationValue(configurationDescription, value);
+		try {
+			configurationSetValue.setConfigurationValue(configurationDescription, value);
+		} catch (CacheServiceException e) {
+			throw new ConfigurationServiceException(e);
+		}
 	}
 
 	@Override

@@ -22,12 +22,16 @@ public class ConfigurationGetValueImplUnitTest {
 		final ConfigurationDescription configurationDescription = EasyMock.createMock(ConfigurationDescription.class);
 		final ConfigurationIdentifier configurationIdentifier = EasyMock.createMock(ConfigurationIdentifier.class);
 		final ConfigurationBean configurationBean = EasyMock.createMock(ConfigurationBean.class);
+
 		EasyMock.expect(configurationDescription.getId()).andReturn(configurationIdentifier);
 		EasyMock.expect(configurationDao.load(configurationIdentifier)).andReturn(configurationBean);
 		EasyMock.expect(configurationBean.getValue()).andReturn(value);
-		Object[] mocks = new Object[]{configurationDescription, logger, configurationDao, configurationIdentifier, configurationBean};
+
+		final Object[] mocks = new Object[]{configurationDescription, logger, configurationDao, configurationIdentifier, configurationBean};
 		EasyMock.replay(mocks);
+
 		assertThat(configurationGetValue.getConfigurationValue(configurationDescription), is(value));
+
 		EasyMock.verify(mocks);
 	}
 }

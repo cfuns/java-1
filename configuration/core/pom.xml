@@ -55,7 +55,7 @@
 							de.benjaminborbe.configuration.api,
 							${felix_plugin_imports}
 						</Import-Package>
-						<Import-Service></Import-Service>
+						<Import-Service>de.benjaminborbe.cache.api.CacheService,de.benjaminborbe.storage.api.StorageService</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service>de.benjaminborbe.configuration.api.ConfigurationService</Export-Service>
 					</instructions>
@@ -144,6 +144,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.cache.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
