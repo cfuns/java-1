@@ -73,4 +73,12 @@ public class ConfigurationServiceJndi implements ConfigurationService {
 		return null;
 	}
 
+	@Override
+	public void setConfigurationValue(
+		final ConfigurationDescription configurationDescription,
+		final String value
+	) throws ConfigurationServiceException, ValidationException {
+		setConfigurationValue(configurationDescription.getId(), value);
+	}
+
 }

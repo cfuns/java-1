@@ -546,7 +546,6 @@ public class PokerServiceImplIntegrationTest {
 		}
 
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerMaxBid"), "0");
-		configurationService.flush();
 
 		{
 			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
@@ -586,7 +585,6 @@ public class PokerServiceImplIntegrationTest {
 		}
 
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerCreditsNegativeAllowed"), "true");
-		configurationService.flush();
 		assertTrue(config.isCreditsNegativeAllowed());
 
 		{
