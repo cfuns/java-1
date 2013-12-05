@@ -86,7 +86,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 		final PokerService pokerService,
 		final PokerGuiLinkFactory pokerGuiLinkFactory,
 		final PokerCardTranslater pokerCardTranslater,
-		CurrentTime currentTime
+		final CurrentTime currentTime
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
@@ -213,7 +213,7 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 						final PokerPlayer player = pokerService.getPlayer(playerIdentifier);
 						list.add(pokerGuiLinkFactory.playerView(request, playerIdentifier, player.getName()));
 						list.add(" ");
-						list.add(activePlayers.contains(playerIdentifier) ? "active" : "inactive");
+						list.add(getPlayerStatusAsString(activePlayers, playerIdentifier));
 						list.add(" ");
 						list.add("Credit: " + player.getAmount());
 						list.add(" ");
@@ -251,6 +251,10 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private String getPlayerStatusAsString(final Collection<PokerPlayerIdentifier> activePlayers, final PokerPlayerIdentifier playerIdentifier) {
+		return activePlayers.contains(playerIdentifier) ? "active" : "inactive";
 	}
 
 	private String getTimeRemainingAsString(final PokerGame game) {

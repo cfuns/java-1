@@ -19,7 +19,7 @@ public class PokerAutoCallAllGamesUnitTest {
 		final Object[] mocks = new Object[]{logger, pokerAutoCallGame, pokerGameDao};
 		EasyMock.replay(mocks);
 
-		PokerAutoCallAllGames pokerAutoCallAllGames = new PokerAutoCallAllGames(logger, pokerGameDao, pokerAutoCallGame);
+		final PokerAutoCallAllGames pokerAutoCallAllGames = new PokerAutoCallAllGames(logger, pokerGameDao, pokerAutoCallGame);
 		pokerAutoCallAllGames.processAllGames();
 
 		EasyMock.verify(mocks);
@@ -37,7 +37,7 @@ public class PokerAutoCallAllGamesUnitTest {
 		final Object[] mocks = new Object[]{logger, pokerAutoCallGame, pokerGameDao, pokerGameBean};
 		EasyMock.replay(mocks);
 
-		PokerAutoCallAllGames pokerAutoCallAllGames = new PokerAutoCallAllGames(logger, pokerGameDao, pokerAutoCallGame);
+		final PokerAutoCallAllGames pokerAutoCallAllGames = new PokerAutoCallAllGames(logger, pokerGameDao, pokerAutoCallGame);
 		pokerAutoCallAllGames.processAllGames();
 
 		EasyMock.verify(mocks);

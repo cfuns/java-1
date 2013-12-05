@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ExtHttpServiceHelper implements ExtHttpService {
 
-	private Map<String, Servlet> servlets = new HashMap<String, Servlet>();
+	private final Map<String, Servlet> servlets = new HashMap<String, Servlet>();
 
 	@Override
 	public void registerFilter(
@@ -28,7 +28,7 @@ public class ExtHttpServiceHelper implements ExtHttpService {
 	@Override
 	public void unregisterServlet(final Servlet servlet) {
 		String key = null;
-		for (Map.Entry<String, Servlet> s : servlets.entrySet()) {
+		for (final Map.Entry<String, Servlet> s : servlets.entrySet()) {
 			if (s.getValue().equals(servlet)) {
 				key = s.getKey();
 			}
@@ -62,7 +62,7 @@ public class ExtHttpServiceHelper implements ExtHttpService {
 		return null;
 	}
 
-	public Servlet getServlet(String path) {
+	public Servlet getServlet(final String path) {
 		return servlets.get(path);
 	}
 }
