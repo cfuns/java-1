@@ -187,6 +187,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 			bean.setId(new AnalyticsReportIdentifier(report.getName() + AnalyticsReportDao.SEPERATOR + report.getAggregation()));
 			bean.setName(report.getName());
 			bean.setAggregation(report.getAggregation());
+			bean.setDescription(report.getDescription());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
