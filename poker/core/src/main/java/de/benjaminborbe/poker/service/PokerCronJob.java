@@ -2,7 +2,7 @@ package de.benjaminborbe.poker.service;
 
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.poker.config.PokerConfig;
-import de.benjaminborbe.poker.util.PokerAutoCaller;
+import de.benjaminborbe.poker.util.PokerAutoCallAllGames;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -18,10 +18,10 @@ public class PokerCronJob implements CronJob {
 
 	private final PokerConfig pokerConfig;
 
-	private final PokerAutoCaller pokerAutoCaller;
+	private final PokerAutoCallAllGames pokerAutoCaller;
 
 	@Inject
-	public PokerCronJob(final Logger logger, final PokerConfig pokerConfig, final PokerAutoCaller pokerAutoCaller) {
+	public PokerCronJob(final Logger logger, final PokerConfig pokerConfig, final PokerAutoCallAllGames pokerAutoCaller) {
 		this.logger = logger;
 		this.pokerConfig = pokerConfig;
 		this.pokerAutoCaller = pokerAutoCaller;
@@ -31,7 +31,7 @@ public class PokerCronJob implements CronJob {
 	public void execute() {
 		if (pokerConfig.isCronEnabled()) {
 			logger.debug("poker cron => started");
-			pokerAutoCaller.run();
+			pokerAutoCaller.processAllGames();
 			logger.debug("poker cron => finished");
 		} else {
 			logger.debug("poker cron => skip");
