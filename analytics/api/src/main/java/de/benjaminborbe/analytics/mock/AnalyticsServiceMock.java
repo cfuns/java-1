@@ -46,6 +46,11 @@ public class AnalyticsServiceMock implements AnalyticsService {
 	}
 
 	@Override
+	public AnalyticsReport getReport(final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException {
+		throw new RuntimeException("not implemented");
+	}
+
+	@Override
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException {
 	}
 

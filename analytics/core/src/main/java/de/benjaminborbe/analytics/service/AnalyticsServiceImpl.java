@@ -95,6 +95,20 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
+	public AnalyticsReport getReport(final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.trace("getReport");
+			return analyticsReportDao.load(analyticsReportIdentifier);
+		} catch (StorageException e) {
+			throw new AnalyticsServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {

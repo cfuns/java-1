@@ -1,6 +1,7 @@
 package de.benjaminborbe.analytics.gui.servlet;
 
 import com.google.inject.Provider;
+import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsService;
@@ -9,6 +10,7 @@ import de.benjaminborbe.analytics.gui.AnalyticsGuiConstants;
 import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartBuilder;
 import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartBuilderFactory;
 import de.benjaminborbe.analytics.gui.chart.AnalyticsReportChartType;
+import de.benjaminborbe.analytics.gui.chart.AnalyticsReportLabelBuilder;
 import de.benjaminborbe.analytics.gui.util.AnalyticsGuiLinkFactory;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -65,6 +67,8 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 
 	private final AnalyticsService analyticsService;
 
+	private final AnalyticsReportLabelBuilder analyticsReportLabelBuilder;
+
 	@Inject
 	public AnalyticsGuiReportViewServlet(
 		final Logger logger,
@@ -79,7 +83,7 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 		final AnalyticsGuiLinkFactory analyticsGuiLinkFactory,
 		final AnalyticsReportChartBuilderFactory chartBuilderFactory,
 		final AnalyticsService analyticsService,
-		final CacheService cacheService
+		final CacheService cacheService, final AnalyticsReportLabelBuilder analyticsReportLabelBuilder
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.parseUtil = parseUtil;
@@ -88,6 +92,7 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 		this.analyticsGuiLinkFactory = analyticsGuiLinkFactory;
 		this.chartBuilderFactory = chartBuilderFactory;
 		this.analyticsService = analyticsService;
+		this.analyticsReportLabelBuilder = analyticsReportLabelBuilder;
 	}
 
 	@Override
@@ -165,7 +170,7 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private Widget buildTitle(final List<AnalyticsReportIdentifier> reportIdentifiers) {
+	private Widget buildTitle(final List<AnalyticsReportIdentifier> reportIdentifiers) throws AnalyticsServiceException {
 		final ListWidget widgets = new ListWidget();
 		widgets.add(getTitle());
 		widgets.add(" - ");
@@ -176,7 +181,8 @@ public class AnalyticsGuiReportViewServlet extends WebsiteHtmlServlet {
 			} else {
 				widgets.add(", ");
 			}
-			widgets.add(reportIdentifier.getId());
+			final AnalyticsReport analyticsReport = analyticsService.getReport(reportIdentifier);
+			widgets.add(analyticsReportLabelBuilder.createLabel(analyticsReport));
 		}
 		return widgets;
 	}

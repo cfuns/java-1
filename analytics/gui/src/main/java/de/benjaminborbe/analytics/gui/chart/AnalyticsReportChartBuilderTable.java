@@ -1,5 +1,6 @@
 package de.benjaminborbe.analytics.gui.chart;
 
+import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
@@ -31,12 +32,19 @@ public class AnalyticsReportChartBuilderTable implements AnalyticsReportChartBui
 
 	private final CalendarUtil calendarUtil;
 
+	private final AnalyticsReportLabelBuilder analyticsReportLabelBuilder;
+
 	private final AnalyticsService analyticsService;
 
 	@Inject
-	public AnalyticsReportChartBuilderTable(final AnalyticsService analyticsService, final CalendarUtil calendarUtil) {
+	public AnalyticsReportChartBuilderTable(
+		final AnalyticsService analyticsService,
+		final CalendarUtil calendarUtil,
+		final AnalyticsReportLabelBuilder analyticsReportLabelBuilder
+	) {
 		this.analyticsService = analyticsService;
 		this.calendarUtil = calendarUtil;
+		this.analyticsReportLabelBuilder = analyticsReportLabelBuilder;
 	}
 
 	@Override
@@ -53,7 +61,8 @@ public class AnalyticsReportChartBuilderTable implements AnalyticsReportChartBui
 			final TableRowWidget row = new TableRowWidget();
 			row.addCell(new TableCellHeadWidget("Name"));
 			for (final AnalyticsReportIdentifier reportIdentifier : reportIdentifiers) {
-				row.addCell(new TableCellHeadWidget(reportIdentifier.getId()));
+				final AnalyticsReport analyticsReport = analyticsService.getReport(reportIdentifier);
+				row.addCell(new TableCellHeadWidget(analyticsReportLabelBuilder.createLabel(analyticsReport)));
 			}
 			table.addRow(row);
 		}

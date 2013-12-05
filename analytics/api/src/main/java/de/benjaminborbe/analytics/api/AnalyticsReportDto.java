@@ -8,6 +8,8 @@ public class AnalyticsReportDto implements AnalyticsReport {
 
 	private AnalyticsReportAggregation aggregation;
 
+	private String description;
+
 	public AnalyticsReportDto() {
 	}
 
@@ -22,17 +24,26 @@ public class AnalyticsReportDto implements AnalyticsReport {
 		return id;
 	}
 
+	public void setId(final AnalyticsReportIdentifier id) {
+		this.id = id;
+	}
+
 	@Override
 	public String getName() {
 		return name;
 	}
 
-	public void setId(final AnalyticsReportIdentifier id) {
-		this.id = id;
-	}
-
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 	@Override

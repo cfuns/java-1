@@ -23,6 +23,16 @@ public class AnalyticsReportBeanMapper extends MapObjectMapperAdapter<AnalyticsR
 
 	public static final String NAME = "name";
 
+	public static final String DESCRIPTION = "description";
+
+	public static final String AGGREGATION = "aggregation";
+
+	public static final String CREATED = "created";
+
+	public static final String MODIFIED = "modified";
+
+	public static final String ID = "id";
+
 	@Inject
 	public AnalyticsReportBeanMapper(
 		final Provider<AnalyticsReportBean> provider,
@@ -39,11 +49,12 @@ public class AnalyticsReportBeanMapper extends MapObjectMapperAdapter<AnalyticsR
 		final MapperCalendar mapperCalendar, final MapperAnalyticsReportAggregation mapperAnalyticsReportAggregation
 	) {
 		final List<StringObjectMapper<AnalyticsReportBean>> result = new ArrayList<StringObjectMapper<AnalyticsReportBean>>();
-		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, AnalyticsReportIdentifier>("id", mapperListIdentifier));
+		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, AnalyticsReportIdentifier>(ID, mapperListIdentifier));
 		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, String>(NAME, mapperString));
-		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, AnalyticsReportAggregation>("aggregation", mapperAnalyticsReportAggregation));
-		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, Calendar>("created", mapperCalendar));
-		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, Calendar>("modified", mapperCalendar));
+		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, String>(DESCRIPTION, mapperString));
+		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, AnalyticsReportAggregation>(AGGREGATION, mapperAnalyticsReportAggregation));
+		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, Calendar>(CREATED, mapperCalendar));
+		result.add(new StringObjectMapperAdapter<AnalyticsReportBean, Calendar>(MODIFIED, mapperCalendar));
 		return result;
 	}
 }

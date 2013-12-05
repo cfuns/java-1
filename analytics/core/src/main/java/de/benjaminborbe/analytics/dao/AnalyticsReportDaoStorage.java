@@ -17,6 +17,8 @@ import javax.inject.Singleton;
 @Singleton
 public class AnalyticsReportDaoStorage extends DaoStorage<AnalyticsReportBean, AnalyticsReportIdentifier> implements AnalyticsReportDao {
 
+	private static final String COLUMN_FAMILY = "analytics_report";
+
 	@Inject
 	public AnalyticsReportDaoStorage(
 		final Logger logger,
@@ -28,8 +30,6 @@ public class AnalyticsReportDaoStorage extends DaoStorage<AnalyticsReportBean, A
 	) {
 		super(logger, storageService, beanProvider, mapper, identifierBuilder, calendarUtil);
 	}
-
-	private static final String COLUMN_FAMILY = "analytics_report";
 
 	@Override
 	protected String getColumnFamily() {

@@ -1,5 +1,6 @@
 package de.benjaminborbe.analytics.gui.chart;
 
+import de.benjaminborbe.analytics.api.AnalyticsReport;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsReportInterval;
 import de.benjaminborbe.analytics.api.AnalyticsReportValue;
@@ -42,17 +43,21 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 
 	private final AnalyticsReportChartColorGenerator analyticsReportChartColorGenerator;
 
+	private final AnalyticsReportLabelBuilder analyticsReportLabelBuilder;
+
 	@Inject
 	public AnalyticsReportChartBuilderLineChart(
 		final AnalyticsService analyticsService,
 		final ResourceUtil resourceUtil,
 		final CalendarUtil calendarUtil,
-		final AnalyticsReportChartColorGenerator analyticsReportChartColorGenerator
+		final AnalyticsReportChartColorGenerator analyticsReportChartColorGenerator,
+		final AnalyticsReportLabelBuilder analyticsReportLabelBuilder
 	) {
 		this.analyticsService = analyticsService;
 		this.resourceUtil = resourceUtil;
 		this.calendarUtil = calendarUtil;
 		this.analyticsReportChartColorGenerator = analyticsReportChartColorGenerator;
+		this.analyticsReportLabelBuilder = analyticsReportLabelBuilder;
 	}
 
 	@Override
@@ -126,7 +131,7 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		final List<List<String>> values,
 		final List<AnalyticsReportIdentifier> reportIdentifiers
 	) throws IOException,
-		IteratorException {
+		IteratorException, AnalyticsServiceException {
 		final String content = resourceUtil.getResourceContentAsString("chart_data.js");
 		final String tooltipString = buildTooltips(tooltips, values, reportIdentifiers);
 		final String valuesString = buildValues(values);
@@ -134,11 +139,12 @@ public class AnalyticsReportChartBuilderLineChart implements AnalyticsReportChar
 		return content.replace("{values}", valuesString).replace("{tooltips}", tooltipString).replace("{legend}", legendString);
 	}
 
-	private String buildLegend(final List<AnalyticsReportIdentifier> reportIdentifiers) {
+	private String buildLegend(final List<AnalyticsReportIdentifier> reportIdentifiers) throws AnalyticsServiceException {
 		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < reportIdentifiers.size(); ++i) {
 			final AnalyticsReportIdentifier reportIdentifier = reportIdentifiers.get(i);
-			sb.append("serie" + (i + 1) + ": \"" + reportIdentifier.getId() + "\"");
+			final AnalyticsReport analyticsReport = analyticsService.getReport(reportIdentifier);
+			sb.append("serie" + (i + 1) + ": \"" + analyticsReportLabelBuilder.createLabel(analyticsReport) + "\"");
 			sb.append(",\n");
 		}
 		return sb.toString();

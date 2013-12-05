@@ -21,7 +21,18 @@ public class AnalyticsReportBean extends EntityBase<AnalyticsReportIdentifier> i
 
 	private String name;
 
+	private String description;
+
 	private AnalyticsReportAggregation aggregation;
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(final String description) {
+		this.description = description;
+	}
 
 	@Override
 	public Calendar getCreated() {

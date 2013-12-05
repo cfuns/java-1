@@ -8,4 +8,5 @@ public interface AnalyticsReport {
 
 	String getName();
 
+	String getDescription();
 }

@@ -14,6 +14,8 @@ public interface AnalyticsService {
 
 	String PERMISSION_VIEW = "analyticsView";
 
+	AnalyticsReport getReport(AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException;
+
 	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException;
 
 	void addReportValue(AnalyticsReportIdentifier analyticsReportIdentifier, AnalyticsReportValue reportValue) throws AnalyticsServiceException;
