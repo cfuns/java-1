@@ -12,4 +12,5 @@ public interface AnalyticsConfig {
 
 	long getAggregationChunkSize();
 
+	String getAggregationScheduleExpression();
 }

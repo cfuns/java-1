@@ -66,9 +66,10 @@ public class AnalyticsActivatorIntegrationTest {
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
 		names.add(AnalyticsService.class.getName());
-		names.add(ConfigurationDescription.class.getName());
-		names.add(ConfigurationDescription.class.getName());
 		names.add(CronJob.class.getName());
+		names.add(ConfigurationDescription.class.getName());
+		names.add(ConfigurationDescription.class.getName());
+		names.add(ConfigurationDescription.class.getName());
 
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {

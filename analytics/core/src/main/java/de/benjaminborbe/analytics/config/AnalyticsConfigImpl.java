@@ -6,6 +6,7 @@ import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionLong;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
@@ -23,6 +24,10 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 	private final ConfigurationDescriptionLong aggregationChunkSize = new ConfigurationDescriptionLong(100L, AnalyticsConstants.CONFIG_AGGREGATION_CHUNK_SIZE,
 		"Analytics Aggregation Chunk Size");
 
+	/* s m h d m dw y */
+	private final ConfigurationDescriptionString aggregationScheduleExpression = new ConfigurationDescriptionString("* */5 * * * ?", "AnalyticsAggregationScheduleExpression",
+		"Analytics Aggregation Schedule Expression");
+
 	@Inject
 	public AnalyticsConfigImpl(
 		final Logger logger,
@@ -37,6 +42,7 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(cronActive);
 		result.add(aggregationChunkSize);
+		result.add(aggregationScheduleExpression);
 		return result;
 	}
 
@@ -48,6 +54,11 @@ public class AnalyticsConfigImpl extends ConfigurationBase implements AnalyticsC
 	@Override
 	public long getAggregationChunkSize() {
 		return getValueLong(aggregationChunkSize);
+	}
+
+	@Override
+	public String getAggregationScheduleExpression() {
+		return getValueString(aggregationScheduleExpression);
 	}
 
 }

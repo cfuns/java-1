@@ -11,9 +11,6 @@ import javax.inject.Singleton;
 @Singleton
 public class AnalyticsAggregationCronJob implements CronJob {
 
-	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "0 */5 * * * ?"; // ones per hour
-
 	private final AnalyticsAggregator analyticsAggregator;
 
 	private final Logger logger;
@@ -29,7 +26,7 @@ public class AnalyticsAggregationCronJob implements CronJob {
 
 	@Override
 	public String getScheduleExpression() {
-		return SCHEDULE_EXPRESSION;
+		return analyticsConfig.getAggregationScheduleExpression();
 	}
 
 	@Override
