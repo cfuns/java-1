@@ -30,5 +30,7 @@ public class PokerGuiJsonHelper {
 		jsonObject.put("gameRunning", game.getRunning());
 		jsonObject.put("gameSmallBlind", game.getSmallBlind());
 		jsonObject.put("gameActivePlayer", pokerService.getActivePlayer(game.getId()));
+		jsonObject.put("gameAutoFoldTimeout", game.getAutoFoldTimeout());
+		jsonObject.put("gameActivePositionTime", game.getActivePositionTime());
 	}
 }
