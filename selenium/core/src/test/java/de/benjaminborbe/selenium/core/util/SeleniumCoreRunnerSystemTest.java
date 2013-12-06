@@ -14,10 +14,15 @@ import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrl;
 import de.benjaminborbe.selenium.core.SeleniumCoreConstatns;
 import de.benjaminborbe.selenium.core.guice.SeleniumModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +33,39 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @Category(SystemTest.class)
 public class SeleniumCoreRunnerSystemTest {
 
+	private static final int PORT = 4444;
+
+	private static final String HOST = "192.168.223.143";
+
+	private static boolean notFound = true;
+
+	@BeforeClass
+	public static void setUp() {
+		final Socket socket = new Socket();
+		final SocketAddress endpoint = new InetSocketAddress(HOST, PORT);
+		try {
+			socket.connect(endpoint, 500);
+			notFound = !socket.isConnected();
+			notFound = false;
+		} catch (final IOException e) {
+			notFound = true;
+		} finally {
+			try {
+				socket.close();
+			} catch (final IOException e) {
+			}
+		}
+	}
+
 	@Test
 	public void testRun() throws ConfigurationServiceException {
+		if (notFound)
+			return;
 		final Injector injector = GuiceInjectorBuilder.getInjector(new SeleniumModulesMock());
 		final SeleniumCoreConfigurationExecutor runner = injector.getInstance(SeleniumCoreConfigurationExecutor.class);
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
-		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier(SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_HOST), "192.168.223.143");
-		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier(SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_PORT), 4444);
+		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier(SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_HOST), HOST);
+		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier(SeleniumCoreConstatns.CONFIG_SELENIUM_REMOTE_PORT), PORT);
 
 		final SeleniumExecutionProtocolImpl seleniumExecutionProtocol = new SeleniumExecutionProtocolImpl();
 		runner.execute(new SeleniumConfigurationSimple(), seleniumExecutionProtocol);
@@ -63,7 +94,7 @@ class SeleniumConfigurationSimple implements SeleniumConfiguration {
 			list.add(new SeleniumActionConfigurationClick("click themen_aktuell", "//*[@id=\"themen_aktuell\"]/ol/li[4]/a"));
 			list.add(new SeleniumActionConfigurationExpectText("find headline mitte_uebersicht", "//*[@id=\"mitte_uebersicht\"]/div[1]/h1", "Facebook – nicht nur eine Erfolgsgeschichte"));
 			return list;
-		} catch (MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			return null;
 		}
 	}
