@@ -54,7 +54,37 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Long maxBid;
 
+	private Double maxRaiseFactor;
+
+	private Double minRaiseFactor;
+
+	private Boolean creditsNegativeAllowed;
+
 	private Long autoFoldTimeout;
+
+	public Boolean getCreditsNegativeAllowed() {
+		return creditsNegativeAllowed;
+	}
+
+	public void setCreditsNegativeAllowed(final Boolean creditsNegativeAllowed) {
+		this.creditsNegativeAllowed = creditsNegativeAllowed;
+	}
+
+	public Double getMaxRaiseFactor() {
+		return maxRaiseFactor;
+	}
+
+	public void setMaxRaiseFactor(final Double maxRaiseFactor) {
+		this.maxRaiseFactor = maxRaiseFactor;
+	}
+
+	public Double getMinRaiseFactor() {
+		return minRaiseFactor;
+	}
+
+	public void setMinRaiseFactor(final Double minRaiseFactor) {
+		this.minRaiseFactor = minRaiseFactor;
+	}
 
 	@Override
 	public Long getBigBlind() {

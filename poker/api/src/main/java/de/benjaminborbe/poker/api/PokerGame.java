@@ -29,7 +29,13 @@ public interface PokerGame {
 
 	List<PokerCardIdentifier> getCards();
 
+	Calendar getActivePositionTime();
+
 	Long getAutoFoldTimeout();
 
-	Calendar getActivePositionTime();
+	Boolean getCreditsNegativeAllowed();
+
+	Double getMinRaiseFactor();
+
+	Double getMaxRaiseFactor();
 }

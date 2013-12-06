@@ -9,6 +9,7 @@ import de.benjaminborbe.poker.util.MapperPokerGameIdentifier;
 import de.benjaminborbe.poker.util.MapperPokerPlayerIdentifierList;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperDouble;
 import de.benjaminborbe.tools.mapper.MapperInteger;
 import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
@@ -66,6 +67,14 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
 	public static final String AUTO_FOLD_TIMEOUT = "autoFoldTimeout";
 
+	public static final String CREDITS_NEGATIVE_ALLOWED = "creditsNegativeAllowed";
+
+	public static final String AUTO_FOLD_TIMEOUT1 = "autoFoldTimeout";
+
+	public static final String MAX_RAISE_FACTOR = "maxRaiseFactor";
+
+	public static final String MIN_RAISE_FACTOR = "minRaiseFactor";
+
 	@Inject
 	public PokerGameBeanMapper(
 		final Provider<PokerGameBean> provider,
@@ -75,11 +84,12 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		final MapperBoolean mapperBoolean,
 		final MapperLong mapperLong,
 		final MapperInteger mapperInteger,
+		final MapperDouble mapperDouble,
 		final MapperPokerCardIdentifierList mapperPokerCardIdentifierList,
 		final MapperPokerPlayerIdentifierList mapperPokerPlayerIdentifierList
 	) {
 		super(provider, buildMappings(mapperPokerGameIdentifier, mapperCalendar, mapperString, mapperBoolean, mapperLong, mapperPokerCardIdentifierList,
-			mapperPokerPlayerIdentifierList, mapperInteger));
+			mapperPokerPlayerIdentifierList, mapperInteger, mapperDouble));
 	}
 
 	private static Collection<StringObjectMapper<PokerGameBean>> buildMappings(
@@ -90,7 +100,8 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		final MapperLong mapperLong,
 		final MapperPokerCardIdentifierList mapperCardIdentifierList,
 		final MapperPokerPlayerIdentifierList mapperPlayerIdentifierList,
-		final MapperInteger mapperInteger
+		final MapperInteger mapperInteger,
+		final MapperDouble mapperDouble
 	) {
 		final List<StringObjectMapper<PokerGameBean>> result = new ArrayList<StringObjectMapper<PokerGameBean>>();
 		result.add(new StringObjectMapperAdapter<PokerGameBean, PokerGameIdentifier>(ID, mapperPokerGameIdentifier));
@@ -104,6 +115,10 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(SMALL_BLIND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(BIG_BLIND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(MAX_BID, mapperLong));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Boolean>(CREDITS_NEGATIVE_ALLOWED, mapperBoolean));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(AUTO_FOLD_TIMEOUT1, mapperLong));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Double>(MAX_RAISE_FACTOR, mapperDouble));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Double>(MIN_RAISE_FACTOR, mapperDouble));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(ROUND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(BET, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(CARD_POSITION, mapperInteger));

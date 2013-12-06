@@ -31,9 +31,11 @@ public class PokerGameDto implements PokerGame {
 
 	private Calendar activePositionTime;
 
-	public void setAutoFoldTimeout(final Long autoFoldTimeout) {
-		this.autoFoldTimeout = autoFoldTimeout;
-	}
+	private Double maxRaiseFactor;
+
+	private Double minRaiseFactor;
+
+	private Boolean creditsNegativeAllowed;
 
 	private Long autoFoldTimeout;
 
@@ -42,13 +44,17 @@ public class PokerGameDto implements PokerGame {
 		return maxBid;
 	}
 
+	public void setMaxBid(final Long maxBid) {
+		this.maxBid = maxBid;
+	}
+
 	@Override
 	public List<PokerCardIdentifier> getCards() {
 		return cards;
 	}
 
-	public void setMaxBid(final Long maxBid) {
-		this.maxBid = maxBid;
+	public void setCards(final List<PokerCardIdentifier> cards) {
+		this.cards = cards;
 	}
 
 	@Override
@@ -90,6 +96,10 @@ public class PokerGameDto implements PokerGame {
 	@Override
 	public List<PokerPlayerIdentifier> getPlayers() {
 		return players;
+	}
+
+	public void setPlayers(final List<PokerPlayerIdentifier> players) {
+		this.players = players;
 	}
 
 	@Override
@@ -136,14 +146,6 @@ public class PokerGameDto implements PokerGame {
 		this.boardCards = boardCards;
 	}
 
-	public void setPlayers(final List<PokerPlayerIdentifier> players) {
-		this.players = players;
-	}
-
-	public void setCards(final List<PokerCardIdentifier> cards) {
-		this.cards = cards;
-	}
-
 	@Override
 	public Calendar getActivePositionTime() {
 		return activePositionTime;
@@ -158,4 +160,34 @@ public class PokerGameDto implements PokerGame {
 		return autoFoldTimeout;
 	}
 
+	public void setAutoFoldTimeout(final Long autoFoldTimeout) {
+		this.autoFoldTimeout = autoFoldTimeout;
+	}
+
+	@Override
+	public Boolean getCreditsNegativeAllowed() {
+		return creditsNegativeAllowed;
+	}
+
+	public void setCreditsNegativeAllowed(final Boolean creditsNegativeAllowed) {
+		this.creditsNegativeAllowed = creditsNegativeAllowed;
+	}
+
+	@Override
+	public Double getMinRaiseFactor() {
+		return minRaiseFactor;
+	}
+
+	public void setMinRaiseFactor(final Double minRaiseFactor) {
+		this.minRaiseFactor = minRaiseFactor;
+	}
+
+	@Override
+	public Double getMaxRaiseFactor() {
+		return maxRaiseFactor;
+	}
+
+	public void setMaxRaiseFactor(final Double maxRaiseFactor) {
+		this.maxRaiseFactor = maxRaiseFactor;
+	}
 }

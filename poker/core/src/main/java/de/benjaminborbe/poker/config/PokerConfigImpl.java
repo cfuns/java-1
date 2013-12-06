@@ -41,9 +41,11 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 	public Collection<ConfigurationDescription> getConfigurations() {
 		final Set<ConfigurationDescription> result = new HashSet<ConfigurationDescription>();
 		result.add(cronEnabled);
+		result.add(creditsNegativeAllowed);
 		result.add(autoFoldTimeout);
 		result.add(maxBid);
-		result.add(creditsNegativeAllowed);
+		result.add(minRaiseFactor);
+		result.add(maxRaiseFactor);
 		return result;
 	}
 

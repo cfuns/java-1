@@ -170,6 +170,9 @@ public class PokerServiceImpl implements PokerService {
 			bean.setCardPosition(0);
 			bean.setMaxBid(pokerConfig.getMaxBid());
 			bean.setAutoFoldTimeout(pokerConfig.getAutoFoldTimeout());
+			bean.setCreditsNegativeAllowed(pokerConfig.isCreditsNegativeAllowed());
+			bean.setMaxRaiseFactor(pokerConfig.getMaxRaiseFactor());
+			bean.setMinRaiseFactor(pokerConfig.getMinRaiseFactor());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -325,18 +328,22 @@ public class PokerServiceImpl implements PokerService {
 			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid higher than " + maxBid + " not allowed")));
 		}
 
-		final long minBid = pokerConfig.isCreditsNegativeAllowed() ? game.getBet() : Math.min(player.getAmount(), game.getBet());
+		final long minBid = isCreditsNegativeAllowed(game) ? game.getBet() : Math.min(player.getAmount(), game.getBet());
 		if (value < minBid) {
 			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid lower than " + minBid + " not allowed")));
 		}
 
-		final long diff = pokerConfig.isCreditsNegativeAllowed() ? (value - player.getBet()) : Math.min(player.getAmount(), (value - player.getBet()));
+		final long diff = isCreditsNegativeAllowed(game) ? (value - player.getBet()) : Math.min(player.getAmount(), (value - player.getBet()));
 		logger.debug("remove " + diff + " from player " + player.getId());
 		player.setAmount(player.getAmount() - diff);
 		logger.debug("add " + diff + " to pot");
 		game.setPot(game.getPot() + diff);
 		player.setBet(player.getBet() + diff);
 		game.setBet(Math.max(game.getBet(), player.getBet()));
+	}
+
+	private boolean isCreditsNegativeAllowed(final PokerGameBean game) {
+		return Boolean.TRUE.equals(game.getCreditsNegativeAllowed());
 	}
 
 	@Override
@@ -601,7 +608,7 @@ public class PokerServiceImpl implements PokerService {
 	private void nextRound(final PokerGameBean game) throws StorageException, ValidationException, PokerServiceException {
 
 		// remove players without credits
-		if (!pokerConfig.isCreditsNegativeAllowed()) {
+		if (!isCreditsNegativeAllowed(game)) {
 			for (final PokerPlayerBean player : pokerPlayerDao.load(game.getPlayers())) {
 				if (player.getAmount() <= 0) {
 					player.setGame(null);
@@ -687,13 +694,13 @@ public class PokerServiceImpl implements PokerService {
 
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 
-			final double minRaiseFactor = pokerConfig.getMinRaiseFactor();
-			if (minRaiseFactor >= 1 && game.getBet() * minRaiseFactor > amount) {
+			final Double minRaiseFactor = game.getMinRaiseFactor();
+			if (minRaiseFactor != null && minRaiseFactor >= 1 && game.getBet() * minRaiseFactor > amount) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("raise to low!")));
 			}
 
-			final double maxRaiseFactor = pokerConfig.getMaxRaiseFactor();
-			if (maxRaiseFactor >= 1 && game.getBet() * maxRaiseFactor < amount) {
+			final Double maxRaiseFactor = game.getMaxRaiseFactor();
+			if (maxRaiseFactor != null && maxRaiseFactor >= 1 && game.getBet() * maxRaiseFactor < amount) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("raise to high!")));
 			}
 

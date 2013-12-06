@@ -15,6 +15,7 @@ import de.benjaminborbe.tools.date.TimeZoneUtilImpl;
 import de.benjaminborbe.tools.guice.ProviderMock;
 import de.benjaminborbe.tools.mapper.MapperBoolean;
 import de.benjaminborbe.tools.mapper.MapperCalendar;
+import de.benjaminborbe.tools.mapper.MapperDouble;
 import de.benjaminborbe.tools.mapper.MapperInteger;
 import de.benjaminborbe.tools.mapper.MapperLong;
 import de.benjaminborbe.tools.mapper.MapperString;
@@ -69,6 +70,9 @@ public class PokerGameBeanMapperUnitTest {
 		result.add(new Object[]{PokerGameBeanMapper.BOARD_CARDS, "HEARTS_TEN"});
 		result.add(new Object[]{PokerGameBeanMapper.MAX_BID, "1000"});
 		result.add(new Object[]{PokerGameBeanMapper.AUTO_FOLD_TIMEOUT, "1337"});
+		result.add(new Object[]{PokerGameBeanMapper.MIN_RAISE_FACTOR, "1.0"});
+		result.add(new Object[]{PokerGameBeanMapper.MAX_RAISE_FACTOR, "10.0"});
+		result.add(new Object[]{PokerGameBeanMapper.CREDITS_NEGATIVE_ALLOWED, "true"});
 		return result;
 	}
 
@@ -90,12 +94,13 @@ public class PokerGameBeanMapperUnitTest {
 		final MapperPokerPlayerIdentifier mapperPokerPlayerIdentifier = new MapperPokerPlayerIdentifier();
 		final MapperBoolean mapperBoolean = new MapperBoolean(parseUtil);
 		final MapperLong mapperLong = new MapperLong(parseUtil);
+		final MapperDouble mapperDouble = new MapperDouble(parseUtil);
 		final PokerCardIdentifierBuilder pokerCardIdentifierBuilder = new PokerCardIdentifierBuilder(logger, parseUtil);
 		final MapperPokerCardIdentifier mapperPokerCardIdentifier = new MapperPokerCardIdentifier(pokerCardIdentifierBuilder);
 		final MapperPokerCardIdentifierList mapperPokerCardIdentifierList = new MapperPokerCardIdentifierList(mapperPokerCardIdentifier);
 		final MapperPokerPlayerIdentifierList mapperPokerPlayerIdentifierList = new MapperPokerPlayerIdentifierList(mapperPokerPlayerIdentifier);
 		final MapperInteger mapperInteger = new MapperInteger(parseUtil);
-		return new PokerGameBeanMapper(beanProvider, mapperPokerGameIdentifier, mapperCalendar, mapperString, mapperBoolean, mapperLong, mapperInteger, mapperPokerCardIdentifierList,
+		return new PokerGameBeanMapper(beanProvider, mapperPokerGameIdentifier, mapperCalendar, mapperString, mapperBoolean, mapperLong, mapperInteger, mapperDouble, mapperPokerCardIdentifierList,
 			mapperPokerPlayerIdentifierList);
 	}
 

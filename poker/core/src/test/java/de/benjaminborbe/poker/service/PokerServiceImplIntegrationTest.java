@@ -16,6 +16,8 @@ import de.benjaminborbe.poker.api.PokerPlayerDto;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.config.PokerConfig;
+import de.benjaminborbe.poker.game.PokerGameBean;
+import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.guice.PokerModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import org.easymock.EasyMock;
@@ -713,7 +715,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
@@ -729,7 +731,11 @@ public class PokerServiceImplIntegrationTest {
 		service.joinGame(gameIdentifier, playerIdentifierB);
 		service.startGame(gameIdentifier);
 
-		assertFalse(config.isCreditsNegativeAllowed());
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertNotNull(game);
+			assertFalse(game.getCreditsNegativeAllowed());
+		}
 
 		{
 			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
@@ -743,8 +749,18 @@ public class PokerServiceImplIntegrationTest {
 			assertEquals(new Long(startCredits), game.getBet());
 		}
 
-		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerCreditsNegativeAllowed"), "true");
-		assertTrue(config.isCreditsNegativeAllowed());
+		{
+			final PokerGameDao pokerGameDao = injector.getInstance(PokerGameDao.class);
+			PokerGameBean game = pokerGameDao.load(gameIdentifier);
+			game.setCreditsNegativeAllowed(true);
+			pokerGameDao.save(game);
+		}
+
+		{
+			final PokerGame game = service.getGame(gameIdentifier);
+			assertNotNull(game);
+			assertTrue(game.getCreditsNegativeAllowed());
+		}
 
 		{
 			final PokerPlayerIdentifier activePlayer = service.getActivePlayer(gameIdentifier);
