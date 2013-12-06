@@ -12,8 +12,11 @@ public class PokerScoreCalculator {
 
 	public List<Integer> calcScores(final int playerAmount) {
 		final List<Integer> result = new ArrayList<Integer>(playerAmount);
-		for (int i = 0; i < playerAmount; ++i) {
+		if (playerAmount > 0) {
 			result.add(playerAmount);
+			for (int i = 1; i < playerAmount; ++i) {
+				result.add(0);
+			}
 		}
 		return result;
 	}
