@@ -6,10 +6,7 @@ import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
-import de.benjaminborbe.configuration.core.dao.ConfigurationDao;
 import de.benjaminborbe.configuration.core.dao.ConfigurationRegistry;
-import org.slf4j.Logger;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Collection;
@@ -17,11 +14,7 @@ import java.util.Collection;
 @Singleton
 public class ConfigurationServiceImpl implements ConfigurationService {
 
-	private final Logger logger;
-
 	private final ConfigurationRegistry configurationRegistry;
-
-	private final ConfigurationDao configurationDao;
 
 	private final ConfigurationSetValue configurationSetValue;
 
@@ -29,15 +22,10 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Inject
 	public ConfigurationServiceImpl(
-		final Logger logger,
-		final ConfigurationRegistry configurationRegistry,
-		final ConfigurationDao configurationDao,
-		final ConfigurationSetValue configurationSetValue,
-		final ConfigurationGetValue configurationGetValue
-	) {
-		this.logger = logger;
+			final ConfigurationRegistry configurationRegistry,
+			final ConfigurationSetValue configurationSetValue,
+			final ConfigurationGetValue configurationGetValue) {
 		this.configurationRegistry = configurationRegistry;
-		this.configurationDao = configurationDao;
 		this.configurationSetValue = configurationSetValue;
 		this.configurationGetValue = configurationGetValue;
 	}
@@ -56,28 +44,24 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	public String getConfigurationValue(final ConfigurationDescription configurationDescription) throws ConfigurationServiceException {
 		try {
 			return configurationGetValue.getConfigurationValue(configurationDescription);
-		} catch (CacheServiceException e) {
+		}
+		catch (final CacheServiceException e) {
 			throw new ConfigurationServiceException(e);
 		}
 	}
 
 	@Override
-	public void setConfigurationValue(
-		final ConfigurationIdentifier configurationIdentifier,
-		final String value
-	) throws ConfigurationServiceException, ValidationException {
+	public void setConfigurationValue(final ConfigurationIdentifier configurationIdentifier, final String value) throws ConfigurationServiceException, ValidationException {
 		final ConfigurationDescription configurationDescription = configurationRegistry.get(configurationIdentifier);
 		setConfigurationValue(configurationDescription, value);
 	}
 
 	@Override
-	public void setConfigurationValue(
-		final ConfigurationDescription configurationDescription,
-		final String value
-	) throws ConfigurationServiceException, ValidationException {
+	public void setConfigurationValue(final ConfigurationDescription configurationDescription, final String value) throws ConfigurationServiceException, ValidationException {
 		try {
 			configurationSetValue.setConfigurationValue(configurationDescription, value);
-		} catch (CacheServiceException e) {
+		}
+		catch (final CacheServiceException e) {
 			throw new ConfigurationServiceException(e);
 		}
 	}

@@ -21,15 +21,17 @@ public class PokerPlayerDto implements PokerPlayer {
 
 	private String token;
 
-	public void setCards(final List<PokerCardIdentifier> cards) {
-		this.cards = cards;
-	}
-
-	public void setOwners(final Collection<UserIdentifier> owners) {
-		this.owners = owners;
-	}
+	private Long score;
 
 	private List<PokerCardIdentifier> cards;
+
+	public Long getScore() {
+		return score;
+	}
+
+	public void setScore(final Long score) {
+		this.score = score;
+	}
 
 	@Override
 	public PokerPlayerIdentifier getId() {
@@ -89,9 +91,17 @@ public class PokerPlayerDto implements PokerPlayer {
 		return owners;
 	}
 
+	public void setOwners(final Collection<UserIdentifier> owners) {
+		this.owners = owners;
+	}
+
 	@Override
 	public List<PokerCardIdentifier> getCards() {
 		return cards;
+	}
+
+	public void setCards(final List<PokerCardIdentifier> cards) {
+		this.cards = cards;
 	}
 
 }

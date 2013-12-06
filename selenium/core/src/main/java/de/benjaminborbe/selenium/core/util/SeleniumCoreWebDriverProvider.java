@@ -21,26 +21,21 @@ public class SeleniumCoreWebDriverProvider implements Provider<SeleniumCoreWebDr
 
 	private final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry;
 
-	private final SeleniumLocalFirefoxWebDriverCreator seleniumLocalFirefoxWebDriverCreator;
-
 	private final SeleniumLocalChromeWebDriverCreator seleniumLocalChromeWebDriverCreator;
 
 	@Inject
 	public SeleniumCoreWebDriverProvider(
-		final Logger logger,
-		final SeleniumCoreConfig seleniumCoreConfig,
-		final ParseUtil parseUtil,
-		final SeleniumRemoteWebDriverCreator seleniumRemoteWebDriverCreator,
-		final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry,
-		final SeleniumLocalFirefoxWebDriverCreator seleniumLocalFirefoxWebDriverCreator,
-		final SeleniumLocalChromeWebDriverCreator seleniumLocalChromeWebDriverCreator
-	) {
+			final Logger logger,
+			final SeleniumCoreConfig seleniumCoreConfig,
+			final ParseUtil parseUtil,
+			final SeleniumRemoteWebDriverCreator seleniumRemoteWebDriverCreator,
+			final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry,
+			final SeleniumLocalChromeWebDriverCreator seleniumLocalChromeWebDriverCreator) {
 		this.logger = logger;
 		this.seleniumCoreConfig = seleniumCoreConfig;
 		this.parseUtil = parseUtil;
 		this.seleniumRemoteWebDriverCreator = seleniumRemoteWebDriverCreator;
 		this.seleniumCoreWebDriverRegistry = seleniumCoreWebDriverRegistry;
-		this.seleniumLocalFirefoxWebDriverCreator = seleniumLocalFirefoxWebDriverCreator;
 		this.seleniumLocalChromeWebDriverCreator = seleniumLocalChromeWebDriverCreator;
 	}
 
@@ -53,7 +48,8 @@ public class SeleniumCoreWebDriverProvider implements Provider<SeleniumCoreWebDr
 				logger.debug("create local driver");
 				// driver = seleniumLocalFirefoxWebDriverCreator.create();
 				driver = seleniumLocalChromeWebDriverCreator.create();
-			} else {
+			}
+			else {
 				logger.debug("create remote driver");
 				driver = seleniumRemoteWebDriverCreator.create(parseUtil.parseURL(url));
 			}
@@ -61,7 +57,8 @@ public class SeleniumCoreWebDriverProvider implements Provider<SeleniumCoreWebDr
 			final SeleniumCoreWebDriver seleniumCoreWebDriver = new SeleniumCoreWebDriver(driver);
 			seleniumCoreWebDriverRegistry.add(seleniumCoreWebDriver);
 			return seleniumCoreWebDriver;
-		} catch (ParseException e) {
+		}
+		catch (final ParseException e) {
 			throw new SeleniumCoreWebDriverCreationException("parse selenium url failed: " + url, e);
 		}
 	}

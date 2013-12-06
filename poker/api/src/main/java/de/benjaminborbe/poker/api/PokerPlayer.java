@@ -23,4 +23,6 @@ public interface PokerPlayer {
 
 	List<PokerCardIdentifier> getCards();
 
+	Long getScore();
+
 }

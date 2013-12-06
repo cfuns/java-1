@@ -108,7 +108,7 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 				final TableWidget table = new TableWidget();
 				table.addClass("sortable");
 				final TableHeadWidget head = new TableHeadWidget();
-				head.addCell("Id").addCell("Game").addCell("Credits").addCell("");
+				head.addCell("Id").addCell("Game").addCell("Score").addCell("Credits").addCell("");
 				table.setHead(head);
 				for (final PokerPlayer player : players) {
 					final TableRowWidget row = new TableRowWidget();
@@ -120,6 +120,7 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 					} else {
 						row.addCell("-");
 					}
+					row.addCell(asString(player.getScore()));
 					row.addCell(asString(player.getAmount()));
 					if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 						final ListWidget options = new ListWidget();

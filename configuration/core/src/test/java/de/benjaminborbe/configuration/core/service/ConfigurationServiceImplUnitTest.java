@@ -25,10 +25,10 @@ public class ConfigurationServiceImplUnitTest {
 		final ConfigurationGetValue configurationGetValue = EasyMock.createMock(ConfigurationGetValue.class);
 		EasyMock.expect(configurationGetValue.getConfigurationValue(configurationDescription)).andReturn(value);
 
-		Object[] mocks = new Object[]{configurationDescription, logger, configurationRegistry, configurationDao, configurationSetValue, configurationGetValue};
+		final Object[] mocks = new Object[] { configurationDescription, logger, configurationRegistry, configurationDao, configurationSetValue, configurationGetValue };
 		EasyMock.replay(mocks);
 
-		final ConfigurationService configurationService = new ConfigurationServiceImpl(logger, configurationRegistry, configurationDao, configurationSetValue, configurationGetValue);
+		final ConfigurationService configurationService = new ConfigurationServiceImpl(configurationRegistry, configurationSetValue, configurationGetValue);
 		assertThat(configurationService.getConfigurationValue(configurationDescription), is(value));
 		EasyMock.verify(mocks);
 	}
@@ -44,10 +44,10 @@ public class ConfigurationServiceImplUnitTest {
 		final ConfigurationGetValue configurationGetValue = EasyMock.createMock(ConfigurationGetValue.class);
 		configurationSetValue.setConfigurationValue(configurationDescription, value);
 
-		Object[] mocks = new Object[]{configurationDescription, logger, configurationRegistry, configurationDao, configurationSetValue, configurationGetValue};
+		final Object[] mocks = new Object[] { configurationDescription, logger, configurationRegistry, configurationDao, configurationSetValue, configurationGetValue };
 		EasyMock.replay(mocks);
 
-		final ConfigurationService configurationService = new ConfigurationServiceImpl(logger, configurationRegistry, configurationDao, configurationSetValue, configurationGetValue);
+		final ConfigurationService configurationService = new ConfigurationServiceImpl(configurationRegistry, configurationSetValue, configurationGetValue);
 		configurationService.setConfigurationValue(configurationDescription, value);
 		EasyMock.verify(mocks);
 	}

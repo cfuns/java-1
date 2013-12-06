@@ -6,8 +6,6 @@ import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationClick;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationExpectText;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfigurationGetUrl;
-import org.slf4j.Logger;
-
 import javax.inject.Inject;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,11 +14,8 @@ import java.util.List;
 
 public class SeleniumConfigurationSimple implements SeleniumConfiguration {
 
-	private final Logger logger;
-
 	@Inject
-	public SeleniumConfigurationSimple(final Logger logger) {
-		this.logger = logger;
+	public SeleniumConfigurationSimple() {
 	}
 
 	@Override
@@ -41,7 +36,8 @@ public class SeleniumConfigurationSimple implements SeleniumConfiguration {
 			list.add(new SeleniumActionConfigurationClick("click themen_aktuell", "//*[@id=\"themen_aktuell\"]/ol/li[4]/a"));
 			list.add(new SeleniumActionConfigurationExpectText("find headline mitte_uebersicht", "//*[@id=\"mitte_uebersicht\"]/div[1]/h1", "Facebook – nicht nur eine Erfolgsgeschichte"));
 			return list;
-		} catch (MalformedURLException e) {
+		}
+		catch (final MalformedURLException e) {
 			return null;
 		}
 	}

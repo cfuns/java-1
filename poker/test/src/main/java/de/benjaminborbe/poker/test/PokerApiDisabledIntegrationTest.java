@@ -6,7 +6,6 @@ import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.lib.servlet.mock.HttpServletRequestMock;
 import de.benjaminborbe.lib.servlet.mock.HttpServletResponseMock;
-import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.tools.json.JSONObject;
 import de.benjaminborbe.tools.json.JSONParseException;
@@ -30,11 +29,11 @@ public class PokerApiDisabledIntegrationTest extends PokerIntegrationTest {
 			configurationService.setConfigurationValue(pokerJsonApiEnabledConfigurationIdentifier, "false");
 			final String configurationValue = configurationService.getConfigurationValue(pokerJsonApiEnabledConfigurationIdentifier);
 			assertEquals("false", configurationValue);
-		} catch (ConfigurationServiceException e) {
+		}
+		catch (final ConfigurationServiceException e) {
 			fail("unexpected exception: " + e);
 		}
 
-		final PokerService pokerService = getPokerService();
 		final HttpServletRequestMock request = new HttpServletRequestMock();
 		final HttpServletResponseMock response = new HttpServletResponseMock();
 		final BundleContext bundleContext = getContext();
@@ -51,7 +50,8 @@ public class PokerApiDisabledIntegrationTest extends PokerIntegrationTest {
 		try {
 			statusServlet.service(request, response);
 			response.getWriter().flush();
-		} catch (Exception e) {
+		}
+		catch (final Exception e) {
 			fail("unexpected exception: " + e.getClass().getName());
 		}
 
@@ -70,7 +70,8 @@ public class PokerApiDisabledIntegrationTest extends PokerIntegrationTest {
 			assertTrue(errorObject instanceof String);
 			final String error = (String) errorObject;
 			assertEquals("disabled", error);
-		} catch (JSONParseException e) {
+		}
+		catch (final JSONParseException e) {
 			fail("unexpected exception: " + e);
 		}
 	}

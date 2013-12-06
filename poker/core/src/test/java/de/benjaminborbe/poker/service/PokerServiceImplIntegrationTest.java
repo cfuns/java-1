@@ -5,7 +5,6 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
-import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
@@ -169,7 +168,8 @@ public class PokerServiceImplIntegrationTest {
 		try {
 			service.startGame(gameIdentifier);
 			fail("ValidationException expected");
-		} catch (final ValidationException e) {
+		}
+		catch (final ValidationException e) {
 			assertNotNull(e);
 		}
 
@@ -183,7 +183,8 @@ public class PokerServiceImplIntegrationTest {
 		try {
 			service.startGame(gameIdentifier);
 			fail("ValidationException expected");
-		} catch (final ValidationException e) {
+		}
+		catch (final ValidationException e) {
 			assertNotNull(e);
 		}
 
@@ -581,7 +582,8 @@ public class PokerServiceImplIntegrationTest {
 			try {
 				service.raise(gameIdentifier, activePlayer, 180);
 				fail("raise should fail, min raise 2xBet");
-			} catch (ValidationException e) {
+			}
+			catch (final ValidationException e) {
 			}
 		}
 
@@ -615,7 +617,8 @@ public class PokerServiceImplIntegrationTest {
 			try {
 				service.raise(gameIdentifier, activePlayer, 2100);
 				fail("raise should fail, max raise 2xBet");
-			} catch (ValidationException e) {
+			}
+			catch (final ValidationException e) {
 			}
 		}
 		{
@@ -662,7 +665,6 @@ public class PokerServiceImplIntegrationTest {
 
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
 		final PokerConfig config = injector.getInstance(PokerConfig.class);
-		final ConfigurationService configurationService = injector.getInstance(ConfigurationService.class);
 		final PokerService service = injector.getInstance(PokerService.class);
 
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
@@ -687,7 +689,8 @@ public class PokerServiceImplIntegrationTest {
 			try {
 				service.raise(gameIdentifier, activePlayer, 501l);
 				fail("ValidationException expected");
-			} catch (final ValidationException e) {
+			}
+			catch (final ValidationException e) {
 				assertNotNull(e);
 			}
 		}
@@ -719,7 +722,6 @@ public class PokerServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
-		final PokerConfig config = injector.getInstance(PokerConfig.class);
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerMaxRaiseFactor"), "1000");
 

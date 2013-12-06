@@ -7,6 +7,7 @@ import org.osgi.service.http.NamespaceException;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
+
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,10 +16,9 @@ public class ExtHttpServiceHelper implements ExtHttpService {
 
 	private final Map<String, Servlet> servlets = new HashMap<String, Servlet>();
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public void registerFilter(
-		final Filter filter, final String pattern, final Dictionary initParams, final int ranking, final HttpContext context
-	) throws ServletException {
+	public void registerFilter(final Filter filter, final String pattern, final Dictionary initParams, final int ranking, final HttpContext context) throws ServletException {
 	}
 
 	@Override
@@ -38,13 +38,9 @@ public class ExtHttpServiceHelper implements ExtHttpService {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public void registerServlet(
-		final String path,
-		final Servlet servlet,
-		final Dictionary dictionary,
-		final HttpContext httpContext
-	) throws ServletException, NamespaceException {
+	public void registerServlet(final String path, final Servlet servlet, final Dictionary dictionary, final HttpContext httpContext) throws ServletException, NamespaceException {
 		servlets.put(path, servlet);
 	}
 

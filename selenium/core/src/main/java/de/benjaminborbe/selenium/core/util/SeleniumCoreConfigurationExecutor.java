@@ -2,8 +2,6 @@ package de.benjaminborbe.selenium.core.util;
 
 import de.benjaminborbe.selenium.api.SeleniumConfiguration;
 import de.benjaminborbe.selenium.api.action.SeleniumActionConfiguration;
-import de.benjaminborbe.selenium.core.action.SeleniumActionRegistry;
-import de.benjaminborbe.selenium.core.configuration.SeleniumConfigurationRegistry;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -17,26 +15,17 @@ public class SeleniumCoreConfigurationExecutor {
 
 	private final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider;
 
-	private final SeleniumConfigurationRegistry seleniumConfigurationRegistry;
-
-	private final SeleniumActionRegistry seleniumActionRegistry;
-
 	private final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry;
 
 	@Inject
 	public SeleniumCoreConfigurationExecutor(
-		final Logger logger,
-		final SeleniumCoreActionExecutor seleniumCoreActionExecutor,
-		final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider,
-		final SeleniumConfigurationRegistry seleniumConfigurationRegistry,
-		final SeleniumActionRegistry seleniumActionRegistry,
-		final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry
-	) {
+			final Logger logger,
+			final SeleniumCoreActionExecutor seleniumCoreActionExecutor,
+			final SeleniumCoreWebDriverProvider seleniumCoreWebDriverProvider,
+			final SeleniumCoreWebDriverRegistry seleniumCoreWebDriverRegistry) {
 		this.logger = logger;
 		this.seleniumCoreActionExecutor = seleniumCoreActionExecutor;
 		this.seleniumCoreWebDriverProvider = seleniumCoreWebDriverProvider;
-		this.seleniumConfigurationRegistry = seleniumConfigurationRegistry;
-		this.seleniumActionRegistry = seleniumActionRegistry;
 		this.seleniumCoreWebDriverRegistry = seleniumCoreWebDriverRegistry;
 	}
 
@@ -51,7 +40,8 @@ public class SeleniumCoreConfigurationExecutor {
 			for (final SeleniumActionConfiguration seleniumActionConfiguration : seleniumConfiguration.getActionConfigurations()) {
 				if (seleniumCoreActionExecutor.execute(driver, seleniumActionConfiguration, seleniumExecutionProtocol)) {
 					logger.debug("execute action successful");
-				} else {
+				}
+				else {
 					logger.debug("execute action failed");
 					return false;
 				}
@@ -60,18 +50,21 @@ public class SeleniumCoreConfigurationExecutor {
 			seleniumExecutionProtocol.addInfo("completed");
 			seleniumExecutionProtocol.complete();
 			return true;
-		} catch (Exception e) {
+		}
+		catch (final Exception e) {
 			logger.warn("Exception", e);
 			seleniumExecutionProtocol.addError(e.getMessage());
 			return false;
-		} finally {
+		}
+		finally {
 			if (driver != null) {
 				try {
 					if (seleniumConfiguration.getCloseWindow() == null || seleniumConfiguration.getCloseWindow()) {
 						seleniumCoreWebDriverRegistry.remove(driver);
 						driver.close();
 					}
-				} catch (Exception e) {
+				}
+				catch (final Exception e) {
 					logger.trace("close driver failed", e);
 				}
 			}

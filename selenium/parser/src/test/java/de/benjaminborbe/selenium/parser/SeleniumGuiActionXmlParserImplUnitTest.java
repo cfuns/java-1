@@ -27,7 +27,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
@@ -41,7 +41,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
@@ -55,7 +55,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
@@ -66,8 +66,6 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 
 	@Test
 	public void testParseGetUrl() throws Exception {
-		final String id = "test";
-		final String name = "Test Configuration";
 		final String message = "test message";
 		final String url = "http://www.benjamin-borbe.de";
 		final StringBuilder sb = new StringBuilder();
@@ -81,7 +79,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 
 		EasyMock.expect(parseUtil.parseURL(url)).andReturn(new URL(url));
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
@@ -99,8 +97,6 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 
 	@Test
 	public void testParseClick() throws Exception {
-		final String id = "test";
-		final String name = "Test Configuration";
 		final String message = "test message";
 		final String xpath = "myxpath";
 		final StringBuilder sb = new StringBuilder();
@@ -112,7 +108,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
@@ -130,8 +126,6 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 
 	@Test
 	public void testParseSleep() throws Exception {
-		final String id = "test";
-		final String name = "Test Configuration";
 		final String message = "test message";
 		final long duration = 5000;
 		final StringBuilder sb = new StringBuilder();
@@ -144,7 +138,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 		EasyMock.expect(parseUtil.parseLong(String.valueOf(duration))).andReturn(duration);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
@@ -161,8 +155,6 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 
 	@Test
 	public void testParseExpectUrl() throws Exception {
-		final String id = "test";
-		final String name = "Test Configuration";
 		final String message = "test message";
 		final String url = "http://www.benjamin-borbe.de";
 		final StringBuilder sb = new StringBuilder();
@@ -176,7 +168,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 
 		EasyMock.expect(parseUtil.parseURL(url)).andReturn(new URL(url));
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
@@ -194,8 +186,6 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 
 	@Test
 	public void testParseSendKeys() throws Exception {
-		final String id = "test";
-		final String name = "Test Configuration";
 		final String message = "test message";
 		final String xpath = "myxpath";
 		final String keys = "abc";
@@ -209,7 +199,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
@@ -229,8 +219,6 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 
 	@Test
 	public void testParseSelect() throws Exception {
-		final String id = "test";
-		final String name = "Test Configuration";
 		final String message = "test message";
 		final String xpath = "myxpath";
 		final String value = "abc";
@@ -244,7 +232,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
@@ -264,8 +252,6 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 
 	@Test(expected = ParseException.class)
 	public void testParseIllegalName() throws ParseException {
-		final String id = "test";
-		final String name = "Test Configuration";
 		final StringBuilder sb = new StringBuilder();
 		sb.append("<action name=\"abc\">");
 		sb.append("</action>");
@@ -273,7 +259,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
@@ -284,11 +270,8 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 
 	@Test
 	public void testParseFollowAttribute() throws Exception {
-		final String id = "test";
-		final String name = "Test Configuration";
 		final String message = "test message";
 		final String xpath = "myxpath";
-		final String value = "abc";
 		final String attribute = "src";
 		final StringBuilder sb = new StringBuilder();
 		sb.append("<action name=\"FollowAttribute\">");
@@ -300,7 +283,7 @@ public class SeleniumGuiActionXmlParserImplUnitTest {
 		final ParseUtil parseUtil = EasyMock.createMock(ParseUtil.class);
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 
-		final Object[] mocks = new Object[]{parseUtil, logger};
+		final Object[] mocks = new Object[] { parseUtil, logger };
 		EasyMock.replay(mocks);
 
 		final SeleniumGuiActionXmlParser seleniumGuiActionXmlParser = new SeleniumGuiActionXmlParserImpl(logger, parseUtil);
