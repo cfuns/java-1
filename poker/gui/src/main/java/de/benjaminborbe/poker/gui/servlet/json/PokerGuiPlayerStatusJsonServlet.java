@@ -38,6 +38,8 @@ public class PokerGuiPlayerStatusJsonServlet extends PokerGuiPlayerJsonServlet {
 
 	private final PokerService pokerService;
 
+	private final PokerGuiJsonHelper pokerGuiJsonHelper;
+
 	@Inject
 	public PokerGuiPlayerStatusJsonServlet(
 		final Logger logger,
@@ -48,10 +50,12 @@ public class PokerGuiPlayerStatusJsonServlet extends PokerGuiPlayerJsonServlet {
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
 		final PokerService pokerService,
-		final PokerGuiConfig pokerGuiConfig
+		final PokerGuiConfig pokerGuiConfig,
+		final PokerGuiJsonHelper pokerGuiJsonHelper
 	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerService, pokerGuiConfig);
 		this.pokerService = pokerService;
+		this.pokerGuiJsonHelper = pokerGuiJsonHelper;
 	}
 
 	@Override
@@ -63,15 +67,7 @@ public class PokerGuiPlayerStatusJsonServlet extends PokerGuiPlayerJsonServlet {
 		jsonObject.put("gameId", currentPlayer.getGame());
 		if (currentPlayer.getGame() != null) {
 			final PokerGame game = pokerService.getGame(currentPlayer.getGame());
-			jsonObject.put("gameBid", game.getBet());
-			jsonObject.put("gameBigBlind", game.getBigBlind());
-			jsonObject.put("gameName", game.getName());
-			jsonObject.put("gamePot", game.getPot());
-			jsonObject.put("gameMaxBid", game.getMaxBid());
-			jsonObject.put("gameRound", game.getRound());
-			jsonObject.put("gameRunning", game.getRunning());
-			jsonObject.put("gameSmallBlind", game.getSmallBlind());
-			jsonObject.put("gameActivePlayer", pokerService.getActivePlayer(currentPlayer.getGame()));
+			pokerGuiJsonHelper.addGameInfos(jsonObject, game);
 			final JSONArray jsonPlayers = new JSONArraySimple();
 			for (final PokerPlayerIdentifier pid : game.getPlayers()) {
 				final JSONObject jsonPlayerObject = new JSONObjectSimple();

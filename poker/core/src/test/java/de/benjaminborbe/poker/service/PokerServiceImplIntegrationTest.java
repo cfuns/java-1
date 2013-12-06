@@ -79,7 +79,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
@@ -144,7 +144,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
@@ -231,7 +231,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
@@ -267,7 +267,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
@@ -326,7 +326,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
@@ -362,7 +362,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
@@ -398,7 +398,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
@@ -470,7 +470,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
@@ -554,7 +554,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
@@ -657,7 +657,7 @@ public class PokerServiceImplIntegrationTest {
 		EasyMock.expect(request.getSession()).andReturn(session);
 		EasyMock.replay(request);
 
-		AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
@@ -751,7 +751,7 @@ public class PokerServiceImplIntegrationTest {
 
 		{
 			final PokerGameDao pokerGameDao = injector.getInstance(PokerGameDao.class);
-			PokerGameBean game = pokerGameDao.load(gameIdentifier);
+			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			game.setCreditsNegativeAllowed(true);
 			pokerGameDao.save(game);
 		}

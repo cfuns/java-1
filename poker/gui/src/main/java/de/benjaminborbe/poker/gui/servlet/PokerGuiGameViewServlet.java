@@ -159,6 +159,15 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				widgets.add(pokerGuiLinkFactory.createHistoryLink(request, "history", game.getPlayers()));
 				widgets.add(new BrWidget());
 
+				widgets.add("MaxBid: " + game.getMaxBid());
+				widgets.add(new BrWidget());
+
+				widgets.add("MinRaiseFactor: " + game.getMinRaiseFactor());
+				widgets.add(new BrWidget());
+
+				widgets.add("MaxRaiseFactor: " + game.getMaxRaiseFactor());
+				widgets.add(new BrWidget());
+
 				final PokerPlayerIdentifier playerIdentifier = pokerService.getActivePlayer(gameIdentifier);
 				if (playerIdentifier != null) {
 					widgets.add("ActivePlayer: ");

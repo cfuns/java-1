@@ -148,7 +148,7 @@ public class PokerGuiLinkFactory {
 			PokerGuiConstants.PARAMETER_PLAYER_ID, id), "update");
 	}
 
-	private String createReportName(PokerPlayerIdentifier pokerPlayerIdentifier) {
+	private String createReportName(final PokerPlayerIdentifier pokerPlayerIdentifier) {
 		return "PokerPlayerAmount-" + pokerPlayerIdentifier + "_LATEST";
 	}
 
@@ -169,8 +169,8 @@ public class PokerGuiLinkFactory {
 	}
 
 	private Collection<String> createReportName(final Collection<PokerPlayerIdentifier> players) {
-		List<String> result = new ArrayList<String>();
-		for (PokerPlayerIdentifier pokerPlayerIdentifier : players) {
+		final List<String> result = new ArrayList<String>();
+		for (final PokerPlayerIdentifier pokerPlayerIdentifier : players) {
 			result.add(createReportName(pokerPlayerIdentifier));
 		}
 		return result;
