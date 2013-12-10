@@ -25,11 +25,13 @@ public class StorageConfigImpl extends ConfigurationBase implements StorageConfi
 
 	private final ConfigurationDescriptionInteger readLimit = new ConfigurationDescriptionInteger(10000, "CassandraReadLimit", "ReadLimit of CassandraServer");
 
-	private final ConfigurationDescriptionInteger maxConnections = new ConfigurationDescriptionInteger(50, "CassandraMaxConnections", "MaxConnections to CassandraServer");
+	private final ConfigurationDescriptionInteger maxConnections = new ConfigurationDescriptionInteger(100, "CassandraMaxConnections", "MaxConnections to CassandraServer");
 
 	private final ConfigurationDescriptionInteger socketTimeout = new ConfigurationDescriptionInteger(10000, "CassandraSocketTimeout", "SocketTimeout to CassandraServer");
 
 	private final ConfigurationDescriptionString backupDirectory = new ConfigurationDescriptionString("/tmp", "CassandraBackupDirectory", "BackupDirectory of CassandraServer");
+
+	private final Logger logger;
 
 	@Inject
 	public StorageConfigImpl(
@@ -38,6 +40,11 @@ public class StorageConfigImpl extends ConfigurationBase implements StorageConfi
 		final ConfigurationService configurationService
 	) {
 		super(logger, parseUtil, configurationService);
+		this.logger = logger;
+	}
+
+	protected boolean isCacheEnabled() {
+		return true;
 	}
 
 	@Override

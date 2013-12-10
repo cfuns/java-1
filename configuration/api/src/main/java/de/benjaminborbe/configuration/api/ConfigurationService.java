@@ -12,14 +12,12 @@ public interface ConfigurationService {
 
 	void setConfigurationValue(ConfigurationIdentifier configurationIdentifier, String value) throws ConfigurationServiceException, ValidationException;
 
+	void setConfigurationValue(ConfigurationDescription configurationDescription, String value) throws ConfigurationServiceException, ValidationException;
+
 	ConfigurationIdentifier createConfigurationIdentifier(String id) throws ConfigurationServiceException;
 
 	Collection<ConfigurationDescription> listConfigurations() throws ConfigurationServiceException;
 
 	ConfigurationDescription getConfiguration(ConfigurationIdentifier configurationIdentifier) throws ConfigurationServiceException;
 
-	void setConfigurationValue(
-		ConfigurationDescription configurationDescription,
-		String value
-	) throws ConfigurationServiceException, ValidationException;
 }

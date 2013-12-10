@@ -78,6 +78,10 @@ public class MicroblogConnectorImpl implements MicroblogConnector {
 			final String url = microblogConfig.getMicroblogRssFeed();
 			final HttpResponse httpResponse = httpdownloaderService.fetch(new HttpRequestBuilder(parseUtil.parseURL(url)).addTimeout(TIMEOUT).addSecure(false).build());
 			final String content = httpUtil.getContent(httpResponse);
+			if (content == null) {
+				logger.debug("content not found");
+				return null;
+			}
 			final Pattern pattern = Pattern.compile("<guid>" + microblogConfig.getMicroblogUrl() + "/notice/(\\d+)</guid>");
 			final Matcher matcher = pattern.matcher(content);
 			if (matcher.find()) {

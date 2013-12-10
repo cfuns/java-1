@@ -45,4 +45,5 @@ public class PokerScoreCalculatorUnitTest {
 		assertThat(pokerScoreCalculator.calcScores(playerAmount).get(1), is(0));
 		assertThat(pokerScoreCalculator.calcScores(playerAmount).get(2), is(0));
 	}
+
 }

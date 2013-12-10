@@ -19,6 +19,10 @@ public class MicroblogPostRefresher {
 
 			try {
 				final MicroblogPostIdentifier latestRevision = microblogConnector.getLatestRevision();
+				if (latestRevision == null) {
+					logger.trace("no revion found");
+					return;
+				}
 				logger.trace("latestRevision in microblog: " + latestRevision);
 				final MicroblogPostIdentifier lastestRevisionSend = microblogRevisionStorage.getLastRevision();
 				if (lastestRevisionSend == null) {

@@ -1,6 +1,7 @@
 package de.benjaminborbe.configuration.tools;
 
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.configuration.api.ConfigurationIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.tools.util.ParseException;
@@ -8,6 +9,8 @@ import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class ConfigurationBase {
 
@@ -16,6 +19,8 @@ public abstract class ConfigurationBase {
 	private final ParseUtil parseUtil;
 
 	private final ConfigurationService configurationService;
+
+	private final Map<ConfigurationIdentifier, String> cache = new HashMap<ConfigurationIdentifier, String>();
 
 	public ConfigurationBase(
 		final Logger logger,
@@ -28,9 +33,22 @@ public abstract class ConfigurationBase {
 	}
 
 	private String getConfigurationValue(final ConfigurationDescription configurationDescription) throws ConfigurationServiceException {
-		final String value = configurationService.getConfigurationValue(configurationDescription);
-		//logger.debug(configurationDescription.getId() + " = " + value);
-		return value;
+		if (isCacheEnabled()) {
+			final ConfigurationIdentifier id = configurationDescription.getId();
+			if (cache.containsKey(id)) {
+				return cache.get(id);
+			} else {
+				final String configurationValue = configurationService.getConfigurationValue(configurationDescription);
+				cache.put(id, configurationValue);
+				return configurationValue;
+			}
+		} else {
+			return configurationService.getConfigurationValue(configurationDescription);
+		}
+	}
+
+	protected boolean isCacheEnabled() {
+		return false;
 	}
 
 	protected String getValueString(final ConfigurationDescription configurationDescription) {
