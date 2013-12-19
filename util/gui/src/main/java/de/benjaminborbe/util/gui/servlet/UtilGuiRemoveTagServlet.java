@@ -22,7 +22,6 @@ import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.PreWidget;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -66,7 +65,7 @@ public class UtilGuiRemoveTagServlet extends WebsiteHtmlServlet {
 			return content;
 		}
 		final String pattern = "</?" + tag + "(|\\s[^>]+)>";
-		return content.replaceAll(pattern, " ");
+		return content.replaceAll(pattern, " ").replaceAll("\n\\s+\n", "\n");
 	}
 
 	@Override
@@ -83,13 +82,14 @@ public class UtilGuiRemoveTagServlet extends WebsiteHtmlServlet {
 
 		final String content = request.getParameter(PARAMETER_CONTENT);
 		final String tag = request.getParameter(PARAMETER_TAG);
-		if (content != null && !content.isEmpty() && tag != null && !tag.isEmpty()) {
-			widgets.add(new PreWidget(removeTag(content, tag)));
-		}
 
 		final FormWidget form = new FormWidget().addMethod(FormMethod.POST);
 		form.addFormInputWidget(new FormInputTextWidget(PARAMETER_TAG).addLabel("Tag:").addDefaultValue("span"));
-		form.addFormInputWidget(new FormInputTextareaWidget(PARAMETER_CONTENT).addLabel("HTML:"));
+		final FormInputTextareaWidget formInputWidget = new FormInputTextareaWidget(PARAMETER_CONTENT).addLabel("HTML:");
+		if (content != null) {
+			formInputWidget.addValue(removeTag(content, tag));
+		}
+		form.addFormInputWidget(formInputWidget);
 		form.addFormInputWidget(new FormInputSubmitWidget("remove"));
 		widgets.add(form);
 
