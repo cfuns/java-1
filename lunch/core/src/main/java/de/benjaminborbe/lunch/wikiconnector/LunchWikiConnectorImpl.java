@@ -131,7 +131,11 @@ public class LunchWikiConnectorImpl implements LunchWikiConnector {
 	}
 
 	protected boolean isLunchPage(final RemotePageSummary remotePageSummary) {
-		return remotePageSummary != null && remotePageSummary.getTitle() != null && remotePageSummary.getTitle().matches("\\d+-\\d+-\\d+ Bastians (Mittagessen|Wiesbaden)");
+		return remotePageSummary != null && isLunchTitle(remotePageSummary.getTitle());
+	}
+
+	protected boolean isLunchTitle(String title) {
+		return title != null && title.matches("\\d+-\\d+-\\d+\\s*-?\\s*Bastians (Mittagessen|Wiesbaden).*?");
 	}
 
 	@Override

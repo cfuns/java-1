@@ -31,18 +31,12 @@ public class StorageConfigImpl extends ConfigurationBase implements StorageConfi
 
 	private final ConfigurationDescriptionString backupDirectory = new ConfigurationDescriptionString("/tmp", "CassandraBackupDirectory", "BackupDirectory of CassandraServer");
 
-	private final Logger logger;
-
 	@Inject
-	public StorageConfigImpl(
-		final Logger logger,
-		final ParseUtil parseUtil,
-		final ConfigurationService configurationService
-	) {
+	public StorageConfigImpl(final Logger logger, final ParseUtil parseUtil, final ConfigurationService configurationService) {
 		super(logger, parseUtil, configurationService);
-		this.logger = logger;
 	}
 
+	@Override
 	protected boolean isCacheEnabled() {
 		return true;
 	}

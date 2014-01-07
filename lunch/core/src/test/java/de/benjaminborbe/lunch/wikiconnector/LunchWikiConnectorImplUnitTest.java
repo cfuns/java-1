@@ -17,10 +17,11 @@ import org.slf4j.Logger;
 
 import java.util.Calendar;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
-public class LunchWikiConnectorUnitTest {
+public class LunchWikiConnectorImplUnitTest {
 
 	@Test
 	public void testExtractDate() throws Exception {
@@ -38,10 +39,17 @@ public class LunchWikiConnectorUnitTest {
 		final CalendarUtil a = new CalendarUtilImpl(logger, currentTime, parseUtil, timeZoneUtil);
 		final LunchWikiConnectorImpl wikiConnector = new LunchWikiConnectorImpl(logger, lunchParseUtil, htmlUtil, a, timeZoneUtil);
 		final Calendar calendar = wikiConnector.extractDate("2012-05-03 - Bastians Mittagessen");
-		assertNotNull(calendar);
-		assertEquals(2012, calendar.get(Calendar.YEAR));
-		assertEquals(5, calendar.get(Calendar.MONTH) + 1);
-		assertEquals(3, calendar.get(Calendar.DAY_OF_MONTH));
+		assertThat(calendar, is(notNullValue()));
+		assertThat(2012, is(calendar.get(Calendar.YEAR)));
+		assertThat(5, is(calendar.get(Calendar.MONTH) + 1));
+		assertThat(3, is(calendar.get(Calendar.DAY_OF_MONTH)));
 	}
 
+	@Test
+	public void testIsLunchTitle() throws Exception {
+		LunchWikiConnectorImpl lunchWikiConnector = new LunchWikiConnectorImpl(null, null, null, null, null);
+		assertThat(lunchWikiConnector.isLunchTitle("Foo"), is(false));
+		assertThat(lunchWikiConnector.isLunchTitle("2012-05-03 - Bastians Mittagessen"), is(true));
+		assertThat(lunchWikiConnector.isLunchTitle("2014-01-10 Bastians Mittagessen — Name des Essens"), is(true));
+	}
 }
