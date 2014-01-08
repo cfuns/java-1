@@ -69,7 +69,9 @@ public class LunchParseUtil {
 	}
 
 	public boolean extractLunchSubscribed(final String content, final String fullname) {
-		return content.contains(fullname);
+		final boolean result = htmlUtil.unescapeHtml(content).contains(fullname);
+		logger.debug("extractLunchSubscribed fullname: " + fullname + " => " + result);
+		return result;
 	}
 
 	public String extractLunchName(final String htmlContent) throws ParseException {

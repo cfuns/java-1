@@ -27,7 +27,7 @@ public class ConfigurationGetValueImpl implements ConfigurationGetValue {
 		try {
 			final ConfigurationIdentifier configurationIdentifier = configuration.getId();
 			final String result = getValue(configurationIdentifier, configuration);
-			logger.debug("getConfigurationValue key:" + configurationIdentifier + " result: " + result);
+			logger.trace("getConfigurationValue key:" + configurationIdentifier + " result: " + result);
 			return result;
 		} catch (final StorageException e) {
 			return configuration.getDefaultValueAsString();
