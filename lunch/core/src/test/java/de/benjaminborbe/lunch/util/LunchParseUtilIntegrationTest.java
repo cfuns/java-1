@@ -26,13 +26,13 @@ public class LunchParseUtilIntegrationTest {
 		{
 			final String filename = "page_v1.html";
 			final String htmlContent = resourceUtil.getResourceContentAsString(filename);
-			assertEquals("Spiegeleier mit Spinat und Salzkartoffeln dazu Salat und Ketchup", lunchParseUtil.extractLunchName(htmlContent));
+			assertEquals("Spiegeleier mit Spinat und Salzkartoffeln dazu Salat und Ketchup", lunchParseUtil.extractLunchNameFromContent(htmlContent));
 		}
 
 		{
 			final String filename = "page_v2.html";
 			final String htmlContent = resourceUtil.getResourceContentAsString(filename);
-			assertEquals("Hausgemachte Gemüselasagne (vegetarisch) mit buntem Beilagensalat", lunchParseUtil.extractLunchName(htmlContent));
+			assertEquals("Hausgemachte Gemüselasagne (vegetarisch) mit buntem Beilagensalat", lunchParseUtil.extractLunchNameFromContent(htmlContent));
 		}
 
 	}

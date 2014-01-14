@@ -1,6 +1,8 @@
 package de.benjaminborbe.tools.util;
 
 import javax.inject.Inject;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtilImpl implements StringUtil {
 
@@ -26,6 +28,14 @@ public class StringUtilImpl implements StringUtil {
 
 	@Override
 	public String trim(final String string) {
-		return string != null ? string.trim() : null;
+		if (string == null) {
+			return null;
+		}
+		final Pattern pattern = Pattern.compile("[\\s\\n\\t]*(.*?)[\\s\\n\\t]*");
+		final Matcher matcher = pattern.matcher(string);
+		if (!matcher.matches()) {
+			return null;
+		}
+		return matcher.group(1);
 	}
 }

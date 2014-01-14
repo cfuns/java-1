@@ -3,6 +3,7 @@ package de.benjaminborbe.lunch.util;
 import de.benjaminborbe.tools.html.HtmlUtil;
 import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.tools.util.StringUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,6 +14,8 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LunchParseUtil {
 
@@ -22,11 +25,14 @@ public class LunchParseUtil {
 
 	private final ParseUtil parseUtil;
 
+	private final StringUtil stringUtil;
+
 	@Inject
-	public LunchParseUtil(final Logger logger, final HtmlUtil htmlUtil, final ParseUtil parseUtil) {
+	public LunchParseUtil(final Logger logger, final HtmlUtil htmlUtil, final ParseUtil parseUtil, final StringUtil stringUtil) {
 		this.logger = logger;
 		this.htmlUtil = htmlUtil;
 		this.parseUtil = parseUtil;
+		this.stringUtil = stringUtil;
 	}
 
 	public Collection<String> extractSubscribedUser(final String htmlContent) {
@@ -41,7 +47,7 @@ public class LunchParseUtil {
 					if (!tds.isEmpty()) {
 						final String name = tds.get(0).text();
 						if (name != null) {
-							final String nameTrimed = name.trim();
+							final String nameTrimed = name;
 							if (nameTrimed.length() > 1) {
 								logger.debug("found subscription for user: '" + nameTrimed + "'");
 								result.add(nameTrimed);
@@ -74,14 +80,27 @@ public class LunchParseUtil {
 		return result;
 	}
 
-	public String extractLunchName(final String htmlContent) throws ParseException {
+	public String extractLunchNameFromTitle(final String title) throws ParseException {
+		final Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}\\s(Bastians|Mittagessen|\\s|-)*(.*?)");
+		final Matcher matcher = pattern.matcher(title);
+		if (!matcher.matches()) {
+			return null;
+		}
+		final String result = stringUtil.trim(matcher.group(2));
+		if (result.isEmpty()) {
+			return null;
+		}
+		return result;
+	}
+
+	public String extractLunchNameFromContent(final String htmlContent) throws ParseException {
 		final Document document = Jsoup.parse(htmlContent);
 		{
 			final Elements elements = document.getElementsByClass("tipMacro");
 			for (final Element element : elements) {
 				for (final Element td : element.getElementsByTag("p")) {
 					final String innerHtml = td.html();
-					final String result = htmlUtil.filterHtmlTages(innerHtml);
+					final String result = stringUtil.trim(htmlUtil.filterHtmlTages(innerHtml));
 					if (result != null && result.length() > 0) {
 						logger.debug("found lunch lame " + result);
 						return result;
@@ -99,14 +118,34 @@ public class LunchParseUtil {
 			}
 			final int pstart = parseUtil.indexOf(htmlContent, "<ac:rich-text-body>", pos);
 			final int pend = parseUtil.indexOf(htmlContent, "</ac:rich-text-body>", pstart);
-			final String result = htmlUtil.filterHtmlTages(htmlContent.substring(pstart, pend));
+			final String result = stringUtil.trim(htmlUtil.filterHtmlTages(htmlContent.substring(pstart, pend)));
 			if (result != null && result.length() > 0) {
-				logger.debug("found lunch lame " + result);
+				logger.debug("found lunch name " + result);
 				return result;
 			}
 		}
 
-		logger.debug("extractLunchName failed " + htmlContent);
+		logger.debug("extractLunchNameFromContent failed " + htmlContent);
 		return null;
 	}
+
+	public String extractLunchNameFromTitleOrContent(final String title, final String htmlContent) throws ParseException {
+		{
+			final String name = stringUtil.trim(extractLunchNameFromContent(htmlContent));
+			if (name != null && name.length() > 1) {
+				logger.debug("lunch name found in content: '" + name + "'");
+				return name;
+			}
+		}
+		{
+			final String name = stringUtil.trim(extractLunchNameFromTitle(title));
+			if (name != null && name.length() > 1) {
+				logger.debug("lunch name found in title: '" + name + "'");
+				return name;
+			}
+		}
+		logger.debug("no lunch name found");
+		return null;
+	}
+
 }

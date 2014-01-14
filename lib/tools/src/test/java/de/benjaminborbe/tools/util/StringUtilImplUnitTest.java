@@ -32,11 +32,12 @@ public class StringUtilImplUnitTest {
 		assertEquals("", s.trim(" "));
 		assertEquals("", s.trim("  "));
 		assertEquals("", s.trim("   "));
+		assertEquals("", s.trim(" \n \t "));
 
 		assertEquals("a", s.trim("a"));
 		assertEquals("a", s.trim(" a "));
 		assertEquals("a", s.trim("  a  "));
 		assertEquals("a", s.trim("   a   "));
-
+		assertEquals("a", s.trim(" \n \t a \n \t"));
 	}
 }
