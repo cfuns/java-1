@@ -13,6 +13,22 @@ public class MapperJsonObjectMonitoringNode {
 
 	public static final String RESULT = "result";
 
+	public static final String ID = "id";
+
+	public static final String NAME = "name";
+
+	public static final String DESCRIPTION = "description";
+
+	public static final String LAST_CHECK = "lastCheck";
+
+	public static final String FAILURE_COUNTER = "failureCounter";
+
+	public static final String ACTIVE = "active";
+
+	public static final String SILENT = "silent";
+
+	public static final String CHECK_TYPE = "checkType";
+
 	private final CalendarUtil calendarUtil;
 
 	@Inject
@@ -22,16 +38,16 @@ public class MapperJsonObjectMonitoringNode {
 
 	public JSONObject map(final MonitoringNode node) {
 		final JSONObject nodeResult = new JSONObjectSimple();
-		nodeResult.put("id", node.getId());
+		nodeResult.put(ID, node.getId());
 		nodeResult.put(MESSAGE, node.getMessage());
-		nodeResult.put("name", node.getName());
-		nodeResult.put("description", node.getDescription());
-		nodeResult.put("lastCheck", calendarUtil.toDateTimeString(node.getLastCheck()));
-		nodeResult.put("failureCounter", node.getFailureCounter());
+		nodeResult.put(NAME, node.getName());
+		nodeResult.put(DESCRIPTION, node.getDescription());
+		nodeResult.put(LAST_CHECK, calendarUtil.toDateTimeString(node.getLastCheck()));
+		nodeResult.put(FAILURE_COUNTER, node.getFailureCounter());
 		nodeResult.put(RESULT, node.getResult());
-		nodeResult.put("active", node.getActive());
-		nodeResult.put("silent", node.getSilent());
-		nodeResult.put("checkType", node.getCheckType());
+		nodeResult.put(ACTIVE, node.getActive());
+		nodeResult.put(SILENT, node.getSilent());
+		nodeResult.put(CHECK_TYPE, node.getCheckType());
 		return nodeResult;
 	}
 }
