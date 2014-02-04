@@ -131,10 +131,14 @@ public class LunchParseUtil {
 
 	public String extractLunchNameFromTitleOrContent(final String title, final String htmlContent) throws ParseException {
 		{
-			final String name = stringUtil.trim(extractLunchNameFromContent(htmlContent));
-			if (name != null && name.length() > 1) {
-				logger.debug("lunch name found in content: '" + name + "'");
-				return name;
+			try {
+				final String name = stringUtil.trim(extractLunchNameFromContent(htmlContent));
+				if (name != null && name.length() > 1) {
+					logger.debug("lunch name found in content: '" + name + "'");
+					return name;
+				}
+			} catch (ParseException e) {
+				logger.trace("extract lunch title form content failed", e);
 			}
 		}
 		{
