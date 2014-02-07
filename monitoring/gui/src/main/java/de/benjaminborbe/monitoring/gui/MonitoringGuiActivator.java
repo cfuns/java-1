@@ -12,6 +12,7 @@ import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeSilentServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeUnsilentServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeUpdateServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodeViewServlet;
+import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiNodesResetServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiTriggerCheckServlet;
 import de.benjaminborbe.monitoring.gui.servlet.MonitoringGuiTriggerMailServlet;
@@ -29,6 +30,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class MonitoringGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private MonitoringGuiNodesResetServlet monitoringGuiNodesResetServlet;
 
 	@Inject
 	private MonitoringGuiNodeViewServlet monitoringGuiNodeViewServlet;
@@ -105,6 +109,7 @@ public class MonitoringGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(monitoringGuiNodeUnsilentServlet, MonitoringGuiConstants.URL_NODE_UNSILENT));
 		result.add(new ServletInfo(monitoringGuiTriggerCheckServlet, MonitoringGuiConstants.URL_TRIGGER_CHECK));
 		result.add(new ServletInfo(monitoringGuiTriggerMailServlet, MonitoringGuiConstants.URL_TRIGGER_MAIL));
+		result.add(new ServletInfo(monitoringGuiNodesResetServlet, MonitoringGuiConstants.URL_NODES_RESET));
 		return result;
 	}
 

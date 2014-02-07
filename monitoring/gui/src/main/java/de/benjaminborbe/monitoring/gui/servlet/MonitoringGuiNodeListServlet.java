@@ -102,6 +102,7 @@ public class MonitoringGuiNodeListServlet extends MonitoringWebsiteHtmlServlet {
 			final ListWidget links = new ListWidget();
 			if (monitoringService.hasMonitoringAdminPermission(sessionIdentifier)) {
 				links.add(monitoringGuiLinkFactory.nodeCreate(request));
+				links.add(monitoringGuiLinkFactory.nodesReset(request));
 			}
 			widgets.add(links);
 

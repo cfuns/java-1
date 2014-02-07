@@ -52,4 +52,5 @@ public interface MonitoringGuiConstants {
 
 	String URL_NODE_VIEW = "/node/view";
 
+	String URL_NODES_RESET = "/nodes/reset";
 }

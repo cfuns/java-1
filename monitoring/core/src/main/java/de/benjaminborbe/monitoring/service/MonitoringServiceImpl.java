@@ -474,6 +474,28 @@ public class MonitoringServiceImpl implements MonitoringService {
 	}
 
 	@Override
+	public void resetNodes(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectMonitoringAdminPermission(sessionIdentifier);
+			logger.debug("resetNodes");
+			final EntityIterator<MonitoringNodeBean> iterator = monitoringNodeDao.getEntityIterator();
+			while (iterator.hasNext()) {
+				final MonitoringNodeBean monitoringNodeBean = iterator.next();
+				monitoringNodeBean.reset();
+				monitoringNodeDao.save(monitoringNodeBean);
+			}
+		} catch (final StorageException e) {
+			throw new MonitoringServiceException(e);
+		} catch (EntityIteratorException e) {
+			throw new MonitoringServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
 	public void unsilentNode(
 		final SessionIdentifier sessionIdentifier,
 		final MonitoringNodeIdentifier monitoringNodeIdentifier

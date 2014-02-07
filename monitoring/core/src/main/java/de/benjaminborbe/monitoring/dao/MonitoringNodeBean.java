@@ -116,12 +116,12 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		return message;
 	}
 
-	public Boolean getResult() {
-		return result;
-	}
-
 	public void setMessage(final String message) {
 		this.message = message;
+	}
+
+	public Boolean getResult() {
+		return result;
 	}
 
 	public void setResult(final Boolean result) {
@@ -161,4 +161,11 @@ public class MonitoringNodeBean extends EntityBase<MonitoringNodeIdentifier> imp
 		this.exception = exception;
 	}
 
+	public void reset() {
+		this.exception = null;
+		this.lastCheck = null;
+		this.failureCounter = null;
+		this.result = null;
+		this.message = null;
+	}
 }

@@ -79,4 +79,8 @@ public class MonitoringGuiLinkFactory {
 		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODE_VIEW, new MapParameter().add(
 			MonitoringGuiConstants.PARAMETER_NODE_ID, id), name);
 	}
+
+	public Widget nodesReset(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + MonitoringGuiConstants.NAME + MonitoringGuiConstants.URL_NODES_RESET, new MapParameter(), "reset");
+	}
 }

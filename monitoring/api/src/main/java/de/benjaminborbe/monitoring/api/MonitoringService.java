@@ -95,4 +95,5 @@ public interface MonitoringService {
 	) throws MonitoringServiceException, LoginRequiredException,
 		PermissionDeniedException;
 
+	void resetNodes(final SessionIdentifier sessionIdentifier) throws MonitoringServiceException, LoginRequiredException, PermissionDeniedException;
 }
