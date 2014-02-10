@@ -39,10 +39,11 @@ public class ProjectileMailReportFetcherCronJob implements CronJob {
 	@Override
 	public void execute() {
 		if (Boolean.TRUE.equals(projectileConfig.getCronActive())) {
-			logger.trace("execute");
+			logger.debug("projectile mail report cron => started");
 			projectileMailReportFetcher.fetch();
+			logger.debug("projectile mail report cron => finished");
 		} else {
-			logger.trace("skip execute, cron not active");
+			logger.debug("projectile mail report cron => skipped");
 		}
 	}
 

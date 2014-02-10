@@ -35,11 +35,11 @@ public class MonitoringMailCronJob implements CronJob {
 	@Override
 	public void execute() {
 		if (monitoringConfig.isCronEnabled()) {
-			logger.trace("monitoring cron => started");
+			logger.debug("monitoring cron => started");
 			monitoringMailer.mail();
-			logger.trace("monitoring cron => finished");
+			logger.debug("monitoring cron => finished");
 		} else {
-			logger.trace("monitoring cron => skipped");
+			logger.debug("monitoring cron => skipped");
 		}
 	}
 

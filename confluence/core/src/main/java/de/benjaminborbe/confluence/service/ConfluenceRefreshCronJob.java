@@ -35,11 +35,11 @@ public class ConfluenceRefreshCronJob implements CronJob {
 	@Override
 	public void execute() {
 		if (Boolean.TRUE.equals(confluenceConfig.getCronEnabled())) {
-			logger.trace("confluence refresh cron => started");
+			logger.debug("confluence refresh cron => started");
 			confluenceRefresher.refresh();
-			logger.trace("confluence refresh cron => finished");
+			logger.debug("confluence refresh cron => finished");
 		} else {
-			logger.trace("confluence refresh cron => skip");
+			logger.debug("confluence refresh cron => skip");
 		}
 	}
 

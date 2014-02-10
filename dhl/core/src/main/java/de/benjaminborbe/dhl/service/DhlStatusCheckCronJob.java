@@ -30,9 +30,9 @@ public class DhlStatusCheckCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.trace("execute DhlCheckCronJob");
+		logger.debug("dhl cron => started");
 		dhlStatusChecker.check();
-
+		logger.debug("dhl cron => finished");
 	}
 
 	@Override

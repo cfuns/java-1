@@ -31,11 +31,12 @@ public class WorktimeCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.trace("execute WorktimeCronJob");
 		try {
+			logger.debug("worktime cron => started");
 			worktimeRecorder.recordWorktime();
+			logger.debug("worktime cron => finished");
 		} catch (final WorktimeRecorderException e) {
-			logger.error("WorktimeRecorderException", e);
+			logger.debug("worktime cron => skipped");
 		}
 	}
 

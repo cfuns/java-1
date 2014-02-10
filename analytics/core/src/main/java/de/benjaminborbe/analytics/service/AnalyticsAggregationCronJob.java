@@ -32,10 +32,10 @@ public class AnalyticsAggregationCronJob implements CronJob {
 	@Override
 	public void execute() {
 		if (Boolean.TRUE.equals(analyticsConfig.getCronActive())) {
-			logger.trace("execute");
+			logger.debug("execute AnalyticsAggregationCronJob");
 			analyticsAggregator.aggregate();
 		} else {
-			logger.trace("skip execute, cron not active");
+			logger.debug("skip execute, cron not active");
 		}
 	}
 

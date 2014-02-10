@@ -28,8 +28,9 @@ public class MessageUnlockCronJob implements CronJob {
 
 	@Override
 	public void execute() {
-		logger.trace("execute");
+		logger.debug("message unlock cron => started");
 		messageUnlock.execute();
+		logger.debug("message unlock cron => finished");
 	}
 
 	@Override
