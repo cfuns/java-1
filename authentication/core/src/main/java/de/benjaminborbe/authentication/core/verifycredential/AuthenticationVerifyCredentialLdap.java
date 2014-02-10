@@ -53,7 +53,7 @@ public class AuthenticationVerifyCredentialLdap implements AuthenticationVerifyC
 	@Override
 	public boolean existsUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		try {
-			return ldapConnector.getFullname(userIdentifier.getId()) != null;
+			return userIdentifier != null && ldapConnector.getFullname(userIdentifier.getId()) != null;
 		} catch (final LdapException e) {
 			throw new AuthenticationServiceException(e.getClass().getName(), e);
 		}

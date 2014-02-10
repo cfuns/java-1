@@ -14,6 +14,8 @@ public interface PokerGuiConstants {
 
 	String PARAMETER_GAME_NAME = "game_name";
 
+	String PARAMETER_GAME_START_CREDITS = "game_start_credits";
+
 	String PARAMETER_TOKEN = "token";
 
 	String PARAMETER_PLAYER_ID = "player_id";
@@ -79,4 +81,6 @@ public interface PokerGuiConstants {
 	String URL_GAME_STATUS_JSON = "/game/status/json";
 
 	String URL_GAME_ADD_ALL_AVAILABLE_PLAYERS = "/game/add_all_available_players";
+
+	String PARAMETER_GAME_START_BIG_BLIND = "game_start_big_blind";
 }

@@ -132,7 +132,7 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 
 	@Override
 	public boolean exists(final I id) throws StorageException {
-		return exists(new StorageValue(id.getId(), getEncoding()));
+		return id != null && exists(new StorageValue(id.getId(), getEncoding()));
 	}
 
 	private boolean exists(final StorageValue id) throws StorageException {
