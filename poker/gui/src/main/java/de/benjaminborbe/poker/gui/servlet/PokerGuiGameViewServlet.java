@@ -273,7 +273,11 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 	}
 
 	private String getTimeRemainingAsString(final PokerGame game) {
-		return String.valueOf(currentTime.currentTimeMillis() - game.getActivePositionTime().getTimeInMillis());
+		if (game.getActivePositionTime() != null) {
+			return String.valueOf(currentTime.currentTimeMillis() - game.getActivePositionTime().getTimeInMillis());
+		} else {
+			return "-";
+		}
 	}
 
 	private String getAutoFoldTimeoutAsString(final PokerGame game) {

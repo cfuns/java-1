@@ -337,7 +337,6 @@ public abstract class DaoStorage<E extends Entity<I>, I extends Identifier<Strin
 		} catch (final MapException e) {
 			throw new StorageException(e);
 		}
-
 	}
 
 	@Override

@@ -67,6 +67,7 @@ public class PokerStatusIntegrationTest extends PokerIntegrationTest {
 		final PokerGameDto game = new PokerGameDto();
 		game.setBigBlind(bigBlind);
 		game.setName(gameName);
+		game.setStartCredits(10000l);
 		final PokerGameIdentifier gameId = pokerService.createGame(game);
 		assertNotNull(gameId);
 

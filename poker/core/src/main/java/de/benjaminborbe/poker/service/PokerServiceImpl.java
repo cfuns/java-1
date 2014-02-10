@@ -174,6 +174,7 @@ public class PokerServiceImpl implements PokerService {
 			bean.setCreditsNegativeAllowed(pokerConfig.isCreditsNegativeAllowed());
 			bean.setMaxRaiseFactor(pokerConfig.getMaxRaiseFactor());
 			bean.setMinRaiseFactor(pokerConfig.getMinRaiseFactor());
+			bean.setStartCredits(pokerGameDto.getStartCredits());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -308,8 +309,9 @@ public class PokerServiceImpl implements PokerService {
 
 			for (PokerPlayerIdentifier playerIdentifier : playerIdentifiers) {
 				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
-				player.setScore(player.getScore() - 1);
-				pokerPlayerDao.save(player, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.SCORE));
+				player.setScore(toLong(player.getScore()) - 1);
+				player.setAmount(game.getStartCredits());
+				pokerPlayerDao.save(player, new StorageValueList(pokerGameDao.getEncoding()).add(PokerPlayerBeanMapper.SCORE).add(PokerPlayerBeanMapper.AMOUNT));
 			}
 
 			nextRound(gameIdentifier);
@@ -317,6 +319,10 @@ public class PokerServiceImpl implements PokerService {
 			throw new PokerServiceException(e);
 		} finally {
 		}
+	}
+
+	private long toLong(final Long number) {
+		return number != null ? number : 0;
 	}
 
 	private void nextRound(final PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
@@ -391,10 +397,6 @@ public class PokerServiceImpl implements PokerService {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			if (player.getGame() != null) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("already joined a game")));
-			}
-
-			if (player.getAmount() <= 0) {
-				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("can't join game without credits")));
 			}
 
 			player.setGame(gameIdentifier);
@@ -790,11 +792,11 @@ public class PokerServiceImpl implements PokerService {
 		}
 	}
 
-	private boolean hasActiveGame(PokerPlayerBean player) throws PokerServiceException {
+	private boolean hasActiveGame(PokerPlayerBean player) throws PokerServiceException, StorageException {
 		final PokerGameIdentifier gameIdentifier = player.getGame();
 		if (gameIdentifier != null) {
-			PokerGame game = getGame(gameIdentifier);
-			if (Boolean.TRUE.equals(game.getRunning())) {
+			final PokerGame game = pokerGameDao.load(gameIdentifier);
+			if (game != null && Boolean.TRUE.equals(game.getRunning())) {
 				return true;
 			}
 		}
@@ -938,6 +940,7 @@ public class PokerServiceImpl implements PokerService {
 				player.setCards(new ArrayList<PokerCardIdentifier>());
 				player.setAmount(player.getAmount() + player.getBet());
 				player.setBet(0l);
+				player.setScore(toLong(player.getScore()) + game.getScore() / players.size());
 
 				final ValidationResult errors = validationExecutor.validate(player);
 				if (errors.hasErrors()) {
@@ -945,6 +948,7 @@ public class PokerServiceImpl implements PokerService {
 					throw new ValidationException(errors);
 				}
 			}
+			game.setScore(0l);
 
 			final ValidationResult errors = validationExecutor.validate(game);
 			if (errors.hasErrors()) {
@@ -953,12 +957,12 @@ public class PokerServiceImpl implements PokerService {
 			}
 
 			for (final PokerPlayerBean player : players) {
-				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.CARDS).add(PokerPlayerBeanMapper.BET).add(PokerPlayerBeanMapper.AMOUNT));
+				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.CARDS).add(PokerPlayerBeanMapper.SCORE).add(PokerPlayerBeanMapper.BET).add(PokerPlayerBeanMapper.AMOUNT));
 				trackPlayerAmount(player.getId(), player.getAmount());
 			}
 			pokerGameDao.save(
 				game,
-				new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.RUNNING).add(PokerGameBeanMapper.CARDS).add(PokerGameBeanMapper.CARD_POSITION).add(PokerGameBeanMapper.BUTTON_POSITION).add(PokerGameBeanMapper.ROUND).add(PokerGameBeanMapper.ACTIVE_PLAYERS)
+				new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.RUNNING).add(PokerGameBeanMapper.CARDS).add(PokerGameBeanMapper.SCORE).add(PokerGameBeanMapper.CARD_POSITION).add(PokerGameBeanMapper.BUTTON_POSITION).add(PokerGameBeanMapper.ROUND).add(PokerGameBeanMapper.ACTIVE_PLAYERS)
 					.add(PokerGameBeanMapper.ACTIVE_POSITION).add(PokerGameBeanMapper.ACTIVE_POSITION_TIME).add(PokerGameBeanMapper.BOARD_CARDS).add(PokerGameBeanMapper.BET));
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);

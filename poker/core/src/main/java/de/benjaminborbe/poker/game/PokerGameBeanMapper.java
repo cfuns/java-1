@@ -77,6 +77,8 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
 	public static final String SCORE = "score";
 
+	public static final String START_CREDITS = "startCredits";
+
 	@Inject
 	public PokerGameBeanMapper(
 		final Provider<PokerGameBean> provider,
@@ -124,6 +126,7 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Double>(MIN_RAISE_FACTOR, mapperDouble));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(ROUND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(BET, mapperLong));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(START_CREDITS, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(CARD_POSITION, mapperInteger));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(ACTIVE_POSITION, mapperInteger));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Integer>(BUTTON_POSITION, mapperInteger));

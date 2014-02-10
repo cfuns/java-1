@@ -52,14 +52,14 @@ public class PokerServiceImplIntegrationTest {
 		assertNotNull(service.getGameIdentifiers());
 		assertEquals(0, service.getGameIdentifiers().size());
 		{
-			final PokerGameIdentifier gi = service.createGame(createGame("gameA", 100));
+			final PokerGameIdentifier gi = service.createGame(createGame("gameA", 100, 10000));
 			assertNotNull(gi);
 			assertNotNull(gi.getId());
 		}
 		assertNotNull(service.getGameIdentifiers());
 		assertEquals(1, service.getGameIdentifiers().size());
 		{
-			final PokerGameIdentifier gi = service.createGame(createGame("gameB", 100));
+			final PokerGameIdentifier gi = service.createGame(createGame("gameB", 100, 10000));
 			assertNotNull(gi);
 			assertNotNull(gi.getId());
 		}
@@ -85,7 +85,7 @@ public class PokerServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("gameA", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("gameA", 100, 10000));
 		assertNotNull(gameIdentifier);
 
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
@@ -100,10 +100,10 @@ public class PokerServiceImplIntegrationTest {
 		assertNotNull(playerIdentifierC);
 		service.joinGame(gameIdentifier, playerIdentifierC);
 
-		assertThat(service.getGame(gameIdentifier).getScore(), is(0L));
-		assertThat(service.getPlayer(playerIdentifierA).getScore(), is(0L));
-		assertThat(service.getPlayer(playerIdentifierB).getScore(), is(0L));
-		assertThat(service.getPlayer(playerIdentifierC).getScore(), is(0L));
+		assertThat(service.getGame(gameIdentifier).getScore(), is(0l));
+		assertThat(service.getPlayer(playerIdentifierA).getScore(), is(0l));
+		assertThat(service.getPlayer(playerIdentifierB).getScore(), is(0l));
+		assertThat(service.getPlayer(playerIdentifierC).getScore(), is(0l));
 
 		service.startGame(gameIdentifier);
 
@@ -111,6 +111,13 @@ public class PokerServiceImplIntegrationTest {
 		assertThat(service.getPlayer(playerIdentifierA).getScore(), is(-1L));
 		assertThat(service.getPlayer(playerIdentifierB).getScore(), is(-1L));
 		assertThat(service.getPlayer(playerIdentifierC).getScore(), is(-1L));
+
+		service.stopGame(gameIdentifier);
+
+		assertThat(service.getGame(gameIdentifier).getScore(), is(0l));
+		assertThat(service.getPlayer(playerIdentifierA).getScore(), is(0l));
+		assertThat(service.getPlayer(playerIdentifierB).getScore(), is(0l));
+		assertThat(service.getPlayer(playerIdentifierC).getScore(), is(0l));
 	}
 
 	@Test
@@ -131,12 +138,12 @@ public class PokerServiceImplIntegrationTest {
 		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("gameA", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("gameA", 100, 10000));
 		assertNotNull(gameIdentifier);
 
 		final PokerGame game = service.getGame(gameIdentifier);
 		assertThat(game, is(notNullValue()));
-		assertThat(game.getScore(), is(0L));
+		assertThat(game.getScore(), is(0l));
 	}
 
 	@Test
@@ -162,7 +169,7 @@ public class PokerServiceImplIntegrationTest {
 
 		final PokerPlayer player = service.getPlayer(playerIdentifier);
 		assertThat(player, is(notNullValue()));
-		assertThat(player.getScore(), is(0L));
+		assertThat(player.getScore(), is(0l));
 	}
 
 	@Test
@@ -185,7 +192,7 @@ public class PokerServiceImplIntegrationTest {
 		final PokerService service = injector.getInstance(PokerService.class);
 		assertNotNull(service.getGameIdentifiers());
 		assertEquals(0, service.getGameIdentifiers().size());
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("game", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("game", 100, 10000));
 		assertNotNull(gameIdentifier);
 		assertNotNull(gameIdentifier.getId());
 		assertNotNull(service.getGameIdentifiers());
@@ -248,7 +255,7 @@ public class PokerServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));
 		assertNotNull(gameIdentifier);
 
 		{
@@ -335,7 +342,7 @@ public class PokerServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
 		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
@@ -371,7 +378,7 @@ public class PokerServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
 		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
@@ -430,7 +437,7 @@ public class PokerServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
 		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
@@ -466,7 +473,7 @@ public class PokerServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
 		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
@@ -502,7 +509,7 @@ public class PokerServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
 		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(sessionIdentifier, createPlayerDto("playerC", 10000));
@@ -574,7 +581,7 @@ public class PokerServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
 		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(sessionIdentifier, createPlayerDto("playerC", 10000));
@@ -658,7 +665,7 @@ public class PokerServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final PokerService service = injector.getInstance(PokerService.class);
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
 		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(sessionIdentifier, createPlayerDto("playerC", 10000));
@@ -764,7 +771,7 @@ public class PokerServiceImplIntegrationTest {
 		final PokerConfig config = injector.getInstance(PokerConfig.class);
 		final PokerService service = injector.getInstance(PokerService.class);
 
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
 		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
 		service.joinGame(gameIdentifier, playerIdentifierA);
@@ -821,7 +828,7 @@ public class PokerServiceImplIntegrationTest {
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
 		configurationServiceMock.setConfigurationValue(new ConfigurationIdentifier("PokerMaxRaiseFactor"), "1000");
 
-		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100));
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));
 		final int startCredits = 10000;
 		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", startCredits));
 		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", startCredits));
@@ -873,10 +880,11 @@ public class PokerServiceImplIntegrationTest {
 		}
 	}
 
-	private PokerGameDto createGame(final String name, final long bigBlind) {
+	private PokerGameDto createGame(final String name, final long bigBlind, long startCredits) {
 		final PokerGameDto dto = new PokerGameDto();
 		dto.setName(name);
 		dto.setBigBlind(bigBlind);
+		dto.setStartCredits(startCredits);
 		return dto;
 	}
 
@@ -887,4 +895,49 @@ public class PokerServiceImplIntegrationTest {
 		return dto;
 	}
 
+	@Test
+	public void testStartCreditGrantedOnStart() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("gameA", 100, 10000));
+		assertNotNull(gameIdentifier);
+
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 0));
+		assertNotNull(playerIdentifierA);
+		service.joinGame(gameIdentifier, playerIdentifierA);
+
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 0));
+		assertNotNull(playerIdentifierB);
+		service.joinGame(gameIdentifier, playerIdentifierB);
+
+		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(sessionIdentifier, createPlayerDto("playerC", 0));
+		assertNotNull(playerIdentifierC);
+		service.joinGame(gameIdentifier, playerIdentifierC);
+
+		assertThat(service.getGame(gameIdentifier).getStartCredits(), is(10000l));
+		assertThat(service.getPlayer(playerIdentifierA).getAmount(), is(0l));
+		assertThat(service.getPlayer(playerIdentifierB).getAmount(), is(0l));
+		assertThat(service.getPlayer(playerIdentifierC).getAmount(), is(0l));
+
+		service.startGame(gameIdentifier);
+
+		assertThat(service.getGame(gameIdentifier).getStartCredits(), is(10000l));
+		assertThat(service.getPlayer(playerIdentifierA).getAmount() > 0, is(true));
+		assertThat(service.getPlayer(playerIdentifierB).getAmount() > 0, is(true));
+		assertThat(service.getPlayer(playerIdentifierC).getAmount() > 0, is(true));
+	}
 }

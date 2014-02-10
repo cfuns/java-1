@@ -6,6 +6,7 @@ import de.benjaminborbe.lib.validation.ValidatorBase;
 import de.benjaminborbe.lib.validation.ValidatorRule;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraint;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraintIdentifier;
+import de.benjaminborbe.lib.validation.constraint.ValidationConstraintLongGT;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraintNotNull;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringMaxLength;
 import de.benjaminborbe.lib.validation.constraint.ValidationConstraintStringMinLength;
@@ -64,6 +65,22 @@ public class PokerGameValidator extends ValidatorBase<PokerGameBean> {
 					constraints.add(new ValidationConstraintNotNull<String>());
 					constraints.add(new ValidationConstraintStringMinLength(1));
 					constraints.add(new ValidationConstraintStringMaxLength(255));
+					return validationConstraintValidator.validate(field, value, constraints);
+				}
+			});
+		}
+
+		// startCredit
+		{
+			final String field = "startCredit";
+			result.put(field, new ValidatorRule<PokerGameBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final PokerGameBean bean) {
+					final Long value = bean.getStartCredits();
+					final List<ValidationConstraint<Long>> constraints = new ArrayList<ValidationConstraint<Long>>();
+					constraints.add(new ValidationConstraintNotNull<Long>());
+					constraints.add(new ValidationConstraintLongGT(0));
 					return validationConstraintValidator.validate(field, value, constraints);
 				}
 			});

@@ -41,6 +41,16 @@ public class PokerGameDto implements PokerGame {
 
 	private Long autoFoldTimeout;
 
+	private Long startCredits;
+
+	public Long getStartCredits() {
+		return startCredits;
+	}
+
+	public void setStartCredits(final Long startCredits) {
+		this.startCredits = startCredits;
+	}
+
 	public Long getScore() {
 		return score;
 	}

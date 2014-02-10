@@ -64,6 +64,16 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Long score;
 
+	private Long startCredits;
+
+	public Long getStartCredits() {
+		return startCredits;
+	}
+
+	public void setStartCredits(final Long startCredits) {
+		this.startCredits = startCredits;
+	}
+
 	public Long getScore() {
 		return score;
 	}
