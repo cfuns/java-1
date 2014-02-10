@@ -761,6 +761,37 @@ public class PokerServiceImpl implements PokerService {
 		}
 	}
 
+	private Collection<PokerPlayer> getPlayerWithoutActiveGame() throws PokerServiceException {
+		try {
+			logger.debug("getPlayerWithoutActiveGame");
+			final EntityIterator<PokerPlayerBean> i = pokerPlayerDao.getEntityIterator();
+			final List<PokerPlayer> result = new ArrayList<PokerPlayer>();
+			while (i.hasNext()) {
+				final PokerPlayerBean player = i.next();
+				if (!hasActiveGame(player)) {
+					result.add(player);
+				}
+			}
+			return result;
+		} catch (final StorageException e) {
+			throw new PokerServiceException(e);
+		} catch (EntityIteratorException e) {
+			throw new PokerServiceException(e);
+		} finally {
+		}
+	}
+
+	private boolean hasActiveGame(PokerPlayerBean player) throws PokerServiceException {
+		final PokerGameIdentifier gameIdentifier = player.getGame();
+		if (gameIdentifier != null) {
+			PokerGame game = getGame(gameIdentifier);
+			if (Boolean.TRUE.equals(game.getRunning())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public Collection<PokerPlayer> getPlayers() throws PokerServiceException {
 		try {
@@ -829,6 +860,24 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
+	public void addAllAvailablePlayers(final PokerGameIdentifier pokerGameIdentifier) throws PokerServiceException, ValidationException {
+		try {
+			logger.debug("addAllAvailablePlayers to game: " + pokerGameIdentifier);
+			final Collection<PokerPlayer> players = getPlayerWithoutActiveGame();
+			for (PokerPlayer player : players) {
+				logger.debug("add player: " + player.getId());
+				if (player.getGame() != null && !player.getGame().equals(pokerGameIdentifier)) {
+					leaveGame(pokerGameIdentifier, player.getId());
+					joinGame(pokerGameIdentifier, player.getId());
+				} else if (player.getGame() == null) {
+					joinGame(pokerGameIdentifier, player.getId());
+				}
+			}
+		} finally {
+		}
+	}
+
+	@Override
 	public Collection<PokerGame> getGamesRunning() throws PokerServiceException {
 		return getGames(true);
 	}
@@ -865,7 +914,6 @@ public class PokerServiceImpl implements PokerService {
 			if (!Boolean.TRUE.equals(game.getRunning())) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("game not running")));
 			}
-
 			game.setRunning(false);
 			game.setCards(new ArrayList<PokerCardIdentifier>());
 			game.setBoardCards(new ArrayList<PokerCardIdentifier>());

@@ -9,6 +9,7 @@ import de.benjaminborbe.poker.gui.servlet.PokerGuiActionCallServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiActionFoldServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiActionRaiseServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiApiHelpServlet;
+import de.benjaminborbe.poker.gui.servlet.PokerGuiGameAddAllAvailablePlayersServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameCreateServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameDeleteServlet;
 import de.benjaminborbe.poker.gui.servlet.PokerGuiGameJoinServlet;
@@ -42,6 +43,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PokerGuiActivator extends HttpBundleActivator {
+
+	@Inject
+	private PokerGuiGameAddAllAvailablePlayersServlet pokerGuiGameAddAllAvailablePlayersServlet;
 
 	@Inject
 	private PokerGuiGameStatusJsonServlet pokerGuiGameStatusJsonServlet;
@@ -157,6 +161,7 @@ public class PokerGuiActivator extends HttpBundleActivator {
 		result.add(new ServletInfo(pokerGuiActionRaiseJsonServlet, PokerGuiConstants.URL_ACTION_RAISE_JSON));
 		result.add(new ServletInfo(pokerGuiPlayerStatusJsonServlet, PokerGuiConstants.URL_PLAYER_STATUS_JSON));
 		result.add(new ServletInfo(pokerGuiGameStatusJsonServlet, PokerGuiConstants.URL_GAME_STATUS_JSON));
+		result.add(new ServletInfo(pokerGuiGameAddAllAvailablePlayersServlet, PokerGuiConstants.URL_GAME_ADD_ALL_AVAILABLE_PLAYERS));
 		return result;
 	}
 

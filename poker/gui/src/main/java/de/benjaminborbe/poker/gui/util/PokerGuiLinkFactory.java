@@ -175,4 +175,13 @@ public class PokerGuiLinkFactory {
 		}
 		return result;
 	}
+
+	public Widget gameJoinAllPlayers(
+		final HttpServletRequest request,
+		final PokerGameIdentifier gameIdentifier
+	) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_GAME_ADD_ALL_AVAILABLE_PLAYERS,
+			new MapParameter().add(PokerGuiConstants.PARAMETER_GAME_ID, gameIdentifier),
+			"add all available players");
+	}
 }

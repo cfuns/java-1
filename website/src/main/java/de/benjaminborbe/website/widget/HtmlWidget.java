@@ -35,6 +35,10 @@ public class HtmlWidget implements Widget {
 		addBodyWidget(bodyWidget);
 	}
 
+	public HtmlWidget(final ExceptionWidget exceptionWidget) {
+		this(new HeadWidget("Exception", new HashSet<JavascriptResource>(), new HashSet<CssResource>()), new BodyWidget(exceptionWidget));
+	}
+
 	public HtmlWidget addBodyWidget(final BodyWidget bodyWidget) {
 		this.bodyWidget = bodyWidget;
 		return this;
@@ -45,15 +49,10 @@ public class HtmlWidget implements Widget {
 		return this;
 	}
 
-	public HtmlWidget(final ExceptionWidget exceptionWidget) {
-		this(new HeadWidget("Exception", new HashSet<JavascriptResource>(), new HashSet<CssResource>()), new BodyWidget(exceptionWidget));
-	}
-
 	@Override
 	public void render(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-
 		final ListWidget widgets = new ListWidget();
 		if (headWidget != null) {
 			widgets.add(headWidget);
@@ -61,6 +60,8 @@ public class HtmlWidget implements Widget {
 		if (bodyWidget != null) {
 			widgets.add(bodyWidget);
 		}
+		DocTypeWidget docTypeWidget = new DocTypeWidget();
+		docTypeWidget.render(request, response, context);
 		final TagWidget html = new TagWidget("html", widgets);
 		html.render(request, response, context);
 	}

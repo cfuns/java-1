@@ -57,6 +57,7 @@
 						</Import-Package>
 						<Import-Service>
 							de.benjaminborbe.poker.api.PokerService,
+							de.benjaminborbe.wiki.api.WikiService,
 							de.benjaminborbe.authentication.api.AuthenticationService,
 							de.benjaminborbe.authorization.api.AuthorizationService
 						</Import-Service>

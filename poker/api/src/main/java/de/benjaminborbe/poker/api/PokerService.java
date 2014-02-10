@@ -90,4 +90,6 @@ public interface PokerService {
 		SessionIdentifier sessionIdentifier,
 		PokerPlayerIdentifier playerIdentifier
 	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException;
+
+	void addAllAvailablePlayers(PokerGameIdentifier pokerGameIdentifier) throws PokerServiceException, ValidationException;
 }

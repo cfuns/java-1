@@ -197,6 +197,8 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 					widgets.add(pokerGuiLinkFactory.gameStart(request, gameIdentifier));
 					widgets.add(new BrWidget());
+					widgets.add(pokerGuiLinkFactory.gameJoinAllPlayers(request, gameIdentifier));
+					widgets.add(new BrWidget());
 				}
 			}
 			{
