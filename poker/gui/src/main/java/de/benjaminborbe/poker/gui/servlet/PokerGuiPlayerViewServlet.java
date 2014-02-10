@@ -106,6 +106,9 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			widgets.add(pokerGuiLinkFactory.createHistoryLink(request, "history", playerIdentifier));
 			widgets.add(new BrWidget());
 
+			widgets.add("Score: " + toNumberString(player.getScore()) + " ");
+			widgets.add(new BrWidget());
+
 			if (pokerService.hasPokerAdminPermission(sessionIdentifier) || owners.contains(authenticationService.getCurrentUser(sessionIdentifier))) {
 				widgets.add("ID: " + player.getId());
 				widgets.add(new BrWidget());
@@ -168,6 +171,14 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 		} catch (final AuthenticationServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
+		}
+	}
+
+	private String toNumberString(final Long number) {
+		if (number == null) {
+			return "0";
+		} else {
+			return String.valueOf(number);
 		}
 	}
 

@@ -120,8 +120,8 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 					} else {
 						row.addCell("-");
 					}
-					row.addCell(asString(player.getScore()));
-					row.addCell(asString(player.getAmount()));
+					row.addCell(toNumberString(player.getScore()));
+					row.addCell(toNumberString(player.getAmount()));
 					if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 						final ListWidget options = new ListWidget();
 						options.add(pokerGuiLinkFactory.playerUpdate(request, player.getId()));
@@ -155,6 +155,14 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 
 	private String asString(final Object object) {
 		return object != null ? String.valueOf(object) : "";
+	}
+
+	private String toNumberString(final Long number) {
+		if (number == null) {
+			return "0";
+		} else {
+			return String.valueOf(number);
+		}
 	}
 
 	@Override
