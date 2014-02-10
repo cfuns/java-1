@@ -50,16 +50,16 @@ public class PokerPlayerBeanMapperUnitTest {
 	@Parameters(name = "{index} - \"{0}\" = \"{1}\"")
 	public static Collection<Object[]> generateData() {
 		final List<Object[]> result = new ArrayList<Object[]>();
-		result.add(new Object[]{"id", "1337"});
-		result.add(new Object[]{"name", "bla"});
-		result.add(new Object[]{"created", "123456"});
-		result.add(new Object[]{"modified", "123456"});
-		result.add(new Object[]{"amount", "1337"});
-		result.add(new Object[]{"game", "1337"});
-		result.add(new Object[]{"score", "1337"});
-		result.add(new Object[]{"bet", "1337"});
-		result.add(new Object[]{"token", "asdfasdf"});
-		result.add(new Object[]{"owners", "bgates"});
+		result.add(new Object[]{PokerPlayerBeanMapper.ID, "1337"});
+		result.add(new Object[]{PokerPlayerBeanMapper.NAME, "bla"});
+		result.add(new Object[]{PokerPlayerBeanMapper.CREATED, "123456"});
+		result.add(new Object[]{PokerPlayerBeanMapper.MODIFIED, "123456"});
+		result.add(new Object[]{PokerPlayerBeanMapper.AMOUNT, "1337"});
+		result.add(new Object[]{PokerPlayerBeanMapper.GAME_ID, "1337"});
+		result.add(new Object[]{PokerPlayerBeanMapper.SCORE, "1337"});
+		result.add(new Object[]{PokerPlayerBeanMapper.BET, "1337"});
+		result.add(new Object[]{PokerPlayerBeanMapper.TOKEN, "asdfasdf"});
+		result.add(new Object[]{PokerPlayerBeanMapper.OWNERS, "bgates"});
 		return result;
 	}
 

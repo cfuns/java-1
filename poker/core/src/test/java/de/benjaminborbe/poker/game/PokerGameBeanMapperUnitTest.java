@@ -73,6 +73,7 @@ public class PokerGameBeanMapperUnitTest {
 		result.add(new Object[]{PokerGameBeanMapper.MIN_RAISE_FACTOR, "1.0"});
 		result.add(new Object[]{PokerGameBeanMapper.MAX_RAISE_FACTOR, "10.0"});
 		result.add(new Object[]{PokerGameBeanMapper.CREDITS_NEGATIVE_ALLOWED, "true"});
+		result.add(new Object[]{PokerGameBeanMapper.SCORE, "123"});
 		return result;
 	}
 

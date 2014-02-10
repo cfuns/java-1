@@ -62,6 +62,16 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Long autoFoldTimeout;
 
+	private Long score;
+
+	public Long getScore() {
+		return score;
+	}
+
+	public void setScore(final Long score) {
+		this.score = score;
+	}
+
 	public Boolean getCreditsNegativeAllowed() {
 		return creditsNegativeAllowed;
 	}

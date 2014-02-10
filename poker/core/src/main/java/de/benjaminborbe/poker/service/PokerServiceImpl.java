@@ -168,6 +168,7 @@ public class PokerServiceImpl implements PokerService {
 			bean.setRunning(false);
 			bean.setPot(0l);
 			bean.setCardPosition(0);
+			bean.setScore(0l);
 			bean.setMaxBid(pokerConfig.getMaxBid());
 			bean.setAutoFoldTimeout(pokerConfig.getAutoFoldTimeout());
 			bean.setCreditsNegativeAllowed(pokerConfig.isCreditsNegativeAllowed());
@@ -206,6 +207,7 @@ public class PokerServiceImpl implements PokerService {
 			bean.setOwners(pokerPlayerDto.getOwners());
 			bean.setToken(idGeneratorUUID.nextId());
 			bean.setBet(0l);
+			bean.setScore(0l);
 			bean.setCards(new ArrayList<PokerCardIdentifier>());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
@@ -294,6 +296,7 @@ public class PokerServiceImpl implements PokerService {
 			game.setPlayers(listUtil.randomize(game.getPlayers()));
 			game.setButtonPosition(0);
 			game.setRound(0l);
+			game.setScore(new Long(playerIdentifiers.size()));
 
 			final ValidationResult errors = validationExecutor.validate(game);
 			if (errors.hasErrors()) {
@@ -301,7 +304,13 @@ public class PokerServiceImpl implements PokerService {
 				throw new ValidationException(errors);
 			}
 
-			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.RUNNING).add(PokerGameBeanMapper.PLAYERS).add(PokerGameBeanMapper.BUTTON_POSITION).add(PokerGameBeanMapper.ROUND));
+			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.RUNNING).add(PokerGameBeanMapper.SCORE).add(PokerGameBeanMapper.PLAYERS).add(PokerGameBeanMapper.BUTTON_POSITION).add(PokerGameBeanMapper.ROUND));
+
+			for (PokerPlayerIdentifier playerIdentifier : playerIdentifiers) {
+				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
+				player.setScore(player.getScore() - 1);
+				pokerPlayerDao.save(player, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.SCORE));
+			}
 
 			nextRound(gameIdentifier);
 		} catch (final StorageException e) {

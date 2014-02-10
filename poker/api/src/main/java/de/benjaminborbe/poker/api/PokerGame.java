@@ -38,4 +38,6 @@ public interface PokerGame {
 	Double getMinRaiseFactor();
 
 	Double getMaxRaiseFactor();
+
+	Long getScore();
 }

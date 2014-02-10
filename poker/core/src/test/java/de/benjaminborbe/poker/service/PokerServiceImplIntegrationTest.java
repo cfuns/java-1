@@ -27,10 +27,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -62,6 +65,104 @@ public class PokerServiceImplIntegrationTest {
 		}
 		assertNotNull(service.getGameIdentifiers());
 		assertEquals(2, service.getGameIdentifiers().size());
+	}
+
+	@Test
+	public void testScoreUpdateOnGameStart() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("gameA", 100));
+		assertNotNull(gameIdentifier);
+
+		final PokerPlayerIdentifier playerIdentifierA = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
+		assertNotNull(playerIdentifierA);
+		service.joinGame(gameIdentifier, playerIdentifierA);
+
+		final PokerPlayerIdentifier playerIdentifierB = service.createPlayer(sessionIdentifier, createPlayerDto("playerB", 10000));
+		assertNotNull(playerIdentifierB);
+		service.joinGame(gameIdentifier, playerIdentifierB);
+
+		final PokerPlayerIdentifier playerIdentifierC = service.createPlayer(sessionIdentifier, createPlayerDto("playerC", 10000));
+		assertNotNull(playerIdentifierC);
+		service.joinGame(gameIdentifier, playerIdentifierC);
+
+		assertThat(service.getGame(gameIdentifier).getScore(), is(0L));
+		assertThat(service.getPlayer(playerIdentifierA).getScore(), is(0L));
+		assertThat(service.getPlayer(playerIdentifierB).getScore(), is(0L));
+		assertThat(service.getPlayer(playerIdentifierC).getScore(), is(0L));
+
+		service.startGame(gameIdentifier);
+
+		assertThat(service.getGame(gameIdentifier).getScore(), is(3L));
+		assertThat(service.getPlayer(playerIdentifierA).getScore(), is(-1L));
+		assertThat(service.getPlayer(playerIdentifierB).getScore(), is(-1L));
+		assertThat(service.getPlayer(playerIdentifierC).getScore(), is(-1L));
+	}
+
+	@Test
+	public void testNewGameHasScoreZero() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
+		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("gameA", 100));
+		assertNotNull(gameIdentifier);
+
+		final PokerGame game = service.getGame(gameIdentifier);
+		assertThat(game, is(notNullValue()));
+		assertThat(game.getScore(), is(0L));
+	}
+
+	@Test
+	public void testNewPlayerHasScoreZero() throws Exception {
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
+		final PokerService service = injector.getInstance(PokerService.class);
+
+		final String sessionId = "sid123";
+
+		final HttpSession session = EasyMock.createMock(HttpSession.class);
+		EasyMock.expect(session.getId()).andReturn(sessionId);
+		EasyMock.replay(session);
+
+		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+		EasyMock.expect(request.getSession()).andReturn(session);
+		EasyMock.replay(request);
+
+		final AuthenticationService authenticationService = injector.getInstance(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
+
+		final PokerPlayerIdentifier playerIdentifier = service.createPlayer(sessionIdentifier, createPlayerDto("playerA", 10000));
+		assertNotNull(playerIdentifier);
+
+		final PokerPlayer player = service.getPlayer(playerIdentifier);
+		assertThat(player, is(notNullValue()));
+		assertThat(player.getScore(), is(0L));
 	}
 
 	@Test
@@ -168,8 +269,7 @@ public class PokerServiceImplIntegrationTest {
 		try {
 			service.startGame(gameIdentifier);
 			fail("ValidationException expected");
-		}
-		catch (final ValidationException e) {
+		} catch (final ValidationException e) {
 			assertNotNull(e);
 		}
 
@@ -183,8 +283,7 @@ public class PokerServiceImplIntegrationTest {
 		try {
 			service.startGame(gameIdentifier);
 			fail("ValidationException expected");
-		}
-		catch (final ValidationException e) {
+		} catch (final ValidationException e) {
 			assertNotNull(e);
 		}
 
@@ -582,8 +681,7 @@ public class PokerServiceImplIntegrationTest {
 			try {
 				service.raise(gameIdentifier, activePlayer, 180);
 				fail("raise should fail, min raise 2xBet");
-			}
-			catch (final ValidationException e) {
+			} catch (final ValidationException e) {
 			}
 		}
 
@@ -617,8 +715,7 @@ public class PokerServiceImplIntegrationTest {
 			try {
 				service.raise(gameIdentifier, activePlayer, 2100);
 				fail("raise should fail, max raise 2xBet");
-			}
-			catch (final ValidationException e) {
+			} catch (final ValidationException e) {
 			}
 		}
 		{
@@ -689,8 +786,7 @@ public class PokerServiceImplIntegrationTest {
 			try {
 				service.raise(gameIdentifier, activePlayer, 501l);
 				fail("ValidationException expected");
-			}
-			catch (final ValidationException e) {
+			} catch (final ValidationException e) {
 				assertNotNull(e);
 			}
 		}
@@ -790,4 +886,5 @@ public class PokerServiceImplIntegrationTest {
 		dto.setAmount(credits);
 		return dto;
 	}
+
 }

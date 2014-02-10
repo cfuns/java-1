@@ -7,6 +7,8 @@ public class PokerGameDto implements PokerGame {
 
 	private Long maxBid;
 
+	private Long score;
+
 	private Long bet;
 
 	private Long round;
@@ -38,6 +40,14 @@ public class PokerGameDto implements PokerGame {
 	private Boolean creditsNegativeAllowed;
 
 	private Long autoFoldTimeout;
+
+	public Long getScore() {
+		return score;
+	}
+
+	public void setScore(final Long score) {
+		this.score = score;
+	}
 
 	@Override
 	public Long getMaxBid() {

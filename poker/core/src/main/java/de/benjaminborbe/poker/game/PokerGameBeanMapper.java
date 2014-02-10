@@ -75,6 +75,8 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
 	public static final String MIN_RAISE_FACTOR = "minRaiseFactor";
 
+	public static final String SCORE = "score";
+
 	@Inject
 	public PokerGameBeanMapper(
 		final Provider<PokerGameBean> provider,
@@ -115,6 +117,7 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(SMALL_BLIND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(BIG_BLIND, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(MAX_BID, mapperLong));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(SCORE, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Boolean>(CREDITS_NEGATIVE_ALLOWED, mapperBoolean));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(AUTO_FOLD_TIMEOUT1, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Double>(MAX_RAISE_FACTOR, mapperDouble));
