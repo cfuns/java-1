@@ -134,7 +134,7 @@ public class PokerServiceImpl implements PokerService {
 	@Override
 	public PokerGame getGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
 		try {
-			logger.debug("getGame - id: " + gameIdentifier);
+			logger.trace("getGame - id: " + gameIdentifier);
 			return pokerGameDao.load(gameIdentifier);
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
@@ -806,7 +806,7 @@ public class PokerServiceImpl implements PokerService {
 	@Override
 	public Collection<PokerPlayer> getPlayers() throws PokerServiceException {
 		try {
-			logger.debug("getPlayers");
+			logger.trace("getPlayers");
 			final EntityIterator<PokerPlayerBean> i = pokerPlayerDao.getEntityIterator();
 			final List<PokerPlayer> result = new ArrayList<PokerPlayer>();
 			while (i.hasNext()) {
@@ -1065,7 +1065,7 @@ public class PokerServiceImpl implements PokerService {
 			}
 
 			pokerPlayerDao.save(bean,
-				new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.NAME).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.OWNERS));
+				new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.NAME).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.OWNERS).add(PokerPlayerBeanMapper.SCORE));
 			trackPlayerAmount(bean.getId(), bean.getAmount());
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
