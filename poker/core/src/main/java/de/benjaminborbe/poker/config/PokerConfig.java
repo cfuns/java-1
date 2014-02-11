@@ -27,4 +27,6 @@ public interface PokerConfig {
 	 * enabled: > 1
 	 */
 	double getMaxRaiseFactor();
+
+	String getScheduleExpression();
 }

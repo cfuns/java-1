@@ -6,6 +6,7 @@ import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionDouble;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionLong;
+import de.benjaminborbe.configuration.tools.ConfigurationDescriptionString;
 import de.benjaminborbe.tools.util.ParseUtil;
 import org.slf4j.Logger;
 
@@ -28,6 +29,10 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 
 	private final ConfigurationDescriptionDouble maxRaiseFactor = new ConfigurationDescriptionDouble(10d, "PokerMaxRaiseFactor", "Poker Max Raise Factor");
 
+	/* s m h d m dw y */
+	private final ConfigurationDescriptionString pokerScheduleExpression = new ConfigurationDescriptionString("* * * * * ?", "Poker Schedule Expression",
+		"Poker Schedule Expression");
+
 	@Inject
 	public PokerConfigImpl(
 		final Logger logger,
@@ -46,6 +51,7 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 		result.add(maxBid);
 		result.add(minRaiseFactor);
 		result.add(maxRaiseFactor);
+		result.add(pokerScheduleExpression);
 		return result;
 	}
 
@@ -79,4 +85,8 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 		return getValueDouble(maxRaiseFactor);
 	}
 
+	@Override
+	public String getScheduleExpression() {
+		return getValueString(pokerScheduleExpression);
+	}
 }

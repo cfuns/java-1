@@ -202,6 +202,8 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 					widgets.add(new BrWidget());
 					widgets.add(pokerGuiLinkFactory.gameJoinAllPlayers(request, gameIdentifier));
 					widgets.add(new BrWidget());
+					widgets.add(pokerGuiLinkFactory.gameUpdate(request, gameIdentifier));
+					widgets.add(new BrWidget());
 				}
 			}
 			{
@@ -232,6 +234,8 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 						list.add(pokerGuiLinkFactory.playerView(request, playerIdentifier, player.getName()));
 						list.add(" ");
 						list.add(getPlayerStatusAsString(activePlayers, playerIdentifier));
+						list.add(" ");
+						list.add("Score: " + player.getScore());
 						list.add(" ");
 						list.add("Credit: " + player.getAmount());
 						list.add(" ");

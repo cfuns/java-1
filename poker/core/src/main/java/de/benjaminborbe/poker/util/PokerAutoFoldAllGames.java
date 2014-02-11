@@ -26,13 +26,13 @@ public class PokerAutoFoldAllGames {
 
 	public void processAllGames() {
 		try {
-			logger.debug("poker auto caller cron iterate of games started");
+			logger.debug("poker auto fold cron iterate of games started");
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
 			while (i.hasNext()) {
 				final PokerGameBean game = i.next();
 				pokerAutoFoldGame.processGame(game);
 			}
-			logger.debug("poker auto caller cron iterate of games finished");
+			logger.debug("poker auto fold cron iterate of games finished");
 		} catch (final EntityIteratorException e) {
 			logger.debug(e.getClass().getName(), e);
 		} catch (StorageException e) {

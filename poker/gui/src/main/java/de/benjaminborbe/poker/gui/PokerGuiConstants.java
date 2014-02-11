@@ -89,4 +89,6 @@ public interface PokerGuiConstants {
 	String PARAMETER_GAME_AUTO_JOIN_AND_RESTART = "game_auto_join_and_restart";
 
 	boolean DEFAULT_GAME_AUTO_JOIN_AND_RESTART = false;
+
+	String PARAMETER_GAME_AUTO_FOLD_TIMEOUT = "game_auto_fold_timeout";
 }

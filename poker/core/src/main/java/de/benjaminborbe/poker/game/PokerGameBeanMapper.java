@@ -69,8 +69,6 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
 	public static final String CREDITS_NEGATIVE_ALLOWED = "creditsNegativeAllowed";
 
-	public static final String AUTO_FOLD_TIMEOUT1 = "autoFoldTimeout";
-
 	public static final String MAX_RAISE_FACTOR = "maxRaiseFactor";
 
 	public static final String MIN_RAISE_FACTOR = "minRaiseFactor";
@@ -124,7 +122,6 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(SCORE, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Boolean>(CREDITS_NEGATIVE_ALLOWED, mapperBoolean));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Boolean>(AUTO_JOIN_AND_RESTART, mapperBoolean));
-		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(AUTO_FOLD_TIMEOUT1, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Double>(MAX_RAISE_FACTOR, mapperDouble));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Double>(MIN_RAISE_FACTOR, mapperDouble));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(ROUND, mapperLong));

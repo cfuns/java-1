@@ -11,9 +11,6 @@ import javax.inject.Singleton;
 @Singleton
 public class PokerCronJob implements CronJob {
 
-	/* s m h d m dw y */
-	private static final String SCHEDULE_EXPRESSION = "*/3 * * * * ?";
-
 	private final Logger logger;
 
 	private final PokerConfig pokerConfig;
@@ -40,7 +37,7 @@ public class PokerCronJob implements CronJob {
 
 	@Override
 	public String getScheduleExpression() {
-		return SCHEDULE_EXPRESSION;
+		return pokerConfig.getScheduleExpression();
 	}
 
 	@Override

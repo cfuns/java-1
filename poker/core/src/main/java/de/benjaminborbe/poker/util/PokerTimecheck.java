@@ -14,7 +14,7 @@ public class PokerTimecheck {
 		this.currentTime = currentTime;
 	}
 
-	public boolean timeoutReached(final Calendar lastActionTime, final long autoCallTimeout) {
-		return (currentTime.currentTimeMillis() - lastActionTime.getTimeInMillis()) > autoCallTimeout;
+	public boolean timeoutReached(final Calendar lastActionTime, final long autoFoldTimeout) {
+		return (currentTime.currentTimeMillis() - lastActionTime.getTimeInMillis()) > autoFoldTimeout;
 	}
 }

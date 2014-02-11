@@ -29,11 +29,11 @@ public class PokerAutoFoldGame {
 		final PokerGameIdentifier pokerGameIdentifier = game.getId();
 		logger.debug("poker auto caller processGame game " + pokerGameIdentifier + " started");
 		if (Boolean.TRUE.equals(game.getRunning())) {
-			final Long autoCallTimeout = game.getAutoFoldTimeout();
+			final Long autoFoldTimeout = game.getAutoFoldTimeout();
 			final Calendar activePositionTime = game.getActivePositionTime();
-			if (activePositionTime != null && autoCallTimeout != null && autoCallTimeout > 0) {
+			if (activePositionTime != null && autoFoldTimeout != null && autoFoldTimeout > 0) {
 				logger.debug("auto caller game " + pokerGameIdentifier);
-				if (pokerTimecheck.timeoutReached(activePositionTime, autoCallTimeout)) {
+				if (pokerTimecheck.timeoutReached(activePositionTime, autoFoldTimeout)) {
 					try {
 						logger.debug("timeout reached => fold");
 						pokerService.fold(pokerGameIdentifier, pokerService.getActivePlayer(pokerGameIdentifier));
