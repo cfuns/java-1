@@ -8,6 +8,8 @@ import de.benjaminborbe.authorization.api.RoleIdentifier;
 import de.benjaminborbe.authorization.dao.RoleBean;
 import de.benjaminborbe.authorization.dao.RoleDao;
 import de.benjaminborbe.authorization.dao.UserRoleManyToManyRelation;
+import de.benjaminborbe.tools.util.ThreadRunner;
+import de.benjaminborbe.tools.util.ThreadRunnerMock;
 import org.easymock.EasyMock;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ public class AuthorizationServiceImplUnitTest {
 	public void testHasRoleRoleNotFoundNoSuperadmin() throws Exception {
 		final UserIdentifier userIdentifier = new UserIdentifier("testuser");
 		final RoleIdentifier roleIdentifier = new RoleIdentifier("testrole");
+		final ThreadRunner threadRunner = new ThreadRunnerMock();
 
 		{
 			final RoleDao roleDao = EasyMock.createMock(RoleDao.class);
@@ -31,7 +34,10 @@ public class AuthorizationServiceImplUnitTest {
 			EasyMock.expect(authenticationService.isSuperAdmin(userIdentifier)).andReturn(false);
 			EasyMock.replay(authenticationService);
 
-			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(null, authenticationService, roleDao, null, null, null, null, null);
+			final Logger logger = EasyMock.createNiceMock(Logger.class);
+			EasyMock.replay(logger);
+
+			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, roleDao, null, null, null, null, threadRunner);
 
 			assertThat(service.hasRole(userIdentifier, roleIdentifier), is(false));
 		}
@@ -41,7 +47,7 @@ public class AuthorizationServiceImplUnitTest {
 	public void testHasRoleSuperAdmin() throws Exception {
 		final UserIdentifier userIdentifier = new UserIdentifier("testuser");
 		final RoleIdentifier roleIdentifier = new RoleIdentifier("testrole");
-
+		final ThreadRunner threadRunner = new ThreadRunnerMock();
 		{
 			final RoleDao roleDao = EasyMock.createMock(RoleDao.class);
 			EasyMock.expect(roleDao.findByRolename(roleIdentifier)).andReturn(null);
@@ -51,7 +57,10 @@ public class AuthorizationServiceImplUnitTest {
 			EasyMock.expect(authenticationService.isSuperAdmin(userIdentifier)).andReturn(true);
 			EasyMock.replay(authenticationService);
 
-			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(null, authenticationService, roleDao, null, null, null, null, null);
+			final Logger logger = EasyMock.createNiceMock(Logger.class);
+			EasyMock.replay(logger);
+
+			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, roleDao, null, null, null, null, threadRunner);
 
 			assertThat(service.hasRole(userIdentifier, roleIdentifier), is(true));
 		}
@@ -61,6 +70,7 @@ public class AuthorizationServiceImplUnitTest {
 	public void testHasRoleRoleFoundButNoRelation() throws Exception {
 		final UserIdentifier userIdentifier = new UserIdentifier("testuser");
 		final RoleIdentifier roleIdentifier = new RoleIdentifier("testrole");
+		final ThreadRunner threadRunner = new ThreadRunnerMock();
 
 		{
 			final UserRoleManyToManyRelation userRoleManyToManyRelation = EasyMock.createMock(UserRoleManyToManyRelation.class);
@@ -78,7 +88,10 @@ public class AuthorizationServiceImplUnitTest {
 			EasyMock.expect(authenticationService.isSuperAdmin(userIdentifier)).andReturn(false);
 			EasyMock.replay(authenticationService);
 
-			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(null, authenticationService, roleDao, null, userRoleManyToManyRelation, null, null, null);
+			final Logger logger = EasyMock.createNiceMock(Logger.class);
+			EasyMock.replay(logger);
+
+			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, roleDao, null, userRoleManyToManyRelation, null, null, threadRunner);
 
 			assertThat(service.hasRole(userIdentifier, roleIdentifier), is(false));
 		}
@@ -88,6 +101,7 @@ public class AuthorizationServiceImplUnitTest {
 	public void testHasRoleRoleFoundAndRelation() throws Exception {
 		final UserIdentifier userIdentifier = new UserIdentifier("testuser");
 		final RoleIdentifier roleIdentifier = new RoleIdentifier("testrole");
+		final ThreadRunner threadRunner = new ThreadRunnerMock();
 
 		{
 			final UserRoleManyToManyRelation userRoleManyToManyRelation = EasyMock.createMock(UserRoleManyToManyRelation.class);
@@ -105,7 +119,10 @@ public class AuthorizationServiceImplUnitTest {
 			EasyMock.expect(authenticationService.isSuperAdmin(userIdentifier)).andReturn(false);
 			EasyMock.replay(authenticationService);
 
-			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(null, authenticationService, roleDao, null, userRoleManyToManyRelation, null, null, null);
+			final Logger logger = EasyMock.createNiceMock(Logger.class);
+			EasyMock.replay(logger);
+
+			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, roleDao, null, userRoleManyToManyRelation, null, null, threadRunner);
 
 			assertThat(service.hasRole(userIdentifier, roleIdentifier), is(true));
 		}
@@ -115,6 +132,7 @@ public class AuthorizationServiceImplUnitTest {
 	public void testHasLoggedInRole() throws Exception {
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier("sid");
 		final RoleIdentifier roleIdentifier = new RoleIdentifier(AuthorizationService.ROLE_LOGGED_IN);
+		final ThreadRunner threadRunner = new ThreadRunnerMock();
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
@@ -132,7 +150,7 @@ public class AuthorizationServiceImplUnitTest {
 			EasyMock.expect(roleDao.findByRolename(roleIdentifier)).andReturn(null);
 			EasyMock.replay(roleDao);
 
-			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, roleDao, null, null, null, null, null);
+			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, roleDao, null, null, null, null, threadRunner);
 			assertThat(service.hasRole(sessionIdentifier, roleIdentifier), is(false));
 		}
 
@@ -145,7 +163,7 @@ public class AuthorizationServiceImplUnitTest {
 			EasyMock.expect(authenticationService.isLoggedIn(sessionIdentifier)).andReturn(true);
 			EasyMock.replay(authenticationService);
 
-			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, null, null, null, null, null, null);
+			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, null, null, null, null, null, threadRunner);
 			assertThat(service.hasRole(sessionIdentifier, roleIdentifier), is(true));
 		}
 	}
@@ -155,6 +173,7 @@ public class AuthorizationServiceImplUnitTest {
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier("sid");
 		final RoleIdentifier roleIdentifier = new RoleIdentifier(AuthorizationService.ROLE_LOGGED_OUT);
 		final UserIdentifier userIdentifier = new UserIdentifier("testuser");
+		final ThreadRunner threadRunner = new ThreadRunnerMock();
 
 		final Logger logger = EasyMock.createNiceMock(Logger.class);
 		EasyMock.replay(logger);
@@ -167,7 +186,7 @@ public class AuthorizationServiceImplUnitTest {
 			EasyMock.expect(authenticationService.isLoggedIn(sessionIdentifier)).andReturn(false);
 			EasyMock.replay(authenticationService);
 
-			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, null, null, null, null, null, null);
+			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, null, null, null, null, null, threadRunner);
 			assertThat(service.hasRole(sessionIdentifier, roleIdentifier), is(true));
 		}
 
@@ -184,7 +203,7 @@ public class AuthorizationServiceImplUnitTest {
 			EasyMock.expect(roleDao.findByRolename(roleIdentifier)).andReturn(null);
 			EasyMock.replay(roleDao);
 
-			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, roleDao, null, null, null, null, null);
+			final AuthorizationServiceImpl service = new AuthorizationServiceImpl(logger, authenticationService, roleDao, null, null, null, null, threadRunner);
 			assertThat(service.hasRole(sessionIdentifier, roleIdentifier), is(false));
 		}
 	}
