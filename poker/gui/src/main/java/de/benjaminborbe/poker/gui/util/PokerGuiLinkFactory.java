@@ -184,4 +184,9 @@ public class PokerGuiLinkFactory {
 			new MapParameter().add(PokerGuiConstants.PARAMETER_GAME_ID, gameIdentifier),
 			"add all available players");
 	}
+
+	public Widget gameTable(final HttpServletRequest request, final PokerGameIdentifier id) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + PokerGuiConstants.URL_GAME_TABLE,
+			new MapParameter().add(PokerGuiConstants.PARAMETER_GAME_ID, id), "table");
+	}
 }

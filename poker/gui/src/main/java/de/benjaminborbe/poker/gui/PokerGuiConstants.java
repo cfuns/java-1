@@ -91,4 +91,6 @@ public interface PokerGuiConstants {
 	boolean DEFAULT_GAME_AUTO_JOIN_AND_RESTART = false;
 
 	String PARAMETER_GAME_AUTO_FOLD_TIMEOUT = "game_auto_fold_timeout";
+
+	Object URL_GAME_TABLE = "/poker_table/Home.html";
 }

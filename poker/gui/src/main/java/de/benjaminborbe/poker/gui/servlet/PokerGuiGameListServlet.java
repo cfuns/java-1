@@ -112,6 +112,8 @@ public class PokerGuiGameListServlet extends WebsiteHtmlServlet {
 					row.addCell(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 					if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 						final ListWidget options = new ListWidget();
+						options.add(pokerGuiLinkFactory.gameTable(request, game.getId()));
+						options.add(" ");
 						options.add(pokerGuiLinkFactory.gameUpdate(request, game.getId()));
 						options.add(" ");
 						options.add(pokerGuiLinkFactory.gameDelete(request, game.getId()));
