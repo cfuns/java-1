@@ -79,6 +79,8 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 
 	public static final String START_CREDITS = "startCredits";
 
+	public static final String AUTO_JOIN_AND_RESTART = "autoJoinAndRestart";
+
 	@Inject
 	public PokerGameBeanMapper(
 		final Provider<PokerGameBean> provider,
@@ -121,6 +123,7 @@ public class PokerGameBeanMapper extends MapObjectMapperAdapter<PokerGameBean> {
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(MAX_BID, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(SCORE, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Boolean>(CREDITS_NEGATIVE_ALLOWED, mapperBoolean));
+		result.add(new StringObjectMapperAdapter<PokerGameBean, Boolean>(AUTO_JOIN_AND_RESTART, mapperBoolean));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Long>(AUTO_FOLD_TIMEOUT1, mapperLong));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Double>(MAX_RAISE_FACTOR, mapperDouble));
 		result.add(new StringObjectMapperAdapter<PokerGameBean, Double>(MIN_RAISE_FACTOR, mapperDouble));

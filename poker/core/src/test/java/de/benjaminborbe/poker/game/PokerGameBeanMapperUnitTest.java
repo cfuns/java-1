@@ -75,6 +75,7 @@ public class PokerGameBeanMapperUnitTest {
 		result.add(new Object[]{PokerGameBeanMapper.CREDITS_NEGATIVE_ALLOWED, "true"});
 		result.add(new Object[]{PokerGameBeanMapper.SCORE, "123"});
 		result.add(new Object[]{PokerGameBeanMapper.START_CREDITS, "1234"});
+		result.add(new Object[]{PokerGameBeanMapper.AUTO_JOIN_AND_RESTART, "true"});
 		return result;
 	}
 

@@ -85,4 +85,8 @@ public interface PokerGuiConstants {
 	String PARAMETER_GAME_BIG_BLIND = "game_start_big_blind";
 
 	String PARAMETER_PLAYER_SCORE = "player_score";
+
+	String PARAMETER_GAME_AUTO_JOIN_AND_RESTART = "game_auto_join_and_restart";
+
+	boolean DEFAULT_GAME_AUTO_JOIN_AND_RESTART = false;
 }

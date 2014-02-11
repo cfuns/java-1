@@ -183,6 +183,8 @@ public class PokerServiceImpl implements PokerService {
 			bean.setName(pokerGameDto.getName());
 			bean.setBigBlind(pokerGameDto.getBigBlind());
 			bean.setSmallBlind(pokerGameDto.getBigBlind() != null ? (pokerGameDto.getBigBlind() / 2) : null);
+			bean.setStartCredits(pokerGameDto.getStartCredits());
+			bean.setAutoJoinAndRestart(pokerGameDto.getAutoJoinAndRestart());
 			bean.setRunning(false);
 			bean.setPot(0l);
 			bean.setCardPosition(0);
@@ -192,7 +194,6 @@ public class PokerServiceImpl implements PokerService {
 			bean.setCreditsNegativeAllowed(pokerConfig.isCreditsNegativeAllowed());
 			bean.setMaxRaiseFactor(pokerConfig.getMaxRaiseFactor());
 			bean.setMinRaiseFactor(pokerConfig.getMinRaiseFactor());
-			bean.setStartCredits(pokerGameDto.getStartCredits());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -1160,6 +1161,7 @@ public class PokerServiceImpl implements PokerService {
 			bean.setName(pokerGameDto.getName());
 			bean.setStartCredits(pokerGameDto.getStartCredits());
 			bean.setBigBlind(pokerGameDto.getBigBlind());
+			bean.setAutoJoinAndRestart(pokerGameDto.getAutoJoinAndRestart());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -1167,7 +1169,7 @@ public class PokerServiceImpl implements PokerService {
 				throw new ValidationException(errors);
 			}
 
-			pokerGameDao.save(bean, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.NAME).add(PokerGameBeanMapper.START_CREDITS).add(PokerGameBeanMapper.BIG_BLIND));
+			pokerGameDao.save(bean, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.NAME).add(PokerGameBeanMapper.START_CREDITS).add(PokerGameBeanMapper.BIG_BLIND).add(PokerGameBeanMapper.AUTO_JOIN_AND_RESTART));
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {

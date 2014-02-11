@@ -60,6 +60,16 @@ public class PokerGameBean extends EntityBase<PokerGameIdentifier> implements Po
 
 	private Boolean creditsNegativeAllowed;
 
+	private Boolean autoJoinAndRestart;
+
+	public Boolean getAutoJoinAndRestart() {
+		return autoJoinAndRestart;
+	}
+
+	public void setAutoJoinAndRestart(final Boolean autoJoinAndRestart) {
+		this.autoJoinAndRestart = autoJoinAndRestart;
+	}
+
 	private Long autoFoldTimeout;
 
 	private Long score;

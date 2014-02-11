@@ -43,6 +43,16 @@ public class PokerGameDto implements PokerGame {
 
 	private Long startCredits;
 
+	public Boolean getAutoJoinAndRestart() {
+		return autoJoinAndRestart;
+	}
+
+	public void setAutoJoinAndRestart(final Boolean autoJoinAndRestart) {
+		this.autoJoinAndRestart = autoJoinAndRestart;
+	}
+
+	private Boolean autoJoinAndRestart;
+
 	public Long getStartCredits() {
 		return startCredits;
 	}

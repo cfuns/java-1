@@ -42,4 +42,6 @@ public interface PokerGame {
 	Long getScore();
 
 	Long getStartCredits();
+
+	Boolean getAutoJoinAndRestart();
 }

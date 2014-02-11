@@ -102,13 +102,14 @@ public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
 			final String referer = request.getParameter(PokerGuiConstants.PARAMETER_REFERER);
 			final String startCredits = request.getParameter(PokerGuiConstants.PARAMETER_GAME_START_CREDITS);
 			final String startBigBlind = request.getParameter(PokerGuiConstants.PARAMETER_GAME_BIG_BLIND);
+			final String autoJoinAndRestart = request.getParameter(PokerGuiConstants.PARAMETER_GAME_AUTO_JOIN_AND_RESTART);
 
 			final PokerGameIdentifier pokerGameIdentifier = pokerService.createGameIdentifier(id);
 			final PokerGame game = pokerService.getGame(pokerGameIdentifier);
 
 			if (id != null && name != null && startCredits != null) {
 				try {
-					updateGame(pokerGameIdentifier, name, startCredits, startBigBlind);
+					updateGame(pokerGameIdentifier, name, startCredits, startBigBlind, autoJoinAndRestart);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -127,6 +128,7 @@ public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_NAME).addLabel("Name:").addDefaultValue(game.getName()));
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_BIG_BLIND).addLabel("BigBlind:").addDefaultValue(game.getBigBlind()));
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_START_CREDITS).addLabel("Start Credits:").addDefaultValue(game.getStartCredits()));
+			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_AUTO_JOIN_AND_RESTART).addLabel("AutoJoinAndRestart:").addDefaultValue(game.getAutoJoinAndRestart()));
 			form.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(form);
 
@@ -141,9 +143,16 @@ public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
 		final PokerGameIdentifier id,
 		final String name,
 		String startCreditsString,
-		String startBigBlindString
+		String startBigBlindString,
+		String autoJoinAndRestartString
 	) throws PokerServiceException, ValidationException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		boolean autoJoinAndRestart = false;
+		try {
+			autoJoinAndRestart = parseUtil.parseBoolean(autoJoinAndRestartString);
+		} catch (final ParseException e) {
+			errors.add(new ValidationErrorSimple("illegal autoJoinAndRestart"));
+		}
 		long startCredits = 0;
 		try {
 			startCredits = parseUtil.parseLong(startCreditsString);
@@ -164,6 +173,7 @@ public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
 			dto.setName(name);
 			dto.setStartCredits(startCredits);
 			dto.setBigBlind(startBigBlind);
+			dto.setAutoJoinAndRestart(autoJoinAndRestart);
 			pokerService.updateGame(dto);
 		}
 	}
