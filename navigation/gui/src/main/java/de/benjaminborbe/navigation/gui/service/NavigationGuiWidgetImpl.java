@@ -9,6 +9,8 @@ import de.benjaminborbe.navigation.api.NavigationService;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ComparatorBase;
+import de.benjaminborbe.tools.util.ThreadResult;
+import de.benjaminborbe.tools.util.ThreadRunner;
 import de.benjaminborbe.website.link.LinkWidget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.UlWidget;
@@ -27,14 +29,6 @@ import java.util.List;
 @Singleton
 public class NavigationGuiWidgetImpl implements NavigationWidget {
 
-	private final class NavigationEntryComparator extends ComparatorBase<NavigationEntry, String> {
-
-		@Override
-		public String getValue(final NavigationEntry o) {
-			return o.getTitle();
-		}
-	}
-
 	private final Logger logger;
 
 	private final NavigationService navigationService;
@@ -43,17 +37,21 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 
 	private final AuthenticationService authenticationService;
 
+	private final ThreadRunner threadRunner;
+
 	@Inject
 	public NavigationGuiWidgetImpl(
 		final Logger logger,
 		final NavigationService navigationService,
 		final UrlUtil urlUtil,
-		final AuthenticationService authenticationService
+		final AuthenticationService authenticationService,
+		final ThreadRunner threadRunner
 	) {
 		this.logger = logger;
 		this.navigationService = navigationService;
 		this.urlUtil = urlUtil;
 		this.authenticationService = authenticationService;
+		this.threadRunner = threadRunner;
 	}
 
 	@Override
@@ -64,10 +62,8 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 		ul.addId("navi");
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			for (final NavigationEntry navigationEntry : sort(navigationService.getNavigationEntries())) {
-				if (navigationEntry.isVisible(sessionIdentifier)) {
-					ul.add(new LinkWidget(urlUtil.buildUrl(request, navigationEntry.getURL()), navigationEntry.getTitle()));
-				}
+			for (final NavigationEntry navigationEntry : getNavigationEntries(sessionIdentifier)) {
+				ul.add(new LinkWidget(urlUtil.buildUrl(request, navigationEntry.getURL()), navigationEntry.getTitle()));
 			}
 		} catch (final AuthenticationServiceException e) {
 			logger.warn(e.getClass().getName(), e);
@@ -82,4 +78,65 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 		return result;
 	}
 
+	private Collection<NavigationEntry> getNavigationEntries(final SessionIdentifier sessionIdentifier) {
+
+		final List<ThreadResult<NavigationEntry>> threadResults = new ArrayList<ThreadResult<NavigationEntry>>();
+		final List<Thread> threads = new ArrayList<Thread>();
+		for (final NavigationEntry navigationEntry : navigationService.getNavigationEntries()) {
+			final ThreadResult<NavigationEntry> threadResult = new ThreadResult<NavigationEntry>();
+			threadResults.add(threadResult);
+			threads.add(threadRunner.run("navigationEntryIsVisible", new NavigationIsVisable(navigationEntry, sessionIdentifier, threadResult)));
+		}
+
+		for (Thread thread : threads) {
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+
+			}
+		}
+
+		final List<NavigationEntry> navigationEntries = new ArrayList<NavigationEntry>();
+		for (final ThreadResult<NavigationEntry> threadResult : threadResults) {
+			final NavigationEntry navigationEntry = threadResult.get();
+			if (navigationEntry != null) {
+				navigationEntries.add(navigationEntry);
+			}
+		}
+		return sort(navigationEntries);
+	}
+
+	private static class NavigationIsVisable implements Runnable {
+
+		private final NavigationEntry navigationEntry;
+
+		private final SessionIdentifier sessionIdentifier;
+
+		private final ThreadResult<NavigationEntry> threadResult;
+
+		public NavigationIsVisable(
+			final NavigationEntry navigationEntry,
+			final SessionIdentifier sessionIdentifier,
+			final ThreadResult<NavigationEntry> threadResult
+		) {
+			this.navigationEntry = navigationEntry;
+			this.sessionIdentifier = sessionIdentifier;
+			this.threadResult = threadResult;
+		}
+
+		@Override
+		public void run() {
+			if (navigationEntry.isVisible(sessionIdentifier)) {
+				threadResult.set(navigationEntry);
+			}
+		}
+	}
+
+	private final class NavigationEntryComparator extends ComparatorBase<NavigationEntry, String> {
+
+		@Override
+		public String getValue(final NavigationEntry o) {
+			return o.getTitle();
+		}
+	}
 }
