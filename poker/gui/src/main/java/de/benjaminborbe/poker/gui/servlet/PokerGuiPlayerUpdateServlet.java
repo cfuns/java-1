@@ -109,15 +109,16 @@ public class PokerGuiPlayerUpdateServlet extends WebsiteHtmlServlet {
 			final String name = request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_NAME);
 			final String owners = request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_OWNERS);
 			final String amount = request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_AMOUNT);
+			final String score = request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_SCORE);
 
 			final PokerPlayerIdentifier pokerPlayerIdentifier = pokerService.createPlayerIdentifier(id);
 			final PokerPlayer player = pokerService.getPlayer(pokerPlayerIdentifier);
 
 			final String referer = request.getParameter(PokerGuiConstants.PARAMETER_REFERER);
-			if (name != null && owners != null && amount != null) {
+			if (name != null && owners != null && amount != null && score != null) {
 				try {
 
-					updatePlayer(pokerPlayerIdentifier, name, amount, buildUsers(owners));
+					updatePlayer(pokerPlayerIdentifier, name, amount, score, buildUsers(owners));
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -136,6 +137,7 @@ public class PokerGuiPlayerUpdateServlet extends WebsiteHtmlServlet {
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_PLAYER_NAME).addLabel("Name:").addDefaultValue(player.getName()));
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_PLAYER_OWNERS).addLabel("Owners:").addDefaultValue(asString(player.getOwners())));
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_PLAYER_AMOUNT).addLabel("Credits:").addDefaultValue(player.getAmount()));
+			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_PLAYER_SCORE).addLabel("Score:").addDefaultValue(player.getScore()));
 			form.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(form);
 
@@ -163,6 +165,7 @@ public class PokerGuiPlayerUpdateServlet extends WebsiteHtmlServlet {
 		final PokerPlayerIdentifier pokerPlayerIdentifier,
 		final String name,
 		final String creditsString,
+		String scoreString,
 		final Collection<UserIdentifier> owners
 	)
 		throws PokerServiceException, ValidationException {
@@ -174,6 +177,12 @@ public class PokerGuiPlayerUpdateServlet extends WebsiteHtmlServlet {
 		} catch (final ParseException e) {
 			errors.add(new ValidationErrorSimple("illegal credits"));
 		}
+		long score = 0;
+		try {
+			score = parseUtil.parseLong(scoreString);
+		} catch (final ParseException e) {
+			errors.add(new ValidationErrorSimple("illegal score"));
+		}
 
 		if (!errors.isEmpty()) {
 			throw new ValidationException(new ValidationResultImpl(errors));
@@ -183,6 +192,7 @@ public class PokerGuiPlayerUpdateServlet extends WebsiteHtmlServlet {
 			playerDto.setName(name);
 			playerDto.setAmount(credits);
 			playerDto.setOwners(owners);
+			playerDto.setScore(score);
 			pokerService.updatePlayer(playerDto);
 		}
 

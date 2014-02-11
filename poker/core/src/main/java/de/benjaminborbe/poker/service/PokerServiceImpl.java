@@ -1056,6 +1056,7 @@ public class PokerServiceImpl implements PokerService {
 			bean.setName(pokerPlayerDto.getName());
 			bean.setAmount(pokerPlayerDto.getAmount());
 			bean.setOwners(pokerPlayerDto.getOwners());
+			bean.setScore(pokerPlayerDto.getScore());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
