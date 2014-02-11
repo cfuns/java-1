@@ -18,6 +18,7 @@
 				<module>api</module>
 				<module>core</module>
 				<module>client</module>
+				<module>table</module>
 				<module>gui</module>
 			</modules>
 		</profile>
