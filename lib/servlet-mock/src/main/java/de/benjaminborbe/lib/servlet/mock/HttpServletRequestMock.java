@@ -290,4 +290,4 @@ public class HttpServletRequestMock implements HttpServletRequest {
 	public void setParameter(final String key, final String value) {
 		parameter.put(key, value);
 	}
-};
+}

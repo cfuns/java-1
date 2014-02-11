@@ -165,7 +165,7 @@ public class PokerGuiPlayerUpdateServlet extends WebsiteHtmlServlet {
 		final PokerPlayerIdentifier pokerPlayerIdentifier,
 		final String name,
 		final String creditsString,
-		String scoreString,
+		final String scoreString,
 		final Collection<UserIdentifier> owners
 	)
 		throws PokerServiceException, ValidationException {

@@ -12,7 +12,7 @@ public class ConfigurationCacheKeyBuilderImpl implements ConfigurationCacheKeyBu
 	public ConfigurationCacheKeyBuilderImpl() {
 	}
 
-	public String createConfigurationKey(ConfigurationDescription configurationDescription) {
+	public String createConfigurationKey(final ConfigurationDescription configurationDescription) {
 		return PREFIX + "-" + configurationDescription.getId().getId();
 	}
 }

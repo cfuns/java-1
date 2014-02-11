@@ -46,7 +46,7 @@ public class Fifo<T> {
 		if (amount > data.size() || amount < 0)
 			throw new FifoIndexOutOfBoundsException("no such element");
 		final List<T> list = new ArrayList<T>(amount);
-		for (T element : data.subList(data.size() - amount, data.size())) {
+		for (final T element : data.subList(data.size() - amount, data.size())) {
 			list.add(element);
 		}
 		Collections.reverse(list);

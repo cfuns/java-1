@@ -37,10 +37,10 @@ public class MicroblogIntegrationTest extends TestCaseOsgi {
 		super.setUp();
 
 		try {
-			URL website = new URL("https://micro.rp.seibert-media.net");
-			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
-			OutputStream fos = new ByteArrayOutputStream();
-			WritableByteChannel out = Channels.newChannel(fos);
+			final URL website = new URL("https://micro.rp.seibert-media.net");
+			final ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+			final OutputStream fos = new ByteArrayOutputStream();
+			final WritableByteChannel out = Channels.newChannel(fos);
 			new ChannelTools().fastChannelCopy(rbc, out);
 			notFound = false;
 		} catch (final Exception e) {

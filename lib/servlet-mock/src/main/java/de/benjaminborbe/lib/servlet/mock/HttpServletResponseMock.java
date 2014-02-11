@@ -10,9 +10,9 @@ import java.util.Locale;
 
 public class HttpServletResponseMock implements HttpServletResponse {
 
-	private ByteArrayOutputStream content = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream content = new ByteArrayOutputStream();
 
-	private PrintWriter printWriter = new PrintWriter(content);
+	private final PrintWriter printWriter = new PrintWriter(content);
 
 	public byte[] getContent() {
 		return content.toByteArray();
@@ -158,4 +158,4 @@ public class HttpServletResponseMock implements HttpServletResponse {
 	public void setLocale(final Locale loc) {
 	}
 
-};
+}

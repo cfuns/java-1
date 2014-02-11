@@ -88,7 +88,7 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 	private HttpResponse download(
 		final HttpRequest httpRequest,
 		final HttpdownloaderAction httpdownloader,
-		int redirectCounter
+		final int redirectCounter
 	) throws HttpdownloaderServiceException {
 		if (redirectCounter > MAX_FOLLOW_REDIRECTS) {
 			throw new HttpdownloaderServiceException("max follow redirects (" + MAX_FOLLOW_REDIRECTS + ") reached");
@@ -106,10 +106,10 @@ public class HttpdownloaderCoreServiceImpl implements HttpdownloaderService {
 					final List<String> locations = httpDownloadResult.getHeaders().get(LOCATION_HEADER_FIELD);
 					if (locations != null) {
 						logger.trace("found " + locations.size() + locations);
-						for (String location : locations) {
+						for (final String location : locations) {
 							try {
 								final URL locationUrl = parseUtil.parseURL(location);
-								HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(locationUrl).copyRequest(httpRequest);
+								final HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder(locationUrl).copyRequest(httpRequest);
 								return download(httpRequestBuilder.build(), httpdownloader, redirectCounter + 1);
 							} catch (ParseException e) {
 								logger.trace("illegal location to redirect to: " + location, e);

@@ -17,7 +17,7 @@ public class ConfigurationSetValueCacheUnitTest {
 		configurationSetValue.setConfigurationValue(configurationDescription, value);
 		final Object[] mocks = new Object[]{configurationSetValue, configurationDescription};
 		EasyMock.replay(mocks);
-		ConfigurationSetValueCache configurationSetValueCache = new ConfigurationSetValueCache(configurationSetValue, cacheService, configurationCacheKeyBuilder);
+		final ConfigurationSetValueCache configurationSetValueCache = new ConfigurationSetValueCache(configurationSetValue, cacheService, configurationCacheKeyBuilder);
 		configurationSetValueCache.setConfigurationValue(configurationDescription, value);
 		EasyMock.verify(mocks);
 	}
@@ -34,7 +34,7 @@ public class ConfigurationSetValueCacheUnitTest {
 		cacheService.set(configurationKey, value);
 		final Object[] mocks = new Object[]{configurationSetValue, configurationDescription, cacheService, configurationCacheKeyBuilder};
 		EasyMock.replay(mocks);
-		ConfigurationSetValueCache configurationSetValueCache = new ConfigurationSetValueCache(configurationSetValue, cacheService, configurationCacheKeyBuilder);
+		final ConfigurationSetValueCache configurationSetValueCache = new ConfigurationSetValueCache(configurationSetValue, cacheService, configurationCacheKeyBuilder);
 		configurationSetValueCache.setConfigurationValue(configurationDescription, value);
 		EasyMock.verify(mocks);
 	}

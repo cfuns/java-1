@@ -60,7 +60,7 @@ public class HtmlWidget implements Widget {
 		if (bodyWidget != null) {
 			widgets.add(bodyWidget);
 		}
-		DocTypeWidget docTypeWidget = new DocTypeWidget();
+		final DocTypeWidget docTypeWidget = new DocTypeWidget();
 		docTypeWidget.render(request, response, context);
 		final TagWidget html = new TagWidget("html", widgets);
 		html.render(request, response, context);

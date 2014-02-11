@@ -13,7 +13,7 @@ public class PokerGameValidatorUnitTest {
 	@Test
 	public void testId() throws Exception {
 		final ValidationConstraintValidator validationConstraintValidator = new ValidationConstraintValidator();
-		PokerGameValidator pokerGameValidator = new PokerGameValidator(validationConstraintValidator);
+		final PokerGameValidator pokerGameValidator = new PokerGameValidator(validationConstraintValidator);
 		final PokerGameBean game = createValidGame();
 		assertThat(pokerGameValidator.validate(game), is(notNullValue()));
 		assertThat(pokerGameValidator.validate(game).size(), is(0));
@@ -30,7 +30,7 @@ public class PokerGameValidatorUnitTest {
 	@Test
 	public void testName() throws Exception {
 		final ValidationConstraintValidator validationConstraintValidator = new ValidationConstraintValidator();
-		PokerGameValidator pokerGameValidator = new PokerGameValidator(validationConstraintValidator);
+		final PokerGameValidator pokerGameValidator = new PokerGameValidator(validationConstraintValidator);
 		final PokerGameBean game = createValidGame();
 		assertThat(pokerGameValidator.validate(game), is(notNullValue()));
 		assertThat(pokerGameValidator.validate(game).size(), is(0));
@@ -45,7 +45,7 @@ public class PokerGameValidatorUnitTest {
 	@Test
 	public void testStartCredit() throws Exception {
 		final ValidationConstraintValidator validationConstraintValidator = new ValidationConstraintValidator();
-		PokerGameValidator pokerGameValidator = new PokerGameValidator(validationConstraintValidator);
+		final PokerGameValidator pokerGameValidator = new PokerGameValidator(validationConstraintValidator);
 		final PokerGameBean game = createValidGame();
 		assertThat(pokerGameValidator.validate(game), is(notNullValue()));
 		assertThat(pokerGameValidator.validate(game).size(), is(0));
@@ -60,7 +60,7 @@ public class PokerGameValidatorUnitTest {
 	}
 
 	private PokerGameBean createValidGame() {
-		PokerGameBean pokerGameBean = new PokerGameBean();
+		final PokerGameBean pokerGameBean = new PokerGameBean();
 		pokerGameBean.setId(new PokerGameIdentifier("123"));
 		pokerGameBean.setName("gameA");
 		pokerGameBean.setStartCredits(100000l);

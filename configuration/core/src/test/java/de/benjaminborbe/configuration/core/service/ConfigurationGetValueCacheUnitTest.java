@@ -26,7 +26,7 @@ public class ConfigurationGetValueCacheUnitTest {
 		final Object[] mocks = new Object[]{configurationDescription, configurationGetValue, cacheService, configurationCacheKeyBuilder};
 		EasyMock.replay(mocks);
 
-		ConfigurationGetValueCache configurationGetValueCache = new ConfigurationGetValueCache(configurationGetValue, cacheService, configurationCacheKeyBuilder);
+		final ConfigurationGetValueCache configurationGetValueCache = new ConfigurationGetValueCache(configurationGetValue, cacheService, configurationCacheKeyBuilder);
 		assertThat(configurationGetValueCache.getConfigurationValue(configurationDescription), is(value));
 		EasyMock.verify(mocks);
 	}
@@ -47,7 +47,7 @@ public class ConfigurationGetValueCacheUnitTest {
 		final Object[] mocks = new Object[]{configurationDescription, configurationGetValue, cacheService, configurationCacheKeyBuilder};
 		EasyMock.replay(mocks);
 
-		ConfigurationGetValueCache configurationGetValueCache = new ConfigurationGetValueCache(configurationGetValue, cacheService, configurationCacheKeyBuilder);
+		final ConfigurationGetValueCache configurationGetValueCache = new ConfigurationGetValueCache(configurationGetValue, cacheService, configurationCacheKeyBuilder);
 		assertThat(configurationGetValueCache.getConfigurationValue(configurationDescription), is(value));
 		EasyMock.verify(mocks);
 	}

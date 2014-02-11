@@ -880,7 +880,7 @@ public class PokerServiceImplIntegrationTest {
 		}
 	}
 
-	private PokerGameDto createGame(final String name, final long bigBlind, long startCredits) {
+	private PokerGameDto createGame(final String name, final long bigBlind, final long startCredits) {
 		final PokerGameDto dto = new PokerGameDto();
 		dto.setName(name);
 		dto.setBigBlind(bigBlind);

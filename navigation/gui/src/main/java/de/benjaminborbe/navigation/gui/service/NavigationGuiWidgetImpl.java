@@ -88,7 +88,7 @@ public class NavigationGuiWidgetImpl implements NavigationWidget {
 			threads.add(threadRunner.run("navigationEntryIsVisible", new NavigationIsVisable(navigationEntry, sessionIdentifier, threadResult)));
 		}
 
-		for (Thread thread : threads) {
+		for (final Thread thread : threads) {
 			try {
 				thread.join();
 			} catch (InterruptedException e) {

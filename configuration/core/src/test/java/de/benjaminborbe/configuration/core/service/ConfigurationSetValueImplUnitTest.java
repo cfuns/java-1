@@ -26,9 +26,9 @@ public class ConfigurationSetValueImplUnitTest {
 		EasyMock.expect(configurationDescription.validateValue(value)).andReturn(true);
 		configurationBean.setValue(value);
 		configurationDao.save(configurationBean);
-		Object[] mocks = new Object[]{logger, configurationDao, configurationDescription, configurationBean};
+		final Object[] mocks = new Object[]{logger, configurationDao, configurationDescription, configurationBean};
 		EasyMock.replay(mocks);
-		ConfigurationSetValueImpl configurationSetValue = new ConfigurationSetValueImpl(logger, configurationDao);
+		final ConfigurationSetValueImpl configurationSetValue = new ConfigurationSetValueImpl(logger, configurationDao);
 		configurationSetValue.setConfigurationValue(configurationDescription, value);
 		EasyMock.verify(mocks);
 	}

@@ -37,7 +37,7 @@ public class HttpRequestBuilder {
 	}
 
 	public HttpRequestBuilder copyHeader(final HttpHeader header) {
-		for (String key : header.getKeys()) {
+		for (final String key : header.getKeys()) {
 			httpHeader.setHeader(key, header.getValues(key));
 		}
 		return this;

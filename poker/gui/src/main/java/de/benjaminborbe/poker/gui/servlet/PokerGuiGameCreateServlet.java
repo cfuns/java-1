@@ -129,7 +129,7 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private void createGame(final String name, final String bigBlindString, String startCreditsString) throws PokerServiceException, ValidationException {
+	private void createGame(final String name, final String bigBlindString, final String startCreditsString) throws PokerServiceException, ValidationException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		long bigBlind = 0;
 		try {

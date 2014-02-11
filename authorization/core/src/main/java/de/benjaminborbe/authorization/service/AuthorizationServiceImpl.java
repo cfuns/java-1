@@ -565,14 +565,14 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 				threadResults.add(threadResult);
 				threadRunner.run("hasRole", new HasRoleRunnable(threadResult, userIdentifier, roleIdentifier));
 			}
-			for (Thread thread : threads) {
+			for (final Thread thread : threads) {
 				try {
 					thread.join();
 				} catch (InterruptedException e) {
 
 				}
 			}
-			for (ThreadResult threadResult : threadResults) {
+			for (final ThreadResult threadResult : threadResults) {
 				if (Boolean.TRUE.equals(threadResult.get())) {
 					return true;
 				}

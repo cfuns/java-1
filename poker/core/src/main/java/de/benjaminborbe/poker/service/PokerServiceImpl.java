@@ -307,7 +307,7 @@ public class PokerServiceImpl implements PokerService {
 
 			pokerGameDao.save(game, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.RUNNING).add(PokerGameBeanMapper.SCORE).add(PokerGameBeanMapper.PLAYERS).add(PokerGameBeanMapper.BUTTON_POSITION).add(PokerGameBeanMapper.ROUND));
 
-			for (PokerPlayerIdentifier playerIdentifier : playerIdentifiers) {
+			for (final PokerPlayerIdentifier playerIdentifier : playerIdentifiers) {
 				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 				player.setScore(toLong(player.getScore()) - 1);
 				player.setAmount(game.getStartCredits());
@@ -792,7 +792,7 @@ public class PokerServiceImpl implements PokerService {
 		}
 	}
 
-	private boolean hasActiveGame(PokerPlayerBean player) throws PokerServiceException, StorageException {
+	private boolean hasActiveGame(final PokerPlayerBean player) throws PokerServiceException, StorageException {
 		final PokerGameIdentifier gameIdentifier = player.getGame();
 		if (gameIdentifier != null) {
 			final PokerGame game = pokerGameDao.load(gameIdentifier);
@@ -875,7 +875,7 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("addAllAvailablePlayers to game: " + pokerGameIdentifier);
 			final Collection<PokerPlayer> players = getPlayerWithoutActiveGame();
-			for (PokerPlayer player : players) {
+			for (final PokerPlayer player : players) {
 				logger.debug("add player: " + player.getId());
 				if (player.getGame() != null && !player.getGame().equals(pokerGameIdentifier)) {
 					leaveGame(pokerGameIdentifier, player.getId());
