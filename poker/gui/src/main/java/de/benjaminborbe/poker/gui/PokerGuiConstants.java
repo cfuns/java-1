@@ -82,7 +82,7 @@ public interface PokerGuiConstants {
 
 	String URL_GAME_ADD_ALL_AVAILABLE_PLAYERS = "/game/add_all_available_players";
 
-	String PARAMETER_GAME_START_BIG_BLIND = "game_start_big_blind";
+	String PARAMETER_GAME_BIG_BLIND = "game_start_big_blind";
 
 	String PARAMETER_PLAYER_SCORE = "player_score";
 }

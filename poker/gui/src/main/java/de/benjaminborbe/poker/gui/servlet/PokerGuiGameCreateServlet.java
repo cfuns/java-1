@@ -97,7 +97,7 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 
 			final String name = request.getParameter(PokerGuiConstants.PARAMETER_GAME_NAME);
 			final String referer = request.getParameter(PokerGuiConstants.PARAMETER_REFERER);
-			final String bigBlind = request.getParameter(PokerGuiConstants.PARAMETER_GAME_START_BIG_BLIND);
+			final String bigBlind = request.getParameter(PokerGuiConstants.PARAMETER_GAME_BIG_BLIND);
 			final String startCredits = request.getParameter(PokerGuiConstants.PARAMETER_GAME_START_CREDITS);
 			if (name != null) {
 				try {
@@ -117,7 +117,7 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 			final FormWidget form = new FormWidget();
 			form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_NAME).addLabel("Name:"));
-			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_START_BIG_BLIND).addLabel("StartBigBlind:").addDefaultValue(PokerGuiConstants.DEFAULT_BLIND));
+			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_BIG_BLIND).addLabel("StartBigBlind:").addDefaultValue(PokerGuiConstants.DEFAULT_BLIND));
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_START_CREDITS).addLabel("StartCredits:").addDefaultValue(PokerGuiConstants.DEFAULT_CREDITS));
 			form.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(form);

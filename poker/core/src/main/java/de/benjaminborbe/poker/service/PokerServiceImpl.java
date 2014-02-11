@@ -1033,6 +1033,8 @@ public class PokerServiceImpl implements PokerService {
 
 			final PokerGameBean bean = pokerGameDao.load(pokerGameDto.getId());
 			bean.setName(pokerGameDto.getName());
+			bean.setStartCredits(pokerGameDto.getStartCredits());
+			bean.setBigBlind(pokerGameDto.getBigBlind());
 
 			final ValidationResult errors = validationExecutor.validate(bean);
 			if (errors.hasErrors()) {
@@ -1040,7 +1042,7 @@ public class PokerServiceImpl implements PokerService {
 				throw new ValidationException(errors);
 			}
 
-			pokerGameDao.save(bean, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.NAME));
+			pokerGameDao.save(bean, new StorageValueList(pokerGameDao.getEncoding()).add(PokerGameBeanMapper.NAME).add(PokerGameBeanMapper.START_CREDITS).add(PokerGameBeanMapper.BIG_BLIND));
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {

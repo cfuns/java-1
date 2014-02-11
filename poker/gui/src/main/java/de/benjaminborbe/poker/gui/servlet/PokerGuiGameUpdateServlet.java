@@ -1,6 +1,8 @@
 package de.benjaminborbe.poker.gui.servlet;
 
 import com.google.inject.Provider;
+import de.benjaminborbe.api.ValidationError;
+import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
@@ -11,6 +13,7 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
 import de.benjaminborbe.html.api.HttpContext;
 import de.benjaminborbe.html.api.Widget;
+import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameDto;
@@ -22,6 +25,7 @@ import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
+import de.benjaminborbe.tools.util.ParseException;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
@@ -41,6 +45,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
@@ -48,6 +54,8 @@ public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
 	private static final long serialVersionUID = 1328676176772634649L;
 
 	private static final String TITLE = "Poker - Game - Update";
+
+	private final ParseUtil parseUtil;
 
 	private final PokerService pokerService;
 
@@ -71,6 +79,7 @@ public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
 		final PokerGuiLinkFactory pokerGuiLinkFactory
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
+		this.parseUtil = parseUtil;
 		this.pokerService = pokerService;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 		this.authenticationService = authenticationService;
@@ -91,13 +100,15 @@ public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
 			final String id = request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID);
 			final String name = request.getParameter(PokerGuiConstants.PARAMETER_GAME_NAME);
 			final String referer = request.getParameter(PokerGuiConstants.PARAMETER_REFERER);
+			final String startCredits = request.getParameter(PokerGuiConstants.PARAMETER_GAME_START_CREDITS);
+			final String startBigBlind = request.getParameter(PokerGuiConstants.PARAMETER_GAME_BIG_BLIND);
 
 			final PokerGameIdentifier pokerGameIdentifier = pokerService.createGameIdentifier(id);
 			final PokerGame game = pokerService.getGame(pokerGameIdentifier);
 
-			if (id != null && name != null) {
+			if (id != null && name != null && startCredits != null) {
 				try {
-					updateGame(pokerGameIdentifier, name);
+					updateGame(pokerGameIdentifier, name, startCredits, startBigBlind);
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -114,6 +125,8 @@ public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
 			form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_GAME_ID).addValue(game.getId()));
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_NAME).addLabel("Name:").addDefaultValue(game.getName()));
+			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_BIG_BLIND).addLabel("BigBlind:").addDefaultValue(game.getBigBlind()));
+			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_GAME_START_CREDITS).addLabel("Start Credits:").addDefaultValue(game.getStartCredits()));
 			form.addFormInputWidget(new FormInputSubmitWidget("update"));
 			widgets.add(form);
 
@@ -124,11 +137,35 @@ public class PokerGuiGameUpdateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private void updateGame(final PokerGameIdentifier id, final String name) throws PokerServiceException, ValidationException {
-		final PokerGameDto dto = new PokerGameDto();
-		dto.setId(id);
-		dto.setName(name);
-		pokerService.updateGame(dto);
+	private void updateGame(
+		final PokerGameIdentifier id,
+		final String name,
+		String startCreditsString,
+		String startBigBlindString
+	) throws PokerServiceException, ValidationException {
+		final List<ValidationError> errors = new ArrayList<ValidationError>();
+		long startCredits = 0;
+		try {
+			startCredits = parseUtil.parseLong(startCreditsString);
+		} catch (final ParseException e) {
+			errors.add(new ValidationErrorSimple("illegal startCredits"));
+		}
+		long startBigBlind = 0;
+		try {
+			startBigBlind = parseUtil.parseLong(startBigBlindString);
+		} catch (final ParseException e) {
+			errors.add(new ValidationErrorSimple("illegal startBigBlind"));
+		}
+		if (!errors.isEmpty()) {
+			throw new ValidationException(new ValidationResultImpl(errors));
+		} else {
+			final PokerGameDto dto = new PokerGameDto();
+			dto.setId(id);
+			dto.setName(name);
+			dto.setStartCredits(startCredits);
+			dto.setBigBlind(startBigBlind);
+			pokerService.updateGame(dto);
+		}
 	}
 
 	@Override
