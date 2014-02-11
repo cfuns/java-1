@@ -21,6 +21,10 @@ import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageValue;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
+import de.benjaminborbe.tools.util.ThreadResult;
+import de.benjaminborbe.tools.util.ThreadRunner;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 
@@ -37,6 +41,8 @@ import java.util.Set;
 @Singleton
 public class AuthorizationServiceImpl implements AuthorizationService {
 
+	private static final int DURATION_WARN = 300;
+
 	private final AuthenticationService authenticationService;
 
 	private final Logger logger;
@@ -44,6 +50,10 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	private final PermissionDao permissionDao;
 
 	private final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation;
+
+	private final DurationUtil durationUtil;
+
+	private final ThreadRunner threadRunner;
 
 	private final RoleDao roleDao;
 
@@ -56,7 +66,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		final RoleDao roleDao,
 		final PermissionDao permissionDao,
 		final UserRoleManyToManyRelation userRoleManyToManyRelation,
-		final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation
+		final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation,
+		final DurationUtil durationUtil, final ThreadRunner threadRunner
 	) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -64,6 +75,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		this.permissionDao = permissionDao;
 		this.userRoleManyToManyRelation = userRoleManyToManyRelation;
 		this.permissionRoleManyToManyRelation = permissionRoleManyToManyRelation;
+		this.durationUtil = durationUtil;
+		this.threadRunner = threadRunner;
 	}
 
 	@Override
@@ -71,8 +84,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		final SessionIdentifier sessionIdentifier,
 		final PermissionIdentifier permissionIdentifier,
 		final RoleIdentifier roleIdentifier
-	)
-		throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
+	) throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAdminRole(sessionIdentifier);
 
@@ -89,6 +102,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -97,8 +113,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		final SessionIdentifier sessionIdentifier,
 		final UserIdentifier userIdentifier,
 		final RoleIdentifier roleIdentifier
-	) throws PermissionDeniedException,
-		AuthorizationServiceException, LoginRequiredException {
+	) throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAdminRole(sessionIdentifier);
 
@@ -117,11 +133,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			throw new AuthorizationServiceException(e);
 		} catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public PermissionIdentifier createPermissionIdentifier(final String permissionName) throws AuthorizationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			if (permissionName != null) {
 				final PermissionIdentifier id = new PermissionIdentifier(permissionName);
@@ -132,6 +152,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -140,6 +163,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		final SessionIdentifier sessionIdentifier,
 		final RoleIdentifier roleIdentifier
 	) throws PermissionDeniedException, AuthorizationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectPermission(sessionIdentifier, new PermissionIdentifier(PERMISSION_CREATE_ROLE));
 
@@ -152,11 +176,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public RoleIdentifier createRoleIdentifier(final String rolename) throws AuthorizationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createRoleIdentifier - role: " + rolename);
 			if (rolename != null) {
@@ -168,15 +196,22 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			}
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public boolean existsPermission(final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return permissionDao.exists(permissionIdentifier);
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -190,14 +225,26 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public void expectAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException {
-		expectRole(sessionIdentifier, new RoleIdentifier(ROLE_ADMIN));
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectRole(sessionIdentifier, new RoleIdentifier(ROLE_ADMIN));
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void expectPermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException,
 		PermissionDeniedException {
-		if (!hasPermission(sessionIdentifier, permissionIdentifier)) {
-			throw new PermissionDeniedException("no permission " + permissionIdentifier);
+		final Duration duration = durationUtil.getDuration();
+		try {
+			if (!hasPermission(sessionIdentifier, permissionIdentifier)) {
+				throw new PermissionDeniedException("no permission " + permissionIdentifier);
+			}
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -212,34 +259,42 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	@Override
 	public void expectUser(final SessionIdentifier sessionIdentifier, final Collection<UserIdentifier> userIdentifiers) throws AuthorizationServiceException,
 		PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			authenticationService.expectLoggedIn(sessionIdentifier);
 			final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
 			expectUser(currentUser, userIdentifiers);
 		} catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void expectUser(
-		final UserIdentifier currentUser,
-		final Collection<UserIdentifier> userIdentifiers
-	) throws AuthorizationServiceException, PermissionDeniedException,
-		LoginRequiredException {
-		if (currentUser == null) {
-			throw new LoginRequiredException("user not logged in");
-		}
-		boolean match = false;
-		final List<String> usernames = new ArrayList<String>();
-		for (final UserIdentifier userIdentifier : userIdentifiers) {
-			usernames.add(userIdentifier.getId());
-			if (userIdentifier.equals(currentUser)) {
-				match = true;
+		final UserIdentifier currentUser, final Collection<UserIdentifier> userIdentifiers
+	) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			if (currentUser == null) {
+				throw new LoginRequiredException("user not logged in");
 			}
-		}
-		if (!match) {
-			throw new PermissionDeniedException("expect user " + StringUtils.join(usernames, " or ") + " but was " + currentUser);
+			boolean match = false;
+			final List<String> usernames = new ArrayList<String>();
+			for (final UserIdentifier userIdentifier : userIdentifiers) {
+				usernames.add(userIdentifier.getId());
+				if (userIdentifier.equals(currentUser)) {
+					match = true;
+				}
+			}
+			if (!match) {
+				throw new PermissionDeniedException("expect user " + StringUtils.join(usernames, " or ") + " but was " + currentUser);
+			}
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -247,19 +302,31 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public void expectUser(
 		final SessionIdentifier sessionIdentifier,
 		final UserIdentifier userIdentifier
-	) throws AuthorizationServiceException, PermissionDeniedException,
-		LoginRequiredException {
-		expectUser(sessionIdentifier, Arrays.asList(userIdentifier));
+	) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectUser(sessionIdentifier, Arrays.asList(userIdentifier));
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public void expectUser(final UserIdentifier currentUser, final UserIdentifier userIdentifier) throws AuthorizationServiceException, PermissionDeniedException,
 		LoginRequiredException {
-		expectUser(currentUser, Arrays.asList(userIdentifier));
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectUser(currentUser, Arrays.asList(userIdentifier));
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public Collection<UserIdentifier> getUsersWithRole(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final StorageIterator a = userRoleManyToManyRelation.getB(roleIdentifier);
 			final List<UserIdentifier> result = new ArrayList<UserIdentifier>();
@@ -272,12 +339,20 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public boolean hasAdminRole(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException {
-		return hasRole(sessionIdentifier, new RoleIdentifier(ROLE_ADMIN));
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return hasRole(sessionIdentifier, new RoleIdentifier(ROLE_ADMIN));
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
@@ -285,16 +360,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		final SessionIdentifier sessionIdentifier,
 		final PermissionIdentifier permissionIdentifier
 	) throws AuthorizationServiceException {
-
+		final Duration duration = durationUtil.getDuration();
 		try {
 			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
 				return true;
 			}
-		} catch (final AuthenticationServiceException e) {
-			logger.debug(e.getClass().getName(), e);
-		}
-
-		try {
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
 			if (userIdentifier == null) {
 				return false;
@@ -313,6 +383,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			throw new AuthorizationServiceException("AuthenticationServiceException", e);
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -322,6 +395,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	protected boolean hasRole(final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
 		try {
+			logger.trace("hasRole - user: " + userIdentifier + " role: " + roleIdentifier);
 			if (userIdentifier != null && ROLE_LOGGED_IN.equals(roleIdentifier.getId())) {
 				return true;
 			}
@@ -343,6 +417,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
 	@Override
 	public Collection<PermissionIdentifier> getPermissions() throws AuthorizationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final Set<PermissionIdentifier> result = new HashSet<PermissionIdentifier>();
 			final EntityIterator<PermissionBean> i = permissionDao.getEntityIterator();
@@ -355,11 +430,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			throw new AuthorizationServiceException(e);
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<PermissionIdentifier> getPermissions(final RoleIdentifier roleIdentifier) throws AuthorizationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.info("permissionList for role: " + roleIdentifier);
 
@@ -369,10 +448,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 					result.add(permissionIdentifier);
 				}
 			}
-
 			return result;
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -381,8 +462,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		final SessionIdentifier sessionIdentifier,
 		final PermissionIdentifier permissionIdentifier,
 		final RoleIdentifier roleIdentifier
-	)
-		throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
+	) throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAdminRole(sessionIdentifier);
 
@@ -392,12 +473,16 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public boolean removeUserRole(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier)
 		throws PermissionDeniedException, AuthorizationServiceException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAdminRole(sessionIdentifier);
 
@@ -407,11 +492,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return true;
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<RoleIdentifier> getRoles() throws AuthorizationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final Set<RoleIdentifier> result = new HashSet<RoleIdentifier>();
 			final EntityIterator<RoleBean> i = roleDao.getEntityIterator();
@@ -428,15 +517,17 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			throw new AuthorizationServiceException(e);
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void deleteRole(
-		final SessionIdentifier sessionIdentifier,
-		final RoleIdentifier roleIdentifier
-	) throws AuthorizationServiceException, PermissionDeniedException,
-		LoginRequiredException {
+		final SessionIdentifier sessionIdentifier, final RoleIdentifier roleIdentifier
+	) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAdminRole(sessionIdentifier);
 			logger.debug("deleteRole - role: " + roleIdentifier);
@@ -446,6 +537,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			roleDao.delete(roleIdentifier);
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -461,10 +555,25 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
 				return true;
 			}
-			logger.trace("hasRole " + roleIdentifiers);
+			logger.trace("hasOneOfRoles " + StringUtils.join(roleIdentifiers, ","));
 			final UserIdentifier userIdentifier = authenticationService.getCurrentUser(sessionIdentifier);
+
+			final List<ThreadResult<Boolean>> threadResults = new ArrayList<ThreadResult<Boolean>>();
+			final List<Thread> threads = new ArrayList<Thread>();
 			for (final RoleIdentifier roleIdentifier : roleIdentifiers) {
-				if (hasRole(userIdentifier, roleIdentifier)) {
+				final ThreadResult<Boolean> threadResult = new ThreadResult<Boolean>();
+				threadResults.add(threadResult);
+				threadRunner.run("hasRole", new HasRoleRunnable(threadResult, userIdentifier, roleIdentifier));
+			}
+			for (Thread thread : threads) {
+				try {
+					thread.join();
+				} catch (InterruptedException e) {
+
+				}
+			}
+			for (ThreadResult threadResult : threadResults) {
+				if (Boolean.TRUE.equals(threadResult.get())) {
 					return true;
 				}
 			}
@@ -478,10 +587,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public void expectOneOfPermissions(
 		final SessionIdentifier sessionIdentifier,
 		final PermissionIdentifier... permissionIdentifiers
-	) throws AuthorizationServiceException,
-		PermissionDeniedException {
-		if (!hasOneOfPermissions(sessionIdentifier, permissionIdentifiers)) {
-			throw new PermissionDeniedException("no permission " + permissionIdentifiers);
+	) throws AuthorizationServiceException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			if (!hasOneOfPermissions(sessionIdentifier, permissionIdentifiers)) {
+				throw new PermissionDeniedException("no permission " + permissionIdentifiers);
+			}
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -490,6 +604,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		final SessionIdentifier sessionIdentifier,
 		final PermissionIdentifier... permissionIdentifiers
 	) throws AuthorizationServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			if (authenticationService.isSuperAdmin(sessionIdentifier)) {
 				return true;
@@ -502,6 +617,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			return false;
 		} catch (final AuthenticationServiceException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -509,23 +627,29 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	public Collection<RoleIdentifier> getRoles(
 		final SessionIdentifier sessionIdentifier,
 		final UserIdentifier userIdentifier
-	) throws AuthorizationServiceException,
-		PermissionDeniedException, LoginRequiredException {
-		expectAdminRole(sessionIdentifier);
-		logger.debug("getRoles for user: " + userIdentifier);
+	) throws AuthorizationServiceException, PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			expectAdminRole(sessionIdentifier);
+			logger.debug("getRoles for user: " + userIdentifier);
 
-		final List<RoleIdentifier> roles = new ArrayList<RoleIdentifier>();
-		for (final RoleIdentifier roleIdentifier : getRoles()) {
-			if (hasRole(userIdentifier, roleIdentifier)) {
-				roles.add(roleIdentifier);
+			final List<RoleIdentifier> roles = new ArrayList<RoleIdentifier>();
+			for (final RoleIdentifier roleIdentifier : getRoles()) {
+				if (hasRole(userIdentifier, roleIdentifier)) {
+					roles.add(roleIdentifier);
+				}
 			}
+			return roles;
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
-		return roles;
 	}
 
 	@Override
 	public void deletePermission(final SessionIdentifier sessionIdentifier, final PermissionIdentifier permissionIdentifier) throws AuthorizationServiceException,
 		PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAdminRole(sessionIdentifier);
 			logger.debug("deletePermission- permission: " + permissionIdentifier);
@@ -534,6 +658,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 			permissionDao.delete(permissionIdentifier);
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -543,6 +670,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		final PermissionIdentifier permissionIdentifier
 	) throws AuthorizationServiceException,
 		PermissionDeniedException, LoginRequiredException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			expectAdminRole(sessionIdentifier);
 			logger.debug("getRoles for permission: " + permissionIdentifier);
@@ -559,7 +687,32 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		} catch (final StorageException e) {
 			throw new AuthorizationServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
+	private class HasRoleRunnable implements Runnable {
+
+		private final ThreadResult<Boolean> threadResult;
+
+		private final UserIdentifier userIdentifier;
+
+		private final RoleIdentifier roleIdentifier;
+
+		public HasRoleRunnable(final ThreadResult<Boolean> threadResult, final UserIdentifier userIdentifier, final RoleIdentifier roleIdentifier) {
+			this.threadResult = threadResult;
+			this.userIdentifier = userIdentifier;
+			this.roleIdentifier = roleIdentifier;
+		}
+
+		@Override
+		public void run() {
+			try {
+				threadResult.set(hasRole(userIdentifier, roleIdentifier));
+			} catch (AuthorizationServiceException e) {
+				logger.debug(e.getClass().getName(), e);
+			}
+		}
+	}
 }
