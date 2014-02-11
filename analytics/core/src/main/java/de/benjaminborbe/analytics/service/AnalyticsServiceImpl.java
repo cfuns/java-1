@@ -152,7 +152,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	public void addReportValue(final AnalyticsReportIdentifier analyticsReportIdentifier, final long value) throws AnalyticsServiceException {
 		final Duration duration = durationUtil.getDuration();
 		try {
-			logger.trace("addReportValue");
+			logger.trace("addReportValue - analyticsReportIdentifier: " + analyticsReportIdentifier + " value: " + value);
 			addValueAction.addReportValue(analyticsReportIdentifier, value);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
