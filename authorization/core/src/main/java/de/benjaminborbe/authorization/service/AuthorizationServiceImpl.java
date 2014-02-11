@@ -67,7 +67,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 		final PermissionDao permissionDao,
 		final UserRoleManyToManyRelation userRoleManyToManyRelation,
 		final PermissionRoleManyToManyRelation permissionRoleManyToManyRelation,
-		final DurationUtil durationUtil, final ThreadRunner threadRunner
+		final DurationUtil durationUtil,
+		final ThreadRunner threadRunner
 	) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;

@@ -41,6 +41,8 @@ import de.benjaminborbe.storage.tools.IdentifierIteratorException;
 import de.benjaminborbe.storage.tools.StorageValueList;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.list.ListUtil;
+import de.benjaminborbe.tools.util.Duration;
+import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
 import org.ops4j.peaberry.ServiceUnavailableException;
 import org.slf4j.Logger;
@@ -56,6 +58,8 @@ import java.util.Map;
 @Singleton
 public class PokerServiceImpl implements PokerService {
 
+	private static final int DURATION_WARN = 300;
+
 	public static final AnalyticsReportAggregation AGGREGATION = AnalyticsReportAggregation.LATEST;
 
 	private static final int START_CARDS = 2;
@@ -69,6 +73,8 @@ public class PokerServiceImpl implements PokerService {
 	private final ValidationExecutor validationExecutor;
 
 	private final PokerPlayerDao pokerPlayerDao;
+
+	private final DurationUtil durationUtil;
 
 	private final ListUtil listUtil;
 
@@ -97,7 +103,8 @@ public class PokerServiceImpl implements PokerService {
 		final PokerGameDao pokerGameDao,
 		final IdGeneratorUUID idGeneratorUUID,
 		final ValidationExecutor validationExecutor,
-		final PokerPlayerDao pokerPlayerDao
+		final PokerPlayerDao pokerPlayerDao,
+		final DurationUtil durationUtil
 	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -111,10 +118,12 @@ public class PokerServiceImpl implements PokerService {
 		this.idGeneratorUUID = idGeneratorUUID;
 		this.validationExecutor = validationExecutor;
 		this.pokerPlayerDao = pokerPlayerDao;
+		this.durationUtil = durationUtil;
 	}
 
 	@Override
 	public Collection<PokerGameIdentifier> getGameIdentifiers() throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getGameIdentifiers");
 			final IdentifierIterator<PokerGameIdentifier> i = pokerGameDao.getIdentifierIterator();
@@ -128,33 +137,42 @@ public class PokerServiceImpl implements PokerService {
 		} catch (StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public PokerGame getGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.trace("getGame - id: " + gameIdentifier);
 			return pokerGameDao.load(gameIdentifier);
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public PokerPlayer getPlayer(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.trace("getPlayer - id: " + playerIdentifier);
 			return pokerPlayerDao.load(playerIdentifier);
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public PokerGameIdentifier createGame(final PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createGame - name: " + pokerGameDto.getName());
 
@@ -188,6 +206,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -196,6 +216,7 @@ public class PokerServiceImpl implements PokerService {
 		final SessionIdentifier sessionIdentifier,
 		final PokerPlayerDto pokerPlayerDto
 	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createPlayer - name: " + pokerPlayerDto.getName());
 
@@ -228,6 +249,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (AnalyticsServiceException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -245,44 +268,57 @@ public class PokerServiceImpl implements PokerService {
 
 	@Override
 	public PokerPlayerIdentifier createPlayerIdentifier(final String id) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return id != null ? new PokerPlayerIdentifier(id) : null;
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<PokerPlayerIdentifier> getPlayers(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			return game.getPlayers();
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<PokerPlayerIdentifier> getActivePlayers(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			return game.getActivePlayers();
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public PokerGameIdentifier createGameIdentifier(final String gameId) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return gameId != null ? new PokerGameIdentifier(gameId) : null;
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void startGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final Collection<PokerPlayerIdentifier> playerIdentifiers = getPlayers(gameIdentifier);
 			if (playerIdentifiers.size() < 2) {
@@ -318,6 +354,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -363,23 +401,29 @@ public class PokerServiceImpl implements PokerService {
 
 	@Override
 	public Collection<PokerCardIdentifier> getHandCards(final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			return player.getCards();
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<PokerCardIdentifier> getBoardCards(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			return game.getBoardCards();
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -388,6 +432,7 @@ public class PokerServiceImpl implements PokerService {
 		final PokerGameIdentifier gameIdentifier,
 		final PokerPlayerIdentifier playerIdentifier
 	) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			if (Boolean.TRUE.equals(game.getRunning())) {
@@ -407,6 +452,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -415,6 +462,7 @@ public class PokerServiceImpl implements PokerService {
 		final PokerGameIdentifier gameIdentifier,
 		final PokerPlayerIdentifier playerIdentifier
 	) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			if (Boolean.TRUE.equals(game.getRunning())) {
@@ -434,11 +482,14 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public PokerPlayerIdentifier getActivePlayer(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			final Integer pos = game.getActivePosition();
@@ -450,11 +501,14 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public PokerPlayerIdentifier getButtonPlayer(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			if (game.getButtonPosition() != null) {
@@ -465,11 +519,14 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public PokerPlayerIdentifier getSmallBlindPlayer(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			if (game.getButtonPosition() != null) {
@@ -481,11 +538,14 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public PokerPlayerIdentifier getBigBlindPlayer(final PokerGameIdentifier gameIdentifier) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			if (game.getButtonPosition() != null) {
@@ -497,6 +557,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -510,6 +572,7 @@ public class PokerServiceImpl implements PokerService {
 
 	@Override
 	public void call(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("call - game: " + gameIdentifier + " player: " + playerIdentifier);
 			if (!getActivePlayer(gameIdentifier).equals(playerIdentifier)) {
@@ -531,6 +594,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -697,6 +762,7 @@ public class PokerServiceImpl implements PokerService {
 		final PokerPlayerIdentifier playerIdentifier,
 		final long amount
 	) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("raise - game: " + gameIdentifier + " player: " + playerIdentifier + " amount: " + amount);
 			if (!getActivePlayer(gameIdentifier).equals(playerIdentifier)) {
@@ -729,11 +795,14 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void fold(final PokerGameIdentifier gameIdentifier, final PokerPlayerIdentifier playerIdentifier) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("fold - game: " + gameIdentifier + " player: " + playerIdentifier);
 			if (!getActivePlayer(gameIdentifier).equals(playerIdentifier)) {
@@ -751,11 +820,14 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<PokerGame> getGames() throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getGames");
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
@@ -769,6 +841,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (EntityIteratorException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -805,6 +879,7 @@ public class PokerServiceImpl implements PokerService {
 
 	@Override
 	public Collection<PokerPlayer> getPlayers() throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.trace("getPlayers");
 			final EntityIterator<PokerPlayerBean> i = pokerPlayerDao.getEntityIterator();
@@ -818,11 +893,14 @@ public class PokerServiceImpl implements PokerService {
 		} catch (EntityIteratorException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void deleteGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("deleteGame - id: " + gameIdentifier);
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
@@ -840,6 +918,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -848,6 +928,7 @@ public class PokerServiceImpl implements PokerService {
 		final SessionIdentifier sessionIdentifier,
 		final PokerPlayerIdentifier playerIdentifier
 	) throws PokerServiceException, ValidationException, LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("deletePlayer - id: " + playerIdentifier);
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
@@ -867,11 +948,14 @@ public class PokerServiceImpl implements PokerService {
 		} catch (AnalyticsServiceException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void addAllAvailablePlayers(final PokerGameIdentifier pokerGameIdentifier) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("addAllAvailablePlayers to game: " + pokerGameIdentifier);
 			final Collection<PokerPlayer> players = getPlayerWithoutActiveGame();
@@ -885,20 +969,35 @@ public class PokerServiceImpl implements PokerService {
 				}
 			}
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public Collection<PokerGame> getGamesRunning() throws PokerServiceException {
-		return getGames(true);
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return getGames(true);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	@Override
 	public Collection<PokerGame> getGamesNotRunning() throws PokerServiceException {
-		return getGames(false);
+		final Duration duration = durationUtil.getDuration();
+		try {
+			return getGames(false);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
 	}
 
 	private Collection<PokerGame> getGames(final boolean running) throws PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("getGames - running: " + running);
 			final EntityIterator<PokerGameBean> i = pokerGameDao.getEntityIterator();
@@ -915,11 +1014,14 @@ public class PokerServiceImpl implements PokerService {
 		} catch (EntityIteratorException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void stopGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
 			if (!Boolean.TRUE.equals(game.getRunning())) {
@@ -967,6 +1069,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
@@ -981,53 +1085,74 @@ public class PokerServiceImpl implements PokerService {
 
 	@Override
 	public void expectPokerPlayerOrAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectOneOfPermissions(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN),
 				authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
 		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void expectPokerPlayerPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
 		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public boolean hasPokerAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN));
 		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public boolean hasPokerPlayerOrAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return authorizationService.hasOneOfPermissions(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN),
 				authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
 		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public boolean hasPokerPlayerPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PokerServiceException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_PLAYER));
 		} catch (final AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void updateGame(final PokerGameDto pokerGameDto) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("updateGame - name: " + pokerGameDto.getName());
 
@@ -1046,11 +1171,14 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 
 	@Override
 	public void updatePlayer(final PokerPlayerDto pokerPlayerDto) throws PokerServiceException, ValidationException {
+		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("updatePlayer - name: " + pokerPlayerDto.getName());
 
@@ -1072,6 +1200,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
 		}
 	}
 }
