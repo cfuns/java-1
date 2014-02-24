@@ -25,6 +25,8 @@
 			org.osgi.service.obr,
 			de.benjaminborbe.api,
 			de.benjaminborbe.html.api,
+			de.benjaminborbe.httpdownloader.api,
+			de.benjaminborbe.httpdownloader.core,
 			de.benjaminborbe.monitoring.api,
 			de.benjaminborbe.navigation.core,
 			de.benjaminborbe.navigation.api,
@@ -327,6 +329,18 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.analytics.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.httpdownloader.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.httpdownloader.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
