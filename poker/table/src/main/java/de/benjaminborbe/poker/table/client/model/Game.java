@@ -15,7 +15,7 @@ public class Game implements Serializable {
 
 	private String gameName;
 
-	ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Player> players = new ArrayList<Player>();
 
 	private String gameRound;
 

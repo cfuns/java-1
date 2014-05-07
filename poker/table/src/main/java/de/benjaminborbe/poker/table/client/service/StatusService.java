@@ -11,5 +11,4 @@ public interface StatusService extends RemoteService {
 
 	ArrayList<Game> getGames();
 
-	Game getGame(String id);
 }

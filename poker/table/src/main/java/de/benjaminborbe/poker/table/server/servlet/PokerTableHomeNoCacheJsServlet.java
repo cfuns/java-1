@@ -14,12 +14,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class GwtHomeServlet extends WebsiteResourceServlet {
+public class PokerTableHomeNoCacheJsServlet extends WebsiteResourceServlet {
 
 	private static final long serialVersionUID = -2162585976374394940L;
 
 	@Inject
-	public GwtHomeServlet(
+	public PokerTableHomeNoCacheJsServlet(
 		final Logger logger,
 		final UrlUtil urlUtil,
 		final AuthenticationService authenticationService,
@@ -33,11 +33,11 @@ public class GwtHomeServlet extends WebsiteResourceServlet {
 
 	@Override
 	public String getPath() {
-		return "/Home.html";
+		return "/Home/Home.nocache.js";
 	}
 
 	@Override
 	public String contentType() {
-		return "text/html";
+		return "text/javascript";
 	}
 }

@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 public class Card implements Serializable {
 
-	String cardName;
+	private String cardName;
+
+	public Card() {
+	}
 
 	public String getCard() {
 		return cardName;

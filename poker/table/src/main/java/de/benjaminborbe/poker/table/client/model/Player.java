@@ -15,6 +15,9 @@ public class Player implements Serializable {
 
 	private ArrayList<Card> cards = new ArrayList<Card>();
 
+	public Player() {
+	}
+
 	public boolean isActivePlayer() {
 		return activePlayer;
 	}

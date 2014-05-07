@@ -25,4 +25,7 @@
 	<!-- Specify the paths for translatable code -->
 	<source path='client'/>
 	<source path='shared'/>
+
+	<servlet path="/statusService" class="de.benjaminborbe.poker.table.server.servlet.PokerTableStatusServlet"/>
+
 </module>

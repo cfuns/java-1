@@ -7,7 +7,5 @@ import java.util.ArrayList;
 
 public interface StatusServiceAsync {
 
-	void getGame(String id, final AsyncCallback<Game> async);
-
 	void getGames(final AsyncCallback<ArrayList<Game>> async);
 }
