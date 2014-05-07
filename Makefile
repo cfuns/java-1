@@ -1,4 +1,6 @@
 MVN_OPTS=-Djava.awt.headless=true
+JAVA_OPTS=-Djava.awt.headless=true -Xmx1024M -XX:MaxPermSize=512m
+MAVEN_OPTS=-Djava.awt.headless=true -Xmx1024M -XX:MaxPermSize=512m
 JAVA_HOME=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
 all:
 	mvn $(MVN_OPTS) -Pdefault,base,lib,meta,bridge,test,slow install
