@@ -1,9 +1,11 @@
 package de.benjaminborbe.poker.table.client.model;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player implements Serializable {
+public class Player implements Serializable, IsSerializable {
 
 	private static final long serialVersionUID = 1L;
 
