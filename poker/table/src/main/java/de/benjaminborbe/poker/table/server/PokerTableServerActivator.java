@@ -3,6 +3,7 @@ package de.benjaminborbe.poker.table.server;
 import de.benjaminborbe.poker.table.server.guice.PokerTableServerModules;
 import de.benjaminborbe.poker.table.server.servlet.GwtHomeNoCacheJsServlet;
 import de.benjaminborbe.poker.table.server.servlet.GwtHomeServlet;
+import de.benjaminborbe.poker.table.server.servlet.StatusCallServiceImpl;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
@@ -15,6 +16,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PokerTableServerActivator extends HttpBundleActivator {
+
+	@Inject
+	private StatusCallServiceImpl statusCallService;
 
 	@Inject
 	private GwtHomeNoCacheJsServlet gwtHomeNoCacheJsServlet;
@@ -36,6 +40,7 @@ public class PokerTableServerActivator extends HttpBundleActivator {
 		final Set<ServletInfo> result = new HashSet<ServletInfo>();
 		result.add(new ServletInfo(gwtHomeServlet, "/Home.html"));
 		result.add(new ServletInfo(gwtHomeNoCacheJsServlet, "/Home/Home.nocache.js"));
+		result.add(new ServletInfo(statusCallService, "/status"));
 		return result;
 	}
 
