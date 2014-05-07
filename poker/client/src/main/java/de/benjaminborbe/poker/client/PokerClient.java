@@ -65,8 +65,8 @@ public class PokerClient {
 
 			@Override
 			public void run() {
-				final String token = "223ba30c-5db0-4e8b-8f73-6e1cd3a29a6a";
-				final String playerId = "63f8ed37-2bbd-4463-9566-44277df96e54";
+				final String playerId = "54c9ba5c-4268-43ec-8fa7-436de2c76102";
+				final String token = "919e18b3-2a59-4ab3-a562-4a9822962217";
 				final PokerClient client = injector.getInstance(PokerClient.class);
 				client.run(baseUrl, token, playerId);
 			}
@@ -76,8 +76,8 @@ public class PokerClient {
 
 			@Override
 			public void run() {
-				final String token = "848eafa5-f0c9-48fe-9342-f082379eb217";
-				final String playerId = "8800b805-3186-4b39-a934-710d2d807ef0";
+				final String playerId = "ba447ced-1aa0-48a2-b0de-7d37cf7b7745";
+				final String token = "04a841d8-071b-4143-8318-4753aba06b5c";
 				final PokerClient client = injector.getInstance(PokerClient.class);
 				client.run(baseUrl, token, playerId);
 			}
@@ -87,8 +87,8 @@ public class PokerClient {
 
 			@Override
 			public void run() {
-				final String token = "d830c7fd-a0eb-4c1a-8997-a87b310206c6";
-				final String playerId = "fd0e8ed0-7bd9-45cc-b72d-18f1ef51d199";
+				final String playerId = "707f605c-78eb-4277-ae8e-4ac3d7ef140e";
+				final String token = "524873a8-2c42-492a-831e-76a23a59d597";
 				final PokerClient client = injector.getInstance(PokerClient.class);
 				client.run(baseUrl, token, playerId);
 			}

@@ -159,7 +159,11 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 				widgets.add(new BrWidget());
 
 				widgets.add("Credit History: ");
-				widgets.add(pokerGuiLinkFactory.createHistoryLink(request, "history", game.getPlayers()));
+				widgets.add(pokerGuiLinkFactory.createHistoryLink(request, "view", game.getPlayers()));
+				widgets.add(new BrWidget());
+
+				widgets.add("Table: ");
+				widgets.add(pokerGuiLinkFactory.gameTable(request, game.getId(), "view"));
 				widgets.add(new BrWidget());
 
 				widgets.add("MaxBid: " + game.getMaxBid());

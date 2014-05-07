@@ -30,7 +30,7 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 	private final ConfigurationDescriptionDouble maxRaiseFactor = new ConfigurationDescriptionDouble(10d, "PokerMaxRaiseFactor", "Poker Max Raise Factor");
 
 	/* s m h d m dw y */
-	private final ConfigurationDescriptionString pokerScheduleExpression = new ConfigurationDescriptionString("* * * * * ?", "Poker Schedule Expression",
+	private final ConfigurationDescriptionString pokerScheduleExpression = new ConfigurationDescriptionString("* * * * * ?", "PokerScheduleExpression",
 		"Poker Schedule Expression");
 
 	@Inject
