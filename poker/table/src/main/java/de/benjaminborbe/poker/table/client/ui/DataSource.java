@@ -3,21 +3,22 @@ package de.benjaminborbe.poker.table.client.ui;
 import de.benjaminborbe.poker.table.client.model.Game;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class DataSource implements Serializable {
 
-	ArrayList<Game> games = new ArrayList<Game>();
+	private static final long serialVersionUID = 6438969743589952343L;
+
+	private Game game = null;
 
 	public DataSource() {
 	}
 
-	public ArrayList<Game> getGames() {
-		return games;
+	public Game getGame() {
+		return game;
 	}
 
-	public void setGames(final ArrayList<Game> games) {
-		this.games = games;
+	public void setGame(final Game game) {
+		this.game = game;
 	}
 
 }

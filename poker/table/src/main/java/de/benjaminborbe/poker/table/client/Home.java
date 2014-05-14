@@ -24,15 +24,15 @@ public class Home implements EntryPoint {
 
 	private final PokerTableClientGinjector injector = GWT.create(PokerTableClientGinjector.class);
 
-	private int frequenz = 500;
+	private final int frequenz = 500;
+
+	private final int frameWidth = Window.getClientWidth();
+
+	private final int frameHeight = Window.getClientHeight();
+
+	private final DataSource dataSource = new DataSource();
 
 	private PokerCanvas pokerCanvas;
-
-	private int frameWidth = Window.getClientWidth();
-
-	private int frameHeight = Window.getClientHeight();
-
-	private DataSource dataSource = new DataSource();
 
 	@Override
 	public void onModuleLoad() {
@@ -46,7 +46,7 @@ public class Home implements EntryPoint {
 	}
 
 	public void onModuleLoadGui() {
-		HorizontalPanel hPanel = new HorizontalPanel();
+		final HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.setWidth(frameWidth + "px");
 		hPanel.setWidth(frameHeight + "px");
 		hPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
@@ -58,15 +58,16 @@ public class Home implements EntryPoint {
 	}
 
 	private void loadStatus() {
-		StatusServiceAsync service = GWT.create(StatusService.class);
-		ServiceDefTarget serviceDef = (ServiceDefTarget) service;
+		final StatusServiceAsync service = GWT.create(StatusService.class);
+		final ServiceDefTarget serviceDef = (ServiceDefTarget) service;
 		serviceDef.setServiceEntryPoint(GWT.getModuleBaseURL() + "statusService");
-		StatusServiceCallBack statusServiceCallBack = new StatusServiceCallBack(dataSource);
-		service.getGames(statusServiceCallBack);
+		final StatusServiceCallBack statusServiceCallBack = new StatusServiceCallBack(dataSource);
+		final String gameId = Window.Location.getParameter("game_id");
+		service.getGame(gameId, statusServiceCallBack);
 	}
 
 	private void startStatusServiceTimer() {
-		Timer timer = new Timer() {
+		final Timer timer = new Timer() {
 
 			@Override
 			public void run() {
@@ -78,17 +79,16 @@ public class Home implements EntryPoint {
 	}
 
 	private void updateCanvas() {
-		if (dataSource.getGames().size() > 0) {
-			for (Game game : dataSource.getGames()) {
-				pokerCanvas.setRunFlag(game.isGameRunning());
-				pokerCanvas.updateGameText(game);
-				pokerCanvas.updatePlayerPot();
-				pokerCanvas.updateActivePlayer();
-				pokerCanvas.updatePot(game);
-				pokerCanvas.updateBoardCards(game.getBoardCards());
-				pokerCanvas.updatePlayerPositions(game.getPlayers());
-				pokerCanvas.updateWinner();
-			}
+		if (dataSource.getGame() != null) {
+			final Game game = dataSource.getGame();
+			pokerCanvas.setRunFlag(game.isGameRunning());
+			pokerCanvas.updateGameText(game);
+			pokerCanvas.updatePlayerPot();
+			pokerCanvas.updateActivePlayer();
+			pokerCanvas.updatePot(game);
+			pokerCanvas.updateBoardCards(game.getBoardCards());
+			pokerCanvas.updatePlayerPositions(game.getPlayers());
+			pokerCanvas.updateWinner();
 		}
 	}
 }

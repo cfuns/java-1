@@ -5,9 +5,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.benjaminborbe.poker.table.client.model.Game;
 import de.benjaminborbe.poker.table.client.ui.DataSource;
 
-import java.util.ArrayList;
-
-public class StatusServiceCallBack implements AsyncCallback<ArrayList<Game>> {
+public class StatusServiceCallBack implements AsyncCallback<Game> {
 
 	public DataSource getDataSource() {
 		return dataSource;
@@ -23,8 +21,8 @@ public class StatusServiceCallBack implements AsyncCallback<ArrayList<Game>> {
 		GWT.log(caught.getMessage());
 	}
 
-	public void onSuccess(ArrayList<Game> result) {
-		dataSource.setGames(result);
+	public void onSuccess(Game result) {
+		dataSource.setGame(result);
 	}
 
 }

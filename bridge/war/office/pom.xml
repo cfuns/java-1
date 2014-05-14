@@ -127,6 +127,7 @@
 			de.benjaminborbe.poker.api,
 			de.benjaminborbe.poker.core,
 			de.benjaminborbe.poker.gui,
+			de.benjaminborbe.poker.table,
 			de.benjaminborbe.httpdownloader.api,
 			de.benjaminborbe.httpdownloader.core,
 			de.benjaminborbe.httpdownloader.gui,
@@ -706,6 +707,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.poker.core</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.poker.table</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>

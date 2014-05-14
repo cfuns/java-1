@@ -1,5 +1,7 @@
 package de.benjaminborbe.poker.table.server;
 
+import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.poker.table.server.config.PokerTableConfig;
 import de.benjaminborbe.poker.table.server.guice.PokerTableServerModules;
 import de.benjaminborbe.poker.table.server.servlet.PokerTableHomeNoCacheJsServlet;
 import de.benjaminborbe.poker.table.server.servlet.PokerTableHomeServlet;
@@ -7,6 +9,7 @@ import de.benjaminborbe.poker.table.server.servlet.PokerTableStatusServlet;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ResourceInfo;
+import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.ServletInfo;
 import org.osgi.framework.BundleContext;
 
@@ -25,6 +28,9 @@ public class PokerTableServerActivator extends HttpBundleActivator {
 
 	@Inject
 	private PokerTableHomeServlet pokerTableHomeServlet;
+
+	@Inject
+	private PokerTableConfig pokerTableConfig;
 
 	public PokerTableServerActivator() {
 		super(PokerTableServerConstants.NAME);
@@ -52,4 +58,12 @@ public class PokerTableServerActivator extends HttpBundleActivator {
 		return result;
 	}
 
+	@Override
+	public Collection<ServiceInfo> getServiceInfos() {
+		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
+		for (final ConfigurationDescription configuration : pokerTableConfig.getConfigurations()) {
+			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
+		}
+		return result;
+	}
 }

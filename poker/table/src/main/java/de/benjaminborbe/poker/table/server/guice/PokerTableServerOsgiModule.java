@@ -3,6 +3,7 @@ package de.benjaminborbe.poker.table.server.guice;
 import com.google.inject.AbstractModule;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.configuration.api.ConfigurationService;
 import org.apache.felix.http.api.ExtHttpService;
 import org.osgi.service.log.LogService;
 
@@ -12,6 +13,7 @@ public class PokerTableServerOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(ConfigurationService.class).toProvider(service(ConfigurationService.class).single());
 		bind(AuthenticationService.class).toProvider(service(AuthenticationService.class).single());
 		bind(AuthorizationService.class).toProvider(service(AuthorizationService.class).single());
 		bind(LogService.class).toProvider(service(LogService.class).single());
