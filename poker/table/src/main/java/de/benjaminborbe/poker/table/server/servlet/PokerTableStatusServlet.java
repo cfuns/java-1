@@ -6,6 +6,7 @@ import de.benjaminborbe.poker.table.client.model.Card;
 import de.benjaminborbe.poker.table.client.model.Game;
 import de.benjaminborbe.poker.table.client.model.Player;
 import de.benjaminborbe.poker.table.client.service.StatusService;
+import de.benjaminborbe.tools.url.UrlUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,11 +28,14 @@ public class PokerTableStatusServlet extends RemoteServiceServlet implements Sta
 
 	private final Logger logger;
 
+	private final UrlUtil urlUtil;
+
 	private ArrayList<String> jsonList = new ArrayList<String>();
 
 	@Inject
-	public PokerTableStatusServlet(final Logger logger) {
+	public PokerTableStatusServlet(final Logger logger, final UrlUtil urlUtil) {
 		this.logger = logger;
+		this.urlUtil = urlUtil;
 	}
 
 	@Override
@@ -81,12 +85,15 @@ public class PokerTableStatusServlet extends RemoteServiceServlet implements Sta
 
 	@Override
 	public ArrayList<Game> getGames() {
+
 		logger.debug("getGames");
 		final ArrayList<Game> games = new ArrayList<Game>();
 
 		String gameID = getThreadLocalRequest().getParameter("getParameter(\"game_id\")");
+		final String baseurl = urlUtil.buildBaseUrl(getThreadLocalRequest());
+
 		try {
-			URL url = new URL("http://bb/bb/poker/game/status/json?token=P2huWY8zZWDd&game_id=6c61792c-a665-4a4f-a64a-298d2c0806aa");
+			URL url = new URL(baseurl + "/poker/game/status/json?token=P2huWY8zZWDd&game_id=6c61792c-a665-4a4f-a64a-298d2c0806aa");
 			URLConnection
 				connection = url.openConnection();
 			String line;
