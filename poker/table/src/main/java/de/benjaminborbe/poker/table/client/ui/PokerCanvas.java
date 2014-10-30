@@ -51,8 +51,6 @@ public final class PokerCanvas extends DrawingArea {
 
 	boolean runFlag = false;
 
-	private int gamePot = 0;
-
 	private int thisRound = 0;
 
 	private Group winner = new Group();
@@ -143,17 +141,20 @@ public final class PokerCanvas extends DrawingArea {
 		if (runFlag) {
 
 			int potValue = Integer.parseInt(game.getGamePot());
-
-			int a = potValue % 100;
-			for (int i = 0; i <= a; i++) {
-				int diffx = (int) (Math.random() * 50);
-				int diffy = (int) (Math.random() * 50);
-				pot.add(new CoinObject(1, potPositionX + diffx, potPositionY - 20 + diffy));
+			int diffx = 0;
+			int diffy = 0;
+			int result = (int) potValue/100;
+			for (int i = 0; i <= result; i++) {
+				pot.add(new CoinObject(1, potPositionX + diffx, potPositionY + diffy));
+				diffy = diffy - 2;
+				if(diffy % 20 == 0){
+					diffx = diffx + 10;
+					diffy = 0;
+				}
 			}
 			Text gameName = new Text(potPositionX, potPositionY - 40, String.valueOf(potValue));
 			gameName.setFillColor("black");
 			pot.add(gameName);
-
 		}
 
 	}
