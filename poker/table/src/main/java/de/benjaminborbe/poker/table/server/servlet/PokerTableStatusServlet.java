@@ -4,9 +4,11 @@ import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
+import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.table.client.model.Game;
+import de.benjaminborbe.poker.table.client.model.Leaderboard;
 import de.benjaminborbe.poker.table.client.service.StatusService;
 import de.benjaminborbe.poker.table.server.mapper.MapServiceValuesToGui;
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collection;
 
 public class PokerTableStatusServlet extends RemoteServiceServlet implements StatusService {
 
@@ -92,4 +95,17 @@ public class PokerTableStatusServlet extends RemoteServiceServlet implements Sta
             return new Game(e.getLocalizedMessage());
         }
     }
+
+    @Override
+    public Leaderboard getAllPlayers() {
+        logger.debug("getPlayers");
+        try {
+            final Collection<PokerPlayer> pokerPlayers = pokerService.getPlayers();
+            return mapServiceValuesToGui.mapPlayersToLeaderboard(pokerPlayers);
+        } catch (PokerServiceException e) {
+            logger.debug("poker service error");
+            return new Leaderboard(e.getLocalizedMessage());
+        }
+    }
+
 }

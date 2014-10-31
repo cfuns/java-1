@@ -10,6 +10,7 @@ import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.table.client.model.Card;
 import de.benjaminborbe.poker.table.client.model.Game;
+import de.benjaminborbe.poker.table.client.model.Leaderboard;
 import de.benjaminborbe.poker.table.client.model.Player;
 
 import java.util.Collection;
@@ -21,6 +22,17 @@ public class MapServiceValuesToGui {
     @Inject
     public MapServiceValuesToGui(final PokerService pokerService) {
         this.pokerService = pokerService;
+    }
+
+    public Leaderboard mapPlayersToLeaderboard(final Collection<PokerPlayer> pokerPlayers) {
+        final Leaderboard leaderboard = new Leaderboard();
+        for (final PokerPlayer pokerPlayer : pokerPlayers) {
+            Player player = new Player();
+            player.setUsername(pokerPlayer.getName());
+            player.setScore(pokerPlayer.getScore().intValue());
+            leaderboard.getPlayers().add(player);
+        }
+        return leaderboard;
     }
 
     public Game mapPokerGameToGame(final PokerGame pokerGame, final PokerGameIdentifier pokerGameIdentifier) throws PokerServiceException {
@@ -44,7 +56,7 @@ public class MapServiceValuesToGui {
 
     private void mapBoardCardsToGame(final Game game, final PokerGameIdentifier pokerGameIdentifier) throws PokerServiceException {
         final Collection<PokerCardIdentifier> boardCards = pokerService.getBoardCards(pokerGameIdentifier);
-        for (PokerCardIdentifier pokerCardIdentifier : boardCards) {
+        for (final PokerCardIdentifier pokerCardIdentifier : boardCards) {
             final Card card = new Card();
             card.setCard(pokerCardIdentifier.getId());
             game.addCard(card);
@@ -53,7 +65,7 @@ public class MapServiceValuesToGui {
 
     private void mapHandCardsToPlayer(final Player player, final PokerPlayerIdentifier pokerPlayerIdentifier) throws PokerServiceException {
         final Collection<PokerCardIdentifier> handCards = pokerService.getHandCards(pokerPlayerIdentifier);
-        for (PokerCardIdentifier pokerHandCardIdentifier : handCards) {
+        for (final PokerCardIdentifier pokerHandCardIdentifier : handCards) {
             final Card card = new Card();
             card.setCard(pokerHandCardIdentifier.getId());
             player.addCard(card);
@@ -87,4 +99,5 @@ public class MapServiceValuesToGui {
     private PokerPlayer getCurrentPlayer(final PokerPlayerIdentifier pokerPlayerIdentifier) throws PokerServiceException {
         return pokerService.getPlayer(pokerPlayerIdentifier);
     }
+
 }

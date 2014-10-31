@@ -51,6 +51,8 @@ public final class PokerCanvas extends DrawingArea {
 
     private Group gameText = new Group();
 
+    private Group errorText = new Group();
+
     private int thisRound = 0;
 
     private Group winner = new Group();
@@ -75,6 +77,7 @@ public final class PokerCanvas extends DrawingArea {
         this.add(activePlayerGroup);
         this.add(playerNames);
         this.add(gameText);
+        this.add(errorText);
 
         // deliverFlop();
 
@@ -217,6 +220,20 @@ public final class PokerCanvas extends DrawingArea {
             playerNames.add(creditText);
         }
 
+    }
+
+    public void updateErrorText(ArrayList<String> errorList) {
+        errorText.clear();
+        int diffy = 15;
+
+        for (String errorString : errorList) {
+            if (errorString != null) {
+                Text exceptionMessage = new Text((canvasWidth / 2) - 100, diffy, "Error: " + errorString);
+                exceptionMessage.setFillColor("red");
+                errorText.add(exceptionMessage);
+                diffy = diffy + 20;
+            }
+        }
     }
 
     public void updateActivePlayer() {
