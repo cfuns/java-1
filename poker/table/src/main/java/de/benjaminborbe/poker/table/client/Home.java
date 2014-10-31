@@ -24,7 +24,7 @@ public class Home implements EntryPoint {
 
 	private final PokerTableClientGinjector injector = GWT.create(PokerTableClientGinjector.class);
 
-	private final int frequenz = 500;
+	private final int frequenz = 100;
 
 	private final int frameWidth = Window.getClientWidth();
 
