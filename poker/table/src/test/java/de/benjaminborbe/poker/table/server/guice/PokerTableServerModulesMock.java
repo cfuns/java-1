@@ -9,10 +9,10 @@ import de.benjaminborbe.tools.osgi.mock.ServletModuleMock;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class GwtServerModulesMock implements Modules {
+public class PokerTableServerModulesMock implements Modules {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new GwtServerOsgiModuleMock(), new PokerTableServerModule(), new ToolModuleMock());
+		return Arrays.asList(new PeaberryModuleMock(), new ServletModuleMock(), new PokerTableServerOsgiModuleMock(), new PokerTableServerModule(), new ToolModuleMock());
 	}
 }

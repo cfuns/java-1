@@ -14,7 +14,7 @@ import org.osgi.service.log.LogService;
 
 import javax.inject.Singleton;
 
-public class GwtServerOsgiModuleMock extends AbstractModule {
+public class PokerTableServerOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {

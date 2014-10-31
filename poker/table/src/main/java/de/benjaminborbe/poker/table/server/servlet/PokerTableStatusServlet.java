@@ -23,7 +23,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 
 public class PokerTableStatusServlet extends RemoteServiceServlet implements StatusService {
 
@@ -34,8 +33,6 @@ public class PokerTableStatusServlet extends RemoteServiceServlet implements Sta
 	private final UrlUtil urlUtil;
 
 	private final PokerTableConfig pokerTableConfig;
-
-	private ArrayList<String> jsonList = new ArrayList<String>();
 
 	@Inject
 	public PokerTableStatusServlet(final Logger logger, final UrlUtil urlUtil, final PokerTableConfig pokerTableConfig) {
