@@ -5,9 +5,9 @@ import org.vaadin.gwtgraphics.client.Image;
 
 public class PokerTable extends Image {
 
-	private static String tableURI = GWT.getHostPageBaseURL() + "images/table.jpg";
+	private static final String tableURI = GWT.getHostPageBaseURL() + "images/table.jpg";
 
-	public PokerTable(int width, int height) {
+	public PokerTable(final int width, final int height) {
 		super(0, 0, width, height, tableURI);
 	}
 

@@ -51,6 +51,8 @@ public class PokerGuiEventResetServlet extends WebsiteHtmlServlet {
 
 	private static final Logger logger = LoggerFactory.getLogger(PokerGuiEventResetServlet.class);
 
+	private static final long serialVersionUID = -5844202544448821460L;
+
 	private final AuthenticationService authenticationService;
 
 	private final PokerService pokerService;

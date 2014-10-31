@@ -31,8 +31,8 @@ public class PokerGameCreator {
 	public PokerGameCreator(
 		final PokerGameDao pokerGameDao,
 		final IdGeneratorUUID idGeneratorUUID,
-		PokerConfig pokerConfig,
-		ValidationExecutor validationExecutor
+		final PokerConfig pokerConfig,
+		final ValidationExecutor validationExecutor
 	) {
 		this.pokerGameDao = pokerGameDao;
 		this.idGeneratorUUID = idGeneratorUUID;
@@ -42,7 +42,6 @@ public class PokerGameCreator {
 
 	public PokerGameIdentifier createGame(final PokerGameDto pokerGameDto) throws StorageException, ValidationException {
 		final PokerGameIdentifier id = new PokerGameIdentifier(idGeneratorUUID.nextId());
-
 		final PokerGameBean bean = pokerGameDao.create();
 		bean.setId(id);
 		bean.setName(pokerGameDto.getName());

@@ -4,11 +4,11 @@ import org.vaadin.gwtgraphics.client.shape.Circle;
 
 public class CoinObject extends Circle {
 
-	private static String colorString = "yellow";
+	private static final String colorString = "yellow";
 
 	private int coinValue = 0, xValue = 0, yValue = 0;
 
-	public CoinObject(int coinValue, int x, int y) {
+	public CoinObject(final int coinValue, final int x, final int y) {
 		super(x, y, 5);
 		this.coinValue = coinValue;
 		this.setFillColor(colorString);
@@ -18,7 +18,7 @@ public class CoinObject extends Circle {
 		return xValue;
 	}
 
-	public void setxValue(int xValue) {
+	public void setxValue(final int xValue) {
 		this.xValue = xValue;
 	}
 
@@ -26,7 +26,7 @@ public class CoinObject extends Circle {
 		return yValue;
 	}
 
-	public void setyValue(int yValue) {
+	public void setyValue(final int yValue) {
 		this.yValue = yValue;
 	}
 
@@ -34,7 +34,7 @@ public class CoinObject extends Circle {
 		return coinValue;
 	}
 
-	public void setCoinValue(Integer coinValue) {
+	public void setCoinValue(final Integer coinValue) {
 		this.coinValue = coinValue;
 	}
 

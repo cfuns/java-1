@@ -11,17 +11,17 @@ public class StatusServiceCallBack implements AsyncCallback<Game> {
 		return dataSource;
 	}
 
-	private DataSource dataSource;
+	private final DataSource dataSource;
 
-	public StatusServiceCallBack(DataSource dataSource) {
+	public StatusServiceCallBack(final DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
 
-	public void onFailure(Throwable caught) {
+	public void onFailure(final Throwable caught) {
 		GWT.log(caught.getMessage());
 	}
 
-	public void onSuccess(Game result) {
+	public void onSuccess(final Game result) {
 		dataSource.setGame(result);
 	}
 

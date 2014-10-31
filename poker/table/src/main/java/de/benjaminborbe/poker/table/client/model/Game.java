@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class Game implements Serializable, IsSerializable {
 
+	private static final long serialVersionUID = 8116900440759748074L;
+
 	private String gameId;
 
 	private boolean gameRunning;
@@ -130,11 +132,11 @@ public class Game implements Serializable, IsSerializable {
 		this.activePlayer = activePlayer;
 	}
 
-	public void addPlayer(Player player) {
+	public void addPlayer(final Player player) {
 		players.add(player);
 	}
 
-	public void addCard(Card Card) {
+	public void addCard(final Card Card) {
 		boardCards.add(Card);
 	}
 }

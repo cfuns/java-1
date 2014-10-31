@@ -42,7 +42,7 @@ public class Player implements Serializable, IsSerializable {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
@@ -50,7 +50,7 @@ public class Player implements Serializable, IsSerializable {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(final String username) {
 		this.username = username;
 	}
 
@@ -58,11 +58,11 @@ public class Player implements Serializable, IsSerializable {
 		return credits;
 	}
 
-	public void setCredits(int credits) {
+	public void setCredits(final int credits) {
 		this.credits = credits;
 	}
 
-	public void addCard(Card Card) {
+	public void addCard(final Card Card) {
 		cards.add(Card);
 	}
 

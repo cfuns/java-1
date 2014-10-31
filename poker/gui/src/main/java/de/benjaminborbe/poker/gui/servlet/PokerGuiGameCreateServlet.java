@@ -136,7 +136,7 @@ public class PokerGuiGameCreateServlet extends WebsiteHtmlServlet {
 		final String name,
 		final String bigBlindString,
 		final String startCreditsString,
-		String autoJoinAndRestartString
+		final String autoJoinAndRestartString
 	) throws PokerServiceException, ValidationException {
 		final List<ValidationError> errors = new ArrayList<ValidationError>();
 		boolean autoJoinAndRestart = false;

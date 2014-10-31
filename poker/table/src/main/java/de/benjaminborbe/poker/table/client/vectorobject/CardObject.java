@@ -5,19 +5,19 @@ import org.vaadin.gwtgraphics.client.Image;
 
 public class CardObject extends Image {
 
-	private String backURI;
+	private final String backURI;
 
 	private String frontURI;
 
 	private int id = 0;
 
-	public CardObject(int id, int x, int y) {
+	public CardObject(final int id, final int x, final int y) {
 		super(x, y, 50, 75, GWT.getHostPageBaseURL() + "images/cardback.jpg");
 		this.id = id;
 		backURI = GWT.getHostPageBaseURL() + "images/cardback.jpg";
 	}
 
-	public void setImage(String cardimage) {
+	public void setImage(final String cardimage) {
 		frontURI = GWT.getHostPageBaseURL() + "images/" + cardimage + ".jpg";
 	}
 
