@@ -1,7 +1,6 @@
 package de.benjaminborbe.poker.reset;
 
 import de.benjaminborbe.api.ValidationException;
-import de.benjaminborbe.poker.api.PokerGameDto;
 import de.benjaminborbe.poker.game.PokerGameBean;
 import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.gamecreator.PokerGameCreator;
@@ -18,8 +17,6 @@ import javax.inject.Inject;
 public class PokerEventReseter {
 
 	private static final Logger logger = LoggerFactory.getLogger(PokerEventReseter.class);
-
-	private static final String DEFAULT_POKER_GAME_NAME = "Game 1";
 
 	private final PokerGameDao pokerGameDao;
 
@@ -48,9 +45,7 @@ public class PokerEventReseter {
 
 	private void createNewGame() throws ValidationException, StorageException {
 		logger.debug("createNewGame");
-		final PokerGameDto pokerGameDto = new PokerGameDto();
-		pokerGameDto.setName(DEFAULT_POKER_GAME_NAME);
-		pokerGameCreator.createGame(pokerGameDto);
+		pokerGameCreator.createDefaultGame();
 	}
 
 	private void deleteAllPlayer() throws EntityIteratorException, StorageException {
