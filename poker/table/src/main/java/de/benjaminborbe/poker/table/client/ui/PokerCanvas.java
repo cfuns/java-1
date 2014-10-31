@@ -143,13 +143,18 @@ public final class PokerCanvas extends DrawingArea {
 			int potValue = Integer.parseInt(game.getGamePot());
 			int diffx = 0;
 			int diffy = 0;
+			int positionChange = 0;
 			int result = (int) potValue/100;
 			for (int i = 0; i <= result; i++) {
-				pot.add(new CoinObject(1, potPositionX + diffx, potPositionY + diffy));
+				pot.add(new CoinObject(1, potPositionX + diffx, potPositionY + positionChange + diffy));
 				diffy = diffy - 2;
 				if(diffy % 20 == 0){
 					diffx = diffx + 10;
 					diffy = 0;
+					if(diffx == 50){
+						positionChange = positionChange + 5;
+						diffx = 0;
+					}
 				}
 			}
 			Text gameName = new Text(potPositionX, potPositionY - 40, String.valueOf(potValue));
