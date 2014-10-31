@@ -105,7 +105,7 @@ public class StorageConnectionPoolImpl implements StorageConnectionPool {
 	}
 
 	private StorageConnection createNewConnection() throws TTransportException {
-		logger.debug("createNewConnection to " + storageConfig.getHost() + ":" + storageConfig.getPort());
+		logger.trace("createNewConnection to " + storageConfig.getHost() + ":" + storageConfig.getPort());
 		final TSocket socket = new TSocket(storageConfig.getHost(), storageConfig.getPort());
 		final TFramedTransport tr = new TFramedTransport(socket);
 		tr.open();
