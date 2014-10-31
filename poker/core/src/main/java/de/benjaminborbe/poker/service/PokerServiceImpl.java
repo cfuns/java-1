@@ -29,9 +29,11 @@ import de.benjaminborbe.poker.config.PokerConfig;
 import de.benjaminborbe.poker.game.PokerGameBean;
 import de.benjaminborbe.poker.game.PokerGameBeanMapper;
 import de.benjaminborbe.poker.game.PokerGameDao;
+import de.benjaminborbe.poker.gamecreator.PokerGameCreator;
 import de.benjaminborbe.poker.player.PokerPlayerBean;
 import de.benjaminborbe.poker.player.PokerPlayerBeanMapper;
 import de.benjaminborbe.poker.player.PokerPlayerDao;
+import de.benjaminborbe.poker.reset.PokerEventReseter;
 import de.benjaminborbe.poker.util.PokerWinnerCalculator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -76,6 +78,10 @@ public class PokerServiceImpl implements PokerService {
 
 	private final DurationUtil durationUtil;
 
+	private final PokerEventReseter pokerEventReseter;
+
+	private final PokerGameCreator pokerGameCreator;
+
 	private final ListUtil listUtil;
 
 	private final PokerCardFactory pokerCardFactory;
@@ -104,7 +110,7 @@ public class PokerServiceImpl implements PokerService {
 		final IdGeneratorUUID idGeneratorUUID,
 		final ValidationExecutor validationExecutor,
 		final PokerPlayerDao pokerPlayerDao,
-		final DurationUtil durationUtil
+		final DurationUtil durationUtil, final PokerEventReseter pokerEventReseter, final PokerGameCreator pokerGameCreator
 	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -119,6 +125,8 @@ public class PokerServiceImpl implements PokerService {
 		this.validationExecutor = validationExecutor;
 		this.pokerPlayerDao = pokerPlayerDao;
 		this.durationUtil = durationUtil;
+		this.pokerEventReseter = pokerEventReseter;
+		this.pokerGameCreator = pokerGameCreator;
 	}
 
 	@Override
@@ -175,35 +183,7 @@ public class PokerServiceImpl implements PokerService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("createGame - name: " + pokerGameDto.getName());
-
-			final PokerGameIdentifier id = new PokerGameIdentifier(idGeneratorUUID.nextId());
-
-			final PokerGameBean bean = pokerGameDao.create();
-			bean.setId(id);
-			bean.setName(pokerGameDto.getName());
-			bean.setBigBlind(pokerGameDto.getBigBlind());
-			bean.setSmallBlind(pokerGameDto.getBigBlind() != null ? (pokerGameDto.getBigBlind() / 2) : null);
-			bean.setStartCredits(pokerGameDto.getStartCredits());
-			bean.setAutoJoinAndRestart(pokerGameDto.getAutoJoinAndRestart());
-			bean.setRunning(false);
-			bean.setPot(0l);
-			bean.setCardPosition(0);
-			bean.setScore(0l);
-			bean.setMaxBid(pokerConfig.getMaxBid());
-			bean.setAutoFoldTimeout(pokerConfig.getAutoFoldTimeout());
-			bean.setCreditsNegativeAllowed(pokerConfig.isCreditsNegativeAllowed());
-			bean.setMaxRaiseFactor(pokerConfig.getMaxRaiseFactor());
-			bean.setMinRaiseFactor(pokerConfig.getMinRaiseFactor());
-
-			final ValidationResult errors = validationExecutor.validate(bean);
-			if (errors.hasErrors()) {
-				logger.warn(bean.getClass().getSimpleName() + " " + errors.toString());
-				throw new ValidationException(errors);
-			}
-
-			pokerGameDao.save(bean);
-
-			return id;
+			return pokerGameCreator.createGame(pokerGameDto);
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
@@ -1043,6 +1023,24 @@ public class PokerServiceImpl implements PokerService {
 					joinGame(pokerGameIdentifier, player.getId());
 				}
 			}
+		} finally {
+			if (duration.getTime() > DURATION_WARN)
+				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public void resetEvent(final SessionIdentifier sessionIdentifier) throws PokerServiceException, LoginRequiredException, PermissionDeniedException {
+		final Duration duration = durationUtil.getDuration();
+		try {
+			logger.debug("resetEvent");
+			pokerEventReseter.reset();
+		} catch (StorageException e) {
+			throw new PokerServiceException(e);
+		} catch (EntityIteratorException e) {
+			throw new PokerServiceException(e);
+		} catch (ValidationException e) {
+			throw new PokerServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());

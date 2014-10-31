@@ -19,12 +19,15 @@ import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
 import de.benjaminborbe.website.form.FormInputHiddenWidget;
 import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
 import de.benjaminborbe.website.form.FormMethod;
 import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
+import de.benjaminborbe.website.util.StringWidget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,11 +45,15 @@ public class PokerGuiEventResetServlet extends WebsiteHtmlServlet {
 
 	private static final String TITLE = "Poker - Reset Event";
 
+	private static final String PARAMETER_CONFIRM = "confirm";
+
+	private static final String YES = "yes";
+
+	private static final Logger logger = LoggerFactory.getLogger(PokerGuiEventResetServlet.class);
+
 	private final AuthenticationService authenticationService;
 
 	private final PokerService pokerService;
-
-	private static final Logger logger = LoggerFactory.getLogger(PokerGuiEventResetServlet.class);
 
 	@Inject
 	public PokerGuiEventResetServlet(
@@ -76,19 +83,37 @@ public class PokerGuiEventResetServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(
 		final HttpServletRequest request, final HttpServletResponse response, final HttpContext context
 	) throws IOException, PermissionDeniedException, RedirectException, LoginRequiredException {
+		try {
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-		if (ACTION_RESET.contentEquals(request.getParameter(PARAMETER_ACTION))) {
-			logger.debug("reset poker event");
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(TITLE));
+			if (ACTION_RESET.equals(request.getParameter(PARAMETER_ACTION))) {
+				logger.debug("reset poker event");
+				if (YES.equals(request.getParameter(PARAMETER_CONFIRM))) {
+					logger.debug("confirm = " + YES);
+					pokerService.resetEvent(sessionIdentifier);
+					widgets.add("reset poker event done");
+					return widgets;
+				} else {
+					logger.debug("confirm != " + YES);
+					widgets.add(new StringWidget("enter " + YES));
+				}
+			}
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(PARAMETER_ACTION).addValue(ACTION_RESET));
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_CONFIRM).addLabel("Write '" + YES + "' to confirm reset"));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("reset"));
+			widgets.add(new StringWidget("Attention! This function reset the entire poker event!"));
+			widgets.add(formWidget);
+			return widgets;
+		} catch (AuthenticationServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		} catch (PokerServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
 		}
-
-		final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
-		formWidget.addFormInputWidget(new FormInputHiddenWidget(PARAMETER_ACTION).addValue(ACTION_RESET));
-		formWidget.addFormInputWidget(new FormInputSubmitWidget("reset"));
-
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(TITLE));
-		widgets.add(formWidget);
-		return widgets;
 	}
 
 	@Override

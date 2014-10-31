@@ -82,19 +82,30 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 	@Override
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 		PermissionDeniedException, RedirectException, LoginRequiredException {
-		logger.trace("printContent");
-		final ListWidget widgets = new ListWidget();
-		widgets.add(new H1Widget(getTitle()));
+		try {
+			logger.trace("printContent");
+			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-		final UlWidget ul = new UlWidget();
-		ul.add(pokerGuiLinkFactory.gameList(request));
-		ul.add(pokerGuiLinkFactory.playerList(request));
-		if (pokerGuiConfig.isJsonApiEnabled()) {
-			ul.add(pokerGuiLinkFactory.apiHelp(request));
+			final UlWidget ul = new UlWidget();
+			ul.add(pokerGuiLinkFactory.gameList(request));
+			ul.add(pokerGuiLinkFactory.playerList(request));
+			if (pokerGuiConfig.isJsonApiEnabled()) {
+				ul.add(pokerGuiLinkFactory.apiHelp(request));
+			}
+			if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
+				ul.add(pokerGuiLinkFactory.eventReset(request));
+			}
+
+			final ListWidget widgets = new ListWidget();
+			widgets.add(new H1Widget(getTitle()));
+			widgets.add(ul);
+			return widgets;
+		} catch (PokerServiceException e) {
+			throw new PermissionDeniedException(e);
+
+		} catch (AuthenticationServiceException e) {
+			throw new PermissionDeniedException(e);
 		}
-		widgets.add(ul);
-
-		return widgets;
 	}
 
 	@Override
