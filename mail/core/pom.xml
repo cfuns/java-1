@@ -56,7 +56,7 @@
 							${felix_plugin_imports}
 						</Import-Package>
 						<Export-Package></Export-Package>
-						<Import-Service></Import-Service>
+						<Import-Service>de.benjaminborbe.message.api.MessageService</Import-Service>
 						<Export-Service>de.benjaminborbe.mail.api.MailService</Export-Service>
 					</instructions>
 				</configuration>
