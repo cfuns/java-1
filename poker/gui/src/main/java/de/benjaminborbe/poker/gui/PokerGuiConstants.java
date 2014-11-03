@@ -92,5 +92,7 @@ public interface PokerGuiConstants {
 
 	String PARAMETER_GAME_AUTO_FOLD_TIMEOUT = "game_auto_fold_timeout";
 
-	Object URL_GAME_TABLE = "/poker_table/Home.html";
+	String URL_GAME_TABLE = "/poker_table/Home.html";
+
+	String URL_EVENT_RESET = "/reset";
 }

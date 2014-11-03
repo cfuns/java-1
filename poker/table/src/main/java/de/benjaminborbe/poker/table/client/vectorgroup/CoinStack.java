@@ -7,7 +7,7 @@ public class CoinStack extends Group {
 
 	private int credits = 0, xValue = 0, yValue = 0;
 
-	public CoinStack(int credits, int x, int y) {
+	public CoinStack(final int credits, final int x, final int y) {
 		super();
 		xValue = x;
 		yValue = y;
@@ -19,7 +19,7 @@ public class CoinStack extends Group {
 		return credits;
 	}
 
-	public void setCredits(int credits) {
+	public void setCredits(final int credits) {
 		this.credits = credits;
 	}
 

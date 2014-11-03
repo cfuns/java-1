@@ -206,6 +206,10 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
+	public void resetEvent(final SessionIdentifier sessionIdentifier) throws PokerServiceException, LoginRequiredException, PermissionDeniedException {
+	}
+
+	@Override
 	public void updatePlayer(final PokerPlayerDto playerDto) throws PokerServiceException, ValidationException {
 	}
 

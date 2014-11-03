@@ -52,7 +52,16 @@ public class PlayerObject extends Group {
 
 	boolean active = false;
 
-	public PlayerObject(int phi, int rotAngle, int width, int height, int canvasWidth, int canvasHeigth, boolean active, int credits) {
+	public PlayerObject(
+		final int phi,
+		final int rotAngle,
+		final int width,
+		final int height,
+		final int canvasWidth,
+		final int canvasHeigth,
+		final boolean active,
+		final int credits
+	) {
 		super();
 		this.angle = rotAngle;
 		this.playerPositionX = (int) Math.round((Math.cos(phi) * width) + canvasWidth / 2);
@@ -69,7 +78,7 @@ public class PlayerObject extends Group {
 		return playerCards;
 	}
 
-	public void setPlayerCards(CardStack playerCards) {
+	public void setPlayerCards(final CardStack playerCards) {
 		this.playerCards = playerCards;
 	}
 
@@ -85,7 +94,7 @@ public class PlayerObject extends Group {
 		return angle;
 	}
 
-	public void setAngle(int angle) {
+	public void setAngle(final int angle) {
 		this.angle = angle;
 	}
 

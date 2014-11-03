@@ -13,45 +13,52 @@ import de.benjaminborbe.html.api.Widget;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
-import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
-import de.benjaminborbe.poker.gui.util.PokerGuiLinkFactory;
 import de.benjaminborbe.tools.date.CalendarUtil;
 import de.benjaminborbe.tools.date.TimeZoneUtil;
 import de.benjaminborbe.tools.url.UrlUtil;
 import de.benjaminborbe.tools.util.ParseUtil;
+import de.benjaminborbe.website.form.FormInputHiddenWidget;
+import de.benjaminborbe.website.form.FormInputSubmitWidget;
+import de.benjaminborbe.website.form.FormInputTextWidget;
+import de.benjaminborbe.website.form.FormMethod;
+import de.benjaminborbe.website.form.FormWidget;
 import de.benjaminborbe.website.servlet.RedirectException;
 import de.benjaminborbe.website.servlet.WebsiteHtmlServlet;
+import de.benjaminborbe.website.util.ExceptionWidget;
 import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
-import de.benjaminborbe.website.util.UlWidget;
+import de.benjaminborbe.website.util.StringWidget;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Singleton
-public class PokerGuiServlet extends WebsiteHtmlServlet {
+public class PokerGuiEventResetServlet extends WebsiteHtmlServlet {
 
-	private static final long serialVersionUID = 6022990232153082338L;
+	public static final String PARAMETER_ACTION = "action";
 
-	private static final String TITLE = "Poker";
+	public static final String ACTION_RESET = "reset";
 
-	private final Logger logger;
+	private static final String TITLE = "Poker - Reset Event";
 
-	private final PokerGuiLinkFactory pokerGuiLinkFactory;
+	private static final String PARAMETER_CONFIRM = "confirm";
+
+	private static final String YES = "yes";
+
+	private static final Logger logger = LoggerFactory.getLogger(PokerGuiEventResetServlet.class);
+
+	private static final long serialVersionUID = -5844202544448821460L;
 
 	private final AuthenticationService authenticationService;
 
 	private final PokerService pokerService;
 
-	private final PokerGuiConfig pokerGuiConfig;
-
 	@Inject
-	public PokerGuiServlet(
+	public PokerGuiEventResetServlet(
 		final Logger logger,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
@@ -62,16 +69,11 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 		final Provider<HttpContext> httpContextProvider,
 		final UrlUtil urlUtil,
 		final CacheService cacheService,
-		final PokerGuiLinkFactory pokerGuiLinkFactory,
-		final PokerService pokerService,
-		final PokerGuiConfig pokerGuiConfig
+		final PokerService pokerService
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
-		this.logger = logger;
-		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 		this.authenticationService = authenticationService;
 		this.pokerService = pokerService;
-		this.pokerGuiConfig = pokerGuiConfig;
 	}
 
 	@Override
@@ -80,31 +82,39 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 	}
 
 	@Override
-	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
-		PermissionDeniedException, RedirectException, LoginRequiredException {
+	protected Widget createContentWidget(
+		final HttpServletRequest request, final HttpServletResponse response, final HttpContext context
+	) throws IOException, PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
-			logger.trace("printContent");
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
-			final UlWidget ul = new UlWidget();
-			ul.add(pokerGuiLinkFactory.gameList(request));
-			ul.add(pokerGuiLinkFactory.playerList(request));
-			if (pokerGuiConfig.isJsonApiEnabled()) {
-				ul.add(pokerGuiLinkFactory.apiHelp(request));
-			}
-			if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
-				ul.add(pokerGuiLinkFactory.eventReset(request));
-			}
-
 			final ListWidget widgets = new ListWidget();
-			widgets.add(new H1Widget(getTitle()));
-			widgets.add(ul);
+			widgets.add(new H1Widget(TITLE));
+			if (ACTION_RESET.equals(request.getParameter(PARAMETER_ACTION))) {
+				logger.debug("reset poker event");
+				if (YES.equals(request.getParameter(PARAMETER_CONFIRM))) {
+					logger.debug("confirm = " + YES);
+					pokerService.resetEvent(sessionIdentifier);
+					widgets.add("reset poker event done");
+					return widgets;
+				} else {
+					logger.debug("confirm != " + YES);
+					widgets.add(new StringWidget("enter " + YES));
+				}
+			}
+			final FormWidget formWidget = new FormWidget().addMethod(FormMethod.POST);
+			formWidget.addFormInputWidget(new FormInputHiddenWidget(PARAMETER_ACTION).addValue(ACTION_RESET));
+			formWidget.addFormInputWidget(new FormInputTextWidget(PARAMETER_CONFIRM).addLabel("Write '" + YES + "' to confirm reset"));
+			formWidget.addFormInputWidget(new FormInputSubmitWidget("reset"));
+			widgets.add(new StringWidget("Attention! This function reset the entire poker event!"));
+			widgets.add(formWidget);
 			return widgets;
-		} catch (PokerServiceException e) {
-			throw new PermissionDeniedException(e);
-
 		} catch (AuthenticationServiceException e) {
-			throw new PermissionDeniedException(e);
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
+		} catch (PokerServiceException e) {
+			final ExceptionWidget widget = new ExceptionWidget(e);
+			return widget;
 		}
 	}
 
@@ -113,7 +123,7 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerPlayerOrAdminPermission(sessionIdentifier);
+			pokerService.expectPokerAdminPermission(sessionIdentifier);
 		} catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
 		} catch (PokerServiceException e) {

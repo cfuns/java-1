@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 public class Card implements Serializable, IsSerializable {
 
+	private static final long serialVersionUID = -280830516312553526L;
+
 	private String cardName;
 
 	public Card() {
