@@ -14,6 +14,7 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
+import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
@@ -27,6 +28,7 @@ import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.card.PokerCardFactory;
 import de.benjaminborbe.poker.config.PokerConfig;
+import de.benjaminborbe.poker.event.PokerPlayerCreatedEvent;
 import de.benjaminborbe.poker.game.PokerGameBean;
 import de.benjaminborbe.poker.game.PokerGameBeanMapper;
 import de.benjaminborbe.poker.game.PokerGameDao;
@@ -83,6 +85,8 @@ public class PokerServiceImpl implements PokerService {
 
 	private final PokerGameCreator pokerGameCreator;
 
+	private final EventbusService eventbusService;
+
 	private final ListUtil listUtil;
 
 	private final PokerCardFactory pokerCardFactory;
@@ -111,7 +115,10 @@ public class PokerServiceImpl implements PokerService {
 		final IdGeneratorUUID idGeneratorUUID,
 		final ValidationExecutor validationExecutor,
 		final PokerPlayerDao pokerPlayerDao,
-		final DurationUtil durationUtil, final PokerEventReseter pokerEventReseter, final PokerGameCreator pokerGameCreator
+		final DurationUtil durationUtil,
+		final PokerEventReseter pokerEventReseter,
+		final PokerGameCreator pokerGameCreator,
+		final EventbusService eventbusService
 	) {
 		this.logger = logger;
 		this.calendarUtil = calendarUtil;
@@ -128,6 +135,7 @@ public class PokerServiceImpl implements PokerService {
 		this.durationUtil = durationUtil;
 		this.pokerEventReseter = pokerEventReseter;
 		this.pokerGameCreator = pokerGameCreator;
+		this.eventbusService = eventbusService;
 	}
 
 	@Override
@@ -222,10 +230,13 @@ public class PokerServiceImpl implements PokerService {
 
 			pokerPlayerDao.save(bean);
 
+			eventbusService.fireEvent(new PokerPlayerCreatedEvent(id));
+
 			createPlayerScoreReport(sessionIdentifier, id, pokerPlayerDto.getName());
 			createPlayerAmountReport(sessionIdentifier, id, pokerPlayerDto.getName());
 			trackPlayerAmount(bean.getId(), bean.getAmount());
 			trackPlayerScore(bean.getId(), bean.getScore());
+
 			return id;
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);

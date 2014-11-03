@@ -9,6 +9,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
+import de.benjaminborbe.eventbus.api.EventbusService;
+import de.benjaminborbe.eventbus.mock.EventbusServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.memory.service.StorageServiceMemory;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -22,6 +24,7 @@ public class PokerOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(EventbusService.class).to(EventbusServiceMock.class).in(Singleton.class);
 		bind(AnalyticsService.class).to(AnalyticsServiceMock.class).in(Singleton.class);
 		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);
 		bind(AuthenticationService.class).to(AuthenticationServiceMock.class).in(Singleton.class);

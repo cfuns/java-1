@@ -53,6 +53,7 @@
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>
 							${felix_plugin_imports},
+							de.benjaminborbe.eventbus.api,
 							de.benjaminborbe.poker.api
 						</Import-Package>
 						<Import-Service></Import-Service>
@@ -127,6 +128,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.eventbus.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
