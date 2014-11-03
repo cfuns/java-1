@@ -4,6 +4,7 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 
 import java.util.Collection;
 
@@ -12,6 +13,10 @@ public interface PokerService {
 	String PERMISSION_ADMIN = "pokerAdmin";
 
 	String PERMISSION_PLAYER = "pokerPlayer";
+
+	PermissionIdentifier getPokerAdminPermissionIdentifier() throws PokerServiceException;
+
+	PermissionIdentifier getPokerPlayerPermissionIdentifier() throws PokerServiceException;
 
 	void deleteGame(PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException;
 

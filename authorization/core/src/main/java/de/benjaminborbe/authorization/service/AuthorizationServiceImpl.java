@@ -81,6 +81,21 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 	}
 
 	@Override
+	public RoleIdentifier getAdminRoleIdentifier() throws AuthorizationServiceException {
+		return createRoleIdentifier(ROLE_ADMIN);
+	}
+
+	@Override
+	public RoleIdentifier getLoggedInRoleIdentifier() throws AuthorizationServiceException {
+		return createRoleIdentifier(ROLE_LOGGED_IN);
+	}
+
+	@Override
+	public RoleIdentifier getLoggedOutIdentifier() throws AuthorizationServiceException {
+		return createRoleIdentifier(ROLE_LOGGED_OUT);
+	}
+
+	@Override
 	public boolean addPermissionRole(
 		final SessionIdentifier sessionIdentifier,
 		final PermissionIdentifier permissionIdentifier,

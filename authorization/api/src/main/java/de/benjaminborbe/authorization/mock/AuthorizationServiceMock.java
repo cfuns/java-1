@@ -91,6 +91,21 @@ public class AuthorizationServiceMock implements AuthorizationService {
 	}
 
 	@Override
+	public RoleIdentifier getAdminRoleIdentifier() throws AuthorizationServiceException {
+		return null;
+	}
+
+	@Override
+	public RoleIdentifier getLoggedInRoleIdentifier() throws AuthorizationServiceException {
+		return null;
+	}
+
+	@Override
+	public RoleIdentifier getLoggedOutIdentifier() throws AuthorizationServiceException {
+		return null;
+	}
+
+	@Override
 	public boolean addPermissionRole(
 		final SessionIdentifier sessionIdentifier,
 		final PermissionIdentifier permissionIdentifier,

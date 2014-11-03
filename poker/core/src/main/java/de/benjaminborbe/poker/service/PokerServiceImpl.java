@@ -13,6 +13,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
@@ -954,16 +955,32 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
+	public PermissionIdentifier getPokerAdminPermissionIdentifier() throws PokerServiceException {
+		try {
+			return authorizationService.createPermissionIdentifier(PERMISSION_ADMIN);
+		} catch (AuthorizationServiceException e) {
+			throw new PokerServiceException(e);
+		}
+	}
+
+	@Override
+	public PermissionIdentifier getPokerPlayerPermissionIdentifier() throws PokerServiceException {
+		try {
+			return authorizationService.createPermissionIdentifier(PERMISSION_PLAYER);
+		} catch (AuthorizationServiceException e) {
+			throw new PokerServiceException(e);
+		}
+	}
+
+	@Override
 	public void deleteGame(final PokerGameIdentifier gameIdentifier) throws PokerServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("deleteGame - id: " + gameIdentifier);
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
-
 			if (Boolean.TRUE.equals(game.getRunning())) {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("can't delete running game")));
 			}
-
 			for (final PokerPlayerIdentifier playerIdentifier : game.getPlayers()) {
 				final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 				player.setGame(null);
@@ -1034,12 +1051,14 @@ public class PokerServiceImpl implements PokerService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("resetEvent");
-			pokerEventReseter.reset();
+			pokerEventReseter.reset(sessionIdentifier);
 		} catch (StorageException e) {
 			throw new PokerServiceException(e);
 		} catch (EntityIteratorException e) {
 			throw new PokerServiceException(e);
 		} catch (ValidationException e) {
+			throw new PokerServiceException(e);
+		} catch (AuthorizationServiceException e) {
 			throw new PokerServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)

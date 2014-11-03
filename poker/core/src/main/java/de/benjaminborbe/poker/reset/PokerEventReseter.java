@@ -1,6 +1,15 @@
 package de.benjaminborbe.poker.reset;
 
 import de.benjaminborbe.api.ValidationException;
+import de.benjaminborbe.authentication.api.LoginRequiredException;
+import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationService;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
+import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
+import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.poker.api.PokerService;
+import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.game.PokerGameBean;
 import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.gamecreator.PokerGameCreator;
@@ -18,29 +27,44 @@ public class PokerEventReseter {
 
 	private static final Logger logger = LoggerFactory.getLogger(PokerEventReseter.class);
 
+	private final PokerService pokerService;
+
 	private final PokerGameDao pokerGameDao;
 
 	private final PokerPlayerDao pokerPlayerDao;
 
 	private final PokerGameCreator pokerGameCreator;
 
+	private final AuthorizationService authorizationService;
+
 	@Inject
 	public PokerEventReseter(
+		final PokerService pokerService,
 		final PokerGameDao pokerGameDao,
 		final PokerPlayerDao pokerPlayerDao,
-		final PokerGameCreator pokerGameCreator
+		final PokerGameCreator pokerGameCreator,
+		final AuthorizationService authorizationService
 	) {
+		this.pokerService = pokerService;
 		this.pokerGameDao = pokerGameDao;
 		this.pokerPlayerDao = pokerPlayerDao;
 		this.pokerGameCreator = pokerGameCreator;
+		this.authorizationService = authorizationService;
 	}
 
-	public void reset() throws StorageException, EntityIteratorException, ValidationException {
+	public void reset(final SessionIdentifier sessionIdentifier) throws StorageException, EntityIteratorException, ValidationException, LoginRequiredException, PermissionDeniedException, AuthorizationServiceException, PokerServiceException {
 		logger.debug("reset poker event - started");
 		deleteAllGames();
 		deleteAllPlayer();
 		createNewGame();
+		allowAllLoggedInUserPlayPoker(sessionIdentifier);
 		logger.debug("reset poker event - finished");
+	}
+
+	private void allowAllLoggedInUserPlayPoker(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PermissionDeniedException, AuthorizationServiceException, PokerServiceException {
+		final PermissionIdentifier permissionIdentifier = pokerService.getPokerPlayerPermissionIdentifier();
+		final RoleIdentifier roleIdentifier = authorizationService.getLoggedInRoleIdentifier();
+		authorizationService.addPermissionRole(sessionIdentifier, permissionIdentifier, roleIdentifier);
 	}
 
 	private void createNewGame() throws ValidationException, StorageException {

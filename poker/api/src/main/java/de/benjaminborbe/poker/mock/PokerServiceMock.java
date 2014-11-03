@@ -4,6 +4,7 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
 import de.benjaminborbe.poker.api.PokerGame;
 import de.benjaminborbe.poker.api.PokerGameDto;
@@ -106,6 +107,16 @@ public class PokerServiceMock implements PokerService {
 
 	@Override
 	public Collection<PokerPlayer> getPlayers() throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public PermissionIdentifier getPokerAdminPermissionIdentifier() throws PokerServiceException {
+		return null;
+	}
+
+	@Override
+	public PermissionIdentifier getPokerPlayerPermissionIdentifier() throws PokerServiceException {
 		return null;
 	}
 

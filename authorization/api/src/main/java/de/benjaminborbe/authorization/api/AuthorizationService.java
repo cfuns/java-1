@@ -17,6 +17,12 @@ public interface AuthorizationService {
 
 	String PERMISSION_CREATE_ROLE = "createRole";
 
+	RoleIdentifier getAdminRoleIdentifier() throws AuthorizationServiceException;
+
+	RoleIdentifier getLoggedInRoleIdentifier() throws AuthorizationServiceException;
+
+	RoleIdentifier getLoggedOutIdentifier() throws AuthorizationServiceException;
+
 	boolean addPermissionRole(
 		SessionIdentifier sessionIdentifier,
 		PermissionIdentifier permissionIdentifier,
