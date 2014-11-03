@@ -1,6 +1,5 @@
 package de.benjaminborbe.slash.gui.util;
 
-import de.benjaminborbe.tools.util.ComparatorBase;
 import de.benjaminborbe.tools.util.ComparatorUtil;
 import org.slf4j.Logger;
 
@@ -38,17 +37,7 @@ public class SlashGuiRedirectDeterminerImpl implements SlashGuiRedirectDetermine
 		}
 		logger.debug("found " + slashGuiRuleResults.size() + " posible targets");
 
-		comparatorUtil.sort(slashGuiRuleResults, new ComparatorBase<SlashGuiRuleResult, Integer>() {
-
-			public Integer getValue(final SlashGuiRuleResult o) {
-				return o.getPrio();
-			}
-
-			@Override
-			public boolean inverted() {
-				return true;
-			}
-		});
+		comparatorUtil.sort(slashGuiRuleResults, new SlashGuiRuleResultIntegerComparatorBase());
 
 		if (!slashGuiRuleResults.isEmpty()) {
 			return slashGuiRuleResults.get(0).getTarget();
@@ -57,4 +46,5 @@ public class SlashGuiRedirectDeterminerImpl implements SlashGuiRedirectDetermine
 		logger.debug("no target found, use default");
 		return request.getContextPath() + "/" + DEFAULT_TARGET;
 	}
+
 }
