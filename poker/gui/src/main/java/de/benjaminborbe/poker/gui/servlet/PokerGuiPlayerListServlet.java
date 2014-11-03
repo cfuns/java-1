@@ -135,14 +135,15 @@ public class PokerGuiPlayerListServlet extends WebsiteHtmlServlet {
 				}
 				widgets.add(table);
 			}
-
 			if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
 				widgets.add(pokerGuiLinkFactory.playerCreate(request));
+				widgets.add(" ");
+			} else if (pokerService.hasPokerPlayerPermission(sessionIdentifier)) {
+				widgets.add(pokerGuiLinkFactory.playerCreateForCurrentUser(request));
 				widgets.add(" ");
 			}
 			widgets.add(pokerGuiLinkFactory.gameList(request));
 			widgets.add(" ");
-
 			return widgets;
 		} catch (final PokerServiceException e) {
 			final ExceptionWidget widget = new ExceptionWidget(e);

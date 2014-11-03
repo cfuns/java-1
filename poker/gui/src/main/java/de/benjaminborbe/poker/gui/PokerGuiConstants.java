@@ -95,4 +95,6 @@ public interface PokerGuiConstants {
 	String URL_GAME_TABLE = "/poker_table/Home.html";
 
 	String URL_EVENT_RESET = "/reset";
+
+	String URL_PLAYER_CREATE_FOR_CURRENT_USER = "/player/createForCurrentUser";
 }

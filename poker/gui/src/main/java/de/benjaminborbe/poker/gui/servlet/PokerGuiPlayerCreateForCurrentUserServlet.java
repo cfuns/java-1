@@ -6,7 +6,6 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
-import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.cache.api.CacheService;
@@ -39,12 +38,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Arrays;
 
 @Singleton
-public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
+public class PokerGuiPlayerCreateForCurrentUserServlet extends WebsiteHtmlServlet {
 
 	private static final long serialVersionUID = 1328676176772634649L;
 
@@ -61,7 +58,7 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 	private final PokerGuiPlayerCreator pokerGuiPlayerCreator;
 
 	@Inject
-	public PokerGuiPlayerCreateServlet(
+	public PokerGuiPlayerCreateForCurrentUserServlet(
 		final Logger logger,
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
@@ -96,14 +93,12 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 			widgets.add(new H1Widget(getTitle()));
 
 			final String name = request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_NAME);
-			final String owners = request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_OWNERS);
 			final String referer = request.getParameter(PokerGuiConstants.PARAMETER_REFERER);
-			final String amount = request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_AMOUNT);
 
-			if (name != null && owners != null && amount != null) {
+			if (name != null) {
 				try {
 					final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-					pokerGuiPlayerCreator.createPlayer(sessionIdentifier, name, amount, buildUsers(owners));
+					pokerGuiPlayerCreator.createPlayer(sessionIdentifier, name, String.valueOf(PokerGuiConstants.DEFAULT_CREDITS), Arrays.asList(authenticationService.getCurrentUser(sessionIdentifier)));
 
 					if (referer != null) {
 						throw new RedirectException(referer);
@@ -119,8 +114,6 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 			final FormWidget form = new FormWidget();
 			form.addFormInputWidget(new FormInputHiddenWidget(PokerGuiConstants.PARAMETER_REFERER).addDefaultValue(buildRefererUrl(request)));
 			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_PLAYER_NAME).addLabel("Name:"));
-			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_PLAYER_OWNERS).addLabel("Owners:"));
-			form.addFormInputWidget(new FormInputTextWidget(PokerGuiConstants.PARAMETER_PLAYER_AMOUNT).addLabel("Credits:").addDefaultValue(PokerGuiConstants.DEFAULT_CREDITS));
 			form.addFormInputWidget(new FormInputSubmitWidget("create"));
 			widgets.add(form);
 
@@ -134,23 +127,12 @@ public class PokerGuiPlayerCreateServlet extends WebsiteHtmlServlet {
 		}
 	}
 
-	private Collection<UserIdentifier> buildUsers(final String owners) throws AuthenticationServiceException {
-		final List<UserIdentifier> users = new ArrayList<UserIdentifier>();
-		for (final String owner : owners.split("[^a-z]")) {
-			final UserIdentifier userIdentifier = authenticationService.createUserIdentifier(owner);
-			if (userIdentifier != null && authenticationService.existsUser(userIdentifier)) {
-				users.add(userIdentifier);
-			}
-		}
-		return users;
-	}
-
 	@Override
 	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
 		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerAdminPermission(sessionIdentifier);
+			pokerService.expectPokerPlayerPermission(sessionIdentifier);
 		} catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
 		} catch (PokerServiceException e) {

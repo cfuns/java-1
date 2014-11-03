@@ -197,4 +197,8 @@ public class PokerGuiLinkFactory {
 	public Widget eventReset(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
 		return new LinkRelativWidget(urlUtil, request, "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_EVENT_RESET, new MapParameter(), "reset event");
 	}
+
+	public Widget playerCreateForCurrentUser(final HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException {
+		return new LinkRelativWidget(urlUtil, request, "/" + PokerGuiConstants.NAME + PokerGuiConstants.URL_PLAYER_CREATE_FOR_CURRENT_USER, new MapParameter(), "create player");
+	}
 }
