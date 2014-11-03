@@ -1,5 +1,5 @@
 all:
-	mvn -Pbase,test -DlogConsole=true clean install
+	mvn -Pbase,test clean install
 clean:
 	mvn -Pbase,test clean
 installwotest:

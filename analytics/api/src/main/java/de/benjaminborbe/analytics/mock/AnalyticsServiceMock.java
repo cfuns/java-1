@@ -13,6 +13,7 @@ import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -44,6 +45,16 @@ public class AnalyticsServiceMock implements AnalyticsService {
 		final AnalyticsReportIdentifier analyticsReportIdentifier,
 		final AnalyticsReportValue reportValue
 	) throws AnalyticsServiceException {
+	}
+
+	@Override
+	public PermissionIdentifier getAnalyticsAdminPermissionIdentifier() throws AnalyticsServiceException {
+		return null;
+	}
+
+	@Override
+	public PermissionIdentifier getAnalyticsViewPermissionIdentifier() throws AnalyticsServiceException {
+		return null;
 	}
 
 	@Override

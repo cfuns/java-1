@@ -1,4 +1,4 @@
-package de.benjaminborbe;
+package de.benjaminborbe.lib.test.mock;
 
 import org.easymock.EasyMock;
 

@@ -3,6 +3,7 @@ package de.benjaminborbe.poker.api;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 
@@ -10,11 +11,17 @@ import java.util.Collection;
 
 public interface PokerService {
 
+	String SERVER_USER = "PokerServer";
+
+	String SERVER_ROLE = "PokerServer";
+
 	String PERMISSION_ADMIN = "pokerAdmin";
 
 	String PERMISSION_PLAYER = "pokerPlayer";
 
 	SessionIdentifier getPokerServerSessionIdentifier() throws PokerServiceException;
+
+	UserIdentifier getPokerServerUserIdentifier() throws PokerServiceException;
 
 	PermissionIdentifier getPokerAdminPermissionIdentifier() throws PokerServiceException;
 

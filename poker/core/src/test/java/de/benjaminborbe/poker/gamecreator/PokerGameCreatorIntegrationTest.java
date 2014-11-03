@@ -1,6 +1,6 @@
 package de.benjaminborbe.poker.gamecreator;
 
-import de.benjaminborbe.EasyMockHelper;
+import de.benjaminborbe.lib.test.mock.EasyMockHelper;
 import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.poker.api.PokerGameDto;

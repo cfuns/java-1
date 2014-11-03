@@ -3,7 +3,9 @@ package de.benjaminborbe.analytics.api;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,6 +15,10 @@ public interface AnalyticsService {
 	String PERMISSION_ADMIN = "analyticsAdmin";
 
 	String PERMISSION_VIEW = "analyticsView";
+
+	PermissionIdentifier getAnalyticsAdminPermissionIdentifier() throws AnalyticsServiceException, AuthorizationServiceException;
+
+	PermissionIdentifier getAnalyticsViewPermissionIdentifier() throws AnalyticsServiceException, AuthorizationServiceException;
 
 	AnalyticsReport getReport(AnalyticsReportIdentifier analyticsReportIdentifier) throws AnalyticsServiceException;
 

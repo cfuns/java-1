@@ -1,7 +1,7 @@
 package de.benjaminborbe.poker.gamecreator;
 
 import com.google.inject.Injector;
-import de.benjaminborbe.EasyMockHelper;
+import de.benjaminborbe.lib.test.mock.EasyMockHelper;
 import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
 import de.benjaminborbe.poker.config.PokerConfig;

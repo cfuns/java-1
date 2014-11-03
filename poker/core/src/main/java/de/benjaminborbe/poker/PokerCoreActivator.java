@@ -1,13 +1,20 @@
 package de.benjaminborbe.poker;
 
+import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.api.HandlerRegistration;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.config.PokerConfig;
+import de.benjaminborbe.poker.event.PokerPlayerAmountChangedEvent;
+import de.benjaminborbe.poker.event.PokerPlayerAmountChangedEventHandlerImpl;
 import de.benjaminborbe.poker.event.PokerPlayerCreatedEvent;
 import de.benjaminborbe.poker.event.PokerPlayerCreatedEventHandlerImpl;
+import de.benjaminborbe.poker.event.PokerPlayerDeletedEvent;
+import de.benjaminborbe.poker.event.PokerPlayerDeletedEventHandlerImpl;
+import de.benjaminborbe.poker.event.PokerPlayerScoreChangedEvent;
+import de.benjaminborbe.poker.event.PokerPlayerScoreChangedEventHandlerImpl;
 import de.benjaminborbe.poker.guice.PokerModules;
 import de.benjaminborbe.poker.service.PokerCronJob;
 import de.benjaminborbe.tools.guice.Modules;
@@ -24,6 +31,8 @@ import java.util.Set;
 
 public class PokerCoreActivator extends BaseBundleActivator {
 
+	private final List<HandlerRegistration> handlerRegistrations = new ArrayList<HandlerRegistration>();
+
 	@Inject
 	private PokerCronJob pokerCronJob;
 
@@ -36,10 +45,20 @@ public class PokerCoreActivator extends BaseBundleActivator {
 	@Inject
 	private EventbusService eventbusService;
 
-	private final List<HandlerRegistration> handlerRegistrations = new ArrayList<HandlerRegistration>();
-
 	@Inject
 	private PokerPlayerCreatedEventHandlerImpl pokerPlayerCreatedEventHandler;
+
+	@Inject
+	private PokerPlayerScoreChangedEventHandlerImpl pokerPlayerScoreChangedEventHandler;
+
+	@Inject
+	private PokerPlayerDeletedEventHandlerImpl pokerPlayerDeletedEventHandler;
+
+	@Inject
+	private PokerPlayerAmountChangedEventHandlerImpl pokerPlayerAmountChangedEventHandler;
+
+	@Inject
+	private AuthenticationService authenticationService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -61,6 +80,9 @@ public class PokerCoreActivator extends BaseBundleActivator {
 	protected void onStarted() throws Exception {
 		super.onStarted();
 		handlerRegistrations.add(eventbusService.addHandler(PokerPlayerCreatedEvent.TYPE, pokerPlayerCreatedEventHandler));
+		handlerRegistrations.add(eventbusService.addHandler(PokerPlayerScoreChangedEvent.TYPE, pokerPlayerScoreChangedEventHandler));
+		handlerRegistrations.add(eventbusService.addHandler(PokerPlayerDeletedEvent.TYPE, pokerPlayerDeletedEventHandler));
+		handlerRegistrations.add(eventbusService.addHandler(PokerPlayerAmountChangedEvent.TYPE, pokerPlayerAmountChangedEventHandler));
 	}
 
 	@Override

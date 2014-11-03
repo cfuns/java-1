@@ -26,6 +26,7 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.api.StorageIterator;
@@ -232,7 +233,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public void expectAnalyticsAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
 		try {
-			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN));
+			authorizationService.expectPermission(sessionIdentifier, getAnalyticsAdminPermissionIdentifier());
 		} catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
 		}
@@ -241,8 +242,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public void expectAnalyticsViewOrAdminPermission(final SessionIdentifier sessionIdentifier) throws PermissionDeniedException, LoginRequiredException, AnalyticsServiceException {
 		try {
-			authorizationService.expectOneOfPermissions(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN),
-				authorizationService.createPermissionIdentifier(PERMISSION_VIEW));
+			authorizationService.expectOneOfPermissions(sessionIdentifier, getAnalyticsAdminPermissionIdentifier(),
+				getAnalyticsViewPermissionIdentifier());
 		} catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
 		}
@@ -251,10 +252,14 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public void expectAnalyticsViewPermission(final SessionIdentifier sessionIdentifier) throws AnalyticsServiceException, PermissionDeniedException, LoginRequiredException {
 		try {
-			authorizationService.expectPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_VIEW));
+			authorizationService.expectPermission(sessionIdentifier, getAnalyticsViewPermissionIdentifier());
 		} catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
 		}
+	}
+
+	public PermissionIdentifier getAnalyticsViewPermissionIdentifier() throws AuthorizationServiceException {
+		return authorizationService.createPermissionIdentifier(PERMISSION_VIEW);
 	}
 
 	@Override
@@ -323,7 +328,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public boolean hasAnalyticsAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
 		try {
-			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN));
+			return authorizationService.hasPermission(sessionIdentifier, getAnalyticsAdminPermissionIdentifier());
 		} catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
 		}
@@ -332,17 +337,21 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	@Override
 	public boolean hasAnalyticsViewOrAdminPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
 		try {
-			return authorizationService.hasOneOfPermissions(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_ADMIN),
-				authorizationService.createPermissionIdentifier(PERMISSION_VIEW));
+			return authorizationService.hasOneOfPermissions(sessionIdentifier, getAnalyticsAdminPermissionIdentifier(),
+				getAnalyticsViewPermissionIdentifier());
 		} catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
 		}
 	}
 
+	public PermissionIdentifier getAnalyticsAdminPermissionIdentifier() throws AuthorizationServiceException {
+		return authorizationService.createPermissionIdentifier(PERMISSION_ADMIN);
+	}
+
 	@Override
 	public boolean hasAnalyticsViewPermission(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, AnalyticsServiceException {
 		try {
-			return authorizationService.hasPermission(sessionIdentifier, authorizationService.createPermissionIdentifier(PERMISSION_VIEW));
+			return authorizationService.hasPermission(sessionIdentifier, getAnalyticsViewPermissionIdentifier());
 		} catch (final AuthorizationServiceException e) {
 			throw new AnalyticsServiceException(e);
 		}

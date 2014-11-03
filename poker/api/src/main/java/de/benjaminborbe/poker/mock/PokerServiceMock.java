@@ -3,6 +3,7 @@ package de.benjaminborbe.poker.mock;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
@@ -113,6 +114,11 @@ public class PokerServiceMock implements PokerService {
 	@Override
 	public SessionIdentifier getPokerServerSessionIdentifier() throws PokerServiceException {
 		return new SessionIdentifier("asdf");
+	}
+
+	@Override
+	public UserIdentifier getPokerServerUserIdentifier() throws PokerServiceException {
+		return null;
 	}
 
 	@Override

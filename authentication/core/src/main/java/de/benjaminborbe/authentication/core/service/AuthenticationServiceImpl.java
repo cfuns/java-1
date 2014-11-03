@@ -148,9 +148,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		try {
 			logger.debug("try login user: " + userIdentifier);
 			if (verifyCredential(userIdentifier, password)) {
-				final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
-				session.setCurrentUser(userIdentifier);
-				sessionDao.save(session);
+				setUserToSession(sessionIdentifier, userIdentifier);
 
 				final UserBean user = userDao.load(userIdentifier);
 				if (user != null) {
@@ -172,6 +170,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
+	}
+
+	private void setUserToSession(final SessionIdentifier sessionIdentifier, final UserIdentifier userIdentifier) throws StorageException {
+		final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
+		session.setCurrentUser(userIdentifier);
+		sessionDao.save(session);
 	}
 
 	@Override
@@ -489,8 +493,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Override
 	public SessionIdentifier createSystemUser(final String systemUsername) throws AuthenticationServiceException {
+		return createSystemUser(new UserIdentifier(systemUsername));
+	}
+
+	@Override
+	public SessionIdentifier createSystemUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
 		try {
-			final UserIdentifier userIdentifier = new UserIdentifier(systemUsername);
 			final UserBean userBean;
 			if (userDao.exists(userIdentifier)) {
 				userBean = userDao.load(userIdentifier);
@@ -500,7 +508,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				userBean.setSystemUser(true);
 				userDao.save(userBean);
 			}
-			return new SessionIdentifier(systemUsername);
+			final SessionIdentifier sessionIdentifier = new SessionIdentifier(userIdentifier.getId());
+			setUserToSession(sessionIdentifier, userIdentifier);
+			return sessionIdentifier;
 		} catch (StorageException e) {
 			throw new AuthenticationServiceException(e);
 		}
@@ -515,9 +525,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			expectSuperAdmin(sessionIdentifier);
-			final SessionBean session = sessionDao.findOrCreate(sessionIdentifier);
-			session.setCurrentUser(userIdentifier);
-			sessionDao.save(session);
+			setUserToSession(sessionIdentifier, userIdentifier);
 		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		} finally {

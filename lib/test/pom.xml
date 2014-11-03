@@ -12,5 +12,10 @@
 	<description>Benjamin Borbe - Lib - Test</description>
 	<packaging>jar</packaging>
 	<dependencies>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>${easymock.version}</version>
+		</dependency>
 	</dependencies>
 </project>

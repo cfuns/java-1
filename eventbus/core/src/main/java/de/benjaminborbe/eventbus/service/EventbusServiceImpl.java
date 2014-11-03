@@ -30,13 +30,23 @@ public class EventbusServiceImpl implements EventbusService {
 	@Override
 	public <H extends EventHandler> HandlerRegistration addHandler(final Type<H> type, final H handler) {
 		logger.trace("CoreEventbus - register handler: " + handler.toString() + " for type: " + type.toString());
-		List<EventHandler> eventHandlers = handlers.get(type);
-		if (eventHandlers == null) {
+
+		final List<EventHandler> eventHandlers;
+		if (handlers.containsKey(type)) {
+			eventHandlers = handlers.get(type);
+		} else {
 			eventHandlers = new ArrayList<EventHandler>();
 			handlers.put((Type<EventHandler>) type, eventHandlers);
 		}
+
 		eventHandlers.add(handler);
-		return null;
+		return new HandlerRegistration() {
+
+			@Override
+			public void removeHandler() {
+				eventHandlers.remove(handler);
+			}
+		};
 	}
 
 	@SuppressWarnings("unchecked")

@@ -16,7 +16,7 @@ import org.osgi.framework.ServiceRegistration;
 
 public class AuthenticationIntegrationTest extends TestCaseOsgi {
 
-	public static final String SYSTEM_USERNAME = "cron";
+	public static final String SYSTEM_USERNAME = "systemUser";
 
 	private final String validateEmailBaseUrl = "http://example.com/test";
 
@@ -138,11 +138,18 @@ public class AuthenticationIntegrationTest extends TestCaseOsgi {
 		assertTrue(authenticationService.isSuperAdmin(sessionIdentifier));
 	}
 
-	public void testS() throws Exception {
+	public void test_createSystemUser__createUserEntry() throws Exception {
 		final AuthenticationService authenticationService = getService(AuthenticationService.class);
 		assertFalse(authenticationService.existsUser(new UserIdentifier(SYSTEM_USERNAME)));
 		final SessionIdentifier sessionIdentifier = authenticationService.createSystemUser(SYSTEM_USERNAME);
 		assertTrue(authenticationService.existsUser(new UserIdentifier(SYSTEM_USERNAME)));
+	}
+
+	public void test_createSystemUser__getCurrentUser_return_user() throws Exception {
+		final AuthenticationService authenticationService = getService(AuthenticationService.class);
+		final SessionIdentifier sessionIdentifier = authenticationService.createSystemUser(SYSTEM_USERNAME);
+		final UserIdentifier currentUser = authenticationService.getCurrentUser(sessionIdentifier);
+		assertEquals(currentUser.getId(), SYSTEM_USERNAME);
 	}
 
 }

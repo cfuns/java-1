@@ -1,6 +1,7 @@
 package de.benjaminborbe.poker.service;
 
 import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
@@ -8,6 +9,7 @@ import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
+import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
@@ -67,8 +69,6 @@ public class PokerServiceImpl implements PokerService {
 	private static final int DURATION_WARN = 300;
 
 	private static final int START_CARDS = 2;
-
-	public static final String POKER_SERVER_USERNAME = "PokerServer";
 
 	private final Logger logger;
 
@@ -907,7 +907,17 @@ public class PokerServiceImpl implements PokerService {
 	@Override
 	public SessionIdentifier getPokerServerSessionIdentifier() throws PokerServiceException {
 		try {
-			return authenticationService.createSystemUser(POKER_SERVER_USERNAME);
+			return authenticationService.createSystemUser(SERVER_USER);
+		} catch (AuthenticationServiceException e) {
+			throw new PokerServiceException(e);
+		}
+	}
+
+	@Override
+	public UserIdentifier getPokerServerUserIdentifier() throws PokerServiceException {
+		try {
+			authenticationService.createSystemUser(SERVER_USER);
+			return authenticationService.createUserIdentifier(SERVER_USER);
 		} catch (AuthenticationServiceException e) {
 			throw new PokerServiceException(e);
 		}
@@ -1015,6 +1025,8 @@ public class PokerServiceImpl implements PokerService {
 		} catch (ValidationException e) {
 			throw new PokerServiceException(e);
 		} catch (AuthorizationServiceException e) {
+			throw new PokerServiceException(e);
+		} catch (AnalyticsServiceException e) {
 			throw new PokerServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)

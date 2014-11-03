@@ -225,6 +225,11 @@ public class AuthenticationServiceMock implements AuthenticationService {
 		return new SessionIdentifier(pokerServer);
 	}
 
+	@Override
+	public SessionIdentifier createSystemUser(final UserIdentifier userIdentifier) throws AuthenticationServiceException {
+		return null;
+	}
+
 	public SessionIdentifier mockSessionIdentifier() throws AuthenticationServiceException {
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		EasyMock.replay(request);

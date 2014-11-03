@@ -1,5 +1,7 @@
 package de.benjaminborbe.poker.reset;
 
+import de.benjaminborbe.analytics.api.AnalyticsService;
+import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
@@ -36,6 +38,8 @@ public class PokerEventReseter {
 
 	private final AuthorizationService authorizationService;
 
+	private final AnalyticsService analyticsService;
+
 	@Inject
 	public PokerEventReseter(
 		final Logger logger,
@@ -43,7 +47,7 @@ public class PokerEventReseter {
 		final PokerGameDao pokerGameDao,
 		final PokerPlayerDao pokerPlayerDao,
 		final PokerGameCreator pokerGameCreator,
-		final AuthorizationService authorizationService
+		final AuthorizationService authorizationService, final AnalyticsService analyticsService
 	) {
 		this.logger = logger;
 		this.pokerService = pokerService;
@@ -51,18 +55,29 @@ public class PokerEventReseter {
 		this.pokerPlayerDao = pokerPlayerDao;
 		this.pokerGameCreator = pokerGameCreator;
 		this.authorizationService = authorizationService;
+		this.analyticsService = analyticsService;
 	}
 
-	public void reset(final SessionIdentifier sessionIdentifier) throws StorageException, EntityIteratorException, ValidationException, LoginRequiredException, PermissionDeniedException, AuthorizationServiceException, PokerServiceException {
+	public void reset(final SessionIdentifier sessionIdentifier) throws StorageException, EntityIteratorException, ValidationException, LoginRequiredException, PermissionDeniedException, AuthorizationServiceException, PokerServiceException, AnalyticsServiceException {
 		logger.debug("reset poker event - started");
 		deleteAllGames();
 		deleteAllPlayer();
 		createNewGame();
 		allowAllLoggedInUserPlayPoker(sessionIdentifier);
+		allowPokerSystemUserAnalytics(sessionIdentifier);
 		logger.debug("reset poker event - finished");
 	}
 
+	private void allowPokerSystemUserAnalytics(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException, ValidationException, AnalyticsServiceException, LoginRequiredException, PokerServiceException {
+		logger.debug("allowPokerSystemUserAnalytics");
+		final RoleIdentifier roleIdentifier = authorizationService.createRoleIdentifier(PokerService.SERVER_ROLE);
+		authorizationService.createRole(sessionIdentifier, roleIdentifier);
+		authorizationService.addPermissionRole(sessionIdentifier, analyticsService.getAnalyticsAdminPermissionIdentifier(), roleIdentifier);
+		authorizationService.addUserRole(sessionIdentifier, pokerService.getPokerServerUserIdentifier(), roleIdentifier);
+	}
+
 	private void allowAllLoggedInUserPlayPoker(final SessionIdentifier sessionIdentifier) throws LoginRequiredException, PermissionDeniedException, AuthorizationServiceException, PokerServiceException {
+		logger.debug("allowAllLoggedInUserPlayPoker");
 		final PermissionIdentifier permissionIdentifier = pokerService.getPokerPlayerPermissionIdentifier();
 		final RoleIdentifier roleIdentifier = authorizationService.getLoggedInRoleIdentifier();
 		authorizationService.addPermissionRole(sessionIdentifier, permissionIdentifier, roleIdentifier);

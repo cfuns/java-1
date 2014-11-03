@@ -101,4 +101,6 @@ public interface AuthenticationService {
 	User getUser(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
 	SessionIdentifier createSystemUser(String systemUsername) throws AuthenticationServiceException;
+
+	SessionIdentifier createSystemUser(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 }
