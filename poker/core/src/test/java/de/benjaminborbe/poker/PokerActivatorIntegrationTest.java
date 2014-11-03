@@ -24,14 +24,14 @@ public class PokerActivatorIntegrationTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
-		final PokerActivator activator = injector.getInstance(PokerActivator.class);
+		final PokerCoreActivator activator = injector.getInstance(PokerCoreActivator.class);
 		assertNotNull(activator);
 	}
 
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
-		final PokerActivator activator = new PokerActivator() {
+		final PokerCoreActivator activator = new PokerCoreActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -51,7 +51,7 @@ public class PokerActivatorIntegrationTest {
 	@Test
 	public void testServices() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
-		final PokerActivator activator = new PokerActivator() {
+		final PokerCoreActivator activator = new PokerCoreActivator() {
 
 			@Override
 			public Injector getInjector() {

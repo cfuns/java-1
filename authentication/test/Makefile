@@ -1,5 +1,5 @@
 all:
-	mvn clean install
+	mvn -DlogConsole=true clean install 
 test:
 	mvn clean integration-test
 dir:

@@ -67,7 +67,11 @@ public class EventbusServiceImpl implements EventbusService {
 		final List<EventHandler> eventHandlers = handlers.get(event.getAssociatedType());
 		if (eventHandlers != null) {
 			for (final EventHandler eventHandler : eventHandlers) {
-				event.dispatch((H) eventHandler);
+				try {
+					event.dispatch((H) eventHandler);
+				} catch (Exception e) {
+					logger.debug("dispatch event failed", e);
+				}
 			}
 		}
 	}

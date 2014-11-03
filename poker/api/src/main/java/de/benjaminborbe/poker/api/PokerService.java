@@ -14,6 +14,8 @@ public interface PokerService {
 
 	String PERMISSION_PLAYER = "pokerPlayer";
 
+	SessionIdentifier getPokerServerSessionIdentifier() throws PokerServiceException;
+
 	PermissionIdentifier getPokerAdminPermissionIdentifier() throws PokerServiceException;
 
 	PermissionIdentifier getPokerPlayerPermissionIdentifier() throws PokerServiceException;

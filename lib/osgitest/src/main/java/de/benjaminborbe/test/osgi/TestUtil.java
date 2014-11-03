@@ -6,6 +6,7 @@ import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.storage.api.StorageException;
+import de.benjaminborbe.storage.api.StorageIterator;
 import de.benjaminborbe.storage.api.StorageService;
 import de.benjaminborbe.storage.api.StorageValue;
 
@@ -25,6 +26,10 @@ public class TestUtil {
 
 	public static final String SESSION_ID = "sid";
 
+	public static final String USER_COLUMN_FAMILY = "user";
+
+	public static final String COLUMN_NAME_USER_SUPER_ADMIN = "superAdmin";
+
 	private final AuthenticationService authenticationService;
 
 	private final StorageService storageService;
@@ -32,6 +37,17 @@ public class TestUtil {
 	public TestUtil(final AuthenticationService authenticationService, final StorageService storageService) {
 		this.authenticationService = authenticationService;
 		this.storageService = storageService;
+	}
+
+	public void clearUserColumnFamily() throws StorageException {
+		clearColumnFamily(USER_COLUMN_FAMILY);
+	}
+
+	public void clearColumnFamily(final String columnFamily) throws StorageException {
+		final StorageIterator storageIterator = storageService.keyIterator(columnFamily);
+		while (storageIterator.hasNext()) {
+			storageService.delete(columnFamily, storageIterator.next());
+		}
 	}
 
 	public UserIdentifier createUser(final SessionIdentifier sessionIdentifier) throws AuthenticationServiceException, ValidationException {
@@ -64,7 +80,7 @@ public class TestUtil {
 
 		authenticationService.register(sessionIdentifier, SHORTENURL, VALIDATEEMAILBASEURL, LOGIN_ADMIN, EMAIL, PASSWORD);
 
-		storageService.set("user", new StorageValue(LOGIN_ADMIN, storageService.getEncoding()), new StorageValue("superAdmin", storageService.getEncoding()), new StorageValue("true",
+		storageService.set(USER_COLUMN_FAMILY, new StorageValue(LOGIN_ADMIN, storageService.getEncoding()), new StorageValue(COLUMN_NAME_USER_SUPER_ADMIN, storageService.getEncoding()), new StorageValue(Boolean.TRUE.toString(),
 			storageService.getEncoding()));
 
 		return userIdentifier;

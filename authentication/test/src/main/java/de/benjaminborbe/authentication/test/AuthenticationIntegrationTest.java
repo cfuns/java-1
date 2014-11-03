@@ -16,6 +16,8 @@ import org.osgi.framework.ServiceRegistration;
 
 public class AuthenticationIntegrationTest extends TestCaseOsgi {
 
+	public static final String SYSTEM_USERNAME = "cron";
+
 	private final String validateEmailBaseUrl = "http://example.com/test";
 
 	private final String shortenUrl = "http://bb/bb/s";
@@ -23,6 +25,11 @@ public class AuthenticationIntegrationTest extends TestCaseOsgi {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+
+		final AuthenticationService authenticationService = getService(AuthenticationService.class);
+		final StorageService storageService = getService(StorageService.class);
+		final TestUtil testUtil = new TestUtil(authenticationService, storageService);
+		testUtil.clearUserColumnFamily();
 	}
 
 	@Override
@@ -129,6 +136,13 @@ public class AuthenticationIntegrationTest extends TestCaseOsgi {
 		final SessionIdentifier sessionIdentifier = new SessionIdentifier(TestUtil.SESSION_ID);
 		assertNotNull(testUtil.createSuperAdmin(sessionIdentifier));
 		assertTrue(authenticationService.isSuperAdmin(sessionIdentifier));
+	}
+
+	public void testS() throws Exception {
+		final AuthenticationService authenticationService = getService(AuthenticationService.class);
+		assertFalse(authenticationService.existsUser(new UserIdentifier(SYSTEM_USERNAME)));
+		final SessionIdentifier sessionIdentifier = authenticationService.createSystemUser(SYSTEM_USERNAME);
+		assertTrue(authenticationService.existsUser(new UserIdentifier(SYSTEM_USERNAME)));
 	}
 
 }

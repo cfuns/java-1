@@ -21,5 +21,5 @@ public abstract class Event<H extends EventHandler> {
 
 	public abstract Type<H> getAssociatedType();
 
-	public abstract void dispatch(H handler);
+	public abstract void dispatch(H handler) throws Exception;
 }

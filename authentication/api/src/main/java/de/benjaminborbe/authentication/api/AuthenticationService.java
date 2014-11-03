@@ -40,8 +40,7 @@ public interface AuthenticationService {
 		String currentPassword,
 		String newPassword,
 		String newPasswordRepeat
-	) throws AuthenticationServiceException,
-		LoginRequiredException, ValidationException;
+	) throws AuthenticationServiceException, LoginRequiredException, ValidationException;
 
 	UserIdentifier createUserIdentifier(String username) throws AuthenticationServiceException;
 
@@ -69,8 +68,7 @@ public interface AuthenticationService {
 		String email,
 		String fullname,
 		String timeZone
-	)
-		throws AuthenticationServiceException, LoginRequiredException, ValidationException;
+	) throws AuthenticationServiceException, LoginRequiredException, ValidationException;
 
 	TimeZone getTimeZone(SessionIdentifier sessionIdentifier) throws AuthenticationServiceException;
 
@@ -86,12 +84,21 @@ public interface AuthenticationService {
 		UserIdentifier userIdentifier
 	) throws AuthenticationServiceException, LoginRequiredException, SuperAdminRequiredException;
 
-	void sendPasswordLostEmail(String shortenUrl, String resetUrl, UserIdentifier userIdentifier, String email)
-		throws AuthenticationServiceException, ValidationException;
+	void sendPasswordLostEmail(
+		String shortenUrl,
+		String resetUrl,
+		UserIdentifier userIdentifier,
+		String email
+	) throws AuthenticationServiceException, ValidationException;
 
-	void setNewPassword(UserIdentifier userIdentifier, String token, String newPassword, String newPasswordRepeat)
-		throws AuthenticationServiceException, ValidationException;
+	void setNewPassword(
+		UserIdentifier userIdentifier,
+		String token,
+		String newPassword,
+		String newPasswordRepeat
+	) throws AuthenticationServiceException, ValidationException;
 
 	User getUser(UserIdentifier userIdentifier) throws AuthenticationServiceException;
 
+	SessionIdentifier createSystemUser(String systemUsername) throws AuthenticationServiceException;
 }

@@ -111,6 +111,11 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
+	public SessionIdentifier getPokerServerSessionIdentifier() throws PokerServiceException {
+		return new SessionIdentifier("asdf");
+	}
+
+	@Override
 	public PermissionIdentifier getPokerAdminPermissionIdentifier() throws PokerServiceException {
 		return null;
 	}

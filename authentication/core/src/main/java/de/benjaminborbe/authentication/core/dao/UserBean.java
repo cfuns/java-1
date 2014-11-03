@@ -41,6 +41,16 @@ public class UserBean extends EntityBase<UserIdentifier> implements User, HasCre
 
 	private Calendar loginDate;
 
+	public Boolean getSystemUser() {
+		return systemUser;
+	}
+
+	public void setSystemUser(final Boolean systemUser) {
+		this.systemUser = systemUser;
+	}
+
+	private Boolean systemUser;
+
 	public byte[] getPassword() {
 		return password;
 	}

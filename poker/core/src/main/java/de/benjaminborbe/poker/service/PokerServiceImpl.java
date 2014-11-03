@@ -1,13 +1,11 @@
 package de.benjaminborbe.poker.service;
 
-import de.benjaminborbe.analytics.api.AnalyticsReportAggregation;
-import de.benjaminborbe.analytics.api.AnalyticsReportDto;
-import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
-import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.api.ValidationErrorSimple;
 import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.api.ValidationResult;
+import de.benjaminborbe.authentication.api.AuthenticationService;
+import de.benjaminborbe.authentication.api.AuthenticationServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
@@ -28,7 +26,11 @@ import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.card.PokerCardFactory;
 import de.benjaminborbe.poker.config.PokerConfig;
+import de.benjaminborbe.poker.event.AnalyticsReportUtil;
+import de.benjaminborbe.poker.event.PokerPlayerAmountChangedEvent;
 import de.benjaminborbe.poker.event.PokerPlayerCreatedEvent;
+import de.benjaminborbe.poker.event.PokerPlayerDeletedEvent;
+import de.benjaminborbe.poker.event.PokerPlayerScoreChangedEvent;
 import de.benjaminborbe.poker.game.PokerGameBean;
 import de.benjaminborbe.poker.game.PokerGameBeanMapper;
 import de.benjaminborbe.poker.game.PokerGameDao;
@@ -49,7 +51,6 @@ import de.benjaminborbe.tools.list.ListUtil;
 import de.benjaminborbe.tools.util.Duration;
 import de.benjaminborbe.tools.util.DurationUtil;
 import de.benjaminborbe.tools.util.IdGeneratorUUID;
-import org.ops4j.peaberry.ServiceUnavailableException;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -63,11 +64,11 @@ import java.util.Map;
 @Singleton
 public class PokerServiceImpl implements PokerService {
 
-	public static final AnalyticsReportAggregation AGGREGATION = AnalyticsReportAggregation.LATEST;
-
 	private static final int DURATION_WARN = 300;
 
 	private static final int START_CARDS = 2;
+
+	public static final String POKER_SERVER_USERNAME = "PokerServer";
 
 	private final Logger logger;
 
@@ -87,6 +88,8 @@ public class PokerServiceImpl implements PokerService {
 
 	private final EventbusService eventbusService;
 
+	private final AnalyticsReportUtil analyticsReportUtil;
+
 	private final ListUtil listUtil;
 
 	private final PokerCardFactory pokerCardFactory;
@@ -99,15 +102,18 @@ public class PokerServiceImpl implements PokerService {
 
 	private final AnalyticsService analyticsService;
 
+	private final AuthenticationService authenticationService;
+
 	private final CalendarUtil calendarUtil;
 
 	@Inject
 	public PokerServiceImpl(
 		final Logger logger,
+		final AuthenticationService authenticationService,
+		final AuthorizationService authorizationService,
 		final CalendarUtil calendarUtil,
 		final AnalyticsService analyticsService,
 		final PokerConfig pokerConfig,
-		final AuthorizationService authorizationService,
 		final PokerWinnerCalculator pokerWinnerCalculator,
 		final ListUtil listUtil,
 		final PokerCardFactory pokerCardFactory,
@@ -118,9 +124,11 @@ public class PokerServiceImpl implements PokerService {
 		final DurationUtil durationUtil,
 		final PokerEventReseter pokerEventReseter,
 		final PokerGameCreator pokerGameCreator,
-		final EventbusService eventbusService
+		final EventbusService eventbusService,
+		final AnalyticsReportUtil analyticsReportUtil
 	) {
 		this.logger = logger;
+		this.authenticationService = authenticationService;
 		this.calendarUtil = calendarUtil;
 		this.analyticsService = analyticsService;
 		this.pokerConfig = pokerConfig;
@@ -136,6 +144,7 @@ public class PokerServiceImpl implements PokerService {
 		this.pokerEventReseter = pokerEventReseter;
 		this.pokerGameCreator = pokerGameCreator;
 		this.eventbusService = eventbusService;
+		this.analyticsReportUtil = analyticsReportUtil;
 	}
 
 	@Override
@@ -227,49 +236,15 @@ public class PokerServiceImpl implements PokerService {
 				logger.warn(bean.getClass().getSimpleName() + " " + errors.toString());
 				throw new ValidationException(errors);
 			}
-
 			pokerPlayerDao.save(bean);
-
-			eventbusService.fireEvent(new PokerPlayerCreatedEvent(id));
-
-			createPlayerScoreReport(sessionIdentifier, id, pokerPlayerDto.getName());
-			createPlayerAmountReport(sessionIdentifier, id, pokerPlayerDto.getName());
-			trackPlayerAmount(bean.getId(), bean.getAmount());
-			trackPlayerScore(bean.getId(), bean.getScore());
-
+			eventbusService.fireEvent(new PokerPlayerCreatedEvent(bean));
 			return id;
 		} catch (final StorageException e) {
-			throw new PokerServiceException(e);
-		} catch (AnalyticsServiceException e) {
 			throw new PokerServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
-	}
-
-	private void createPlayerScoreReport(
-		final SessionIdentifier sessionIdentifier,
-		final PokerPlayerIdentifier pokerPlayerIdentifier,
-		final String playerName
-	) throws PermissionDeniedException, AnalyticsServiceException, LoginRequiredException, ValidationException {
-		final AnalyticsReportDto report = new AnalyticsReportDto();
-		report.setAggregation(AGGREGATION);
-		report.setName(createPlayerScoreReportName(pokerPlayerIdentifier));
-		report.setDescription(playerName);
-		analyticsService.createReport(sessionIdentifier, report);
-	}
-
-	private void createPlayerAmountReport(
-		final SessionIdentifier sessionIdentifier,
-		final PokerPlayerIdentifier pokerPlayerIdentifier,
-		final String playerName
-	) throws PermissionDeniedException, AnalyticsServiceException, LoginRequiredException, ValidationException {
-		final AnalyticsReportDto report = new AnalyticsReportDto();
-		report.setAggregation(AGGREGATION);
-		report.setName(createPlayerAmountReportName(pokerPlayerIdentifier));
-		report.setDescription(playerName);
-		analyticsService.createReport(sessionIdentifier, report);
 	}
 
 	@Override
@@ -371,7 +346,7 @@ public class PokerServiceImpl implements PokerService {
 
 	private void updatePlayerScore(final PokerPlayerBean player, final long score) {
 		player.setScore(score);
-		trackPlayerScore(player.getId(), score);
+		eventbusService.fireEvent(new PokerPlayerScoreChangedEvent(player.getId(), score));
 	}
 
 	private long toLong(final Long number) {
@@ -611,49 +586,13 @@ public class PokerServiceImpl implements PokerService {
 
 			completeTurn(game);
 
-			trackPlayerAmount(player.getId(), player.getAmount());
+			eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
-	}
-
-	private void trackPlayerAmount(final PokerPlayerIdentifier id, final Long amount) {
-		if (amount != null) {
-			try {
-				final String reportName = createPlayerAmountReportName(id);
-				final AnalyticsReportIdentifier analyticsReportIdentifier = analyticsService.createAnalyticsReportIdentifier(reportName);
-				analyticsService.addReportValue(analyticsReportIdentifier, amount);
-			} catch (final AnalyticsServiceException e) {
-				logger.trace("trackPlayerAmount failed", e);
-			} catch (ServiceUnavailableException e) {
-				logger.trace("trackPlayerAmount failed", e);
-			}
-		}
-	}
-
-	private void trackPlayerScore(final PokerPlayerIdentifier id, final Long score) {
-		if (score != null) {
-			try {
-				final String reportName = createPlayerScoreReportName(id);
-				final AnalyticsReportIdentifier analyticsReportIdentifier = analyticsService.createAnalyticsReportIdentifier(reportName);
-				analyticsService.addReportValue(analyticsReportIdentifier, score);
-			} catch (final AnalyticsServiceException e) {
-				logger.trace("trackPlayerScore failed", e);
-			} catch (ServiceUnavailableException e) {
-				logger.trace("trackPlayerScore failed", e);
-			}
-		}
-	}
-
-	private String createPlayerAmountReportName(final PokerPlayerIdentifier id) {
-		return "PokerPlayerAmount-" + id.getId();
-	}
-
-	private String createPlayerScoreReportName(final PokerPlayerIdentifier id) {
-		return "PokerPlayerScore-" + id.getId();
 	}
 
 	private void completeTurn(final PokerGameBean game) throws StorageException, ValidationException, PokerServiceException {
@@ -708,7 +647,7 @@ public class PokerServiceImpl implements PokerService {
 				player.setAmount(player.getAmount() + amount);
 				logger.info("add " + amount + " to player " + player.getName() + " at game: " + game.getName());
 				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.AMOUNT));
-				trackPlayerAmount(player.getId(), player.getAmount());
+				eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
 			}
 			nextRound(game);
 		}
@@ -787,7 +726,7 @@ public class PokerServiceImpl implements PokerService {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			bid(game, player, game.getSmallBlind());
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.BET));
-			trackPlayerAmount(player.getId(), player.getAmount());
+			eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
 		}
 
 		// big blind
@@ -796,7 +735,7 @@ public class PokerServiceImpl implements PokerService {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			bid(game, player, game.getBigBlind());
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.BET));
-			trackPlayerAmount(player.getId(), player.getAmount());
+			eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
 		}
 
 		// active player
@@ -856,7 +795,7 @@ public class PokerServiceImpl implements PokerService {
 
 			completeTurn(game);
 
-			trackPlayerAmount(player.getId(), player.getAmount());
+			eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
@@ -966,6 +905,15 @@ public class PokerServiceImpl implements PokerService {
 	}
 
 	@Override
+	public SessionIdentifier getPokerServerSessionIdentifier() throws PokerServiceException {
+		try {
+			return authenticationService.createSystemUser(POKER_SERVER_USERNAME);
+		} catch (AuthenticationServiceException e) {
+			throw new PokerServiceException(e);
+		}
+	}
+
+	@Override
 	public PermissionIdentifier getPokerAdminPermissionIdentifier() throws PokerServiceException {
 		try {
 			return authorizationService.createPermissionIdentifier(PERMISSION_ADMIN);
@@ -1024,11 +972,8 @@ public class PokerServiceImpl implements PokerService {
 				}
 			}
 			pokerPlayerDao.delete(playerIdentifier);
-			analyticsService.deleteReport(sessionIdentifier, analyticsService.createAnalyticsReportIdentifier(createPlayerScoreReportName(playerIdentifier), AGGREGATION));
-			analyticsService.deleteReport(sessionIdentifier, analyticsService.createAnalyticsReportIdentifier(createPlayerAmountReportName(playerIdentifier), AGGREGATION));
+			eventbusService.fireEvent(new PokerPlayerDeletedEvent(playerIdentifier));
 		} catch (final StorageException e) {
-			throw new PokerServiceException(e);
-		} catch (AnalyticsServiceException e) {
 			throw new PokerServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
@@ -1163,7 +1108,7 @@ public class PokerServiceImpl implements PokerService {
 
 			for (final PokerPlayerBean player : players) {
 				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.CARDS).add(PokerPlayerBeanMapper.SCORE).add(PokerPlayerBeanMapper.BET).add(PokerPlayerBeanMapper.AMOUNT));
-				trackPlayerAmount(player.getId(), player.getAmount());
+				eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
 			}
 			pokerGameDao.save(
 				game,
@@ -1289,21 +1234,21 @@ public class PokerServiceImpl implements PokerService {
 		try {
 			logger.debug("updatePlayer - name: " + pokerPlayerDto.getName());
 
-			final PokerPlayerBean bean = pokerPlayerDao.load(pokerPlayerDto.getId());
-			bean.setName(pokerPlayerDto.getName());
-			bean.setAmount(pokerPlayerDto.getAmount());
-			bean.setOwners(pokerPlayerDto.getOwners());
-			bean.setScore(pokerPlayerDto.getScore());
+			final PokerPlayerBean player = pokerPlayerDao.load(pokerPlayerDto.getId());
+			player.setName(pokerPlayerDto.getName());
+			player.setAmount(pokerPlayerDto.getAmount());
+			player.setOwners(pokerPlayerDto.getOwners());
+			player.setScore(pokerPlayerDto.getScore());
 
-			final ValidationResult errors = validationExecutor.validate(bean);
+			final ValidationResult errors = validationExecutor.validate(player);
 			if (errors.hasErrors()) {
-				logger.warn(bean.getClass().getSimpleName() + " " + errors.toString());
+				logger.warn(player.getClass().getSimpleName() + " " + errors.toString());
 				throw new ValidationException(errors);
 			}
 
-			pokerPlayerDao.save(bean,
+			pokerPlayerDao.save(player,
 				new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.NAME).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.OWNERS).add(PokerPlayerBeanMapper.SCORE));
-			trackPlayerAmount(bean.getId(), bean.getAmount());
+			eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {

@@ -12,6 +12,7 @@ import de.benjaminborbe.poker.guice.PokerModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,7 +24,7 @@ public class PokerGameCreatorUnitTest {
 	@Test
 	public void test_createDefaultGame__validateWithoutError() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerModulesMock());
-
+		final Logger logger = easyMockHelper.createNiceMock(Logger.class);
 		final PokerGameIdentifier pokerGameIdentifier = new PokerGameIdentifier("123");
 		final PokerGameIdentifierGenerator pokerGameIdentifierGenerator = easyMockHelper.createMock(PokerGameIdentifierGenerator.class);
 		EasyMock.expect(pokerGameIdentifierGenerator.nextId()).andReturn(pokerGameIdentifier);
@@ -35,7 +36,7 @@ public class PokerGameCreatorUnitTest {
 
 		easyMockHelper.replay();
 
-		final PokerGameCreator pokerGameCreator = new PokerGameCreator(pokerGameDao, pokerGameIdentifierGenerator, pokerConfig, validationExecutor);
+		final PokerGameCreator pokerGameCreator = new PokerGameCreator(logger, pokerGameDao, pokerGameIdentifierGenerator, pokerConfig, validationExecutor);
 
 		assertThat(pokerGameCreator.createDefaultGame(), is(pokerGameIdentifier));
 

@@ -7,8 +7,8 @@ import de.benjaminborbe.eventbus.api.HandlerRegistration;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.config.PokerConfig;
 import de.benjaminborbe.poker.event.PokerPlayerCreatedEvent;
+import de.benjaminborbe.poker.event.PokerPlayerCreatedEventHandlerImpl;
 import de.benjaminborbe.poker.guice.PokerModules;
-import de.benjaminborbe.poker.player.PokerPlayerCreatedAnalyticsEventHandler;
 import de.benjaminborbe.poker.service.PokerCronJob;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
@@ -16,11 +16,13 @@ import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class PokerActivator extends BaseBundleActivator {
+public class PokerCoreActivator extends BaseBundleActivator {
 
 	@Inject
 	private PokerCronJob pokerCronJob;
@@ -34,10 +36,10 @@ public class PokerActivator extends BaseBundleActivator {
 	@Inject
 	private EventbusService eventbusService;
 
-	private HandlerRegistration pokerPlayerCreatedEventHandlerRegistration;
+	private final List<HandlerRegistration> handlerRegistrations = new ArrayList<HandlerRegistration>();
 
 	@Inject
-	private PokerPlayerCreatedAnalyticsEventHandler pokerPlayerCreatedEventHandler;
+	private PokerPlayerCreatedEventHandlerImpl pokerPlayerCreatedEventHandler;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -58,12 +60,14 @@ public class PokerActivator extends BaseBundleActivator {
 	@Override
 	protected void onStarted() throws Exception {
 		super.onStarted();
-		pokerPlayerCreatedEventHandlerRegistration = eventbusService.addHandler(PokerPlayerCreatedEvent.TYPE, null);
+		handlerRegistrations.add(eventbusService.addHandler(PokerPlayerCreatedEvent.TYPE, pokerPlayerCreatedEventHandler));
 	}
 
 	@Override
 	protected void onStopped() throws Exception {
-		pokerPlayerCreatedEventHandlerRegistration.removeHandler();
+		for (final HandlerRegistration handlerRegistration : handlerRegistrations) {
+			handlerRegistration.removeHandler();
+		}
 		super.onStopped();
 	}
 }

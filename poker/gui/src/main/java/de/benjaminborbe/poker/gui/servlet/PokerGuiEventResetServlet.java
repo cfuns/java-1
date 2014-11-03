@@ -29,7 +29,6 @@ import de.benjaminborbe.website.util.H1Widget;
 import de.benjaminborbe.website.util.ListWidget;
 import de.benjaminborbe.website.util.StringWidget;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -49,9 +48,9 @@ public class PokerGuiEventResetServlet extends WebsiteHtmlServlet {
 
 	private static final String YES = "yes";
 
-	private static final Logger logger = LoggerFactory.getLogger(PokerGuiEventResetServlet.class);
-
 	private static final long serialVersionUID = -5844202544448821460L;
+
+	private final Logger logger;
 
 	private final AuthenticationService authenticationService;
 
@@ -72,6 +71,7 @@ public class PokerGuiEventResetServlet extends WebsiteHtmlServlet {
 		final PokerService pokerService
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
+		this.logger = logger;
 		this.authenticationService = authenticationService;
 		this.pokerService = pokerService;
 	}

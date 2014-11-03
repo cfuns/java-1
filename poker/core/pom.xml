@@ -41,7 +41,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Bundle-Activator>de.benjaminborbe.poker.PokerActivator</Bundle-Activator>
+						<Bundle-Activator>de.benjaminborbe.poker.PokerCoreActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.poker.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>
@@ -52,11 +52,11 @@
 						<Embed-Dependency>*;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Import-Package>
-							${felix_plugin_imports},
 							de.benjaminborbe.eventbus.api,
-							de.benjaminborbe.poker.api
+							de.benjaminborbe.poker.api,
+							${felix_plugin_imports}
 						</Import-Package>
-						<Import-Service></Import-Service>
+						<Import-Service>de.benjaminborbe.eventbus.api.EventbusService</Import-Service>
 						<Export-Package></Export-Package>
 						<Export-Service>de.benjaminborbe.poker.api.PokerService</Export-Service>
 					</instructions>

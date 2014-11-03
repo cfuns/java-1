@@ -1,0 +1,631 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] Benjamin Borbe - Authentication
+[INFO] Benjamin Borbe - Authentication - Core
+[INFO] Benjamin Borbe - Authentication - Gui
+[INFO] Benjamin Borbe - Authentication - Test
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Benjamin Borbe - Authentication 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ de.benjaminborbe.authentication ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ de.benjaminborbe.authentication ---
+[INFO] Installing /Users/bborbe/Documents/workspaces/priv/java/authentication/pom.xml to /Users/bborbe/.m2/repository/de/benjaminborbe/de.benjaminborbe.authentication/1.0.0-SNAPSHOT/de.benjaminborbe.authentication-1.0.0-SNAPSHOT.pom
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Benjamin Borbe - Authentication - Core 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ de.benjaminborbe.authentication.core ---
+[INFO] Deleting /Users/bborbe/Documents/workspaces/priv/java/authentication/core/target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (default-resources) @ de.benjaminborbe.authentication.core ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.0:compile (default-compile) @ de.benjaminborbe.authentication.core ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 34 source files to /Users/bborbe/Documents/workspaces/priv/java/authentication/core/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:testResources (default-testResources) @ de.benjaminborbe.authentication.core ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.0:testCompile (default-testCompile) @ de.benjaminborbe.authentication.core ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 10 source files to /Users/bborbe/Documents/workspaces/priv/java/authentication/core/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ de.benjaminborbe.authentication.core ---
+[INFO] Surefire report directory: /Users/bborbe/Documents/workspaces/priv/java/authentication/core/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Concurrency config is parallel='classes', perCoreThreadCount=true, threadCount=2, useUnlimitedThreads=false
+Running de.benjaminborbe.authentication.core.dao.UserBeanMapperUnitTest
+log4j:WARN No appenders could be found for logger (org.apache.commons.beanutils.converters.BooleanConverter).
+log4j:WARN Please initialize the log4j system properly.
+Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.367 sec
+Running de.benjaminborbe.authentication.core.AuthenticationActivatorIntegrationTest
+2014-11-03 20:43:29,290  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:37) - starting: de.benjaminborbe.authentication.core.AuthenticationActivatorIntegrationTest$1...
+2014-11-03 20:43:29,291 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean@2d208738
+2014-11-03 20:43:29,292 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionString@4acc3f37
+2014-11-03 20:43:29,292 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean@3f9930ba
+2014-11-03 20:43:29,293 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.authentication.api.AuthenticationService service: de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl@bed578
+2014-11-03 20:43:29,293 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionString@148795f9
+2014-11-03 20:43:29,293 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionString@648dda78
+2014-11-03 20:43:29,294 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionString@122712f
+2014-11-03 20:43:29,294  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:59) - starting: de.benjaminborbe.authentication.core.AuthenticationActivatorIntegrationTest$1 done
+2014-11-03 20:43:29,339  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:37) - starting: de.benjaminborbe.authentication.core.AuthenticationActivatorIntegrationTest$2...
+2014-11-03 20:43:29,339 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.authentication.api.AuthenticationService service: de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl@3dc152c3
+2014-11-03 20:43:29,339 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionString@7973d6c4
+2014-11-03 20:43:29,340 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionString@35ca43c3
+2014-11-03 20:43:29,340 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionString@390b2085
+2014-11-03 20:43:29,341 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionString@2793dbc0
+2014-11-03 20:43:29,342 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean@7fa691
+2014-11-03 20:43:29,342 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean@67dd8958
+2014-11-03 20:43:29,343  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:59) - starting: de.benjaminborbe.authentication.core.AuthenticationActivatorIntegrationTest$2 done
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.682 sec
+Running de.benjaminborbe.authentication.core.service.AuthenticationServiceImplUnitTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.359 sec
+Running de.benjaminborbe.authentication.core.util.AuthenticationPasswordUtilUnitTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.07 sec
+Running de.benjaminborbe.authentication.core.dao.UserValidatorUnitTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.078 sec
+Running de.benjaminborbe.authentication.core.service.AuthenticationServiceImplIntegrationTest
+2014-11-03 20:43:29,274 TRACE - de.benjaminborbe.storage.tools.DaoStorage.create(DaoStorage.java:92) - create
+2014-11-03 20:43:29,279 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get session sid123 currentUser
+2014-11-03 20:43:29,280 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get session sid123 created
+2014-11-03 20:43:29,280 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get session sid123 modified
+2014-11-03 20:43:29,280 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get session sid123 id
+2014-11-03 20:43:29,281 TRACE - de.benjaminborbe.storage.tools.DaoStorage.create(DaoStorage.java:92) - create
+2014-11-03 20:43:29,335 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser id
+2014-11-03 20:43:29,335 DEBUG - de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl.sendEmailVerify(AuthenticationServiceImpl.java:294) - email not verified, sending mail
+2014-11-03 20:43:29,336 DEBUG - de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl.sendEmailVerify(AuthenticationServiceImpl.java:299) - verifyUrl: http://example.com/test
+2014-11-03 20:43:29,336 DEBUG - de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl.shortenLink(AuthenticationServiceImpl.java:307) - shortenLink - shortenUrl: http://bb/bb/s link: http://example.com/test
+2014-11-03 20:43:29,337 TRACE - de.benjaminborbe.storage.tools.DaoStorage.save(DaoStorage.java:260) - save de.benjaminborbe.authentication.core.dao.UserBean testuser
+2014-11-03 20:43:29,337 TRACE - de.benjaminborbe.storage.tools.DaoStorage.onPreSave(DaoStorage.java:130) - onPreSave - id: testuser fieldNames: null
+2014-11-03 20:43:29,338 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write created 1415043809337
+2014-11-03 20:43:29,338 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write timeZone null
+2014-11-03 20:43:29,338 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write loginDate null
+2014-11-03 20:43:29,338 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write emailVerified false
+2014-11-03 20:43:29,338 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write password HkamUMe1StAg9Rtc6zOPpdmTj3U=
+2014-11-03 20:43:29,339 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write emailNew test@example.com
+2014-11-03 20:43:29,339 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write emailVerifyToken 7682e65d-650e-498e-b39b-03d1a0de0c19
+2014-11-03 20:43:29,340 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write loginCounter null
+2014-11-03 20:43:29,340 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write modified 1415043809337
+2014-11-03 20:43:29,341 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write id testuser
+2014-11-03 20:43:29,341 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write fullname null
+2014-11-03 20:43:29,341 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write passwordSalt +YtuHzN0/MY=
+2014-11-03 20:43:29,341 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write superAdmin null
+2014-11-03 20:43:29,342 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write email null
+2014-11-03 20:43:29,342 TRACE - de.benjaminborbe.storage.tools.DaoStorage.onPostSave(DaoStorage.java:126) - onPostSave - id: testuser fieldNames: null
+2014-11-03 20:43:29,343  INFO - de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl.register(AuthenticationServiceImpl.java:254) - registerd user testuser
+2014-11-03 20:43:29,343 DEBUG - de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl.login(AuthenticationServiceImpl.java:149) - try login user: testuser
+2014-11-03 20:43:30,348 DEBUG - de.benjaminborbe.authentication.core.verifycredential.AuthenticationVerifyCredentialImpl.verifyCredential(AuthenticationVerifyCredentialImpl.java:47) - try verifyCredential for user: testuser
+2014-11-03 20:43:30,349 TRACE - de.benjaminborbe.authentication.core.verifycredential.AuthenticationVerifyCredentialStorage.verifyCredential(AuthenticationVerifyCredentialStorage.java:40) - verifyCredential
+2014-11-03 20:43:30,350 TRACE - de.benjaminborbe.storage.tools.DaoStorage.create(DaoStorage.java:92) - create
+2014-11-03 20:43:30,353 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser created
+2014-11-03 20:43:30,353 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][created] = 1415043809337
+2014-11-03 20:43:30,353 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser timeZone
+2014-11-03 20:43:30,353 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][timeZone] = null
+2014-11-03 20:43:30,353 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser loginDate
+2014-11-03 20:43:30,353 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][loginDate] = null
+2014-11-03 20:43:30,354 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailVerified
+2014-11-03 20:43:30,354 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailVerified] = false
+2014-11-03 20:43:30,354 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser password
+2014-11-03 20:43:30,354 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][password] = HkamUMe1StAg9Rtc6zOPpdmTj3U=
+2014-11-03 20:43:30,354 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailNew
+2014-11-03 20:43:30,354 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailNew] = test@example.com
+2014-11-03 20:43:30,354 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailVerifyToken
+2014-11-03 20:43:30,355 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailVerifyToken] = 7682e65d-650e-498e-b39b-03d1a0de0c19
+2014-11-03 20:43:30,355 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser loginCounter
+2014-11-03 20:43:30,355 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][loginCounter] = null
+2014-11-03 20:43:30,355 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser modified
+2014-11-03 20:43:30,355 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][modified] = 1415043809337
+2014-11-03 20:43:30,356 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser id
+2014-11-03 20:43:30,356 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][id] = testuser
+2014-11-03 20:43:30,356 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser fullname
+2014-11-03 20:43:30,356 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][fullname] = null
+2014-11-03 20:43:30,356 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser passwordSalt
+2014-11-03 20:43:30,356 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][passwordSalt] = +YtuHzN0/MY=
+2014-11-03 20:43:30,356 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser superAdmin
+2014-11-03 20:43:30,357 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][superAdmin] = null
+2014-11-03 20:43:30,357 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser email
+2014-11-03 20:43:30,357 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][email] = null
+2014-11-03 20:43:30,384 TRACE - de.benjaminborbe.authentication.core.verifycredential.AuthenticationVerifyCredentialStorage.verifyCredential(AuthenticationVerifyCredentialStorage.java:64) - verifyCredential password match
+2014-11-03 20:43:30,384 DEBUG - de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl.verifyCredential(AuthenticationServiceImpl.java:137) - duration 1041
+2014-11-03 20:43:30,385 DEBUG - de.benjaminborbe.authentication.core.dao.SessionDaoStorage.findOrCreate(SessionDaoStorage.java:36) - findOrCreate - sessionId: sid123
+2014-11-03 20:43:30,385 TRACE - de.benjaminborbe.storage.tools.DaoStorage.create(DaoStorage.java:92) - create
+2014-11-03 20:43:30,385 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get session sid123 currentUser
+2014-11-03 20:43:30,385 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get session sid123 created
+2014-11-03 20:43:30,385 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get session sid123 modified
+2014-11-03 20:43:30,386 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get session sid123 id
+2014-11-03 20:43:30,386 TRACE - de.benjaminborbe.storage.tools.DaoStorage.create(DaoStorage.java:92) - create
+2014-11-03 20:43:30,386 TRACE - de.benjaminborbe.storage.tools.DaoStorage.save(DaoStorage.java:260) - save de.benjaminborbe.authentication.core.dao.SessionBean sid123
+2014-11-03 20:43:30,386 TRACE - de.benjaminborbe.storage.tools.DaoStorage.onPreSave(DaoStorage.java:130) - onPreSave - id: sid123 fieldNames: null
+2014-11-03 20:43:30,387 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write currentUser null
+2014-11-03 20:43:30,387 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write created 1415043810387
+2014-11-03 20:43:30,387 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write modified 1415043810387
+2014-11-03 20:43:30,387 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write id sid123
+2014-11-03 20:43:30,387 TRACE - de.benjaminborbe.storage.tools.DaoStorage.onPostSave(DaoStorage.java:126) - onPostSave - id: sid123 fieldNames: null
+2014-11-03 20:43:30,388 TRACE - de.benjaminborbe.storage.tools.DaoStorage.save(DaoStorage.java:260) - save de.benjaminborbe.authentication.core.dao.SessionBean sid123
+2014-11-03 20:43:30,388 TRACE - de.benjaminborbe.storage.tools.DaoStorage.onPreSave(DaoStorage.java:130) - onPreSave - id: sid123 fieldNames: null
+2014-11-03 20:43:30,388 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write currentUser testuser
+2014-11-03 20:43:30,388 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write created 1415043810387
+2014-11-03 20:43:30,388 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write modified 1415043810388
+2014-11-03 20:43:30,389 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write id sid123
+2014-11-03 20:43:30,389 TRACE - de.benjaminborbe.storage.tools.DaoStorage.onPostSave(DaoStorage.java:126) - onPostSave - id: sid123 fieldNames: null
+2014-11-03 20:43:30,389 TRACE - de.benjaminborbe.storage.tools.DaoStorage.create(DaoStorage.java:92) - create
+2014-11-03 20:43:30,389 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser created
+2014-11-03 20:43:30,390 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][created] = 1415043809337
+2014-11-03 20:43:30,390 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser timeZone
+2014-11-03 20:43:30,390 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][timeZone] = null
+2014-11-03 20:43:30,390 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser loginDate
+2014-11-03 20:43:30,390 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][loginDate] = null
+2014-11-03 20:43:30,390 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailVerified
+2014-11-03 20:43:30,391 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailVerified] = false
+2014-11-03 20:43:30,391 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser password
+2014-11-03 20:43:30,391 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][password] = HkamUMe1StAg9Rtc6zOPpdmTj3U=
+2014-11-03 20:43:30,391 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailNew
+2014-11-03 20:43:30,391 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailNew] = test@example.com
+2014-11-03 20:43:30,392 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailVerifyToken
+2014-11-03 20:43:30,392 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailVerifyToken] = 7682e65d-650e-498e-b39b-03d1a0de0c19
+2014-11-03 20:43:30,392 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser loginCounter
+2014-11-03 20:43:30,392 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][loginCounter] = null
+2014-11-03 20:43:30,392 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser modified
+2014-11-03 20:43:30,392 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][modified] = 1415043809337
+2014-11-03 20:43:30,392 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser id
+2014-11-03 20:43:30,392 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][id] = testuser
+2014-11-03 20:43:30,392 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser fullname
+2014-11-03 20:43:30,393 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][fullname] = null
+2014-11-03 20:43:30,393 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser passwordSalt
+2014-11-03 20:43:30,393 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][passwordSalt] = +YtuHzN0/MY=
+2014-11-03 20:43:30,393 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser superAdmin
+2014-11-03 20:43:30,393 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][superAdmin] = null
+2014-11-03 20:43:30,393 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser email
+2014-11-03 20:43:30,393 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][email] = null
+2014-11-03 20:43:30,395 TRACE - de.benjaminborbe.storage.tools.DaoStorage.save(DaoStorage.java:260) - save de.benjaminborbe.authentication.core.dao.UserBean testuser
+2014-11-03 20:43:30,395 TRACE - de.benjaminborbe.storage.tools.DaoStorage.onPreSave(DaoStorage.java:130) - onPreSave - id: testuser fieldNames: [loginCounter, loginDate]
+2014-11-03 20:43:30,395 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write loginCounter 1
+2014-11-03 20:43:30,395 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write loginDate 1415043810394
+2014-11-03 20:43:30,395 TRACE - de.benjaminborbe.storage.tools.DaoStorage.onPostSave(DaoStorage.java:126) - onPostSave - id: testuser fieldNames: [loginCounter, loginDate]
+2014-11-03 20:43:30,395  INFO - de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl.login(AuthenticationServiceImpl.java:160) - local user testuser logged in successful
+2014-11-03 20:43:30,396 DEBUG - de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl.login(AuthenticationServiceImpl.java:173) - duration 1053
+2014-11-03 20:43:30,396 DEBUG - de.benjaminborbe.authentication.core.service.AuthenticationServiceImpl.register(AuthenticationServiceImpl.java:271) - duration 1122
+2014-11-03 20:43:30,396 TRACE - de.benjaminborbe.storage.tools.DaoStorage.create(DaoStorage.java:92) - create
+2014-11-03 20:43:30,396 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser created
+2014-11-03 20:43:30,396 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][created] = 1415043809337
+2014-11-03 20:43:30,396 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser timeZone
+2014-11-03 20:43:30,396 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][timeZone] = null
+2014-11-03 20:43:30,397 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser loginDate
+2014-11-03 20:43:30,397 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][loginDate] = 1415043810394
+2014-11-03 20:43:30,397 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailVerified
+2014-11-03 20:43:30,397 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailVerified] = false
+2014-11-03 20:43:30,397 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser password
+2014-11-03 20:43:30,398 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][password] = HkamUMe1StAg9Rtc6zOPpdmTj3U=
+2014-11-03 20:43:30,398 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailNew
+2014-11-03 20:43:30,398 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailNew] = test@example.com
+2014-11-03 20:43:30,398 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailVerifyToken
+2014-11-03 20:43:30,398 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailVerifyToken] = 7682e65d-650e-498e-b39b-03d1a0de0c19
+2014-11-03 20:43:30,398 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser loginCounter
+2014-11-03 20:43:30,398 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][loginCounter] = 1
+2014-11-03 20:43:30,399 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser modified
+2014-11-03 20:43:30,399 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][modified] = 1415043809337
+2014-11-03 20:43:30,399 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser id
+2014-11-03 20:43:30,399 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][id] = testuser
+2014-11-03 20:43:30,399 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser fullname
+2014-11-03 20:43:30,399 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][fullname] = null
+2014-11-03 20:43:30,399 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser passwordSalt
+2014-11-03 20:43:30,399 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][passwordSalt] = +YtuHzN0/MY=
+2014-11-03 20:43:30,400 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser superAdmin
+2014-11-03 20:43:30,400 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][superAdmin] = null
+2014-11-03 20:43:30,400 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser email
+2014-11-03 20:43:30,400 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][email] = null
+2014-11-03 20:43:30,401 TRACE - de.benjaminborbe.storage.tools.DaoStorage.create(DaoStorage.java:92) - create
+2014-11-03 20:43:30,401 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser created
+2014-11-03 20:43:30,401 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][created] = 1415043809337
+2014-11-03 20:43:30,401 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser timeZone
+2014-11-03 20:43:30,401 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][timeZone] = null
+2014-11-03 20:43:30,401 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser loginDate
+2014-11-03 20:43:30,402 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][loginDate] = 1415043810394
+2014-11-03 20:43:30,402 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailVerified
+2014-11-03 20:43:30,402 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailVerified] = false
+2014-11-03 20:43:30,402 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser password
+2014-11-03 20:43:30,402 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][password] = HkamUMe1StAg9Rtc6zOPpdmTj3U=
+2014-11-03 20:43:30,402 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailNew
+2014-11-03 20:43:30,402 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailNew] = test@example.com
+2014-11-03 20:43:30,403 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailVerifyToken
+2014-11-03 20:43:30,403 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailVerifyToken] = 7682e65d-650e-498e-b39b-03d1a0de0c19
+2014-11-03 20:43:30,403 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser loginCounter
+2014-11-03 20:43:30,403 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][loginCounter] = 1
+2014-11-03 20:43:30,403 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser modified
+2014-11-03 20:43:30,403 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][modified] = 1415043809337
+2014-11-03 20:43:30,403 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser id
+2014-11-03 20:43:30,403 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][id] = testuser
+2014-11-03 20:43:30,403 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser fullname
+2014-11-03 20:43:30,404 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][fullname] = null
+2014-11-03 20:43:30,404 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser passwordSalt
+2014-11-03 20:43:30,404 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][passwordSalt] = +YtuHzN0/MY=
+2014-11-03 20:43:30,404 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser superAdmin
+2014-11-03 20:43:30,404 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][superAdmin] = null
+2014-11-03 20:43:30,404 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser email
+2014-11-03 20:43:30,404 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][email] = null
+2014-11-03 20:43:30,405 TRACE - de.benjaminborbe.storage.tools.DaoStorage.save(DaoStorage.java:260) - save de.benjaminborbe.authentication.core.dao.UserBean testuser
+2014-11-03 20:43:30,405 TRACE - de.benjaminborbe.storage.tools.DaoStorage.onPreSave(DaoStorage.java:130) - onPreSave - id: testuser fieldNames: [emailVerified, email, emailNew, emailVerifyToken]
+2014-11-03 20:43:30,405 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write emailVerified true
+2014-11-03 20:43:30,405 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write emailNew null
+2014-11-03 20:43:30,406 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write emailVerifyToken null
+2014-11-03 20:43:30,406 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.set(StorageServiceMemory.java:210) - write email test@example.com
+2014-11-03 20:43:30,406 TRACE - de.benjaminborbe.storage.tools.DaoStorage.onPostSave(DaoStorage.java:126) - onPostSave - id: testuser fieldNames: [emailVerified, email, emailNew, emailVerifyToken]
+2014-11-03 20:43:30,406 TRACE - de.benjaminborbe.storage.tools.DaoStorage.create(DaoStorage.java:92) - create
+2014-11-03 20:43:30,406 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser created
+2014-11-03 20:43:30,406 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][created] = 1415043809337
+2014-11-03 20:43:30,407 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser timeZone
+2014-11-03 20:43:30,407 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][timeZone] = null
+2014-11-03 20:43:30,407 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser loginDate
+2014-11-03 20:43:30,407 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][loginDate] = 1415043810394
+2014-11-03 20:43:30,407 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailVerified
+2014-11-03 20:43:30,407 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailVerified] = true
+2014-11-03 20:43:30,407 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser password
+2014-11-03 20:43:30,407 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][password] = HkamUMe1StAg9Rtc6zOPpdmTj3U=
+2014-11-03 20:43:30,407 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailNew
+2014-11-03 20:43:30,408 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailNew] = null
+2014-11-03 20:43:30,408 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser emailVerifyToken
+2014-11-03 20:43:30,408 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][emailVerifyToken] = null
+2014-11-03 20:43:30,408 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser loginCounter
+2014-11-03 20:43:30,408 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][loginCounter] = 1
+2014-11-03 20:43:30,408 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser modified
+2014-11-03 20:43:30,408 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][modified] = 1415043809337
+2014-11-03 20:43:30,409 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser id
+2014-11-03 20:43:30,409 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][id] = testuser
+2014-11-03 20:43:30,409 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser fullname
+2014-11-03 20:43:30,409 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][fullname] = null
+2014-11-03 20:43:30,409 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser passwordSalt
+2014-11-03 20:43:30,409 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][passwordSalt] = +YtuHzN0/MY=
+2014-11-03 20:43:30,409 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser superAdmin
+2014-11-03 20:43:30,410 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][superAdmin] = null
+2014-11-03 20:43:30,410 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:150) - get user testuser email
+2014-11-03 20:43:30,410 TRACE - de.benjaminborbe.storage.memory.service.StorageServiceMemory.get(StorageServiceMemory.java:157) - get[testuser][email] = test@example.com
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.781 sec
+Running de.benjaminborbe.authentication.core.util.AuthenticationPasswordEncryptionServiceUnitTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.409 sec
+Running de.benjaminborbe.authentication.core.util.SessionBeanUnitTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 sec
+
+Results :
+
+Tests run: 32, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- maven-bundle-plugin:2.3.7:bundle (default-bundle) @ de.benjaminborbe.authentication.core ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ de.benjaminborbe.authentication.core ---
+[INFO] Installing /Users/bborbe/Documents/workspaces/priv/java/authentication/core/target/de.benjaminborbe.authentication.core.jar to /Users/bborbe/.m2/repository/de/benjaminborbe/de.benjaminborbe.authentication.core/1.0.0-SNAPSHOT/de.benjaminborbe.authentication.core-1.0.0-SNAPSHOT.jar
+[INFO] Installing /Users/bborbe/Documents/workspaces/priv/java/authentication/core/pom.xml to /Users/bborbe/.m2/repository/de/benjaminborbe/de.benjaminborbe.authentication.core/1.0.0-SNAPSHOT/de.benjaminborbe.authentication.core-1.0.0-SNAPSHOT.pom
+[INFO] 
+[INFO] --- maven-bundle-plugin:2.3.7:install (default-install) @ de.benjaminborbe.authentication.core ---
+[INFO] Installing de/benjaminborbe/de.benjaminborbe.authentication.core/1.0.0-SNAPSHOT/de.benjaminborbe.authentication.core-1.0.0-SNAPSHOT.jar
+[INFO] Writing OBR metadata
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Benjamin Borbe - Authentication - Gui 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ de.benjaminborbe.authentication.gui ---
+[INFO] Deleting /Users/bborbe/Documents/workspaces/priv/java/authentication/gui/target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (default-resources) @ de.benjaminborbe.authentication.gui ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.0:compile (default-compile) @ de.benjaminborbe.authentication.gui ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 24 source files to /Users/bborbe/Documents/workspaces/priv/java/authentication/gui/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:testResources (default-testResources) @ de.benjaminborbe.authentication.gui ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.0:testCompile (default-testCompile) @ de.benjaminborbe.authentication.gui ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 6 source files to /Users/bborbe/Documents/workspaces/priv/java/authentication/gui/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ de.benjaminborbe.authentication.gui ---
+[INFO] Surefire report directory: /Users/bborbe/Documents/workspaces/priv/java/authentication/gui/target/surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Concurrency config is parallel='classes', perCoreThreadCount=true, threadCount=2, useUnlimitedThreads=false
+Running de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServletIntegrationTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.475 sec
+Running de.benjaminborbe.authentication.gui.AuthenticationGuiActivatorIntegrationTest
+2014-11-03 20:43:35,349  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:37) - starting: de.benjaminborbe.authentication.gui.AuthenticationGuiActivatorIntegrationTest$3...
+2014-11-03 20:43:35,356  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:44) - registerFilter for pattern: "/authentication.*"
+2014-11-03 20:43:35,356 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//login
+2014-11-03 20:43:35,357  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/login"
+2014-11-03 20:43:35,357 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/list
+2014-11-03 20:43:35,357  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/list"
+2014-11-03 20:43:35,357 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/reset
+2014-11-03 20:43:35,358  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/reset"
+2014-11-03 20:43:35,358 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//register
+2014-11-03 20:43:35,358  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/register"
+2014-11-03 20:43:35,358 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//unregister
+2014-11-03 20:43:35,359  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/unregister"
+2014-11-03 20:43:35,359 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/delete
+2014-11-03 20:43:35,359  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/delete"
+2014-11-03 20:43:35,360 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/switch
+2014-11-03 20:43:35,360  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/switch"
+2014-11-03 20:43:35,360 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//logout
+2014-11-03 20:43:35,360  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/logout"
+2014-11-03 20:43:35,361 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/create
+2014-11-03 20:43:35,361  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/create"
+2014-11-03 20:43:35,361 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//
+2014-11-03 20:43:35,361  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication"
+2014-11-03 20:43:35,361 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//status
+2014-11-03 20:43:35,361  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/status"
+2014-11-03 20:43:35,362 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/change
+2014-11-03 20:43:35,362  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/change"
+2014-11-03 20:43:35,362 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//profile
+2014-11-03 20:43:35,362  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/profile"
+2014-11-03 20:43:35,362 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/lost
+2014-11-03 20:43:35,362  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/lost"
+2014-11-03 20:43:35,363 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//email/valdation
+2014-11-03 20:43:35,363  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/email/valdation"
+2014-11-03 20:43:35,364 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.navigation.api.NavigationEntry service: de.benjaminborbe.authentication.gui.service.AuthenticationGuiNavigationEntry@357accb
+2014-11-03 20:43:35,364 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean@6cbedecd
+2014-11-03 20:43:35,364  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:59) - starting: de.benjaminborbe.authentication.gui.AuthenticationGuiActivatorIntegrationTest$3 done
+2014-11-03 20:43:35,389  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:37) - starting: de.benjaminborbe.authentication.gui.AuthenticationGuiActivatorIntegrationTest$2...
+2014-11-03 20:43:35,389  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:44) - registerFilter for pattern: "/authentication.*"
+2014-11-03 20:43:35,390 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//login
+2014-11-03 20:43:35,390  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/login"
+2014-11-03 20:43:35,390 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//status
+2014-11-03 20:43:35,390  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/status"
+2014-11-03 20:43:35,391 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//profile
+2014-11-03 20:43:35,391  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/profile"
+2014-11-03 20:43:35,391 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/delete
+2014-11-03 20:43:35,392  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/delete"
+2014-11-03 20:43:35,392 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//
+2014-11-03 20:43:35,392  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication"
+2014-11-03 20:43:35,392 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//register
+2014-11-03 20:43:35,392  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/register"
+2014-11-03 20:43:35,393 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/create
+2014-11-03 20:43:35,393  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/create"
+2014-11-03 20:43:35,393 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/reset
+2014-11-03 20:43:35,393  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/reset"
+2014-11-03 20:43:35,393 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//unregister
+2014-11-03 20:43:35,393  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/unregister"
+2014-11-03 20:43:35,394 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/list
+2014-11-03 20:43:35,394  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/list"
+2014-11-03 20:43:35,394 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/lost
+2014-11-03 20:43:35,395  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/lost"
+2014-11-03 20:43:35,395 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//logout
+2014-11-03 20:43:35,395  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/logout"
+2014-11-03 20:43:35,395 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//email/valdation
+2014-11-03 20:43:35,396  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/email/valdation"
+2014-11-03 20:43:35,396 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/change
+2014-11-03 20:43:35,396  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/change"
+2014-11-03 20:43:35,397 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/switch
+2014-11-03 20:43:35,397  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/switch"
+2014-11-03 20:43:35,397 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean@4afc47f3
+2014-11-03 20:43:35,398 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.navigation.api.NavigationEntry service: de.benjaminborbe.authentication.gui.service.AuthenticationGuiNavigationEntry@16f82ea
+2014-11-03 20:43:35,398  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:59) - starting: de.benjaminborbe.authentication.gui.AuthenticationGuiActivatorIntegrationTest$2 done
+2014-11-03 20:43:35,433  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:37) - starting: de.benjaminborbe.authentication.gui.AuthenticationGuiActivatorIntegrationTest$4...
+2014-11-03 20:43:35,433  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:44) - registerFilter for pattern: "/authentication.*"
+2014-11-03 20:43:35,434 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//register
+2014-11-03 20:43:35,434  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/register"
+2014-11-03 20:43:35,434 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/lost
+2014-11-03 20:43:35,434  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/lost"
+2014-11-03 20:43:35,434 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/list
+2014-11-03 20:43:35,434  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/list"
+2014-11-03 20:43:35,435 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/reset
+2014-11-03 20:43:35,435  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/reset"
+2014-11-03 20:43:35,435 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//unregister
+2014-11-03 20:43:35,435  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/unregister"
+2014-11-03 20:43:35,435 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/create
+2014-11-03 20:43:35,436  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/create"
+2014-11-03 20:43:35,436 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/change
+2014-11-03 20:43:35,436  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/change"
+2014-11-03 20:43:35,436 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//login
+2014-11-03 20:43:35,436  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/login"
+2014-11-03 20:43:35,436 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//email/valdation
+2014-11-03 20:43:35,437  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/email/valdation"
+2014-11-03 20:43:35,437 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/delete
+2014-11-03 20:43:35,437  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/delete"
+2014-11-03 20:43:35,437 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//status
+2014-11-03 20:43:35,437  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/status"
+2014-11-03 20:43:35,437 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//profile
+2014-11-03 20:43:35,438  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/profile"
+2014-11-03 20:43:35,438 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//logout
+2014-11-03 20:43:35,438  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/logout"
+2014-11-03 20:43:35,438 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//
+2014-11-03 20:43:35,438  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication"
+2014-11-03 20:43:35,438 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/switch
+2014-11-03 20:43:35,439  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/switch"
+2014-11-03 20:43:35,439 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.navigation.api.NavigationEntry service: de.benjaminborbe.authentication.gui.service.AuthenticationGuiNavigationEntry@6fe49e22
+2014-11-03 20:43:35,439 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean@3477d287
+2014-11-03 20:43:35,439  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:59) - starting: de.benjaminborbe.authentication.gui.AuthenticationGuiActivatorIntegrationTest$4 done
+2014-11-03 20:43:35,455  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:37) - starting: de.benjaminborbe.authentication.gui.AuthenticationGuiActivatorIntegrationTest$1...
+2014-11-03 20:43:35,455  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:44) - registerFilter for pattern: "/authentication.*"
+2014-11-03 20:43:35,455 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//unregister
+2014-11-03 20:43:35,455  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/unregister"
+2014-11-03 20:43:35,456 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//login
+2014-11-03 20:43:35,456  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/login"
+2014-11-03 20:43:35,456 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//logout
+2014-11-03 20:43:35,456  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/logout"
+2014-11-03 20:43:35,456 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//email/valdation
+2014-11-03 20:43:35,457  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/email/valdation"
+2014-11-03 20:43:35,457 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/change
+2014-11-03 20:43:35,457  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/change"
+2014-11-03 20:43:35,457 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//status
+2014-11-03 20:43:35,458  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/status"
+2014-11-03 20:43:35,458 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/create
+2014-11-03 20:43:35,458  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/create"
+2014-11-03 20:43:35,458 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/lost
+2014-11-03 20:43:35,458  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/lost"
+2014-11-03 20:43:35,458 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/password/reset
+2014-11-03 20:43:35,459  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/password/reset"
+2014-11-03 20:43:35,459 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//
+2014-11-03 20:43:35,459  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication"
+2014-11-03 20:43:35,459 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/delete
+2014-11-03 20:43:35,460  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/delete"
+2014-11-03 20:43:35,460 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/switch
+2014-11-03 20:43:35,460  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/switch"
+2014-11-03 20:43:35,460 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//register
+2014-11-03 20:43:35,460  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/register"
+2014-11-03 20:43:35,460 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//user/list
+2014-11-03 20:43:35,461  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/user/list"
+2014-11-03 20:43:35,461 TRACE - de.benjaminborbe.tools.osgi.HttpBundleActivator.cleanupAlias(HttpBundleActivator.java:145) - alias to cleanup /authentication//profile
+2014-11-03 20:43:35,461  INFO - de.benjaminborbe.tools.osgi.HttpBundleActivator.serviceAdded(HttpBundleActivator.java:62) - registerServlet for alias: "/authentication/profile"
+2014-11-03 20:43:35,461 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.navigation.api.NavigationEntry service: de.benjaminborbe.authentication.gui.service.AuthenticationGuiNavigationEntry@36ba8d97
+2014-11-03 20:43:35,461 TRACE - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:50) - register service with name: de.benjaminborbe.configuration.api.ConfigurationDescription service: de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean@1d65a598
+2014-11-03 20:43:35,461  INFO - de.benjaminborbe.tools.osgi.BaseBundleActivator.start(BaseBundleActivator.java:59) - starting: de.benjaminborbe.authentication.gui.AuthenticationGuiActivatorIntegrationTest$1 done
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.602 sec
+Running de.benjaminborbe.authentication.gui.util.AuthenticationGuiLinkFactoryUnitTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 sec
+Running de.benjaminborbe.authentication.gui.servlet.AuthenticationGuiLoginServletUnitTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.285 sec
+
+Results :
+
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] 
+[INFO] --- maven-bundle-plugin:2.3.7:bundle (default-bundle) @ de.benjaminborbe.authentication.gui ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ de.benjaminborbe.authentication.gui ---
+[INFO] Installing /Users/bborbe/Documents/workspaces/priv/java/authentication/gui/target/de.benjaminborbe.authentication.gui.jar to /Users/bborbe/.m2/repository/de/benjaminborbe/de.benjaminborbe.authentication.gui/1.0.0-SNAPSHOT/de.benjaminborbe.authentication.gui-1.0.0-SNAPSHOT.jar
+[INFO] Installing /Users/bborbe/Documents/workspaces/priv/java/authentication/gui/pom.xml to /Users/bborbe/.m2/repository/de/benjaminborbe/de.benjaminborbe.authentication.gui/1.0.0-SNAPSHOT/de.benjaminborbe.authentication.gui-1.0.0-SNAPSHOT.pom
+[INFO] 
+[INFO] --- maven-bundle-plugin:2.3.7:install (default-install) @ de.benjaminborbe.authentication.gui ---
+[INFO] Installing de/benjaminborbe/de.benjaminborbe.authentication.gui/1.0.0-SNAPSHOT/de.benjaminborbe.authentication.gui-1.0.0-SNAPSHOT.jar
+[INFO] Writing OBR metadata
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Benjamin Borbe - Authentication - Test 1.0.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ de.benjaminborbe.authentication.test ---
+[INFO] Deleting /Users/bborbe/Documents/workspaces/priv/java/authentication/test/target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (default-resources) @ de.benjaminborbe.authentication.test ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.0:compile (default-compile) @ de.benjaminborbe.authentication.test ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 2 source files to /Users/bborbe/Documents/workspaces/priv/java/authentication/test/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:testResources (default-testResources) @ de.benjaminborbe.authentication.test ---
+[debug] execute contextualize
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.0:testCompile (default-testCompile) @ de.benjaminborbe.authentication.test ---
+[INFO] Changes detected - recompiling the module!
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ de.benjaminborbe.authentication.test ---
+[INFO] 
+[INFO] --- maven-bundle-plugin:2.3.7:bundle (default-bundle) @ de.benjaminborbe.authentication.test ---
+[INFO] 
+[INFO] --- maven-junit4osgi-plugin:1.0.0:test (default) @ de.benjaminborbe.authentication.test ---
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+log4j:ERROR A "org.apache.log4j.ConsoleAppender" object is not assignable to a "org.apache.log4j.Appender" variable.
+log4j:ERROR The class "org.apache.log4j.Appender" was loaded by 
+log4j:ERROR [6.0] whereas object of type 
+log4j:ERROR "org.apache.log4j.ConsoleAppender" was loaded by [ClassRealm[plugin>org.apache.felix:maven-junit4osgi-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@45ee12a7]].
+log4j:ERROR Could not instantiate appender named "console".
+log4j:ERROR A "org.apache.log4j.ConsoleAppender" object is not assignable to a "org.apache.log4j.Appender" variable.
+log4j:ERROR The class "org.apache.log4j.Appender" was loaded by 
+log4j:ERROR [8.0] whereas object of type 
+log4j:ERROR "org.apache.log4j.ConsoleAppender" was loaded by [ClassRealm[plugin>org.apache.felix:maven-junit4osgi-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@45ee12a7]].
+log4j:ERROR Could not instantiate appender named "console".
+log4j:ERROR A "org.apache.log4j.ConsoleAppender" object is not assignable to a "org.apache.log4j.Appender" variable.
+log4j:ERROR The class "org.apache.log4j.Appender" was loaded by 
+log4j:ERROR [9.0] whereas object of type 
+log4j:ERROR "org.apache.log4j.ConsoleAppender" was loaded by [ClassRealm[plugin>org.apache.felix:maven-junit4osgi-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@45ee12a7]].
+log4j:ERROR Could not instantiate appender named "console".
+log4j:ERROR A "org.apache.log4j.ConsoleAppender" object is not assignable to a "org.apache.log4j.Appender" variable.
+log4j:ERROR The class "org.apache.log4j.Appender" was loaded by 
+log4j:ERROR [11.0] whereas object of type 
+log4j:ERROR "org.apache.log4j.ConsoleAppender" was loaded by [ClassRealm[plugin>org.apache.felix:maven-junit4osgi-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@45ee12a7]].
+log4j:ERROR Could not instantiate appender named "console".
+log4j:ERROR A "org.apache.log4j.ConsoleAppender" object is not assignable to a "org.apache.log4j.Appender" variable.
+log4j:ERROR The class "org.apache.log4j.Appender" was loaded by 
+log4j:ERROR [14.0] whereas object of type 
+log4j:ERROR "org.apache.log4j.ConsoleAppender" was loaded by [ClassRealm[plugin>org.apache.felix:maven-junit4osgi-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@45ee12a7]].
+log4j:ERROR Could not instantiate appender named "console".
+log4j:ERROR A "org.apache.log4j.ConsoleAppender" object is not assignable to a "org.apache.log4j.Appender" variable.
+log4j:ERROR The class "org.apache.log4j.Appender" was loaded by 
+log4j:ERROR [16.0] whereas object of type 
+log4j:ERROR "org.apache.log4j.ConsoleAppender" was loaded by [ClassRealm[plugin>org.apache.felix:maven-junit4osgi-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@45ee12a7]].
+log4j:ERROR Could not instantiate appender named "console".
+log4j:ERROR A "org.apache.log4j.ConsoleAppender" object is not assignable to a "org.apache.log4j.Appender" variable.
+log4j:ERROR The class "org.apache.log4j.Appender" was loaded by 
+log4j:ERROR [20.0] whereas object of type 
+log4j:ERROR "org.apache.log4j.ConsoleAppender" was loaded by [ClassRealm[plugin>org.apache.felix:maven-junit4osgi-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@45ee12a7]].
+log4j:ERROR Could not instantiate appender named "console".
+log4j:ERROR A "org.apache.log4j.ConsoleAppender" object is not assignable to a "org.apache.log4j.Appender" variable.
+log4j:ERROR The class "org.apache.log4j.Appender" was loaded by 
+log4j:ERROR [22.0] whereas object of type 
+log4j:ERROR "org.apache.log4j.ConsoleAppender" was loaded by [ClassRealm[plugin>org.apache.felix:maven-junit4osgi-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@45ee12a7]].
+log4j:ERROR Could not instantiate appender named "console".
+log4j:ERROR A "org.apache.log4j.ConsoleAppender" object is not assignable to a "org.apache.log4j.Appender" variable.
+log4j:ERROR The class "org.apache.log4j.Appender" was loaded by 
+log4j:ERROR [24.0] whereas object of type 
+log4j:ERROR "org.apache.log4j.ConsoleAppender" was loaded by [ClassRealm[plugin>org.apache.felix:maven-junit4osgi-plugin:1.0.0, parent: sun.misc.Launcher$AppClassLoader@45ee12a7]].
+log4j:ERROR Could not instantiate appender named "console".
+Running Authentication Test Suite
+log4j:WARN No appenders could be found for logger (de.benjaminborbe.tools.log.LoggerSlf4Provider).
+log4j:WARN Please initialize the log4j system properly.
+Tests run: 7, Failures: 1, Errors: 0, Time elapsed: 0 sec <<< FAILURE!
+
+Results :
+
+Failed tests:
+ testRegister(de.benjaminborbe.authentication.test.AuthenticationIntegrationTest): null
+
+Tests in error:
+
+Tests run: 7, Failures: 1, Errors:0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] Benjamin Borbe - Authentication .................... SUCCESS [  0.177 s]
+[INFO] Benjamin Borbe - Authentication - Core ............. SUCCESS [  8.097 s]
+[INFO] Benjamin Borbe - Authentication - Gui .............. SUCCESS [  2.579 s]
+[INFO] Benjamin Borbe - Authentication - Test ............. FAILURE [ 16.349 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 27.813 s
+[INFO] Finished at: 2014-11-03T20:43:52+01:00
+[INFO] Final Memory: 34M/567M
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.felix:maven-junit4osgi-plugin:1.0.0:test (default) on project de.benjaminborbe.authentication.test: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /Users/bborbe/Documents/workspaces/priv/java/authentication/test/target/surefire-reports for the individual test results.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <goals> -rf :de.benjaminborbe.authentication.test

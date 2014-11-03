@@ -58,6 +58,8 @@ import java.util.UUID;
 @Singleton
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+	private static final int DURATION_WARN = 300;
+
 	private final Logger logger;
 
 	private final SessionDao sessionDao;
@@ -77,8 +79,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private final ParseUtil parseUtil;
 
 	private final DurationUtil durationUtil;
-
-	private static final int DURATION_WARN = 300;
 
 	private final AuthenticationVerifyCredential authenticationVerifyCredential;
 
@@ -143,8 +143,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		final SessionIdentifier sessionIdentifier,
 		final UserIdentifier userIdentifier,
 		final String password
-	) throws AuthenticationServiceException,
-		ValidationException {
+	) throws AuthenticationServiceException, ValidationException {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			logger.debug("try login user: " + userIdentifier);
@@ -238,7 +237,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 				throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple(msg)));
 			}
 			final UserIdentifier userIdentifier = new UserIdentifier(username);
-
 			final UserBean user = userDao.create();
 			user.setId(userIdentifier);
 			setNewEmail(user, email);
@@ -253,9 +251,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			sendEmailVerify(user, shortenUrl, validateEmailUrl);
 			userDao.save(user);
 
-			logger.info("registerd user " + userIdentifier);
-			login(sessionIdentifier, userIdentifier, password);
-			return userIdentifier;
+			logger.info("registerd user " + user.getId());
+			login(sessionIdentifier, user.getId(), password);
+			return user.getId();
 		} catch (final StorageException e) {
 			throw new AuthenticationServiceException(e.getClass().getSimpleName(), e);
 		} catch (InvalidKeySpecException e) {
@@ -486,6 +484,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	@Override
+	public SessionIdentifier createSystemUser(final String systemUsername) throws AuthenticationServiceException {
+		try {
+			final UserIdentifier userIdentifier = new UserIdentifier(systemUsername);
+			final UserBean userBean;
+			if (userDao.exists(userIdentifier)) {
+				userBean = userDao.load(userIdentifier);
+			} else {
+				userBean = userDao.create();
+				userBean.setId(userIdentifier);
+				userBean.setSystemUser(true);
+				userDao.save(userBean);
+			}
+			return new SessionIdentifier(systemUsername);
+		} catch (StorageException e) {
+			throw new AuthenticationServiceException(e);
 		}
 	}
 

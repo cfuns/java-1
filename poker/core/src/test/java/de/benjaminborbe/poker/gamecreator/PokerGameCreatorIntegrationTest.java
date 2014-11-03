@@ -11,6 +11,7 @@ import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.game.PokerGameIdentifierGenerator;
 import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,6 +22,7 @@ public class PokerGameCreatorIntegrationTest {
 
 	@Test
 	public void testCreateGame() throws Exception {
+		final Logger logger = easyMockHelper.createNiceMock(Logger.class);
 		final PokerGameIdentifier pokerGameIdentifier = new PokerGameIdentifier("123");
 		final PokerGameIdentifierGenerator pokerGameIdentifierGenerator = easyMockHelper.createMock(PokerGameIdentifierGenerator.class);
 		EasyMock.expect(pokerGameIdentifierGenerator.nextId()).andReturn(pokerGameIdentifier);
@@ -33,7 +35,7 @@ public class PokerGameCreatorIntegrationTest {
 
 		easyMockHelper.replay();
 
-		final PokerGameCreator pokerGameCreator = new PokerGameCreator(pokerGameDao, pokerGameIdentifierGenerator, pokerConfig, validationExecutor);
+		final PokerGameCreator pokerGameCreator = new PokerGameCreator(logger, pokerGameDao, pokerGameIdentifierGenerator, pokerConfig, validationExecutor);
 		final PokerGameDto pokerGameDto = new PokerGameDto();
 		assertThat(pokerGameCreator.createGame(pokerGameDto), is(pokerGameIdentifier));
 
@@ -42,6 +44,7 @@ public class PokerGameCreatorIntegrationTest {
 
 	@Test
 	public void testCreateDefaultGame() throws Exception {
+		final Logger logger = easyMockHelper.createNiceMock(Logger.class);
 		final PokerGameIdentifier pokerGameIdentifier = new PokerGameIdentifier("123");
 		final PokerGameIdentifierGenerator pokerGameIdentifierGenerator = easyMockHelper.createMock(PokerGameIdentifierGenerator.class);
 		EasyMock.expect(pokerGameIdentifierGenerator.nextId()).andReturn(pokerGameIdentifier);
@@ -54,7 +57,7 @@ public class PokerGameCreatorIntegrationTest {
 
 		easyMockHelper.replay();
 
-		final PokerGameCreator pokerGameCreator = new PokerGameCreator(pokerGameDao, pokerGameIdentifierGenerator, pokerConfig, validationExecutor);
+		final PokerGameCreator pokerGameCreator = new PokerGameCreator(logger, pokerGameDao, pokerGameIdentifierGenerator, pokerConfig, validationExecutor);
 
 		assertThat(pokerGameCreator.createDefaultGame(), is(pokerGameIdentifier));
 

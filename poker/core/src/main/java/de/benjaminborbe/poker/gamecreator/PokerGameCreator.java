@@ -11,17 +11,16 @@ import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.game.PokerGameIdentifierGenerator;
 import de.benjaminborbe.storage.api.StorageException;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
 public class PokerGameCreator {
 
-	private static final Logger logger = LoggerFactory.getLogger(PokerGameCreator.class);
-
 	private static final Long DEFAULT_START_CREDITS = 10000L;
 
 	private static final String DEFAULT_POKER_GAME_NAME = "Game 1";
+
+	private final Logger logger;
 
 	private final PokerGameDao pokerGameDao;
 
@@ -33,11 +32,13 @@ public class PokerGameCreator {
 
 	@Inject
 	public PokerGameCreator(
+		final Logger logger,
 		final PokerGameDao pokerGameDao,
 		final PokerGameIdentifierGenerator pokerGameIdentifierGenerator,
 		final PokerConfig pokerConfig,
 		final ValidationExecutor validationExecutor
 	) {
+		this.logger = logger;
 		this.pokerGameDao = pokerGameDao;
 		this.pokerGameIdentifierGenerator = pokerGameIdentifierGenerator;
 		this.pokerConfig = pokerConfig;

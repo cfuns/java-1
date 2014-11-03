@@ -19,13 +19,12 @@ import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
 import de.benjaminborbe.storage.tools.EntityIteratorException;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
 public class PokerEventReseter {
 
-	private static final Logger logger = LoggerFactory.getLogger(PokerEventReseter.class);
+	private final Logger logger;
 
 	private final PokerService pokerService;
 
@@ -39,12 +38,14 @@ public class PokerEventReseter {
 
 	@Inject
 	public PokerEventReseter(
+		final Logger logger,
 		final PokerService pokerService,
 		final PokerGameDao pokerGameDao,
 		final PokerPlayerDao pokerPlayerDao,
 		final PokerGameCreator pokerGameCreator,
 		final AuthorizationService authorizationService
 	) {
+		this.logger = logger;
 		this.pokerService = pokerService;
 		this.pokerGameDao = pokerGameDao;
 		this.pokerPlayerDao = pokerPlayerDao;
