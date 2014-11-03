@@ -56,7 +56,12 @@
 							${felix_plugin_imports}
 						</Import-Package>
 						<Export-Package></Export-Package>
-						<Import-Service></Import-Service>
+						<Import-Service>
+							de.benjaminborbe.configuration.api.ConfigurationService,
+							de.benjaminborbe.analytics.api.AnalyticsService,
+							de.benjaminborbe.authorization.api.AuthorizationService,
+							de.benjaminborbe.storage.api.StorageService
+						</Import-Service>
 						<Export-Service>de.benjaminborbe.message.api.MessageService</Export-Service>
 					</instructions>
 				</configuration>
