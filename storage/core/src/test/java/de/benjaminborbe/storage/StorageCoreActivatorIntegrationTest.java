@@ -20,19 +20,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class StorageActivatorIntegrationTest {
+public class StorageCoreActivatorIntegrationTest {
 
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
-		final StorageActivator activator = injector.getInstance(StorageActivator.class);
+		final StorageCoreActivator activator = injector.getInstance(StorageCoreActivator.class);
 		assertNotNull(activator);
 	}
 
 	@Test
 	public void testModules() {
 		final StorageModulesMock modules = new StorageModulesMock();
-		final StorageActivator storageActivator = new StorageActivator() {
+		final StorageCoreActivator storageCoreActivator = new StorageCoreActivator() {
 
 			@Override
 			protected Modules getModules(final BundleContext context) {
@@ -40,13 +40,13 @@ public class StorageActivatorIntegrationTest {
 			}
 		};
 
-		assertEquals(modules, storageActivator.getModules(null));
+		assertEquals(modules, storageCoreActivator.getModules(null));
 	}
 
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
-		final StorageActivator activator = new StorageActivator() {
+		final StorageCoreActivator activator = new StorageCoreActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -66,7 +66,7 @@ public class StorageActivatorIntegrationTest {
 	@Test
 	public void testServices() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new StorageModulesMock());
-		final StorageActivator activator = new StorageActivator() {
+		final StorageCoreActivator activator = new StorageCoreActivator() {
 
 			@Override
 			public Injector getInjector() {

@@ -1,8 +1,7 @@
-package de.benjaminborbe.storage;
+package de.benjaminborbe.storage.memory;
 
 import de.benjaminborbe.storage.api.StorageService;
-import de.benjaminborbe.storage.guice.StorageModules;
-import de.benjaminborbe.storage.util.StorageConnectionPool;
+import de.benjaminborbe.storage.memory.guice.StorageModules;
 import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.HttpBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
@@ -13,31 +12,19 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StorageActivator extends HttpBundleActivator {
+public class StorageMemoryActivator extends HttpBundleActivator {
 
-	public StorageActivator() {
-		super(StorageConstants.NAME);
+	public StorageMemoryActivator() {
+		super(StorageMemoryConstants.NAME);
 	}
-
-	//
-	// @Inject
-	// private StorageConfig storageConfig;
 
 	@Inject
 	private StorageService persistentStorageService;
-
-	@Inject
-	private StorageConnectionPool storageConnectionPool;
 
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(StorageService.class, persistentStorageService));
-		// for (final ConfigurationDescription configuration :
-		// storageConfig.getConfigurations()) {
-		// result.add(new ServiceInfo(ConfigurationDescription.class, configuration,
-		// configuration.getName()));
-		// }
 		return result;
 	}
 
@@ -46,9 +33,4 @@ public class StorageActivator extends HttpBundleActivator {
 		return new StorageModules(context);
 	}
 
-	@Override
-	protected void onStopped() throws Exception {
-		super.onStopped();
-		storageConnectionPool.close();
-	}
 }

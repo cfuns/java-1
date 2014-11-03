@@ -41,6 +41,7 @@ public class StorageTestUtil {
 				logger.debug("drop keyspace: " + keySpace);
 				connection.getClient().system_drop_keyspace(keySpace);
 			} catch (final Exception e) {
+				logger.debug(e.getMessage(), e);
 				// nop
 			}
 

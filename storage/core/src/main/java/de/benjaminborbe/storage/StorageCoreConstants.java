@@ -1,6 +1,6 @@
 package de.benjaminborbe.storage;
 
-public interface StorageConstants {
+public interface StorageCoreConstants {
 
 	String NAME = "storage";
 
