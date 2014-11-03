@@ -1,7 +1,7 @@
 package de.benjaminborbe.poker.table.server;
 
 import com.google.inject.Injector;
-import de.benjaminborbe.poker.table.server.guice.GwtServerModulesMock;
+import de.benjaminborbe.poker.table.server.guice.PokerTableServerModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
@@ -16,18 +16,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class GwtServerActivatorIntegrationTest {
+public class PokerTableServerActivatorIntegrationTest {
 
 	@Test
 	public void testInject() {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new GwtServerModulesMock());
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerTableServerModulesMock());
 		final PokerTableServerActivator activator = injector.getInstance(PokerTableServerActivator.class);
 		assertNotNull(activator);
 	}
 
 	@Test
 	public void testResources() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new GwtServerModulesMock());
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerTableServerModulesMock());
 		final PokerTableServerActivator activator = new PokerTableServerActivator() {
 
 			@Override
@@ -49,7 +49,7 @@ public class GwtServerActivatorIntegrationTest {
 
 	@Test
 	public void testServices() throws Exception {
-		final Injector injector = GuiceInjectorBuilder.getInjector(new GwtServerModulesMock());
+		final Injector injector = GuiceInjectorBuilder.getInjector(new PokerTableServerModulesMock());
 		final PokerTableServerActivator activator = new PokerTableServerActivator() {
 
 			@Override
