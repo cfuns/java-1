@@ -77,6 +77,7 @@ public final class PokerCanvas extends DrawingArea {
         this.add(activePlayerGroup);
         this.add(playerNames);
         this.add(gameText);
+
         this.add(errorText);
 
         // deliverFlop();

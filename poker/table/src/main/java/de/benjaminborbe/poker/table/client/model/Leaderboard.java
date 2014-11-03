@@ -29,4 +29,15 @@ public class Leaderboard implements Serializable, IsSerializable {
     public void setPlayers(final ArrayList<Player> players) {
         this.players = players;
     }
+
+    public ArrayList<String> getPlayersList() {
+        final ArrayList<String> list = new ArrayList<String>();
+
+        for (final Player player : players) {
+            String s = player.getUsername() + ", " + player.getScore();
+            list.add(s);
+        }
+        return list;
+    }
+
 }
