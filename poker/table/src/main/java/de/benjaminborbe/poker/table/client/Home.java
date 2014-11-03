@@ -119,7 +119,7 @@ public class Home implements EntryPoint {
         }
         if (leaderboardDataSource.getLeaderboard() != null) {
             leaderboard = leaderboardDataSource.getLeaderboard();
-            leaderboardCanvas.updateLeaderboard(leaderboard.getPlayersList());
+            leaderboardCanvas.updateLeaderboard(leaderboard.getSortPlayersByScore());
         }
 
         if (game != null && leaderboard != null) {
