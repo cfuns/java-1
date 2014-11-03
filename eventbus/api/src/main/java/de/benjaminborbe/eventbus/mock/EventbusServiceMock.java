@@ -1,4 +1,4 @@
-package de.benjaminborbe.eventbus.gui.mock;
+package de.benjaminborbe.eventbus.mock;
 
 import de.benjaminborbe.eventbus.api.Event;
 import de.benjaminborbe.eventbus.api.Event.Type;

@@ -6,7 +6,7 @@ import de.benjaminborbe.authentication.mock.AuthenticationServiceMock;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.eventbus.api.EventbusService;
-import de.benjaminborbe.eventbus.gui.mock.EventbusServiceMock;
+import de.benjaminborbe.eventbus.mock.EventbusServiceMock;
 import de.benjaminborbe.navigation.api.NavigationWidget;
 import de.benjaminborbe.navigation.mock.NavigationWidgetMock;
 import de.benjaminborbe.tools.osgi.mock.ExtHttpServiceMock;
