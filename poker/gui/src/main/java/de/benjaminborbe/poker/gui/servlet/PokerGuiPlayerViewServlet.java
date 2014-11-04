@@ -59,6 +59,8 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 
 	private final ComparatorUtil comparatorUtil;
 
+	private final PokerGuiAdminOderPlayerOwnerPermissionCheck pokerGuiAdminOderPlayerOwnerPermissionCheck;
+
 	@Inject
 	public PokerGuiPlayerViewServlet(
 		final Logger logger,
@@ -73,13 +75,15 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 		final CacheService cacheService,
 		final PokerService pokerService,
 		final PokerGuiLinkFactory pokerGuiLinkFactory,
-		final ComparatorUtil comparatorUtil
+		final ComparatorUtil comparatorUtil,
+		final PokerGuiAdminOderPlayerOwnerPermissionCheck pokerGuiAdminOderPlayerOwnerPermissionCheck
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 		this.authenticationService = authenticationService;
 		this.comparatorUtil = comparatorUtil;
+		this.pokerGuiAdminOderPlayerOwnerPermissionCheck = pokerGuiAdminOderPlayerOwnerPermissionCheck;
 	}
 
 	@Override
@@ -109,7 +113,7 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			widgets.add("Score: " + toNumberString(player.getScore()) + " ");
 			widgets.add(new BrWidget());
 
-			if (pokerService.hasPokerAdminPermission(sessionIdentifier) || owners.contains(authenticationService.getCurrentUser(sessionIdentifier))) {
+			if (hasPermission(sessionIdentifier, player)) {
 				widgets.add("ID: " + player.getId());
 				widgets.add(new BrWidget());
 				widgets.add("Token: " + player.getToken());
@@ -135,7 +139,7 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 						final ListWidget list = new ListWidget();
 						list.add(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 						list.add(" ");
-						if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
+						if (hasPermission(sessionIdentifier, player)) {
 							list.add(pokerGuiLinkFactory.gameJoin(request, game.getId(), playerIdentifier));
 							list.add(" ");
 						}
@@ -149,7 +153,7 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 				widgets.add("Game: ");
 				widgets.add(pokerGuiLinkFactory.gameView(request, game.getId(), game.getName()));
 				widgets.add(new BrWidget());
-				if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {
+				if (hasPermission(sessionIdentifier, player)) {
 					if (!Boolean.TRUE.equals(game.getRunning())) {
 						widgets.add(pokerGuiLinkFactory.gameLeave(request, player.getGame(), playerIdentifier));
 					}
@@ -172,6 +176,13 @@ public class PokerGuiPlayerViewServlet extends WebsiteHtmlServlet {
 			final ExceptionWidget widget = new ExceptionWidget(e);
 			return widget;
 		}
+	}
+
+	private boolean hasPermission(
+		final SessionIdentifier sessionIdentifier,
+		final PokerPlayer player
+	) throws LoginRequiredException, PokerServiceException, AuthenticationServiceException {
+		return pokerGuiAdminOderPlayerOwnerPermissionCheck.hasPermission(sessionIdentifier, player);
 	}
 
 	private String toNumberString(final Long number) {

@@ -54,6 +54,8 @@ public class PokerGuiGameJoinServlet extends WebsiteHtmlServlet {
 
 	private final AuthenticationService authenticationService;
 
+	private final PokerGuiAdminOderPlayerOwnerPermissionCheck pokerGuiAdminOderPlayerOwnerPermissionCheck;
+
 	@Inject
 	public PokerGuiGameJoinServlet(
 		final Logger logger,
@@ -67,13 +69,15 @@ public class PokerGuiGameJoinServlet extends WebsiteHtmlServlet {
 		final UrlUtil urlUtil,
 		final CacheService cacheService,
 		final PokerService pokerService,
-		final PokerGuiLinkFactory pokerGuiLinkFactory
+		final PokerGuiLinkFactory pokerGuiLinkFactory,
+		final PokerGuiAdminOderPlayerOwnerPermissionCheck pokerGuiAdminOderPlayerOwnerPermissionCheck
 	) {
 		super(logger, calendarUtil, timeZoneUtil, parseUtil, navigationWidget, authenticationService, authorizationService, httpContextProvider, urlUtil, cacheService);
 		this.pokerService = pokerService;
 		this.logger = logger;
 		this.pokerGuiLinkFactory = pokerGuiLinkFactory;
 		this.authenticationService = authenticationService;
+		this.pokerGuiAdminOderPlayerOwnerPermissionCheck = pokerGuiAdminOderPlayerOwnerPermissionCheck;
 	}
 
 	@Override
@@ -85,8 +89,8 @@ public class PokerGuiGameJoinServlet extends WebsiteHtmlServlet {
 	protected Widget createContentWidget(final HttpServletRequest request, final HttpServletResponse response, final HttpContext context) throws IOException,
 		PermissionDeniedException, RedirectException, LoginRequiredException {
 		try {
-			final PokerGameIdentifier pokerGameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
-			final PokerPlayerIdentifier pokerPlayerIdentifier = pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
+			final PokerGameIdentifier pokerGameIdentifier = getGameIdentifier(request);
+			final PokerPlayerIdentifier pokerPlayerIdentifier = getPlayerIdentifier(request);
 			pokerService.joinGame(pokerGameIdentifier, pokerPlayerIdentifier);
 			final RedirectWidget widget = new RedirectWidget(buildRefererUrl(request));
 			return widget;
@@ -107,12 +111,21 @@ public class PokerGuiGameJoinServlet extends WebsiteHtmlServlet {
 		}
 	}
 
+	private PokerPlayerIdentifier getPlayerIdentifier(final HttpServletRequest request) throws PokerServiceException {
+		return pokerService.createPlayerIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_PLAYER_ID));
+	}
+
+	private PokerGameIdentifier getGameIdentifier(final HttpServletRequest request) throws PokerServiceException {
+		return pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
+	}
+
 	@Override
 	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException,
 		PermissionDeniedException, LoginRequiredException {
 		try {
 			final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
-			pokerService.expectPokerAdminPermission(sessionIdentifier);
+			final PokerPlayerIdentifier playerIdentifier = getPlayerIdentifier(request);
+			pokerGuiAdminOderPlayerOwnerPermissionCheck.expectPermission(sessionIdentifier, playerIdentifier);
 		} catch (final AuthenticationServiceException e) {
 			throw new PermissionDeniedException(e);
 		} catch (PokerServiceException e) {
