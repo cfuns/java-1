@@ -16,7 +16,7 @@ public interface PokerCoreConfig {
 
 	boolean isCronEnabled();
 
-	void setCronEnabled(boolean active) throws ConfigurationServiceException, ValidationException;
+	void setCronEnabled(boolean enabled) throws ConfigurationServiceException, ValidationException;
 
 	long getAutoFoldTimeout();
 
@@ -37,4 +37,6 @@ public interface PokerCoreConfig {
 	double getMaxRaiseFactor();
 
 	String getScheduleExpression();
+
+	void setJsonApiEnabled(boolean enabled) throws ConfigurationServiceException, ValidationException;
 }

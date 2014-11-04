@@ -82,8 +82,8 @@ public class PokerCoreConfigImpl extends ConfigurationBase implements PokerCoreC
 	}
 
 	@Override
-	public void setCronEnabled(final boolean active) throws ConfigurationServiceException, ValidationException {
-		configurationService.setConfigurationValue(cronEnabled, "true");
+	public void setCronEnabled(final boolean enabled) throws ConfigurationServiceException, ValidationException {
+		configurationService.setConfigurationValue(cronEnabled, String.valueOf(enabled));
 	}
 
 	@Override
@@ -114,5 +114,10 @@ public class PokerCoreConfigImpl extends ConfigurationBase implements PokerCoreC
 	@Override
 	public String getScheduleExpression() {
 		return getValueString(pokerScheduleExpression);
+	}
+
+	@Override
+	public void setJsonApiEnabled(final boolean enabled) throws ConfigurationServiceException, ValidationException {
+		configurationService.setConfigurationValue(jsonApiEnabled, String.valueOf(enabled));
 	}
 }

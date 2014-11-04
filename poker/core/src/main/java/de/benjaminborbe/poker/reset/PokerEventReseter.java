@@ -90,6 +90,7 @@ public class PokerEventReseter {
 			cronController.start();
 		}
 		pokerCoreConfig.setCronEnabled(true);
+		pokerCoreConfig.setJsonApiEnabled(true);
 	}
 
 	private void allowPokerSystemUserAnalytics(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException, ValidationException, AnalyticsServiceException, LoginRequiredException, PokerServiceException {
