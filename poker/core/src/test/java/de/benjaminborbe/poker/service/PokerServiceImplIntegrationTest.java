@@ -14,7 +14,7 @@ import de.benjaminborbe.poker.api.PokerPlayer;
 import de.benjaminborbe.poker.api.PokerPlayerDto;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
-import de.benjaminborbe.poker.config.PokerConfig;
+import de.benjaminborbe.poker.config.PokerCoreConfig;
 import de.benjaminborbe.poker.game.PokerGameBean;
 import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.guice.PokerModulesMock;
@@ -768,7 +768,7 @@ public class PokerServiceImplIntegrationTest {
 		final SessionIdentifier sessionIdentifier = authenticationService.createSessionIdentifier(request);
 
 		final ConfigurationServiceMock configurationServiceMock = injector.getInstance(ConfigurationServiceMock.class);
-		final PokerConfig config = injector.getInstance(PokerConfig.class);
+		final PokerCoreConfig config = injector.getInstance(PokerCoreConfig.class);
 		final PokerService service = injector.getInstance(PokerService.class);
 
 		final PokerGameIdentifier gameIdentifier = service.createGame(createGame("testGame", 100, 10000));

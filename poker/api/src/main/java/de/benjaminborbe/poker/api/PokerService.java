@@ -109,4 +109,7 @@ public interface PokerService {
 
 	void resetEvent(SessionIdentifier sessionIdentifier) throws PokerServiceException, LoginRequiredException, PermissionDeniedException;
 
+	boolean isJsonApiEnabled();
+
+	String getJsonApiDashboardToken();
 }

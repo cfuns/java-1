@@ -89,7 +89,7 @@ public class PokerGuiServlet extends WebsiteHtmlServlet {
 			final UlWidget ul = new UlWidget();
 			ul.add(pokerGuiLinkFactory.gameList(request));
 			ul.add(pokerGuiLinkFactory.playerList(request));
-			if (pokerGuiConfig.isJsonApiEnabled()) {
+			if (pokerService.isJsonApiEnabled()) {
 				ul.add(pokerGuiLinkFactory.apiHelp(request));
 			}
 			if (pokerService.hasPokerAdminPermission(sessionIdentifier)) {

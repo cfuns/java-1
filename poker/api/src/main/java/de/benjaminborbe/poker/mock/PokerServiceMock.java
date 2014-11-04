@@ -232,6 +232,16 @@ public class PokerServiceMock implements PokerService {
 	}
 
 	@Override
+	public boolean isJsonApiEnabled() {
+		return false;
+	}
+
+	@Override
+	public String getJsonApiDashboardToken() {
+		return null;
+	}
+
+	@Override
 	public void updatePlayer(final PokerPlayerDto playerDto) throws PokerServiceException, ValidationException {
 	}
 

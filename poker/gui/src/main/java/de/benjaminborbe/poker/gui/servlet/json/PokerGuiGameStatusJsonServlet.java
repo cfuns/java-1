@@ -58,7 +58,7 @@ public class PokerGuiGameStatusJsonServlet extends PokerGuiJsonServlet {
 		final PokerGuiConfig pokerGuiConfig,
 		final PokerGuiJsonHelper pokerGuiJsonHelper
 	) {
-		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerGuiConfig);
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerGuiConfig, pokerService);
 		this.logger = logger;
 		this.pokerService = pokerService;
 		this.pokerGuiConfig = pokerGuiConfig;
@@ -103,7 +103,7 @@ public class PokerGuiGameStatusJsonServlet extends PokerGuiJsonServlet {
 
 	@Override
 	protected void doCheckPermission(final HttpServletRequest request) throws ServletException, IOException, PermissionDeniedException, LoginRequiredException {
-		if (!pokerGuiConfig.getJsonApiDashboardToken().equals(request.getParameter(PokerGuiConstants.PARAMETER_TOKEN))) {
+		if (!pokerService.getJsonApiDashboardToken().equals(request.getParameter(PokerGuiConstants.PARAMETER_TOKEN))) {
 			logger.warn("invalid token");
 			throw new PermissionDeniedException("invalid token");
 		} else {

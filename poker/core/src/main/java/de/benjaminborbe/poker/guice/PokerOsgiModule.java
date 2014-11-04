@@ -5,6 +5,7 @@ import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.cron.api.CronController;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.storage.api.StorageService;
 import org.apache.felix.http.api.ExtHttpService;
@@ -16,6 +17,7 @@ public class PokerOsgiModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(CronController.class).toProvider(service(CronController.class).single());
 		bind(EventbusService.class).toProvider(service(EventbusService.class).single());
 		bind(AnalyticsService.class).toProvider(service(AnalyticsService.class).single());
 		bind(ConfigurationService.class).toProvider(service(ConfigurationService.class).single());

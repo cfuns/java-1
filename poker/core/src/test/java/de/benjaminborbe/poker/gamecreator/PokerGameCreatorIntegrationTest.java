@@ -5,7 +5,7 @@ import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.poker.api.PokerGameDto;
 import de.benjaminborbe.poker.api.PokerGameIdentifier;
-import de.benjaminborbe.poker.config.PokerConfig;
+import de.benjaminborbe.poker.config.PokerCoreConfig;
 import de.benjaminborbe.poker.game.PokerGameBean;
 import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.game.PokerGameIdentifierGenerator;
@@ -29,13 +29,13 @@ public class PokerGameCreatorIntegrationTest {
 		final PokerGameDao pokerGameDao = easyMockHelper.createNiceMock(PokerGameDao.class);
 		final PokerGameBean pokerGameBean = new PokerGameBean();
 		EasyMock.expect(pokerGameDao.create()).andReturn(pokerGameBean);
-		final PokerConfig pokerConfig = easyMockHelper.createNiceMock(PokerConfig.class);
+		final PokerCoreConfig pokerCoreConfig = easyMockHelper.createNiceMock(PokerCoreConfig.class);
 		final ValidationExecutor validationExecutor = easyMockHelper.createMock(ValidationExecutor.class);
 		EasyMock.expect(validationExecutor.validate(pokerGameBean)).andReturn(new ValidationResultImpl());
 
 		easyMockHelper.replay();
 
-		final PokerGameCreator pokerGameCreator = new PokerGameCreator(logger, pokerGameDao, pokerGameIdentifierGenerator, pokerConfig, validationExecutor);
+		final PokerGameCreator pokerGameCreator = new PokerGameCreator(logger, pokerGameDao, pokerGameIdentifierGenerator, pokerCoreConfig, validationExecutor);
 		final PokerGameDto pokerGameDto = new PokerGameDto();
 		assertThat(pokerGameCreator.createGame(pokerGameDto), is(pokerGameIdentifier));
 
@@ -51,13 +51,13 @@ public class PokerGameCreatorIntegrationTest {
 		final PokerGameDao pokerGameDao = easyMockHelper.createNiceMock(PokerGameDao.class);
 		final PokerGameBean pokerGameBean = new PokerGameBean();
 		EasyMock.expect(pokerGameDao.create()).andReturn(pokerGameBean);
-		final PokerConfig pokerConfig = easyMockHelper.createNiceMock(PokerConfig.class);
+		final PokerCoreConfig pokerCoreConfig = easyMockHelper.createNiceMock(PokerCoreConfig.class);
 		final ValidationExecutor validationExecutor = easyMockHelper.createMock(ValidationExecutor.class);
 		EasyMock.expect(validationExecutor.validate(pokerGameBean)).andReturn(new ValidationResultImpl());
 
 		easyMockHelper.replay();
 
-		final PokerGameCreator pokerGameCreator = new PokerGameCreator(logger, pokerGameDao, pokerGameIdentifierGenerator, pokerConfig, validationExecutor);
+		final PokerGameCreator pokerGameCreator = new PokerGameCreator(logger, pokerGameDao, pokerGameIdentifierGenerator, pokerCoreConfig, validationExecutor);
 
 		assertThat(pokerGameCreator.createDefaultGame(), is(pokerGameIdentifier));
 

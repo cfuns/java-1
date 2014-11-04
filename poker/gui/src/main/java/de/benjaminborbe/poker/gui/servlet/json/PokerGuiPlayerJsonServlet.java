@@ -42,7 +42,7 @@ public abstract class PokerGuiPlayerJsonServlet extends PokerGuiJsonServlet {
 		final PokerService pokerService,
 		final PokerGuiConfig pokerGuiConfig
 	) {
-		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerGuiConfig);
+		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider, pokerGuiConfig, pokerService);
 		this.pokerService = pokerService;
 	}
 

@@ -9,6 +9,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.mock.AuthorizationServiceMock;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.mock.ConfigurationServiceMock;
+import de.benjaminborbe.cron.api.CronController;
+import de.benjaminborbe.cron.mock.CronControllerMock;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.mock.EventbusServiceMock;
 import de.benjaminborbe.storage.api.StorageService;
@@ -24,6 +26,7 @@ public class PokerOsgiModuleMock extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(CronController.class).to(CronControllerMock.class).in(Singleton.class);
 		bind(EventbusService.class).to(EventbusServiceMock.class).in(Singleton.class);
 		bind(AnalyticsService.class).to(AnalyticsServiceMock.class).in(Singleton.class);
 		bind(ConfigurationService.class).to(ConfigurationServiceMock.class).in(Singleton.class);

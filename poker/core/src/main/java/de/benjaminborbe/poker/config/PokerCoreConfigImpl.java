@@ -1,7 +1,9 @@
 package de.benjaminborbe.poker.config;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.configuration.tools.ConfigurationBase;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionBoolean;
 import de.benjaminborbe.configuration.tools.ConfigurationDescriptionDouble;
@@ -15,7 +17,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
+public class PokerCoreConfigImpl extends ConfigurationBase implements PokerCoreConfig {
+
+	private final ConfigurationDescriptionBoolean jsonApiEnabled = new ConfigurationDescriptionBoolean(false, "PokerJsonApiEnabled", "Poker Json Api Enabled");
+
+	private final ConfigurationDescriptionString dashboardToken = new ConfigurationDescriptionString("P2huWY8zZWDd", "PokerJsonApiDashboardToken", "Poker Json Api Dashboard Token");
 
 	private final ConfigurationDescriptionBoolean cronEnabled = new ConfigurationDescriptionBoolean(false, "PokerCronEnabled", "Poker Cron Enabled");
 
@@ -33,13 +39,16 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 	private final ConfigurationDescriptionString pokerScheduleExpression = new ConfigurationDescriptionString("* * * * * ?", "PokerScheduleExpression",
 		"Poker Schedule Expression");
 
+	private final ConfigurationService configurationService;
+
 	@Inject
-	public PokerConfigImpl(
+	public PokerCoreConfigImpl(
 		final Logger logger,
 		final ParseUtil parseUtil,
 		final ConfigurationService configurationService
 	) {
 		super(logger, parseUtil, configurationService);
+		this.configurationService = configurationService;
 	}
 
 	@Override
@@ -52,12 +61,29 @@ public class PokerConfigImpl extends ConfigurationBase implements PokerConfig {
 		result.add(minRaiseFactor);
 		result.add(maxRaiseFactor);
 		result.add(pokerScheduleExpression);
+		result.add(jsonApiEnabled);
+		result.add(dashboardToken);
 		return result;
+	}
+
+	@Override
+	public boolean isJsonApiEnabled() {
+		return Boolean.TRUE.equals(getValueBoolean(jsonApiEnabled));
+	}
+
+	@Override
+	public String getJsonApiDashboardToken() {
+		return getValueString(dashboardToken);
 	}
 
 	@Override
 	public boolean isCronEnabled() {
 		return Boolean.TRUE.equals(getValueBoolean(cronEnabled));
+	}
+
+	@Override
+	public void setCronEnabled(final boolean active) throws ConfigurationServiceException, ValidationException {
+		configurationService.setConfigurationValue(cronEnabled, "true");
 	}
 
 	@Override

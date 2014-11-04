@@ -2,8 +2,8 @@ package de.benjaminborbe.poker.guice;
 
 import com.google.inject.AbstractModule;
 import de.benjaminborbe.poker.api.PokerService;
-import de.benjaminborbe.poker.config.PokerConfig;
-import de.benjaminborbe.poker.config.PokerConfigImpl;
+import de.benjaminborbe.poker.config.PokerCoreConfig;
+import de.benjaminborbe.poker.config.PokerCoreConfigImpl;
 import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.game.PokerGameDaoStorage;
 import de.benjaminborbe.poker.player.PokerPlayerDao;
@@ -19,7 +19,7 @@ public class PokerModule extends AbstractModule {
 	@Override
 	protected void configure() {
 
-		bind(PokerConfig.class).to(PokerConfigImpl.class).in(Singleton.class);
+		bind(PokerCoreConfig.class).to(PokerCoreConfigImpl.class).in(Singleton.class);
 		bind(PokerPlayerDao.class).to(PokerPlayerDaoStorage.class).in(Singleton.class);
 		bind(PokerGameDao.class).to(PokerGameDaoStorage.class).in(Singleton.class);
 		bind(PokerService.class).to(PokerServiceImpl.class).in(Singleton.class);

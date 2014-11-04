@@ -1,14 +1,22 @@
 package de.benjaminborbe.poker.config;
 
+import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
+import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 
 import java.util.Collection;
 
-public interface PokerConfig {
+public interface PokerCoreConfig {
+
+	boolean isJsonApiEnabled();
+
+	String getJsonApiDashboardToken();
 
 	Collection<ConfigurationDescription> getConfigurations();
 
 	boolean isCronEnabled();
+
+	void setCronEnabled(boolean active) throws ConfigurationServiceException, ValidationException;
 
 	long getAutoFoldTimeout();
 

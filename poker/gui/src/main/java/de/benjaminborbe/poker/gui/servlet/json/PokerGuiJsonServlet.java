@@ -8,6 +8,7 @@ import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.html.api.HttpContext;
+import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.gui.config.PokerGuiConfig;
 import de.benjaminborbe.tools.date.CalendarUtil;
@@ -33,6 +34,8 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 
 	private final PokerGuiConfig pokerGuiConfig;
 
+	private final PokerService pokerService;
+
 	@Inject
 	public PokerGuiJsonServlet(
 		final Logger logger,
@@ -42,16 +45,17 @@ public abstract class PokerGuiJsonServlet extends WebsiteJsonServlet {
 		final CalendarUtil calendarUtil,
 		final TimeZoneUtil timeZoneUtil,
 		final Provider<HttpContext> httpContextProvider,
-		final PokerGuiConfig pokerGuiConfig
+		final PokerGuiConfig pokerGuiConfig, final PokerService pokerService
 	) {
 		super(logger, urlUtil, authenticationService, authorizationService, calendarUtil, timeZoneUtil, httpContextProvider);
 		this.logger = logger;
 		this.pokerGuiConfig = pokerGuiConfig;
+		this.pokerService = pokerService;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		final boolean jsonApiEnabled = pokerGuiConfig.isJsonApiEnabled();
+		final boolean jsonApiEnabled = pokerService.isJsonApiEnabled();
 		logger.debug("jsonApiEnabled: " + jsonApiEnabled);
 		return jsonApiEnabled;
 	}

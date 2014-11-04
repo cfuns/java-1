@@ -14,6 +14,8 @@ import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
+import de.benjaminborbe.configuration.api.ConfigurationServiceException;
+import de.benjaminborbe.cron.api.CronControllerException;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.lib.validation.ValidationResultImpl;
@@ -27,7 +29,7 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.card.PokerCardFactory;
-import de.benjaminborbe.poker.config.PokerConfig;
+import de.benjaminborbe.poker.config.PokerCoreConfig;
 import de.benjaminborbe.poker.event.AnalyticsReportUtil;
 import de.benjaminborbe.poker.event.PokerPlayerAmountChangedEvent;
 import de.benjaminborbe.poker.event.PokerPlayerCreatedEvent;
@@ -98,7 +100,7 @@ public class PokerServiceImpl implements PokerService {
 
 	private final AuthorizationService authorizationService;
 
-	private final PokerConfig pokerConfig;
+	private final PokerCoreConfig pokerCoreConfig;
 
 	private final AnalyticsService analyticsService;
 
@@ -113,7 +115,7 @@ public class PokerServiceImpl implements PokerService {
 		final AuthorizationService authorizationService,
 		final CalendarUtil calendarUtil,
 		final AnalyticsService analyticsService,
-		final PokerConfig pokerConfig,
+		final PokerCoreConfig pokerCoreConfig,
 		final PokerWinnerCalculator pokerWinnerCalculator,
 		final ListUtil listUtil,
 		final PokerCardFactory pokerCardFactory,
@@ -131,7 +133,7 @@ public class PokerServiceImpl implements PokerService {
 		this.authenticationService = authenticationService;
 		this.calendarUtil = calendarUtil;
 		this.analyticsService = analyticsService;
-		this.pokerConfig = pokerConfig;
+		this.pokerCoreConfig = pokerCoreConfig;
 		this.authorizationService = authorizationService;
 		this.pokerWinnerCalculator = pokerWinnerCalculator;
 		this.pokerCardFactory = pokerCardFactory;
@@ -366,7 +368,7 @@ public class PokerServiceImpl implements PokerService {
 	private void bid(final PokerGameBean game, final PokerPlayerBean player, final long value) throws ValidationException {
 		logger.debug("bid - amount: " + value);
 
-		final long maxBid = pokerConfig.getMaxBid();
+		final long maxBid = pokerCoreConfig.getMaxBid();
 		if (maxBid > 0 && value > maxBid) {
 			throw new ValidationException(new ValidationResultImpl(new ValidationErrorSimple("bid higher than " + maxBid + " not allowed")));
 		}
@@ -1028,10 +1030,24 @@ public class PokerServiceImpl implements PokerService {
 			throw new PokerServiceException(e);
 		} catch (AnalyticsServiceException e) {
 			throw new PokerServiceException(e);
+		} catch (CronControllerException e) {
+			throw new PokerServiceException(e);
+		} catch (ConfigurationServiceException e) {
+			throw new PokerServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
 		}
+	}
+
+	@Override
+	public boolean isJsonApiEnabled() {
+		return pokerCoreConfig.isJsonApiEnabled();
+	}
+
+	@Override
+	public String getJsonApiDashboardToken() {
+		return pokerCoreConfig.getJsonApiDashboardToken();
 	}
 
 	@Override

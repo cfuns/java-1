@@ -6,7 +6,7 @@ import de.benjaminborbe.cron.api.CronJob;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.eventbus.api.HandlerRegistration;
 import de.benjaminborbe.poker.api.PokerService;
-import de.benjaminborbe.poker.config.PokerConfig;
+import de.benjaminborbe.poker.config.PokerCoreConfig;
 import de.benjaminborbe.poker.event.PokerPlayerAmountChangedEvent;
 import de.benjaminborbe.poker.event.PokerPlayerAmountChangedEventHandlerImpl;
 import de.benjaminborbe.poker.event.PokerPlayerCreatedEvent;
@@ -37,7 +37,7 @@ public class PokerCoreActivator extends BaseBundleActivator {
 	private PokerCronJob pokerCronJob;
 
 	@Inject
-	private PokerConfig pokerConfig;
+	private PokerCoreConfig pokerCoreConfig;
 
 	@Inject
 	private PokerService pokerService;
@@ -70,7 +70,7 @@ public class PokerCoreActivator extends BaseBundleActivator {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
 		result.add(new ServiceInfo(PokerService.class, pokerService));
 		result.add(new ServiceInfo(CronJob.class, pokerCronJob, pokerCronJob.getClass().getName()));
-		for (final ConfigurationDescription configuration : pokerConfig.getConfigurations()) {
+		for (final ConfigurationDescription configuration : pokerCoreConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
 		}
 		return result;

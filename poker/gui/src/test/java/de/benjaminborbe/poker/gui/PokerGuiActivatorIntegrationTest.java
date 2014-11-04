@@ -1,7 +1,6 @@
 package de.benjaminborbe.poker.gui;
 
 import com.google.inject.Injector;
-import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.navigation.api.NavigationEntry;
 import de.benjaminborbe.poker.gui.guice.PokerGuiModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -137,8 +136,6 @@ public class PokerGuiActivatorIntegrationTest {
 		final Collection<ServiceInfo> serviceInfos = activator.getServiceInfos();
 		final List<String> names = new ArrayList<String>();
 		names.add(NavigationEntry.class.getName());
-		names.add(ConfigurationDescription.class.getName());
-		names.add(ConfigurationDescription.class.getName());
 		assertEquals(names.size(), serviceInfos.size());
 		for (final String name : names) {
 			boolean match = false;

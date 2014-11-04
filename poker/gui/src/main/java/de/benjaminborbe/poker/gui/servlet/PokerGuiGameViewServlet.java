@@ -111,7 +111,10 @@ public class PokerGuiGameViewServlet extends WebsiteHtmlServlet {
 
 			final PokerGameIdentifier gameIdentifier = pokerService.createGameIdentifier(request.getParameter(PokerGuiConstants.PARAMETER_GAME_ID));
 			final PokerGame game = pokerService.getGame(gameIdentifier);
-
+			if (game == null) {
+				widgets.add("game not found");
+				return widgets;
+			}
 			widgets.add("StartCredits: " + game.getStartCredits());
 			widgets.add(new BrWidget());
 

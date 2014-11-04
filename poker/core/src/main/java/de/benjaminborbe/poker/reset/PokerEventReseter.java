@@ -10,8 +10,13 @@ import de.benjaminborbe.authorization.api.AuthorizationServiceException;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.authorization.api.RoleIdentifier;
+import de.benjaminborbe.configuration.api.ConfigurationService;
+import de.benjaminborbe.configuration.api.ConfigurationServiceException;
+import de.benjaminborbe.cron.api.CronController;
+import de.benjaminborbe.cron.api.CronControllerException;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
+import de.benjaminborbe.poker.config.PokerCoreConfig;
 import de.benjaminborbe.poker.game.PokerGameBean;
 import de.benjaminborbe.poker.game.PokerGameDao;
 import de.benjaminborbe.poker.gamecreator.PokerGameCreator;
@@ -40,6 +45,10 @@ public class PokerEventReseter {
 
 	private final AnalyticsService analyticsService;
 
+	private final CronController cronController;
+
+	private final PokerCoreConfig pokerCoreConfig;
+
 	@Inject
 	public PokerEventReseter(
 		final Logger logger,
@@ -47,7 +56,11 @@ public class PokerEventReseter {
 		final PokerGameDao pokerGameDao,
 		final PokerPlayerDao pokerPlayerDao,
 		final PokerGameCreator pokerGameCreator,
-		final AuthorizationService authorizationService, final AnalyticsService analyticsService
+		final AuthorizationService authorizationService,
+		final AnalyticsService analyticsService,
+		final CronController cronController,
+		final ConfigurationService configurationService,
+		final PokerCoreConfig pokerCoreConfig
 	) {
 		this.logger = logger;
 		this.pokerService = pokerService;
@@ -56,16 +69,27 @@ public class PokerEventReseter {
 		this.pokerGameCreator = pokerGameCreator;
 		this.authorizationService = authorizationService;
 		this.analyticsService = analyticsService;
+		this.cronController = cronController;
+		this.pokerCoreConfig = pokerCoreConfig;
 	}
 
-	public void reset(final SessionIdentifier sessionIdentifier) throws StorageException, EntityIteratorException, ValidationException, LoginRequiredException, PermissionDeniedException, AuthorizationServiceException, PokerServiceException, AnalyticsServiceException {
+	public void reset(final SessionIdentifier sessionIdentifier) throws StorageException, EntityIteratorException, ValidationException, LoginRequiredException, PermissionDeniedException, AuthorizationServiceException, PokerServiceException, AnalyticsServiceException, CronControllerException, ConfigurationServiceException {
 		logger.debug("reset poker event - started");
 		deleteAllGames();
 		deleteAllPlayer();
 		createNewGame();
 		allowAllLoggedInUserPlayPoker(sessionIdentifier);
 		allowPokerSystemUserAnalytics(sessionIdentifier);
+		activateAndStartCron(sessionIdentifier);
 		logger.debug("reset poker event - finished");
+	}
+
+	private void activateAndStartCron(final SessionIdentifier sessionIdentifier) throws CronControllerException, ConfigurationServiceException, ValidationException {
+		logger.debug("activateAndStartCron");
+		if (!cronController.isRunning()) {
+			cronController.start();
+		}
+		pokerCoreConfig.setCronEnabled(true);
 	}
 
 	private void allowPokerSystemUserAnalytics(final SessionIdentifier sessionIdentifier) throws AuthorizationServiceException, PermissionDeniedException, ValidationException, AnalyticsServiceException, LoginRequiredException, PokerServiceException {

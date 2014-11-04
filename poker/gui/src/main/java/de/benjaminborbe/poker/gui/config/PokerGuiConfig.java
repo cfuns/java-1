@@ -8,7 +8,4 @@ public interface PokerGuiConfig {
 
 	Collection<ConfigurationDescription> getConfigurations();
 
-	boolean isJsonApiEnabled();
-
-	String getJsonApiDashboardToken();
 }
