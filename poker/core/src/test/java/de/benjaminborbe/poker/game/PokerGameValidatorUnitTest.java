@@ -64,6 +64,8 @@ public class PokerGameValidatorUnitTest {
 		pokerGameBean.setId(new PokerGameIdentifier("123"));
 		pokerGameBean.setName("gameA");
 		pokerGameBean.setStartCredits(100000l);
+		pokerGameBean.setSmallBlind(100l);
+		pokerGameBean.setBigBlind(200l);
 		return pokerGameBean;
 	}
 }

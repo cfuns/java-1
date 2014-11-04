@@ -86,6 +86,38 @@ public class PokerGameValidator extends ValidatorBase<PokerGameBean> {
 			});
 		}
 
+		// bigBlind
+		{
+			final String field = "bigBlind";
+			result.put(field, new ValidatorRule<PokerGameBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final PokerGameBean bean) {
+					final Long value = bean.getBigBlind();
+					final List<ValidationConstraint<Long>> constraints = new ArrayList<ValidationConstraint<Long>>();
+					constraints.add(new ValidationConstraintNotNull<Long>());
+					constraints.add(new ValidationConstraintLongGT(0));
+					return validationConstraintValidator.validate(field, value, constraints);
+				}
+			});
+		}
+
+		// smallBlind
+		{
+			final String field = "smallBlind";
+			result.put(field, new ValidatorRule<PokerGameBean>() {
+
+				@Override
+				public Collection<ValidationError> validate(final PokerGameBean bean) {
+					final Long value = bean.getSmallBlind();
+					final List<ValidationConstraint<Long>> constraints = new ArrayList<ValidationConstraint<Long>>();
+					constraints.add(new ValidationConstraintNotNull<Long>());
+					constraints.add(new ValidationConstraintLongGT(0));
+					return validationConstraintValidator.validate(field, value, constraints);
+				}
+			});
+		}
+
 		return result;
 	}
 }

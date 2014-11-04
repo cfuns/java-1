@@ -20,6 +20,8 @@ public class PokerGameCreator {
 
 	private static final String DEFAULT_POKER_GAME_NAME = "Game 1";
 
+	private static final Long DEFAULT_BIG_BLIND = 100L;
+
 	private final Logger logger;
 
 	private final PokerGameDao pokerGameDao;
@@ -93,6 +95,7 @@ public class PokerGameCreator {
 		final PokerGameDto pokerGameDto = new PokerGameDto();
 		pokerGameDto.setName(DEFAULT_POKER_GAME_NAME);
 		pokerGameDto.setStartCredits(DEFAULT_START_CREDITS);
+		pokerGameDto.setBigBlind(DEFAULT_BIG_BLIND);
 		return createGame(pokerGameDto);
 	}
 }
