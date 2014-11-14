@@ -57,6 +57,7 @@ public class BundleActivatorTestUtil {
 		EasyMock.expect(context.getServiceReferences("de.benjaminborbe.microblog.api.MicroblogPostListener", null)).andReturn(emptyServiceReferences).anyTimes();
 		EasyMock.expect(context.getServiceReferences("de.benjaminborbe.monitoring.api.MonitoringCheck", null)).andReturn(emptyServiceReferences).anyTimes();
 		EasyMock.expect(context.getServiceReferences("de.benjaminborbe.selenium.api.SeleniumConfiguration", null)).andReturn(emptyServiceReferences).anyTimes();
+		EasyMock.expect(context.getServiceReferences("de.benjaminborbe.eventbus.api.EventHandler", null)).andReturn(emptyServiceReferences).anyTimes();
 		EasyMock.expect(context.getService(extServiceReference)).andReturn(extBundle);
 
 		EasyMock.expect(context.registerService(EasyMock.anyObject(String.class), EasyMock.anyObject(Object.class), EasyMock.anyObject(Dictionary.class)))

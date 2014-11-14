@@ -7,6 +7,7 @@ import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
+import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -14,6 +15,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class EventbusCoreActivator extends BaseBundleActivator {
+
+	@Inject
+	private Logger logger;
 
 	@Inject
 	private EventbusService EventbusService;
@@ -33,6 +37,7 @@ public class EventbusCoreActivator extends BaseBundleActivator {
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
+		serviceTrackers.add(new EventbusServiceTracker(logger, context));
 		return serviceTrackers;
 	}
 
