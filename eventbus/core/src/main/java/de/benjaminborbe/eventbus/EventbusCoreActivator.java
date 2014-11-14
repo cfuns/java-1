@@ -20,7 +20,7 @@ public class EventbusCoreActivator extends BaseBundleActivator {
 	private Logger logger;
 
 	@Inject
-	private EventbusService EventbusService;
+	private EventbusService eventbusService;
 
 	@Override
 	protected Modules getModules(final BundleContext context) {
@@ -30,14 +30,14 @@ public class EventbusCoreActivator extends BaseBundleActivator {
 	@Override
 	public Collection<ServiceInfo> getServiceInfos() {
 		final Set<ServiceInfo> result = new HashSet<ServiceInfo>(super.getServiceInfos());
-		result.add(new ServiceInfo(EventbusService.class, EventbusService));
+		result.add(new ServiceInfo(EventbusService.class, eventbusService));
 		return result;
 	}
 
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		serviceTrackers.add(new EventbusServiceTracker(logger, context));
+		serviceTrackers.add(new EventbusServiceTracker(logger, context, eventbusService));
 		return serviceTrackers;
 	}
 

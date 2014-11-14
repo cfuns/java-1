@@ -2,14 +2,15 @@ package de.benjaminborbe.eventbus.service;
 
 import de.benjaminborbe.eventbus.api.Event;
 import de.benjaminborbe.eventbus.api.EventHandler;
+import de.benjaminborbe.eventbus.api.EventbusInitializedEvent;
+import de.benjaminborbe.eventbus.api.EventbusInitializedEventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
-import de.benjaminborbe.eventbus.api.HandlerRegistration;
 import de.benjaminborbe.lib.test.mock.EasyMockHelper;
 import org.junit.Test;
 import org.slf4j.Logger;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThat;
 
 public class EventbusServiceUnitTest {
 
@@ -21,14 +22,39 @@ public class EventbusServiceUnitTest {
 		easyMockHelper.replay();
 
 		final EventbusService eventbusService = new EventbusServiceImpl(logger);
-		final Event.Type<EventHandler> type = new Event.Type<EventHandler>();
-		assertThat(eventbusService.getHandlerCount(type), is(0));
-		final HandlerRegistration handlerRegistration = eventbusService.addHandler(type, new EventHandler() {
+		final MyEventbusInitializedEventHandler eventbusInitializedEventHandler = new MyEventbusInitializedEventHandler();
 
-		});
-		assertThat(eventbusService.getHandlerCount(type), is(1));
-		handlerRegistration.removeHandler();
-		assertThat(eventbusService.getHandlerCount(type), is(0));
+		eventbusService.fireEvent(new EventbusInitializedEvent());
+		assertThat(eventbusInitializedEventHandler.counter, is(0));
+
+		eventbusService.addHandler(EventbusInitializedEvent.TYPE, eventbusInitializedEventHandler);
+		assertThat(eventbusInitializedEventHandler.counter, is(0));
+
+		eventbusService.fireEvent(new EventbusInitializedEvent());
+		assertThat(eventbusInitializedEventHandler.counter, is(1));
+
+		eventbusService.fireEvent(new EventbusInitializedEvent());
+		assertThat(eventbusInitializedEventHandler.counter, is(2));
+
+		eventbusService.removeHandler(EventbusInitializedEvent.TYPE, eventbusInitializedEventHandler);
+		eventbusService.fireEvent(new EventbusInitializedEvent());
+		assertThat(eventbusInitializedEventHandler.counter, is(2));
+
 		easyMockHelper.verify();
+	}
+
+	private static class MyEventbusInitializedEventHandler implements EventbusInitializedEventHandler {
+
+		private int counter;
+
+		@Override
+		public void onInitialize(final EventbusInitializedEvent event) {
+			counter++;
+		}
+
+		@Override
+		public Event.Type<? extends EventHandler> getType() {
+			return EventbusInitializedEvent.TYPE;
+		}
 	}
 }

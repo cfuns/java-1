@@ -4,6 +4,7 @@ import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.eventbus.api.Event;
+import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import org.ops4j.peaberry.ServiceUnavailableException;
 import org.slf4j.Logger;
@@ -44,7 +45,7 @@ public class PokerPlayerScoreChangedEventHandlerImpl implements PokerPlayerScore
 	}
 
 	@Override
-	public Event.Type<PokerPlayerScoreChangedEventHandler> getType() {
+	public Event.Type<? extends EventHandler> getType() {
 		return PokerPlayerScoreChangedEvent.TYPE;
 	}
 }

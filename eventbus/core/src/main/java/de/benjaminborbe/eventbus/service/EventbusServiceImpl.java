@@ -4,7 +4,6 @@ import de.benjaminborbe.eventbus.api.Event;
 import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
-import de.benjaminborbe.eventbus.api.HandlerRegistration;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
@@ -28,8 +27,8 @@ public class EventbusServiceImpl implements EventbusService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <H extends EventHandler> HandlerRegistration addHandler(final Type<H> type, final H handler) {
-		logger.trace("CoreEventbus - register handler: " + handler.toString() + " for type: " + type.toString());
+	public <H extends EventHandler> void addHandler(final Type<H> type, final H handler) {
+		logger.trace("CoreEventbus - add handler: " + handler.toString() + " for type: " + type.toString());
 
 		final List<EventHandler> eventHandlers;
 		if (handlers.containsKey(type)) {
@@ -40,23 +39,29 @@ public class EventbusServiceImpl implements EventbusService {
 		}
 
 		eventHandlers.add(handler);
-		return new HandlerRegistration() {
+	}
 
-			@Override
-			public void removeHandler() {
-				eventHandlers.remove(handler);
-			}
-		};
+	@Override
+	public <H extends EventHandler> void removeHandler(final Type<H> type, final H handler) {
+		logger.trace("CoreEventbus - remove handler: " + handler.toString() + " for type: " + type.toString());
+
+		final List<EventHandler> eventHandlers;
+		if (handlers.containsKey(type)) {
+			eventHandlers = handlers.get(type);
+		} else {
+			eventHandlers = new ArrayList<EventHandler>();
+			handlers.put((Type<EventHandler>) type, eventHandlers);
+		}
+
+		eventHandlers.remove(handler);
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public <H extends EventHandler> H getHandler(final Type<H> type, final int index) {
 		final List<EventHandler> eventHandlers = handlers.get(type);
 		return (H) eventHandlers.get(index);
 	}
 
-	@Override
 	public int getHandlerCount(final Type<?> type) {
 		final List<EventHandler> eventHandlers = handlers.get(type);
 		if (eventHandlers != null) {
@@ -65,7 +70,6 @@ public class EventbusServiceImpl implements EventbusService {
 		return 0;
 	}
 
-	@Override
 	public boolean isEventHandled(final Type<?> type) {
 		return getHandlerCount(type) > 0;
 	}
@@ -86,7 +90,6 @@ public class EventbusServiceImpl implements EventbusService {
 		}
 	}
 
-	@Override
 	public Map<Type<EventHandler>, List<EventHandler>> getHandlers() {
 		return handlers;
 	}
