@@ -3,6 +3,8 @@ package de.benjaminborbe.poker.event;
 import de.benjaminborbe.analytics.api.AnalyticsReportIdentifier;
 import de.benjaminborbe.analytics.api.AnalyticsService;
 import de.benjaminborbe.analytics.api.AnalyticsServiceException;
+import de.benjaminborbe.eventbus.api.Event;
+import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import org.ops4j.peaberry.ServiceUnavailableException;
 import org.slf4j.Logger;
@@ -40,5 +42,10 @@ public class PokerPlayerAmountChangedEventHandlerImpl implements PokerPlayerAmou
 				logger.trace("trackPlayerAmount failed", e);
 			}
 		}
+	}
+
+	@Override
+	public Event.Type<? extends EventHandler> getType() {
+		return PokerPlayerAmountChangedEvent.TYPE;
 	}
 }

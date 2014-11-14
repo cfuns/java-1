@@ -11,7 +11,6 @@ import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
-import org.apache.cassandra.thrift.TimedOutException;
 import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
@@ -89,8 +88,6 @@ public class StorageColumnIteratorImpl implements StorageColumnIterator {
 		} catch (TException e) {
 			throw new StorageException(e);
 		} catch (StorageConnectionPoolException e) {
-			throw new StorageException(e);
-		} catch (TimedOutException e) {
 			throw new StorageException(e);
 		} finally {
 			if (connection != null)

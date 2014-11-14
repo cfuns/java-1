@@ -1,5 +1,7 @@
 package de.benjaminborbe.eventbus.test;
 
+import de.benjaminborbe.eventbus.api.Event;
+import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.EventbusInitializedEvent;
 import de.benjaminborbe.eventbus.api.EventbusInitializedEventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
@@ -73,6 +75,11 @@ public class EventbusIntegrationTest extends TestCaseOsgi {
 			@Override
 			public void onInitialize(final EventbusInitializedEvent event) {
 				events.add(event);
+			}
+
+			@Override
+			public Event.Type<? extends EventHandler> getType() {
+				return EventbusInitializedEvent.TYPE;
 			}
 		});
 		assertEquals(1, eventbusService.getHandlerCount(EventbusInitializedEvent.TYPE));

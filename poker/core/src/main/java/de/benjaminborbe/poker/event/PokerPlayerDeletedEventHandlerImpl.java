@@ -5,6 +5,8 @@ import de.benjaminborbe.analytics.api.AnalyticsServiceException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.eventbus.api.Event;
+import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.api.PokerServiceException;
@@ -35,5 +37,10 @@ public class PokerPlayerDeletedEventHandlerImpl implements PokerPlayerDeletedEve
 		final SessionIdentifier pokerServerSessionIdentifier = pokerService.getPokerServerSessionIdentifier();
 		analyticsService.deleteReport(pokerServerSessionIdentifier, analyticsReportUtil.createPlayerScoreReportIdentifier(playerIdentifier));
 		analyticsService.deleteReport(pokerServerSessionIdentifier, analyticsReportUtil.createPlayerAmountReportIdentifier(playerIdentifier));
+	}
+
+	@Override
+	public Event.Type<? extends EventHandler> getType() {
+		return PokerPlayerDeletedEvent.TYPE;
 	}
 }

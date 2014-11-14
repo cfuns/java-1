@@ -13,8 +13,6 @@ import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.KeySlice;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
-import org.apache.cassandra.thrift.TimedOutException;
-import org.apache.cassandra.thrift.UnavailableException;
 import org.apache.thrift.TException;
 
 import java.io.UnsupportedEncodingException;
@@ -97,10 +95,6 @@ public class StorageKeyIteratorWhere implements StorageIterator {
 		} catch (StorageConnectionPoolException e) {
 			throw new StorageException(e);
 		} catch (TException e) {
-			throw new StorageException(e);
-		} catch (UnavailableException e) {
-			throw new StorageException(e);
-		} catch (TimedOutException e) {
 			throw new StorageException(e);
 		} finally {
 			storageConnectionPool.releaseConnection(connection);

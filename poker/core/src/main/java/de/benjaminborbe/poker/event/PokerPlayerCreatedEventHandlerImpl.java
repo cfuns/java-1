@@ -7,6 +7,8 @@ import de.benjaminborbe.api.ValidationException;
 import de.benjaminborbe.authentication.api.LoginRequiredException;
 import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authorization.api.PermissionDeniedException;
+import de.benjaminborbe.eventbus.api.Event;
+import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 import de.benjaminborbe.poker.api.PokerService;
@@ -78,4 +80,8 @@ public class PokerPlayerCreatedEventHandlerImpl implements PokerPlayerCreatedEve
 		analyticsService.createReport(sessionIdentifier, report);
 	}
 
+	@Override
+	public Event.Type<? extends EventHandler> getType() {
+		return PokerPlayerCreatedEvent.TYPE;
+	}
 }
