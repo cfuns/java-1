@@ -41,7 +41,7 @@
 						<supportedProjectType>bundle</supportedProjectType>
 					</supportedProjectTypes>
 					<instructions>
-						<Bundle-Activator>de.benjaminborbe.eventbus.EventbusActivator</Bundle-Activator>
+						<Bundle-Activator>de.benjaminborbe.eventbus.EventbusCoreActivator</Bundle-Activator>
 						<Private-Package>de.benjaminborbe.eventbus.*</Private-Package>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Vendor>Benjamin Borbe</Bundle-Vendor>

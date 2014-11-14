@@ -6,13 +6,14 @@ import de.benjaminborbe.tools.guice.Modules;
 import de.benjaminborbe.tools.osgi.BaseBundleActivator;
 import de.benjaminborbe.tools.osgi.ServiceInfo;
 import org.osgi.framework.BundleContext;
+import org.osgi.util.tracker.ServiceTracker;
 
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EventbusActivator extends BaseBundleActivator {
+public class EventbusCoreActivator extends BaseBundleActivator {
 
 	@Inject
 	private EventbusService EventbusService;
@@ -28,4 +29,11 @@ public class EventbusActivator extends BaseBundleActivator {
 		result.add(new ServiceInfo(EventbusService.class, EventbusService));
 		return result;
 	}
+
+	@Override
+	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
+		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
+		return serviceTrackers;
+	}
+
 }

@@ -23,14 +23,14 @@ public class EventbusActivatorIntegrationTest {
 	@Test
 	public void testInject() {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
-		final EventbusActivator activator = injector.getInstance(EventbusActivator.class);
+		final EventbusCoreActivator activator = injector.getInstance(EventbusCoreActivator.class);
 		assertNotNull(activator);
 	}
 
 	@Test
 	public void testResources() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
-		final EventbusActivator activator = new EventbusActivator() {
+		final EventbusCoreActivator activator = new EventbusCoreActivator() {
 
 			@Override
 			public Injector getInjector() {
@@ -50,7 +50,7 @@ public class EventbusActivatorIntegrationTest {
 	@Test
 	public void testServices() throws Exception {
 		final Injector injector = GuiceInjectorBuilder.getInjector(new EventbusModulesMock());
-		final EventbusActivator activator = new EventbusActivator() {
+		final EventbusCoreActivator activator = new EventbusCoreActivator() {
 
 			@Override
 			public Injector getInjector() {
