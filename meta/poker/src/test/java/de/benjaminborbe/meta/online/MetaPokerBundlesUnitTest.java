@@ -12,7 +12,6 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class MetaPokerBundlesUnitTest {
 
@@ -23,7 +22,6 @@ public class MetaPokerBundlesUnitTest {
 		final BundleResolver bundleResolver = new BundleResolverImpl(logger);
 		final List<String> names = bundleResolver.getBundleSymbolicNames();
 		assertNotNull(names);
-		assertTrue(names.size() > 0);
 		final Set<String> namesUnique = new HashSet<String>(names);
 		assertEquals("dupplicate bundle!", names.size(), namesUnique.size());
 	}

@@ -47,9 +47,13 @@
 			de.benjaminborbe.poker.gui,
 			de.benjaminborbe.poker.api,
 			de.benjaminborbe.poker.core,
+			de.benjaminborbe.poker.table,
 			de.benjaminborbe.storage.api,
 			de.benjaminborbe.storage.core,
 			de.benjaminborbe.storage.gui,
+			de.benjaminborbe.eventbus.api,
+			de.benjaminborbe.eventbus.core,
+			de.benjaminborbe.eventbus.gui,
 			de.benjaminborbe.wiki.gui,
 			de.benjaminborbe.wiki.api,
 			de.benjaminborbe.wiki.core
@@ -265,6 +269,12 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.poker.table</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.storage.api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
@@ -296,6 +306,24 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>de.benjaminborbe.wiki.core</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.eventbus.gui</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.eventbus.api</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>de.benjaminborbe.eventbus.core</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
