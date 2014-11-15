@@ -21,9 +21,11 @@ public class Fifo<T> {
 	}
 
 	public T get(final int index) throws FifoIndexOutOfBoundsException {
-		if (index >= data.size() || index < 0)
-			throw new FifoIndexOutOfBoundsException("no such element");
-		return data.get(index);
+		synchronized (data) {
+			if (index >= data.size() || index < 0)
+				throw new FifoIndexOutOfBoundsException("no such element");
+			return data.get(index);
+		}
 	}
 
 	public int size() {
@@ -31,9 +33,11 @@ public class Fifo<T> {
 	}
 
 	public void remove() throws FifoIndexOutOfBoundsException {
-		if (data.size() == 0)
-			throw new FifoIndexOutOfBoundsException("can't remove element of empty fifo");
-		data.removeFirst();
+		synchronized (data) {
+			if (data.size() == 0)
+				throw new FifoIndexOutOfBoundsException("can't remove element of empty fifo");
+			data.removeFirst();
+		}
 	}
 
 	public List<T> first(final int amount) throws FifoIndexOutOfBoundsException {
@@ -43,13 +47,15 @@ public class Fifo<T> {
 	}
 
 	public List<T> last(final int amount) throws FifoIndexOutOfBoundsException {
-		if (amount > data.size() || amount < 0)
-			throw new FifoIndexOutOfBoundsException("no such element");
-		final List<T> list = new ArrayList<T>(amount);
-		for (final T element : data.subList(data.size() - amount, data.size())) {
-			list.add(element);
+		synchronized (data) {
+			if (amount > data.size() || amount < 0)
+				throw new FifoIndexOutOfBoundsException("no such element");
+			final List<T> list = new ArrayList<T>(amount);
+			for (final T element : data.subList(data.size() - amount, data.size())) {
+				list.add(element);
+			}
+			Collections.reverse(list);
+			return list;
 		}
-		Collections.reverse(list);
-		return list;
 	}
 }
