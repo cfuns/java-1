@@ -3,6 +3,7 @@ package de.benjaminborbe.poker;
 import com.google.inject.Injector;
 import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.cron.api.CronJob;
+import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.poker.api.PokerService;
 import de.benjaminborbe.poker.guice.PokerModulesMock;
 import de.benjaminborbe.tools.guice.GuiceInjectorBuilder;
@@ -67,6 +68,10 @@ public class PokerActivatorIntegrationTest {
 		final List<String> names = new ArrayList<String>();
 		names.add(PokerService.class.getName());
 		names.add(CronJob.class.getName());
+		names.add(EventHandler.class.getName());
+		names.add(EventHandler.class.getName());
+		names.add(EventHandler.class.getName());
+		names.add(EventHandler.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());
 		names.add(ConfigurationDescription.class.getName());

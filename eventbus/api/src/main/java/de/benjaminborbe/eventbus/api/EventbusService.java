@@ -13,7 +13,7 @@ public interface EventbusService {
 
 	<H extends EventHandler> void fireEvent(Event<H> event);
 
-	Map<Type<EventHandler>, List<EventHandler>> getHandlers();
+	Map<String, List<EventHandler>> getHandlers();
 
 	int getHandlerCount(final Type<?> type);
 

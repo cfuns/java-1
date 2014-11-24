@@ -10,7 +10,7 @@ import de.benjaminborbe.poker.player.PokerPlayerBean;
 
 public class PokerPlayerCreatedEvent extends Event<PokerPlayerCreatedEventHandler> {
 
-	public static final Type<PokerPlayerCreatedEventHandler> TYPE = new Type<PokerPlayerCreatedEventHandler>();
+	public static final Type<PokerPlayerCreatedEventHandler> TYPE = new Type<PokerPlayerCreatedEventHandler>(PokerPlayerCreatedEventHandler.class);
 
 	private final PokerPlayerBean player;
 

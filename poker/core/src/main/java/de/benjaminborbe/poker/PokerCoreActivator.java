@@ -64,11 +64,11 @@ public class PokerCoreActivator extends BaseBundleActivator {
 		result.add(new ServiceInfo(CronJob.class, pokerCronJob, pokerCronJob.getClass().getName()));
 		for (final ConfigurationDescription configuration : pokerCoreConfig.getConfigurations()) {
 			result.add(new ServiceInfo(ConfigurationDescription.class, configuration, configuration.getName()));
-			result.add(new ServiceInfo(EventHandler.class, pokerPlayerCreatedEventHandler));
-			result.add(new ServiceInfo(EventHandler.class, pokerPlayerScoreChangedEventHandler));
-			result.add(new ServiceInfo(EventHandler.class, pokerPlayerDeletedEventHandler));
-			result.add(new ServiceInfo(EventHandler.class, pokerPlayerAmountChangedEventHandler));
 		}
+		result.add(new ServiceInfo(EventHandler.class, pokerPlayerCreatedEventHandler, pokerPlayerCreatedEventHandler.getClass().getName()));
+		result.add(new ServiceInfo(EventHandler.class, pokerPlayerScoreChangedEventHandler, pokerPlayerScoreChangedEventHandler.getClass().getName()));
+		result.add(new ServiceInfo(EventHandler.class, pokerPlayerDeletedEventHandler, pokerPlayerDeletedEventHandler.getClass().getName()));
+		result.add(new ServiceInfo(EventHandler.class, pokerPlayerAmountChangedEventHandler, pokerPlayerAmountChangedEventHandler.getClass().getName()));
 		return result;
 	}
 

@@ -16,7 +16,7 @@ import java.util.Map;
 @Singleton
 public class EventbusServiceImpl implements EventbusService {
 
-	private final Map<Type<EventHandler>, List<EventHandler>> handlers = new HashMap<Type<EventHandler>, List<EventHandler>>();
+	private final Map<String, List<EventHandler>> handlers = new HashMap<String, List<EventHandler>>();
 
 	private final Logger logger;
 
@@ -28,14 +28,14 @@ public class EventbusServiceImpl implements EventbusService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <H extends EventHandler> void addHandler(final Type<H> type, final H handler) {
-		logger.trace("CoreEventbus - add handler: " + handler.toString() + " for type: " + type.toString());
+		logger.debug("add handler: {} for type: {}", handler, type);
 
 		final List<EventHandler> eventHandlers;
-		if (handlers.containsKey(type)) {
-			eventHandlers = handlers.get(type);
+		if (handlers.containsKey(type.toString())) {
+			eventHandlers = handlers.get(type.toString());
 		} else {
 			eventHandlers = new ArrayList<EventHandler>();
-			handlers.put((Type<EventHandler>) type, eventHandlers);
+			handlers.put(type.toString(), eventHandlers);
 		}
 
 		eventHandlers.add(handler);
@@ -43,14 +43,14 @@ public class EventbusServiceImpl implements EventbusService {
 
 	@Override
 	public <H extends EventHandler> void removeHandler(final Type<H> type, final H handler) {
-		logger.trace("CoreEventbus - remove handler: " + handler.toString() + " for type: " + type.toString());
+		logger.debug("remove handler: {} for type: {}", handler, type);
 
 		final List<EventHandler> eventHandlers;
-		if (handlers.containsKey(type)) {
-			eventHandlers = handlers.get(type);
+		if (handlers.containsKey(type.toString())) {
+			eventHandlers = handlers.get(type.toString());
 		} else {
 			eventHandlers = new ArrayList<EventHandler>();
-			handlers.put((Type<EventHandler>) type, eventHandlers);
+			handlers.put(type.toString(), eventHandlers);
 		}
 
 		eventHandlers.remove(handler);
@@ -58,12 +58,12 @@ public class EventbusServiceImpl implements EventbusService {
 
 	@SuppressWarnings("unchecked")
 	public <H extends EventHandler> H getHandler(final Type<H> type, final int index) {
-		final List<EventHandler> eventHandlers = handlers.get(type);
+		final List<EventHandler> eventHandlers = handlers.get(type.toString());
 		return (H) eventHandlers.get(index);
 	}
 
 	public int getHandlerCount(final Type<?> type) {
-		final List<EventHandler> eventHandlers = handlers.get(type);
+		final List<EventHandler> eventHandlers = handlers.get(type.toString());
 		if (eventHandlers != null) {
 			return eventHandlers.size();
 		}
@@ -77,9 +77,11 @@ public class EventbusServiceImpl implements EventbusService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <H extends EventHandler> void fireEvent(final Event<H> event) {
-		logger.trace("CoreEventbus - event fired: " + event.getClass().getSimpleName() + ": " + event.toString());
-		final List<EventHandler> eventHandlers = handlers.get(event.getAssociatedType());
-		if (eventHandlers != null) {
+		logger.trace("event fired: " + event.getClass().getSimpleName() + ": " + event.toString());
+		final List<EventHandler> eventHandlers = handlers.get(event.getAssociatedType().toString());
+		if (eventHandlers == null || eventHandlers.isEmpty()) {
+			logger.debug("no eventhandler found for type: {}", event.getAssociatedType());
+		} else {
 			for (final EventHandler eventHandler : eventHandlers) {
 				try {
 					event.dispatch((H) eventHandler);
@@ -90,7 +92,7 @@ public class EventbusServiceImpl implements EventbusService {
 		}
 	}
 
-	public Map<Type<EventHandler>, List<EventHandler>> getHandlers() {
+	public Map<String, List<EventHandler>> getHandlers() {
 		return handlers;
 	}
 

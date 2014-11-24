@@ -1,5 +1,7 @@
 all:
 	mvn install
+clean:
+	mvn clean
 installwotest:
 	mvn -Dmaven.test.skip=true install
 deploy:

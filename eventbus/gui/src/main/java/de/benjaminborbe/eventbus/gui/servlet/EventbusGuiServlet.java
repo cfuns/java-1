@@ -4,7 +4,6 @@ import com.google.inject.Provider;
 import de.benjaminborbe.authentication.api.AuthenticationService;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
-import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -67,11 +66,10 @@ public class EventbusGuiServlet extends WebsiteHtmlServlet {
 		widgets.add(new H1Widget(getTitle()));
 		widgets.add("EventHandlers:");
 		final UlWidget ul = new UlWidget();
-		for (final Entry<Type<EventHandler>, List<EventHandler>> e : eventbusService.getHandlers().entrySet()) {
+		for (final Entry<String, List<EventHandler>> e : eventbusService.getHandlers().entrySet()) {
 			final StringWriter content = new StringWriter();
-			final Type<EventHandler> type = e.getKey();
 			final List<EventHandler> eventHandlers = e.getValue();
-			content.append("Type: " + type.getClass().getName());
+			content.append("Type: " + e.getKey());
 			for (final EventHandler eventHandler : eventHandlers) {
 				content.append(" - " + eventHandler.getClass().getName());
 			}

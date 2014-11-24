@@ -10,8 +10,8 @@ import javax.inject.Singleton;
 @Singleton
 public class ConfigurationServiceTracker extends RegistryServiceTracker<ConfigurationDescription> {
 
-	public ConfigurationServiceTracker(final ConfigurationRegistry registry, final BundleContext context, final Class<?> clazz) {
-		super(registry, context, clazz);
+	public ConfigurationServiceTracker(final ConfigurationRegistry registry, final BundleContext context) {
+		super(registry, context, ConfigurationDescription.class);
 	}
 
 }

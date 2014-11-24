@@ -1,6 +1,5 @@
 package de.benjaminborbe.configuration.core;
 
-import de.benjaminborbe.configuration.api.ConfigurationDescription;
 import de.benjaminborbe.configuration.api.ConfigurationService;
 import de.benjaminborbe.configuration.core.dao.ConfigurationRegistry;
 import de.benjaminborbe.configuration.core.guice.ConfigurationModules;
@@ -39,7 +38,7 @@ public class ConfigurationActivator extends BaseBundleActivator {
 	@Override
 	public Collection<ServiceTracker> getServiceTrackers(final BundleContext context) {
 		final Set<ServiceTracker> serviceTrackers = new HashSet<ServiceTracker>(super.getServiceTrackers(context));
-		serviceTrackers.add(new ConfigurationServiceTracker(configurationRegistry, context, ConfigurationDescription.class));
+		serviceTrackers.add(new ConfigurationServiceTracker(configurationRegistry, context));
 		return serviceTrackers;
 	}
 }

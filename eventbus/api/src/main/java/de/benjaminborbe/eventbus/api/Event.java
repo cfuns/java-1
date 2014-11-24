@@ -11,5 +11,14 @@ public abstract class Event<H extends EventHandler> {
 
 	public static class Type<H> {
 
+		private final String name;
+
+		public Type(final Class<H> handlerClass) {
+			this.name = handlerClass.getName();
+		}
+
+		public String toString() {
+			return name;
+		}
 	}
 }

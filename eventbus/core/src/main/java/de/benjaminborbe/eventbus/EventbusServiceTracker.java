@@ -19,14 +19,14 @@ public class EventbusServiceTracker extends BaseServiceTracker<EventHandler> {
 	}
 
 	@Override
-	protected void serviceRemoved(final EventHandler eventHandler) {
+	protected void serviceAdded(final EventHandler eventHandler) {
+		logger.debug("serviceAdded: {}", eventHandler.getType());
 		eventbusService.addHandler(eventHandler.getType(), eventHandler);
-		logger.debug("serviceRemoved");
 	}
 
 	@Override
-	protected void serviceAdded(final EventHandler eventHandler) {
+	protected void serviceRemoved(final EventHandler eventHandler) {
+		logger.debug("serviceRemoved: {}", eventHandler.getType());
 		eventbusService.removeHandler(eventHandler.getType(), eventHandler);
-		logger.debug("serviceAdded");
 	}
 }

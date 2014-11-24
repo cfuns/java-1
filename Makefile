@@ -32,7 +32,7 @@ packagedevel:
 deploydevel:
 	cd bridge/war/devel && make deployforce
 packagepoker:
-	cd bridge/war/poker && make installwotest
+	cd bridge/war/poker && make clean && make installwotest
 deploypoker:
 	cd bridge/war/poker && make deployforce
 packageselenium:

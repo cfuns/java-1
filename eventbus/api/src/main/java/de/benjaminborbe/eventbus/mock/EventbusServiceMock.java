@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class EventbusServiceMock implements EventbusService {
 
-	private final Map<Type<EventHandler>, List<EventHandler>> handlers = new HashMap<Type<EventHandler>, List<EventHandler>>();
+	private final Map<String, List<EventHandler>> handlers = new HashMap<String, List<EventHandler>>();
 
 	private final List<Event<? extends EventHandler>> firedEvents = new ArrayList<Event<? extends EventHandler>>();
 
@@ -23,7 +23,7 @@ public class EventbusServiceMock implements EventbusService {
 	public <H extends EventHandler> void addHandler(final Type<H> type, final H handler) {
 		final List<EventHandler> hs = new ArrayList<EventHandler>();
 		hs.add(handler);
-		handlers.put((Type<EventHandler>) type, hs);
+		handlers.put(type.toString(), hs);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class EventbusServiceMock implements EventbusService {
 	}
 
 	@Override
-	public Map<Type<EventHandler>, List<EventHandler>> getHandlers() {
+	public Map<String, List<EventHandler>> getHandlers() {
 		return handlers;
 	}
 

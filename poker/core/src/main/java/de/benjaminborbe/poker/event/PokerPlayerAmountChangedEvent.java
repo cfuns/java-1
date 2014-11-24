@@ -5,7 +5,7 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 
 public class PokerPlayerAmountChangedEvent extends Event<PokerPlayerAmountChangedEventHandler> {
 
-	public static final Type<PokerPlayerAmountChangedEventHandler> TYPE = new Type<PokerPlayerAmountChangedEventHandler>();
+	public static final Type<PokerPlayerAmountChangedEventHandler> TYPE = new Type<PokerPlayerAmountChangedEventHandler>(PokerPlayerAmountChangedEventHandler.class);
 
 	private final PokerPlayerIdentifier pokerPlayerIdentifier;
 

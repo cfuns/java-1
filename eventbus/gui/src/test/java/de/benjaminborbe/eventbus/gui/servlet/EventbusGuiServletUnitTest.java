@@ -6,7 +6,6 @@ import de.benjaminborbe.authentication.api.SessionIdentifier;
 import de.benjaminborbe.authentication.api.UserIdentifier;
 import de.benjaminborbe.authorization.api.AuthorizationService;
 import de.benjaminborbe.cache.api.CacheService;
-import de.benjaminborbe.eventbus.api.Event.Type;
 import de.benjaminborbe.eventbus.api.EventHandler;
 import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.html.api.HttpContext;
@@ -115,7 +114,7 @@ public class EventbusGuiServletUnitTest {
 		EasyMock.replay(authenticationService);
 
 		final EventbusService EventbusService = EasyMock.createMock(EventbusService.class);
-		EasyMock.expect(EventbusService.getHandlers()).andReturn(new HashMap<Type<EventHandler>, List<EventHandler>>());
+		EasyMock.expect(EventbusService.getHandlers()).andReturn(new HashMap<String, List<EventHandler>>());
 		EasyMock.replay(EventbusService);
 
 		final RedirectUtil redirectUtil = EasyMock.createMock(RedirectUtil.class);

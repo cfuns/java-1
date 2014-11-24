@@ -34,9 +34,11 @@ public class Fifo<T> {
 
 	public void remove() throws FifoIndexOutOfBoundsException {
 		synchronized (data) {
-			if (data.size() == 0)
+			if (data.isEmpty()) {
 				throw new FifoIndexOutOfBoundsException("can't remove element of empty fifo");
-			data.removeFirst();
+			} else {
+				data.removeFirst();
+			}
 		}
 	}
 

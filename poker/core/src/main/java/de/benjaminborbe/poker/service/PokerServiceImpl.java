@@ -16,7 +16,6 @@ import de.benjaminborbe.authorization.api.PermissionDeniedException;
 import de.benjaminborbe.authorization.api.PermissionIdentifier;
 import de.benjaminborbe.configuration.api.ConfigurationServiceException;
 import de.benjaminborbe.cron.api.CronControllerException;
-import de.benjaminborbe.eventbus.api.EventbusService;
 import de.benjaminborbe.lib.validation.ValidationExecutor;
 import de.benjaminborbe.lib.validation.ValidationResultImpl;
 import de.benjaminborbe.poker.api.PokerCardIdentifier;
@@ -31,10 +30,6 @@ import de.benjaminborbe.poker.api.PokerServiceException;
 import de.benjaminborbe.poker.card.PokerCardFactory;
 import de.benjaminborbe.poker.config.PokerCoreConfig;
 import de.benjaminborbe.poker.event.AnalyticsReportUtil;
-import de.benjaminborbe.poker.event.PokerPlayerAmountChangedEvent;
-import de.benjaminborbe.poker.event.PokerPlayerCreatedEvent;
-import de.benjaminborbe.poker.event.PokerPlayerDeletedEvent;
-import de.benjaminborbe.poker.event.PokerPlayerScoreChangedEvent;
 import de.benjaminborbe.poker.game.PokerGameBean;
 import de.benjaminborbe.poker.game.PokerGameBeanMapper;
 import de.benjaminborbe.poker.game.PokerGameDao;
@@ -43,6 +38,7 @@ import de.benjaminborbe.poker.player.PokerPlayerBean;
 import de.benjaminborbe.poker.player.PokerPlayerBeanMapper;
 import de.benjaminborbe.poker.player.PokerPlayerDao;
 import de.benjaminborbe.poker.reset.PokerEventReseter;
+import de.benjaminborbe.poker.util.PokerEventPoster;
 import de.benjaminborbe.poker.util.PokerWinnerCalculator;
 import de.benjaminborbe.storage.api.StorageException;
 import de.benjaminborbe.storage.tools.EntityIterator;
@@ -88,9 +84,9 @@ public class PokerServiceImpl implements PokerService {
 
 	private final PokerGameCreator pokerGameCreator;
 
-	private final EventbusService eventbusService;
-
 	private final AnalyticsReportUtil analyticsReportUtil;
+
+	private final PokerEventPoster pokerEventPoster;
 
 	private final ListUtil listUtil;
 
@@ -126,8 +122,8 @@ public class PokerServiceImpl implements PokerService {
 		final DurationUtil durationUtil,
 		final PokerEventReseter pokerEventReseter,
 		final PokerGameCreator pokerGameCreator,
-		final EventbusService eventbusService,
-		final AnalyticsReportUtil analyticsReportUtil
+		final AnalyticsReportUtil analyticsReportUtil,
+		final PokerEventPoster pokerEventPoster
 	) {
 		this.logger = logger;
 		this.authenticationService = authenticationService;
@@ -145,8 +141,8 @@ public class PokerServiceImpl implements PokerService {
 		this.durationUtil = durationUtil;
 		this.pokerEventReseter = pokerEventReseter;
 		this.pokerGameCreator = pokerGameCreator;
-		this.eventbusService = eventbusService;
 		this.analyticsReportUtil = analyticsReportUtil;
+		this.pokerEventPoster = pokerEventPoster;
 	}
 
 	@Override
@@ -239,7 +235,7 @@ public class PokerServiceImpl implements PokerService {
 				throw new ValidationException(errors);
 			}
 			pokerPlayerDao.save(bean);
-			eventbusService.fireEvent(new PokerPlayerCreatedEvent(bean));
+			pokerEventPoster.firePokerPlayerCreatedEvent(bean);
 			return id;
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
@@ -348,7 +344,7 @@ public class PokerServiceImpl implements PokerService {
 
 	private void updatePlayerScore(final PokerPlayerBean player, final long score) {
 		player.setScore(score);
-		eventbusService.fireEvent(new PokerPlayerScoreChangedEvent(player.getId(), score));
+		pokerEventPoster.firePokerPlayerScoreChangedEvent(player, score);
 	}
 
 	private long toLong(final Long number) {
@@ -588,7 +584,7 @@ public class PokerServiceImpl implements PokerService {
 
 			completeTurn(game);
 
-			eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
+			pokerEventPoster.firePokerPlayerAmountChangedEvent(player);
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
@@ -649,7 +645,7 @@ public class PokerServiceImpl implements PokerService {
 				player.setAmount(player.getAmount() + amount);
 				logger.info("add " + amount + " to player " + player.getName() + " at game: " + game.getName());
 				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.AMOUNT));
-				eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
+				pokerEventPoster.firePokerPlayerAmountChangedEvent(player);
 			}
 			nextRound(game);
 		}
@@ -728,7 +724,7 @@ public class PokerServiceImpl implements PokerService {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			bid(game, player, game.getSmallBlind());
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.BET));
-			eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
+			pokerEventPoster.firePokerPlayerAmountChangedEvent(player);
 		}
 
 		// big blind
@@ -737,7 +733,7 @@ public class PokerServiceImpl implements PokerService {
 			final PokerPlayerBean player = pokerPlayerDao.load(playerIdentifier);
 			bid(game, player, game.getBigBlind());
 			pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.BET));
-			eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
+			pokerEventPoster.firePokerPlayerAmountChangedEvent(player);
 		}
 
 		// active player
@@ -797,7 +793,7 @@ public class PokerServiceImpl implements PokerService {
 
 			completeTurn(game);
 
-			eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
+			pokerEventPoster.firePokerPlayerAmountChangedEvent(player);
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
@@ -984,7 +980,7 @@ public class PokerServiceImpl implements PokerService {
 				}
 			}
 			pokerPlayerDao.delete(playerIdentifier);
-			eventbusService.fireEvent(new PokerPlayerDeletedEvent(playerIdentifier));
+			pokerEventPoster.firePokerPlayerDeletedEvent(playerIdentifier);
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
@@ -1136,7 +1132,7 @@ public class PokerServiceImpl implements PokerService {
 
 			for (final PokerPlayerBean player : players) {
 				pokerPlayerDao.save(player, new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.CARDS).add(PokerPlayerBeanMapper.SCORE).add(PokerPlayerBeanMapper.BET).add(PokerPlayerBeanMapper.AMOUNT));
-				eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
+				pokerEventPoster.firePokerPlayerAmountChangedEvent(player);
 			}
 			pokerGameDao.save(
 				game,
@@ -1276,7 +1272,7 @@ public class PokerServiceImpl implements PokerService {
 
 			pokerPlayerDao.save(player,
 				new StorageValueList(pokerPlayerDao.getEncoding()).add(PokerPlayerBeanMapper.NAME).add(PokerPlayerBeanMapper.AMOUNT).add(PokerPlayerBeanMapper.OWNERS).add(PokerPlayerBeanMapper.SCORE));
-			eventbusService.fireEvent(new PokerPlayerAmountChangedEvent(player.getId(), player.getAmount()));
+			pokerEventPoster.firePokerPlayerAmountChangedEvent(player);
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {

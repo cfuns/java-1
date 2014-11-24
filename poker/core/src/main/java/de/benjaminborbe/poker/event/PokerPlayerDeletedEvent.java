@@ -5,7 +5,7 @@ import de.benjaminborbe.poker.api.PokerPlayerIdentifier;
 
 public class PokerPlayerDeletedEvent extends Event<PokerPlayerDeletedEventHandler> {
 
-	public static final Type<PokerPlayerDeletedEventHandler> TYPE = new Type<PokerPlayerDeletedEventHandler>();
+	public static final Type<PokerPlayerDeletedEventHandler> TYPE = new Type<PokerPlayerDeletedEventHandler>(PokerPlayerDeletedEventHandler.class);
 
 	private final PokerPlayerIdentifier playerIdentifier;
 
