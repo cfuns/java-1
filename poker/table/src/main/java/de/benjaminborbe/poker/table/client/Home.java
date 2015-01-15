@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 public class Home implements EntryPoint {
 
+	public static final double TABLE_PERCENT = 0.85;
+
 	private final int frequenz_in_ms = 500;
 
 	private final int frameWidth = Window.getClientWidth();
@@ -59,7 +61,7 @@ public class Home implements EntryPoint {
 	}
 
 	private HorizontalPanel createPokerTablePanel() {
-		int pokerPanelWidth = (int) (frameWidth * 0.9);
+		final int pokerPanelWidth = (int) (frameWidth * TABLE_PERCENT);
 		pokerCanvas = new PokerCanvas(pokerPanelWidth, frameHeight);
 		final HorizontalPanel pokerPanel = new HorizontalPanel();
 		pokerPanel.setWidth(pokerPanelWidth + "px");
@@ -70,7 +72,7 @@ public class Home implements EntryPoint {
 	}
 
 	private HorizontalPanel createLeaderboardPanel() {
-		int leaderboardPanelWidth = (int) (frameWidth * 0.1);
+		final int leaderboardPanelWidth = (int) (frameWidth * (1 - TABLE_PERCENT));
 		leaderboardCanvas = new LeaderboardCanvas(leaderboardPanelWidth, frameHeight);
 		final HorizontalPanel leaderboardPanel = new HorizontalPanel();
 		leaderboardPanel.setWidth(leaderboardPanelWidth + "px");
@@ -128,7 +130,7 @@ public class Home implements EntryPoint {
 		}
 	}
 
-	private ArrayList<String> getErrorList(Game game, Leaderboard leaderboard) {
+	private ArrayList<String> getErrorList(final Game game, final Leaderboard leaderboard) {
 		errorList.add(game.getPokerServiceException());
 		errorList.add(leaderboard.getPokerServiceException());
 		return errorList;
