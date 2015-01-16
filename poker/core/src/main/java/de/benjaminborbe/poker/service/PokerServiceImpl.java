@@ -484,17 +484,22 @@ public class PokerServiceImpl implements PokerService {
 		final Duration duration = durationUtil.getDuration();
 		try {
 			final PokerGameBean game = pokerGameDao.load(gameIdentifier);
-			final Integer pos = game.getActivePosition();
-			if (pos != null) {
-				return game.getActivePlayers().get(pos);
-			} else {
-				return null;
-			}
+			return getActivePlayer(game);
 		} catch (final StorageException e) {
 			throw new PokerServiceException(e);
 		} finally {
 			if (duration.getTime() > DURATION_WARN)
 				logger.debug("duration " + duration.getTime());
+		}
+	}
+
+	protected PokerPlayerIdentifier getActivePlayer(final PokerGameBean game) {
+		final Integer pos = game.getActivePosition();
+		final List<PokerPlayerIdentifier> activePlayers = game.getActivePlayers();
+		if (pos != null && pos < activePlayers.size()) {
+			return activePlayers.get(pos);
+		} else {
+			return null;
 		}
 	}
 
